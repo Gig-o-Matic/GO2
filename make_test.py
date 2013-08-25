@@ -5,6 +5,8 @@
 from band import *
 from member import *
 from assoc import *
+from gig import *
+from plan import *
 
 def test_band():
     """make some test data"""
@@ -29,3 +31,17 @@ def test_band():
     for i in membership:
         print 'slsaps: {0}'.format(i.first_name)
     
+    g1 = new_gig(band=slsaps, title="test gig 1")
+    g2 = new_gig(band=slsaps, title="test gig 2")
+    
+    gigs = get_gigs_for_band(slsaps)
+    for g in gigs:
+        print 'gig: {0}'.format(g.title)
+    
+    new_plan(g1, member1, 1)
+    new_plan(g1, member2, 2)
+    
+    plans=get_plans_for_gig(g1)
+    for p in plans:
+        m=p.member.get()
+        print '{0} has a plan for gig {1}: {2}'.format(m.first_name, g1.title, p.value)
