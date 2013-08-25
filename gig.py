@@ -30,6 +30,11 @@ def get_gig_from_key(key):
     """ Return gig objects by key"""
     return key.get()
     
+def get_gig_from_id(band, id):
+    """ Return gig object by id; needs the key for the parent, which is the band for this gig"""
+    debug_print('get_gig_from_id looking for id {0}'.format(id))
+    return Gig.get_by_id(int(id), parent=band.key) # todo more efficient if we use the band because it's the parent?
+    
 def get_gigs_for_band(band):
     """ Return gig objects by band"""
     gig_query = Gig.query(ancestor=band.key)

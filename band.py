@@ -42,5 +42,11 @@ def get_band_from_name(band_name):
 def get_band_from_key(key):
     """ Return band objects by key"""
     return key.get()
-        
+
+def get_band_from_id(id):
+    """ Return band object by id"""
+    debug_print('get_band_from_id looking for id {0}'.format(id))
+    return Band.get_by_id(int(id), parent=band_key()) # todo more efficient if we use the band because it's the parent?
+    
+
 

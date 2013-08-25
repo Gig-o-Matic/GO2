@@ -35,3 +35,11 @@ def get_members_of_band(band):
     debug_print('get_members_of_band: found {0} members for band {1}'.format(len(members),band.name))
     return members
 
+def get_bands_of_member(member):
+    """ Return band objects by member"""
+    assoc_query = Assoc.query(Assoc.member==member.key, ancestor=assoc_key())
+    assocs = assoc_query.fetch()
+    debug_print('get_bands_of_member: got {0} assocs for member key id {1} ({2})'.format(len(assocs),member.key.id(),member.first_name))
+    bands=[a.band.get() for a in assocs]
+    debug_print('get_bands_of_member: found {0} bands for member {1}'.format(len(bands),member.first_name))
+    return bands
