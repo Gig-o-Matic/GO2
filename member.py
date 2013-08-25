@@ -20,13 +20,13 @@ class Member(ndb.Model):
     first_name = ndb.StringProperty()
     last_name = ndb.StringProperty()
     nickname = ndb.StringProperty()
-    contact_info = ndb.TextProperty()
+    email = ndb.TextProperty()
     created = ndb.DateTimeProperty(auto_now_add=True)
 
-def new_member(first_name="", last_name="", contact_info="", nickname=""):
+def new_member(first_name="", last_name="", email="", nickname=""):
     """ make and return a new member """
     the_member = Member(parent=member_key(), first_name=first_name, last_name=last_name,\
-                        contact_info=contact_info, nickname=nickname)
+                        email=email, nickname=nickname)
     the_member.put()
     debug_print('new_member: added member {0} {1} with id {2}'.format(the_member.first_name,
                                                     the_member.last_name,

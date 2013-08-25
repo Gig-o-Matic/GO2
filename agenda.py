@@ -48,5 +48,6 @@ class MainPage(webapp2.RequestHandler):
             title='Agenda',
             band=band,
             band_id=band.key.id(),
-            gigs=gig_info
+            gigs=gig_info,
+            home_is_active=True
         ) )        

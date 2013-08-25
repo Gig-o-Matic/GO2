@@ -21,7 +21,7 @@ def test_band():
     make_if_not_here("EmperorNorton")
     make_if_not_here("EE")
     
-    member1 = new_member(first_name='Aaron', last_name='Oppenheimer')
+    member1 = new_member(first_name='Aaron', last_name='Oppenheimer', email='test@example.com', nickname='test@example.com')
     member2 = new_member(first_name='Maury', last_name='Martin')
     
     new_association(slsaps,member1)
