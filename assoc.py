@@ -43,3 +43,11 @@ def get_bands_of_member(member):
     bands=[a.band.get() for a in assocs]
     debug_print('get_bands_of_member: found {0} bands for member {1}'.format(len(bands),member.first_name))
     return bands
+    
+def get_current_band(member):
+    """return member's band; assume every member has just one band, for now"""
+    bands=get_bands_of_member(member)
+    if len(bands)>0:
+        return bands[0]
+    else:
+        return None

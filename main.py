@@ -6,7 +6,8 @@ import gig_info
 import gig_edit
 
 application = webapp2.WSGIApplication([
-    ('/', index.MainPage),
+    ('/', agenda.MainPage),
+    ('/testdata', index.MainPage),
     ('/agenda.html', agenda.MainPage),
     ('/member_info.html', member_info.MainPage),
     ('/gig_info.html', gig_info.MainPage),

@@ -4,6 +4,7 @@ from gig import *
 from member import *
 from band import *
 from utils import *
+from assoc import *
 
 from jinja2env import jinja_environment as je
 import debug
@@ -28,20 +29,25 @@ class MainPage(webapp2.RequestHandler):
         if member is None:
             return # todo figure out what to do if we get this far and there's no member
 
-        band_id=self.request.get("band_id",None)
-        gig_id=self.request.get("gig_id", None)
-        band,gig=get_band_and_gig(band_id, gig_id)
-        if band is None or gig is None:
-            self.response.write('did not find a band of gig!')
-            return # todo figure out what to do if we didn't find it
-            
-        debug_print('found gig object: {0}'.format(gig.title))
+        if self.request.get("new",None) is not None:
+            gig=None
+            gig_id=0
+            band=get_current_band(member)
+            band_id=band.key.id()
+        else:
+            band_id=self.request.get("band_id",None)
+            gig_id=self.request.get("gig_id", None)
+            band,gig=get_band_and_gig(band_id, gig_id)
+            if band is None or gig is None:
+                self.response.write('did not find a band or gig!')
+                return # todo figure out what to do if we didn't find it
+            debug_print('found gig object: {0}'.format(gig.title))
                     
         template = je.get_template('gig_edit.html')
         self.response.write( template.render(
             title='Gig Edit',
             gig=gig,
-            gig_id=gig.key.id(),
+            gig_id=gig_id,
             band_id=band_id
         ) )        
 
@@ -51,9 +57,18 @@ class MainPage(webapp2.RequestHandler):
 
         print str(self.request.arguments())
 
-        band_id=self.request.get("band_id",None)
-        gig_id=self.request.get("gig_id", None)
-        band,gig=get_band_and_gig(band_id, gig_id)
+        band_id=int(self.request.get("band_id",None))
+        gig_id=int(self.request.get("gig_id", None))
+        
+        print 'GIG ID IS {0}'.format(gig_id)
+        
+        if gig_id==0:
+            band=get_band_from_id(band_id)
+            gig=new_gig(band,'tmp')
+            gig_id=gig.key.id()
+        else:
+            band,gig=get_band_and_gig(band_id, gig_id)
+
         if band is None or gig is None:
             self.response.write('did not find a band of gig!')
             return # todo figure out what to do if we didn't find it

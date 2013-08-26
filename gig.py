@@ -37,7 +37,7 @@ def get_gig_from_id(band, id):
     
 def get_gigs_for_band(band):
     """ Return gig objects by band"""
-    gig_query = Gig.query(ancestor=band.key)
+    gig_query = Gig.query(ancestor=band.key).order(Gig.date)
     gigs = gig_query.fetch()
     debug_print('get_gigs_for_band: got {0} gigs for band key id {1} ({2})'.format(len(gigs),band.key.id(),band.name))
     return gigs

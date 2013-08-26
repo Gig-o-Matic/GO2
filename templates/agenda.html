@@ -9,7 +9,8 @@
     <p class="lead">{{ band.name|e }}</p>
     {% for gig in gigs %}
         <p class="lead"><a href="gig_info.html?band_id={{ band_id }}&gig_id={{ gig[1] }}">{{ gig[0]|e }}</a></p>
-    {% endfor %}        
+    {% endfor %}
+    <p class="lead"><a class="btn btn-default" href="/gig_edit.html?new=1">Add Gig</a></p>
   </div>
 
 </div><!-- /.container -->
