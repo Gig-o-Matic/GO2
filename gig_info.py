@@ -1,5 +1,4 @@
 from google.appengine.api import users
-
 import webapp2
 from gig import *
 from member import *
@@ -16,7 +15,7 @@ class MainPage(webapp2.RequestHandler):
             self.redirect(users.create_login_url(self.request.uri))
         else:
             self.make_page(user)
-            
+
     def make_page(self,user):
         debug_print('IN GIG_INFO {0}'.format(user.nickname()))
         
@@ -56,5 +55,7 @@ class MainPage(webapp2.RequestHandler):
         template = je.get_template('gig_info.html')
         self.response.write( template.render(
             title='Gig Info',
-            gig=gig
+            gig=gig,
+            gig_id=gig.key.id(),
+            band_id=band_id
         ) )        

@@ -1,0 +1,48 @@
+{% include 'header.html' %}
+{% include 'navbar.html' %}
+
+<div class="container">
+
+    <div class="starter-template">
+        <h1>Gig Edit</h1>
+        <form class="form-horizontal" role="form" method="post" action="gig_edit.html">
+            <div class="form-group">
+                <label for="gigtitleinput" class="col-md-2 col-md-offset-2 control-label">Gig</label>
+                <div class="col-md-6">
+                    <input type="text" class="form-control" id="gigtitleinput" placeholder="{{gig.title}}" name="gig_title">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="gigdetailsinput" class="col-lg-2 col-md-offset-2 control-label">Details</label>
+                <div class="col-lg-6">
+                    <textarea class="form-control" id="gigdetailsinput" placeholder="{{gig.details}}" name="gig_details"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="gigdateinput" class="col-lg-2 col-md-offset-2 control-label">Date</label>
+                <div class="col-lg-6">
+                    <input type="text" class="datepicker form-control" id="gigdateinput" placeholder="{{gig.date}}" name="gig_date">
+                </div>
+            </div>
+            <input type="hidden" name="band_id" value="{{band_id}}">
+            <input type="hidden" name="gig_id" value="{{gig_id}}">
+            <a class="btn btn-default" href="gig_info.html?band_id={{ band_id }}&gig_id={{ gig_id }}">Cancel</a>
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+    </div>
+
+</div><!-- /.container -->
+
+
+{% include 'scripts.html' %}
+<script src="/datepicker/js/bootstrap-datepicker.js"></script>
+<script>
+$(document).ready(function () {
+$('.datepicker').datepicker()
+  .on('changeDate', function(ev){
+    $('.datepicker').datepicker('hide')
+  });
+});
+</script>
+{% include 'footer.html' %}
+

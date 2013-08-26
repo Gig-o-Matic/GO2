@@ -9,6 +9,9 @@ handlers:
 - url: /bootstrap
   static_dir: bootstrap
   
+- url: /datepicker
+  static_dir: datepicker
+
 - url: /css
   static_dir: css
   
