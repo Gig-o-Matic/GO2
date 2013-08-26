@@ -1,0 +1,40 @@
+{% include 'header.html' %}
+{% include 'navbar.html' %}
+
+<div class="container">
+
+  <div class="starter-template">
+    <h1>{{ band.name|e }} Calendar</h1>
+    <p class="lead"><a class="btn btn-default" href="/gig_edit.html?new=1">Add Gig</a></p>
+    <div class="col-sm-offset-0 col-md-10 col-md-offset-1">
+        <div id='calendar'></div>
+    </div>
+  </div>
+
+</div><!-- /.container -->
+{% include 'scripts.html' %}
+<script src='/fullcalendar/fullcalendar.min.js'></script>
+<script>
+$(document).ready(function() {
+
+    // page is now ready, initialize the calendar...
+    $('#calendar').fullCalendar({
+        // put your options and callbacks here
+        events: {
+            url: '/calevents',
+            type: 'POST',
+            data: {
+                band_id: '{{ band_id }}'
+            },
+            error: function() {
+                alert('there was an error while fetching events!');
+            },
+            color: 'lightblue',   // a non-ajax option
+            textColor: 'black' // a non-ajax option
+        }
+    })
+
+});
+</script>
+{% include 'footer.html' %}
+

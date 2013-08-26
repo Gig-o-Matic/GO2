@@ -18,7 +18,7 @@ class MainPage(webapp2.RequestHandler):
             self.make_page(user)
             
     def make_page(self,user):
-        debug_print('IN AGENDA {0}'.format(user.nickname()))
+        debug_print('IN CALVIEW {0}'.format(user.nickname()))
         
         member=get_member_from_nickname(user.nickname())
         debug_print('member is {0}'.format(str(member)))
@@ -37,19 +37,19 @@ class MainPage(webapp2.RequestHandler):
         
         band=bands[0]
         
-        gigs=get_gigs_for_band(band, num=2)
+        gigs=get_gigs_for_band(band)
         
         gig_info=[]
         for gig in gigs:
             gig_info.append( [gig.title, gig.key.id()] )
         
-        template = je.get_template('agenda.html')
+        template = je.get_template('calview.html')
         self.response.write( template.render(
-            title='Agenda',
+            title='Calendar',
             member=member,
             logout_link=users.create_logout_url('/'),
             band=band,
             band_id=band.key.id(),
             gigs=gig_info,
-            agenda_is_active=True
+            calview_is_active=True
         ) )        

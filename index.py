@@ -13,9 +13,6 @@ class MainPage(webapp2.RequestHandler):
 
         if user:
             make_test.test_band()    
-            template = je.get_template('index.html')
-            self.response.write( template.render(
-                title='fishy'
-            ) )        
+            self.redirect('agenda.html')
         else:
             self.redirect(users.create_login_url(self.request.uri))

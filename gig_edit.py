@@ -46,6 +46,8 @@ class MainPage(webapp2.RequestHandler):
         template = je.get_template('gig_edit.html')
         self.response.write( template.render(
             title='Gig Edit',
+            member=member,
+            logout_link=users.create_logout_url('/'),            
             gig=gig,
             gig_id=gig_id,
             band_id=band_id

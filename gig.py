@@ -35,11 +35,19 @@ def get_gig_from_id(band, id):
     debug_print('get_gig_from_id looking for id {0}'.format(id))
     return Gig.get_by_id(int(id), parent=band.key) # todo more efficient if we use the band because it's the parent?
     
-def get_gigs_for_band(band):
+def get_gigs_for_band(band,num=None):
     """ Return gig objects by band"""
     gig_query = Gig.query(ancestor=band.key).order(Gig.date)
-    gigs = gig_query.fetch()
+    gigs = gig_query.fetch(limit=num)
     debug_print('get_gigs_for_band: got {0} gigs for band key id {1} ({2})'.format(len(gigs),band.key.id(),band.name))
     return gigs
     
+def get_gigs_for_band_for_dates(band,start_date, end_date):
+    """ Return gig objects by band"""
+    gig_query = Gig.query(ndb.AND(Gig.date >= start_date, \
+                                  Gig.date <= end_date), \
+                                  ancestor=band.key).order(Gig.date)
+    gigs = gig_query.fetch()
+    debug_print('get_gigs_for_band_for_dates: got {0} gigs for band key id {1} ({2})'.format(len(gigs),band.key.id(),band.name))
+    return gigs
 
