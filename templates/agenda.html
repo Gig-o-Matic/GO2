@@ -5,7 +5,7 @@
 <div class="container">
 
   <div class="starter-template">
-    <h1>Agenda</h1>
+    <h1>Your Agenda</h1>
     <p class="lead">{{ band.name|e }}</p>
     {% for gig in gigs %}
         <p class="lead"><a href="gig_info.html?band_id={{ band_id }}&gig_id={{ gig[1] }}">{{ gig[0]|e }}</a></p>

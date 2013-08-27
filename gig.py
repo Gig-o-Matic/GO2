@@ -23,7 +23,7 @@ def new_gig(band, title, contact=None, details="", date=None, call=None):
     """ Make and return a new gig """
     the_gig = Gig(parent=band.key, title=title, contact=contact, details=details, date=date, call=call)
     the_gig.put()
-    debug_print('new_gig: added new gig: {0}'.format(title))
+    debug_print('new_gig: added new gig: {0} on {1}'.format(title,str(date)))
     return the_gig
                 
 def get_gig_from_key(key):

@@ -24,10 +24,14 @@
                     <input type="text" class="datepicker form-control" id="gigdateinput" placeholder="{{gig.date}}" name="gig_date">
                 </div>
             </div>
+            <div class="form-group">
+                <div class="col-lg-offset-8 col-lg-2 text-right">
+                    <a class="btn btn-default" href="gig_info.html?band_id={{ band_id }}&gig_id={{ gig_id }}">Cancel</a>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </div>
             <input type="hidden" name="band_id" value="{{band_id}}">
             <input type="hidden" name="gig_id" value="{{gig_id}}">
-            <a class="btn btn-default" href="gig_info.html?band_id={{ band_id }}&gig_id={{ gig_id }}">Cancel</a>
-            <button type="submit" class="btn btn-primary">Save</button>
         </form>
     </div>
 
