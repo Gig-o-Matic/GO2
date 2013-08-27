@@ -4,14 +4,16 @@
 <div class="container">
 
   <div class="starter-template">
-    <h1>{{ band.name|e }} Calendar</h1>
-    <p class="lead"><a class="btn btn-default" href="/gig_edit.html?new=1">Add Gig</a></p>
-    <div class="col-sm-offset-0 col-md-10 col-md-offset-1">
-        <div id='calendar'></div>
-    </div>
+        <div class="row">
+            <div class="col-md-5 col-md-offset-1"><h1>{{ band.name|e }} Calendar</h1></div>
+        </div>
+        <div class="col-sm-offset-0 col-md-10 col-md-offset-1">
+            <div id='calendar'></div>
+        </div>
   </div>
 
 </div><!-- /.container -->
+
 {% include 'scripts.html' %}
 <script src='/fullcalendar/fullcalendar.min.js'></script>
 <script>
