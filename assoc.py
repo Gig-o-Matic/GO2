@@ -26,28 +26,3 @@ def new_association(band, member):
     the_assoc = Assoc(parent=assoc_key(), band=band.key, member=member.key)
     the_assoc.put()
 
-def get_members_of_band(band):
-    """ Return member objects by band"""
-    assoc_query = Assoc.query(Assoc.band==band.key, ancestor=assoc_key())
-    assocs = assoc_query.fetch()
-    debug_print('get_members_of_band: got {0} assocs for band key id {1} ({2})'.format(len(assocs),band.key.id(),band.name))
-    members=[a.member.get() for a in assocs]
-    debug_print('get_members_of_band: found {0} members for band {1}'.format(len(members),band.name))
-    return members
-
-def get_bands_of_member(member):
-    """ Return band objects by member"""
-    assoc_query = Assoc.query(Assoc.member==member.key, ancestor=assoc_key())
-    assocs = assoc_query.fetch()
-    debug_print('get_bands_of_member: got {0} assocs for member key id {1} ({2})'.format(len(assocs),member.key.id(),member.first_name))
-    bands=[a.band.get() for a in assocs]
-    debug_print('get_bands_of_member: found {0} bands for member {1}'.format(len(bands),member.first_name))
-    return bands
-    
-def get_current_band(member):
-    """return member's band; assume every member has just one band, for now"""
-    bands=get_bands_of_member(member)
-    if len(bands)>0:
-        return bands[0]
-    else:
-        return None

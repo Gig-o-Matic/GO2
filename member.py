@@ -5,8 +5,14 @@
 # 24 August 2013
 #
 
+from google.appengine.api import users
 from google.appengine.ext import ndb
-from debug import *
+import webapp2
+from member import *
+from assoc import *
+from gig import *
+from jinja2env import jinja_environment as je
+import debug
 
 def member_key(member_name='member_key'):
     """Constructs a Datastore key for a Guestbook entity with guestbook_name."""
@@ -33,16 +39,65 @@ def new_member(first_name="", last_name="", email="", nickname=""):
                                                     the_member.key.id()))
     return the_member
 
-def get_member_from_key(key):
-    """ Return member objects by key"""
-    return key.get()
-
 def get_member_from_nickname(nickname):
     """ Return a Member object by nickname"""
     members_query = Member.query(Member.nickname==nickname)
     member = members_query.fetch(1)
     debug_print('get_member_from_nickname: found {0} member for nickname {1}'.format(len(member),nickname))
     if len(member)==1:
-        return member[0]
+        the_member = member[0]
+    else:
+        the_member = None
+    return the_member
+
+def get_member_from_key(key):
+    """ Return member objects by key"""
+    return key.get()
+
+def get_bands_of_member(member):
+    """ Return band objects by member"""
+    assoc_query = Assoc.query(Assoc.member==member.key, ancestor=assoc_key())
+    assocs = assoc_query.fetch()
+    debug_print('get_bands_of_member: got {0} assocs for member key id {1} ({2})'.format(len(assocs),member.key.id(),member.first_name))
+    bands=[a.band.get() for a in assocs]
+    debug_print('get_bands_of_member: found {0} bands for member {1}'.format(len(bands),member.first_name))
+    return bands
+    
+def get_current_band(member):
+    """return member's band; assume every member has just one band, for now"""
+    bands=get_bands_of_member(member)
+    if len(bands)>0:
+        return bands[0]
     else:
         return None
+
+class InfoPage(webapp2.RequestHandler):
+
+    def get(self):    
+        user = users.get_current_user()
+        if user is None:
+            self.redirect(users.create_login_url(self.request.uri))
+        else:
+            self.make_page(user)
+            
+    def make_page(self,user):
+        debug_print('IN AGENDA {0}'.format(user.nickname()))
+        
+        member=get_member_from_nickname(user.nickname())
+        debug_print('member is {0}'.format(str(member)))
+        
+        if member is None:
+            return # todo figure out what to do if we get this far and there's no member
+            
+        # find the bands this member is associated with
+        bands=get_bands_of_member(member)
+        
+        if bands is None:
+            return # todo figure out what to do if there are no bands for this member
+                    
+        template = je.get_template('member_info.html')
+        self.response.write( template.render(
+            title='Member Info',
+            member=member,
+            bands=bands
+        ) )        

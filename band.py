@@ -48,5 +48,13 @@ def get_band_from_id(id):
     debug_print('get_band_from_id looking for id {0}'.format(id))
     return Band.get_by_id(int(id), parent=band_key()) # todo more efficient if we use the band because it's the parent?
     
+def get_members_of_band(band):
+    """ Return member objects by band"""
+    assoc_query = Assoc.query(Assoc.band==band.key, ancestor=assoc_key())
+    assocs = assoc_query.fetch()
+    debug_print('get_members_of_band: got {0} assocs for band key id {1} ({2})'.format(len(assocs),band.key.id(),band.name))
+    members=[a.member.get() for a in assocs]
+    debug_print('get_members_of_band: found {0} members for band {1}'.format(len(members),band.name))
+    return members
 
 

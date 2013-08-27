@@ -2,9 +2,8 @@ import webapp2
 import index
 import agenda
 import calview
-import member_info
-import gig_info
-import gig_edit
+import member
+import gig
 import calevents
 
 application = webapp2.WSGIApplication([
@@ -12,8 +11,9 @@ application = webapp2.WSGIApplication([
     ('/testdata', index.MainPage),
     ('/agenda.html', agenda.MainPage),
     ('/calview.html', calview.MainPage),
-    ('/member_info.html', member_info.MainPage),
-    ('/gig_info.html', gig_info.MainPage),
-    ('/gig_edit.html', gig_edit.MainPage),
+    ('/member_info.html', member.InfoPage),
+    ('/gig_info.html', gig.InfoPage),
+    ('/gig_edit.html', gig.EditPage),
+    ('/gig_delete', gig.DeleteHandler),
     ('/calevents', calevents.MainPage),
 ], debug=True)
