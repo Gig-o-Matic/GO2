@@ -14,13 +14,44 @@
             <div class="col-md-6">{{ band.name|e }}</div>
         </div>
         <div class="row">
+            &nbsp;
+        </div>
+        <div class="row">
             <div class="col-md-1 col-md-offset-3">Upcoming</div>
             <div class="col-md-6">
-                <ul class="list-unstyled">
                 {% for gig in gigs %}
-                    <li><a href="gig_info.html?band_id={{ band_id }}&gig_id={{ gig[1] }}">{{ gig[0]|e }}</a>
+                    <div class="row">
+                        <div class=col-md-1>
+                            {% if gig[2] == None %}
+                            <span class="glyphicon glyphicon-question-sign"></span>
+                            {% else %}
+                            <span class="glyphicon glyphicon-question-ok"></span>
+                            {% endif %}
+                        </div>
+                        <div class=col-md-3>{{ gig[0].date|e }}</div>
+                        <div class=col-md-6>
+                            <a href="gig_info.html?band_id={{ band_id }}&gig_id={{ gig[1] }}">{{ gig[0].title|e }}</a>
+                        </div>
+                    </div>
                 {% endfor %}
-                </ul>
+            </div>
+        </div>
+        <div class="row">
+            &nbsp;
+        </div>
+        <div class="row">
+            <div class="col-md-1 col-md-offset-3">Weigh In</div>
+            <div class="col-md-6">
+                {% for gig in weigh_ins %}
+                    <div class="row">
+                        <div class=col-md-1>
+                            <span class="glyphicon glyphicon-question-sign"></span>
+                        </div>
+                        <div class=col-md-6>
+                            <a href="gig_info.html?band_id={{ band_id }}&gig_id={{ gig[1] }}">{{ gig[0]|e }}</a>
+                        </div>
+                    </div>
+                {% endfor %}
             </div>
         </div>
   </div>
