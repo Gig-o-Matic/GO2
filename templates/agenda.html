@@ -1,7 +1,6 @@
 {% include 'header.html' %}
 {% include 'navbar.html' %}
 
-
 <div class="container">
 
   <div class="starter-template">
@@ -19,21 +18,8 @@
         <div class="row">
             <div class="col-md-1 col-md-offset-3">Upcoming</div>
             <div class="col-md-6">
-                {% for gig in gigs %}
-                    <div class="row">
-                        <div class=col-md-1>
-                            {% if gig[2] == None %}
-                            <span class="glyphicon glyphicon-question-sign"></span>
-                            {% else %}
-                            <span class="glyphicon glyphicon-question-ok"></span>
-                            {% endif %}
-                        </div>
-                        <div class=col-md-3>{{ gig[0].date|e }}</div>
-                        <div class=col-md-6>
-                            <a href="gig_info.html?band_id={{ band_id }}&gig_id={{ gig[1] }}">{{ gig[0].title|e }}</a>
-                        </div>
-                    </div>
-                {% endfor %}
+                <div id="upcomingevents">
+                </div>
             </div>
         </div>
         <div class="row">
@@ -41,22 +27,36 @@
         </div>
         <div class="row">
             <div class="col-md-1 col-md-offset-3">Weigh In</div>
-            <div class="col-md-6">
-                {% for gig in weigh_ins %}
-                    <div class="row">
-                        <div class=col-md-1>
-                            <span class="glyphicon glyphicon-question-sign"></span>
-                        </div>
-                        <div class=col-md-6>
-                            <a href="gig_info.html?band_id={{ band_id }}&gig_id={{ gig[1] }}">{{ gig[0]|e }}</a>
-                        </div>
-                    </div>
-                {% endfor %}
+            <div class="col-md-8">
+                <div id="weighinevents">
+                </div>
             </div>
         </div>
   </div>
 
 </div><!-- /.container -->
 {% include 'scripts.html' %}
+<script>
+$(document).ready(function() {
+    function updateevents(the_divname, the_maxnum, the_noplan) {
+        $.post("/agendaevents",
+                    {
+                        maxnum: the_maxnum,
+                        noplan: the_noplan,
+                        band_id: {{ band.key.id() }},
+                        member_id: {{ member.key.id() }}
+                    },
+                    function(responseTxt,statusTxt,xhr){
+                        if(statusTxt=="success")
+                          $(the_divname).html(responseTxt)
+                        if(statusTxt=="error")
+                          alert("Error: "+xhr.status+": "+xhr.statusText);
+                    });
+    }
+    
+    updateevents("#upcomingevents","2","0")
+    updateevents("#weighinevents","0","1")
+});
+</script>
 {% include 'footer.html' %}
 

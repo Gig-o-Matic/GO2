@@ -44,14 +44,14 @@ class MainPage(webapp2.RequestHandler):
         gig_info=[]
         for a_gig in the_gigs:
             the_plan=plan.get_plan_for_member_for_gig(the_member, a_gig)
-            gig_info.append( [a_gig, a_gig.key.id(), the_plan] )
+            gig_info.append( [a_gig, the_plan] )
         
         all_gigs=gig.get_gigs_for_band(the_band)
         weigh_ins=[]
         for a_gig in all_gigs:
             the_plan=plan.get_plan_for_member_for_gig(the_member, a_gig)
             if the_plan is None:
-                weigh_ins.append( [a_gig.title, a_gig.key.id()] )
+                weigh_ins.append( a_gig )
 
         template = je.get_template('agenda.html')
         self.response.write( template.render(
@@ -64,3 +64,34 @@ class MainPage(webapp2.RequestHandler):
             weigh_ins=weigh_ins,
             agenda_is_active=True
         ) )        
+
+class AgendaEvents(webapp2.RequestHandler):
+    def post(self):
+            print 'IN AGENDA EVENTS'
+            
+            band_id=int(self.request.get('band_id'))
+            member_id=int(self.request.get('member_id'))
+            maxnum=int(self.request.get('maxnum',0))
+            if maxnum==0:
+                maxnum=None
+            noplan=int(self.request.get('noplan',0))
+            
+            the_band=band.get_band_from_id(band_id)
+            the_gigs=gig.get_gigs_for_band(the_band, num=maxnum)
+            the_member=member.get_member_from_id(member_id)
+            
+            gig_info=[]
+            for a_gig in the_gigs:
+                the_plan=plan.get_plan_for_member_for_gig(the_member, a_gig)
+                if noplan != 0:
+                    # we want gigs without a plan
+                    if the_plan is None:
+                        gig_info.append( [a_gig, the_plan] )
+                else:
+                    gig_info.append( [a_gig, the_plan] )
+
+            template = je.get_template('agenda_events.html')
+            self.response.write( template.render(
+                gigs=gig_info,
+                band_id=band_id
+            ) )        

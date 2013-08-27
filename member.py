@@ -54,18 +54,23 @@ def get_member_from_key(key):
     """ Return member objects by key"""
     return key.get()
 
-def get_bands_of_member(member):
+def get_member_from_id(id):
+    """ Return member object by id"""
+    debug_print('get_member_from_id looking for id {0}'.format(id))
+    return Member.get_by_id(int(id), parent=member_key()) # todo more efficient if we use the band because it's the parent?
+
+def get_bands_of_member(the_member):
     """ Return band objects by member"""
-    assoc_query = Assoc.query(Assoc.member==member.key, ancestor=assoc_key())
+    assoc_query = assoc.Assoc.query(assoc.Assoc.member==the_member.key, ancestor=assoc.assoc_key())
     assocs = assoc_query.fetch()
-    debug_print('get_bands_of_member: got {0} assocs for member key id {1} ({2})'.format(len(assocs),member.key.id(),member.first_name))
+    debug_print('get_bands_of_member: got {0} assocs for member key id {1} ({2})'.format(len(assocs),the_member.key.id(),the_member.first_name))
     bands=[a.band.get() for a in assocs]
-    debug_print('get_bands_of_member: found {0} bands for member {1}'.format(len(bands),member.first_name))
+    debug_print('get_bands_of_member: found {0} bands for member {1}'.format(len(bands),the_member.first_name))
     return bands
     
-def get_current_band(member):
+def get_current_band(the_member):
     """return member's band; assume every member has just one band, for now"""
-    bands=get_bands_of_member(member)
+    bands=get_bands_of_member(the_member)
     if len(bands)>0:
         return bands[0]
     else:

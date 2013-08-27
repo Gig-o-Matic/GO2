@@ -1,0 +1,14 @@
+{% for gig in gigs %}
+    <div class="row">
+        <div class=col-md-10>
+            {% if gig[1] == None %}
+                <span class="glyphicon glyphicon-question-sign"></span>
+            {% else %}
+                <span class="glyphicon glyphicon-ok"></span>
+            {% endif %}
+            {{ gig[0].date|e }}
+            &nbsp;&nbsp;
+            <a href="gig_info.html?band_id={{ band_id }}&gig_id={{ gig[0].key.id() }}">{{ gig[0].title|e }}</a>
+        </div>
+    </div>
+{% endfor %}

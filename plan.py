@@ -18,7 +18,7 @@ class Plan(ndb.Model):
 
 def new_plan(the_gig, the_member, value):
     """ associate a gig and a member """
-    the_plan = Plan(parent=the_gig.key, the_member=member.key, value=value)
+    the_plan = Plan(parent=the_gig.key, member=the_member.key, value=value)
     the_plan.put()
 
 def get_plans_for_gig(the_gig):

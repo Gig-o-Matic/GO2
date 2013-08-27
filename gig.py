@@ -12,6 +12,7 @@ from jinja2env import jinja_environment as je
 import member
 import band
 import assoc
+import plan
 
 from debug import debug_print
 import datetime
@@ -137,6 +138,15 @@ class InfoPage(webapp2.RequestHandler):
             return # todo figure out what to do if we didn't find it
             
         debug_print('found gig object: {0}'.format(the_gig.title))
+
+        member_plans=[]
+        the_members=band.get_members_of_band(the_band)
+        for a_member in the_members:
+            the_plan = plan.get_plan_for_member_for_gig(a_member, the_gig)
+            if the_plan is not None:
+                member_plans.append( ['{0} {1}'.format(a_member.first_name, a_member.last_name), the_plan.value] )
+            else:
+                member_plans.append( ['{0} {1}'.format(a_member.first_name, a_member.last_name), 0] )
                     
         template = je.get_template('gig_info.html')
         self.response.write( template.render(
@@ -144,8 +154,8 @@ class InfoPage(webapp2.RequestHandler):
             member=the_member,
             logout_link=users.create_logout_url('/'),            
             gig=the_gig,
-            gig_id=the_gig.key.id(),
-            band_id=band_id
+            band_id=band_id,
+            member_plans=member_plans
         ) )        
 
 class EditPage(webapp2.RequestHandler):

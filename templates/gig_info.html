@@ -7,7 +7,6 @@
         <div class="row">
             <div class="col-md-5 col-md-offset-3"><h1>Gig Info</h1></div>
         </div>
-
         <div class="row">
             <div class="col-md-1 col-md-offset-3">Gig</div>
             <div class="col-md-6">{{ gig.title|e }}</div>
@@ -23,9 +22,16 @@
         <div class="row">&nbsp;</div>
         <div class="row">
             <div class="col-md-6 col-md-offset-4">
-                <a class="btn btn-primary" href="gig_edit.html?band_id={{ band_id }}&gig_id={{ gig_id }}">Edit</a>
+                <a class="btn btn-primary" href="gig_edit.html?band_id={{ band_id }}&gig_id={{ gig.key.id() }}">Edit</a>
             </div>
         </div>
+        <div class="row">&nbsp;</div>
+        {% for m in member_plans %}
+            <div class="row">
+                <div class="col-md-2 col-md-offset-3">{{ m[0] }}</div>
+                <div class="col-md-5">{{ m[1] }}</div>        
+            </div>
+        {% endfor %}
     </div>
 
 </div><!-- /.container -->
