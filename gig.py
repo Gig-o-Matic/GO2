@@ -171,6 +171,7 @@ class EditPage(webapp2.RequestHandler):
             gig_id=0
             the_band=member.get_current_band(the_member)
             band_id=the_band.key.id()
+            is_new=True
         else:
             band_id=self.request.get("band_id",None)
             gig_id=self.request.get("gig_id", None)
@@ -179,6 +180,7 @@ class EditPage(webapp2.RequestHandler):
                 self.response.write('did not find a band or gig!')
                 return # todo figure out what to do if we didn't find it
             debug_print('found gig object: {0}'.format(the_gig.title))
+            is_new=False
                     
         template = je.get_template('gig_edit.html')
         self.response.write( template.render(
@@ -187,7 +189,8 @@ class EditPage(webapp2.RequestHandler):
             logout_link=users.create_logout_url('/'),            
             gig=the_gig,
             gig_id=gig_id,
-            band_id=band_id
+            band_id=band_id,
+            newgig_is_active=is_new
         ) )        
 
     def post(self):

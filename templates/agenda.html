@@ -6,11 +6,21 @@
 
   <div class="starter-template">
     <h1>Your Agenda</h1>
-    <p class="lead">{{ band.name|e }}</p>
-    {% for gig in gigs %}
-        <p class="lead"><a href="gig_info.html?band_id={{ band_id }}&gig_id={{ gig[1] }}">{{ gig[0]|e }}</a></p>
-    {% endfor %}
-    <p class="lead"><a class="btn btn-default" href="/gig_edit.html?new=1">Add Gig</a></p>
+    
+        <div class="row">
+            <div class="col-md-1 col-md-offset-3">Band</div>
+            <div class="col-md-6">{{ band.name|e }}</div>
+        </div>
+        <div class="row">
+            <div class="col-md-1 col-md-offset-3">Upcoming</div>
+            <div class="col-md-6">
+                <ul class="list-unstyled">
+                {% for gig in gigs %}
+                    <li><a href="gig_info.html?band_id={{ band_id }}&gig_id={{ gig[1] }}">{{ gig[0]|e }}</a>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
   </div>
 
 </div><!-- /.container -->

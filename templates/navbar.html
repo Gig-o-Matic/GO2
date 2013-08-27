@@ -12,12 +12,14 @@
       <ul class="nav navbar-nav">
         <li {{ 'class="active"' if agenda_is_active }}><a href="/agenda.html">Agenda</a></li>
         <li {{ 'class="active"' if calview_is_active }}><a href="/calview.html">Calendar</a></li>
+        <li {{ 'class="active"' if newgig_is_active }}><a href="/gig_edit.html?new=1">Add Gig</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ member.first_name }} {{ member.last_name }}<b class="caret"></b></a>
             <ul class="dropdown-menu">
+              <li><a href="/member_info.html">My Profile</a></li>
               <li><a href="{{ logout_link }}">Logout</a></li>
             </ul>
           </li>

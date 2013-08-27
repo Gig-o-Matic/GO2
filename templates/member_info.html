@@ -1,17 +1,28 @@
 {% include 'header.html' %}
 {% include 'navbar.html' %}
 
-
 <div class="container">
 
-  <div class="starter-template">
-    <h1>Member Info</h1>
-    <p class="lead">{{ member.first_name|e }} {{ member.last_name|e }}</p>
-    {% for band in bands %}
-        <p class="lead">{{ band.name|e }}</p>
-    {% endfor %}        
+    <div class="starter-template">
+        <h1>Profile</h1>
 
-  </div>
+        <div class="row">
+            <div class="col-md-1 col-md-offset-3">Name</div>
+            <div class="col-md-6">{{ member.first_name|e }} {{ member.last_name|e }}</div>
+        </div>
+        <div class="row">
+            <div class="col-md-1 col-md-offset-3">Email</div>
+            <div class="col-md-6">{{ member.email|e }}</div>
+        </div>
+        <div class="row">
+            <div class="col-md-1 col-md-offset-3">Bands</div>
+            <div class="col-md-6">
+                {% for band in bands %}
+                    <p>{{ band.name|e }}</p>
+                {% endfor %}        
+            </div>
+        </div>
+      </div>
 
 </div><!-- /.container -->
 {% include 'scripts.html' %}
