@@ -1,13 +1,22 @@
 {% for gig in gigs %}
     <div class="row">
-        <div class=col-md-10>
-            {% if gig[1] == None %}
-                <span class="glyphicon glyphicon-question-sign"></span>
+        <div class=col-lg-2>
+            {% if gig[1] == 1 %}
+                <i class="icon-plus-sign"></i><i class="icon-plus-sign"></i>
+            {% elif gig[1] == 2 %}
+                <i class="icon-plus-sign"></i>
+            {% elif gig[1] == 3 %}
+                <i class="icon-plus-sign"></i><i class="icon-minus-sign"></i>
+            {% elif gig[1] == 4 %}
+                <i class="icon-minus-sign"></i>
+            {% elif gig[1] == 5 %}
+                <i class="icon-minus-sign"></i><i class="icon-minus-sign"></i>                
             {% else %}
-                <span class="glyphicon glyphicon-ok"></span>
+                <i class="icon-question"></i>
             {% endif %}
+        </div>
+        <div class=col-md-9>
             {{ gig[0].date|e }}
-            &nbsp;&nbsp;
             <a href="gig_info.html?band_id={{ band_id }}&gig_id={{ gig[0].key.id() }}">{{ gig[0].title|e }}</a>
         </div>
     </div>

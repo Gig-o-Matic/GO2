@@ -88,7 +88,10 @@ class AgendaEvents(webapp2.RequestHandler):
                     if the_plan is None:
                         gig_info.append( [a_gig, the_plan] )
                 else:
-                    gig_info.append( [a_gig, the_plan] )
+                    if the_plan is None:
+                        gig_info.append( [a_gig, the_plan] )
+                    else:
+                        gig_info.append( [a_gig, the_plan.value] )
 
             template = je.get_template('agenda_events.html')
             self.response.write( template.render(
