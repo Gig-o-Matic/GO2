@@ -1,16 +1,30 @@
 {% macro icon(plan_value=-1) -%}
-
     {% if plan_value == 1 %}
-        <i class="icon-plus-sign"></i><i class="icon-plus-sign"></i>
+        <i class="icon-plus-sign icon-large" style="color:green"></i><i class="icon-plus-sign icon-large" style="color:green"></i>
     {% elif plan_value == 2 %}
-        <i class="icon-plus-sign"></i>
+        <i class="icon-circle-blank icon-large" style="visibility:hidden"></i><i class="icon-plus-sign icon-large" style="color:green"></i>
     {% elif plan_value == 3 %}
-        <i class="icon-plus-sign"></i><i class="icon-minus-sign"></i>
+        <i class="icon-plus-sign icon-large" style="color:green"></i><i class="icon-minus-sign icon-large" style="color:red"></i>
     {% elif plan_value == 4 %}
-        <i class="icon-minus-sign"></i>
+        <i class="icon-circle-blank icon-large" style="visibility:hidden"></i><i class="icon-minus-sign icon-large" style="color:red"></i>
     {% elif plan_value == 5 %}
-        <i class="icon-minus-sign"></i><i class="icon-minus-sign"></i>                
+        <i class="icon-minus-sign icon-large" style="color:red"></i><i class="icon-minus-sign icon-large" style="color:red"></i>                
     {% else %}
-        <i class="icon-question"></i>
+        <i class="icon-circle-blank icon-large" style="visibility:hidden"></i><i class="icon-question-sign icon-large" style="color:black"></i>
     {% endif %}
+{%- endmacro %}
+
+{% macro icon_button(plan_value, gid, mid, bid, pid) -%}
+<div class="btn-group">
+    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+        {{ icon(plan_value) }} <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" role="menu">
+        <li><a href="#" class="plan-click" id="1" data-gid="{{gid}}" data-mid="{{mid}}" data-bid="{{bid}}" data-pid="{{pid}}">{{ icon(1) }} Definitely</a></li>
+        <li><a href="#" class="plan-click" id="2" data-gid="{{gid}}" data-mid="{{mid}}" data-bid="{{bid}}" data-pid="{{pid}}">{{ icon(2) }} Probably</a></li>
+        <li><a href="#" class="plan-click" id="3" data-gid="{{gid}}" data-mid="{{mid}}" data-bid="{{bid}}" data-pid="{{pid}}">{{ icon(3) }} Don't Know</a></li>
+        <li><a href="#" class="plan-click" id="4" data-gid="{{gid}}" data-mid="{{mid}}" data-bid="{{bid}}" data-pid="{{pid}}">{{ icon(4) }} Probably Not</a></li>
+        <li><a href="#" class="plan-click" id="5" data-gid="{{gid}}" data-mid="{{mid}}" data-bid="{{bid}}" data-pid="{{pid}}">{{ icon(5) }} Can't Do It</a></li>
+    </ul>
+</div>
 {%- endmacro %}

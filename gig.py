@@ -148,9 +148,9 @@ class InfoPage(webapp2.RequestHandler):
                 is_me = False
             the_plan = plan.get_plan_for_member_for_gig(a_member, the_gig)
             if the_plan is not None:
-                member_plans.append( ['{0} {1}'.format(a_member.first_name, a_member.last_name), the_plan.value, is_me] )
+                member_plans.append( [a_member, the_plan, is_me] )
             else:
-                member_plans.append( ['{0} {1}'.format(a_member.first_name, a_member.last_name), 0, is_me] )
+                member_plans.append( [a_member, None, is_me] )
                     
         template = je.get_template('gig_info.html')
         self.response.write( template.render(
@@ -158,7 +158,7 @@ class InfoPage(webapp2.RequestHandler):
             member=the_member,
             logout_link=users.create_logout_url('/'),            
             gig=the_gig,
-            band_id=band_id,
+            band=the_band,
             member_plans=member_plans
         ) )        
 
@@ -262,6 +262,7 @@ class DeleteHandler(webapp2.RequestHandler):
             if the_band is None or the_gig is None:
                 self.response.write('did not find a band or gig!')
             else:
+                plan.delete_plans_for_gig(the_gig)            
                 the_gig.key.delete()
             return self.redirect('/agenda.html')
                 

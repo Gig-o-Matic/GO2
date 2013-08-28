@@ -10,7 +10,7 @@
         </div>
         <div class="row">
             <div class="col-md-4 col-md-offset-2">
-                <a class="btn btn-primary btn-sm" href="gig_edit.html?band_id={{ band_id }}&gig_id={{ gig.key.id() }}">Edit</a>
+                <a class="btn btn-primary btn-sm" href="gig_edit.html?band_id={{ band.key.id() }}&gig_id={{ gig.key.id() }}">Edit</a>
             </div>
         </div>
         <div class="row">&nbsp;</div>
@@ -27,18 +27,29 @@
             <div class="col-md-8">{{ gig.date|e }}</div>
         </div>
         <div class="row">&nbsp;</div>
-        <div class="row">&nbsp;</div>
-        {% for m in member_plans %}
-            <div class="row">
-                <div class="col-md-3 col-md-offset-2">{{ m[0] }}</div>
-                <div class="col-md-1">{{ plan_icon.icon(m[1]) }}</div>
-                {% if m[2] %}
-                    <div class="col-md-2">this is me!</div>
-                {% endif %}
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <table class="table">
+                    {% for m in member_plans %}
+                    <tr>
+                        <td width="20%"0>{{ m[0].first_name }} {{ m[0].last_name }}</td>
+                        {% if m[1] %}
+                            <td width="10%">{{ plan_icon.icon_button(m[1].value,gig.key.id(),m[0].key.id(), band.key.id(), m[1].key.id()) }}</td>
+                        {% else %}
+                            <td width="10%">{{ plan_icon.icon_button(-1,gig.key.id(),m[0].key.id(), band.key.id(), 0) }}</td>
+                        {% endif %}
+                        <td width="30">{{ m[1].comment }}</td>
+                        {% if m[2] %}
+    <!--                        <div class="col-md-2">this is me!</div> -->
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                </table>        
             </div>
-        {% endfor %}
+        </div>
     </div>
 
 </div><!-- /.container -->
 {% include 'scripts.html' %}
+<script src="/js/plan_buttons.js"></script>
 {% include 'footer.html' %}

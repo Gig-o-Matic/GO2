@@ -53,8 +53,11 @@ def test_band():
     for g in gigs:
         print 'gig: {0}'.format(g.title)
     
-    plan.new_plan(g1, member1, 1)
-    plan.new_plan(g1, member2, 2)
+    p1 = plan.new_plan(g1, member1, 1)
+    p2 = plan.new_plan(g1, member2, 2)
+    
+    p1.set_comment("woo hoo")
+    p2.set_comment("can't wait")
     
     plans=plan.get_plans_for_gig(g1)
     for p in plans:

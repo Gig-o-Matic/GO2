@@ -4,6 +4,7 @@ import agenda
 import calview
 import member
 import gig
+import plan
 
 application = webapp2.WSGIApplication([
     ('/', agenda.MainPage),
@@ -16,4 +17,5 @@ application = webapp2.WSGIApplication([
     ('/gig_delete', gig.DeleteHandler),
     ('/calevents', calview.CalEvents),
     ('/agendaevents', agenda.AgendaEvents),
+    ('/updateplan', plan.UpdatePlan)
 ], debug=True)
