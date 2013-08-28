@@ -35,10 +35,12 @@ def test_band():
     make_if_not_here("EE")
     
     member1 = member.new_member(first_name='Aaron', last_name='Oppenheimer', email='aoppenheimer@gmail.com', nickname='aoppenheimer')
-    member2 = member.new_member(first_name='Maury', last_name='Martin')
+    member2 = member.new_member(first_name='Maury', last_name='Martin', nickname='mmartin')
+    member3 = member.new_member(first_name='Kevin', last_name='Leppman', nickname='kleppman')
     
     assoc.new_association(slsaps,member1)
     assoc.new_association(slsaps,member2)
+    assoc.new_association(slsaps,member3)
 
     membership = band.get_members_of_band(slsaps)
     for i in membership:

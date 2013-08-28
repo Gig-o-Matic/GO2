@@ -1,35 +1,40 @@
 {% include 'header.html' %}
 {% include 'navbar.html' %}
+{% import 'plan_icon.html' as plan_icon %}
 
 <div class="container">
 
     <div class="starter-template">
         <div class="row">
-            <div class="col-md-5 col-md-offset-3"><h1>Gig Info</h1></div>
+            <div class="col-md-4 col-md-offset-2"><h1>Gig Info</h1></div>
         </div>
         <div class="row">
-            <div class="col-md-1 col-md-offset-3">Gig</div>
-            <div class="col-md-6">{{ gig.title|e }}</div>
-        </div>
-        <div class="row">
-            <div class="col-md-1 col-md-offset-3">Details</div>
-            <div class="col-md-6">{{ gig.details|e }}</div>
-        </div>
-        <div class="row">
-            <div class="col-md-1 col-md-offset-3">Date</div>
-            <div class="col-md-6">{{ gig.date|e }}</div>
-        </div>
-        <div class="row">&nbsp;</div>
-        <div class="row">
-            <div class="col-md-6 col-md-offset-4">
-                <a class="btn btn-primary" href="gig_edit.html?band_id={{ band_id }}&gig_id={{ gig.key.id() }}">Edit</a>
+            <div class="col-md-4 col-md-offset-2">
+                <a class="btn btn-primary btn-sm" href="gig_edit.html?band_id={{ band_id }}&gig_id={{ gig.key.id() }}">Edit</a>
             </div>
         </div>
         <div class="row">&nbsp;</div>
+        <div class="row">
+            <div class="col-md-2 col-md-offset-2">Gig</div>
+            <div class="col-md-8">{{ gig.title|e }}</div>
+        </div>
+        <div class="row">
+            <div class="col-md-2 col-md-offset-2">Details</div>
+            <div class="col-md-8">{{ gig.details|e }}</div>
+        </div>
+        <div class="row">
+            <div class="col-md-2 col-md-offset-2">Date</div>
+            <div class="col-md-8">{{ gig.date|e }}</div>
+        </div>
+        <div class="row">&nbsp;</div>
+        <div class="row">&nbsp;</div>
         {% for m in member_plans %}
             <div class="row">
-                <div class="col-md-2 col-md-offset-3">{{ m[0] }}</div>
-                <div class="col-md-5">{{ m[1] }}</div>        
+                <div class="col-md-3 col-md-offset-2">{{ m[0] }}</div>
+                <div class="col-md-1">{{ plan_icon.icon(m[1]) }}</div>
+                {% if m[2] %}
+                    <div class="col-md-2">this is me!</div>
+                {% endif %}
             </div>
         {% endfor %}
     </div>

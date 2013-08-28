@@ -142,11 +142,15 @@ class InfoPage(webapp2.RequestHandler):
         member_plans=[]
         the_members=band.get_members_of_band(the_band)
         for a_member in the_members:
+            if (a_member.nickname == user.nickname()):
+                is_me = True
+            else:
+                is_me = False
             the_plan = plan.get_plan_for_member_for_gig(a_member, the_gig)
             if the_plan is not None:
-                member_plans.append( ['{0} {1}'.format(a_member.first_name, a_member.last_name), the_plan.value] )
+                member_plans.append( ['{0} {1}'.format(a_member.first_name, a_member.last_name), the_plan.value, is_me] )
             else:
-                member_plans.append( ['{0} {1}'.format(a_member.first_name, a_member.last_name), 0] )
+                member_plans.append( ['{0} {1}'.format(a_member.first_name, a_member.last_name), 0, is_me] )
                     
         template = je.get_template('gig_info.html')
         self.response.write( template.render(

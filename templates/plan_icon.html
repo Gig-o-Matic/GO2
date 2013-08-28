@@ -1,0 +1,16 @@
+{% macro icon(plan_value=-1) -%}
+
+    {% if plan_value == 1 %}
+        <i class="icon-plus-sign"></i><i class="icon-plus-sign"></i>
+    {% elif plan_value == 2 %}
+        <i class="icon-plus-sign"></i>
+    {% elif plan_value == 3 %}
+        <i class="icon-plus-sign"></i><i class="icon-minus-sign"></i>
+    {% elif plan_value == 4 %}
+        <i class="icon-minus-sign"></i>
+    {% elif plan_value == 5 %}
+        <i class="icon-minus-sign"></i><i class="icon-minus-sign"></i>                
+    {% else %}
+        <i class="icon-question"></i>
+    {% endif %}
+{%- endmacro %}
