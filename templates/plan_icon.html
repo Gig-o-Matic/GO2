@@ -14,10 +14,10 @@
     {% endif %}
 {%- endmacro %}
 
-{% macro icon_button(plan_value, gid, mid, bid, pid) -%}
+{% macro icon_button(gid, mid, bid, pid) -%}
 <div class="btn-group">
-    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-        {{ icon(plan_value) }} <span class="caret"></span>
+    <button type="button" class="btn btn-default dropdown-toggle text-center plan-button" data-toggle="dropdown" id="plan-{{pid}}">
+        <i class="icon-spinner icon-spin icon-large"></i>
     </button>
     <ul class="dropdown-menu" role="menu">
         <li><a href="#" class="plan-click" id="1" data-gid="{{gid}}" data-mid="{{mid}}" data-bid="{{bid}}" data-pid="{{pid}}">{{ icon(1) }} Definitely</a></li>
@@ -27,4 +27,14 @@
         <li><a href="#" class="plan-click" id="5" data-gid="{{gid}}" data-mid="{{mid}}" data-bid="{{bid}}" data-pid="{{pid}}">{{ icon(5) }} Can't Do It</a></li>
     </ul>
 </div>
+{%- endmacro %}
+
+{% macro initialize_plan_buttons(member_plans) -%}
+<script>
+function init_plan_buttons() {
+    {% for p in member_plans %}
+        set_plan_button("plan-{{p[1].key.id()}}", "{{p[1].value}}");
+    {% endfor %}
+}    
+</script>
 {%- endmacro %}

@@ -85,7 +85,7 @@ class AgendaEvents(webapp2.RequestHandler):
                 the_plan=plan.get_plan_for_member_for_gig(the_member, a_gig)
                 if noplan != 0:
                     # we want gigs without a plan
-                    if the_plan is None:
+                    if the_plan.value==0:
                         gig_info.append( [a_gig, the_plan] )
                 else:
                     if the_plan is None:

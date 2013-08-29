@@ -53,7 +53,8 @@ def get_plan_for_member_for_gig(the_member, the_gig):
     if len(plans)>0:
         return plans[0]
     else:
-        return None
+        # no plan? make a new one
+        return new_plan(the_gig, the_member, 0)
 
 def update_plan(the_plan, the_value):
     the_plan.value=the_value
@@ -74,21 +75,25 @@ class UpdatePlan(webapp2.RequestHandler):
         band_id=int(self.request.get("bid",0))
         gig_id=int(self.request.get("gid", 0))
         member_id=int(self.request.get("mid",0))
-        plan_id=int(self.request.get("pid", 0))
+        the_member=member.get_member_from_id(member_id)
         the_value=int(self.request.get("val", 0))
         
+        test_pid=int(self.request.get("pid", 0))
+        print '$$$ test_pid is {0}'.format(test_pid)
+
         the_band=band.get_band_from_id(band_id)
         the_gig=gig.get_gig_from_id(the_band,gig_id)
         
+        the_plan=get_plan_for_member_for_gig(the_member, the_gig)
         # todo handle what to do if any of these are none
         
-        if (plan_id != 0):
-            the_plan=get_plan_from_id(the_gig, plan_id)
+        print 'plan: band {0}'.format(the_band.name)
+        print 'plan: gig {0}'.format(the_gig.title)
+        print 'plan: member {0}'.format(the_member.last_name)
+        
+        if (the_plan is not None):
             update_plan(the_plan, the_value)
         else:
-            print 'member is {0}'.format(member_id)    
-            the_member=member.get_member_from_id(member_id)
-            print 'member is {0}'.format(the_member.key.id())    
-            new_plan(the_gig, the_member, the_value)        
+            pass # todo figure out why there was no plan
         print 'FOUND plan {0}'.format(the_plan.key.id())
 

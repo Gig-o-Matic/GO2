@@ -147,10 +147,7 @@ class InfoPage(webapp2.RequestHandler):
             else:
                 is_me = False
             the_plan = plan.get_plan_for_member_for_gig(a_member, the_gig)
-            if the_plan is not None:
-                member_plans.append( [a_member, the_plan, is_me] )
-            else:
-                member_plans.append( [a_member, None, is_me] )
+            member_plans.append( [a_member, the_plan, is_me] )
                     
         template = je.get_template('gig_info.html')
         self.response.write( template.render(

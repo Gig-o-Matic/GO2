@@ -33,11 +33,7 @@
                     {% for m in member_plans %}
                     <tr>
                         <td width="20%"0>{{ m[0].first_name }} {{ m[0].last_name }}</td>
-                        {% if m[1] %}
-                            <td width="10%">{{ plan_icon.icon_button(m[1].value,gig.key.id(),m[0].key.id(), band.key.id(), m[1].key.id()) }}</td>
-                        {% else %}
-                            <td width="10%">{{ plan_icon.icon_button(-1,gig.key.id(),m[0].key.id(), band.key.id(), 0) }}</td>
-                        {% endif %}
+                        <td width="10%">{{ plan_icon.icon_button(gig.key.id(),m[0].key.id(),band.key.id(),m[1].key.id()) }}</td>
                         <td width="30">{{ m[1].comment }}</td>
                         {% if m[2] %}
     <!--                        <div class="col-md-2">this is me!</div> -->
@@ -52,4 +48,5 @@
 </div><!-- /.container -->
 {% include 'scripts.html' %}
 <script src="/js/plan_buttons.js"></script>
+{{ plan_icon.initialize_plan_buttons(member_plans) }}
 {% include 'footer.html' %}
