@@ -12,10 +12,10 @@ application = webapp2.WSGIApplication([
     ('/agenda.html', agenda.MainPage),
     ('/calview.html', calview.MainPage),
     ('/member_info.html', member.InfoPage),
+    ('/member_edit.html', member.EditPage),
     ('/gig_info.html', gig.InfoPage),
     ('/gig_edit.html', gig.EditPage),
     ('/gig_delete', gig.DeleteHandler),
     ('/calevents', calview.CalEvents),
-    ('/agendaevents', agenda.AgendaEvents),
     ('/updateplan', plan.UpdatePlan)
 ], debug=True)

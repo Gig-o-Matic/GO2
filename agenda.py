@@ -22,79 +22,40 @@ class MainPage(webapp2.RequestHandler):
     def make_page(self,user):
         debug_print('IN AGENDA {0}'.format(user.nickname()))
         
-        the_member=member.get_member_from_nickname(user.nickname())
-        debug_print('member is {0}'.format(str(member)))
+        the_user=member.get_member_from_nickname(user.nickname())
         
-        if the_member is None:
-            return # todo figure out what to do if we get this far and there's no member
-            
+        
+        
         # find the bands this member is associated with
-        the_bands=member.get_bands_of_member(the_member)
+        the_bands=member.get_bands_of_member(the_user)
         
         if the_bands is None:
             return # todo figure out what to do if there are no bands for this member
-            
-        if len(the_bands) > 1:
-            return # todo figure out what to do if there is more than one band for this member
+                    
+        num_to_put_in_upcoming=2
+        the_gigs=gig.get_gigs_for_band(the_bands, num=num_to_put_in_upcoming)
         
-        the_band=the_bands[0]
-        
-        the_gigs=gig.get_gigs_for_band(the_band, num=2)
-        
-        gig_info=[]
-        for a_gig in the_gigs:
-            the_plan=plan.get_plan_for_member_for_gig(the_member, a_gig)
-            gig_info.append( [a_gig, the_plan] )
-        
-        all_gigs=gig.get_gigs_for_band(the_band)
-        weigh_ins=[]
-        for a_gig in all_gigs:
-            the_plan=plan.get_plan_for_member_for_gig(the_member, a_gig)
-            if the_plan is None:
-                weigh_ins.append( a_gig )
+        upcoming_plans=[]
+        weighin_plans=[]        
+        all_gigs=gig.get_gigs_for_band(the_bands)
+        for i in range(0, len(all_gigs)):
+            a_gig=all_gigs[i]
+            the_plan=plan.get_plan_for_member_for_gig(the_user, a_gig)
+            if (i<num_to_put_in_upcoming):
+                upcoming_plans.append( the_plan )
+            else:            
+                if (the_plan.value==0 ):
+                    weighin_plans.append( the_plan )
+
+        print 'sending in {0} upcoming and {1} weighins'.format(len(upcoming_plans),len(weighin_plans))
 
         template = je.get_template('agenda.html')
         self.response.write( template.render(
             title='Agenda',
-            member=the_member,
+            the_user=the_user,
             logout_link=users.create_logout_url('/'),
-            band=the_band,
-            band_id=the_band.key.id(),
-            gigs=gig_info,
-            weigh_ins=weigh_ins,
+            upcoming_plans=upcoming_plans,
+            weighin_plans=weighin_plans,
+            nav_info=member.nav_info(the_user, None),          
             agenda_is_active=True
         ) )        
-
-class AgendaEvents(webapp2.RequestHandler):
-    def post(self):
-            print 'IN AGENDA EVENTS'
-            
-            band_id=int(self.request.get('band_id'))
-            member_id=int(self.request.get('member_id'))
-            maxnum=int(self.request.get('maxnum',0))
-            if maxnum==0:
-                maxnum=None
-            noplan=int(self.request.get('noplan',0))
-            
-            the_band=band.get_band_from_id(band_id)
-            the_gigs=gig.get_gigs_for_band(the_band, num=maxnum)
-            the_member=member.get_member_from_id(member_id)
-            
-            gig_info=[]
-            for a_gig in the_gigs:
-                the_plan=plan.get_plan_for_member_for_gig(the_member, a_gig)
-                if noplan != 0:
-                    # we want gigs without a plan
-                    if the_plan.value==0:
-                        gig_info.append( [a_gig, the_plan] )
-                else:
-                    if the_plan is None:
-                        gig_info.append( [a_gig, the_plan] )
-                    else:
-                        gig_info.append( [a_gig, the_plan.value] )
-
-            template = je.get_template('agenda_events.html')
-            self.response.write( template.render(
-                gigs=gig_info,
-                band_id=band_id
-            ) )        

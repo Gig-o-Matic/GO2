@@ -1,16 +1,22 @@
 {% import 'plan_icon.html' as plan_icon %}
+{% macro agenda_events(plan_info, member, plan_prefix) -%}
 <table class="table">
-{% for gig in gigs %}
+{% for plan in plan_info %}
     <tr>
         <td width=10%>
-            {{ plan_icon.icon(gig[1]) }}
+            <!-- g m b p -->
+            {{ plan_icon.icon_button(member, plan, plan_prefix) }}
         </td>
         <td width=20%>
-            {{ gig[0].date|e }}
+            {{ plan.key.parent().get().date|e }}
         </td>
         <td>
-            <a href="gig_info.html?band_id={{ band_id }}&gig_id={{ gig[0].key.id() }}">{{ gig[0].title|e }}</a>
+            <a href="gig_info.html?gk={{ plan.key.parent().urlsafe() }}">{{ plan.key.parent().get().title|e }}</a>
+        </td>
+        <td width=20%>
+             {{ plan.key.parent().get().key.parent().get().name|e }}
         </td>
     </tr>
 {% endfor %}
 </table>
+{%- endmacro %}

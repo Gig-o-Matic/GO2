@@ -14,27 +14,26 @@
     {% endif %}
 {%- endmacro %}
 
-{% macro icon_button(gid, mid, bid, pid) -%}
+{% macro icon_button(member, plan, plan_prefix) -%}
 <div class="btn-group">
-    <button type="button" class="btn btn-default dropdown-toggle text-center plan-button" data-toggle="dropdown" id="plan-{{pid}}">
+    <button type="button" class="btn btn-default dropdown-toggle text-center plan-button" data-toggle="dropdown" id="plan-{{plan_prefix}}{{plan.key.urlsafe()}}">
         <i class="icon-spinner icon-spin icon-large"></i>
     </button>
     <ul class="dropdown-menu" role="menu">
-        <li><a href="#" class="plan-click" id="1" data-gid="{{gid}}" data-mid="{{mid}}" data-bid="{{bid}}" data-pid="{{pid}}">{{ icon(1) }} Definitely</a></li>
-        <li><a href="#" class="plan-click" id="2" data-gid="{{gid}}" data-mid="{{mid}}" data-bid="{{bid}}" data-pid="{{pid}}">{{ icon(2) }} Probably</a></li>
-        <li><a href="#" class="plan-click" id="3" data-gid="{{gid}}" data-mid="{{mid}}" data-bid="{{bid}}" data-pid="{{pid}}">{{ icon(3) }} Don't Know</a></li>
-        <li><a href="#" class="plan-click" id="4" data-gid="{{gid}}" data-mid="{{mid}}" data-bid="{{bid}}" data-pid="{{pid}}">{{ icon(4) }} Probably Not</a></li>
-        <li><a href="#" class="plan-click" id="5" data-gid="{{gid}}" data-mid="{{mid}}" data-bid="{{bid}}" data-pid="{{pid}}">{{ icon(5) }} Can't Do It</a></li>
+        <li><a href="#" class="plan-click" id="1" data-pk="{{plan.key.urlsafe()}}" data-prefix="{{plan_prefix}}">{{ icon(1) }} Definitely</a></li>
+        <li><a href="#" class="plan-click" id="2" data-pk="{{plan.key.urlsafe()}}" data-prefix="{{plan_prefix}}">{{ icon(2) }} Probably</a></li>
+        <li><a href="#" class="plan-click" id="3" data-pk="{{plan.key.urlsafe()}}" data-prefix="{{plan_prefix}}">{{ icon(3) }} Don't Know</a></li>
+        <li><a href="#" class="plan-click" id="4" data-pk="{{plan.key.urlsafe()}}" data-prefix="{{plan_prefix}}">{{ icon(4) }} Probably Not</a></li>
+        <li><a href="#" class="plan-click" id="5" data-pk="{{plan.key.urlsafe()}}" data-prefix="{{plan_prefix}}">{{ icon(5) }} Can't Do It</a></li>
     </ul>
 </div>
 {%- endmacro %}
 
-{% macro initialize_plan_buttons(member_plans) -%}
+{% macro setup_plan_buttons(member_plans, plan_prefix="") -%}
 <script>
-function init_plan_buttons() {
-    {% for p in member_plans %}
-        set_plan_button("plan-{{p[1].key.id()}}", "{{p[1].value}}");
-    {% endfor %}
-}    
+{% for p in member_plans %}
+    add_plan_button("plan-{{plan_prefix}}{{p.key.urlsafe()}}", "{{p.value}}");
+{% endfor %}
+
 </script>
 {%- endmacro %}

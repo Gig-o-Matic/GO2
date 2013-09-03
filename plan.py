@@ -72,24 +72,13 @@ class UpdatePlan(webapp2.RequestHandler):
     def post(self):
         """post handler - if we are edited by the template, handle it here and redirect back to info page"""
         print 'UPDATE_PLAN POST HANDLER'
-        band_id=int(self.request.get("bid",0))
-        gig_id=int(self.request.get("gid", 0))
-        member_id=int(self.request.get("mid",0))
-        the_member=member.get_member_from_id(member_id)
         the_value=int(self.request.get("val", 0))
+        the_plan_key=self.request.get("pk",0)
         
-        test_pid=int(self.request.get("pid", 0))
-        print '$$$ test_pid is {0}'.format(test_pid)
-
-        the_band=band.get_band_from_id(band_id)
-        the_gig=gig.get_gig_from_id(the_band,gig_id)
-        
-        the_plan=get_plan_for_member_for_gig(the_member, the_gig)
-        # todo handle what to do if any of these are none
-        
-        print 'plan: band {0}'.format(the_band.name)
-        print 'plan: gig {0}'.format(the_gig.title)
-        print 'plan: member {0}'.format(the_member.last_name)
+        if (the_plan_key==0):
+            return #todo figure out what to do if no plan passed in
+            
+        the_plan=ndb.Key(urlsafe=the_plan_key).get()
         
         if (the_plan is not None):
             update_plan(the_plan, the_value)

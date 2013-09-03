@@ -32,22 +32,24 @@ def test_band():
 
     slsaps=make_if_not_here("SLSAPS")
     make_if_not_here("EmperorNorton")
-    make_if_not_here("EE")
+    ee=make_if_not_here("EE")
     
-    member1 = member.new_member(first_name='Aaron', last_name='Oppenheimer', email='aoppenheimer@gmail.com', nickname='aoppenheimer')
-    member2 = member.new_member(first_name='Maury', last_name='Martin', nickname='mmartin')
-    member3 = member.new_member(first_name='Kevin', last_name='Leppman', nickname='kleppman')
+    member1 = member.new_member(name='Aaron', email='aoppenheimer@gmail.com', nickname='aoppenheimer', role=1)
+    member2 = member.new_member(name='Maury', nickname='mmartin')
+    member3 = member.new_member(name='Kate', email='katervw@gmail.com', nickname='katervw')
     
     assoc.new_association(slsaps,member1)
+    assoc.new_association(ee,member1)
     assoc.new_association(slsaps,member2)
     assoc.new_association(slsaps,member3)
 
     membership = band.get_members_of_band(slsaps)
     for i in membership:
-        print 'slsaps: {0}'.format(i.first_name)
+        print 'slsaps: {0}'.format(i.name)
     
     g1 = gig.new_gig(the_band=slsaps, title="test gig 1", date=datetime.datetime.strptime("8/16/2013",'%m/%d/%Y').date())
     g2 = gig.new_gig(the_band=slsaps, title="test gig 2", date=datetime.datetime.strptime("8/25/2013",'%m/%d/%Y').date())
+    g3 = gig.new_gig(the_band=ee, title="test gig 3", date=datetime.datetime.strptime("8/8/2013",'%m/%d/%Y').date())
     
     gigs = gig.get_gigs_for_band(slsaps)
     for g in gigs:
@@ -62,5 +64,5 @@ def test_band():
     plans=plan.get_plans_for_gig(g1)
     for p in plans:
         m=p.member.get()
-        print '{0} has a plan for gig {1}: {2}'.format(m.first_name, g1.title, p.value)
+        print '{0} has a plan for gig {1}: {2}'.format(m.name, g1.title, p.value)
  

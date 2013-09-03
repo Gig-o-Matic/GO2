@@ -10,13 +10,17 @@
         </div>
         <div class="row">
             <div class="col-md-4 col-md-offset-2">
-                <a class="btn btn-primary btn-sm" href="gig_edit.html?band_id={{ band.key.id() }}&gig_id={{ gig.key.id() }}">Edit</a>
+                <a class="btn btn-primary btn-sm" href="gig_edit.html?gk={{ gig.key.urlsafe() }}">Edit</a>
             </div>
         </div>
         <div class="row">&nbsp;</div>
         <div class="row">
             <div class="col-md-2 col-md-offset-2">Gig</div>
             <div class="col-md-8">{{ gig.title|e }}</div>
+        </div>
+        <div class="row">
+            <div class="col-md-2 col-md-offset-2">Band</div>
+            <div class="col-md-8">{{ gig.key.parent().get().name|e }}</div>
         </div>
         <div class="row">
             <div class="col-md-2 col-md-offset-2">Details</div>
@@ -30,13 +34,16 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <table class="table">
-                    {% for m in member_plans %}
+                    {% for p in member_plans %}
                     <tr>
-                        <td width="20%"0>{{ m[0].first_name }} {{ m[0].last_name }}</td>
-                        <td width="10%">{{ plan_icon.icon_button(gig.key.id(),m[0].key.id(),band.key.id(),m[1].key.id()) }}</td>
-                        <td width="30">{{ m[1].comment }}</td>
-                        {% if m[2] %}
-    <!--                        <div class="col-md-2">this is me!</div> -->
+                        <td width="20%"0><a href="member_info.html?mk={{p.member.urlsafe()}}">{{ p.member.get().name }}</a></td>
+                        <!-- g m b p -->
+                        <td width="10%">{{ plan_icon.icon_button(p.member.get(),p,"") }}</td>
+                        <td width="30%">{{ p.comment }}</td>
+                        {% if p.member.get().nickname==user_nickname %}
+                            <td width="20%">
+                               <div class="col-md-2">this is me!</div>
+                            </td>
                         {% endif %}
                     </tr>
                     {% endfor %}
@@ -48,5 +55,5 @@
 </div><!-- /.container -->
 {% include 'scripts.html' %}
 <script src="/js/plan_buttons.js"></script>
-{{ plan_icon.initialize_plan_buttons(member_plans) }}
+{{ plan_icon.setup_plan_buttons(member_plans) }}
 {% include 'footer.html' %}

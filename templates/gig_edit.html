@@ -3,44 +3,65 @@
 <div class="container">
     <div class="starter-template">
         <div class="row">
-            <div class="col-md-5 col-md-offset-3"><h1>Edit Gig</h1></div>
+            {% if gig_id!=0 %}
+                <div class="col-md-5 col-md-offset-2"><h1>Edit Gig</h1></div>
+            {% else %}
+                <div class="col-md-5 col-md-offset-2"><h1>New Gig</h1></div>
+            {% endif %}
         </div>
-        <form class="form-horizontal" role="form" method="post" action="gig_edit.html">
-            <div class="form-group">
-                <label for="gigtitleinput" class="col-md-2 col-md-offset-2 control-label">Gig</label>
-                <div class="col-md-6">
+        <form class="form" role="form" method="post" action="gig_edit.html">
+            <div class="row">
+                <div class="form-group col-md-5 col-md-offset-2">
+                    <label for="gigtitleinput" class="control-label">Gig</label>
                     <input type="text" class="form-control" id="gigtitleinput" placeholder="{{gig.title}}" name="gig_title">
                 </div>
             </div>
-            <div class="form-group">
-                <label for="gigdetailsinput" class="col-md-2 col-md-offset-2 control-label">Details</label>
-                <div class="col-md-6">
-                    <textarea class="form-control" id="gigdetailsinput" placeholder="{{gig.details}}" name="gig_details"></textarea>
+            <div class="row">
+                <div class="form-group col-md-5 col-md-offset-2">
+                    <label for="gigband" class="control-label">Band</label>
+                    <select id="gigband" class="form-control" name="gig_band">
+                        {% for a_band in all_bands %}
+                            <option value="{{a_band.key.urlsafe()}}"
+                            {% if (gig and a_band.key.urlsafe() == gig.key.parent().urlsafe()) or (gig==None and loop.first) %}
+                                SELECTED
+                            {% endif %}
+                            >{{a_band.name}}</option>
+                        {% endfor %}
+                    </select>
                 </div>
             </div>
-            <div class="form-group">
-                <label for="gigdateinput" class="col-md-2 col-md-offset-2 control-label">Date</label>
-                <div class="col-md-6">
+            <div class="row">
+                <div class="form-group col-md-5 col-md-offset-2">
+                    <label for="gigdetailsinput" class="control-label">Details</label>
+                    <textarea class="form-control" id="gigdetailsinput" placeholder="{{gig.details}}" name="gig_details"></textarea>
+                </div>
+            </div>            
+            <div class="row">
+                <div class="form-group col-md-5 col-md-offset-2">
+                    <label for="gigdateinput" class="control-label">Date</label>
                     <input type="text" class="datepicker form-control" id="gigdateinput" placeholder="{{gig.date}}" name="gig_date">
                 </div>
             </div>
-            <div class="form-group">
-                <div class="col-md-offset-4 col-md-2">
-                    {% if gig_id!=0 %}
+            <div class="row">
+                <div class="form-group col-md-5 col-md-offset-2">
+                    {% if gig!=None %}
                       <a data-toggle="modal" href="#myModal" class="btn btn-default">Delete</a>
                     {% endif %}   
-                </div>
-                <div class="col-md-4 text-right">
-                    {% if gig_id==0 %}
-                        <a class="btn btn-default" href="agenda.html">Cancel</a>
-                    {% else %}
-                        <a class="btn btn-default" href="gig_info.html?band_id={{ band_id }}&gig_id={{ gig_id }}">Cancel</a>
-                    {% endif %}
-                    <button type="submit" class="btn btn-primary">Save</button>
+                    <div class="text-right">
+                        {% if gig==None %}
+                            <a class="btn btn-default" href="agenda.html">Cancel</a>
+                        {% else %}
+                            <a class="btn btn-default" href="gig_info.html?gk={{ gig.key.urlsafe() }}">Cancel</a>
+                        {% endif %}
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
                 </div>
             </div>
-            <input type="hidden" name="band_id" value="{{band_id}}">
-            <input type="hidden" name="gig_id" value="{{gig_id}}">
+            {% if gig==None %}
+                <input type="hidden" name="gk" value="0">
+            {% else %}
+                <input type="hidden" name="gk" value="{{gig.key.urlsafe()}}">
+            {% endif %}
         </form>
     </div>
 
@@ -56,7 +77,9 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Don't Delete</button>
-                    <a class="btn btn-primary" id="opener" href="gig_delete?band_id={{ band_id }}&gig_id={{ gig_id }}">Delete</a>
+                    {% if gig %}
+                        <a class="btn btn-primary" id="opener" href="gig_delete?&gk={{ gig.key.urlsafe() }}">Delete</a>
+                    {% endif %}
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->

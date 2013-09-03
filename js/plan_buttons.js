@@ -23,22 +23,35 @@ function set_plan_button(the_id, the_value) {
     document.getElementById(the_id).innerHTML=the_result;
 }
 
+var plan_buttons_to_initialize=new Array()
+var plan_buttons_init_val=new Array()
+
+function add_plan_button(pid,val) {
+    plan_buttons_to_initialize.push(pid);
+    plan_buttons_init_val.push(val);
+}
+
+function init_plan_buttons() {
+    console.log('in init plan buttons');
+    for (var i=0; i < plan_buttons_to_initialize.length; i++) {
+        set_plan_button(plan_buttons_to_initialize[i], plan_buttons_init_val[i]);
+    }
+}    
+
 $(document).ready(function() {
     init_plan_buttons();
-
     $("a.plan-click").click(function(){
-        var pid=$(this).attr("data-pid");
+        var pk=$(this).attr("data-pk");
+        var prefix=$(this).attr("data-prefix");
         var val=$(this).attr("id");
         $.post("/updateplan",
                     {
-                        val: $(this).attr("id"),
-                        gid: $(this).attr("data-gid"),
-                        mid: $(this).attr("data-mid"),
-                        bid: $(this).attr("data-bid")
+                        val: val,
+                        pk: pk
                     },
                     function(responseTxt,statusTxt,xhr){
                         if(statusTxt=="success")
-                            set_plan_button("plan-"+pid,val)
+                            set_plan_button("plan-"+prefix+pk,val)
                         if(statusTxt=="error")
                           alert("Error: "+xhr.status+": "+xhr.statusText);
                     });

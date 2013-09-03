@@ -25,15 +25,17 @@ class Gig(ndb.Model):
     title = ndb.TextProperty()
     contact = ndb.UserProperty()
     details = ndb.TextProperty()
-    date = ndb.DateProperty()
+    date = ndb.DateProperty(auto_now_add=True)
     call = ndb.TimeProperty()
 
 #
 # Functions to make and find gigs
 #
 
-def new_gig(the_band, title, contact=None, details="", date=None, call=None):
+def new_gig(the_band, title, date=None, contact=None, details="", call=None):
     """ Make and return a new gig """
+    if date is None:
+        date=datetime.datetime.now()
     the_gig = Gig(parent=the_band.key, title=title, contact=contact, details=details, date=date, call=call)
     the_gig.put()
     debug_print('new_gig: added new gig: {0} on {1}'.format(title,str(date)))
@@ -50,10 +52,53 @@ def get_gig_from_id(the_band, id):
     
 def get_gigs_for_band(the_band,num=None):
     """ Return gig objects by band"""
-    gig_query = Gig.query(ancestor=the_band.key).order(Gig.date)
-    the_gigs = gig_query.fetch(limit=num)
-    debug_print('get_gigs_for_band: got {0} gigs for band key id {1} ({2})'.format(len(the_gigs),the_band.key.id(),the_band.name))
-    return the_gigs
+    if (type(the_band) is not list):
+        band_list=[the_band]
+    else:
+        band_list=the_band
+    
+    all_gigs=[]
+    for a_band in band_list:
+        gig_query = Gig.query(ancestor=a_band.key).order(Gig.date)
+        the_gigs = gig_query.fetch()
+        debug_print('get_gigs_for_band: got {0} gigs for band key id {1} ({2})'.format(len(the_gigs),a_band.key.id(),a_band.name))
+        all_gigs.append(the_gigs)
+        
+    # now we have several lists of gigs - merge them
+    if len(all_gigs)==1:
+        if num is None:
+            return all_gigs[0]
+        else:
+            return all_gigs[:num]
+    else:
+        # merge the gigs
+        sorted_gigs=[]
+        l1 = all_gigs.pop()    
+        while all_gigs:
+            l2= all_gigs.pop()    
+            while (l1 and l2):
+                if (l1[0].date <= l2[0].date): # Compare both heads
+                    item = l1.pop(0) # Pop from the head
+                    sorted_gigs.append(item)
+                else:
+                    item = l2.pop(0)
+                    sorted_gigs.append(item)
+
+            # Add the remaining of the lists
+            sorted_gigs.extend(l1 if l1 else l2)
+            # now prepare to loop back
+            l1=sorted_gigs
+            sorted_gigs=[]
+
+    sorted_gigs=l1
+    print 'sorted gigs got {0}'.format(len(l1))
+
+    if num is None:
+        return l1
+    else:
+        return l1[:num]
+    
+    
     
 def get_gigs_for_band_for_dates(the_band,start_date, end_date):
     """ Return gig objects by band"""
@@ -63,6 +108,14 @@ def get_gigs_for_band_for_dates(the_band,start_date, end_date):
     gigs = gig_query.fetch()
     debug_print('get_gigs_for_band_for_dates: got {0} gigs for band key id {1} ({2})'.format(len(gigs),the_band.key.id(),the_band.name))
     return gigs
+
+def get_gigs_for_member_for_dates(the_member, start_date, end_date):
+    """ return gig objects for the bands of a member """
+    the_bands=member.get_bands_of_member(the_member)
+    all_gigs=[]
+    for a_band in the_bands:
+        all_gigs.extend(get_gigs_for_band_for_dates(a_band,start_date, end_date))
+    return all_gigs
 
 def get_band_and_gig(band_id, gig_id):
         # which band are we talking about?
@@ -105,39 +158,25 @@ class InfoPage(webapp2.RequestHandler):
 
     def make_page(self,user):
         debug_print('IN GIG_INFO {0}'.format(user.nickname()))
-        
-        the_member=member.get_member_from_nickname(user.nickname())
-        debug_print('member is {0}'.format(str(the_member)))
-        
-        if the_member is None:
-            return # todo figure out what to do if we get this far and there's no member
 
-        # which band are we talking about?
-        band_id=self.request.get("band_id",None)
-        if band_id is None:
-            self.response.write('no band id passed in!')
-            return # todo figure out what to do if there's no ID passed in
+        the_user=member.get_member_from_nickname(user.nickname())
 
         # find the gig we're interested in
-        gig_id=self.request.get("gig_id", None)
-        if gig_id is None:
-            self.response.write('no gig id passed in!')
+        gig_key_str=self.request.get("gk", None)
+        if gig_key_str is None:
+            self.response.write('no gig key passed in!')
             return # todo figure out what to do if there's no ID passed in
 
-        the_band=band.get_band_from_id(band_id) # todo more efficient if we include the band key?
-        
-        if the_band is None:
-            self.response.write('did not find a band!')
-            return # todo figure out what to do if we didn't find it
+        gig_key=ndb.Key(urlsafe=gig_key_str)
+        the_gig=gig_key.get()
 
-            
-        the_gig=get_gig_from_id(the_band, gig_id) # todo more efficient if we include the band key?
-        
         if the_gig is None:
             self.response.write('did not find a gig!')
             return # todo figure out what to do if we didn't find it
             
         debug_print('found gig object: {0}'.format(the_gig.title))
+
+        the_band=the_gig.key.parent().get()
 
         member_plans=[]
         the_members=band.get_members_of_band(the_band)
@@ -147,16 +186,16 @@ class InfoPage(webapp2.RequestHandler):
             else:
                 is_me = False
             the_plan = plan.get_plan_for_member_for_gig(a_member, the_gig)
-            member_plans.append( [a_member, the_plan, is_me] )
+            member_plans.append( the_plan )
                     
         template = je.get_template('gig_info.html')
         self.response.write( template.render(
             title='Gig Info',
-            member=the_member,
-            logout_link=users.create_logout_url('/'),            
+            the_user=the_user,
             gig=the_gig,
-            band=the_band,
-            member_plans=member_plans
+            member_plans=member_plans,
+            user_nickname=user.nickname(),
+            nav_info=member.nav_info(the_user, None)
         ) )        
 
 class EditPage(webapp2.RequestHandler):
@@ -170,24 +209,19 @@ class EditPage(webapp2.RequestHandler):
 
     def make_page(self, user):
         debug_print('IN GIG_EDIT {0}'.format(user.nickname()))
-        
-        the_member=member.get_member_from_nickname(user.nickname())
-        debug_print('member is {0}'.format(str(the_member)))
-        
-        if the_member is None:
-            return # todo figure out what to do if we get this far and there's no member
+
+        the_user=member.get_member_from_nickname(user.nickname())
 
         if self.request.get("new",None) is not None:
             the_gig=None
-            gig_id=0
-            the_band=member.get_current_band(the_member)
-            band_id=the_band.key.id()
             is_new=True
         else:
-            band_id=self.request.get("band_id",None)
-            gig_id=self.request.get("gig_id", None)
-            the_band,the_gig=get_band_and_gig(band_id, gig_id)
-            if the_band is None or the_gig is None:
+            the_gig_key=self.request.get("gk", None)
+            if (the_gig_key is None):
+                return # figure out what to do
+                
+            the_gig=ndb.Key(urlsafe=the_gig_key).get()
+            if the_gig is None:
                 self.response.write('did not find a band or gig!')
                 return # todo figure out what to do if we didn't find it
             debug_print('found gig object: {0}'.format(the_gig.title))
@@ -196,11 +230,10 @@ class EditPage(webapp2.RequestHandler):
         template = je.get_template('gig_edit.html')
         self.response.write( template.render(
             title='Gig Edit',
-            member=the_member,
-            logout_link=users.create_logout_url('/'),            
+            the_user=the_user,
+            all_bands=member.get_bands_of_member(the_user),
             gig=the_gig,
-            gig_id=gig_id,
-            band_id=band_id,
+            nav_info=member.nav_info(the_user, None),            
             newgig_is_active=is_new
         ) )        
 
@@ -210,22 +243,23 @@ class EditPage(webapp2.RequestHandler):
 
         print str(self.request.arguments())
 
-        band_id=int(self.request.get("band_id",None))
-        gig_id=int(self.request.get("gig_id", None))
+        the_gig_key=self.request.get("gk", '0')
         
-        print 'GIG ID IS {0}'.format(gig_id)
-        
-        if gig_id==0:
-            the_band=band.get_band_from_id(band_id)
-            the_gig=new_gig(the_band,'tmp')
-            gig_id=the_gig.key.id()
+        print 'GIG ID IS {0}'.format(the_gig_key)
+        if (the_gig_key=='0'):
+            the_gig=None
         else:
-            the_band,the_gig=get_band_and_gig(band_id, gig_id)
+            the_gig=ndb.Key(urlsafe=the_gig_key).get()
 
-        if the_band is None or the_gig is None:
-            self.response.write('did not find a band of gig!')
-            return # todo figure out what to do if we didn't find it
-       
+        # first, get the band
+        gig_band_key=self.request.get("gig_band",None)
+        if gig_band_key is not None and gig_band_key != '':
+            print 'got band key {0}'.format(gig_band_key)
+            the_band=ndb.Key(urlsafe=gig_band_key).get()
+            if the_gig is None:
+                the_gig=new_gig(title="tmp",the_band=the_band)
+
+        # now get the info
         gig_title=self.request.get("gig_title",None)
         if gig_title is not None and gig_title != '':
             print 'got title {0}'.format(gig_title)
@@ -241,10 +275,10 @@ class EditPage(webapp2.RequestHandler):
             print 'got date {0}'.format(gig_date)
             the_gig.date=datetime.datetime.strptime(gig_date,'%m/%d/%Y').date()
             # todo validate form entry so date isn't bogus
-
+       
         the_gig.put()            
 
-        return self.redirect('/gig_info.html?band_id={0}&gig_id={1}'.format(band_id, gig_id))
+        return self.redirect('/gig_info.html?&gk={0}'.format(the_gig.key.urlsafe()))
                 
 class DeleteHandler(webapp2.RequestHandler):
     def get(self):
@@ -253,12 +287,12 @@ class DeleteHandler(webapp2.RequestHandler):
         if user is None:
             self.redirect(users.create_login_url(self.request.uri))
         else:
-            band_id=self.request.get("band_id",None)
-            gig_id=self.request.get("gig_id", None)
-            the_band,the_gig=get_band_and_gig(band_id, gig_id)
-            if the_band is None or the_gig is None:
-                self.response.write('did not find a band or gig!')
+            the_gig_key=self.request.get("gk", None)
+
+            if the_gig_key is None:
+                self.response.write('did not find gig!')
             else:
+                the_gig=ndb.Key(urlsafe=the_gig_key).get()
                 plan.delete_plans_for_gig(the_gig)            
                 the_gig.key.delete()
             return self.redirect('/agenda.html')

@@ -1,5 +1,7 @@
 {% include 'header.html' %}
 {% include 'navbar.html' %}
+{% import 'plan_icon.html' as plan_icon %}
+{% import 'agenda_events.html' as agenda_events %}
 
 <div class="container">
 
@@ -9,10 +11,6 @@
         </div>
 
         <div class="row">
-            <div class="col-md-1 col-md-offset-2">Band</div>
-            <div class="col-md-6">{{ band.name|e }}</div>
-        </div>
-        <div class="row">
             &nbsp;
         </div>
         <div class="row">
@@ -21,46 +19,31 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div id="upcomingevents">
+                    {{ agenda_events.agenda_events(upcoming_plans, the_member, "1-") }}
                 </div>
             </div>
         </div>
-        <div class="row">
-            &nbsp;
-        </div>
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2"><h3>Weigh In</h3></div>
-        </div>
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <div id="weighinevents">
+        {% if weighin_plans %}
+            <div class="row">
+                &nbsp;
+            </div>
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2"><h3>Future to Weigh In</h3></div>
+            </div>
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <div id="weighinevents">
+                        {{ agenda_events.agenda_events(weighin_plans, member, "2-") }}
+                    </div>
                 </div>
             </div>
-        </div>
+        {% endif %}
   </div>
 
 </div><!-- /.container -->
 {% include 'scripts.html' %}
-<script>
-$(document).ready(function() {
-    function updateevents(the_divname, the_maxnum, the_noplan) {
-        $.post("/agendaevents",
-                    {
-                        maxnum: the_maxnum,
-                        noplan: the_noplan,
-                        band_id: {{ band.key.id() }},
-                        member_id: {{ member.key.id() }}
-                    },
-                    function(responseTxt,statusTxt,xhr){
-                        if(statusTxt=="success")
-                          $(the_divname).html(responseTxt)
-                        if(statusTxt=="error")
-                          alert("Error: "+xhr.status+": "+xhr.statusText);
-                    });
-    }
-    
-    updateevents("#upcomingevents","2","0")
-    updateevents("#weighinevents","0","1")
-});
-</script>
+<script src="/js/plan_buttons.js"></script>
+{{ plan_icon.setup_plan_buttons(upcoming_plans,"1-") }}
+{{ plan_icon.setup_plan_buttons(weighin_plans,"2-") }}
 {% include 'footer.html' %}
 
