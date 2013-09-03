@@ -17,5 +17,6 @@ application = webapp2.WSGIApplication([
     ('/gig_edit.html', gig.EditPage),
     ('/gig_delete', gig.DeleteHandler),
     ('/calevents', calview.CalEvents),
-    ('/updateplan', plan.UpdatePlan)
+    ('/updateplan', plan.UpdatePlan),
+    ('/updateplancomment', plan.UpdatePlanComment)
 ], debug=True)

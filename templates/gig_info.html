@@ -39,10 +39,18 @@
                         <td width="20%"0><a href="member_info.html?mk={{p.member.urlsafe()}}">{{ p.member.get().name }}</a></td>
                         <!-- g m b p -->
                         <td width="10%">{{ plan_icon.icon_button(p.member.get(),p,"") }}</td>
-                        <td width="30%">{{ p.comment }}</td>
+                        <td width="30%">
+                            {% if p.member.get().nickname==user_nickname %}
+                                <div class="statementinput">
+                                    <input type="text" class="form-control" id="memberstatementinput" placeholder="{{p.comment}}" data-pk="{{p.key.urlsafe()}}" name="member_statement">
+                                </div>
+                            {% else %}
+                                {{ p.comment }}
+                            {% endif %}
+                        </td>
                         {% if p.member.get().nickname==user_nickname %}
                             <td width="20%">
-                               <div class="col-md-2">this is me!</div>
+                               <div class="col-md-2">me!</div>
                             </td>
                         {% endif %}
                     </tr>
@@ -56,4 +64,32 @@
 {% include 'scripts.html' %}
 <script src="/js/plan_buttons.js"></script>
 {{ plan_icon.setup_plan_buttons(member_plans) }}
+<script>
+function reset_class(name) {
+    item=document.getElementById(name)
+    parent=item.parentNode
+    parent.className="statementinput";
+}
+
+$( document ).ready(function() {
+    $( "#memberstatementinput" ).change(function() {
+        var pk=$(this).attr("data-pk");
+        var val=$(this).val();
+        var pn=$(this)[0].parentNode
+        $.post("/updateplancomment",
+                    {
+                        val: val,
+                        pk: pk
+                    },
+                    function(responseTxt,statusTxt,xhr){
+                        if(statusTxt=="success")
+                            pn.className="has-success";
+                            setTimeout('reset_class("memberstatementinput");', 1000);
+                        if(statusTxt=="error")
+                          alert("Error: "+xhr.status+": "+xhr.statusText);
+                    });
+    });
+        
+});
+</script>
 {% include 'footer.html' %}

@@ -60,6 +60,10 @@ def update_plan(the_plan, the_value):
     the_plan.value=the_value
     the_plan.put()
 
+def update_plan_comment(the_plan, the_value):
+    the_plan.comment=the_value
+    the_plan.put()
+
 def delete_plans_for_gig(the_gig):
     """ A gig is being deleted, so forget everyone's plans about it """
     plan_query = Plan.query(ancestor=the_gig.key)
@@ -73,9 +77,9 @@ class UpdatePlan(webapp2.RequestHandler):
         """post handler - if we are edited by the template, handle it here and redirect back to info page"""
         print 'UPDATE_PLAN POST HANDLER'
         the_value=int(self.request.get("val", 0))
-        the_plan_key=self.request.get("pk",0)
+        the_plan_key=self.request.get("pk",'0')
         
-        if (the_plan_key==0):
+        if (the_plan_key=='0'):
             return #todo figure out what to do if no plan passed in
             
         the_plan=ndb.Key(urlsafe=the_plan_key).get()
@@ -85,4 +89,22 @@ class UpdatePlan(webapp2.RequestHandler):
         else:
             pass # todo figure out why there was no plan
         print 'FOUND plan {0}'.format(the_plan.key.id())
-
+        
+class UpdatePlanComment(webapp2.RequestHandler):
+    def post(self):
+        """post handler - if a comment is edited, update the database"""
+        print 'Update_Plan_Comment post handler'
+        the_value=self.request.get("val", "")
+        the_plan_key=self.request.get("pk",'0')
+        
+        if (the_plan_key=='0'):
+            return #todo figure out what to do if no plan passed in
+            
+        the_plan=ndb.Key(urlsafe=the_plan_key).get()
+        
+        if (the_plan is not None):
+            update_plan_comment(the_plan, the_value)
+        else:
+            pass # todo figure out why there was no plan
+        print 'FOUND plan {0}'.format(the_plan.key.id())
+        
