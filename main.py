@@ -5,6 +5,7 @@ import calview
 import member
 import gig
 import plan
+import band
 
 application = webapp2.WSGIApplication([
     ('/', agenda.MainPage),
@@ -16,6 +17,8 @@ application = webapp2.WSGIApplication([
     ('/gig_info.html', gig.InfoPage),
     ('/gig_edit.html', gig.EditPage),
     ('/gig_delete', gig.DeleteHandler),
+    ('/band_info.html',band.InfoPage),
+    ('/band_edit.html',band.EditPage),
     ('/calevents', calview.CalEvents),
     ('/updateplan', plan.UpdatePlan),
     ('/updateplancomment', plan.UpdatePlanComment)

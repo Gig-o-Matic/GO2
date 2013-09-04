@@ -14,7 +14,8 @@
             <a href="gig_info.html?gk={{ plan.key.parent().urlsafe() }}">{{ plan.key.parent().get().title|e }}</a>
         </td>
         <td width=20%>
-             {{ plan.key.parent().get().key.parent().get().name|e }}
+            <a href="band_info.html?bk={{ plan.key.parent().get().key.parent().urlsafe()}}">
+             {{ plan.key.parent().get().key.parent().get().name|e }}</a>
         </td>
     </tr>
 {% endfor %}

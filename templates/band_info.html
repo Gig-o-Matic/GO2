@@ -1,0 +1,46 @@
+{% include 'header.html' %}
+{% include 'navbar.html' %}
+
+<div class="container">
+
+    <div class="starter-template">
+        <div class="row">
+            <div class="col-md-5 col-md-offset-2"><h1>Band Info</h1></div>
+        </div>
+        <div class="row">
+            {% if nav_info['is_me'] or nav_info['is_admin'] %}
+                <div class="col-md-4 col-md-offset-2">
+                    <a class="btn btn-primary btn-sm" href="band_edit.html?bk={{ the_band.key.urlsafe() }}">Edit</a>
+                </div>
+            {% endif %}
+        </div>
+        <div class="row">&nbsp;</div>
+        <div class="row">
+            <div class="col-md-2 col-md-offset-2">Name</div>
+            <div class="col-md-8">{{ the_band.name|e }}</div>
+        </div>
+        <div class="row">
+            <div class="col-md-2 col-md-offset-2">Contact</div>
+            <div class="col-md-8">{{ the_admin.name|e }}</div>
+        </div>
+        <div class="row">
+            <div class="col-md-2 col-md-offset-2">Website</div>
+            <div class="col-md-8"><a href="http://{{the_band.website}}" target="new">{{ the_band.website|e }}</a></div>
+        </div>
+        <div class="row">
+            <div class="col-md-2 col-md-offset-2">Description</div>
+            <div class="col-md-8">{{ the_band.description|e }}</div>
+        </div>
+        <div class="row">
+            <div class="col-md-2 col-md-offset-2">Members</div>
+            <div class="col-md-8">
+                {% for a_member in the_members %}
+                    <p><a href="member_info.html?mk={{a_member.key.urlsafe()}}">{{ a_member.name|e }}</a></p>
+                {% endfor %}        
+            </div>
+        </div>
+      </div>
+
+</div><!-- /.container -->
+{% include 'scripts.html' %}
+{% include 'footer.html' %}

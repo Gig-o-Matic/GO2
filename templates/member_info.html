@@ -35,7 +35,7 @@
             <div class="col-md-2 col-md-offset-2">Bands</div>
             <div class="col-md-8">
                 {% for a_band in the_bands %}
-                    <p>{{ a_band.name|e }}</p>
+                    <p><a href="band_info.html?bk={{a_band.key.urlsafe()}}">{{ a_band.name|e }}</a></p>
                 {% endfor %}        
             </div>
         </div>

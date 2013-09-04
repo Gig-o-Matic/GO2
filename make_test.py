@@ -24,20 +24,20 @@ def test_band():
     ndb.get_context().clear_cache()      
 
 
-    def make_if_not_here(name):
+    def make_if_not_here(name,admin):
         the_band=band.get_band_from_name(name)
         if the_band is None:
-            the_band=band.new_band(name=name, website="www.{0}.org".format(name))
+            the_band=band.new_band(name=name, admin=admin)
         return the_band
-
-    slsaps=make_if_not_here("SLSAPS")
-    make_if_not_here("EmperorNorton")
-    ee=make_if_not_here("EE")
     
     member1 = member.new_member(name='Aaron', email='aoppenheimer@gmail.com', nickname='aoppenheimer', role=1)
     member2 = member.new_member(name='Maury', nickname='mmartin')
     member3 = member.new_member(name='Kate', email='katervw@gmail.com', nickname='katervw')
     
+    slsaps=make_if_not_here("SLSAPS",member1)
+    make_if_not_here("EmperorNorton",member1)
+    ee=make_if_not_here("EE",member1)
+
     assoc.new_association(slsaps,member1)
     assoc.new_association(ee,member1)
     assoc.new_association(slsaps,member2)

@@ -3,42 +3,34 @@
 <div class="container">
     <div class="starter-template">
         <div class="row">
-            {% if newmember_is_active %}
-                <div class="col-md-5 col-md-offset-2"><h1>New Member</h1></div>
+            {% if newband_is_active %}
+                <div class="col-md-5 col-md-offset-2"><h1>New Band</h1></div>
             {% else %}
-                <div class="col-md-5 col-md-offset-2"><h1>Edit Profile</h1></div>
+                <div class="col-md-5 col-md-offset-2"><h1>Edit Band</h1></div>
             {% endif %}
         </div>
-        <form class="form-horizontal" role="form" method="post" action="member_edit.html">
+        <form class="form-horizontal" role="form" method="post" action="band_edit.html">
             <div class="row">
                 <div class="form-group">
-                    <label for="membernameinput" class="col-md-2 col-md-offset-1 control-label">Name</label>
+                    <label for="bandnameinput" class="col-md-2 col-md-offset-1 control-label">Name</label>
                     <div class="col-md-6">
-                        <input type="text" class="form-control" id="membernameinput" placeholder="{{the_member.name}}" name="member_name">
+                        <input type="text" class="form-control" id="bandnameinput" placeholder="{{the_band.name}}" name="band_name">
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="form-group">
-                    <label for="memberemailinput" class="col-md-2 col-md-offset-1 control-label">Email</label>
+                    <label for="bandwebsiteinput" class="col-md-2 col-md-offset-1 control-label">Website</label>
                     <div class="col-md-6">
-                        <input type="text" class="form-control" id="memberemailnput" placeholder="{{the_member.email}}" name="member_email">
+                        <input type="text" class="form-control" id="bandwebsiteinput" placeholder="{{the_band.website}}" name="band_website">
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="form-group">
-                    <label for="memberphoneinput" class="col-md-2 col-md-offset-1 control-label">Phone</label>
+                    <label for="banddescriptioninput" class="col-md-2 col-md-offset-1 control-label">Description</label>
                     <div class="col-md-6">
-                        <input type="text" class="form-control" id="memberphonenput" placeholder="{{the_member.phone}}" name="member_phone">
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group">
-                    <label for="memberstatementinput" class="col-md-2 col-md-offset-1 control-label">Statement</label>
-                    <div class="col-md-6">
-                        <input type="text" class="form-control" id="memberstatementinput" placeholder="{{the_member.statement}}" name="member_statement">
+                        <input type="text" class="form-control" id="memeberdescriptionnput" placeholder="{{the_band.description}}" name="band_description">
                     </div>
                 </div>
             </div>
@@ -48,16 +40,16 @@
                         {% if the_member==None %}
                             <a class="btn btn-default" href="agenda.html">Cancel</a>
                         {% else %}
-                            <a class="btn btn-default" href="member_info.html?mk={{the_member.key.urlsafe()}}">Cancel</a>
+                            <a class="btn btn-default" href="band_info.html?bk={{the_band.key.urlsafe()}}">Cancel</a>
                         {% endif %}
                         <button type="submit" class="btn btn-primary">Save</button>
                     </div>
                 </div>
             </div>            
         {% if the_member==None %}
-            <input type="hidden" name="mk" value="0">
+            <input type="hidden" name="bk" value="0">
         {% else %}
-            <input type="hidden" name="mk" value="{{the_member.key.urlsafe()}}">
+            <input type="hidden" name="bk" value="{{the_band.key.urlsafe()}}">
         {% endif %}
         </form>
     </div>
@@ -70,11 +62,11 @@
                     <h4 class="modal-title">Confirm Delete</h4>
                 </div>
                 <div class="modal-body">
-                    Do you really want to delete this member?
+                    Do you really want to delete this band?
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Don't Delete</button>
-                    <a class="btn btn-primary" id="opener" href="member_delete?mk={{ the_member.key.urlsafe() }}">Delete</a>
+                    <a class="btn btn-primary" id="opener" href="band_delete?bk={{ the_band.key.urlsafe() }}">Delete</a>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
