@@ -47,9 +47,9 @@ def test_band():
     for i in membership:
         print 'slsaps: {0}'.format(i.name)
     
-    g1 = gig.new_gig(the_band=slsaps, title="test gig 1", date=datetime.datetime.strptime("8/16/2013",'%m/%d/%Y').date())
-    g2 = gig.new_gig(the_band=slsaps, title="test gig 2", date=datetime.datetime.strptime("8/25/2013",'%m/%d/%Y').date())
-    g3 = gig.new_gig(the_band=ee, title="test gig 3", date=datetime.datetime.strptime("8/8/2013",'%m/%d/%Y').date())
+    g1 = gig.new_gig(the_band=slsaps, title="test gig 1", date=datetime.datetime.strptime("9/16/2013",'%m/%d/%Y').date())
+    g2 = gig.new_gig(the_band=slsaps, title="test gig 2", date=datetime.datetime.strptime("9/25/2013",'%m/%d/%Y').date())
+    g3 = gig.new_gig(the_band=ee, title="test gig 3", date=datetime.datetime.strptime("9/8/2013",'%m/%d/%Y').date())
     
     gigs = gig.get_gigs_for_band(slsaps)
     for g in gigs:

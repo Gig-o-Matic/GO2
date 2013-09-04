@@ -50,8 +50,11 @@ def get_gig_from_id(the_band, id):
     debug_print('get_gig_from_id looking for id {0}'.format(id))
     return Gig.get_by_id(int(id), parent=the_band.key)
     
-def get_gigs_for_band(the_band,num=None):
+def get_gigs_for_band(the_band, num=None, start_date=None):
     """ Return gig objects by band"""
+    
+    print 'START DATE IS {0}'.format(start_date)
+    
     if (type(the_band) is not list):
         band_list=[the_band]
     else:
@@ -59,7 +62,12 @@ def get_gigs_for_band(the_band,num=None):
     
     all_gigs=[]
     for a_band in band_list:
-        gig_query = Gig.query(ancestor=a_band.key).order(Gig.date)
+        if start_date is None:
+            print 'no start date'
+            gig_query = Gig.query(ancestor=a_band.key).order(Gig.date)
+        else:
+            print 'start date is {0}'.format(start_date)
+            gig_query = Gig.query(Gig.date >= start_date, ancestor=a_band.key).order(Gig.date)
         the_gigs = gig_query.fetch()
         debug_print('get_gigs_for_band: got {0} gigs for band key id {1} ({2})'.format(len(the_gigs),a_band.key.id(),a_band.name))
         all_gigs.append(the_gigs)

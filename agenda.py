@@ -10,6 +10,8 @@ import band
 from jinja2env import jinja_environment as je
 from debug import debug_print
     
+import datetime
+
 class MainPage(webapp2.RequestHandler):
 
     def get(self):    
@@ -24,8 +26,6 @@ class MainPage(webapp2.RequestHandler):
         
         the_user=member.get_member_from_nickname(user.nickname())
         
-        
-        
         # find the bands this member is associated with
         the_bands=member.get_bands_of_member(the_user)
         
@@ -33,11 +33,13 @@ class MainPage(webapp2.RequestHandler):
             return # todo figure out what to do if there are no bands for this member
                     
         num_to_put_in_upcoming=2
-        the_gigs=gig.get_gigs_for_band(the_bands, num=num_to_put_in_upcoming)
-        
+        today_date=datetime.datetime.now()
+        print 'using start date {0}'.format(today_date)
+        the_gigs=gig.get_gigs_for_band(the_bands, num=num_to_put_in_upcoming, start_date=today_date)
+         
         upcoming_plans=[]
         weighin_plans=[]        
-        all_gigs=gig.get_gigs_for_band(the_bands)
+        all_gigs=gig.get_gigs_for_band(the_bands, start_date=today_date)
         for i in range(0, len(all_gigs)):
             a_gig=all_gigs[i]
             the_plan=plan.get_plan_for_member_for_gig(the_user, a_gig)

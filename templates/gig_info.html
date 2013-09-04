@@ -20,7 +20,7 @@
         </div>
         <div class="row">
             <div class="col-md-2 col-md-offset-2">Band</div>
-            <div class="col-md-8">{{ gig.key.parent().get().name|e }}</div>
+            <div class="col-md-8"><a href="band_info.html?bk={{gig.key.parent().urlsafe()}}">{{ gig.key.parent().get().name|e }}</a></div>
         </div>
         <div class="row">
             <div class="col-md-2 col-md-offset-2">Date</div>
