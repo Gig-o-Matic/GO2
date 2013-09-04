@@ -174,14 +174,11 @@ class EditPage(webapp2.RequestHandler):
             return # todo figure out what to do if we get this far and there's no member
 
         if self.request.get("new",None) is not None:
-#  creating a new member
-#             the_gig=None
-#             gig_id=0
-#             the_band=member.get_current_band(the_member)
-#             band_id=the_band.key.id()
-#             is_new=True
-            pass
+            #  creating a new member
+             the_member=None
+             is_new=True
         else:
+            is_new=False
             the_member_key=self.request.get("mk",'0')
             print 'the_member_key is {0}'.format(the_member_key)
             if the_member_key!='0':
@@ -198,7 +195,8 @@ class EditPage(webapp2.RequestHandler):
             title='Gig Edit',
             the_user=the_user,
             the_member=the_member,
-            nav_info=member.nav_info(the_user, the_member)
+            nav_info=member.nav_info(the_user, the_member),
+            newmember_is_active=is_new
         ) )        
 
     def post(self):
@@ -212,10 +210,13 @@ class EditPage(webapp2.RequestHandler):
             self.redirect(users.create_login_url(self.request.uri))
             return;
                     
+
+
         the_member_key=self.request.get("mk",'0')
         
         if the_member_key=='0':
-            the_member=get_member_from_nickname(user.nickname())        
+            # it's a new user
+            the_member=new_member()
         else:
             the_member=ndb.Key(urlsafe=the_member_key).get()
             
@@ -228,6 +229,11 @@ class EditPage(webapp2.RequestHandler):
             print 'got name {0}'.format(member_name)
             the_member.name=member_name
                 
+        member_email=self.request.get("member_email",None)
+        if member_email is not None and member_email != '':
+            print 'got email {0}'.format(member_email)
+            the_member.email=member_email
+
         member_phone=self.request.get("member_phone",None)
         if member_phone is not None and member_phone != '':
             print 'got phone {0}'.format(member_phone)

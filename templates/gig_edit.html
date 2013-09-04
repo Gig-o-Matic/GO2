@@ -3,10 +3,10 @@
 <div class="container">
     <div class="starter-template">
         <div class="row">
-            {% if gig_id!=0 %}
-                <div class="col-md-5 col-md-offset-2"><h1>Edit Gig</h1></div>
-            {% else %}
+            {% if newgig_is_active %}
                 <div class="col-md-5 col-md-offset-2"><h1>New Gig</h1></div>
+            {% else %}
+                <div class="col-md-5 col-md-offset-2"><h1>Edit Gig</h1></div>
             {% endif %}
         </div>
         <form class="form" role="form" method="post" action="gig_edit.html">
@@ -43,18 +43,18 @@
                 </div>
             </div>
             <div class="row">
-                <div class="form-group col-md-5 col-md-offset-2">
+                <div class="form-group col-md-2 col-md-offset-2">
                     {% if gig!=None %}
-                      <a data-toggle="modal" href="#myModal" class="btn btn-default">Delete</a>
+                        <a data-toggle="modal" href="#myModal" class="btn btn-default">Delete</a>
                     {% endif %}   
-                    <div class="text-right">
+                </div>
+                <div class="form-group col-md-3 text-right">                
                         {% if gig==None %}
                             <a class="btn btn-default" href="agenda.html">Cancel</a>
                         {% else %}
                             <a class="btn btn-default" href="gig_info.html?gk={{ gig.key.urlsafe() }}">Cancel</a>
                         {% endif %}
                         <button type="submit" class="btn btn-primary">Save</button>
-                    </div>
                 </div>
             </div>
             {% if gig==None %}
