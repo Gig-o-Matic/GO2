@@ -8,11 +8,12 @@
 from google.appengine.api import users
 from google.appengine.ext import ndb
 import webapp2
-from member import *
-from assoc import *
-from gig import *
+import member
+import assoc
+import gig
 from jinja2env import jinja_environment as je
-import debug
+
+from debug import debug_print
 
 def member_key(member_name='member_key'):
     """Constructs a Datastore key for a Guestbook entity with guestbook_name."""
