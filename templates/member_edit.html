@@ -3,11 +3,7 @@
 <div class="container">
     <div class="starter-template">
         <div class="row">
-            {% if newmember_is_active %}
-                <div class="col-md-5 col-md-offset-2"><h1>New Member</h1></div>
-            {% else %}
-                <div class="col-md-5 col-md-offset-2"><h1>Edit Profile</h1></div>
-            {% endif %}
+            <div class="col-md-5 col-md-offset-2"><h1>Edit Profile</h1></div>
         </div>
         <form class="form-horizontal" role="form" method="post" action="member_edit.html">
             <div class="row">
@@ -69,24 +65,6 @@
         {% endif %}
         </form>
     </div>
-
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Confirm Delete</h4>
-                </div>
-                <div class="modal-body">
-                    Do you really want to delete this member?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Don't Delete</button>
-                    <a class="btn btn-primary" id="opener" href="member_delete?mk={{ the_member.key.urlsafe() }}">Delete</a>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
 </div><!-- /.container -->
 
 {% include 'scripts.html' %}

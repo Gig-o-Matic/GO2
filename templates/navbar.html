@@ -13,9 +13,6 @@
         <li {{ 'class="active"' if agenda_is_active }}><a href="/agenda.html">Agenda</a></li>
         <li {{ 'class="active"' if calview_is_active }}><a href="/calview.html">Calendar</a></li>
         <li {{ 'class="active"' if newgig_is_active }}><a href="/gig_edit.html?new=1">Add Gig</a></li>
-        {% if nav_info['is_admin'] %}
-        <li {{ 'class="active"' if newmember_is_active }}><a href="/member_edit.html?new=1">Add Member</a></li>
-        {% endif %}
         <li><a href="#contact">Contact</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">

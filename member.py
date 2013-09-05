@@ -178,22 +178,16 @@ class EditPage(BaseHandler):
     def _make_page(self, the_user):
         debug_print('IN MEMBER_EDIT {0}'.format(the_user.name))
 
-        if self.request.get("new", None) is not None:
-            #  creating a new member
-             the_member=None
-             is_new=True
+        the_member_key=self.request.get("mk",'0')
+        print 'the_member_key is {0}'.format(the_member_key)
+        if the_member_key!='0':
+            the_member = ndb.Key(urlsafe=the_member_key).get()
         else:
-            is_new=False
-            the_member_key=self.request.get("mk",'0')
-            print 'the_member_key is {0}'.format(the_member_key)
-            if the_member_key!='0':
-                the_member=ndb.Key(urlsafe=the_member_key).get()
-            else:
-                the_member=the_user
-            if the_member is None:
-                self.response.write('did not find a member!')
-                return # todo figure out what to do if we didn't find it
-            debug_print('found gig object: {0}'.format(the_member.name))
+            the_member = None
+        if the_member is None:
+            self.response.write('did not find a member!')
+            return # todo figure out what to do if we didn't find it
+        debug_print('found gig object: {0}'.format(the_member.name))
 
 
         template_args = {
@@ -201,7 +195,6 @@ class EditPage(BaseHandler):
             'the_member' : the_member,
             'the_bands' : band.get_all_bands(),
             'nav_info' : member.nav_info(the_user, the_member),
-            'newmember_is_active' : is_new
         }
         self.render_template('member_edit.html', template_args)
                     
