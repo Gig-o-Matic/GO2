@@ -158,14 +158,14 @@ class InfoPage(BaseHandler):
         if the_bands is None:
             return # todo figure out what to do if there are no bands for this member
                     
-        template = je.get_template('member_info.html')
-        self.response.write( template.render(
-            title='Member Info',
-            the_user=the_user,
-            the_member=the_member,
-            the_bands=the_bands,
-            nav_info=member.nav_info(the_user, the_member)
-        ) )
+        template_args = {
+            'title' : 'Member Info',
+            'the_user' : the_user,
+            'the_member' : the_member,
+            'the_bands' : the_bands,
+            'nav_info' : member.nav_info(the_user, the_member)
+        }
+        self.render_template('member_info.html', template_args)
 
 
 class EditPage(BaseHandler):
@@ -194,15 +194,17 @@ class EditPage(BaseHandler):
                 self.response.write('did not find a member!')
                 return # todo figure out what to do if we didn't find it
             debug_print('found gig object: {0}'.format(the_member.name))
+
+
+        template_args = {
+            'title' : 'Edit Profile',
+            'the_member' : the_member,
+            'the_bands' : band.get_all_bands(),
+            'nav_info' : member.nav_info(the_user, the_member),
+            'newmember_is_active' : is_new
+        }
+        self.render_template('member_edit.html', template_args)
                     
-        template = je.get_template('member_edit.html')
-        self.response.write( template.render(
-            title='Edit Profile',
-            the_member=the_member,
-            the_bands=band.get_all_bands(),
-            nav_info=member.nav_info(the_user, the_member),
-            newmember_is_active=is_new
-        ) )        
 
     def post(self):
         """post handler - if we are edited by the template, handle it here and redirect back to info page"""
