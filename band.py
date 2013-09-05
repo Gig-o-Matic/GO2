@@ -4,8 +4,11 @@
 # Aaron Oppenheimer
 # 24 August 2013
 #
-from google.appengine.api import users
+
 from google.appengine.ext import ndb
+from requestmodel import *
+import webapp2_extras.appengine.auth.models
+
 import webapp2
 from jinja2env import jinja_environment as je
 from debug import *
@@ -28,9 +31,9 @@ class Band(ndb.Model):
     description = ndb.TextProperty()
     created = ndb.DateTimeProperty(auto_now_add=True)
 
-def new_band(name, admin):
+def new_band(name):
     """ Make and return a new band """
-    the_band = Band(parent=band_key(), name=name, adminkey=admin.key)
+    the_band = Band(parent=band_key(), name=name)
     the_band.put()
     debug_print('new_band: added new band: {0}'.format(name))
     return the_band
@@ -63,24 +66,27 @@ def get_members_of_band(the_band):
     debug_print('get_members_of_band: found {0} members for band {1}'.format(len(members),the_band.name))
     return members
 
+def get_all_bands():
+    """ Return all objects"""
+    bands_query = Band.query(ancestor=band_key())
+    all_bands = bands_query.fetch()
+    debug_print('get_all_bands: found {0} bands'.format(len(all_bands)))
+    return all_bands
+
 #
 #
 # Handlers
 #
 #
 
-class InfoPage(webapp2.RequestHandler):
+class InfoPage(BaseHandler):
+
+    @user_required
     def get(self):    
-        user = users.get_current_user()
-        if user is None:
-            self.redirect(users.create_login_url(self.request.uri))
-        else:
-            self.make_page(user)
+        self._make_page(the_user=self.user)
 
-    def make_page(self,user):
-        debug_print('IN BAND_INFO {0}'.format(user.nickname()))
-
-        the_user=member.get_member_from_nickname(user.nickname())
+    def _make_page(self,the_user):
+        debug_print('IN BAND_INFO {0}'.format(the_user.name))
 
         # find the band we're interested in
         band_key_str=self.request.get("bk", None)
@@ -95,6 +101,11 @@ class InfoPage(webapp2.RequestHandler):
             self.response.write('did not find a band!')
             return # todo figure out what to do if we didn't find it
             
+        if the_band.adminkey:
+            the_admin=the_band.adminkey.get()
+        else:
+            the_admin=None
+
         debug_print('found band object: {0}'.format(the_band.name))
 
         the_members=get_members_of_band(the_band)
@@ -102,30 +113,22 @@ class InfoPage(webapp2.RequestHandler):
         template = je.get_template('band_info.html')
         self.response.write( template.render(
             title='Band Info',
-            the_user=the_user,
             the_band=the_band,
-            the_admin=the_band.adminkey.get(),
+            the_admin=the_admin,
             the_members=the_members,
             nav_info=member.nav_info(the_user, None)
         ) )
         # todo make sure the admin is really there
         
-class EditPage(webapp2.RequestHandler):
+class EditPage(BaseHandler):
+
+    @user_required
     def get(self):
         print 'BAND_EDIT GET HANDLER'
-        the_user = users.get_current_user()
-        if the_user is None:
-            self.redirect(users.create_login_url(self.request.uri))
-        else:
-            self.make_page(the_user)
+        self.make_page(the_user=self.user)
 
-    def make_page(self, user):
-        debug_print('IN BAND_EDIT {0}'.format(user.nickname()))
-
-        the_user=member.get_member_from_nickname(user.nickname())
-                
-        if the_user is None:
-            return # todo figure out what to do if we get this far and there's no member
+    def make_page(self, the_user):
+        debug_print('IN BAND_EDIT {0}'.format(the_user.name))
 
         if self.request.get("new",None) is not None:
             #  creating a new band
@@ -147,7 +150,6 @@ class EditPage(webapp2.RequestHandler):
         template = je.get_template('band_edit.html')
         self.response.write( template.render(
             title='Band Edit',
-            the_user=the_user,
             the_band=the_band,
             nav_info=member.nav_info(the_user, None),
             newmember_is_active=is_new
@@ -159,10 +161,7 @@ class EditPage(webapp2.RequestHandler):
 
         print str(self.request.arguments())
 
-        user = users.get_current_user()
-        if user is None:
-            self.redirect(users.create_login_url(self.request.uri))
-            return;
+        the_user = self.user
 
         the_band_key=self.request.get("bk",'0')
         

@@ -1,0 +1,29 @@
+{% include 'header.html' %}
+{% import 'plan_icon.html' as plan_icon %}
+{% import 'agenda_events.html' as agenda_events %}
+
+<div class="container">
+
+  <div class="starter-template">
+
+<h1>Register a new user</h1>
+<form action="/signup" method="POST">
+<label for="username">Username</label>
+<input type="text" name="username" />
+<label for="email">Email address</label>
+<input type="text" name="email" />
+<label for="password">Password</label>
+<input type="password" name="password" />
+<label for="name">Name</label>
+<input type="text" name="name" />
+<input type="submit" value="Create user" />
+</form>
+
+  </div>
+
+</div><!-- /.container -->
+{% include 'scripts.html' %}
+<script src="/js/plan_buttons.js"></script>
+{{ plan_icon.setup_plan_buttons(upcoming_plans,"1-") }}
+{{ plan_icon.setup_plan_buttons(weighin_plans,"2-") }}
+{% include 'footer.html' %}

@@ -6,10 +6,12 @@
  24 August 2013
 
 """
-from google.appengine.api import users
+
 from google.appengine.ext import ndb
+from requestmodel import *
+import webapp2_extras.appengine.auth.models
+
 import webapp2
-from jinja2env import jinja_environment as je
 
 import member
 import band
@@ -74,7 +76,9 @@ def get_gigs_for_band(the_band, num=None, start_date=None):
         all_gigs.append(the_gigs)
         
     # now we have several lists of gigs - merge them
-    if len(all_gigs) == 1:
+    if len(all_gigs) == 0:
+        return None
+    elif len(all_gigs) == 1:
         if num is None:
             return all_gigs[0]
         else:
@@ -137,18 +141,15 @@ def get_gigs_for_member_for_dates(the_member, start_date, end_date):
 #
 #
 
-class InfoPage(webapp2.RequestHandler):
+class InfoPage(BaseHandler):
+    """ class to serve the gig info page """
+
+    @user_required
     def get(self):    
-        user = users.get_current_user()
-        if user is None:
-            self.redirect(users.create_login_url(self.request.uri))
-        else:
-            self.make_page(user)
+        self._make_page(self.user)
 
-    def make_page(self, user):
-        debug_print('IN GIG_INFO {0}'.format(user.nickname()))
-
-        the_user = member.get_member_from_nickname(user.nickname())
+    def _make_page(self, the_user):
+        debug_print('IN GIG_INFO {0}'.format(the_user.name))
 
         # find the gig we're interested in
         gig_key_str = self.request.get("gk", None)
@@ -170,36 +171,31 @@ class InfoPage(webapp2.RequestHandler):
         member_plans = []
         the_members = band.get_members_of_band(the_band)
         for a_member in the_members:
-            if (a_member.nickname == user.nickname()):
-                is_me = True
-            else:
-                is_me = False
             the_plan = plan.get_plan_for_member_for_gig(a_member, the_gig)
             member_plans.append( the_plan )
-                    
-        template = je.get_template('gig_info.html')
-        self.response.write( template.render(
-            title = 'Gig Info',
-            the_user = the_user,
-            gig = the_gig,
-            member_plans = member_plans,
-            user_nickname = user.nickname(),
-            nav_info = member.nav_info(the_user, None)
-        ) )        
 
-class EditPage(webapp2.RequestHandler):
+        template_args = {
+            'title' : 'Gig Info',
+            'gig' : the_gig,
+            'member_plans' : member_plans,
+            'nav_info' : member.nav_info(the_user, None)
+        }
+        self.render_template('gig_info.html', template_args)
+
+
+
+
+
+class EditPage(BaseHandler):
+    """ A class for rendering the gig edit page """
+
+    @user_required
     def get(self):
         print 'GIG_EDIT GET HANDLER'
-        user = users.get_current_user()
-        if user is None:
-            self.redirect(users.create_login_url(self.request.uri))
-        else:
-            self.make_page(user)
+        self._make_page(self.user)
 
-    def make_page(self, user):
-        debug_print('IN GIG_EDIT {0}'.format(user.nickname()))
-
-        the_user = member.get_member_from_nickname(user.nickname())
+    def _make_page(self, the_user):
+        debug_print('IN GIG_EDIT {0}'.format(the_user.name))
 
         if self.request.get("new", None) is not None:
             the_gig = None
@@ -216,16 +212,16 @@ class EditPage(webapp2.RequestHandler):
             debug_print('found gig object: {0}'.format(the_gig.title))
             is_new = False
                     
-        template = je.get_template('gig_edit.html')
-        self.response.write( template.render(
-            title = 'Gig Edit',
-            the_user = the_user,
-            all_bands = member.get_bands_of_member(the_user),
-            gig = the_gig,
-            nav_info = member.nav_info(the_user, None),            
-            newgig_is_active = is_new
-        ) )        
-
+        template_args = {
+            'title' : 'Gig Edit',
+            'gig' : the_gig,
+            'all_bands' : member.get_bands_of_member(the_user),
+            'nav_info' : member.nav_info(the_user, None),
+            'newgig_is_active' : is_new
+        }
+        self.render_template('gig_edit.html', template_args)
+        
+        
     def post(self):
         """post handler - if we are edited by the template, handle it here 
            and redirect back to info page"""

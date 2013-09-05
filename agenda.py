@@ -1,5 +1,7 @@
 from google.appengine.api import users
 
+from requestmodel import *
+
 import webapp2
 import member
 import assoc
@@ -12,19 +14,14 @@ from debug import debug_print
     
 import datetime
 
-class MainPage(webapp2.RequestHandler):
+class MainPage(BaseHandler):
 
+    @user_required
     def get(self):    
-        user = users.get_current_user()
-        if user is None:
-            self.redirect(users.create_login_url(self.request.uri))
-        else:
-            self.make_page(user)
+        self._make_page(the_user=self.user)
             
-    def make_page(self,user):
-        debug_print('IN AGENDA {0}'.format(user.nickname()))
-        
-        the_user=member.get_member_from_nickname(user.nickname())
+    def _make_page(self,the_user):
+        debug_print('IN AGENDA {0}'.format(the_user.name))
         
         # find the bands this member is associated with
         the_bands=member.get_bands_of_member(the_user)
@@ -40,24 +37,23 @@ class MainPage(webapp2.RequestHandler):
         upcoming_plans=[]
         weighin_plans=[]        
         all_gigs=gig.get_gigs_for_band(the_bands, start_date=today_date)
-        for i in range(0, len(all_gigs)):
-            a_gig=all_gigs[i]
-            the_plan=plan.get_plan_for_member_for_gig(the_user, a_gig)
-            if (i<num_to_put_in_upcoming):
-                upcoming_plans.append( the_plan )
-            else:            
-                if (the_plan.value==0 ):
-                    weighin_plans.append( the_plan )
+        if all_gigs:
+            for i in range(0, len(all_gigs)):
+                a_gig=all_gigs[i]
+                the_plan=plan.get_plan_for_member_for_gig(the_user, a_gig)
+                if (i<num_to_put_in_upcoming):
+                    upcoming_plans.append( the_plan )
+                else:            
+                    if (the_plan.value==0 ):
+                        weighin_plans.append( the_plan )
 
         print 'sending in {0} upcoming and {1} weighins'.format(len(upcoming_plans),len(weighin_plans))
 
-        template = je.get_template('agenda.html')
-        self.response.write( template.render(
-            title='Agenda',
-            the_user=the_user,
-            logout_link=users.create_logout_url('/'),
-            upcoming_plans=upcoming_plans,
-            weighin_plans=weighin_plans,
-            nav_info=member.nav_info(the_user, None),          
-            agenda_is_active=True
-        ) )        
+        template_args = {
+            'title' : 'Agenda',
+            'upcoming_plans' : upcoming_plans,
+            'weighin_plans' : weighin_plans,
+            'nav_info' : member.nav_info(the_user, None),          
+            'agenda_is_active' : True
+        }
+        self.render_template('agenda.html', template_args)

@@ -48,7 +48,7 @@
                                 {{ p.comment }}
                             {% endif %}
                         </td>
-                        {% if p.member.get().nickname==user_nickname %}
+                        {% if p.member == the_user.key %}
                             <td width="20%">
                                <div class="col-md-2">me!</div>
                             </td>
