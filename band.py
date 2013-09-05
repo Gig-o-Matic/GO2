@@ -110,14 +110,15 @@ class InfoPage(BaseHandler):
 
         the_members=get_members_of_band(the_band)
                     
-        template = je.get_template('band_info.html')
-        self.response.write( template.render(
-            title='Band Info',
-            the_band=the_band,
-            the_admin=the_admin,
-            the_members=the_members,
-            nav_info=member.nav_info(the_user, None)
-        ) )
+        template_args = {
+            'title' : 'Band Info',
+            'the_band' : the_band,
+            'the_admin' : the_admin,
+            'the_members' : the_members,
+            'nav_info' : member.nav_info(the_user, None)
+        }
+        self.render_template('band_info.html', template_args)
+
         # todo make sure the admin is really there
         
 class EditPage(BaseHandler):
@@ -146,15 +147,15 @@ class EditPage(BaseHandler):
                     self.response.write('did not find a band!')
                     return # todo figure out what to do if we didn't find it
                 debug_print('found band object: {0}'.format(the_band.name))
-                    
-        template = je.get_template('band_edit.html')
-        self.response.write( template.render(
-            title='Band Edit',
-            the_band=the_band,
-            nav_info=member.nav_info(the_user, None),
-            newmember_is_active=is_new
-        ) )        
 
+        template_args = {
+            'title' : 'Band Edit',
+            'the_band' : the_band,
+            'nav_info' : member.nav_info(the_user, None),
+            'newmember_is_active' : is_new
+        }
+        self.render_template('band_edit.html', template_args)
+                    
     def post(self):
         """post handler - if we are edited by the template, handle it here and redirect back to info page"""
         print 'BAND_EDIT POST HANDLER'
