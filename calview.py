@@ -10,7 +10,7 @@ import gig
 import datetime
 import band
 import json
-from jinja2env import jinja_environment as je
+
 from debug import debug_print
 
 
@@ -35,8 +35,6 @@ class CalEvents(BaseHandler):
 
     def post(self):    
         the_user = self.user
-
-        args=self.request.arguments()
         
         start_date=datetime.date.fromtimestamp(int(self.request.get('start')))
         end_date=datetime.date.fromtimestamp(int(self.request.get('end')))
