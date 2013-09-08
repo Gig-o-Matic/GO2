@@ -250,17 +250,7 @@ class EditPage(BaseHandler):
             print 'got statement {0}'.format(member_statement)
             the_member.statement=member_statement
 
-        the_member.put()            
-        
-        member_addband = self.request.get('member_addband', None)
-        if member_addband is not None and member_addband != '':
-            print 'got addband {0}'.format(member_addband)
-            the_band=band.get_band_from_name(member_addband)
-            if the_band is not None:
-                assoc.new_association(the_band, the_member)
-            else:
-                print 'didn\'t find a band!'
-        
+        the_member.put()                    
 
         return self.redirect('/member_info.html?mk={0}'.format(the_member.key.urlsafe()))
 
