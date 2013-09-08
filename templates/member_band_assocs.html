@@ -1,0 +1,21 @@
+{% if the_assoc_info %}
+    <table>
+    {% for the_info in the_assoc_info %}
+        <tr>
+            <td width=60%><a href="/band_info.html?bk={{the_info.bk}}">{{the_info.band}}</a></td>
+            <td width=20%>
+                {% if the_info.status == 0 %}
+                    pending
+                {% else %}
+                    member  
+                {% endif %}
+            </td>
+            <td width=20%>
+                <a href="/member_delete_assoc.html?bk={{the_info.bk}}&mk={{the_member.key.urlsafe()}}">Leave Band</a>
+            </td>
+        </tr>
+    {% endfor %}
+    </table>
+{% else %}
+    You need to add a band!
+{% endif %}

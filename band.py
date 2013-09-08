@@ -29,6 +29,7 @@ class Band(ndb.Model):
     adminkey = ndb.KeyProperty()
     website = ndb.TextProperty()
     description = ndb.TextProperty()
+    sections = ndb.KeyProperty( repeated=True ) # instrumental sections
     created = ndb.DateTimeProperty(auto_now_add=True)
 
 def new_band(name):
@@ -72,6 +73,21 @@ def get_all_bands():
     all_bands = bands_query.fetch()
     debug_print('get_all_bands: found {0} bands'.format(len(all_bands)))
     return all_bands
+
+def get_sections_of_band(the_band):
+    return the_band.sections
+    
+def new_section_for_band(the_band, the_section_name):
+    the_section = Section(parent=the_band.key, name=the_section_name)
+    debug_print('new section {0} for band {1}'.format(the_section_name, the_band.name))
+    return the_section
+
+#
+# class for section
+#
+class Section(ndb.Model):
+    """ Models an instrument section in a band """
+    name = ndb.StringProperty()
 
 #
 #

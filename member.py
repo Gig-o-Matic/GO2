@@ -13,7 +13,6 @@ from webapp2_extras.appengine.auth.models import Unique
 import time
 
 import webapp2
-import member
 import assoc
 import gig
 import band
@@ -38,6 +37,7 @@ class Member(webapp2_extras.appengine.auth.models.User):
     phone = ndb.StringProperty(indexed=False)
     statement = ndb.TextProperty()
     role = ndb.IntegerProperty(default=0) # 0=vanilla member, 1=superuser
+    sections = ndb.KeyProperty(repeated=True)
     created = ndb.DateTimeProperty(auto_now_add=True)
 
     def set_password(self, raw_password):
@@ -118,6 +118,42 @@ def member_is_admin(the_member):
     print 'checking admin for {0}'.format(the_member)
     return the_member.role==1
 
+def get_sections_of_member(the_member):
+    if the_member.sections:
+        return the_member.sections
+    else:
+        return []
+        
+def new_section_for_member(the_member, the_section):
+
+    if the_member.sections:
+        the_member.sections.append(the_section)
+    else:
+        the_member.sections=[the_section]
+
+    debug_print('added section {0} for member {1}'.format(the_section.name, the_member.name))
+    the_member.put()
+
+def remove_section_for_member(the_member, the_section):
+    if (the_member.sections):
+        if the_section in the_member.sections:
+            the_member.sections.remove(the_section)
+            the_member.put()
+            debug_print('removed section {0} for member {1}'.format(the_section.name, the_member.name))
+        else:
+            debug_print('deleting section for member: no section {0} for member {1}'.format(the_section.name, the_member.name))
+    else:
+        debug_print('deleting section for member: no section {0} for member {1}'.format(the_section.name, the_member.name))
+    
+
+
+#####
+#
+# Page Handlers
+#
+#####
+
+
 class InfoPage(BaseHandler):
     """Page for showing information about a member"""
 
@@ -155,13 +191,19 @@ class InfoPage(BaseHandler):
         if the_bands is None:
             return # todo figure out what to do if there are no bands for this member
                     
+        # for each band, get the list of sections
+        section_lists={}
+        for a_band in the_bands:
+            section_lists[a_band.key]=band.get_sections_of_band(a_band)
+
         template_args = {
             'title' : 'Member Info',
             'the_user' : the_user,
             'the_member' : the_member,
             'the_bands' : the_bands,
             'all_bands' : band.get_all_bands(),
-            'nav_info' : member.nav_info(the_user, the_member)
+            'section_lists' : section_lists,
+            'nav_info' : nav_info(the_user, the_member)
         }
         self.render_template('member_info.html', template_args)
 
@@ -301,18 +343,20 @@ class ManageBandsGetAssocs(BaseHandler):
         
         the_assocs=assoc.get_assocs_for_member(the_member)
 
-        assoc_info=[]
+        the_assoc_info=[]
         for an_assoc in the_assocs:
-            assoc_info.append({\
+            the_assoc_info.append({\
                             'band':an_assoc.band.get().name, \
                             'status':an_assoc.status,  \
                             'bk':an_assoc.band.urlsafe()
                             })
 
-        response=json.dumps(assoc_info)
-                    
-        self.response.write( response )
-
+        template_args = {
+            'the_member' : the_member,
+            'the_assoc_info' : the_assoc_info
+        }
+        self.render_template('member_band_assocs.html', template_args)
+        
 
 class ManageBandsNewAssoc(BaseHandler):
     """ makes a new assoc for a member """                   
