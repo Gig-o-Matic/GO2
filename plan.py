@@ -71,6 +71,14 @@ def delete_plans_for_gig(the_gig):
     for a_plan in plans:
         a_plan.key.delete()
         
+def delete_plans_for_member_for_band(the_member, the_band):
+    """ A gig is being deleted, so forget everyone's plans about it """
+    plan_query = Plan.query(Plan.member==the_member.key, ancestor=the_band.key)
+    plans = plan_query.fetch()
+    print 'found {0} for member {1} for band {2}'.format(len(plans), the_member.name, the_band.name)
+    for a_plan in plans:
+        a_plan.key.delete()
+
         
 class UpdatePlan(webapp2.RequestHandler):
     def post(self):

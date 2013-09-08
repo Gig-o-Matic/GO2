@@ -24,8 +24,22 @@ class Assoc(ndb.Model):
 
 def new_association(band, member):
     """ associate a band and a member """
+    
+    # todo make sure there's not already an assoc between member and band
     the_assoc = Assoc(parent=assoc_key(), band=band.key, member=member.key)
     the_assoc.put()
+
+def delete_association(the_band, the_member):
+    """ find the association between band and member """
+    assoc_query = Assoc.query(ndb.AND(Assoc.member==the_member.key, Assoc.band==the_band.key),
+                              ancestor=assoc_key())
+    the_assocs = assoc_query.fetch(keys_only=True)
+    debug_print('delete_association: got {0} assocs for {1} {2}'.format(len(the_assocs),
+                                                                        the_band.name,
+                                                                        the_member.name))
+    
+    if len(the_assocs)>0:
+        ndb.delete_multi(the_assocs)
 
 def get_assocs_for_member(the_member):
     """ find the association between band and member """

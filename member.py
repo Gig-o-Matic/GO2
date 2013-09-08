@@ -16,8 +16,10 @@ import member
 import assoc
 import gig
 import band
+import plan
 from jinja2env import jinja_environment as je
 
+import json
 from debug import debug_print
 
 def member_key(member_name='member_key'):
@@ -89,14 +91,6 @@ def get_bands_of_member(the_member):
     bands=[a.band.get() for a in assocs]
     debug_print('get_bands_of_member: found {0} bands for member {1}'.format(len(bands),the_member.name))
     return bands
-    
-def get_current_band(the_member):
-    """return member's band; assume every member has just one band, for now"""
-    bands=get_bands_of_member(the_member)
-    if len(bands)>0:
-        return bands[0]
-    else:
-        return None
 
 def nav_info(the_user, the_member):
 
@@ -187,13 +181,12 @@ class EditPage(BaseHandler):
         if the_member is None:
             self.response.write('did not find a member!')
             return # todo figure out what to do if we didn't find it
-        debug_print('found gig object: {0}'.format(the_member.name))
+        debug_print('found member object: {0}'.format(the_member.name))
 
 
         template_args = {
             'title' : 'Edit Profile',
             'the_member' : the_member,
-            'the_bands' : band.get_all_bands(),
             'nav_info' : member.nav_info(the_user, the_member),
         }
         self.render_template('member_edit.html', template_args)
@@ -252,3 +245,108 @@ class EditPage(BaseHandler):
         
 
         return self.redirect('/member_info.html?mk={0}'.format(the_member.key.urlsafe()))
+
+
+class ManageBandsPage(BaseHandler):
+
+    @user_required
+    def get(self):
+        print 'MEMBER_MANGAGE_BANDS GET HANDLER'
+        self._make_page(the_user=self.user)
+
+    def _make_page(self, the_user):
+        debug_print('IN MEMBER_MANAGE_BANDS {0}'.format(the_user.name))
+
+        the_member_key=self.request.get("mk",'0')
+        print 'the_member_key is {0}'.format(the_member_key)
+        if the_member_key!='0':
+            the_member = ndb.Key(urlsafe=the_member_key).get()
+        else:
+            the_member = None
+        if the_member is None:
+            self.response.write('did not find a member!')
+            return # todo figure out what to do if we didn't find it
+        debug_print('found gig object: {0}'.format(the_member.name))
+
+
+        template_args = {
+            'title' : 'Manage Bands',
+            'the_member' : the_member,
+            'the_bands' : band.get_all_bands(),
+            'nav_info' : member.nav_info(the_user, the_member),
+        }
+        self.render_template('member_manage_bands.html', template_args)
+
+class ManageBandsGetAssocs(BaseHandler):
+    """ returns the assocs related to a member """                   
+    def post(self):    
+        """ return the bands for a member """
+        the_user = self.user
+
+        the_member_key=self.request.get('mk',0)
+        
+        if the_member_key==0:
+            return # todo figure out what to do
+            
+        the_member=ndb.Key(urlsafe=the_member_key).get()
+        
+        the_assocs=assoc.get_assocs_for_member(the_member)
+
+        assoc_info=[]
+        for an_assoc in the_assocs:
+            assoc_info.append({\
+                            'band':an_assoc.band.get().name, \
+                            'status':an_assoc.status,  \
+                            'bk':an_assoc.band.urlsafe()
+                            })
+
+        response=json.dumps(assoc_info)
+                    
+        self.response.write( response )
+
+
+class ManageBandsNewAssoc(BaseHandler):
+    """ makes a new assoc for a member """                   
+
+    def post(self):    
+        """ makes a new assoc for a member """
+        
+        print 'in new assoc handler'
+        
+        the_user = self.user
+        
+        the_member_key=self.request.get('mk','0')
+        the_band_key=self.request.get('bk','0')
+        
+        if the_member_key=='0' or the_band_key=='0':
+            return # todo figure out what to do
+            
+        the_member=ndb.Key(urlsafe=the_member_key).get()
+        the_band=ndb.Key(urlsafe=the_band_key).get()
+        
+        assoc.new_association(the_band, the_member)
+        
+
+class ManageBandsDeleteAssoc(BaseHandler):
+    """ deletes an assoc for a member """                   
+
+    def get(self):    
+        """ deletes an assoc for a member """
+        
+        print 'in delete assoc handler'
+        
+        the_user = self.user
+        
+        the_member_key=self.request.get('mk','0')
+        the_band_key=self.request.get('bk','0')
+
+        if the_member_key=='0' or the_band_key=='0':
+            return # todo figure out what to do
+        
+        the_member=ndb.Key(urlsafe=the_member_key).get()
+        the_band=ndb.Key(urlsafe=the_band_key).get()
+
+        assoc.delete_association(the_band, the_member)
+        plan.delete_plans_for_member_for_band(the_member, the_band)
+        
+        return self.redirect('/member_manage_bands.html?mk={0}'.format(the_member.key.urlsafe()))

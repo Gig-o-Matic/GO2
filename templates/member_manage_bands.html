@@ -1,0 +1,104 @@
+{% include 'header.html' %}
+{% include 'navbar.html' %}
+
+<div class="container">
+
+    <div class="starter-template">
+        <div class="row">
+            <div class="col-md-5 col-md-offset-2"><h1>Manage Bands</h1></div>
+        </div>
+        <div class="row">
+            <div class="col-md-2 col-md-offset-2">Name</div>
+            <div class="col-md-8">{{ the_member.name|e }}</div>
+        </div>
+        <div class="row">
+            <div class="col-md-2 col-md-offset-2">Bands</div>
+            <div class="col-md-8" id="bandlist">
+                <i class="icon-spinner icon-spin icon-large"></i>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8 col-md-offset-4">
+                <div class="dropdown">
+                    <button type="button" class="btn btn-default dropdown-toggle text-center plan-button" data-toggle="dropdown">
+                        <i class="icon-plus icon-large"></i>
+                    </button>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                        {% for a_band in the_bands %}
+                        <li role="presentation"><a class="plan-click" id="{{a_band.key.urlsafe()}}"role="menuitem" tabindex="-1" href="#">{{a_band.name}}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div><!-- /.container -->
+{% include 'scripts.html' %}
+<script>
+
+function decodeStatus(status) {
+    if (status == 0)
+        return 'pending'
+    else if (status == 0)
+        return 'member'
+    else if (status ==1)
+        return 'admin'
+}
+
+function decodeBands(json) {
+    txt=''
+
+    obj = JSON && JSON.parse(json) || $.parseJSON(json);
+
+    txt = txt + '<table>'
+
+    jQuery.each(obj, function() {
+        txt = txt + "<tr>"
+        
+        txt = txt + '<td width=60%><a href="/band_info.html?bk='+this.bk+'">'+ this.band + '</a></td>'
+        txt = txt + '<td width=20%>' + decodeStatus(this.status) + '</td>'
+        txt = txt + '<td width=20%><a href="/member_delete_assoc.html?bk='+this.bk+'&mk={{ the_member.key.urlsafe() }}">Leave Band</a></td>'
+        
+        txt = txt + "</tr>"
+    });
+
+    txt = txt + '</table>'
+    return txt
+}
+
+function updateBands() {
+    $.post('/member_get_assocs.html',
+            {
+                mk: '{{ the_member.key.urlsafe() }}'
+            },
+            function(responseTxt,statusTxt,xhr){
+                if(statusTxt=="success")
+                    document.getElementById('bandlist').innerHTML=decodeBands(responseTxt);
+                if(statusTxt=="error")
+                    alert("Error: "+xhr.status+": "+xhr.statusText);
+            });
+}
+
+
+$(document).ready(function() {
+    updateBands();
+    $("a.plan-click").click(function(){
+        var mk='{{the_member.key.urlsafe()}}';
+        var bk=$(this).attr("id");
+        $.post("/member_new_assoc.html",
+                    {
+                        mk: mk,
+                        bk: bk
+                    },
+                    function(responseTxt,statusTxt,xhr){
+                        if(statusTxt=="success")
+                            updateBands();
+                        if(statusTxt=="error")
+                          alert("Error: "+xhr.status+": "+xhr.statusText);
+                    });
+    });
+
+});
+</script>
+{% include 'footer.html' %}
