@@ -51,19 +51,24 @@ function decodeBands(json) {
 
     obj = JSON && JSON.parse(json) || $.parseJSON(json);
 
-    txt = txt + '<table>'
+    if(obj.length > 0) {
 
-    jQuery.each(obj, function() {
-        txt = txt + "<tr>"
-        
-        txt = txt + '<td width=60%><a href="/band_info.html?bk='+this.bk+'">'+ this.band + '</a></td>'
-        txt = txt + '<td width=20%>' + decodeStatus(this.status) + '</td>'
-        txt = txt + '<td width=20%><a href="/member_delete_assoc.html?bk='+this.bk+'&mk={{ the_member.key.urlsafe() }}">Leave Band</a></td>'
-        
-        txt = txt + "</tr>"
-    });
+        txt = txt + '<table>'
 
-    txt = txt + '</table>'
+        jQuery.each(obj, function() {
+            txt = txt + "<tr>"
+        
+            txt = txt + '<td width=60%><a href="/band_info.html?bk='+this.bk+'">'+ this.band + '</a></td>'
+            txt = txt + '<td width=20%>' + decodeStatus(this.status) + '</td>'
+            txt = txt + '<td width=20%><a href="/member_delete_assoc.html?bk='+this.bk+'&mk={{ the_member.key.urlsafe() }}">Leave Band</a></td>'
+        
+            txt = txt + "</tr>"
+        });
+
+        txt = txt + '</table>'
+    } else {
+        txt="You need to add a band!"
+    }
     return txt
 }
 

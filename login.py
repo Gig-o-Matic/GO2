@@ -12,10 +12,10 @@ class LoginPage(BaseHandler):
         self._serve_page()
 
     def post(self):
-        username = self.request.get('username')
+        email = self.request.get('email')
         password = self.request.get('password')
         try:
-            u = self.auth.get_user_by_password(username, password, remember=True,
+            u = self.auth.get_user_by_password(email, password, remember=True,
                 save_session=True)
             self.redirect(self.uri_for('home'))
         except (InvalidAuthIdError, InvalidPasswordError) as e:
@@ -47,20 +47,19 @@ class SignupPage(BaseHandler):
         self.render_template('signup.html')
 
     def post(self):
-        user_name = self.request.get('username')
         email = self.request.get('email')
         name = self.request.get('name')
         password = self.request.get('password')
         last_name = self.request.get('lastname')
 
         unique_properties = ['email_address']
-        user_data = self.user_model.create_user(user_name,
+        user_data = self.user_model.create_user(email,
             unique_properties,
             email_address=email, name=name, password_raw=password,
             verified=False)
         if not user_data[0]: #user_data is a tuple
             self.display_message('Unable to create user for email %s because of \
-                duplicate keys %s' % (user_name, user_data[1]))
+                duplicate keys %s' % (name, user_data[1]))
             return
         
         user = user_data[1]

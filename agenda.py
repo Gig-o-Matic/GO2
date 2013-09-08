@@ -26,8 +26,8 @@ class MainPage(BaseHandler):
         # find the bands this member is associated with
         the_bands=member.get_bands_of_member(the_user)
         
-        if the_bands is None:
-            return # todo figure out what to do if there are no bands for this member
+        if the_bands is None or len(the_bands)==0:
+            return self.redirect('/member_manage_bands.html?mk={0}'.format(the_user.key.urlsafe()))
                     
         num_to_put_in_upcoming=2
         today_date=datetime.datetime.now()

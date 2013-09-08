@@ -1,5 +1,5 @@
 #
-# member class for Gig-o-Matic 2 
+#  member class for Gig-o-Matic 2 
 #
 # Aaron Oppenheimer
 # 24 August 2013
@@ -8,6 +8,7 @@
 from google.appengine.ext import ndb
 from requestmodel import *
 import webapp2_extras.appengine.auth.models
+from webapp2_extras.appengine.auth.models import Unique
 
 import time
 
@@ -212,16 +213,31 @@ class EditPage(BaseHandler):
             self.response.write('did not find a member!')
             return # todo figure out what to do if we didn't find it
        
+       # if we're changing email addresses, make sure we're changing to something unique
+        member_email=self.request.get("member_email", None)
+        if member_email is not None and member_email != '':
+            print 'got email {0}'.format(member_email)
+            success, existing = \
+                Unique.create_multi(['Member.auth_id:%s'%member_email,
+                                     'Member.email_address:%s'%member_email])
+
+            if not success:
+                self.display_message('Unable to create user for email %s because of \
+                    duplicate keys' % member_email)
+                return
+                
+            # delete the old unique values
+            Unique.delete_multi(['Member.auth_id:%s'%the_member.email_address,
+                                 'Member.email_address:%s'%the_member.email_address])
+
+            the_member.email_address=member_email
+            the_member.auth_ids=[member_email]
+       
         member_name=self.request.get("member_name", None)
         if member_name is not None and member_name != '':
             print 'got name {0}'.format(member_name)
             the_member.name=member_name
                 
-        member_email=self.request.get("member_email", None)
-        if member_email is not None and member_email != '':
-            print 'got email {0}'.format(member_email)
-            the_member.email_address=member_email
-
         member_phone=self.request.get("member_phone", None)
         if member_phone is not None and member_phone != '':
             print 'got phone {0}'.format(member_phone)
