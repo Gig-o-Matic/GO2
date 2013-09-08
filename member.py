@@ -160,6 +160,7 @@ class InfoPage(BaseHandler):
             'the_user' : the_user,
             'the_member' : the_member,
             'the_bands' : the_bands,
+            'all_bands' : band.get_all_bands(),
             'nav_info' : member.nav_info(the_user, the_member)
         }
         self.render_template('member_info.html', template_args)
@@ -357,4 +358,4 @@ class ManageBandsDeleteAssoc(BaseHandler):
         assoc.delete_association(the_band, the_member)
         plan.delete_plans_for_member_for_band(the_member, the_band)
         
-        return self.redirect('/member_manage_bands.html?mk={0}'.format(the_member.key.urlsafe()))
+        return self.redirect('/member_info.html?mk={0}'.format(the_member.key.urlsafe()))
