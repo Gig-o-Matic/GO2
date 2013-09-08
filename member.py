@@ -37,7 +37,7 @@ class Member(webapp2_extras.appengine.auth.models.User):
     email_address = ndb.TextProperty()
     phone = ndb.StringProperty(indexed=False)
     statement = ndb.TextProperty()
-    role = ndb.IntegerProperty(default=0) # 0=vanilla member, 1=admin
+    role = ndb.IntegerProperty(default=0) # 0=vanilla member, 1=superuser
     created = ndb.DateTimeProperty(auto_now_add=True)
 
     def set_password(self, raw_password):
@@ -108,12 +108,14 @@ def nav_info(the_user, the_member):
         else:
             is_admin=False
                         
-        return { 'the_user': the_user,
-                 'is_me': is_me,
+        print 'is_admin is {0}'.format(is_admin)
+                        
+        return { 'is_me': is_me,
                  'is_admin': is_admin
         }
         
 def member_is_admin(the_member):
+    print 'checking admin for {0}'.format(the_member)
     return the_member.role==1
 
 class InfoPage(BaseHandler):
