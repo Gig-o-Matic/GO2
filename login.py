@@ -113,7 +113,7 @@ class VerificationHandler(BaseHandler):
                 user.verified = True
                 user.put()
 
-            self.display_message('User email address has been verified.')
+            self.display_message('User email address has been verified. Proceed <a href="/login">here</a>')
             return
         elif verification_type == 'p':
             # supply user to the page
