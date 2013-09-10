@@ -37,7 +37,7 @@
             <div class="row">
                 <div class="form-group">
                     <div class="col-md-4 col-md-offset-5 text-right">
-                        {% if the_member==None %}
+                        {% if the_member==None or is_new %}
                             <a class="btn btn-default" href="agenda.html">Cancel</a>
                         {% else %}
                             <a class="btn btn-default" href="band_info.html?bk={{the_band.key.urlsafe()}}">Cancel</a>
@@ -46,7 +46,7 @@
                     </div>
                 </div>
             </div>            
-        {% if the_member==None %}
+        {% if the_member==None or is_new%}
             <input type="hidden" name="bk" value="0">
         {% else %}
             <input type="hidden" name="bk" value="{{the_band.key.urlsafe()}}">
@@ -54,23 +54,25 @@
         </form>
     </div>
 
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Confirm Delete</h4>
-                </div>
-                <div class="modal-body">
-                    Do you really want to delete this band?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Don't Delete</button>
-                    <a class="btn btn-primary" id="opener" href="band_delete?bk={{ the_band.key.urlsafe() }}">Delete</a>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
+    {% if is_new == False %}
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Confirm Delete</h4>
+                    </div>
+                    <div class="modal-body">
+                        Do you really want to delete this band?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Don't Delete</button>
+                        <a class="btn btn-primary" id="opener" href="band_delete?bk={{ the_band.key.urlsafe() }}">Delete</a>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    {% endif %}
 </div><!-- /.container -->
 
 {% include 'scripts.html' %}

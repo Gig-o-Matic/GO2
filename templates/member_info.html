@@ -61,12 +61,15 @@
                 </div> <!-- row -->
             </div> <!-- panel-body -->
         </div> <!-- panel -->
-    </div> <!-- starter template -->
+    </div> <!-- starter template -->    
+    
+    
 </div><!-- /.container -->
 {% include 'scripts.html' %}
 <script>
 
 function updateBands() {
+    document.getElementById('bandlist').innerHTML='<i class="icon-spinner icon-spin icon-large"></i>'
     $.post('/member_get_assocs.html',
             {
                 mk: '{{ the_member.key.urlsafe() }}'
@@ -74,9 +77,32 @@ function updateBands() {
             function(responseTxt,statusTxt,xhr){
                 if(statusTxt=="success")
                     document.getElementById('bandlist').innerHTML=responseTxt;
+                     $("a.section-click").click(handle_section_click);
                 if(statusTxt=="error")
                     alert("Error: "+xhr.status+": "+xhr.statusText);
             });
+}
+
+function add_section_for_member(sk, mk, ak) {
+   $.post('/member_add_section.html',
+            {
+                mk: mk,
+                sk: sk,
+                ak: ak
+            },
+            function(responseTxt,statusTxt,xhr){
+                if(statusTxt=="success")
+                    updateBands();
+                if(statusTxt=="error")
+                    alert("Error: "+xhr.status+": "+xhr.statusText);
+            });
+}
+
+function handle_section_click() {
+    var sk=$(this).attr("id");
+    var ak=$(this).attr("data-ak");
+    var mk='{{the_member.key.urlsafe()}}';
+    add_section_for_member(sk, mk, ak);
 }
 
 
@@ -97,7 +123,8 @@ $(document).ready(function() {
                           alert("Error: "+xhr.status+": "+xhr.statusText);
                     });
     });
-
+    
+    $("#savenewsection").click(handle_new_section);
 });
 </script>
 {% include 'footer.html' %}

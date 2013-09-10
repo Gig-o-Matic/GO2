@@ -37,7 +37,6 @@ class Member(webapp2_extras.appengine.auth.models.User):
     phone = ndb.StringProperty(indexed=False)
     statement = ndb.TextProperty()
     role = ndb.IntegerProperty(default=0) # 0=vanilla member, 1=superuser
-    sections = ndb.KeyProperty(repeated=True)
     created = ndb.DateTimeProperty(auto_now_add=True)
 
     def set_password(self, raw_password):
@@ -191,18 +190,11 @@ class InfoPage(BaseHandler):
         if the_bands is None:
             return # todo figure out what to do if there are no bands for this member
                     
-        # for each band, get the list of sections
-        section_lists={}
-        for a_band in the_bands:
-            section_lists[a_band.key]=band.get_sections_of_band(a_band)
-
         template_args = {
             'title' : 'Member Info',
-            'the_user' : the_user,
             'the_member' : the_member,
             'the_bands' : the_bands,
             'all_bands' : band.get_all_bands(),
-            'section_lists' : section_lists,
             'nav_info' : nav_info(the_user, the_member)
         }
         self.render_template('member_info.html', template_args)
@@ -297,37 +289,6 @@ class EditPage(BaseHandler):
 
         return self.redirect('/member_info.html?mk={0}'.format(the_member.key.urlsafe()))
 
-
-class ManageBandsPage(BaseHandler):
-
-    @user_required
-    def get(self):
-        print 'MEMBER_MANGAGE_BANDS GET HANDLER'
-        self._make_page(the_user=self.user)
-
-    def _make_page(self, the_user):
-        debug_print('IN MEMBER_MANAGE_BANDS {0}'.format(the_user.name))
-
-        the_member_key=self.request.get("mk",'0')
-        print 'the_member_key is {0}'.format(the_member_key)
-        if the_member_key!='0':
-            the_member = ndb.Key(urlsafe=the_member_key).get()
-        else:
-            the_member = None
-        if the_member is None:
-            self.response.write('did not find a member!')
-            return # todo figure out what to do if we didn't find it
-        debug_print('found gig object: {0}'.format(the_member.name))
-
-
-        template_args = {
-            'title' : 'Manage Bands',
-            'the_member' : the_member,
-            'the_bands' : band.get_all_bands(),
-            'nav_info' : member.nav_info(the_user, the_member),
-        }
-        self.render_template('member_manage_bands.html', template_args)
-
 class ManageBandsGetAssocs(BaseHandler):
     """ returns the assocs related to a member """                   
     def post(self):    
@@ -345,10 +306,9 @@ class ManageBandsGetAssocs(BaseHandler):
 
         the_assoc_info=[]
         for an_assoc in the_assocs:
-            the_assoc_info.append({\
-                            'band':an_assoc.band.get().name, \
-                            'status':an_assoc.status,  \
-                            'bk':an_assoc.band.urlsafe()
+            the_assoc_info.append({
+                            'assoc' : an_assoc,
+                            'sections' : band.get_sections_of_band_key(an_assoc.band)
                             })
 
         template_args = {
@@ -403,3 +363,22 @@ class ManageBandsDeleteAssoc(BaseHandler):
         plan.delete_plans_for_member_for_band(the_member, the_band)
         
         return self.redirect('/member_info.html?mk={0}'.format(the_member.key.urlsafe()))
+
+class AddSectionForMemberForBand(BaseHandler):
+    """ handle adding a section in a band for a member """
+    
+    def post(self):
+        """ post handler """
+        
+        print 'adding a section for a member'
+        the_member_keyurl=self.request.get('mk','0')
+        the_section_keyurl=self.request.get('sk','0')
+        the_assoc_keyurl=self.request.get('ak','0')
+
+        if the_member_keyurl=='0' or the_section_keyurl=='0' or the_assoc_keyurl=='0':
+            return # todo figure out what to do
+
+        the_assoc=ndb.Key(urlsafe=the_assoc_keyurl)
+        the_section=ndb.Key(urlsafe=the_section_keyurl)
+
+        assoc.add_section_for_assoc(the_assoc, the_section)

@@ -15,13 +15,13 @@ import datetime
 def test_band():
     """make some test data"""
 
-    # delete the data if there is any
-    # Clear datastore entities
-#     for model in [band.Band, member.Member, assoc.Assoc, gig.Gig, plan.Plan]:
-#         ndb.delete_multi(model.query().fetch(999999, keys_only=True))
-#  
-#     # Clear memcache
-#     ndb.get_context().clear_cache()      
+# delete the data if there is any
+# Clear datastore entities
+#      for model in [band.Band, member.Member, assoc.Assoc, gig.Gig, plan.Plan]:
+#          ndb.delete_multi(model.query().fetch(999999, keys_only=True))
+#   
+#      # Clear memcache
+#      ndb.get_context().clear_cache()      
 
 
     def make_if_not_here(name):

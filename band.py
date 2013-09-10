@@ -74,12 +74,22 @@ def get_all_bands():
     debug_print('get_all_bands: found {0} bands'.format(len(all_bands)))
     return all_bands
 
-def get_sections_of_band(the_band):
-    return the_band.sections
+def get_sections_of_band_key(the_band_key):
+    sections_query = Section.query(ancestor=the_band_key)
+    all_sections = sections_query.fetch()
+    debug_print('get_sections_of_band: found {0} sections for band {1}'.format(len(all_sections), the_band_key.get().name))
+    return all_sections
     
 def new_section_for_band(the_band, the_section_name):
     the_section = Section(parent=the_band.key, name=the_section_name)
+    the_section.put()
     debug_print('new section {0} for band {1}'.format(the_section_name, the_band.name))
+    if the_band.sections:
+        if the_section not in the_band.sections:
+            the_band.sections.append(the_section.key)
+    else:
+        the_band.sections=[the_section.key]
+    the_band.put()
     return the_section
 
 #
@@ -124,8 +134,8 @@ class InfoPage(BaseHandler):
 
         debug_print('found band object: {0}'.format(the_band.name))
 
-        the_members=get_members_of_band(the_band)
-                    
+        the_members = get_members_of_band(the_band)
+                                        
         template_args = {
             'title' : 'Band Info',
             'the_band' : the_band,
@@ -168,7 +178,8 @@ class EditPage(BaseHandler):
             'title' : 'Band Edit',
             'the_band' : the_band,
             'nav_info' : member.nav_info(the_user, None),
-            'newmember_is_active' : is_new
+            'newmember_is_active' : is_new,
+            'is_new' : is_new
         }
         self.render_template('band_edit.html', template_args)
                     
@@ -184,7 +195,7 @@ class EditPage(BaseHandler):
         
         if the_band_key=='0':
             # it's a new band
-            the_band=new_band('tmp',user)
+            the_band=new_band('tmp')
         else:
             the_band=ndb.Key(urlsafe=the_band_key).get()
             
@@ -211,4 +222,47 @@ class EditPage(BaseHandler):
 
         return self.redirect('/band_info.html?bk={0}'.format(the_band.key.urlsafe()))
         
+class BandGetSections(BaseHandler):
+    """ returns the sections related to a band """                   
 
+    def post(self):    
+        """ return the sections for a band """
+        the_user = self.user
+
+        the_band_key=self.request.get('bk',0)
+        
+        if the_band_key==0:
+            return # todo figure out what to do
+            
+        the_band = ndb.Key(urlsafe=the_band_key).get()
+        
+        the_sections = the_band.sections
+        if not the_sections:
+            the_sections=[]
+        
+        print 'got {0} sections for band {1}'.format(len(the_sections), the_band.name)
+        
+        template_args = {
+            'the_sections' : the_sections
+        }
+        self.render_template('band_sections.html', template_args)
+
+class NewSection(BaseHandler):
+    """ makes a new section for a band """                   
+
+    def post(self):    
+        """ makes a new assoc for a member """
+        
+        print 'in new section handler'
+        
+        the_user = self.user
+        
+        the_section_name=self.request.get('section_name','0')
+        the_band_key=self.request.get('bk','0')
+        
+        if the_section_name=='0' or the_band_key=='0':
+            return # todo figure out what to do
+            
+        the_band=ndb.Key(urlsafe=the_band_key).get()
+        
+        new_section_for_band(the_band, the_section_name)

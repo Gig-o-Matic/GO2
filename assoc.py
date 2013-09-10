@@ -21,6 +21,7 @@ class Assoc(ndb.Model):
     band = ndb.KeyProperty()
     member = ndb.KeyProperty()
     status = ndb.IntegerProperty( default=0 )
+    sections = ndb.KeyProperty( repeated=True )
 
 def new_association(band, member):
     """ associate a band and a member """
@@ -63,3 +64,16 @@ def get_assoc_for_band_and_member(the_band, the_member):
         return the_assocs[0] #todo too many assocs for this band & user 
     else:
         return the_assocs[0]
+
+def add_section_for_assoc(assoc_key, section_key):
+    
+    print 'adding the section to the assoc'
+    
+    the_assoc=assoc_key.get()
+    if (the_assoc.sections):
+        if section_key not in the_assoc.sections:
+            the_assoc.sections.append(section_key)
+    else:
+        the_assoc.sections=[section_key]
+
+    the_assoc.put()

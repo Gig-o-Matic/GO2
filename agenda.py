@@ -27,7 +27,7 @@ class MainPage(BaseHandler):
         the_bands=member.get_bands_of_member(the_user)
         
         if the_bands is None or len(the_bands)==0:
-            return self.redirect('/member_manage_bands.html?mk={0}'.format(the_user.key.urlsafe()))
+            return self.redirect('/member_info.html?mk={0}'.format(the_user.key.urlsafe()))
                     
         num_to_put_in_upcoming=2
         today_date=datetime.datetime.now()

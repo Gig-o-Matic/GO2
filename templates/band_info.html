@@ -5,42 +5,126 @@
 
     <div class="starter-template">
         <div class="row">
-            <div class="col-md-5 col-md-offset-2"><h1>Band Info</h1></div>
+            <div class="col-md-5 col-md-offset-2"><h1>Band Profile</h1></div>
         </div>
-        <div class="row">
-            {% if nav_info['is_me'] or nav_info['is_admin'] %}
-                <div class="col-md-4 col-md-offset-2">
-                    <a class="btn btn-primary btn-sm" href="band_edit.html?bk={{ the_band.key.urlsafe() }}">Edit</a>
+        <div class="panel panel-default">
+            <div class="panel-heading">Basic Info</div>        
+            <div class="panel-body">
+                <div class="row">
+                    {% if nav_info['is_me'] or nav_info['is_admin'] %}
+                        <div class="col-md-4 col-md-offset-2">
+                            <a class="btn btn-primary btn-sm" href="band_edit.html?bk={{ the_band.key.urlsafe() }}">Edit</a>
+                        </div>
+                    {% endif %}
                 </div>
-            {% endif %}
-        </div>
-        <div class="row">&nbsp;</div>
-        <div class="row">
-            <div class="col-md-2 col-md-offset-2">Name</div>
-            <div class="col-md-8">{{ the_band.name|e }}</div>
-        </div>
-        <div class="row">
-            <div class="col-md-2 col-md-offset-2">Contact</div>
-            <div class="col-md-8">{{ the_admin.name|e }}</div>
-        </div>
-        <div class="row">
-            <div class="col-md-2 col-md-offset-2">Website</div>
-            <div class="col-md-8"><a href="http://{{the_band.website}}" target="new">{{ the_band.website|e }}</a></div>
-        </div>
-        <div class="row">
-            <div class="col-md-2 col-md-offset-2">Description</div>
-            <div class="col-md-8">{{ the_band.description|e }}</div>
-        </div>
-        <div class="row">
-            <div class="col-md-2 col-md-offset-2">Members</div>
-            <div class="col-md-8">
-                {% for a_member in the_members %}
-                    <p><a href="member_info.html?mk={{a_member.key.urlsafe()}}">{{ a_member.name|e }}</a></p>
-                {% endfor %}        
+                <div class="row">&nbsp;</div>
+                <div class="row">
+                    <div class="col-md-2 col-md-offset-2">Name</div>
+                    <div class="col-md-8">{{ the_band.name|e }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2 col-md-offset-2">Contact</div>
+                    <div class="col-md-8">{{ the_admin.name|e }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2 col-md-offset-2">Website</div>
+                    <div class="col-md-8"><a href="http://{{the_band.website}}" target="new">{{ the_band.website|e }}</a></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2 col-md-offset-2">Description</div>
+                    <div class="col-md-8">{{ the_band.description|e }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2 col-md-offset-2">Members</div>
+                    <div class="col-md-8">
+                        {% for a_member in the_members %}
+                            <p><a href="member_info.html?mk={{a_member.key.urlsafe()}}">{{ a_member.name|e }}</a></p>
+                        {% endfor %}        
+                    </div>
+                </div>
             </div>
-        </div>
-      </div>
-
+        </div> <!-- panel -->
+        <div class="panel panel-default">
+            <div class="panel-heading">Sections</div>        
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2" id="sectionlist">
+                        <i class="icon-spinner icon-spin icon-large"></i>
+                    </div>
+                </div>
+                <div class="row">
+                    {% if nav_info['is_admin'] %}
+                        <div class="col-md-4 col-md-offset-2">
+                            <a data-toggle="modal" href="#newsectionmodal" class="btn btn-primary btn-sm" id="{{the_band.key.urlsafe()}}">Add a Section</a>
+                        </div>
+                    {% endif %}
+                
+            </div> <!-- panel-body -->
+        </div> <!-- panel -->        
+    </div> <!-- starter-template -->
+	<!-- Modal -->
+    <div class="modal fade" id="newsectionmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Add a Section</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="modal-form" accept-charset="UTF-8" onsubmit="return handle_new_section();" data-remote="true">
+                        <div class="form-group">
+                            <label for="newsectioninput" class="control-label">New Section</label>
+                            <input type="text form-control" id="newsectioninput" placeholder="Section Name" name="new_section">
+                        </div>
+                    </form>                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="savenewsection">Save</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->												
 </div><!-- /.container -->
 {% include 'scripts.html' %}
+
+<script>function updateSections() {
+    document.getElementById('sectionlist').innerHTML='<i class="icon-spinner icon-spin icon-large"></i>'
+    $.post('/band_get_sections',
+            {
+                bk: '{{ the_band.key.urlsafe() }}'
+            },
+            function(responseTxt,statusTxt,xhr){
+                if(statusTxt=="success")
+                    document.getElementById('sectionlist').innerHTML=responseTxt;
+                if(statusTxt=="error")
+                    alert("Error: "+xhr.status+": "+xhr.statusText);
+            });
+}
+
+function handle_new_section() {
+    $('#newsectionmodal').modal('hide');
+    name=document.getElementById('newsectioninput').value;
+    $('#newsectioninput').val(''); // reset the placeholder
+    $.post("/band_new_section",
+            {
+                bk: "{{the_band.key.urlsafe()}}",
+                section_name: name
+            },
+            function(responseTxt,statusTxt,xhr){
+                if(statusTxt=="success")
+                    updateSections();
+                if(statusTxt=="error")
+                  alert("Error: "+xhr.status+": "+xhr.statusText);
+            });
+
+    return false;
+}
+
+$(document).ready(function() {
+    updateSections();
+    $("#savenewsection").click(handle_new_section);
+
+});
+</script>
 {% include 'footer.html' %}
