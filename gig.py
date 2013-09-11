@@ -166,10 +166,10 @@ class InfoPage(BaseHandler):
             
         debug_print('found gig object: {0}'.format(the_gig.title))
 
-        the_band = the_gig.key.parent().get()
+        the_band_key = the_gig.key.parent()
 
         member_plans = []
-        the_members = band.get_members_of_band(the_band)
+        the_members = band.get_members_of_band_key(the_band_key)
         for a_member in the_members:
             the_plan = plan.get_plan_for_member_for_gig(a_member, the_gig)
             member_plans.append( the_plan )

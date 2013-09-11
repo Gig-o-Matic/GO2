@@ -41,6 +41,7 @@ application = webapp2.WSGIApplication([
     webapp2.Route('/gig_delete', gig.DeleteHandler),
     webapp2.Route('/band_info.html',band.InfoPage),
     webapp2.Route('/band_edit.html',band.EditPage),
+    webapp2.Route('/band_get_members',band.BandGetMembers, name='getmembers'),
     webapp2.Route('/band_get_sections',band.BandGetSections, name='getsections'),
     webapp2.Route('/band_new_section',band.NewSection),
     webapp2.Route('/calevents', calview.CalEvents),

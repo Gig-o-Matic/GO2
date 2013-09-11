@@ -1,0 +1,7 @@
+{% for the_member in the_members %}
+<div class="row">
+    <div class="col-md-10">
+        <a href='/member_info.html?mk={{the_member.urlsafe()}}'>{{ the_member.get().name }}</a>
+    </div>
+</div>
+{% endfor %}

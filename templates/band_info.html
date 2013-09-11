@@ -8,7 +8,7 @@
             <div class="col-md-5 col-md-offset-2"><h1>Band Profile</h1></div>
         </div>
         <div class="panel panel-default">
-            <div class="panel-heading">Basic Info</div>        
+            <div class="panel-heading">Info</div>        
             <div class="panel-body">
                 <div class="row">
                     {% if nav_info['is_me'] or nav_info['is_admin'] %}
@@ -34,12 +34,14 @@
                     <div class="col-md-2 col-md-offset-2">Description</div>
                     <div class="col-md-8">{{ the_band.description|e }}</div>
                 </div>
+            </div>
+        </div> <!-- panel -->
+        <div class="panel panel-default">
+            <div class="panel-heading">Members</div>        
+            <div class="panel-body">
                 <div class="row">
-                    <div class="col-md-2 col-md-offset-2">Members</div>
-                    <div class="col-md-8">
-                        {% for a_member in the_members %}
-                            <p><a href="member_info.html?mk={{a_member.key.urlsafe()}}">{{ a_member.name|e }}</a></p>
-                        {% endfor %}        
+                    <div class="col-md-8 col-md-offset-2" id="memberlist">
+                        <i class="icon-spinner icon-spin icon-large"></i>
                     </div>
                 </div>
             </div>
@@ -88,8 +90,23 @@
 </div><!-- /.container -->
 {% include 'scripts.html' %}
 
-<script>function updateSections() {
-    document.getElementById('sectionlist').innerHTML='<i class="icon-spinner icon-spin icon-large"></i>'
+<script>
+function updateMembers() {
+    document.getElementById('memberlist').innerHTML='<i class="icon-spinner icon-spin icon-large"></i>';
+    $.post('/band_get_members',
+            {
+                bk: '{{ the_band.key.urlsafe() }}'
+            },
+            function(responseTxt,statusTxt,xhr){
+                if(statusTxt=="success")
+                    document.getElementById('memberlist').innerHTML=responseTxt;
+                if(statusTxt=="error")
+                    alert("Error: "+xhr.status+": "+xhr.statusText);
+            });
+}
+
+function updateSections() {
+    document.getElementById('sectionlist').innerHTML='<i class="icon-spinner icon-spin icon-large"></i>';
     $.post('/band_get_sections',
             {
                 bk: '{{ the_band.key.urlsafe() }}'
@@ -122,6 +139,7 @@ function handle_new_section() {
 }
 
 $(document).ready(function() {
+    updateMembers();
     updateSections();
     $("#savenewsection").click(handle_new_section);
 

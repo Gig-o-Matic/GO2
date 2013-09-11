@@ -58,13 +58,11 @@ def get_band_from_id(id):
     debug_print('get_band_from_id looking for id {0}'.format(id))
     return Band.get_by_id(int(id), parent=band_key()) # todo more efficient if we use the band because it's the parent?
     
-def get_members_of_band(the_band):
+def get_members_of_band_key(the_band_key):
     """ Return member objects by band"""
-    assoc_query = assoc.Assoc.query(assoc.Assoc.band==the_band.key, ancestor=assoc.assoc_key())
+    assoc_query = assoc.Assoc.query(assoc.Assoc.band==the_band_key, ancestor=assoc.assoc_key())
     assocs = assoc_query.fetch()
-    debug_print('get_members_of_band: got {0} assocs for band key id {1} ({2})'.format(len(assocs),the_band.key.id(),the_band.name))
-    members=[a.member.get() for a in assocs]
-    debug_print('get_members_of_band: found {0} members for band {1}'.format(len(members),the_band.name))
+    members=[a.member for a in assocs]
     return members
 
 def get_all_bands():
@@ -120,8 +118,8 @@ class InfoPage(BaseHandler):
             self.response.write('no band key passed in!')
             return # todo figure out what to do if there's no ID passed in
 
-        band_key=ndb.Key(urlsafe=band_key_str)
-        the_band=band_key.get()
+        the_band_key=ndb.Key(urlsafe=band_key_str)
+        the_band=the_band_key.get()
 
         if the_band is None:
             self.response.write('did not find a band!')
@@ -134,13 +132,10 @@ class InfoPage(BaseHandler):
 
         debug_print('found band object: {0}'.format(the_band.name))
 
-        the_members = get_members_of_band(the_band)
-                                        
         template_args = {
             'title' : 'Band Info',
             'the_band' : the_band,
             'the_admin' : the_admin,
-            'the_members' : the_members,
             'nav_info' : member.nav_info(the_user, None)
         }
         self.render_template('band_info.html', template_args)
@@ -222,6 +217,26 @@ class EditPage(BaseHandler):
 
         return self.redirect('/band_info.html?bk={0}'.format(the_band.key.urlsafe()))
         
+class BandGetMembers(BaseHandler):
+    """ returns the members related to a band """                   
+
+    def post(self):    
+        """ return the members for a band """
+        the_user = self.user
+
+        the_band_key_str=self.request.get('bk','0')
+        
+        if the_band_key_str=='0':
+            return # todo figure out what to do
+            
+        the_band_key = ndb.Key(urlsafe=the_band_key_str)
+        the_members = get_members_of_band_key(the_band_key)
+                
+        template_args = {
+            'the_members' : the_members
+        }
+        self.render_template('band_members.html', template_args)
+
 class BandGetSections(BaseHandler):
     """ returns the sections related to a band """                   
 
