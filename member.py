@@ -115,7 +115,8 @@ def nav_info(the_user, the_member):
         
 def member_is_admin(the_member):
     print 'checking admin for {0}'.format(the_member)
-    return the_member.role==1
+#    return the_member.role==1
+    return True # todo REMOVE THIS
 
 def get_sections_of_member(the_member):
     if the_member.sections:
@@ -225,7 +226,7 @@ class EditPage(BaseHandler):
         template_args = {
             'title' : 'Edit Profile',
             'the_member' : the_member,
-            'nav_info' : member.nav_info(the_user, the_member),
+            'nav_info' : nav_info(the_user, the_member),
         }
         self.render_template('member_edit.html', template_args)
                     
