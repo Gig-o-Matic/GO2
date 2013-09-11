@@ -11,6 +11,7 @@ import gig
 import plan
 
 import datetime
+import random
 
 def test_band():
     """make some test data"""
@@ -42,8 +43,13 @@ def test_band():
 #     assoc.new_association(ee,member1)
 #     assoc.new_association(slsaps,member2)
 #     assoc.new_association(slsaps,member3)
-    
-    g1 = gig.new_gig(the_band=slsaps, title="test gig 1", date=datetime.datetime.strptime("9/16/2013",'%m/%d/%Y').date())
-    g2 = gig.new_gig(the_band=slsaps, title="test gig 2", date=datetime.datetime.strptime("9/25/2013",'%m/%d/%Y').date())
-    g3 = gig.new_gig(the_band=ee, title="test gig 3", date=datetime.datetime.strptime("9/8/2013",'%m/%d/%Y').date())
+
+    # make a pile of random gigs for a couple of months
+    n=1
+    for m in range(9,12):
+        for i in range(1,5):
+            d=int(random.random()*30)+1
+            g1 = gig.new_gig(the_band=slsaps, title="test gig {0}".format(n),
+                             date=datetime.datetime.strptime("{0}/{1}/2013".format(m,d),'%m/%d/%Y').date())
+            n = n + 1
     
