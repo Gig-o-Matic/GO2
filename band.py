@@ -58,7 +58,7 @@ def get_band_from_id(id):
     debug_print('get_band_from_id looking for id {0}'.format(id))
     return Band.get_by_id(int(id), parent=band_key()) # todo more efficient if we use the band because it's the parent?
     
-def get_members_of_band_key(the_band_key):
+def get_member_keys_of_band_key(the_band_key):
     """ Return member objects by band"""
     assoc_query = assoc.Assoc.query(assoc.Assoc.band==the_band_key, ancestor=assoc.assoc_key())
     assocs = assoc_query.fetch()
@@ -72,11 +72,20 @@ def get_all_bands():
     debug_print('get_all_bands: found {0} bands'.format(len(all_bands)))
     return all_bands
 
-def get_sections_of_band_key(the_band_key):
+def get_section_keys_of_band_key(the_band_key):
     sections_query = Section.query(ancestor=the_band_key)
-    all_sections = sections_query.fetch()
+    all_sections = sections_query.fetch(keys_only=True)
     debug_print('get_sections_of_band: found {0} sections for band {1}'.format(len(all_sections), the_band_key.get().name))
     return all_sections
+
+def get_member_keys_of_band_key_by_section_key(the_band_key):
+    the_info=[]
+    section_keys=get_section_keys_of_band_key(the_band_key)
+    for a_section_key in section_keys:
+        the_member_keys=assoc.get_member_keys_for_section_key(a_section_key)
+        the_info.append([a_section_key,the_member_keys])
+    return the_info
+    
     
 def new_section_for_band(the_band, the_section_name):
     the_section = Section(parent=the_band.key, name=the_section_name)
@@ -230,10 +239,10 @@ class BandGetMembers(BaseHandler):
             return # todo figure out what to do
             
         the_band_key = ndb.Key(urlsafe=the_band_key_str)
-        the_members = get_members_of_band_key(the_band_key)
+        the_members_by_section = get_member_keys_of_band_key_by_section_key(the_band_key)
                 
         template_args = {
-            'the_members' : the_members
+            'the_members_by_section' : the_members_by_section
         }
         self.render_template('band_members.html', template_args)
 

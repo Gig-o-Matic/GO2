@@ -123,16 +123,6 @@ def get_sections_of_member(the_member):
         return the_member.sections
     else:
         return []
-        
-def new_section_for_member(the_member, the_section):
-
-    if the_member.sections:
-        the_member.sections.append(the_section)
-    else:
-        the_member.sections=[the_section]
-
-    debug_print('added section {0} for member {1}'.format(the_section.name, the_member.name))
-    the_member.put()
 
 def remove_section_for_member(the_member, the_section):
     if (the_member.sections):
@@ -145,7 +135,10 @@ def remove_section_for_member(the_member, the_section):
     else:
         debug_print('deleting section for member: no section {0} for member {1}'.format(the_section.name, the_member.name))
     
-
+def get_member_keys_from_section_key(the_section_key):
+        member_query = Member.query(Member.sections==the_section_key, ancestor=member_key())
+        members = member_query.fetch()
+        return members
 
 #####
 #
@@ -309,7 +302,7 @@ class ManageBandsGetAssocs(BaseHandler):
         for an_assoc in the_assocs:
             the_assoc_info.append({
                             'assoc' : an_assoc,
-                            'sections' : band.get_sections_of_band_key(an_assoc.band)
+                            'sections' : band.get_section_keys_of_band_key(an_assoc.band)
                             })
 
         template_args = {

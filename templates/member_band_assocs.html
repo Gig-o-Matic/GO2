@@ -29,7 +29,7 @@
                                 </button>
                                 <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
                                     {% for a_section in the_info.sections %}
-                                        <li role="presentation"><a class="section-click" id="{{a_section.key.urlsafe()}}" data-ak="{{the_info.assoc.key.urlsafe()}}" role="menuitem" tabindex="-1" href="#">{{a_section.name}}</a></li>
+                                        <li role="presentation"><a class="section-click" id="{{a_section.urlsafe()}}" data-ak="{{the_info.assoc.key.urlsafe()}}" role="menuitem" tabindex="-1" href="#">{{a_section.get().name}}</a></li>
                                     {% endfor %}
                                 </ul>
                             </div> <!-- dropdown -->
