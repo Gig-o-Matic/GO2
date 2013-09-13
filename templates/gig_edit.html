@@ -18,16 +18,18 @@
             </div>
             <div class="row">
                 <div class="form-group col-md-5 col-md-offset-2">
-                    <label for="gigband" class="control-label">Band</label>
-                    <select id="gigband" class="form-control" name="gig_band">
-                        {% for a_band in all_bands %}
-                            <option value="{{a_band.key.urlsafe()}}"
-                            {% if (gig and a_band.key.urlsafe() == gig.key.parent().urlsafe()) or (gig==None and loop.first) %}
-                                SELECTED
-                            {% endif %}
-                            >{{a_band.name}}</option>
-                        {% endfor %}
-                    </select>
+                    {% if newgig_is_active %}
+                        <label for="gigband" class="control-label">Band</label>
+                        <select id="gigband" class="form-control" name="gig_band">
+                            {% for a_band in all_bands %}
+                                <option value="{{a_band.key.urlsafe()}}"
+                                {% if (gig and a_band.key.urlsafe() == gig.key.parent().urlsafe()) or (gig==None and loop.first) %}
+                                    SELECTED
+                                {% endif %}
+                                >{{a_band.name}}</option>
+                            {% endfor %}
+                        </select>
+                    {% endif %}
                 </div>
             </div>
             <div class="row">

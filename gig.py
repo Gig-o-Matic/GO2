@@ -169,7 +169,7 @@ class InfoPage(BaseHandler):
         the_band_key = the_gig.key.parent()
 
         member_plans = []
-        the_member_keys = band.get_members_of_band_key(the_band_key)
+        the_member_keys = band.get_member_keys_of_band_key(the_band_key)
         for a_member_key in the_member_keys:
             the_plan = plan.get_plan_for_member_for_gig(a_member_key.get(), the_gig)
             member_plans.append( the_plan )
