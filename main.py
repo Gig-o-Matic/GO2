@@ -23,6 +23,7 @@ config = {
 application = webapp2.WSGIApplication([
     webapp2.Route('/', agenda.MainPage),
     webapp2.Route('/testdata', index.MainPage),
+    webapp2.Route('/testmail', index.TestMail),
     webapp2.Route('/login', login.LoginPage, name='login'),
     webapp2.Route('/logout', login.LogoutHandler, name='logout'),
     webapp2.Route('/signup', login.SignupPage, name='signup'),
