@@ -82,7 +82,7 @@
 
 <script>
 function updateMembers() {
-    document.getElementById('memberlist').innerHTML='<i class="icon-spinner icon-spin icon-large"></i>';
+//     document.getElementById('memberlist').innerHTML='<i class="icon-spinner icon-spin icon-large"></i>';
     $.post('/band_get_members',
             {
                 bk: '{{ the_band.key.urlsafe() }}'
@@ -114,11 +114,26 @@ function handle_new_section() {
     return false;
 }
 
+function move(dir,sk) {
+    $.post("/band_move_section",
+            {
+                dir: dir,
+                sk: sk
+            },
+            function(responseTxt,statusTxt,xhr){
+                if(statusTxt=="success")
+                    updateMembers();
+                if(statusTxt=="error")
+                  alert("Error: "+xhr.status+": "+xhr.statusText);
+            });
+
+    return false;
+}
+
+
 $(document).ready(function() {
     updateMembers();
-    updateSections();
     $("#savenewsection").click(handle_new_section);
-
 });
 </script>
 {% include 'footer.html' %}

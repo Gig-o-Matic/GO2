@@ -183,9 +183,6 @@ class InfoPage(BaseHandler):
         self.render_template('gig_info.html', template_args)
 
 
-
-
-
 class EditPage(BaseHandler):
     """ A class for rendering the gig edit page """
 

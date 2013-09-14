@@ -73,10 +73,11 @@ def get_all_bands():
     return all_bands
 
 def get_section_keys_of_band_key(the_band_key):
-    sections_query = Section.query(ancestor=the_band_key)
-    all_sections = sections_query.fetch(keys_only=True)
-    debug_print('get_sections_of_band: found {0} sections for band {1}'.format(len(all_sections), the_band_key.get().name))
-    return all_sections
+    return the_band_key.get().sections
+#     sections_query = Section.query(ancestor=the_band_key)
+#     all_sections = sections_query.fetch(keys_only=True)
+#     debug_print('get_sections_of_band: found {0} sections for band {1}'.format(len(all_sections), the_band_key.get().name))
+#     return all_sections
 
 def get_member_keys_of_band_key_by_section_key(the_band_key):
     the_info=[]
@@ -242,7 +243,8 @@ class BandGetMembers(BaseHandler):
         the_members_by_section = get_member_keys_of_band_key_by_section_key(the_band_key)
                 
         template_args = {
-            'the_members_by_section' : the_members_by_section
+            'the_members_by_section' : the_members_by_section,
+            'nav_info' : member.nav_info(the_user, None)            
         }
         self.render_template('band_members.html', template_args)
 
@@ -266,8 +268,10 @@ class BandGetSections(BaseHandler):
         
         print 'got {0} sections for band {1}'.format(len(the_sections), the_band.name)
         
+        
         template_args = {
-            'the_sections' : the_sections
+            'the_sections' : the_sections,
+            'nav_info' : member.nav_info(the_user, None)
         }
         self.render_template('band_sections.html', template_args)
 
@@ -290,3 +294,36 @@ class NewSection(BaseHandler):
         the_band=ndb.Key(urlsafe=the_band_key).get()
         
         new_section_for_band(the_band, the_section_name)
+
+class MoveSection(BaseHandler):
+    """ move a section for a band """                   
+
+    def post(self):    
+        """ moves a section """
+        
+        print 'in new section move handler'
+        
+        the_user = self.user
+        
+        the_direction=self.request.get('dir','0')
+        the_section_key=self.request.get('sk','0')
+        
+        the_section_key=ndb.Key(urlsafe=the_section_key)
+        the_section=the_section_key.get()
+        the_band=the_section_key.parent().get()
+        
+        band_sections = the_band.sections
+        if the_section_key in band_sections:
+            i = band_sections.index(the_section_key)
+            band_sections.pop(i)
+            if the_direction == '1':
+                band_sections.insert(i-1, the_section_key)
+            else:
+                band_sections.insert(i+1, the_section_key)
+        
+            the_band.sections=band_sections
+            the_band.put()
+        else:
+            print 'not in band'
+        
+            
