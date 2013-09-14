@@ -14,25 +14,25 @@
     {% endif %}
 {%- endmacro %}
 
-{% macro icon_button(member, plan, plan_prefix) -%}
+{% macro icon_button(plan) -%}
 <div class="btn-group">
-    <button type="button" class="btn btn-default dropdown-toggle text-center plan-button" data-toggle="dropdown" id="plan-{{plan_prefix}}{{plan.key.urlsafe()}}">
+    <button type="button" class="btn btn-default dropdown-toggle text-center plan-button" data-toggle="dropdown" id="{{plan.key.urlsafe()}}" data-init="{{plan.value}}">
         <i class="icon-spinner icon-spin icon-large"></i>
     </button>
     <ul class="dropdown-menu" role="menu">
-        <li><a href="#" class="plan-click" id="1" data-pk="{{plan.key.urlsafe()}}" data-prefix="{{plan_prefix}}">{{ icon(1) }} Definitely</a></li>
-        <li><a href="#" class="plan-click" id="2" data-pk="{{plan.key.urlsafe()}}" data-prefix="{{plan_prefix}}">{{ icon(2) }} Probably</a></li>
-        <li><a href="#" class="plan-click" id="3" data-pk="{{plan.key.urlsafe()}}" data-prefix="{{plan_prefix}}">{{ icon(3) }} Don't Know</a></li>
-        <li><a href="#" class="plan-click" id="4" data-pk="{{plan.key.urlsafe()}}" data-prefix="{{plan_prefix}}">{{ icon(4) }} Probably Not</a></li>
-        <li><a href="#" class="plan-click" id="5" data-pk="{{plan.key.urlsafe()}}" data-prefix="{{plan_prefix}}">{{ icon(5) }} Can't Do It</a></li>
+        <li><a href="#" onclick="update_plan('{{plan.key.urlsafe()}}','1')">{{ icon(1) }} Definitely</a></li>
+        <li><a href="#" onclick="update_plan('{{plan.key.urlsafe()}}','2')">{{ icon(2) }} Probably</a></li>
+        <li><a href="#" onclick="update_plan('{{plan.key.urlsafe()}}','3')">{{ icon(3) }} Don't Know</a></li>
+        <li><a href="#" onclick="update_plan('{{plan.key.urlsafe()}}','4')">{{ icon(4) }} Probably Not</a></li>
+        <li><a href="#" onclick="update_plan('{{plan.key.urlsafe()}}','5')">{{ icon(5) }} Can't Do It</a></li>
     </ul>
 </div>
 {%- endmacro %}
 
-{% macro setup_plan_buttons(member_plans, plan_prefix="") -%}
+{% macro setup_plan_buttons(member_plans) -%}
 <script>
 {% for p in member_plans %}
-    add_plan_button("plan-{{plan_prefix}}{{p.key.urlsafe()}}", "{{p.value}}");
+    add_plan_button("{{p.key.urlsafe()}}", "{{p.value}}");
 {% endfor %}
 
 </script>

@@ -33,29 +33,31 @@
         <div class="row">&nbsp;</div>
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
-                <table class="table">
-                    {% for p in member_plans %}
-                    <tr>
-                        <td width="20%"0><a href="member_info.html?mk={{p.member.urlsafe()}}">{{ p.member.get().name }}</a></td>
-                        <!-- g m b p -->
-                        <td width="10%">{{ plan_icon.icon_button(p.member.get(),p,"") }}</td>
-                        <td width="30%">
-                            {% if p.member.get().nickname==user_nickname %}
-                                <div class="statementinput">
-                                    <input type="text" class="form-control" id="memberstatementinput" placeholder="{{p.comment}}" data-pk="{{p.key.urlsafe()}}" name="member_statement">
-                                </div>
-                            {% else %}
-                                {{ p.comment }}
-                            {% endif %}
-                        </td>
-                        {% if p.member == the_user.key %}
-                            <td width="20%">
-                               <div class="col-md-2">me!</div>
-                            </td>
+                <table class="table table-striped">
+                {% for the_section in member_plans %}
+                <tr>
+                    <td>
+                        {% if the_section[0] %}
+                            {{the_section[0].get().name}}
+                        {% else %}
+                            No Section
                         {% endif %}
-                    </tr>
-                    {% endfor %}
-                </table>        
+                    </td>
+                    <td>
+                        {% for member_plan in the_section[1] %}
+                        <div class="row">
+                            <div class="col-md-2">
+                                 {{ plan_icon.icon_button(member_plan[1]) }}
+                            </div>
+                            <div class="col-md-2">
+                                  <a href='/member_info.html?mk={{member_plan[0].urlsafe()}}'>{{ member_plan[0].get().name }}</a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </td>
+                </tr>
+                {% endfor %}
+                </table>
             </div>
         </div>
     </div>
@@ -63,8 +65,6 @@
 </div><!-- /.container -->
 {% include 'scripts.html' %}
 <script src="/js/plan_buttons.js"></script>
-{{ plan_icon.setup_plan_buttons(member_plans) }}
-<script>
 function reset_class(name) {
     item=document.getElementById(name)
     parent=item.parentNode

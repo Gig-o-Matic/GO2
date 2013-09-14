@@ -168,16 +168,20 @@ class InfoPage(BaseHandler):
 
         the_band_key = the_gig.key.parent()
 
-        member_plans = []
-        the_member_keys = band.get_member_keys_of_band_key(the_band_key)
-        for a_member_key in the_member_keys:
-            the_plan = plan.get_plan_for_member_for_gig(a_member_key.get(), the_gig)
-            member_plans.append( the_plan )
+        the_members_by_section = band.get_member_keys_of_band_key_by_section_key(the_band_key)
 
+        the_plans=[]
+        for the_section in the_members_by_section:
+            section_plans=[]
+            for a_member_key in the_section[1]:
+                the_plan=plan.get_plan_for_member_for_gig(a_member_key.get(), the_gig)
+                section_plans.append( [a_member_key, the_plan] )
+            the_plans.append( (the_section[0], section_plans) )
+                
         template_args = {
             'title' : 'Gig Info',
             'gig' : the_gig,
-            'member_plans' : member_plans,
+            'member_plans' : the_plans,
             'nav_info' : member.nav_info(the_user, None)
         }
         self.render_template('gig_info.html', template_args)

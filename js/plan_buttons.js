@@ -23,39 +23,30 @@ function set_plan_button(the_id, the_value) {
     document.getElementById(the_id).innerHTML=the_result;
 }
 
-var plan_buttons_to_initialize=new Array()
-var plan_buttons_init_val=new Array()
-
-function add_plan_button(pid,val) {
-    plan_buttons_to_initialize.push(pid);
-    plan_buttons_init_val.push(val);
-}
-
 function init_plan_buttons() {
-    console.log('in init plan buttons');
-    for (var i=0; i < plan_buttons_to_initialize.length; i++) {
-        set_plan_button(plan_buttons_to_initialize[i], plan_buttons_init_val[i]);
+    plan_buttons=document.getElementsByClassName('plan-button');  
+    for (var i=0; i < plan_buttons.length; i++) {
+        set_plan_button(plan_buttons[i].id, plan_buttons[i].getAttribute("data-init"));
     }
 }    
 
+function update_plan(pk, val) {
+    $.post("/updateplan",
+                {
+                    val: val,
+                    pk: pk
+                },
+                function(responseTxt,statusTxt,xhr){
+                    if(statusTxt=="success")
+                        set_plan_button(pk,val)
+                    if(statusTxt=="error")
+                      alert("Error: "+xhr.status+": "+xhr.statusText);
+                });
+}
+
+
 $(document).ready(function() {
     init_plan_buttons();
-    $("a.plan-click").click(function(){
-        var pk=$(this).attr("data-pk");
-        var prefix=$(this).attr("data-prefix");
-        var val=$(this).attr("id");
-        $.post("/updateplan",
-                    {
-                        val: val,
-                        pk: pk
-                    },
-                    function(responseTxt,statusTxt,xhr){
-                        if(statusTxt=="success")
-                            set_plan_button("plan-"+prefix+pk,val)
-                        if(statusTxt=="error")
-                          alert("Error: "+xhr.status+": "+xhr.statusText);
-                    });
-    });
 });
 
 

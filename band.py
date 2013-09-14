@@ -261,7 +261,7 @@ class BandGetMembers(BaseHandler):
         }
         self.render_template('band_members.html', template_args)
 
-class BandGetSections(BaseHandler):
+class XXXXBandGetSections(BaseHandler): # don't think I need this anymore - remove it from here and main.py
     """ returns the sections related to a band """                   
 
     def post(self):    

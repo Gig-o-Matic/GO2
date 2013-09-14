@@ -1,11 +1,10 @@
 {% import 'plan_icon.html' as plan_icon %}
-{% macro agenda_events(plan_info, member, plan_prefix) -%}
+{% macro agenda_events(plan_info) -%}
 <table class="table">
 {% for plan in plan_info %}
     <tr>
         <td width=10%>
-            <!-- g m b p -->
-            {{ plan_icon.icon_button(member, plan, plan_prefix) }}
+            {{ plan_icon.icon_button(plan) }}
         </td>
         <td width=20%>
             {{ plan.key.parent().get().date|e }}
