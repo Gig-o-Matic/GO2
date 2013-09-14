@@ -130,6 +130,20 @@ function move(dir,sk) {
     return false;
 }
 
+function delete_section(sk) {
+    $.post("/band_delete_section",
+            {
+                sk: sk
+            },
+            function(responseTxt,statusTxt,xhr){
+                if(statusTxt=="success")
+                    updateMembers();
+                if(statusTxt=="error")
+                  alert("Error: "+xhr.status+": "+xhr.statusText);
+            });
+
+    return false;
+}
 
 $(document).ready(function() {
     updateMembers();

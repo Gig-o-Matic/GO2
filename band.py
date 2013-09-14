@@ -101,6 +101,18 @@ def new_section_for_band(the_band, the_section_name):
     the_band.put()
     return the_section
 
+def delete_section_key(the_section_key):
+    #todo make sure the section is empty before deleting it
+
+    # get the parent band's list of sections and delete ourselves
+    the_band=the_section_key.parent().get()
+    if the_section_key in the_band.sections:
+        i=the_band.sections.index(the_section_key)
+        the_band.sections.pop(i)
+        the_band.put()
+    the_section_key.delete()
+
+
 #
 # class for section
 #
@@ -295,6 +307,25 @@ class NewSection(BaseHandler):
         the_band=ndb.Key(urlsafe=the_band_key).get()
         
         new_section_for_band(the_band, the_section_name)
+
+class DeleteSection(BaseHandler):
+    """ makes a new section for a band """                   
+
+    def post(self):    
+        """ makes a new assoc for a member """
+        
+        print 'in new section handler'
+        
+        the_user = self.user
+        
+        the_section_key_url=self.request.get('sk','0')
+        
+        if the_section_key_url=='0':
+            return # todo figure out what to do
+
+        the_section_key=ndb.Key(urlsafe=the_section_key_url)
+        
+        delete_section_key(the_section_key)
 
 class MoveSection(BaseHandler):
     """ move a section for a band """                   

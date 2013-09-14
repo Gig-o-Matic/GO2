@@ -21,7 +21,7 @@
     </td>
     {% if not the_section[1] and the_section[0] %} 
     <td>
-        <a class="btn btn-default btn-sm" href="#">Delete Section</a>
+        <a class="btn btn-default btn-sm" onclick="delete_section('{{the_section[0].urlsafe()}}')"href="#">Delete Section</a>
     </td>
     {% else %}
     <td></td>
@@ -37,6 +37,9 @@
             <td><a class="btn btn-default btn-sm movesection" onclick="move(1,'{{the_section[0].urlsafe()}}')"  href="#"><i class="icon-circle-arrow-up icon-large"></i></a></td>
             <td><a class="btn btn-default btn-sm movesection" onclick="move(0,'{{the_section[0].urlsafe()}}')"  href="#"><i class="icon-circle-arrow-down icon-large"></i></a></td>
         {% endif %}
+    {% else %}
+        <td></td>
+        <td></td>
     {% endif %}
     </tr>
 {% endfor %}
