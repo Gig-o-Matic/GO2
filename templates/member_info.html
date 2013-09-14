@@ -69,7 +69,7 @@
 <script>
 
 function updateBands() {
-    document.getElementById('bandlist').innerHTML='<i class="icon-spinner icon-spin icon-large"></i>'
+//     document.getElementById('bandlist').innerHTML='<i class="icon-spinner icon-spin icon-large"></i>'
     $.post('/member_get_assocs.html',
             {
                 mk: '{{ the_member.key.urlsafe() }}'
@@ -78,6 +78,7 @@ function updateBands() {
                 if(statusTxt=="success")
                     document.getElementById('bandlist').innerHTML=responseTxt;
                      $("a.section-click").click(handle_section_click);
+                     $("a.leave-section-click").click(handle_leave_section_click);
                 if(statusTxt=="error")
                     alert("Error: "+xhr.status+": "+xhr.statusText);
             });
@@ -105,6 +106,27 @@ function handle_section_click() {
     add_section_for_member(sk, mk, ak);
 }
 
+function leave_section_for_member(sk, mk, ak) {
+   $.post('/member_leave_section.html',
+            {
+                mk: mk,
+                sk: sk,
+                ak: ak
+            },
+            function(responseTxt,statusTxt,xhr){
+                if(statusTxt=="success")
+                    updateBands();
+                if(statusTxt=="error")
+                    alert("Error: "+xhr.status+": "+xhr.statusText);
+            });
+}
+
+function handle_leave_section_click() {
+    var sk=$(this).attr("id");
+    var ak=$(this).attr("data-ak");
+    var mk='{{the_member.key.urlsafe()}}';
+    leave_section_for_member(sk, mk, ak);
+}
 
 $(document).ready(function() {
     updateBands();

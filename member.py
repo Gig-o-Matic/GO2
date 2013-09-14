@@ -376,3 +376,23 @@ class AddSectionForMemberForBand(BaseHandler):
         the_section=ndb.Key(urlsafe=the_section_keyurl)
 
         assoc.add_section_for_assoc(the_assoc, the_section)
+        
+        
+class LeaveSectionForMemberForBand(BaseHandler):
+    """ handle leaving a section in a band for a member """
+    
+    def post(self):
+        """ post handler """
+        
+        print 'leaving a section for a member'
+        the_member_keyurl=self.request.get('mk','0')
+        the_section_keyurl=self.request.get('sk','0')
+        the_assoc_keyurl=self.request.get('ak','0')
+
+        if the_member_keyurl=='0' or the_section_keyurl=='0' or the_assoc_keyurl=='0':
+            return # todo figure out what to do
+
+        the_assoc=ndb.Key(urlsafe=the_assoc_keyurl)
+        the_section=ndb.Key(urlsafe=the_section_keyurl)
+
+        assoc.leave_section_for_assoc(the_assoc, the_section)        

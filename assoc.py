@@ -22,7 +22,8 @@ class Assoc(ndb.Model):
     member = ndb.KeyProperty()
     status = ndb.IntegerProperty( default=0 )
     sections = ndb.KeyProperty( repeated=True )
-
+    no_sections = ndb.ComputedProperty(lambda self: len(self.sections) == 0)
+    
 def new_association(band, member):
     """ associate a band and a member """
     
@@ -65,15 +66,22 @@ def get_assoc_for_band_and_member(the_band, the_member):
     else:
         return the_assocs[0]
 
+def get_member_keys_of_band_key_no_section(the_band_key):
+    """ get all the members of a band who are not in a section """
+    assoc_query = Assoc.query(ndb.AND(Assoc.band==the_band_key, Assoc.no_sections==True),
+                              ancestor=assoc_key())
+    the_assocs = assoc_query.fetch()
+    member_keys=[an_assoc.member for an_assoc in the_assocs]
+    return member_keys
+
+
 def get_member_keys_for_section_key(the_section_key):
-    assoc_query = Assoc.query(Assoc.sections==the_section_key)
+    assoc_query = Assoc.query(Assoc.sections==the_section_key, ancestor=assoc_key())
     the_assocs = assoc_query.fetch()
     member_keys=[an_assoc.member for an_assoc in the_assocs]
     return member_keys
 
 def add_section_for_assoc(assoc_key, section_key):
-    print 'adding the section to the assoc'
-    
     the_assoc=assoc_key.get()
     if (the_assoc.sections):
         if section_key not in the_assoc.sections:
@@ -82,3 +90,14 @@ def add_section_for_assoc(assoc_key, section_key):
         the_assoc.sections=[section_key]
 
     the_assoc.put()
+    
+    
+def leave_section_for_assoc(assoc_key, section_key):
+    the_assoc=assoc_key.get()
+    if (the_assoc.sections):
+        if section_key in the_assoc.sections:
+            i = the_assoc.sections.index(section_key)
+            the_assoc.sections.pop(i)
+
+    the_assoc.put()
+    

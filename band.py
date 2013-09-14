@@ -74,10 +74,6 @@ def get_all_bands():
 
 def get_section_keys_of_band_key(the_band_key):
     return the_band_key.get().sections
-#     sections_query = Section.query(ancestor=the_band_key)
-#     all_sections = sections_query.fetch(keys_only=True)
-#     debug_print('get_sections_of_band: found {0} sections for band {1}'.format(len(all_sections), the_band_key.get().name))
-#     return all_sections
 
 def get_member_keys_of_band_key_by_section_key(the_band_key):
     the_info=[]
@@ -85,6 +81,11 @@ def get_member_keys_of_band_key_by_section_key(the_band_key):
     for a_section_key in section_keys:
         the_member_keys=assoc.get_member_keys_for_section_key(a_section_key)
         the_info.append([a_section_key,the_member_keys])
+
+    no_section_members=assoc.get_member_keys_of_band_key_no_section(the_band_key)
+    if no_section_members:
+        the_info.append([None,no_section_members])
+
     return the_info
     
     

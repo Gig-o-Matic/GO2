@@ -1,7 +1,13 @@
 <table class="table table-striped">
 {% for the_section in the_members_by_section %}
     <tr>
-    <td>{{the_section[0].get().name}}</td>
+    <td>
+        {% if the_section[0] %}
+            {{the_section[0].get().name}}
+        {% else %}
+            No Section
+        {% endif %}
+    </td>
     <td>
         <div class="col-md-10">
             {% for the_member_key in the_section[1] %}
@@ -13,14 +19,14 @@
             {% endfor %}
         </div>
     </td>
-    {% if not the_section[1] %} 
+    {% if not the_section[1] and the_section[0] %} 
     <td>
         <a class="btn btn-default btn-sm" href="#">Delete Section</a>
     </td>
     {% else %}
     <td></td>
     {% endif %}
-    {% if nav_info['is_admin'] %}
+    {% if nav_info['is_admin'] and the_section[0] %}
         {% if loop.first %}
             <td></td>
             <td><a class="btn btn-default btn-sm movesection" onclick="move(0,'{{the_section[0].urlsafe()}}')" href="#"><i class="icon-circle-arrow-down icon-large"></i></a></td>

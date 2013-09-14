@@ -14,7 +14,12 @@
                 <table>
                     {% if the_info.assoc.sections %}
                         {% for a_section in the_info.assoc.sections %}
-                            <tr><td>{{a_section.get().name}}</td></tr>
+                            <tr>
+                                <td>{{a_section.get().name}}</td>
+                                <td>
+                                    <a class="leave-section-click" id="{{a_section.urlsafe()}}" data-ak="{{the_info.assoc.key.urlsafe()}}" tabindex="-1" href="#">[leave section]</a>
+                                </td>
+                            </tr>
                         {% endfor %}
                     {% else %}
                         {% if the_info.sections %}
@@ -25,11 +30,13 @@
                         <tr><td>
                             <div class="dropdown">
                                 <button type="button" class="btn btn-default dropdown-toggle text-center" data-toggle="dropdown">
-                                    <i class="icon-plus icon-large"></i>
+                                    <i class="icon-plus icon-small"></i>
                                 </button>
                                 <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
                                     {% for a_section in the_info.sections %}
-                                        <li role="presentation"><a class="section-click" id="{{a_section.urlsafe()}}" data-ak="{{the_info.assoc.key.urlsafe()}}" role="menuitem" tabindex="-1" href="#">{{a_section.get().name}}</a></li>
+                                        <li role="presentation">
+                                            <a class="section-click" id="{{a_section.urlsafe()}}" data-ak="{{the_info.assoc.key.urlsafe()}}" tabindex="-1" href="#">{{a_section.get().name}}</a>
+                                        </li>
                                     {% endfor %}
                                 </ul>
                             </div> <!-- dropdown -->
