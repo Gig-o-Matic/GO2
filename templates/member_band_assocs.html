@@ -1,5 +1,5 @@
 {% if the_assoc_info %}
-    <table>
+    <table class="table">
     {% for the_info in the_assoc_info %}
         <tr>
             <td width=30%><a href="/band_info.html?bk={{the_info.assoc.band.urlsafe()}}">{{the_info.assoc.band.get().name}}</a></td>
@@ -11,13 +11,13 @@
                 {% endif %}
             </td>
             <td width=50%>
-                <table>
+                <table class="table">
                     {% if the_info.assoc.sections %}
                         {% for a_section in the_info.assoc.sections %}
                             <tr>
                                 <td>{{a_section.get().name}}</td>
                                 <td>
-                                    <a class="leave-section-click" id="{{a_section.urlsafe()}}" data-ak="{{the_info.assoc.key.urlsafe()}}" tabindex="-1" href="#">[leave section]</a>
+                                    <a class="leave-section-click" id="{{a_section.urlsafe()}}" data-ak="{{the_info.assoc.key.urlsafe()}}" tabindex="-1" href="#"><i class="icon-minus-sign-alt"></i></a>
                                 </td>
                             </tr>
                         {% endfor %}
@@ -29,7 +29,7 @@
                     {% if the_info.sections %}
                         <tr><td>
                             <div class="dropdown">
-                                <button type="button" class="btn btn-default dropdown-toggle text-center" data-toggle="dropdown">
+                                <button type="button" class="btn btn-xs btn-default dropdown-toggle text-center" data-toggle="dropdown">
                                     <i class="icon-plus icon-small"></i>
                                 </button>
                                 <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
@@ -40,7 +40,7 @@
                                     {% endfor %}
                                 </ul>
                             </div> <!-- dropdown -->
-                        </td></tr>
+                        </td><td></td></tr>
                     {% endif %}
                 </table>
             </td>
