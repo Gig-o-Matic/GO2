@@ -27,6 +27,9 @@ handlers:
 - url: /jquery
   static_dir: jquery
 
+- url: /font-awesome
+  static_dir: font-awesome
+
 - url: /.*
   script: main.application
   
