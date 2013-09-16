@@ -1,6 +1,6 @@
 {% include 'header.html' %}
 {% include 'navbar.html' %}
-{% import 'plan_icon.html' as plan_icon %}
+{% import 'plan_edit.html' as plan_edit %}
 
 <div class="container">
 
@@ -44,16 +44,11 @@
                         {% endif %}
                     </td>
                     <td>
-                        {% for member_plan in the_section[1] %}
-                        <div class="row">
-                            <div class="col-md-2">
-                                 {{ plan_icon.icon_button(member_plan[1]) }}
-                            </div>
-                            <div class="col-md-2">
-                                  <a href='/member_info.html?mk={{member_plan[0].urlsafe()}}'>{{ member_plan[0].get().name }}</a>
-                            </div>
-                        </div>
-                        {% endfor %}
+                        <table class="table">
+                            {% for member_plan in the_section[1] %}
+                                {{ plan_edit.plan_edit(member_plan[1], False, False) }}
+                            {% endfor %}
+                        </table>
                     </td>
                 </tr>
                 {% endfor %}

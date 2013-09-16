@@ -21,6 +21,7 @@ class Plan(ndb.Model):
     member = ndb.KeyProperty()
     value = ndb.IntegerProperty()
     comment = ndb.StringProperty(indexed=False)
+    section = ndb.KeyProperty()
 
     def set_comment(self, the_comment):
         self.comment=the_comment;

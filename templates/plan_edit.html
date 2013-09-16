@@ -1,0 +1,22 @@
+{% import 'plan_icon.html' as plan_icon %}
+{% macro plan_edit(plan, show_date, show_band) -%}
+<tr>
+    <td width=10%>
+        {{ plan_icon.icon_button(plan) }}
+    </td>
+    {% if show_date %}
+        <td width=20%>
+            {{ plan.key.parent().get().date|e }}
+        </td>
+    {% endif %}
+    {% if show_band %}
+        <td width=20%>
+            <a href="band_info.html?bk={{ plan.key.parent().get().key.parent().urlsafe()}}">
+             {{ plan.key.parent().get().key.parent().get().name|e }}</a>
+        </td>
+    {% endif %}
+    <td>
+        <a href="gig_info.html?gk={{ plan.key.parent().urlsafe() }}">{{ plan.key.parent().get().title|e }}</a>
+    </td>
+</tr>
+{%- endmacro %}
