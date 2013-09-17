@@ -9,6 +9,7 @@ from google.appengine.ext import ndb
 from requestmodel import *
 import webapp2_extras.appengine.auth.models
 from webapp2_extras.appengine.auth.models import Unique
+from webapp2_extras import security
 
 import time
 
@@ -278,6 +279,16 @@ class EditPage(BaseHandler):
         if member_statement is not None and member_statement != '':
             print 'got statement {0}'.format(member_statement)
             the_member.statement=member_statement
+
+        member_password1=self.request.get("member_password1", None)
+        if member_password1 is not None and member_password1 != '':
+            member_password2=self.request.get("member_password2", None)
+            if member_password2 is not None and member_password2 != '':
+                if (member_password1 == member_password2):
+                    the_member.set_password(member_password1)
+                else:
+                    return  # todo figure out what happens if we get this far - should be matched
+                            # and validated already on the client side.
 
         the_member.put()                    
 
