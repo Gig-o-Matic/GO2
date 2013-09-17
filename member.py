@@ -216,11 +216,17 @@ class EditPage(BaseHandler):
             return # todo figure out what to do if we didn't find it
         debug_print('found member object: {0}'.format(the_member.name))
 
+        if the_member==None:
+            the_cancel_url=self.uri_for("agenda")
+        else:
+            the_cancel_url=self.uri_for("memberinfo",mk=the_member.key.urlsafe())
+#            the_cancel_url="member_info.html?mk={0}".format(the_member.key.urlsafe())
 
         template_args = {
             'title' : 'Edit Profile',
             'the_member' : the_member,
             'nav_info' : nav_info(the_user, the_member),
+            'the_cancel_url' : the_cancel_url
         }
         self.render_template('member_edit.html', template_args)
                     
