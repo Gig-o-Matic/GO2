@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-md-5 col-md-offset-2"><h1>Edit Profile</h1></div>
         </div>
-        <form class="form-horizontal" role="form" method="post" action="member_edit.html">
+        <form class="form-horizontal" id="infoform" role="form" method="post" action="member_edit.html">
             <div class="row">
                 <div class="form-group">
                     <label for="membernameinput" class="col-md-2 col-md-offset-1 control-label">Name</label>
@@ -18,7 +18,7 @@
                 <div class="form-group">
                     <label for="memberemailinput" class="col-md-2 col-md-offset-1 control-label">Password</label>
                     <div class="col-md-6">
-                        <input type="password" class="form-control" id="memberemailnput" name="member_password1">
+                        <input type="password" class="form-control" id="member_password1" name="member_password1">
                     </div>
                 </div>
             </div>
@@ -26,7 +26,7 @@
                 <div class="form-group">
                     <label for="memberemailinput" class="col-md-2 col-md-offset-1 control-label">Password (again!)</label>
                     <div class="col-md-6">
-                        <input type="password" class="form-control" id="memberemailnput" name="member_password2">
+                        <input type="password" class="form-control" id="member_password2" name="member_password2">
                     </div>
                 </div>
             </div>
@@ -34,7 +34,7 @@
                 <div class="form-group">
                     <label for="memberemailinput" class="col-md-2 col-md-offset-1 control-label">Email</label>
                     <div class="col-md-6">
-                        <input type="text" class="form-control" id="memberemailnput" placeholder="{{the_member.email_address}}" name="member_email">
+                        <input type="email" class="form-control" id="memberemailnput" placeholder="{{the_member.email_address}}" name="member_email">
                     </div>
                 </div>
             </div>
@@ -76,5 +76,18 @@
 </div><!-- /.container -->
 
 {% include 'scripts.html' %}
+<script src="/js/jquery.validate.js"></script>
+<script>
+$("#infoform").validate({
+    rules: {
+        member_email: {
+            email: true
+        },
+        member_password2: {
+            equalTo: "#member_password1"
+        }
+    }
+});
+</script>
 {% include 'footer.html' %}
 
