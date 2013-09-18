@@ -1,5 +1,5 @@
 {% import 'plan_icon.html' as plan_icon %}
-{% macro plan_edit(plan, show_date, show_band) -%}
+{% macro plan_edit(plan, show_date=False, show_member=False, show_band=False, show_gig_name=False) -%}
 <tr>
     <td width=10%>
         {{ plan_icon.icon_button(plan) }}
@@ -9,14 +9,26 @@
             {{ plan.key.parent().get().date|e }}
         </td>
     {% endif %}
+    {% if show_member %}
+        <td width=20%>
+            {{ plan.member.get().name }}
+        </td>
+    {% endif %}
     {% if show_band %}
         <td width=20%>
             <a href="band_info.html?bk={{ plan.key.parent().get().key.parent().urlsafe()}}">
              {{ plan.key.parent().get().key.parent().get().name|e }}</a>
         </td>
     {% endif %}
+    {% if show_gig_name %}
+        <td>
+            <a href="gig_info.html?gk={{ plan.key.parent().urlsafe() }}" >{{ plan.key.parent().get().title|e }}</a>
+        </td>
+    {% endif %}
     <td>
-        <a href="gig_info.html?gk={{ plan.key.parent().urlsafe() }}">{{ plan.key.parent().get().title|e }}</a>
-    </td>
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="{{plan.comment}}" onchange="update_comment(this,'{{plan.key.urlsafe()}}')">
+        </div>
+    </td>   
 </tr>
 {%- endmacro %}

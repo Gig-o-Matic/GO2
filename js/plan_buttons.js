@@ -44,6 +44,22 @@ function update_plan(pk, val) {
                 });
 }
 
+function update_comment(elem, pk) {
+        var val=elem.value;
+        $.post("/updateplancomment",
+                    {
+                        val: val,
+                        pk: pk
+                    },
+                    function(responseTxt,statusTxt,xhr){
+                        if(statusTxt=="success")
+                            elem.parentNode.className="form-group has-success";
+                            setTimeout(function(){elem.parentNode.className="form-group";}, 1000);
+                        if(statusTxt=="error")
+                          alert("Error: "+xhr.status+": "+xhr.statusText);
+                    });
+
+}
 
 $(document).ready(function() {
     init_plan_buttons();

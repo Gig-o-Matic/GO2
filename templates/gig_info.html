@@ -46,7 +46,7 @@
                     <td>
                         <table class="table">
                             {% for member_plan in the_section[1] %}
-                                {{ plan_edit.plan_edit(member_plan[1], False, False) }}
+                                {{ plan_edit.plan_edit(member_plan[1], show_date=False, show_member=True, show_band=False, show_gig_name=False) }}
                             {% endfor %}
                         </table>
                     </td>
@@ -60,32 +60,4 @@
 </div><!-- /.container -->
 {% include 'scripts.html' %}
 <script src="/js/plan_buttons.js"></script>
-<script>
-function reset_class(name) {
-    item=document.getElementById(name)
-    parent=item.parentNode
-    parent.className="statementinput";
-}
-
-$( document ).ready(function() {
-    $( "#memberstatementinput" ).change(function() {
-        var pk=$(this).attr("data-pk");
-        var val=$(this).val();
-        var pn=$(this)[0].parentNode
-        $.post("/updateplancomment",
-                    {
-                        val: val,
-                        pk: pk
-                    },
-                    function(responseTxt,statusTxt,xhr){
-                        if(statusTxt=="success")
-                            pn.className="has-success";
-                            setTimeout('reset_class("memberstatementinput");', 1000);
-                        if(statusTxt=="error")
-                          alert("Error: "+xhr.status+": "+xhr.statusText);
-                    });
-    });
-        
-});
-</script>
 {% include 'footer.html' %}
