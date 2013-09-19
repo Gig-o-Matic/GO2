@@ -1,7 +1,6 @@
 {% include 'header.html' %}
 {% include 'navbar.html' %}
-{% import 'plan_icon.html' as plan_icon %}
-{% import 'agenda_events.html' as agenda_events %}
+{% import 'plan_edit.html' as plan_edit %}
 
 <div class="container">
 
@@ -19,7 +18,11 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div id="upcomingevents">
-                    {{ agenda_events.agenda_events(upcoming_plans) }}
+                    <table class="table">
+                    {% for plan in upcoming_plans %}
+                        {{ plan_edit.plan_edit(plan, show_date=True, show_member=False, show_band=True, show_gig_name=True) }}
+                    {% endfor %}
+                    </table>                
                 </div>
             </div>
         </div>
@@ -33,7 +36,11 @@
             <div class="row">
                 <div class="col-md-8 col-md-offset-2">
                     <div id="weighinevents">
-                        {{ agenda_events.agenda_events(weighin_plans) }}
+                        <table class="table">
+                        {% for plan in weighin_plans %}
+                            {{ plan_edit.plan_edit(plan, show_date=True, show_member=False, show_band=True, show_gig_name=True) }}
+                        {% endfor %}
+                        </table>                
                     </div>
                 </div>
             </div>
