@@ -17,6 +17,13 @@
                             <tr>
                                 <td>{{a_section.get().name}}</td>
                                 <td>
+                                    {% if a_section == the_info.assoc.default_section %}
+                                        default
+                                    {% else %}
+                                        <button type="button" class="btn btn-xs" onclick="new_default_section('{{the_info.assoc.key.urlsafe()}}', '{{a_section.urlsafe()}}')">make default</button>
+                                    {% endif %}
+                                </td>
+                                <td>
                                     <a class="leave-section-click" id="{{a_section.urlsafe()}}" data-ak="{{the_info.assoc.key.urlsafe()}}" tabindex="-1" href="#"><i class="icon-minus-sign-alt"></i></a>
                                 </td>
                             </tr>

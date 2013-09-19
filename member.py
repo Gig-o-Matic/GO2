@@ -119,34 +119,11 @@ def member_is_admin(the_member):
 #    return the_member.role==1
     return True # todo REMOVE THIS
 
-def get_sections_of_member(the_member):
-    if the_member.sections:
-        return the_member.sections
-    else:
-        return []
-
-def remove_section_for_member(the_member, the_section):
-    if (the_member.sections):
-        if the_section in the_member.sections:
-            the_member.sections.remove(the_section)
-            the_member.put()
-            debug_print('removed section {0} for member {1}'.format(the_section.name, the_member.name))
-        else:
-            debug_print('deleting section for member: no section {0} for member {1}'.format(the_section.name, the_member.name))
-    else:
-        debug_print('deleting section for member: no section {0} for member {1}'.format(the_section.name, the_member.name))
-    
-def get_member_keys_from_section_key(the_section_key):
-        member_query = Member.query(Member.sections==the_section_key, ancestor=member_key())
-        members = member_query.fetch()
-        return members
-
 #####
 #
 # Page Handlers
 #
 #####
-
 
 class InfoPage(BaseHandler):
     """Page for showing information about a member"""
@@ -306,14 +283,15 @@ class ManageBandsGetAssocs(BaseHandler):
         """ return the bands for a member """
         the_user = self.user
 
-        the_member_key=self.request.get('mk',0)
+        the_member_key=self.request.get('mk','0')
         
-        if the_member_key==0:
+        if the_member_key=='0':
             return # todo figure out what to do
             
-        the_member=ndb.Key(urlsafe=the_member_key).get()
+        the_member_key=ndb.Key(urlsafe=the_member_key)
+        the_member=the_member_key.get()
         
-        the_assocs=assoc.get_assocs_for_member(the_member)
+        the_assocs=assoc.get_assocs_for_member_key(the_member_key)
 
         the_assoc_info=[]
         for an_assoc in the_assocs:
@@ -412,4 +390,22 @@ class LeaveSectionForMemberForBand(BaseHandler):
         the_assoc=ndb.Key(urlsafe=the_assoc_keyurl)
         the_section=ndb.Key(urlsafe=the_section_keyurl)
 
-        assoc.leave_section_for_assoc(the_assoc, the_section)        
+        assoc.leave_section_for_assoc(the_assoc, the_section)
+        
+class NewDefaultSection(BaseHandler):
+    """ change the default section for a member's band association """
+    
+    def post(self):
+        """ post handler - wants an ak and sk """
+        
+        the_section_keyurl=self.request.get('sk','0')
+        the_assoc_keyurl=self.request.get('ak','0')
+
+        if the_section_keyurl=='0' or the_assoc_keyurl=='0':
+            return # todo figure out what to do
+
+        the_section_key=ndb.Key(urlsafe=the_section_keyurl)
+        the_assoc_key=ndb.Key(urlsafe=the_assoc_keyurl)
+        
+        assoc.set_default_section(the_assoc_key, the_section_key)
+

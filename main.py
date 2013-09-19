@@ -41,6 +41,7 @@ application = webapp2.WSGIApplication([
     webapp2.Route('/member_delete_assoc.html', member.ManageBandsDeleteAssoc, name='deleteassoc'),
     webapp2.Route('/member_add_section.html', member.AddSectionForMemberForBand, name='addsection'),
     webapp2.Route('/member_leave_section.html', member.LeaveSectionForMemberForBand, name='leavesection'),
+    webapp2.Route('/member_new_default_section.html', member.NewDefaultSection),
     webapp2.Route('/gig_info.html', gig.InfoPage),
     webapp2.Route('/gig_edit.html', gig.EditPage),
     webapp2.Route('/gig_delete', gig.DeleteHandler),
