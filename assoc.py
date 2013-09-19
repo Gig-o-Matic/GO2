@@ -105,7 +105,12 @@ def leave_section_for_assoc(assoc_key, section_key):
         if section_key in the_assoc.sections:
             i = the_assoc.sections.index(section_key)
             the_assoc.sections.pop(i)
-
+        if the_assoc.default_section == section_key:
+            # we left our default section! Pick another one if there is one.
+            if the_assoc.sections:
+                the_assoc.default_section = the_assoc.sections[0]
+            else:
+                the_assoc.default_section = None
     the_assoc.put()
 
 def set_default_section(the_assoc_key, the_section_key):
