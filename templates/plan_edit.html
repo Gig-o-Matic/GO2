@@ -27,7 +27,7 @@
     {% endif %}
     <td>
         <div class="form-group">
-            <input type="text" class="form-control" placeholder="{{plan.comment}}" onchange="update_comment(this,'{{plan.key.urlsafe()}}')">
+            <input type="text" id="c-{{plan.key.urlsafe()}}" class="form-control" placeholder="{{plan.comment}}" onchange="update_comment('{{plan.key.urlsafe()}}')">
         </div>
     </td>   
 </tr>

@@ -44,7 +44,8 @@ function update_plan(pk, val) {
                 });
 }
 
-function update_comment(elem, pk) {
+function update_comment(pk) {
+        elem=document.getElementById("c-"+pk);
         var val=elem.value;
         $.post("/updateplancomment",
                     {
