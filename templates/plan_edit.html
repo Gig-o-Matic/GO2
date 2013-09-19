@@ -1,5 +1,5 @@
 {% import 'plan_icon.html' as plan_icon %}
-{% macro plan_edit(plan, show_date=False, show_member=False, show_band=False, show_gig_name=False) -%}
+{% macro plan_edit(plan, show_date=False, show_member=False, show_band=False, show_gig_name=False, show_section=True) -%}
 <tr>
     <td width=10%>
         {{ plan_icon.icon_button(plan) }}
@@ -29,6 +29,14 @@
         <div class="form-group plan-comment-input">
             <input type="text" id="c-{{plan.key.urlsafe()}}" class="form-control" placeholder="{{plan.comment}}" onchange="update_comment('{{plan.key.urlsafe()}}')">
         </div>
-    </td>   
+    </td>
+    {% if show_section %}
+        <td class="plan-cell">
+            {% if plan.section %}
+                {{ plan.section.get().name }}
+            {% else %}
+            {% endif %}
+        </td>
+    {% endif %}
 </tr>
 {%- endmacro %}

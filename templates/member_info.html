@@ -128,7 +128,7 @@ function handle_leave_section_click() {
 }
 
 function new_default_section(ak, sk) {
-        $.post("/member_new_default_section.html",
+        $.post("/member_new_default_section",
         {
             ak: ak,
             sk: sk
@@ -147,7 +147,7 @@ $(document).ready(function() {
     $("a.band-click").click(function(){
         var mk='{{the_member.key.urlsafe()}}';
         var bk=$(this).attr("id");
-        $.post("/member_new_assoc.html",
+        $.post("/member_new_assoc",
                     {
                         mk: mk,
                         bk: bk

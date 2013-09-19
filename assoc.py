@@ -53,9 +53,9 @@ def get_assocs_for_member_key(the_member_key):
 
 def get_assoc_for_band_key_and_member_key(the_band_key, the_member_key):
     """ find the association between band and member """
-    assoc_query = Assoc.query(ndb.And(Assoc.member==the_member_key, 
+    assoc_query = Assoc.query(ndb.AND(Assoc.member==the_member_key, 
                                       Assoc.band==the_band_key), 
-                              ancestor=the_gig.key)
+                              ancestor=assoc_key())
     the_assocs = assoc_query.fetch()
     if len(the_assocs) == 0:
         return None #todo what to do if there's more than one plan     

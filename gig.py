@@ -149,7 +149,6 @@ class InfoPage(BaseHandler):
         self._make_page(self.user)
 
     def _make_page(self, the_user):
-        debug_print('IN GIG_INFO {0}'.format(the_user.name))
 
         # find the gig we're interested in
         gig_key_str = self.request.get("gk", None)
@@ -175,7 +174,9 @@ class InfoPage(BaseHandler):
             section_plans=[]
             for a_member_key in the_section[1]:
                 the_plan=plan.get_plan_for_member_for_gig(a_member_key.get(), the_gig)
-                section_plans.append( [a_member_key, the_plan] )
+                # add the plan to the list, but only if the member's section for this gig is this section
+                if the_plan.section == the_section[0]:
+                    section_plans.append( [a_member_key, the_plan] )
             the_plans.append( (the_section[0], section_plans) )
                 
         template_args = {
@@ -192,11 +193,9 @@ class EditPage(BaseHandler):
 
     @user_required
     def get(self):
-        print 'GIG_EDIT GET HANDLER'
         self._make_page(self.user)
 
     def _make_page(self, the_user):
-        debug_print('IN GIG_EDIT {0}'.format(the_user.name))
 
         if self.request.get("new", None) is not None:
             the_gig = None
