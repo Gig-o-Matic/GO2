@@ -5,28 +5,28 @@
         {{ plan_icon.icon_button(plan) }}
     </td>
     {% if show_date %}
-        <td width=20%>
+        <td class="plan-cell" width="20%">
             {{ plan.key.parent().get().date|e }}
         </td>
     {% endif %}
     {% if show_member %}
-        <td width=20%>
+        <td class="plan-cell" width="20%">
             {{ plan.member.get().name }}
         </td>
     {% endif %}
     {% if show_band %}
-        <td width=20%>
+        <td class="plan-cell" width="20%">
             <a href="band_info.html?bk={{ plan.key.parent().get().key.parent().urlsafe()}}">
              {{ plan.key.parent().get().key.parent().get().name|e }}</a>
         </td>
     {% endif %}
     {% if show_gig_name %}
-        <td>
+        <td class="plan-cell">
             <a href="gig_info.html?gk={{ plan.key.parent().urlsafe() }}" >{{ plan.key.parent().get().title|e }}</a>
         </td>
     {% endif %}
     <td>
-        <div class="form-group">
+        <div class="form-group plan-comment-input">
             <input type="text" id="c-{{plan.key.urlsafe()}}" class="form-control" placeholder="{{plan.comment}}" onchange="update_comment('{{plan.key.urlsafe()}}')">
         </div>
     </td>   

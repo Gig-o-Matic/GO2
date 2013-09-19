@@ -44,3 +44,11 @@ body {
 code {
   font-size: 80%;
 }
+
+.plan-comment-input {
+    margin-bottom: 0px;
+}
+
+.table tbody > tr > td.plan-cell {
+    vertical-align: middle;
+}
