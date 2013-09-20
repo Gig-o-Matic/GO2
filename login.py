@@ -121,7 +121,6 @@ class VerificationHandler(BaseHandler):
                 'user': user,
                 'token': signup_token
             }
-            self.auth.unset_session() # force a new login - remove this is we're OK with just calling the reset a login       
             self.render_template('resetpassword.html', params)
         else:
             logging.info('verification type not supported')
@@ -150,7 +149,9 @@ class SetPasswordHandler(BaseHandler):
     # remove signup token, we don't want users to come back with an old link
     self.user_model.delete_signup_token(user.get_id(), old_token)
     
-    self.display_message('Password updated')
+#    self.display_message('Password updated')
+    self.auth.unset_session()
+    self.redirect(self.uri_for('home'))
 
 ##########
 #
