@@ -46,7 +46,7 @@
                     <td>
                         <table class="table">
                             {% for member_plan in the_section[1] %}
-                                {{ plan_edit.plan_edit(member_plan[1], show_date=False, show_member=True, show_band=False, show_gig_name=False, show_section=False) }}
+                                {{ plan_edit.plan_edit(member_plan[1], section_info, show_date=False, show_member=True, show_band=False, show_gig_name=False, show_section=True) }}
                             {% endfor %}
                         </table>
                     </td>

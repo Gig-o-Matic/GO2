@@ -65,6 +65,11 @@ def update_plan_comment(the_plan, the_value):
     the_plan.comment=the_value
     the_plan.put()
 
+def update_plan_section_key(the_plan, the_section_key):
+    print 'updated!'
+    the_plan.section=the_section_key
+    the_plan.put()
+
 def delete_plans_for_gig(the_gig):
     """ A gig is being deleted, so forget everyone's plans about it """
     plan_query = Plan.query(ancestor=the_gig.key)
@@ -116,4 +121,22 @@ class UpdatePlanComment(webapp2.RequestHandler):
         else:
             pass # todo figure out why there was no plan
         print 'FOUND plan {0}'.format(the_plan.key.id())
+
+class UpdatePlanSection(webapp2.RequestHandler):
+    def post(self):
+        """post handler - if a section is edited, update the database"""
+        
+        the_section_keyurl=self.request.get("sk", '0')
+        the_plan_keyurl=self.request.get("pk",'0')
+        
+        if (the_plan_keyurl=='0' or the_section_keyurl=='0'):
+            return #todo figure out what to do if no plan passed in
+            
+        the_plan=ndb.Key(urlsafe=the_plan_keyurl).get()
+        the_section_key=ndb.Key(urlsafe=the_section_keyurl)
+        
+        if (the_plan is not None):
+            update_plan_section_key(the_plan, the_section_key)
+        else:
+            pass # todo figure out why there was no plan
         

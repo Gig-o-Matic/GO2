@@ -20,7 +20,7 @@
                 <div id="upcomingevents">
                     <table class="table">
                     {% for plan in upcoming_plans %}
-                        {{ plan_edit.plan_edit(plan, show_date=True, show_member=False, show_band=True, show_gig_name=True) }}
+                        {{ plan_edit.plan_edit(plan, section_info, show_date=True, show_member=False, show_band=True, show_gig_name=True) }}
                     {% endfor %}
                     </table>                
                 </div>
@@ -38,7 +38,7 @@
                     <div id="weighinevents">
                         <table class="table">
                         {% for plan in weighin_plans %}
-                            {{ plan_edit.plan_edit(plan, show_date=True, show_member=False, show_band=True, show_gig_name=True) }}
+                            {{ plan_edit.plan_edit(plan, section_info, show_date=True, show_member=False, show_band=True, show_gig_name=True) }}
                         {% endfor %}
                         </table>                
                     </div>

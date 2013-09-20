@@ -62,6 +62,20 @@ function update_comment(pk) {
 
 }
 
+function option_select(pk) {
+    elem=document.getElementById("sel-"+pk)
+    $.post("/updateplansection",
+                {
+                    sk: elem.options[elem.selectedIndex].id,
+                    pk: pk
+                },
+                function(responseTxt,statusTxt,xhr){
+//                        if(statusTxt=="success")
+                    if(statusTxt=="error")
+                      alert("Error: "+xhr.status+": "+xhr.statusText);
+                });
+}
+
 $(document).ready(function() {
     init_plan_buttons();
 });
