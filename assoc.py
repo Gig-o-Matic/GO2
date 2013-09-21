@@ -36,13 +36,11 @@ def delete_association(the_band, the_member):
     """ find the association between band and member """
     assoc_query = Assoc.query(ndb.AND(Assoc.member==the_member.key, Assoc.band==the_band.key),
                               ancestor=assoc_key())
-    the_assocs = assoc_query.fetch(keys_only=True)
-    debug_print('delete_association: got {0} assocs for {1} {2}'.format(len(the_assocs),
-                                                                        the_band.name,
-                                                                        the_member.name))
-    
-    if len(the_assocs)>0:
-        ndb.delete_multi(the_assocs)
+    the_assocs = assoc_query.fetch()
+
+    for an_assoc in the_assocs:
+        plan.delete_plans_for_member_for_band_key(the_member, an_assoc.band)
+        an_assoc.key.delete()
 
 def get_assocs_for_member_key(the_member_key):
     """ find the association between band and member """

@@ -6,6 +6,7 @@ from google.appengine.api import users
 from requestmodel import *
 
 import logging
+import member
 
 class LoginPage(BaseHandler):
     def get(self):

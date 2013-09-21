@@ -76,6 +76,7 @@ class BaseHandler(webapp2.RequestHandler):
 
         params['the_user'] = self.user
         params['logout_link'] = self.uri_for('logout')
+        print 'user is {0}'.format(self.user)
         template = je.get_template(filename)
         self.response.write(template.render(params))
 

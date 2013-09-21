@@ -1,0 +1,36 @@
+{% include 'header.html' %}
+{% include 'navbar.html' %}
+
+<div class="container">
+
+    <div class="starter-template">
+        <div class="row">
+            <div class="col-md-5 col-md-offset-2"><h1>Member Admin</h1></div>
+        </div> 
+        {% for member in the_members %}
+            <div class="row">
+                <div class="col-md-2 col-md-offset-2">{{ member.name|e }}</div>
+                <div class="col-md-2">
+                {% if member==the_user %}
+                    me!
+                {% else %}
+                    {% if member.role==0 %}
+                        <a href="/member_makeadmin?do=1&mk={{member.key.urlsafe()}}">make admin</a>
+                    {% else %}    
+                        <a href="/member_makeadmin?do=0&mk={{member.key.urlsafe()}}">remove admin</a>
+                    {% endif %}
+                {% endif %}
+                </div>
+                <div class="col-md-2">
+                {% if member==the_user %}
+                    me!
+                {% else %}
+                    <a href="/member_delete?mk={{member.key.urlsafe()}}">delete</a>
+                {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div> <!-- starter template -->    
+</div><!-- /.container -->
+{% include 'scripts.html' %}
+{% include 'footer.html' %}

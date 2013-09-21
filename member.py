@@ -18,6 +18,8 @@ import assoc
 import gig
 import band
 import plan
+import assoc
+
 from jinja2env import jinja_environment as je
 
 import json
@@ -70,6 +72,29 @@ class Member(webapp2_extras.appengine.auth.models.User):
 
         return None, None
     
+def get_all_members():
+    """ Return all member objects """
+    member_query = Member.query()
+    members = member_query.fetch()
+    print 'found {0} members'.format(len(members))
+    return members
+    
+def forget_member_from_key(the_member_key):
+    """ deletes a member, including all assocs and plans """
+
+    # first find all of the assocs to bands
+    the_assocs=assoc.get_assocs_for_member_key(the_member_key)
+    # delete all plans & assocs
+    for an_assoc in the_assocs:
+        assoc.delete_association(an_assoc.band.get(), the_member_key.get())
+
+    # delete the old unique values
+    the_member=the_member_key.get()
+    Unique.delete_multi(['Member.auth_id:%s'%the_member.email_address,
+                         'Member.email_address:%s'%the_member.email_address])  
+    # bye!    
+    the_member_key.delete()
+    
 def get_member_from_urlsafe_key(urlsafe):
     """take a urlsafe key and cause an ancestor query to happen, to assure previous writes are committed"""
     untrusted_member=ndb.Key(urlsafe=urlsafe).get()
@@ -78,11 +103,6 @@ def get_member_from_urlsafe_key(urlsafe):
 def get_member_from_key(key):
     """ Return member objects by key"""
     return key.get()
-
-def get_member_from_id(id):
-    """ Return member object by id"""
-    debug_print('get_member_from_id looking for id {0}'.format(id))
-    return Member.get_by_id(int(id), parent=member_key()) # todo more efficient if we use the band because it's the parent?
 
 def get_bands_of_member(the_member):
     """ Return band objects by member"""
@@ -107,7 +127,7 @@ def default_section_for_band_key(the_member, the_band_key):
         
     return the_section
 
-def nav_info(the_user, the_member):
+def nav_info(the_user, the_member=None):
 
         if (the_member is not None):
             if the_user.key == the_member.key:
@@ -130,8 +150,7 @@ def nav_info(the_user, the_member):
         
 def member_is_admin(the_member):
     print 'checking admin for {0}'.format(the_member)
-#    return the_member.role==1
-    return True # todo REMOVE THIS
+    return the_member.role==1
 
 #####
 #
@@ -423,3 +442,76 @@ class NewDefaultSection(BaseHandler):
         
         assoc.set_default_section(the_assoc_key, the_section_key)
 
+class AdminPage(BaseHandler):
+    """ Page for member administration """
+
+    @user_required
+    def get(self):    
+        self._make_page(the_user=self.user)
+            
+    def _make_page(self,the_user):
+    
+        # todo make sure the user is a superuser
+        
+        the_members = get_all_members()
+        
+        template_args = {
+            'title' : 'Member Admin',
+            'the_members' : the_members,
+            'nav_info' : nav_info(the_user)
+        }
+        self.render_template('member_admin.html', template_args)
+
+class DeleteMember(BaseHandler):
+    """ completely delete member """
+    
+    @user_required
+    def get(self):
+        """ post handler - wants a mk """
+        
+        the_member_keyurl=self.request.get('mk','0')
+
+        if the_member_keyurl=='0':
+            return # todo figure out what to do
+
+        the_member_key=ndb.Key(urlsafe=the_member_keyurl)
+        
+        the_user = self.user # todo - make sure the user is a superuser
+        
+        if (the_user != the_member_key):
+            forget_member_from_key(the_member_key)
+        else:
+            print 'cannot delete yourself, people'
+
+        return self.redirect('/member_admin.html')
+        
+class AdminMember(BaseHandler):
+    """ grant or revoke admin rights """
+    
+    @user_required
+    def get(self):
+        """ post handler - wants a mk """
+        
+        the_member_keyurl=self.request.get('mk','0')
+        the_do=self.request.get('do','')
+
+        if the_member_keyurl=='0':
+            return # todo figure out what to do
+
+        if the_do=='':
+            return # todo figure out what to do
+
+        the_member_key=ndb.Key(urlsafe=the_member_keyurl)
+        the_member=the_member_key.get()
+        
+        # todo - make sure the user is a superuser
+        if (the_do=='0'):
+            the_member.role=0
+        elif (the_do=='1'):
+            the_member.role=1
+        else:
+            return # todo figure out what to do
+
+        the_member.put()
+
+        return self.redirect('/member_admin.html')        
