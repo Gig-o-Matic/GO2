@@ -24,7 +24,7 @@
         </div>
         <div class="row">
             <div class="col-md-2 col-md-offset-2">Date</div>
-            <div class="col-md-8">{{ gig.date|e }}</div>
+            <div class="col-md-8">{{ gig.date.strftime('%-m/%-d/%Y')|e }}</div>
         </div>
         <div class="row">
             <div class="col-md-2 col-md-offset-2">Details</div>
