@@ -29,6 +29,7 @@ class Gig(ndb.Model):
     title = ndb.TextProperty()
     contact = ndb.UserProperty()
     details = ndb.TextProperty()
+    setlist = ndb.TextProperty()
     date = ndb.DateProperty(auto_now_add=True)
     call = ndb.TimeProperty()
 
@@ -227,13 +228,10 @@ class EditPage(BaseHandler):
     def post(self):
         """post handler - if we are edited by the template, handle it here 
            and redirect back to info page"""
-        print 'GIG_EDIT POST HANDLER'
 
-        print str(self.request.arguments())
 
         the_gig_key = self.request.get("gk", '0')
         
-        print 'GIG ID IS {0}'.format(the_gig_key)
         if (the_gig_key == '0'):
             the_gig = None
         else:
@@ -242,7 +240,6 @@ class EditPage(BaseHandler):
         # first, get the band
         gig_band_key = self.request.get("gig_band", None)
         if gig_band_key is not None and gig_band_key != '':
-            print 'got band key {0}'.format(gig_band_key)
             the_band = ndb.Key(urlsafe=gig_band_key).get()
             if the_gig is None:
                 the_gig = new_gig(title="tmp", the_band=the_band)
@@ -250,17 +247,18 @@ class EditPage(BaseHandler):
         # now get the info
         gig_title = self.request.get("gig_title", None)
         if gig_title is not None and gig_title != '':
-            print 'got title {0}'.format(gig_title)
             the_gig.title = gig_title
         
         gig_details = self.request.get("gig_details", None)
         if gig_details is not None and gig_details != '':
-            print 'got details {0}'.format(gig_details)
             the_gig.details = gig_details
+
+        gig_setlist = self.request.get("gig_setlist", None)
+        if gig_setlist is not None and gig_setlist != '':
+            the_gig.setlist = gig_setlist
 
         gig_date = self.request.get("gig_date", None)
         if gig_date is not None and gig_date != '':
-            print 'got date {0}'.format(gig_date)
             the_gig.date = datetime.datetime.strptime(gig_date, \
                                                       '%m/%d/%Y').date()
             # todo validate form entry so date isn't bogus

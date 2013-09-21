@@ -42,16 +42,18 @@
         <td class="plan-cell">
             {% set section_list = get_sections_for_member_key_band_key(plan.member, plan.key.parent().parent()) %}
             {% if section_list and section_list|length > 1 %}
-                <select id="sel-{{plan.key.urlsafe()}}" onchange="option_select('{{plan.key.urlsafe()}}')">
-                {% for section in section_list %}
-                    <option
-                        {% if section == plan.section %}
-                            selected
-                        {% endif %}
-                        id="{{section.urlsafe()}}"
-                    >{{ section.get().name }}</option>
-                {% endfor %}
-                </select>
+                <div class="form-group plan-comment-input">
+                    <select class="form-control" id="sel-{{plan.key.urlsafe()}}" onchange="option_select('{{plan.key.urlsafe()}}')">
+                    {% for section in section_list %}
+                        <option
+                            {% if section == plan.section %}
+                                selected
+                            {% endif %}
+                            id="{{section.urlsafe()}}"
+                        >{{ section.get().name }}</option>
+                    {% endfor %}
+                    </select>
+                </div>
             {% endif %}
         </td>
     {% endif %}

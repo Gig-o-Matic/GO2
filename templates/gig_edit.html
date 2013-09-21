@@ -13,7 +13,7 @@
             <div class="row">
                 <div class="form-group col-md-5 col-md-offset-2">
                     <label for="gigtitleinput" class="control-label">Gig</label>
-                    <input type="text" class="form-control" id="gigtitleinput" placeholder="{{gig.title}}" name="gig_title">
+                    <input type="text" class="form-control" id="gigtitleinput" placeholder="(required)" value="{{gig.title}}" name="gig_title">
                 </div>
             </div>
             <div class="row">
@@ -35,13 +35,19 @@
             <div class="row">
                 <div class="form-group col-md-5 col-md-offset-2">
                     <label for="gigdetailsinput" class="control-label">Details</label>
-                    <textarea class="form-control" id="gigdetailsinput" placeholder="{{gig.details}}" name="gig_details"></textarea>
+                    <textarea class="form-control" id="gigdetailsinput" placeholder="who? what? where? when? why?" name="gig_details">{{gig.details}}</textarea>
+                </div>
+            </div>            
+            <div class="row">
+                <div class="form-group col-md-5 col-md-offset-2">
+                    <label for="gigsetlistinput" class="control-label">Setlist</label>
+                    <textarea class="form-control" id="gigsetlistinput" placeholder="setlist here" name="gig_setlist">{{gig.setlist}}</textarea>
                 </div>
             </div>            
             <div class="row">
                 <div class="form-group col-md-5 col-md-offset-2">
                     <label for="gigdateinput" class="control-label">Date</label>
-                    <input type="text" class="datepicker form-control" id="gigdateinput" placeholder="{{gig.date}}" name="gig_date">
+                    <input type="text" class="datepicker form-control" id="gigdateinput" placeholder="(required)" value="{{gig.date}}" name="gig_date">
                 </div>
             </div>
             <div class="row">
