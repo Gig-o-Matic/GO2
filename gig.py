@@ -180,17 +180,11 @@ class InfoPage(BaseHandler):
                     section_plans.append( [a_member_key, the_plan] )
             the_plans.append( (the_section[0], section_plans) )
                 
-        the_section_info={}
-        the_assocs = assoc.get_assocs_for_member_key(the_user.key)
-        for an_assoc in the_assocs:
-            the_band_key=an_assoc.band
-            the_section_info[the_band_key] = an_assoc.sections
-
         template_args = {
             'title' : 'Gig Info',
             'gig' : the_gig,
             'member_plans' : the_plans,
-            'section_info' : the_section_info,
+            'get_sections_for_member_key_band_key' : member.get_sections_for_member_key_band_key,
             'nav_info' : member.nav_info(the_user, None)
         }
         self.render_template('gig_info.html', template_args)

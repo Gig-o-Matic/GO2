@@ -48,17 +48,11 @@ class MainPage(BaseHandler):
                     if (the_plan.value == 0 ):
                         weighin_plans.append( the_plan )
 
-        the_section_info={}
-        the_assocs = assoc.get_assocs_for_member_key(the_user.key)
-        for an_assoc in the_assocs:
-            the_band_key=an_assoc.band
-            the_section_info[the_band_key] = an_assoc.sections
-
         template_args = {
             'title' : 'Agenda',
             'upcoming_plans' : upcoming_plans,
             'weighin_plans' : weighin_plans,
-            'section_info' : the_section_info,
+            'get_sections_for_member_key_band_key' : member.get_sections_for_member_key_band_key,
             'nav_info' : member.nav_info(the_user, None),          
             'agenda_is_active' : True
         }

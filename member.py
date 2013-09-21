@@ -113,18 +113,24 @@ def get_bands_of_member(the_member):
     debug_print('get_bands_of_member: found {0} bands for member {1}'.format(len(bands),the_member.name))
     return bands
 
+def get_sections_for_member_key_band_key(the_member_key, the_band_key):
+    """ find the sections for a member within a given band """
+    
+    the_assoc = assoc.get_assoc_for_band_key_and_member_key(the_band_key, the_member_key)
+    if the_assoc:
+        the_sections = the_assoc.sections
+    else:
+        the_sections=None        
+    return the_sections
+
 def default_section_for_band_key(the_member, the_band_key):
     """ find the default section for a member within a given band """
     
-    print 'testing {0} {1}'.format(the_member, the_band_key)
-    
     the_assoc = assoc.get_assoc_for_band_key_and_member_key(the_band_key, the_member.key)
-
     if the_assoc:
         the_section = the_assoc.default_section
     else:
-        the_section=None
-        
+        the_section=None        
     return the_section
 
 def nav_info(the_user, the_member=None):
