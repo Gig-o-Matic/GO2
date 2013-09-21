@@ -261,33 +261,6 @@ class BandGetMembers(BaseHandler):
         }
         self.render_template('band_members.html', template_args)
 
-class XXXXBandGetSections(BaseHandler): # don't think I need this anymore - remove it from here and main.py
-    """ returns the sections related to a band """                   
-
-    def post(self):    
-        """ return the sections for a band """
-        the_user = self.user
-
-        the_band_key=self.request.get('bk',0)
-        
-        if the_band_key==0:
-            return # todo figure out what to do
-            
-        the_band = ndb.Key(urlsafe=the_band_key).get()
-        
-        the_sections = the_band.sections
-        if not the_sections:
-            the_sections=[]
-        
-        print 'got {0} sections for band {1}'.format(len(the_sections), the_band.name)
-        
-        
-        template_args = {
-            'the_sections' : the_sections,
-            'nav_info' : member.nav_info(the_user, None)
-        }
-        self.render_template('band_sections.html', template_args)
-
 class NewSection(BaseHandler):
     """ makes a new section for a band """                   
 
