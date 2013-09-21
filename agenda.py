@@ -30,7 +30,7 @@ class MainPage(BaseHandler):
         if the_bands is None or len(the_bands)==0:
             return self.redirect('/member_info.html?mk={0}'.format(the_user.key.urlsafe()))
                     
-        num_to_put_in_upcoming=2
+        num_to_put_in_upcoming=5
         today_date=datetime.datetime.now()
         print 'using start date {0}'.format(today_date)
         the_gigs=gig.get_gigs_for_band(the_bands, num=num_to_put_in_upcoming, start_date=today_date)
