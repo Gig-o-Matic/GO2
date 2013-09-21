@@ -1,8 +1,12 @@
 {% import 'plan_icon.html' as plan_icon %}
 {% macro plan_edit(plan, section_info, show_date=False, show_member=False, show_band=False, show_gig_name=False, show_section=True) -%}
 <tr>
-    <td width=10%>
-        {{ plan_icon.icon_button(plan) }}
+    <td class="plan-cell" width="10%">
+        {% if plan.member == the_user.key or nav_info['is_admin'] %}
+            {{ plan_icon.icon_button(plan) }}
+        {% else %}
+            {{ plan_icon.icon(plan.value) }}
+        {% endif %}
     </td>
     {% if show_date %}
         <td class="plan-cell" width="20%">
@@ -25,10 +29,14 @@
             <a href="gig_info.html?gk={{ plan.key.parent().urlsafe() }}" >{{ plan.key.parent().get().title|e }}</a>
         </td>
     {% endif %}
-    <td>
-        <div class="form-group plan-comment-input">
-            <input type="text" id="c-{{plan.key.urlsafe()}}" class="form-control" placeholder="{{plan.comment}}" onchange="update_comment('{{plan.key.urlsafe()}}')">
-        </div>
+    <td class="plan-cell">
+        {% if plan.member == the_user.key or nav_info['is_admin'] %}    
+            <div class="form-group plan-comment-input">
+                <input type="text" id="c-{{plan.key.urlsafe()}}" class="form-control" placeholder="{{plan.comment}}" onchange="update_comment('{{plan.key.urlsafe()}}')">
+            </div>
+        {% else %}
+            {{plan.comment}}
+        {% endif %}
     </td>
     {% if show_section %}
         <td class="plan-cell">
