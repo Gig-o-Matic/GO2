@@ -113,6 +113,13 @@ def get_bands_of_member(the_member):
     debug_print('get_bands_of_member: found {0} bands for member {1}'.format(len(bands),the_member.name))
     return bands
 
+def get_confirmed_bands_of_member(the_member):
+    """ Return band objects by member"""
+    assoc_query = assoc.Assoc.query(assoc.Assoc.member==the_member.key, assoc.Assoc.status > 0, ancestor=assoc.assoc_key())
+    assocs = assoc_query.fetch()
+    bands=[a.band.get() for a in assocs]
+    return bands
+
 def get_sections_for_member_key_band_key(the_member_key, the_band_key):
     """ find the sections for a member within a given band """
     

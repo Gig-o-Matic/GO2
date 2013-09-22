@@ -21,7 +21,6 @@ class MainPage(BaseHandler):
         self._make_page(the_user=self.user)
             
     def _make_page(self,the_user):
-        debug_print('IN CALVIEW {0}'.format(the_user.name))
                 
         template_args = {
             'title' : 'Calendar',

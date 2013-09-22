@@ -53,9 +53,7 @@ def get_gig_from_key(key):
         
 def get_gigs_for_band(the_band, num=None, start_date=None):
     """ Return gig objects by band"""
-    
-    print 'START DATE IS {0}'.format(start_date)
-    
+        
     if (type(the_band) is not list):
         band_list = [the_band]
     else:
@@ -129,7 +127,7 @@ def get_gigs_for_band_for_dates(the_band, start_date, end_date):
 
 def get_gigs_for_member_for_dates(the_member, start_date, end_date):
     """ return gig objects for the bands of a member """
-    the_bands = member.get_bands_of_member(the_member)
+    the_bands = member.get_confirmed_bands_of_member(the_member)
     all_gigs = []
     for a_band in the_bands:
         all_gigs.extend(get_gigs_for_band_for_dates(a_band, \

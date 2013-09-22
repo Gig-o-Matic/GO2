@@ -26,7 +26,6 @@ def band_key(band_name='band_key'):
 class Band(ndb.Model):
     """ Models a gig-o-matic band """
     name = ndb.StringProperty()
-    adminkey = ndb.KeyProperty()
     website = ndb.TextProperty()
     description = ndb.TextProperty()
     sections = ndb.KeyProperty( repeated=True ) # instrumental sections
@@ -87,7 +86,13 @@ def get_member_keys_of_band_key_by_section_key(the_band_key):
         the_info.append([None,no_section_members])
 
     return the_info
-    
+
+def get_pending_members_from_band_key(the_band_key):
+    """ Get all the members who have a status of 0 """
+    assoc_query = assoc.Assoc.query(assoc.Assoc.band==the_band_key, assoc.Assoc.status==0, ancestor=assoc.assoc_key())
+    assocs = assoc_query.fetch()
+    members=ndb.get_multi([a.member for a in assocs])
+    return members
     
 def new_section_for_band(the_band, the_section_name):
     the_section = Section(parent=the_band.key, name=the_section_name)
@@ -112,7 +117,10 @@ def delete_section_key(the_section_key):
         the_band.put()
     the_section_key.delete()
 
-
+def is_band_admin(status):
+    return True
+    return status==2
+    
 #
 # class for section
 #
@@ -127,14 +135,16 @@ class Section(ndb.Model):
 #
 
 class InfoPage(BaseHandler):
+    """ class to produce the band info page """
 
     @user_required
     def get(self):    
+        """ make the band info page """
         self._make_page(the_user=self.user)
 
     def _make_page(self,the_user):
-        debug_print('IN BAND_INFO {0}'.format(the_user.name))
-
+        """ produce the info page """
+        
         # find the band we're interested in
         band_key_str=self.request.get("bk", None)
         if band_key_str is None:
@@ -148,17 +158,24 @@ class InfoPage(BaseHandler):
             self.response.write('did not find a band!')
             return # todo figure out what to do if we didn't find it
             
-        if the_band.adminkey:
-            the_admin=the_band.adminkey.get()
+        the_assoc=assoc.get_assoc_for_band_key_and_member_key(the_band_key, the_user.key)
+        if the_assoc:
+            the_status=the_assoc.status
         else:
-            the_admin=None
+            the_status=-1
+
+        if is_band_admin(the_status):
+            the_pending = get_pending_members_from_band_key(the_band_key)
+        else:
+            the_pending = []
 
         debug_print('found band object: {0}'.format(the_band.name))
 
         template_args = {
             'title' : 'Band Info',
             'the_band' : the_band,
-            'the_admin' : the_admin,
+            'the_status' : the_status,
+            'the_pending_members' : the_pending,
             'nav_info' : member.nav_info(the_user, None)
         }
         self.render_template('band_info.html', template_args)
@@ -303,10 +320,9 @@ class DeleteSection(BaseHandler):
 class MoveSection(BaseHandler):
     """ move a section for a band """                   
 
+    @user_required
     def post(self):    
         """ moves a section """
-        
-        print 'in new section move handler'
         
         the_user = self.user
         
@@ -331,4 +347,34 @@ class MoveSection(BaseHandler):
         else:
             print 'not in band'
         
+class ConfirmMember(BaseHandler):
+    """ move a member from pending to 'real' member """
+    
+    @user_required
+    def post(self):
+        """ handles the 'confirm member' button in the band info page """
+        
+        the_user = self.user
+
+        # todo make sure we are a band admin        
+        the_member_keyurl=self.request.get('mk','0')
+        the_band_keyurl=self.request.get('bk','0')
+        
+        if the_member_keyurl=='0' or the_band_keyurl=='0':
+            return # todo what to do?
             
+        the_member_key=ndb.Key(urlsafe=the_member_keyurl)
+        the_band_key=ndb.Key(urlsafe=the_band_keyurl)
+                    
+        the_assoc = assoc.get_assoc_for_band_key_and_member_key(the_band_key, the_member_key)
+        
+        print '$$$$$ {0}'.format(the_assoc)
+        
+        if the_assoc is None:
+            return # todo what to do?
+            
+        the_assoc.status=1
+        the_assoc.put()
+
+        return self.redirect('/band_info.html?bk={0}'.format(bk))
+        

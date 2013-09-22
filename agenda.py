@@ -25,7 +25,7 @@ class MainPage(BaseHandler):
         """ construct page for agenda view """
         
         # find the bands this member is associated with
-        the_bands=member.get_bands_of_member(the_user)
+        the_bands=member.get_confirmed_bands_of_member(the_user)
         
         if the_bands is None or len(the_bands)==0:
             return self.redirect('/member_info.html?mk={0}'.format(the_user.key.urlsafe()))

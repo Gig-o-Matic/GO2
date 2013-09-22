@@ -9,6 +9,8 @@ from google.appengine.ext import ndb
 from member import *
 from debug import *
 
+import plan
+
 def assoc_key(assoc_name='assoc_key'):
     """Constructs a Datastore key for a Guestbook entity with guestbook_name."""
     return ndb.Key('assoc', assoc_name)
@@ -20,7 +22,7 @@ class Assoc(ndb.Model):
     """ Models a gig-o-matic association """
     band = ndb.KeyProperty()
     member = ndb.KeyProperty()
-    status = ndb.IntegerProperty( default=0 )
+    status = ndb.IntegerProperty( default=0 ) # 0 = pending, 1 = member, 2 = band admin
     sections = ndb.KeyProperty( repeated=True )
     default_section = ndb.KeyProperty()
     section_count = ndb.ComputedProperty(lambda self: len(self.sections))
@@ -29,7 +31,7 @@ def new_association(band, member):
     """ associate a band and a member """
     
     # todo make sure there's not already an assoc between member and band
-    the_assoc = Assoc(parent=assoc_key(), band=band.key, member=member.key)
+    the_assoc = Assoc(parent=assoc_key(), band=band.key, member=member.key, status=0)
     the_assoc.put()
 
 def delete_association(the_band, the_member):

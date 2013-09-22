@@ -10,6 +10,12 @@ indexes:
 # automatically uploaded to the admin console when you next deploy
 # your application using appcfg.py.
 
+- kind: Assoc
+  ancestor: yes
+  properties:
+  - name: member
+  - name: status
+
 - kind: Gig
   ancestor: yes
   properties:

@@ -6,50 +6,54 @@
             <td width=20%>
                 {% if the_info.assoc.status == 0 %}
                     pending
+                {% elif the_info.assoc.status == 2  %}
+                    admin
                 {% else %}
-                    member  
+                    member
                 {% endif %}
             </td>
             <td width=50%>
-                <table class="table">
-                    {% if the_info.assoc.sections %}
-                        {% for a_section in the_info.assoc.sections %}
-                            <tr>
-                                <td>{{a_section.get().name}}</td>
-                                <td>
-                                    {% if a_section == the_info.assoc.default_section %}
-                                        default
-                                    {% else %}
-                                        <button type="button" class="btn btn-xs" onclick="new_default_section('{{the_info.assoc.key.urlsafe()}}', '{{a_section.urlsafe()}}')">make default</button>
-                                    {% endif %}
-                                </td>
-                                <td>
-                                    <a class="leave-section-click" id="{{a_section.urlsafe()}}" data-ak="{{the_info.assoc.key.urlsafe()}}" tabindex="-1" href="#"><i class="icon-minus-sign-alt"></i></a>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    {% else %}
-                        {% if the_info.sections %}
-                            <tr><td>No section selected!</td></tr>
+                {% if the_info.assoc.status > 0 %}
+                    <table class="table">
+                        {% if the_info.assoc.sections %}
+                            {% for a_section in the_info.assoc.sections %}
+                                <tr>
+                                    <td>{{a_section.get().name}}</td>
+                                    <td>
+                                        {% if a_section == the_info.assoc.default_section %}
+                                            default
+                                        {% else %}
+                                            <button type="button" class="btn btn-xs" onclick="new_default_section('{{the_info.assoc.key.urlsafe()}}', '{{a_section.urlsafe()}}')">make default</button>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <a class="leave-section-click" id="{{a_section.urlsafe()}}" data-ak="{{the_info.assoc.key.urlsafe()}}" tabindex="-1" href="#"><i class="icon-minus-sign-alt"></i></a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                            {% if the_info.sections %}
+                                <tr><td>No section selected!</td></tr>
+                            {% endif %}
                         {% endif %}
-                    {% endif %}
-                    {% if the_info.sections %}
-                        <tr><td>
-                            <div class="dropdown">
-                                <button type="button" class="btn btn-xs btn-default dropdown-toggle text-center" data-toggle="dropdown">
-                                    <i class="icon-plus icon-small"></i>
-                                </button>
-                                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                                    {% for a_section in the_info.sections %}
-                                        <li role="presentation">
-                                            <a class="section-click" id="{{a_section.urlsafe()}}" data-ak="{{the_info.assoc.key.urlsafe()}}" tabindex="-1" href="#">{{a_section.get().name}}</a>
-                                        </li>
-                                    {% endfor %}
-                                </ul>
-                            </div> <!-- dropdown -->
-                        </td><td></td></tr>
-                    {% endif %}
-                </table>
+                        {% if the_info.sections %}
+                            <tr><td>
+                                <div class="dropdown">
+                                    <button type="button" class="btn btn-xs btn-default dropdown-toggle text-center" data-toggle="dropdown">
+                                        <i class="icon-plus icon-small"></i>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                                        {% for a_section in the_info.sections %}
+                                            <li role="presentation">
+                                                <a class="section-click" id="{{a_section.urlsafe()}}" data-ak="{{the_info.assoc.key.urlsafe()}}" tabindex="-1" href="#">{{a_section.get().name}}</a>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div> <!-- dropdown -->
+                            </td><td></td></tr>
+                        {% endif %}
+                    </table>
+                {% endif %}
             </td>
             <td width=10%>
                 <a href="/member_delete_assoc.html?bk={{the_info.assoc.band.urlsafe()}}&mk={{the_member.key.urlsafe()}}">Leave Band</a>
