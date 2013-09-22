@@ -35,20 +35,17 @@ def new_plan(the_gig, the_member, value):
 
 def get_plan_from_id(the_gig, id):
     """ Return plan object by id; needs the key for the parent, which is the band for this plan"""
-    debug_print('get_plan_from_id looking for id {0}'.format(id))
     return Plan.get_by_id(int(id), parent=the_gig.key)
 
 def get_plans_for_gig(the_gig):
     """ Return plan objects by gig"""
     plan_query = Plan.query(ancestor=the_gig.key)
     plans = plan_query.fetch()
-    debug_print('get_plans_for_gig: got {0} plans for gig key id {1} ({2})'.format(len(plans),the_gig.key.id(),the_gig.title))
     return plans
 
 def get_plan_for_member_for_gig(the_member, the_gig):
     plan_query = Plan.query(Plan.member==the_member.key, ancestor=the_gig.key)
     plans = plan_query.fetch()
-    debug_print('get_plans_for_gig: got {0} plans for gig key id {1} ({2})'.format(len(plans),the_gig.key.id(),the_gig.title))
     if len(plans)>1:
         return None #todo what to do if there's more than one plan        
     if len(plans)>0:
@@ -66,7 +63,6 @@ def update_plan_comment(the_plan, the_value):
     the_plan.put()
 
 def update_plan_section_key(the_plan, the_section_key):
-    print 'updated!'
     the_plan.section=the_section_key
     the_plan.put()
 
@@ -86,7 +82,6 @@ def delete_plans_for_member_for_band_key(the_member, the_band_key):
 class UpdatePlan(webapp2.RequestHandler):
     def post(self):
         """post handler - if we are edited by the template, handle it here and redirect back to info page"""
-        print 'UPDATE_PLAN POST HANDLER'
         the_value=int(self.request.get("val", 0))
         the_plan_key=self.request.get("pk",'0')
         
@@ -99,12 +94,11 @@ class UpdatePlan(webapp2.RequestHandler):
             update_plan(the_plan, the_value)
         else:
             pass # todo figure out why there was no plan
-        print 'FOUND plan {0}'.format(the_plan.key.id())
         
 class UpdatePlanComment(webapp2.RequestHandler):
     def post(self):
         """post handler - if a comment is edited, update the database"""
-        print 'Update_Plan_Comment post handler'
+
         the_value=self.request.get("val", "")
         the_plan_key=self.request.get("pk",'0')
         
@@ -117,7 +111,6 @@ class UpdatePlanComment(webapp2.RequestHandler):
             update_plan_comment(the_plan, the_value)
         else:
             pass # todo figure out why there was no plan
-        print 'FOUND plan {0}'.format(the_plan.key.id())
 
 class UpdatePlanSection(webapp2.RequestHandler):
     def post(self):
