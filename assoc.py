@@ -111,7 +111,10 @@ def leave_section_for_assoc(assoc_key, section_key):
                 the_assoc.default_section = the_assoc.sections[0]
             else:
                 the_assoc.default_section = None
-    the_assoc.put()
+        the_assoc.put()
+        # now, get all the plans for this member, and if they've left the section,
+        # reset the section
+        plan.leave_section(the_assoc, section_key, the_assoc.default_section)
 
 def set_default_section(the_assoc_key, the_section_key):
     the_assoc=the_assoc_key.get()

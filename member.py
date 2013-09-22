@@ -134,6 +134,7 @@ def default_section_for_band_key(the_member, the_band_key):
     """ find the default section for a member within a given band """
     
     the_assoc = assoc.get_assoc_for_band_key_and_member_key(the_band_key, the_member.key)
+    print 'got an assoc, section={0}'.format(the_assoc.default_section.get().name)
     if the_assoc:
         the_section = the_assoc.default_section
     else:

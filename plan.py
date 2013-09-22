@@ -54,6 +54,15 @@ def get_plan_for_member_for_gig(the_member, the_gig):
         # no plan? make a new one
         return new_plan(the_gig, the_member, 0)
 
+def leave_section(the_assoc, the_gone_section_key, the_new_default_key):
+    """ find all the plans for a member, and if any are for a section the member left, swap for another """
+    plan_query = Plan.query(Plan.member==the_assoc.member)
+    plans = plan_query.fetch()
+    for plan in plans:
+        if (plan.section == the_gone_section_key):
+            plan.section = the_new_default_key
+            plan.put()
+
 def update_plan(the_plan, the_value):
     the_plan.value=the_value
     the_plan.put()
