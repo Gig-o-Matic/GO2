@@ -9,7 +9,9 @@
         </div> 
         {% for member in the_members %}
             <div class="row">
-                <div class="col-md-2 col-md-offset-2">{{ member.name|e }}</div>
+                <div class="col-md-2 col-md-offset-2">
+                    <a href="/member_info.html?mk={{member.key.urlsafe()}}">{{ member.name|e }}</a>
+                </div>
                 <div class="col-md-2">
                 {% if member==the_user %}
                     me!
