@@ -270,6 +270,28 @@ class BandGetMembers(BaseHandler):
             return # todo figure out what to do
             
         the_band_key = ndb.Key(urlsafe=the_band_key_str)
+        the_member_keys = get_member_keys_of_band_key(the_band_key)
+        the_members = [a.get() for a in the_member_keys]
+        
+        template_args = {
+            'the_members' : the_members,
+            'nav_info' : member.nav_info(the_user, None)            
+        }
+        self.render_template('band_members.html', template_args)
+
+class BandGetSections(BaseHandler):
+    """ returns the sections related to a band """                   
+
+    def post(self):    
+        """ return the sections for a band """
+        the_user = self.user
+
+        the_band_key_str=self.request.get('bk','0')
+        
+        if the_band_key_str=='0':
+            return # todo figure out what to do
+            
+        the_band_key = ndb.Key(urlsafe=the_band_key_str)
         the_members_by_section = get_member_keys_of_band_key_by_section_key(the_band_key)
                 
         template_args = {

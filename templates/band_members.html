@@ -1,0 +1,20 @@
+<table class="table table-striped">
+{% for the_member in the_members %}
+    <tr>
+    <td>
+        <div class="row">
+            <div class="col-md-2 col-md-offset-1">
+                <a href='/member_info.html?mk={{the_member.key.urlsafe()}}'>{{ the_member.name }}</a>
+            </div>
+        </div>
+    </td>
+    {% if nav_info['is_admin'] %} 
+    <td>
+        adminify here
+    </td>
+    {% else %}
+    <td></td>
+    {% endif %}
+    </tr>
+{% endfor %}
+</table>
