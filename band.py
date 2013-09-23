@@ -276,7 +276,7 @@ class BandGetMembers(BaseHandler):
             'the_members_by_section' : the_members_by_section,
             'nav_info' : member.nav_info(the_user, None)            
         }
-        self.render_template('band_members.html', template_args)
+        self.render_template('band_sections.html', template_args)
 
 class NewSection(BaseHandler):
     """ makes a new section for a band """                   

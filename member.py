@@ -163,7 +163,6 @@ def nav_info(the_user, the_member=None):
         }
         
 def member_is_admin(the_member):
-    print 'checking admin for {0}'.format(the_member)
     return the_member.role==1
 
 #####
