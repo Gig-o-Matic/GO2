@@ -41,7 +41,7 @@
     {% if show_section %}
         <td class="plan-cell">
             {% set section_list = get_sections_for_member_key_band_key(plan.member, plan.key.parent().parent()) %}
-            {% if section_list and section_list|length > 1 %}
+            {% if section_list and section_list|length > 1 and (plan.member == the_user.key or nav_info['is_admin'])%}
                 <div class="form-group plan-comment-input">
                     <select class="form-control" id="sel-{{plan.key.urlsafe()}}" onchange="option_select('{{plan.key.urlsafe()}}')">
                     {% for section in section_list %}
