@@ -3,6 +3,7 @@ Handlers for user-related pages: login, logout, signup, verify
 """
 
 from google.appengine.api import users
+from webapp2_extras.auth import *
 from requestmodel import *
 
 import logging
@@ -20,7 +21,7 @@ class LoginPage(BaseHandler):
                 save_session=True)
             self.redirect(self.uri_for('home'))
         except (InvalidAuthIdError, InvalidPasswordError) as e:
-            logging.info('Login failed for user %s because of %s', username, type(e))
+            logging.info('Login failed for user %s because of %s', email, type(e))
             self._serve_page(True)
 
     def _serve_page(self, failed=False):
