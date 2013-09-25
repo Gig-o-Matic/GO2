@@ -270,11 +270,10 @@ class BandGetMembers(BaseHandler):
             return # todo figure out what to do
             
         the_band_key = ndb.Key(urlsafe=the_band_key_str)
-        the_member_keys = get_member_keys_of_band_key(the_band_key)
-        the_members = [a.get() for a in the_member_keys]
+        the_assocs = assoc.get_assocs_of_band_key(the_band_key)
         
         template_args = {
-            'the_members' : the_members,
+            'the_assocs' : the_assocs,
             'nav_info' : member.nav_info(the_user, None)            
         }
         self.render_template('band_members.html', template_args)
@@ -400,3 +399,36 @@ class ConfirmMember(BaseHandler):
 
         return self.redirect('/band_info.html?bk={0}'.format(bk))
         
+class AdminMember(BaseHandler):
+    """ grant or revoke admin rights """
+    
+    @user_required
+    def get(self):
+        """ post handler - wants an ak """
+        
+        # todo - make sure the user is a superuser or already an admin of this band
+
+        the_assoc_keyurl=self.request.get('ak','0')
+        the_do=self.request.get('do','')
+
+        if the_assoc_keyurl=='0':
+            return # todo figure out what to do
+
+        if the_do=='':
+            return # todo figure out what to do
+
+        the_assoc=ndb.Key(urlsafe=the_assoc_keyurl).get()
+
+        print 'found assoc: {0}'.format(the_assoc)
+        if the_assoc:
+            if (the_do == '0'):
+                the_assoc.status=1
+                print 'REMOVING ADMIN'
+            elif (the_do == '1'):
+                the_assoc.status=2
+                print 'GRANTING ADMIN'
+            the_assoc.put()
+        else:
+            return # todo figure out what to do
+
+        return self.redirect('/band_info.html?bk={0}'.format(the_assoc.band.urlsafe()))

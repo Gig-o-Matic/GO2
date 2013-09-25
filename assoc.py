@@ -51,6 +51,12 @@ def get_assocs_for_member_key(the_member_key):
     the_assocs = assoc_query.fetch()
     return the_assocs
 
+def get_assocs_of_band_key(the_band_key):
+    """ Return member objects by band"""
+    assoc_query = Assoc.query(Assoc.band==the_band_key, ancestor=assoc_key())
+    assocs = assoc_query.fetch()
+    return assocs
+
 def get_assoc_for_band_key_and_member_key(the_band_key, the_member_key):
     """ find the association between band and member """
     assoc_query = Assoc.query(ndb.AND(Assoc.member==the_member_key, 
