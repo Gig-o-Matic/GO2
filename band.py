@@ -372,7 +372,7 @@ class ConfirmMember(BaseHandler):
     """ move a member from pending to 'real' member """
     
     @user_required
-    def post(self):
+    def get(self):
         """ handles the 'confirm member' button in the band info page """
         
         the_user = self.user
@@ -397,7 +397,7 @@ class ConfirmMember(BaseHandler):
         the_assoc.status=1
         the_assoc.put()
 
-        return self.redirect('/band_info.html?bk={0}'.format(bk))
+        return self.redirect('/band_info.html?bk={0}'.format(the_band_keyurl))
         
 class AdminMember(BaseHandler):
     """ grant or revoke admin rights """
@@ -423,11 +423,32 @@ class AdminMember(BaseHandler):
         if the_assoc:
             if (the_do == '0'):
                 the_assoc.status=1
-                print 'REMOVING ADMIN'
             elif (the_do == '1'):
                 the_assoc.status=2
-                print 'GRANTING ADMIN'
             the_assoc.put()
+        else:
+            return # todo figure out what to do
+
+        return self.redirect('/band_info.html?bk={0}'.format(the_assoc.band.urlsafe()))
+
+class RemoveMember(BaseHandler):
+    """ grant or revoke admin rights """
+    
+    @user_required
+    def get(self):
+        """ post handler - wants an ak """
+        
+        # todo - make sure the user is a superuser or already an admin of this band
+
+        the_assoc_keyurl=self.request.get('ak','0')
+
+        if the_assoc_keyurl=='0':
+            return # todo figure out what to do
+
+        the_assoc=ndb.Key(urlsafe=the_assoc_keyurl).get()
+
+        if the_assoc:
+            the_assoc.key.delete()
         else:
             return # todo figure out what to do
 

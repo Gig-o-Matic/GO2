@@ -1,31 +1,31 @@
 <table class="table table-striped">
 {% for the_assoc in the_assocs %}
-    <tr>
-    <td>
-        <div class="row">
-            <div class="col-md-2 col-md-offset-1">
-                <a href='/member_info.html?mk={{the_assoc.member.urlsafe()}}'>{{ the_assoc.member.get().name }}</a>
+    {% if the_assoc.status > 0 %}
+        <tr>
+        <td>
+            <div class="row">
+                <div class="col-md-2 col-md-offset-1">
+                    <a href='/member_info.html?mk={{the_assoc.member.urlsafe()}}'>{{ the_assoc.member.get().name }}</a>
+                </div>
             </div>
-        </div>
-    </td>
-    {% if nav_info['is_admin'] %} 
-    <td>
-        {% if the_assoc.member==the_user %}
-            me!
-        {% else %}
-            {% if the_assoc.status==1 %}
-                <a href="/band_makeadmin?do=1&ak={{the_assoc.key.urlsafe()}}">make band admin</a>
-            {% else %}    
-                <a href="/band_makeadmin?do=0&ak={{the_assoc.key.urlsafe()}}">remove band admin</a>
+        </td>
+        {% if nav_info['is_admin'] %} 
+            {% if the_assoc.member!=the_user.key %}
+                <td>
+                    {% if the_assoc.status==1 %}
+                        <a href="/band_makeadmin?do=1&ak={{the_assoc.key.urlsafe()}}">make band admin</a>
+                    {% elif the_assoc.status==2 %}
+                        admin (<a href="/band_makeadmin?do=0&ak={{the_assoc.key.urlsafe()}}">remove</a>)
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="/band_removemember?ak={{the_assoc.key.urlsafe()}}">remove from band</a>
+                </td>
+            {% else %}
+                <td>(me)</td>
             {% endif %}
         {% endif %}
-    </td>
-    <td>
-        remove from band
-    </td>
-    {% else %}
-    <td></td>
+        </tr>
     {% endif %}
-    </tr>
 {% endfor %}
 </table>

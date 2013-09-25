@@ -57,7 +57,7 @@
                                             {{ m.name|e }}
                                         </td>
                                         <td width="80">
-                                            <a class="btn btn-default btn-sm" onclick="confirm_member_for_band('{{m.key.urlsafe()}}','{{the_band.key.urlsafe()}}')" href="#">yes, confirm member!</a>
+                                            <a class="btn btn-default btn-sm" href="/band_confirm_member?mk={{m.key.urlsafe()}}&bk={{the_band.key.urlsafe()}}">yes, confirm member!</a>
                                         </td>
                                     </tr>
                                 {% endfor %}
@@ -196,22 +196,6 @@ function delete_section(sk) {
     $.post("/band_delete_section",
             {
                 sk: sk
-            },
-            function(responseTxt,statusTxt,xhr){
-                if(statusTxt=="success")
-                    updateSections();
-                if(statusTxt=="error")
-                  alert("Error: "+xhr.status+": "+xhr.statusText);
-            });
-
-    return false;
-}
-
-function confirm_member_for_band(mk, bk) {
-    $.post("/band_confirm_member",
-            {
-                mk: mk,
-                bk: bk
             },
             function(responseTxt,statusTxt,xhr){
                 if(statusTxt=="success")
