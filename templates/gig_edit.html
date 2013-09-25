@@ -47,7 +47,9 @@
             <div class="row">
                 <div class="form-group col-md-5 col-md-offset-2">
                     <label for="gigdateinput" class="control-label">Date</label>
-                    <input type="text" class="datepicker form-control" id="gigdateinput" placeholder="(required)" value="{{gig.date.strftime('%-m/%-d/%Y')}}" name="gig_date">
+                    <input type="text" class="datepicker form-control" id="gigdateinput" placeholder="(required)" 
+                    {% if gig != None %} value="{{gig.date.strftime('%-m/%-d/%Y')}}" {% endif %}
+                    name="gig_date">
                 </div>
             </div>
             <div class="row">
