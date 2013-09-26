@@ -385,17 +385,17 @@ class ManageBandsDeleteAssoc(BaseHandler):
         
         the_user = self.user
         
-        the_member_key=self.request.get('mk','0')
-        the_band_key=self.request.get('bk','0')
+        the_member_keyurl=self.request.get('mk','0')
+        the_band_keyurl=self.request.get('bk','0')
 
-        if the_member_key=='0' or the_band_key=='0':
+        if the_member_keyurl=='0' or the_band_keyurl=='0':
             return # todo figure out what to do
         
-        the_member=ndb.Key(urlsafe=the_member_key).get()
-        the_band=ndb.Key(urlsafe=the_band_key).get()
+        the_member=ndb.Key(urlsafe=the_member_keyurl).get()
+        the_band=ndb.Key(urlsafe=the_band_keyurl).get()
 
         assoc.delete_association(the_band, the_member)
-        plan.delete_plans_for_member_for_band(the_member, the_band)
+        plan.delete_plans_for_member_for_band_key(the_member, the_band.key)
         
         return self.redirect('/member_info.html?mk={0}'.format(the_member.key.urlsafe()))
 
