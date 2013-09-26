@@ -16,22 +16,24 @@
                     <input type="text" class="form-control" id="gigtitleinput" placeholder="(required)" value="{{gig.title}}" name="gig_title">
                 </div>
             </div>
-            <div class="row">
-                <div class="form-group col-md-5 col-md-offset-2">
-                    {% if newgig_is_active %}
-                        <label for="gigband" class="control-label">Band</label>
-                        <select id="gigband" class="form-control" name="gig_band">
-                            {% for a_band in all_bands %}
-                                <option value="{{a_band.key.urlsafe()}}"
-                                {% if (gig and a_band.key.urlsafe() == gig.key.parent().urlsafe()) or (gig==None and loop.first) %}
-                                    SELECTED
-                                {% endif %}
-                                >{{a_band.name}}</option>
-                            {% endfor %}
-                        </select>
-                    {% endif %}
+            {% if all_bands|length > 1 %}
+                <div class="row">
+                    <div class="form-group col-md-5 col-md-offset-2">
+                        {% if newgig_is_active %}
+                            <label for="gigband" class="control-label">Band</label>
+                            <select id="gigband" class="form-control" name="gig_band">
+                                {% for a_band in all_bands %}
+                                    <option value="{{a_band.key.urlsafe()}}"
+                                    {% if (gig and a_band.key.urlsafe() == gig.key.parent().urlsafe()) or (gig==None and loop.first) %}
+                                        SELECTED
+                                    {% endif %}
+                                    >{{a_band.name}}</option>
+                                {% endfor %}
+                            </select>
+                        {% endif %}
+                    </div>
                 </div>
-            </div>
+            {% endif %}
             <div class="row">
                 <div class="form-group col-md-5 col-md-offset-2">
                     <label for="gigdetailsinput" class="control-label">Details</label>
