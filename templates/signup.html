@@ -1,24 +1,19 @@
-{% include 'header.html' %}
-{% import 'plan_icon.html' as plan_icon %}
+{% extends 'go2base.html' %}
 
-<div class="container">
+{% block navbar %}
+    <!-- no navbar -->
+{% endblock navbar %}
 
-  <div class="starter-template">
+{% block content %}
+    <h1>Register a new user</h1>
+    <form action="/signup" method="POST">
+    <label for="email">Email address</label>
+    <input type="text" name="email" />
+    <label for="password">Password</label>
+    <input type="password" name="password" />
+    <label for="name">Display Name</label>
+    <input type="text" name="name" />
+    <input type="submit" value="Create user" />
+    </form>
+{% endblock content %}
 
-<h1>Register a new user</h1>
-<form action="/signup" method="POST">
-<label for="email">Email address</label>
-<input type="text" name="email" />
-<label for="password">Password</label>
-<input type="password" name="password" />
-<label for="name">Display Name</label>
-<input type="text" name="name" />
-<input type="submit" value="Create user" />
-</form>
-
-  </div>
-
-</div><!-- /.container -->
-{% include 'scripts.html' %}
-<script src="/js/plan_buttons.js"></script>
-{% include 'footer.html' %}

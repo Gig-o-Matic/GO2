@@ -1,24 +1,20 @@
-{% include 'header.html' %}
-{% import 'plan_icon.html' as plan_icon %}
+{% extends 'go2base.html' %}
 
-<div class="container">
+{% block navbar %}
+    <!-- no navbar -->
+{% endblock navbar %}
 
-    <div class="starter-template">
-        <h1>Recover password</h1>
+{% block content %}
+    <h1>Recover password</h1>
 
-        <p>Forgot your password? Click the link below to receive a link to recover your password.</p>
+    <p>Forgot your password? Click the link below to receive a link to recover your password.</p>
 
-        {% if not_found %}
-            <strong>Not found!</strong> We could not found any user with the given username.
-        {% endif %} 
+    {% if not_found %}
+        <strong>Not found!</strong> We could not found any user with the given username.
+    {% endif %} 
 
-        <form class="form" action= "/forgot" method="POST">
-            <input type="text" value="{{ username }}" name="username"/>
-            <input type="submit" value="Send password reset link"/>
-        </form>
-
-    </div>
-
-</div><!-- /.container -->
-{% include 'scripts.html' %}
-{% include 'footer.html' %}
+    <form class="form" action= "/forgot" method="POST">
+        <input type="text" value="{{ username }}" name="username"/>
+        <input type="submit" value="Send password reset link"/>
+    </form>
+{% endblock content %}

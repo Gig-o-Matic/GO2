@@ -1,67 +1,65 @@
-{% include 'header.html' %}
-{% include 'navbar.html' %}
-{% import 'plan_edit.html' as plan_edit with context %}
+{% extends 'go2base.html' %}
 
-<div class="container">
+{% block content %}
 
-    <div class="starter-template">
-        <div class="row">
-            <div class="col-md-4 col-md-offset-2"><h1>Gig Info</h1></div>
-        </div>
-        <div class="row">
-            <div class="col-md-4 col-md-offset-2">
-                <a class="btn btn-primary btn-sm" href="gig_edit.html?gk={{ gig.key.urlsafe() }}">Edit</a>
-            </div>
-        </div>
-        <div class="row">&nbsp;</div>
-        <div class="row">
-            <div class="col-md-2 col-md-offset-2">Gig</div>
-            <div class="col-md-8">{{ gig.title|e }}</div>
-        </div>
-        <div class="row">
-            <div class="col-md-2 col-md-offset-2">Band</div>
-            <div class="col-md-8"><a href="band_info.html?bk={{gig.key.parent().urlsafe()}}">{{ gig.key.parent().get().name|e }}</a></div>
-        </div>
-        <div class="row">
-            <div class="col-md-2 col-md-offset-2">Date</div>
-            <div class="col-md-8">{{ gig.date.strftime('%-m/%-d/%Y')|e }}</div>
-        </div>
-        <div class="row">
-            <div class="col-md-2 col-md-offset-2">Details</div>
-            <div class="col-md-8">{{ gig.details|e }}</div>
-        </div>
-        <div class="row">
-            <div class="col-md-2 col-md-offset-2">Setlist</div>
-            <div class="col-md-8">{{ gig.setlist|e|replace("\n","<br>")}}</div>
-        </div>
-        <div class="row">&nbsp;</div>
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <table class="table table-striped">
-                {% for the_section in member_plans %}
-                <tr>
-                    <td>
-                        {% if the_section[0] %}
-                            {{the_section[0].get().name}}
-                        {% else %}
-                            No Section
-                        {% endif %}
-                    </td>
-                    <td>
-                        <table class="table">
-                            {% for member_plan in the_section[1] %}
-                                {{ plan_edit.plan_edit(member_plan[1], section_info, show_date=False, show_member=True, show_band=False, show_gig_name=False, show_section=True) }}
-                            {% endfor %}
-                        </table>
-                    </td>
-                </tr>
-                {% endfor %}
-                </table>
-            </div>
+    <div class="row">
+        <div class="col-md-4 col-md-offset-2"><h1>Gig Info</h1></div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 col-md-offset-2">
+            <a class="btn btn-primary btn-sm" href="gig_edit.html?gk={{ gig.key.urlsafe() }}">Edit</a>
         </div>
     </div>
+    <div class="row">&nbsp;</div>
+    <div class="row">
+        <div class="col-md-2 col-md-offset-2">Gig</div>
+        <div class="col-md-8">{{ gig.title|e }}</div>
+    </div>
+    <div class="row">
+        <div class="col-md-2 col-md-offset-2">Band</div>
+        <div class="col-md-8"><a href="band_info.html?bk={{gig.key.parent().urlsafe()}}">{{ gig.key.parent().get().name|e }}</a></div>
+    </div>
+    <div class="row">
+        <div class="col-md-2 col-md-offset-2">Date</div>
+        <div class="col-md-8">{{ gig.date.strftime('%-m/%-d/%Y')|e }}</div>
+    </div>
+    <div class="row">
+        <div class="col-md-2 col-md-offset-2">Details</div>
+        <div class="col-md-8">{{ gig.details|e }}</div>
+    </div>
+    <div class="row">
+        <div class="col-md-2 col-md-offset-2">Setlist</div>
+        <div class="col-md-8">{{ gig.setlist|e|replace("\n","<br>")}}</div>
+    </div>
+    <div class="row">&nbsp;</div>
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <table class="table table-striped">
+            {% import 'plan_edit.html' as plan_edit with context %}                
+            {% for the_section in member_plans %}
+            <tr>
+                <td>
+                    {% if the_section[0] %}
+                        {{the_section[0].get().name}}
+                    {% else %}
+                        No Section
+                    {% endif %}
+                </td>
+                <td>
+                    <table class="table">
+                        {% for member_plan in the_section[1] %}
+                            {{ plan_edit.plan_edit(member_plan[1], section_info, show_date=False, show_member=True, show_band=False, show_gig_name=False, show_section=True) }}
+                        {% endfor %}
+                    </table>
+                </td>
+            </tr>
+            {% endfor %}
+            </table>
+        </div>
+    </div>
+{% endblock content %}
 
-</div><!-- /.container -->
-{% include 'scripts.html' %}
+{% block localscripts %}
 <script src="/js/plan_buttons.js"></script>
-{% include 'footer.html' %}
+{% endblock localscripts %}
+

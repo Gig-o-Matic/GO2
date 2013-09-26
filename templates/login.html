@@ -1,30 +1,22 @@
-{% include 'header.html' %}
-{% import 'plan_icon.html' as plan_icon %}
+{% extends 'go2base.html' %}
 
-<div class="container">
+{% block navbar %}
+    <!-- no navbar -->
+{% endblock navbar %}
 
-  <div class="starter-template">
+{% block content %}
+    {% if failed %}
+        <strong>Login failed!</strong> Check your credentials and try again.
+    {% endif %}
 
-{% if failed %}
+    <form class="form" action= "/login" method="POST">
+        <label for="email">Email Address</label>
+        <input type="text" value="{{ username }}" name="email"/>
+        <label for="password">Password</label>
+        <input type="password" name="password"/>
+        <button type="submit" class="btn">Login</button>
+    </form>
 
-    <strong>Login failed!</strong> Check your credentials and try again.
-
-{% endif %}
-
-<form class="form" action= "/login" method="POST">
-	<label for="email">Email Address</label>
-	<input type="text" value="{{ username }}" name="email"/>
-	<label for="password">Password</label>
-	<input type="password" name="password"/>
-	<button type="submit" class="btn">Login</button>
-</form>
-
-<a href="/forgot">Forgot password</a><br><br>
-<a href="/signup">New? Sign Up!</a>
-
-  </div>
-
-</div><!-- /.container -->
-{% include 'scripts.html' %}
-<script src="/js/plan_buttons.js"></script>
-{% include 'footer.html' %}
+    <a href="/forgot">Forgot password</a><br><br>
+    <a href="/signup">New? Sign Up!</a>
+{% endblock content %}

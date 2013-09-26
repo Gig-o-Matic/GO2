@@ -1,54 +1,51 @@
-{% include 'header.html' %}
-{% include 'navbar.html' %}
-{% import 'plan_edit.html' as plan_edit with context %}
+{% extends 'go2base.html' %}
 
-<div class="container">
+{% block content %}
+<div class="row">
+    <div class="col-md-8 col-md-offset-2"><h1>Your Agenda</h1></div>
+</div>
 
-  <div class="starter-template">
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2"><h1>Your Agenda</h1></div>
+<div class="row">
+    &nbsp;
+</div>
+<div class="row">
+    <div class="col-md-8 col-md-offset-2"><h3>Upcoming</h3></div>
+</div>
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <div id="upcomingevents">
+            <table class="table">
+            {% import 'plan_edit.html' as plan_edit with context %}
+            {% for plan in upcoming_plans %}
+                {{ plan_edit.plan_edit(plan, section_info, show_date=True, show_member=False, show_band=True, show_gig_name=True) }}
+            {% endfor %}
+            </table>                
         </div>
-
-        <div class="row">
-            &nbsp;
-        </div>
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2"><h3>Upcoming</h3></div>
-        </div>
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <div id="upcomingevents">
-                    <table class="table">
-                    {% for plan in upcoming_plans %}
-                        {{ plan_edit.plan_edit(plan, section_info, show_date=True, show_member=False, show_band=True, show_gig_name=True) }}
-                    {% endfor %}
-                    </table>                
-                </div>
+    </div>
+</div>
+{% if weighin_plans %}
+    <div class="row">
+        &nbsp;
+    </div>
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2"><h3>Future to Weigh In</h3></div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div id="weighinevents">
+                <table class="table">
+                {% for plan in weighin_plans %}
+                    {{ plan_edit.plan_edit(plan, section_info, show_date=True, show_member=False, show_band=True, show_gig_name=True) }}
+                {% endfor %}
+                </table>                
             </div>
         </div>
-        {% if weighin_plans %}
-            <div class="row">
-                &nbsp;
-            </div>
-            <div class="row">
-                <div class="col-md-8 col-md-offset-2"><h3>Future to Weigh In</h3></div>
-            </div>
-            <div class="row">
-                <div class="col-md-8 col-md-offset-2">
-                    <div id="weighinevents">
-                        <table class="table">
-                        {% for plan in weighin_plans %}
-                            {{ plan_edit.plan_edit(plan, section_info, show_date=True, show_member=False, show_band=True, show_gig_name=True) }}
-                        {% endfor %}
-                        </table>                
-                    </div>
-                </div>
-            </div>
-        {% endif %}
-  </div>
+    </div>
+{% endif %}
+{% endblock content %}
 
-</div><!-- /.container -->
-{% include 'scripts.html' %}
+{% block localscripts %}
 <script src="/js/plan_buttons.js"></script>
-{% include 'footer.html' %}
+{% endblock localscripts %}
+
 

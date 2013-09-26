@@ -1,109 +1,108 @@
-{% include 'header.html' %}
-{% include 'navbar.html' %}
+{% extends 'go2base.html' %}
 
-<div class="container">
-
-    <div class="starter-template">
+{% block content %}
+<div class="row">
+    <div class="col-md-5 col-md-offset-2"><h1>Band Profile</h1></div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            Info
+        </h4>
+    </div>
+    <div class="panel-body">
         <div class="row">
-            <div class="col-md-5 col-md-offset-2"><h1>Band Profile</h1></div>
+            {% if nav_info['is_me'] or nav_info['is_admin'] %}
+                <div class="col-md-4 col-md-offset-2">
+                    <a class="btn btn-primary btn-sm" href="band_edit.html?bk={{ the_band.key.urlsafe() }}">Edit</a>
+                </div>
+            {% endif %}
         </div>
+        <div class="row">&nbsp;</div>
+        <div class="row">
+            <div class="col-md-2 col-md-offset-2">Name</div>
+            <div class="col-md-8">{{ the_band.name|e }}</div>
+        </div>
+        <div class="row">
+            <div class="col-md-2 col-md-offset-2">Website</div>
+            <div class="col-md-8"><a href="http://{{the_band.website}}" target="new">{{ the_band.website|e }}</a></div>
+        </div>
+        <div class="row">
+            <div class="col-md-2 col-md-offset-2">Description</div>
+            <div class="col-md-8">{{ the_band.description|e }}</div>
+        </div>
+    </div>
+</div> <!-- panel -->
+{% if the_status == -1 %}        
+{% elif the_status == 0 %}
+    Your membership is pending - ask a band member to confirm you!
+{% else %}
+    {% if the_pending_members %}
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h4 class="panel-title">
-                    Info
+                    Pending Members <span class="badge">{{the_pending_members|length}}</span>
                 </h4>
-            </div>
+            </div>        
             <div class="panel-body">
                 <div class="row">
-                    {% if nav_info['is_me'] or nav_info['is_admin'] %}
-                        <div class="col-md-4 col-md-offset-2">
-                            <a class="btn btn-primary btn-sm" href="band_edit.html?bk={{ the_band.key.urlsafe() }}">Edit</a>
-                        </div>
-                    {% endif %}
-                </div>
-                <div class="row">&nbsp;</div>
-                <div class="row">
-                    <div class="col-md-2 col-md-offset-2">Name</div>
-                    <div class="col-md-8">{{ the_band.name|e }}</div>
-                </div>
-                <div class="row">
-                    <div class="col-md-2 col-md-offset-2">Website</div>
-                    <div class="col-md-8"><a href="http://{{the_band.website}}" target="new">{{ the_band.website|e }}</a></div>
-                </div>
-                <div class="row">
-                    <div class="col-md-2 col-md-offset-2">Description</div>
-                    <div class="col-md-8">{{ the_band.description|e }}</div>
-                </div>
-            </div>
-        </div> <!-- panel -->
-        {% if the_status == -1 %}        
-        {% elif the_status == 0 %}
-            Your membership is pending - ask a band member to confirm you!
-        {% else %}
-            {% if the_pending_members %}
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            Pending Members <span class="badge">{{the_pending_members|length}}</span>
-                        </h4>
-                    </div>        
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-md-8 col-md-offset-2">
-                                <table class="table">
-                                {% for m in the_pending_members %}
-                                    <tr>
-                                        <td width="20%">
-                                            {{ m.name|e }}
-                                        </td>
-                                        <td width="80">
-                                            <a class="btn btn-default btn-sm" href="/band_confirm_member?mk={{m.key.urlsafe()}}&bk={{the_band.key.urlsafe()}}">yes, confirm member!</a>
-                                        </td>
-                                    </tr>
-                                {% endfor %}
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div> <!-- panel -->        
-            {% endif %}
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title">
-                        Members
-                    </h4>
-                </div>
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-md-8 col-md-offset-2" id="memberlist">
-                            <i class="icon-spinner icon-spin icon-large"></i>
-                        </div>
+                    <div class="col-md-8 col-md-offset-2">
+                        <table class="table">
+                        {% for m in the_pending_members %}
+                            <tr>
+                                <td width="20%">
+                                    {{ m.name|e }}
+                                </td>
+                                <td width="80">
+                                    <a class="btn btn-default btn-sm" href="/band_confirm_member?mk={{m.key.urlsafe()}}&bk={{the_band.key.urlsafe()}}">yes, confirm member!</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </table>
                     </div>
                 </div>
             </div>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title">
-                        Sections
-                    </h4>
-                </div>        
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-md-8 col-md-offset-2" id="sectionlist">
-                            <i class="icon-spinner icon-spin icon-large"></i>
-                        </div>
-                    </div>
-                    <div class="row">
-                        {% if nav_info['is_admin'] %}
-                            <div class="col-md-4 col-md-offset-2">
-                                <a data-toggle="modal" href="#newsectionmodal" class="btn btn-primary btn-sm" id="{{the_band.key.urlsafe()}}">Add a Section</a>
-                            </div>
-                        {% endif %}
-                    </div>
+        </div> <!-- panel -->        
+    {% endif %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                Members
+            </h4>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2" id="memberlist">
+                    <i class="icon-spinner icon-spin icon-large"></i>
                 </div>
-            </div> <!-- panel -->
-        {% endif %}
-    </div> <!-- starter-template -->
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                Sections
+            </h4>
+        </div>        
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2" id="sectionlist">
+                    <i class="icon-spinner icon-spin icon-large"></i>
+                </div>
+            </div>
+            <div class="row">
+                {% if nav_info['is_admin'] %}
+                    <div class="col-md-4 col-md-offset-2">
+                        <a data-toggle="modal" href="#newsectionmodal" class="btn btn-primary btn-sm" id="{{the_band.key.urlsafe()}}">Add a Section</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div> <!-- panel -->
+{% endif %}
+{% endblock content %}
+
+{% block modal %}
 	<!-- Modal -->
     <div class="modal fade" id="newsectionmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -126,10 +125,10 @@
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
-	</div><!-- /.modal -->												
-</div><!-- /.container -->
-{% include 'scripts.html' %}
+	</div><!-- /.modal -->								
+{% endblock modal %}
 
+{% block localscripts %}
 <script>
 function updateMembers() {
     $.post('/band_get_members',
@@ -213,4 +212,4 @@ $(document).ready(function() {
     $("#savenewsection").click(handle_new_section);
 });
 </script>
-{% include 'footer.html' %}
+{% endblock localscripts %}

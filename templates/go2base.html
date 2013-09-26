@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <link rel="shortcut icon" href="../../assets/ico/favicon.png">
+
+        <title>GO2 | {{ title }}</title>
+
+        <!-- Bootstrap core CSS -->
+        <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+
+        <!-- Custom styles for datepicker -->
+        <link href="/datepicker/css/datepicker.css" rel="stylesheet">
+
+        <!-- Custom styles for calendar -->
+        <link href='/fullcalendar/fullcalendar.css' rel='stylesheet' />
+        <link href='/fullcalendar/fullcalendar.print.css' rel='stylesheet' media='print' />
+
+        <!-- font awesome -->
+        <!--         <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">      <!~~ HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries ~~> -->
+        <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+
+        <!--[if lt IE 9]>
+            <script src="../../assets/js/html5shiv.js"></script>
+            <script src="../../assets/js/respond.min.js"></script>
+        <![endif]-->
+
+        <!-- Custom styles for this template -->
+        <link href="css/gigo.css" rel="stylesheet">
+
+    </head>
+
+    <body>
+        <div id="wrap">
+            {% block navbar %}
+                    {% include 'navbar.html' %}
+            {% endblock navbar %}
+
+            <div class="container">
+                    <div class="starter-template">
+                            {% block content %}
+                            {% endblock content %}
+                    </div> <!-- /.starter-template -->
+            </div><!-- /.container -->
+        </div> <!-- /.wrap -->
+        <div id="footer">
+            <div class="container">
+                <p class="text-muted credit">Gig-o-Matic Credits Go Here!</p>
+            </div>
+        </div>
+        {% block modal %}
+        {% endblock modal %}
+    </body>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.js"></script>
+    <script>window.jQuery || document.write('<script src="/jquery/jquery-1.10.2.js"><\/script>')</script>
+    <!--     <script src="http://code.jquery.com/jquery.js"></script> -->
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    {% block localscripts %}
+    {% endblock localscripts %}
+</html>

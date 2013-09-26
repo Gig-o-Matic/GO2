@@ -1,77 +1,75 @@
-{% include 'header.html' %}
-{% include 'navbar.html' %}
-<div class="container">
-    <div class="starter-template">
-        <div class="row">
-            <div class="col-md-5 col-md-offset-2"><h1>Edit Profile</h1></div>
-        </div>
-        <form class="form-horizontal" id="infoform" role="form" method="post" action="member_edit.html">
-            <div class="row">
-                <div class="form-group">
-                    <label for="membernameinput" class="col-md-2 col-md-offset-1 control-label">Name</label>
-                    <div class="col-md-6">
-                        <input type="text" class="form-control" id="membernameinput" placeholder="{{the_member.name}}" name="member_name">
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group">
-                    <label for="memberemailinput" class="col-md-2 col-md-offset-1 control-label">Password</label>
-                    <div class="col-md-6">
-                        <input type="password" class="form-control" id="member_password1" name="member_password1">
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group">
-                    <label for="memberemailinput" class="col-md-2 col-md-offset-1 control-label">Password (again!)</label>
-                    <div class="col-md-6">
-                        <input type="password" class="form-control" id="member_password2" name="member_password2">
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group">
-                    <label for="memberemailinput" class="col-md-2 col-md-offset-1 control-label">Email</label>
-                    <div class="col-md-6">
-                        <input type="email" class="form-control" id="memberemailnput" placeholder="{{the_member.email_address}}" name="member_email">
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group">
-                    <label for="memberphoneinput" class="col-md-2 col-md-offset-1 control-label">Phone</label>
-                    <div class="col-md-6">
-                        <input type="text" class="form-control" id="memberphonenput" placeholder="{{the_member.phone}}" name="member_phone">
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group">
-                    <label for="memberstatementinput" class="col-md-2 col-md-offset-1 control-label">Statement</label>
-                    <div class="col-md-6">
-                        <input type="text" class="form-control" id="memberstatementinput" placeholder="{{the_member.statement}}" name="member_statement">
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group">
-                    <div class="col-md-4 col-md-offset-5 text-right">
-                        <a class="btn btn-default" href="{{the_cancel_url}}">Cancel</a>
-                        <button type="submit" class="btn btn-primary">Save</button>
-                    </div>
-                </div>
-            </div>            
-        {% if the_member==None %}
-            <input type="hidden" name="mk" value="0">
-        {% else %}
-            <input type="hidden" name="mk" value="{{the_member.key.urlsafe()}}">
-        {% endif %}
-        </form>
-    </div>
-</div><!-- /.container -->
+{% extends 'go2base.html' %}
 
-{% include 'scripts.html' %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-5 col-md-offset-2"><h1>Edit Profile</h1></div>
+    </div>
+    <form class="form-horizontal" id="infoform" role="form" method="post" action="member_edit.html">
+        <div class="row">
+            <div class="form-group">
+                <label for="membernameinput" class="col-md-2 col-md-offset-1 control-label">Name</label>
+                <div class="col-md-6">
+                    <input type="text" class="form-control" id="membernameinput" placeholder="{{the_member.name}}" name="member_name">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label for="memberemailinput" class="col-md-2 col-md-offset-1 control-label">Password</label>
+                <div class="col-md-6">
+                    <input type="password" class="form-control" id="member_password1" name="member_password1">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label for="memberemailinput" class="col-md-2 col-md-offset-1 control-label">Password (again!)</label>
+                <div class="col-md-6">
+                    <input type="password" class="form-control" id="member_password2" name="member_password2">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label for="memberemailinput" class="col-md-2 col-md-offset-1 control-label">Email</label>
+                <div class="col-md-6">
+                    <input type="email" class="form-control" id="memberemailnput" placeholder="{{the_member.email_address}}" name="member_email">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label for="memberphoneinput" class="col-md-2 col-md-offset-1 control-label">Phone</label>
+                <div class="col-md-6">
+                    <input type="text" class="form-control" id="memberphonenput" placeholder="{{the_member.phone}}" name="member_phone">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label for="memberstatementinput" class="col-md-2 col-md-offset-1 control-label">Statement</label>
+                <div class="col-md-6">
+                    <input type="text" class="form-control" id="memberstatementinput" placeholder="{{the_member.statement}}" name="member_statement">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <div class="col-md-4 col-md-offset-5 text-right">
+                    <a class="btn btn-default" href="{{the_cancel_url}}">Cancel</a>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </div>            
+    {% if the_member==None %}
+        <input type="hidden" name="mk" value="0">
+    {% else %}
+        <input type="hidden" name="mk" value="{{the_member.key.urlsafe()}}">
+    {% endif %}
+    </form>
+{% endblock content %}
+
+{% block localscripts %}
 <script src="/js/jquery.validate.js"></script>
 <script>
 $("#infoform").validate({
@@ -85,5 +83,5 @@ $("#infoform").validate({
     }
 });
 </script>
-{% include 'footer.html' %}
+{% endblock localscripts %}
 

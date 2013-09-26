@@ -1,42 +1,35 @@
-{% include 'header.html' %}
-{% include 'navbar.html' %}
+{% extends 'go2base.html' %}
 
-<div class="container">
+{% block content %}
+    <div class="row">
+        <div class="col-md-5 col-md-offset-1"><h1>Calendar</h1></div>
+    </div>
+    <div class="col-sm-offset-0 col-md-10 col-md-offset-1">
+        <div id='calendar'></div>
+    </div>
+{% endblock content %}
 
-  <div class="starter-template">
-        <div class="row">
-            <div class="col-md-5 col-md-offset-1"><h1>Calendar</h1></div>
-        </div>
-        <div class="col-sm-offset-0 col-md-10 col-md-offset-1">
-            <div id='calendar'></div>
-        </div>
-  </div>
-
-</div><!-- /.container -->
-
-{% include 'scripts.html' %}
-<script src='/fullcalendar/fullcalendar.min.js'></script>
-<script>
-$(document).ready(function() {
-
-    // page is now ready, initialize the calendar...
-    $('#calendar').fullCalendar({
-        // put your options and callbacks here
-        events: {
-            url: '/calevents',
-            type: 'POST',
-            data: {
-                mk: '{{ the_user.key.urlsafe() }}'
-            },
-            error: function() {
-                alert('there was an error while fetching events!');
-            },
-            color: 'lightblue',   // a non-ajax option
-            textColor: 'black' // a non-ajax option
-        }
-    })
-
-});
-</script>
-{% include 'footer.html' %}
+{% block localscripts %}
+    <script src='/fullcalendar/fullcalendar.min.js'></script>
+    <script>
+    $(document).ready(function() {
+        // page is now ready, initialize the calendar...
+        $('#calendar').fullCalendar({
+            // put your options and callbacks here
+            events: {
+                url: '/calevents',
+                type: 'POST',
+                data: {
+                    mk: '{{ the_user.key.urlsafe() }}'
+                },
+                error: function() {
+                    alert('there was an error while fetching events!');
+                },
+                color: 'lightblue',   // a non-ajax option
+                textColor: 'black' // a non-ajax option
+            }
+        })
+    });
+    </script>
+{% endblock localscripts %}
 

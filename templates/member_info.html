@@ -1,84 +1,79 @@
-{% include 'header.html' %}
-{% include 'navbar.html' %}
+{% extends 'go2base.html' %}
 
-<div class="container">
 
-    <div class="starter-template">
-        <div class="row">
-            <div class="col-md-5 col-md-offset-2"><h1>Profile</h1></div>
-        </div> 
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title">
-                              Info
-                    </h4>
-                </div>
-                <div class="panel-body">
-                    <div class="row">
-                        {% if nav_info['is_me'] or nav_info['is_admin'] %}
-                            <div class="col-md-4 col-md-offset-2">
-                                <a class="btn btn-primary btn-sm" href="member_edit.html?mk={{ the_member.key.urlsafe() }}">Edit</a>
-                            </div>
-                        {% endif %}
-                    </div>
-                    <div class="row">&nbsp;</div>
-                    <div class="row">
-                        <div class="col-md-2 col-md-offset-2">Name</div>
-                        <div class="col-md-8">{{ the_member.name|e }}</div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-2 col-md-offset-2">Email</div>
-                        <div class="col-md-8">{{ the_member.email_address|e }}</div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-2 col-md-offset-2">Phone</div>
-                        <div class="col-md-8">{{ the_member.phone|e }}</div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-2 col-md-offset-2">Personal Statement</div>
-                        <div class="col-md-8">{{ the_member.statement|e }}</div>
-                    </div>
-                </div>
-            </div>
-            {% if nav_info['is_me'] or nav_info['is_admin'] %}
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">                    
-                              Bands
-                        </h4>
-                    </div>
-                    <div class="panel-body">        
-                        <div class="row">
-                            <div class="col-md-2 col-md-offset-2">Bands</div>
-                            <div class="col-md-8" id="bandlist">
-                                <i class="icon-spinner icon-spin icon-large"></i>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-8 col-md-offset-4">
-                                <div class="dropdown">
-                                    <button type="button" class="btn btn-default dropdown-toggle text-center" data-toggle="dropdown">
-                                        <i class="icon-plus icon-large"></i> Add Band
-                                    </button>
-                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                                        {% for a_band in all_bands %}
-                                        <li role="presentation"><a class="band-click" id="{{a_band.key.urlsafe()}}"role="menuitem" tabindex="-1" href="#">{{a_band.name}}</a></li>
-                                        {% endfor %}
-                                    </ul>
-                                </div> <!-- dropdown -->
-                            </div>
-                        </div> <!-- row -->
-                    </div> <!-- panel-body -->
-                </div> <!-- panel -->
-            {% endif %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-5 col-md-offset-2"><h1>Profile</h1></div>
+    </div> 
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                      Info
+            </h4>
         </div>
-    </div> <!-- starter template -->    
-    
-    
-</div><!-- /.container -->
-{% include 'scripts.html' %}
-<script>
+        <div class="panel-body">
+            <div class="row">
+                {% if nav_info['is_me'] or nav_info['is_admin'] %}
+                    <div class="col-md-4 col-md-offset-2">
+                        <a class="btn btn-primary btn-sm" href="member_edit.html?mk={{ the_member.key.urlsafe() }}">Edit</a>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="row">&nbsp;</div>
+            <div class="row">
+                <div class="col-md-2 col-md-offset-2">Name</div>
+                <div class="col-md-8">{{ the_member.name|e }}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-2 col-md-offset-2">Email</div>
+                <div class="col-md-8">{{ the_member.email_address|e }}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-2 col-md-offset-2">Phone</div>
+                <div class="col-md-8">{{ the_member.phone|e }}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-2 col-md-offset-2">Personal Statement</div>
+                <div class="col-md-8">{{ the_member.statement|e }}</div>
+            </div>
+        </div>
+    </div>
+    {% if nav_info['is_me'] or nav_info['is_admin'] %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">                    
+                      Bands
+                </h4>
+            </div>
+            <div class="panel-body">        
+                <div class="row">
+                    <div class="col-md-2 col-md-offset-2">Bands</div>
+                    <div class="col-md-8" id="bandlist">
+                        <i class="icon-spinner icon-spin icon-large"></i>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-4">
+                        <div class="dropdown">
+                            <button type="button" class="btn btn-default dropdown-toggle text-center" data-toggle="dropdown">
+                                <i class="icon-plus icon-large"></i> Add Band
+                            </button>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                                {% for a_band in all_bands %}
+                                <li role="presentation"><a class="band-click" id="{{a_band.key.urlsafe()}}"role="menuitem" tabindex="-1" href="#">{{a_band.name}}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div> <!-- dropdown -->
+                    </div>
+                </div> <!-- row -->
+            </div> <!-- panel-body -->
+        </div> <!-- panel -->
+    {% endif %}
+    </div>
+{% endblock content %}
 
+{% block localscripts %}
+<script>
 function updateBands() {
     $.post('/member_get_assocs.html',
             {
@@ -172,4 +167,5 @@ $(document).ready(function() {
     });
 });
 </script>
-{% include 'footer.html' %}
+{% endblock localscripts %}
+

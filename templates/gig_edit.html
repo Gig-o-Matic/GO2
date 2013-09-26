@@ -1,82 +1,82 @@
-{% include 'header.html' %}
-{% include 'navbar.html' %}
-<div class="container">
-    <div class="starter-template">
-        <div class="row">
-            {% if newgig_is_active %}
-                <div class="col-md-5 col-md-offset-2"><h1>New Gig</h1></div>
-            {% else %}
-                <div class="col-md-5 col-md-offset-2"><h1>Edit Gig</h1></div>
-            {% endif %}
-        </div>
-        <form class="form" role="form" method="post" action="gig_edit.html">
-            <div class="row">
-                <div class="form-group col-md-5 col-md-offset-2">
-                    <label for="gigtitleinput" class="control-label">Gig</label>
-                    <input type="text" class="form-control" id="gigtitleinput" placeholder="(required)" value="{{gig.title}}" name="gig_title">
-                </div>
-            </div>
-            {% if all_bands|length > 1 %}
-                <div class="row">
-                    <div class="form-group col-md-5 col-md-offset-2">
-                        {% if newgig_is_active %}
-                            <label for="gigband" class="control-label">Band</label>
-                            <select id="gigband" class="form-control" name="gig_band">
-                                {% for a_band in all_bands %}
-                                    <option value="{{a_band.key.urlsafe()}}"
-                                    {% if (gig and a_band.key.urlsafe() == gig.key.parent().urlsafe()) or (gig==None and loop.first) %}
-                                        SELECTED
-                                    {% endif %}
-                                    >{{a_band.name}}</option>
-                                {% endfor %}
-                            </select>
-                        {% endif %}
-                    </div>
-                </div>
-            {% endif %}
-            <div class="row">
-                <div class="form-group col-md-5 col-md-offset-2">
-                    <label for="gigdetailsinput" class="control-label">Details</label>
-                    <textarea class="form-control" id="gigdetailsinput" placeholder="who? what? where? when? why?" name="gig_details">{{gig.details}}</textarea>
-                </div>
-            </div>            
-            <div class="row">
-                <div class="form-group col-md-5 col-md-offset-2">
-                    <label for="gigsetlistinput" class="control-label">Setlist</label>
-                    <textarea class="form-control" id="gigsetlistinput" placeholder="setlist here" name="gig_setlist">{{gig.setlist}}</textarea>
-                </div>
-            </div>            
-            <div class="row">
-                <div class="form-group col-md-5 col-md-offset-2">
-                    <label for="gigdateinput" class="control-label">Date</label>
-                    <input type="text" class="datepicker form-control" id="gigdateinput" placeholder="(required)" 
-                    {% if gig != None %} value="{{gig.date.strftime('%-m/%-d/%Y')}}" {% endif %}
-                    name="gig_date">
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-md-2 col-md-offset-2">
-                    {% if gig!=None %}
-                        <a data-toggle="modal" href="#myModal" class="btn btn-default">Delete</a>
-                    {% endif %}   
-                </div>
-                <div class="form-group col-md-3 text-right">                
-                        {% if gig==None %}
-                            <a class="btn btn-default" href="agenda.html">Cancel</a>
-                        {% else %}
-                            <a class="btn btn-default" href="gig_info.html?gk={{ gig.key.urlsafe() }}">Cancel</a>
-                        {% endif %}
-                        <button type="submit" class="btn btn-primary">Save</button>
-                </div>
-            </div>
-            {% if gig==None %}
-                <input type="hidden" name="gk" value="0">
-            {% else %}
-                <input type="hidden" name="gk" value="{{gig.key.urlsafe()}}">
-            {% endif %}
-        </form>
-    </div>
+{% extends 'go2base.html' %}
 
+{% block content %}
+    <div class="row">
+        {% if newgig_is_active %}
+            <div class="col-md-5 col-md-offset-2"><h1>New Gig</h1></div>
+        {% else %}
+            <div class="col-md-5 col-md-offset-2"><h1>Edit Gig</h1></div>
+        {% endif %}
+    </div>
+    <form class="form" role="form" method="post" action="gig_edit.html">
+        <div class="row">
+            <div class="form-group col-md-5 col-md-offset-2">
+                <label for="gigtitleinput" class="control-label">Gig</label>
+                <input type="text" class="form-control" id="gigtitleinput" placeholder="(required)" value="{{gig.title}}" name="gig_title">
+            </div>
+        </div>
+        {% if all_bands|length > 1 %}
+            <div class="row">
+                <div class="form-group col-md-5 col-md-offset-2">
+                    {% if newgig_is_active %}
+                        <label for="gigband" class="control-label">Band</label>
+                        <select id="gigband" class="form-control" name="gig_band">
+                            {% for a_band in all_bands %}
+                                <option value="{{a_band.key.urlsafe()}}"
+                                {% if (gig and a_band.key.urlsafe() == gig.key.parent().urlsafe()) or (gig==None and loop.first) %}
+                                    SELECTED
+                                {% endif %}
+                                >{{a_band.name}}</option>
+                            {% endfor %}
+                        </select>
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+        <div class="row">
+            <div class="form-group col-md-5 col-md-offset-2">
+                <label for="gigdetailsinput" class="control-label">Details</label>
+                <textarea class="form-control" id="gigdetailsinput" placeholder="who? what? where? when? why?" name="gig_details">{{gig.details}}</textarea>
+            </div>
+        </div>            
+        <div class="row">
+            <div class="form-group col-md-5 col-md-offset-2">
+                <label for="gigsetlistinput" class="control-label">Setlist</label>
+                <textarea class="form-control" id="gigsetlistinput" placeholder="setlist here" name="gig_setlist">{{gig.setlist}}</textarea>
+            </div>
+        </div>            
+        <div class="row">
+            <div class="form-group col-md-5 col-md-offset-2">
+                <label for="gigdateinput" class="control-label">Date</label>
+                <input type="text" class="datepicker form-control" id="gigdateinput" placeholder="(required)" 
+                {% if gig != None %} value="{{gig.date.strftime('%-m/%-d/%Y')}}" {% endif %}
+                name="gig_date">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-2 col-md-offset-2">
+                {% if gig!=None %}
+                    <a data-toggle="modal" href="#myModal" class="btn btn-default">Delete</a>
+                {% endif %}   
+            </div>
+            <div class="form-group col-md-3 text-right">                
+                    {% if gig==None %}
+                        <a class="btn btn-default" href="agenda.html">Cancel</a>
+                    {% else %}
+                        <a class="btn btn-default" href="gig_info.html?gk={{ gig.key.urlsafe() }}">Cancel</a>
+                    {% endif %}
+                    <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+        {% if gig==None %}
+            <input type="hidden" name="gk" value="0">
+        {% else %}
+            <input type="hidden" name="gk" value="{{gig.key.urlsafe()}}">
+        {% endif %}
+    </form>
+{% endblock content %}        
+
+{% block modal %}
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -96,9 +96,9 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
-</div><!-- /.container -->
+{% endblock modal %}
 
-{% include 'scripts.html' %}
+{% block localscripts %}
 <script src="/datepicker/js/bootstrap-datepicker.js"></script>
 <script>
 $(document).ready(function () {
@@ -111,6 +111,5 @@ $('#gigdateinput')
   });
 });
 </script>
-
-{% include 'footer.html' %}
+{% endblock localscripts %}
 
