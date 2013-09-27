@@ -453,3 +453,23 @@ class RemoveMember(BaseHandler):
             return # todo figure out what to do
 
         return self.redirect('/band_info.html?bk={0}'.format(the_assoc.band.urlsafe()))
+
+class AdminPage(BaseHandler):
+    """ Page for band administration """
+
+    @user_required
+    def get(self):    
+        self._make_page(the_user=self.user)
+            
+    def _make_page(self,the_user):
+    
+        # todo make sure the user is a superuser
+        
+        the_bands = get_all_bands()
+        
+        template_args = {
+            'title' : 'Band Admin',
+            'the_bands' : the_bands,
+            'nav_info' : member.nav_info(the_user)
+        }
+        self.render_template('band_admin.html', template_args)

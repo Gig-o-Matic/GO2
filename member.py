@@ -90,8 +90,9 @@ def forget_member_from_key(the_member_key):
 
     # delete the old unique values
     the_member=the_member_key.get()
-    Unique.delete_multi(['Member.auth_id:%s'%the_member.email_address,
-                         'Member.email_address:%s'%the_member.email_address])  
+    if the_member:
+        Unique.delete_multi(['Member.auth_id:%s'%the_member.email_address,
+                             'Member.email_address:%s'%the_member.email_address])  
     # bye!    
     the_member_key.delete()
     
