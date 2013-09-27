@@ -3,23 +3,15 @@
 
 {% block content %}
     <div class="row">
-        <div class="col-md-5 col-md-offset-2"><h1>Profile</h1></div>
+        <div class="col-md-5 col-md-offset-2">
+            <h1>Profile</h1>
+        </div>
     </div> 
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h4 class="panel-title">
-                      Info
-            </h4>
+            <h4 class="panel-title">Info</h4>
         </div>
         <div class="panel-body">
-            <div class="row">
-                {% if nav_info['is_me'] or nav_info['is_admin'] %}
-                    <div class="col-md-4 col-md-offset-2">
-                        <a class="btn btn-primary btn-sm" href="member_edit.html?mk={{ the_member.key.urlsafe() }}">Edit</a>
-                    </div>
-                {% endif %}
-            </div>
-            <div class="row">&nbsp;</div>
             <div class="row">
                 <div class="col-md-2 col-md-offset-2">Name</div>
                 <div class="col-md-8">{{ the_member.name|e }}</div>
@@ -36,6 +28,14 @@
                 <div class="col-md-2 col-md-offset-2">Personal Statement</div>
                 <div class="col-md-8">{{ the_member.statement|e }}</div>
             </div>
+            {% if nav_info['is_me'] or nav_info['is_admin'] %}
+                <br>
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                        <a class="btn btn-primary btn-sm" href="member_edit.html?mk={{ the_member.key.urlsafe() }}">Edit</a>
+                    </div>
+                </div>
+            {% endif %}
         </div>
     </div>
     {% if nav_info['is_me'] or nav_info['is_admin'] %}

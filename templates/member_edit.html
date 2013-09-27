@@ -2,7 +2,9 @@
 
 {% block content %}
     <div class="row">
-        <div class="col-md-5 col-md-offset-2"><h1>Edit Profile</h1></div>
+        <div class="col-md-5 col-md-offset-2">
+            <h1>Edit Profile</h1>
+        </div>
     </div>
     <form class="form-horizontal" id="infoform" role="form" method="post" action="member_edit.html">
         <div class="row">
@@ -52,6 +54,20 @@
                     <input type="text" class="form-control" id="memberstatementinput" placeholder="{{the_member.statement}}" name="member_statement">
                 </div>
             </div>
+        </div>
+        <div class="row">
+            <div class="form-group">  
+                <label class="col-md-2 col-md-offset-1 control-label" for="memberprefemailnewgig">Preferences</label>  
+                <div class="col-md-6">  
+                    <label class="checkbox">  
+                        <input type="checkbox" id="memberprefemailnewgig" name="member_prefemailnewgig"
+                        {% if the_member.preferences.email_new_gig %}
+                            checked
+                        {% endif %}
+                        >Email me every time a gig is added  
+                    </label>  
+                </div>  
+            </div>  
         </div>
         <div class="row">
             <div class="form-group">

@@ -29,11 +29,15 @@ def member_key(member_name='member_key'):
     """Constructs a Datastore key for a Guestbook entity with guestbook_name."""
     return ndb.Key('member', member_name)
 
+
+class MemberPreferences(ndb.Model):
+    """ class to hold user preferences """
+    email_new_gig = ndb.BooleanProperty(default=True)
+
 #
 # class for member
 #
 class Member(webapp2_extras.appengine.auth.models.User):
-
     """ Models a gig-o-matic member """
     name = ndb.StringProperty()
     email_address = ndb.TextProperty()
@@ -41,6 +45,7 @@ class Member(webapp2_extras.appengine.auth.models.User):
     statement = ndb.TextProperty()
     role = ndb.IntegerProperty(default=0) # 0=vanilla member, 1=superuser
     created = ndb.DateTimeProperty(auto_now_add=True)
+    preferences = ndb.StructuredProperty(MemberPreferences)
 
     def set_password(self, raw_password):
         """Sets the password for the current user
@@ -319,6 +324,16 @@ class EditPage(BaseHandler):
                 else:
                     return  # todo figure out what happens if we get this far - should be matched
                             # and validated already on the client side.
+
+        # manage preferences
+        if the_member.preferences is None:
+            the_member.preferences=MemberPreferences()
+            
+        member_prefemailnewgig=self.request.get("member_prefemailnewgig", None)
+        if (member_prefemailnewgig):
+            the_member.preferences.email_new_gig = True
+        else:
+            the_member.preferences.email_new_gig = False
 
         the_member.put()                    
 
