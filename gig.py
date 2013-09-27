@@ -178,6 +178,7 @@ class InfoPage(BaseHandler):
                 if the_plan.section == the_section[0]:
                     section_plans.append( [a_member_key, the_plan] )
             the_plans.append( (the_section[0], section_plans) )
+
                 
         template_args = {
             'title' : 'Gig Info',
@@ -266,10 +267,11 @@ class EditPage(BaseHandler):
         return self.redirect(\
             '/gig_info.html?&gk={0}'.format(the_gig.key.urlsafe()))
                 
-class DeleteHandler(webapp2.RequestHandler):
+class DeleteHandler(BaseHandler):
     def get(self):
-        print 'GIG_DELETE GET HANDLER'
-        user = users.get_current_user()
+
+        user = self.user
+        
         if user is None:
             self.redirect(users.create_login_url(self.request.uri))
         else:

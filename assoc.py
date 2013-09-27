@@ -102,6 +102,10 @@ def add_section_for_assoc(assoc_key, section_key):
         the_assoc.sections=[section_key]
         the_assoc.default_section=section_key
 
+    # because there might already be plans for the user with no section, take this opportunity
+    # to find them and fix them
+    plan.set_section_for_empty_plans_in_assoc(the_assoc, section_key)
+
     the_assoc.put()
     
     
@@ -123,7 +127,12 @@ def leave_section_for_assoc(assoc_key, section_key):
         plan.leave_section(the_assoc, section_key, the_assoc.default_section)
 
 def set_default_section(the_assoc_key, the_section_key):
+    """ set the default section for a user's association with a band """
     the_assoc=the_assoc_key.get()
     the_assoc.default_section=the_section_key # todo make sure this is really one of our sections!
     the_assoc.put()
+    # because there might already be plans for the user with no section, take this opportunity
+    # to find them and fix them
+    plan.set_section_for_empty_plans_in_assoc(the_assoc, the_section_key)
+    
     

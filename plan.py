@@ -75,6 +75,16 @@ def update_plan_section_key(the_plan, the_section_key):
     the_plan.section=the_section_key
     the_plan.put()
 
+def set_section_for_empty_plans_in_assoc(the_assoc, the_section_key):
+    print '_______looking for plans with no sections'
+    the_gigs = gig.get_gigs_for_band(the_assoc.band.get())
+    for a_gig in the_gigs:
+        the_plan = get_plan_for_member_for_gig(the_assoc.member.get(), a_gig)
+        if the_plan.section is None:
+            print 'found a plan with no section'
+            the_plan.section=the_section_key
+            the_plan.put()
+
 def delete_plans_for_gig(the_gig):
     """ A gig is being deleted, so forget everyone's plans about it """
     plan_query = Plan.query(ancestor=the_gig.key)
