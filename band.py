@@ -162,7 +162,7 @@ class InfoPage(BaseHandler):
         if the_assoc:
             the_status=the_assoc.status
         else:
-            the_status=-1
+            the_status=-1 # no relationship to the band
 
         if is_band_admin(the_status):
             the_pending = get_pending_members_from_band_key(the_band_key)
@@ -194,6 +194,7 @@ class EditPage(BaseHandler):
 
         if self.request.get("new",None) is not None:
             #  creating a new band
+            # todo MAKE SURE I'M AN ADMIN
             the_band=None
             is_new=True
         else:
