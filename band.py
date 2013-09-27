@@ -194,8 +194,8 @@ class EditPage(BaseHandler):
 
         if self.request.get("new",None) is not None:
             #  creating a new band
-             the_band=None
-             is_new=True
+            the_band=None
+            is_new=True
         else:
             is_new=False
             the_band_key=self.request.get("bk",'0')
