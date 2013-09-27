@@ -33,7 +33,7 @@
         </div>
     </div>
 </div> <!-- panel -->
-{% if the_status == -1 %}
+{% if the_status == -1 and ( nav_info['is_admin'] == False ) %}
 {% elif the_status == 0 and ( nav_info['is_admin'] == False ) %}
     Your membership is pending - ask a band member to confirm you!
 {% else %}
