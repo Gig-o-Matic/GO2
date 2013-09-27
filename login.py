@@ -8,6 +8,9 @@ from requestmodel import *
 
 import logging
 import member
+import goemail
+
+ENABLE_EMAIL = False
 
 class LoginPage(BaseHandler):
     def get(self):
@@ -72,10 +75,15 @@ class SignupPage(BaseHandler):
         verification_url = self.uri_for('verification', type='v', user_id=user_id,
             signup_token=token, _full=True)
 
-        msg = 'Send an email to user in order to verify their address. \
-                    They will be able to do so by visiting <a href="{url}">{url}</a>'
-
-        self.display_message(msg.format(url=verification_url))
+        if ENABLE_EMAIL:
+            if goemail.send_registration_email(email, verification_url):
+                msg = "An email has been sent - check your inbox! {0}".format(verification_url)
+            else:
+                msg = "Email failed!"
+        else:
+            msg = 'Verification link is {0}'.format(verification_url)
+            
+        self.display_message(msg)
 
 ##########
 #
@@ -189,8 +197,14 @@ class ForgotPasswordHandler(BaseHandler):
     verification_url = self.uri_for('verification', type='p', user_id=user_id,
       signup_token=token, _full=True)
 
-    msg = 'Send an email to user in order to reset their password. \
-          They will be able to do so by visiting <a href="{url}">{url}</a>'
+    if ENABLE_EMAIL:
+        if goemail.send_forgot_email(user_id, verification_url):
+            msg = "An email has been sent - check your inbox! {0}".format(url)
+        else:
+            msg = "Email failed!"
+    else:
+        msg = 'Send an email to user in order to reset their password. \
+              They will be able to do so by visiting <a href="{url}">{url}</a>'
 
     self.display_message(msg.format(url=verification_url))
   
