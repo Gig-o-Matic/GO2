@@ -47,16 +47,15 @@
             </div>
             <div class="panel-body">        
                 <div class="row">
-                    <div class="col-md-2 col-md-offset-2">Bands</div>
-                    <div class="col-md-8" id="bandlist">
+                    <div class="col-md-10 col-md-offset-2" id="bandlist">
                         <i class="icon-spinner icon-spin icon-large"></i>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-8 col-md-offset-4">
+                    <div class="col-md-8 col-md-offset-2">
                         <div class="dropdown">
-                            <button type="button" class="btn btn-default dropdown-toggle text-center" data-toggle="dropdown">
-                                <i class="icon-plus icon-large"></i> Add Band
+                            <button type="button" class="btn btn-sm btn-default dropdown-toggle text-center" data-toggle="dropdown">
+                                <i class="icon-plus-sign-alt icon-sm"></i> Add Band
                             </button>
                             <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
                                 {% for a_band in all_bands %}
