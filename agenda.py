@@ -32,7 +32,6 @@ class MainPage(BaseHandler):
                     
         num_to_put_in_upcoming=5
         today_date=datetime.datetime.now()
-        print 'using start date {0}'.format(today_date)
         the_gigs=gig.get_gigs_for_band(the_bands, num=num_to_put_in_upcoming, start_date=today_date)
          
         upcoming_plans = []
