@@ -3,6 +3,7 @@
 
 html,
 body {
+  padding-top: 20px;
   height: 100%;
   /* The html and body elements cannot have any padding or margin. */
 }
@@ -32,6 +33,7 @@ body {
 #wrap > .container {
   padding: 60px 15px 0;
 }
+
 .container .credit {
   margin: 20px 0;
 }
