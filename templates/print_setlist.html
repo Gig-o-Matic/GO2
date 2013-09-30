@@ -1,0 +1,12 @@
+<html>
+<body>
+<H2>Setlist For {{the_gig.title}}</H1>
+{{ the_gig.date }}<br><br>
+{{ the_gig.setlist|e|replace("\n","<br>")}}
+</body>
+<script>window.jQuery || document.write('<script src="/jquery/jquery-1.10.2.js"><\/script>')</script>
+<script>
+$(document).ready(function() {
+    window.print()
+});
+</script>

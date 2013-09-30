@@ -284,4 +284,24 @@ class DeleteHandler(BaseHandler):
                 plan.delete_plans_for_gig(the_gig)            
                 the_gig.key.delete()
             return self.redirect('/agenda.html')
-                
+            
+class PrintSetlist(BaseHandler):
+    """ print-friendly setlist view """
+    
+    @user_required
+    def get(self):
+        self._make_page(self.user)
+
+    def _make_page(self, the_user):
+
+        the_gig_key = self.request.get("gk", '0')
+        
+        if (the_gig_key == '0'):
+            return # todo what else to do?
+        else:
+            the_gig = ndb.Key(urlsafe=the_gig_key).get()
+
+        template_args = {
+            'the_gig' : the_gig,
+        }
+        self.render_template('print_setlist.html', template_args)
