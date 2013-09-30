@@ -9,7 +9,7 @@
                 </div>
             </div>
         </td>
-        {% if nav_info['is_admin'] %} 
+        {% if nav_info['is_admin'] or user_is_admin %} 
             {% if the_assoc.member!=the_user.key %}
                 <td>
                     {% if the_assoc.status==1 %}

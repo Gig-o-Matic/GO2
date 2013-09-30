@@ -32,6 +32,8 @@
                     {% endif %}
                 </div>
             </div>
+        {% else %}
+            <input type="hidden" name="gig_band" value="{{all_bands[0].key.urlsafe()}}">
         {% endif %}
         <div class="row">
             <div class="form-group col-md-5 col-md-offset-2">

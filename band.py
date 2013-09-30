@@ -15,6 +15,7 @@ from debug import *
 
 import assoc
 import member
+import goemail
 
 def band_key(band_name='band_key'):
     """Constructs a Datastore key for a Guestbook entity with guestbook_name."""
@@ -117,10 +118,6 @@ def delete_section_key(the_section_key):
         the_band.put()
     the_section_key.delete()
 
-def is_band_admin(status):
-    return True
-    return status==2
-    
 #
 # class for section
 #
@@ -160,11 +157,11 @@ class InfoPage(BaseHandler):
             
         the_assoc=assoc.get_assoc_for_band_key_and_member_key(the_band_key, the_user.key)
         if the_assoc:
-            the_status=the_assoc.status
+            the_user_status=the_assoc.status
         else:
-            the_status=-1 # no relationship to the band
+            the_user_status=-1 # no relationship to the band
 
-        if is_band_admin(the_status):
+        if the_user_status==2:
             the_pending = get_pending_members_from_band_key(the_band_key)
         else:
             the_pending = []
@@ -174,7 +171,7 @@ class InfoPage(BaseHandler):
         template_args = {
             'title' : 'Band Info',
             'the_band' : the_band,
-            'the_status' : the_status,
+            'the_user_status' : the_user_status,
             'the_pending_members' : the_pending,
             'nav_info' : member.nav_info(the_user, None)
         }
@@ -272,10 +269,16 @@ class BandGetMembers(BaseHandler):
             
         the_band_key = ndb.Key(urlsafe=the_band_key_str)
         the_assocs = assoc.get_assocs_of_band_key(the_band_key)
+
+        the_assoc = assoc.get_assoc_for_band_key_and_member_key(the_band_key, the_user.key)
+        the_user_status=-1
+        if the_assoc:
+            the_user_status = the_assoc.status       
         
         template_args = {
             'the_assocs' : the_assocs,
-            'nav_info' : member.nav_info(the_user, None)            
+            'the_user_status' : the_user_status,
+            'nav_info' : member.nav_info(the_user, None)    
         }
         self.render_template('band_members.html', template_args)
 
@@ -293,10 +296,16 @@ class BandGetSections(BaseHandler):
             
         the_band_key = ndb.Key(urlsafe=the_band_key_str)
         the_members_by_section = get_member_keys_of_band_key_by_section_key(the_band_key)
+
+        the_assoc = assoc.get_assoc_for_band_key_and_member_key(the_band_key, the_user.key)
+        the_user_status=-1
+        if the_assoc:
+            the_user_status = the_assoc.status       
                 
         template_args = {
             'the_members_by_section' : the_members_by_section,
-            'nav_info' : member.nav_info(the_user, None)            
+            'nav_info' : member.nav_info(the_user, None),
+            'the_user_status' : the_user_status
         }
         self.render_template('band_sections.html', template_args)
 
@@ -390,13 +399,15 @@ class ConfirmMember(BaseHandler):
                     
         the_assoc = assoc.get_assoc_for_band_key_and_member_key(the_band_key, the_member_key)
         
-        print '$$$$$ {0}'.format(the_assoc)
-        
         if the_assoc is None:
             return # todo what to do?
             
         the_assoc.status=1
         the_assoc.put()
+
+        the_member = the_member_key.get()
+        the_band = the_band_key.get()
+        goemail.send_band_accepted_email(the_member.email_address, the_band.name)
 
         return self.redirect('/band_info.html?bk={0}'.format(the_band_keyurl))
         

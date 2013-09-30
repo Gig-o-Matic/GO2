@@ -27,6 +27,7 @@ class Assoc(ndb.Model):
     default_section = ndb.KeyProperty()
     section_count = ndb.ComputedProperty(lambda self: len(self.sections))
     
+    
 def new_association(band, member):
     """ associate a band and a member """
     
