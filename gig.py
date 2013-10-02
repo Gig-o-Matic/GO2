@@ -17,6 +17,7 @@ import member
 import band
 import plan
 import assoc
+import goemail
 
 from debug import debug_print
 import datetime
@@ -135,6 +136,7 @@ def get_gigs_for_member_for_dates(the_member, start_date, end_date):
                                                     end_date))
     return all_gigs
 
+
 #
 #
 # Handlers
@@ -237,11 +239,13 @@ class EditPage(BaseHandler):
             the_gig = ndb.Key(urlsafe=the_gig_key).get()
 
         # first, get the band
+        gig_is_new = False
         gig_band_key = self.request.get("gig_band", None)
         if gig_band_key is not None and gig_band_key != '':
             the_band = ndb.Key(urlsafe=gig_band_key).get()
             if the_gig is None:
                 the_gig = new_gig(title="tmp", the_band=the_band)
+                gig_is_new = True
 
         # now get the info
         gig_title = self.request.get("gig_title", None)
@@ -263,6 +267,9 @@ class EditPage(BaseHandler):
             # todo validate form entry so date isn't bogus
        
         the_gig.put()            
+
+        if gig_is_new:
+            goemail.announce_new_gig(the_gig, self.uri_for('gig_info', _full=True, gk=the_gig.key.urlsafe()))
 
         return self.redirect(\
             '/gig_info.html?&gk={0}'.format(the_gig.key.urlsafe()))
