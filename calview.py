@@ -47,11 +47,25 @@ class CalEvents(BaseHandler):
         gigs=gig.get_gigs_for_member_for_dates(the_member, start_date, end_date)
         
         events=[]
+        colors=['#FF88FF','#55c0c0','#d0d0d0','#f0f055','#77f077','#ff8888']
+        cindex=0
+        taken_colors={}
         for a_gig in gigs:
-            events.append({\
-                            'title':a_gig.title, \
-                            'start':str(a_gig.date),  \
-                            'url':'/gig_info.html?gk={0}'.format(a_gig.key.urlsafe()) \
+            parent=a_gig.key.parent()
+            if parent in taken_colors:
+                now_color=taken_colors[parent]
+            else:
+                if cindex >= len(colors):
+                    cindex=0
+                now_color=colors[cindex]
+                cindex=cindex+1
+                taken_colors[parent]=now_color
+            print 'color: {0}'.format(taken_colors)
+            events.append({
+                            'title':a_gig.title,
+                            'start':str(a_gig.date),
+                            'url':'/gig_info.html?gk={0}'.format(a_gig.key.urlsafe()),
+                            'color':now_color
                             })
         
         testevent=json.dumps(events)
