@@ -60,7 +60,7 @@ class CalEvents(BaseHandler):
                 now_color=colors[cindex]
                 cindex=cindex+1
                 taken_colors[parent]=now_color
-            print 'color: {0}'.format(taken_colors)
+
             events.append({
                             'title':a_gig.title,
                             'start':str(a_gig.date),
