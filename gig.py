@@ -43,7 +43,7 @@ def new_gig(the_band, title, date=None, contact=None, details="", setlist="", ca
     if date is None:
         date = datetime.datetime.now()
     the_gig = Gig(parent=the_band.key, title=title, contact=contact, \
-                    details=details, date=date, call=call)
+                    details=details, setlist=setlist, date=date, call=call)
     the_gig.put()
     debug_print('new_gig: added new gig: {0} on {1}'.format(title, str(date)))
     return the_gig
