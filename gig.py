@@ -59,14 +59,24 @@ def get_gigs_for_band(the_band, num=None, start_date=None):
         band_list = [the_band]
     else:
         band_list = the_band
+
+    if start_date:
+        # correct the start date in case we're a non-UTC band (everyone, probably)
+        # assumes that all the bands are in the same timezone
+        test_band=band_list[0]
+        print 'raw start date is {0}'.format(start_date)
+        if test_band.time_zone_correction:
+            # this band is in a non-UTC time zone!
+            start_date=start_date+datetime.timedelta(hours=test_band.time_zone_correction)
+            print 'tz start date is {0}'.format(start_date)
+        start_date = start_date.replace(hour=0, minute=0, second=0, microsecond=0)
+        print 'final start date is {0}'.format(start_date)
     
     all_gigs = []
     for a_band in band_list:
         if start_date is None:
-            print 'no start date'
             gig_query = Gig.query(ancestor=a_band.key).order(Gig.date)
         else:
-            print 'start date is {0}'.format(start_date)
             gig_query = Gig.query(Gig.date >= start_date, \
                                   ancestor=a_band.key).order(Gig.date)
         the_gigs = gig_query.fetch()

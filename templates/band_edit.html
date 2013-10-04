@@ -13,7 +13,7 @@
             <div class="form-group">
                 <label for="bandnameinput" class="col-md-2 col-md-offset-1 control-label">Name</label>
                 <div class="col-md-6">
-                    <input type="text" class="form-control" id="bandnameinput" placeholder="{{the_band.name}}" name="band_name">
+                    <input type="text" class="form-control" id="bandnameinput" placeholder="what's it called?" value="{{the_band.name}}" name="band_name">
                 </div>
             </div>
         </div>
@@ -21,7 +21,7 @@
             <div class="form-group">
                 <label for="bandwebsiteinput" class="col-md-2 col-md-offset-1 control-label">Website</label>
                 <div class="col-md-6">
-                    <input type="text" class="form-control" id="bandwebsiteinput" placeholder="{{the_band.website}}" name="band_website">
+                    <input type="text" class="form-control" id="bandwebsiteinput" placeholder="www.yourband.org" value="{{the_band.website}}" name="band_website">
                 </div>
             </div>
         </div>
@@ -29,7 +29,15 @@
             <div class="form-group">
                 <label for="banddescriptioninput" class="col-md-2 col-md-offset-1 control-label">Description</label>
                 <div class="col-md-6">
-                    <input type="text" class="form-control" id="memeberdescriptionnput" placeholder="{{the_band.description}}" name="band_description">
+                    <input type="text" class="form-control" id="memeberdescriptioninput" placeholder="tell us a little about yourself" value="{{the_band.description}}" name="band_description">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label for="bandtzinput" class="col-md-2 col-md-offset-1 control-label">Time Zone</label>
+                <div class="col-md-2">
+                    <input type="text" class="form-control" id="bandtzinput" placeholder="UTC offset" value="{{the_band.time_zone_correction}}" name="band_tz">
                 </div>
             </div>
         </div>

@@ -31,6 +31,7 @@ class Band(ndb.Model):
     description = ndb.TextProperty()
     sections = ndb.KeyProperty( repeated=True ) # instrumental sections
     created = ndb.DateTimeProperty(auto_now_add=True)
+    time_zone_correction = ndb.IntegerProperty(default=0)
 
 def new_band(name):
     """ Make and return a new band """
@@ -251,6 +252,11 @@ class EditPage(BaseHandler):
             print 'got description {0}'.format(band_description)
             the_band.description=band_description
             
+        band_tz=self.request.get("band_tz",None)
+        if band_tz is not None and band_tz != '':
+            print 'got tz {0}'.format(band_tz)
+            the_band.time_zone_correction=int(band_tz)
+
         the_band.put()            
 
         return self.redirect('/band_info.html?bk={0}'.format(the_band.key.urlsafe()))

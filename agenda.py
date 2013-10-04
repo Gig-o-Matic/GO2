@@ -31,8 +31,8 @@ class MainPage(BaseHandler):
             return self.redirect('/member_info.html?mk={0}'.format(the_user.key.urlsafe()))
                     
         num_to_put_in_upcoming=5
-        today_date=datetime.datetime.now()
-        the_gigs=gig.get_gigs_for_band(the_bands, num=num_to_put_in_upcoming, start_date=today_date)
+        today_date = datetime.datetime.now()
+        the_gigs = gig.get_gigs_for_band(the_bands, num=num_to_put_in_upcoming, start_date=today_date)
          
         upcoming_plans = []
         weighin_plans = []        
