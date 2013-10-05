@@ -81,7 +81,7 @@ class SignupPage(BaseHandler):
             else:
                 msg = "Email failed!"
         else:
-            msg = 'Verification link is {0}'.format(verification_url)
+            msg = 'Verification link is <a href="{0}">{0}</a>'.format(verification_url)
             
         self.display_message(msg)
 
