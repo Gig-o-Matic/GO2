@@ -187,7 +187,7 @@ class InfoPage(BaseHandler):
             for a_member_key in the_section[1]:
                 the_plan=plan.get_plan_for_member_for_gig(a_member_key.get(), the_gig)
                 # add the plan to the list, but only if the member's section for this gig is this section
-                if the_plan.section == the_section[0]:
+                if the_plan and the_plan.section == the_section[0]:
                     section_plans.append( [a_member_key, the_plan] )
             the_plans.append( (the_section[0], section_plans) )
 
