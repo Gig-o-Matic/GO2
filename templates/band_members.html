@@ -3,11 +3,7 @@
     {% if the_assoc.status > 0 %}
         <tr>
         <td>
-            <div class="row">
-                <div class="col-md-2 col-md-offset-1">
-                    <a href='/member_info.html?mk={{the_assoc.member.urlsafe()}}'>{{ the_assoc.member.get().name }}</a>
-                </div>
-            </div>
+            <a href='/member_info.html?mk={{the_assoc.member.urlsafe()}}'>{{ the_assoc.member.get().name }}</a>
         </td>
         {% if nav_info['is_admin'] or user_is_admin %} 
             {% if the_assoc.member!=the_user.key %}
