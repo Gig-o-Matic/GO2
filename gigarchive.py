@@ -32,21 +32,22 @@ def make_archive_for_gig_key(the_gig_key):
     
     the_archive_text = ""
     for a_section in the_plans:
-        the_section_key = a_section[0]
-        if (the_section_key):
-            the_section_name=the_section_key.get().name
-        else:
-            the_section_name='None'
-        the_archive_text = '{0}\n{1}'.format(the_archive_text,the_section_name)
+        if a_section[1]:
+            the_section_key = a_section[0]
+            if (the_section_key):
+                the_section_name=the_section_key.get().name
+            else:
+                the_section_name='None'
+            the_archive_text = '{0}\n{1}'.format(the_archive_text,the_section_name)
         
-        for member_plans in a_section[1]:
-            the_member = member_plans[0].get()
-            the_plan = member_plans[1]
-            the_comment = '- {0}'.format(the_plan.comment) if the_plan.comment else ""
-            the_archive_text = '{0}\n\t{1} - {2} {3}'.format(the_archive_text,
-                                                           the_member.name,
-                                                           plan.plan_text[the_plan.value],
-                                                           the_comment)
+            for member_plans in a_section[1]:
+                the_member = member_plans[0].get()
+                the_plan = member_plans[1]
+                the_comment = '- {0}'.format(the_plan.comment) if the_plan.comment else ""
+                the_archive_text = '{0}\n\t{1} - {2} {3}'.format(the_archive_text,
+                                                               the_member.name,
+                                                               plan.plan_text[the_plan.value],
+                                                               the_comment)
 
     # create a document
     my_document = search.Document(
@@ -66,6 +67,14 @@ def make_archive_for_gig_key(the_gig_key):
     
     return doc_id
     
+def get_archived_plans(archive_id):
+    index = search.Index(name="gigomatic_index")
+    doc = index.get(archive_id)
+    if doc:
+        return doc.fields[0].value
+    else:
+        return ''
+   
 def delete_archive(archive_id):
     index = search.Index(name="gigomatic_index")
     index.delete([archive_id])

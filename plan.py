@@ -40,11 +40,11 @@ def get_plan_from_id(the_gig, id):
     """ Return plan object by id; needs the key for the parent, which is the band for this plan"""
     return Plan.get_by_id(int(id), parent=the_gig.key)
 
-def get_plans_for_gig(the_gig):
+def get_plan_keys_for_gig_key(the_gig_key):
     """ Return plan objects by gig"""
-    plan_query = Plan.query(ancestor=the_gig.key)
-    plans = plan_query.fetch()
-    return plans
+    plan_query = Plan.query(ancestor=the_gig_key)
+    plan_keys = plan_query.fetch(keys_only=True)
+    return plan_keys
 
 def get_plan_for_member_for_gig(the_member, the_gig):
     plan_query = Plan.query(Plan.member==the_member.key, ancestor=the_gig.key)
@@ -79,7 +79,7 @@ def update_plan_section_key(the_plan, the_section_key):
     the_plan.put()
 
 def set_section_for_empty_plans_in_assoc(the_assoc, the_section_key):
-    the_gigs = gig.get_gigs_for_band(the_assoc.band.get(), start_date=datetime.datetime.now())
+    the_gigs = gig.get_future_gigs_for_band(the_assoc.band.get(), start_date=datetime.datetime.now())
     for a_gig in the_gigs:
         the_plan = get_plan_for_member_for_gig(the_assoc.member.get(), a_gig)
         if the_plan.section is None:

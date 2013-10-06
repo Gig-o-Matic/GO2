@@ -20,3 +20,9 @@ indexes:
   ancestor: yes
   properties:
   - name: date
+
+- kind: Gig
+  ancestor: yes
+  properties:
+  - name: is_past
+  - name: date

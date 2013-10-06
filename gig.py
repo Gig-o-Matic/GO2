@@ -36,6 +36,7 @@ class Gig(ndb.Model):
     call = ndb.TimeProperty()
     archive_id = ndb.TextProperty()
     is_archived = ndb.ComputedProperty(lambda self: self.archive_id is not None)
+    is_past = ndb.BooleanProperty(default=False)
 #
 # Functions to make and find gigs
 #
@@ -54,8 +55,8 @@ def get_gig_from_key(key):
     """ Return gig objects by key"""
     return key.get()
         
-def get_gigs_for_band(the_band, num=None, start_date=None):
-    """ Return gig objects by band"""
+def get_future_gigs_for_band(the_band, num=None, start_date=None):
+    """ Return gig objects by band, ignoring past gigs """
         
     if (type(the_band) is not list):
         band_list = [the_band]
@@ -77,15 +78,11 @@ def get_gigs_for_band(the_band, num=None, start_date=None):
     all_gigs = []
     for a_band in band_list:
         if start_date is None:
-            gig_query = Gig.query(ancestor=a_band.key).order(Gig.date)
+            gig_query = Gig.query(Gig.is_past==False, ancestor=a_band.key).order(Gig.date)
         else:
-            gig_query = Gig.query(Gig.date >= start_date, \
+            gig_query = Gig.query(ndb.AND(Gig.date >= start_date, Gig.is_past==False), \
                                   ancestor=a_band.key).order(Gig.date)
         the_gigs = gig_query.fetch()
-        debug_print('get_gigs_for_band: got {0} gigs for \
-                    band key id {1} ({2})'.format(len(the_gigs), \
-                                                  a_band.key.id(), \
-                                                  a_band.name))
         all_gigs.append(the_gigs)
         
     # now we have several lists of gigs - merge them
@@ -127,7 +124,7 @@ def get_gigs_for_band(the_band, num=None, start_date=None):
     
     
 def get_gigs_for_band_for_dates(the_band, start_date, end_date):
-    """ Return gig objects by band"""
+    """ Return gig objects by band, past gigs OK """
     gig_query = Gig.query(ndb.AND(Gig.date >= start_date, \
                                   Gig.date <= end_date), \
                                   ancestor=the_band.key).order(Gig.date)
@@ -188,31 +185,41 @@ class InfoPage(BaseHandler):
             self.response.write('did not find a gig!')
             return # todo figure out what to do if we didn't find it
             
-        debug_print('found gig object: {0}'.format(the_gig.title))
+        if not the_gig.is_archived:
+            the_band_key = the_gig.key.parent()
 
-        the_band_key = the_gig.key.parent()
+            the_members_by_section = band.get_member_keys_of_band_key_by_section_key(the_band_key)
 
-        the_members_by_section = band.get_member_keys_of_band_key_by_section_key(the_band_key)
+            the_plans=[]
+            for the_section in the_members_by_section:
+                section_plans=[]
+                for a_member_key in the_section[1]:
+                    the_plan=plan.get_plan_for_member_for_gig(a_member_key.get(), the_gig)
+                    # add the plan to the list, but only if the member's section for this gig is this section
+                    if the_plan and the_plan.section == the_section[0]:
+                        section_plans.append( [a_member_key, the_plan] )
+                the_plans.append( (the_section[0], section_plans) )
 
-        the_plans=[]
-        for the_section in the_members_by_section:
-            section_plans=[]
-            for a_member_key in the_section[1]:
-                the_plan=plan.get_plan_for_member_for_gig(a_member_key.get(), the_gig)
-                # add the plan to the list, but only if the member's section for this gig is this section
-                if the_plan and the_plan.section == the_section[0]:
-                    section_plans.append( [a_member_key, the_plan] )
-            the_plans.append( (the_section[0], section_plans) )
+            template_args = {
+                'title' : 'Gig Info',
+                'gig' : the_gig,
+                'member_plans' : the_plans,
+                'get_sections_for_member_key_band_key' : member.get_sections_for_member_key_band_key,
+                'nav_info' : member.nav_info(the_user, None)
+            }
+            self.render_template('gig_info.html', template_args)
 
-                
-        template_args = {
-            'title' : 'Gig Info',
-            'gig' : the_gig,
-            'member_plans' : the_plans,
-            'get_sections_for_member_key_band_key' : member.get_sections_for_member_key_band_key,
-            'nav_info' : member.nav_info(the_user, None)
-        }
-        self.render_template('gig_info.html', template_args)
+        else:
+            # this is an archived gig
+            the_archived_plans = gigarchive.get_archived_plans(the_gig.archive_id)
+            template_args = {
+                'title' : 'Archived Gig Info',
+                'gig' : the_gig,
+                'archived_plans' : the_archived_plans,
+                'nav_info' : member.nav_info(the_user, None)
+            }
+            self.render_template('gig_archived_info.html', template_args)
+            
 
 
 class EditPage(BaseHandler):
@@ -311,6 +318,8 @@ class DeleteHandler(BaseHandler):
                 self.response.write('did not find gig!')
             else:
                 the_gig = ndb.Key(urlsafe=the_gig_key).get()
+                if the_gig.is_archived:
+                    gigarchive.delete_archive(the_gig.archive_id)
                 plan.delete_plans_for_gig(the_gig)            
                 the_gig.key.delete()
             return self.redirect('/agenda.html')
@@ -351,6 +360,9 @@ class ArchiveHandler(BaseHandler):
         the_gig_key=ndb.Key(urlsafe=gig_key_str)
         if the_gig_key:
             make_archive_for_gig_key(the_gig_key)
+            plan_keys = plan.get_plan_keys_for_gig_key(the_gig_key)
+            for a_plan_key in plan_keys:
+                a_plan_key.delete()
 
         return self.redirect('/gig_info.html?gk={0}'.format(gig_key_str))
         

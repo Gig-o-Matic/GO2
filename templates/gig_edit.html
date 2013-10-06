@@ -58,7 +58,8 @@
         <div class="row">
             <div class="form-group col-md-2 col-md-offset-2">
                 {% if gig!=None %}
-                    <a data-toggle="modal" href="#myModal" class="btn btn-default">Delete</a>
+                    <a data-toggle="modal" href="#deleteModal" class="btn btn-default">Delete</a>
+                    <a data-toggle="modal" href="#archiveModal" class="btn btn-default">Archive</a>
                 {% endif %}   
             </div>
             <div class="form-group col-md-3 text-right">                
@@ -79,7 +80,7 @@
 {% endblock content %}        
 
 {% block modal %}
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -98,8 +99,27 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
-{% endblock modal %}
 
+    <div class="modal fade" id="archiveModal" tabindex="-1" role="dialog" aria-labelledby="archiveModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Confirm archive</h4>
+                </div>
+                <div class="modal-body">
+                    Do you really want to archive this gig?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Don't Archive</button>
+                    {% if gig %}
+                        <a class="btn btn-primary" id="opener" href="gig_archive?&gk={{ gig.key.urlsafe() }}">Archive</a>
+                    {% endif %}
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+{% endblock modal %}
 {% block localscripts %}
 <script src="/datepicker/js/bootstrap-datepicker.js"></script>
 <script>
