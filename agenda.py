@@ -32,11 +32,11 @@ class MainPage(BaseHandler):
                     
         num_to_put_in_upcoming=5
         today_date = datetime.datetime.now()
-        the_gigs = gig.get_future_gigs_for_band(the_bands, num=num_to_put_in_upcoming, start_date=today_date)
+        the_gigs = gig.get_gigs_for_band(the_bands, num=num_to_put_in_upcoming, start_date=today_date)
          
         upcoming_plans = []
         weighin_plans = []        
-        all_gigs = gig.get_future_gigs_for_band(the_bands, start_date=today_date)
+        all_gigs = gig.get_gigs_for_band(the_bands, start_date=today_date)
         if all_gigs:
             for i in range(0, len(all_gigs)):
                 a_gig = all_gigs[i]

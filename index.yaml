@@ -24,5 +24,11 @@ indexes:
 - kind: Gig
   ancestor: yes
   properties:
+  - name: is_archived
+  - name: date
+
+- kind: Gig
+  ancestor: yes
+  properties:
   - name: is_past
   - name: date
