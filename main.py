@@ -47,6 +47,7 @@ application = webapp2.WSGIApplication([
     webapp2.Route('/member_delete', member.DeleteMember),
     webapp2.Route('/gig_info.html', gig.InfoPage, name="gig_info"),
     webapp2.Route('/gig_edit.html', gig.EditPage),
+    webapp2.Route('/gig_archive.html', gig.ArchiveHandler),
     webapp2.Route('/gig_delete', gig.DeleteHandler),
     webapp2.Route('/print_setlist', gig.PrintSetlist),
     webapp2.Route('/band_info.html',band.InfoPage),

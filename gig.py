@@ -33,6 +33,7 @@ class Gig(ndb.Model):
     setlist = ndb.TextProperty()
     date = ndb.DateProperty(auto_now_add=True)
     call = ndb.TimeProperty()
+    archive_id = ndb.StringProperty()
 
 #
 # Functions to make and find gigs
@@ -146,6 +147,45 @@ def get_gigs_for_member_for_dates(the_member, start_date, end_date):
                                                     end_date))
     return all_gigs
 
+def make_archive_for_gig_key(the_gig_key):
+    """ makes an archive for a gig - files away all the plans, then delete them """
+
+    the_members_by_section = band.get_member_keys_of_band_key_by_section_key(the_gig_key.parent())
+    the_gig = the_gig_key.get()
+    
+    the_plans=[]
+    for the_section in the_members_by_section:
+        section_plans=[]
+        for a_member_key in the_section[1]:
+            the_plan=plan.get_plan_for_member_for_gig(a_member_key.get(), the_gig)
+            # add the plan to the list, but only if the member's section for this gig is this section
+            if the_plan and the_plan.section == the_section[0]:
+                section_plans.append( [a_member_key, the_plan] )
+        the_plans.append( (the_section[0], section_plans) )
+    
+    the_archive_text = ""
+    for a_section in the_plans:
+        the_section_key = a_section[0]
+        if (the_section_key):
+            the_section_name=the_section_key.get().name
+        else:
+            the_section_name='None'
+        the_archive_text = '{0}\n{1}'.format(the_archive_text,the_section_name)
+        
+        print 'section members is {0}'.format(a_section[1])
+        for member_plans in a_section[1]:
+            the_member = member_plans[0].get()
+            the_plan = member_plans[1]
+            the_archive_text = '{0}\n\t{1} {2} {3}'.format(the_archive_text,
+                                                           the_member.name,
+                                                           the_plan.value,
+                                                           the_plan.comment)
+
+            
+    
+    print '\n\n'
+    print '{0}'.format(the_archive_text)
+    print '\n\n'
 
 #
 #
@@ -322,3 +362,22 @@ class PrintSetlist(BaseHandler):
             'the_gig' : the_gig,
         }
         self.render_template('print_setlist.html', template_args)
+        
+class ArchiveHandler(BaseHandler):
+    """ archive this gig, baby! """
+            
+    @user_required
+    def get(self):
+
+        # find the gig we're interested in
+        gig_key_str = self.request.get("gk", None)
+        if gig_key_str is None:
+            self.response.write('no gig key passed in!')
+            return # todo figure out what to do if there's no ID passed in
+            
+        the_gig_key=ndb.Key(urlsafe=gig_key_str)
+        if the_gig_key:
+            make_archive_for_gig_key(the_gig_key)
+
+        return self.redirect('/gig_info.html?gk={0}'.format(gig_key_str))
+        
