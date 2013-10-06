@@ -36,7 +36,7 @@ class Gig(ndb.Model):
     call = ndb.TimeProperty()
     archive_id = ndb.TextProperty()
     is_archived = ndb.ComputedProperty(lambda self: self.archive_id is not None)
-    is_past = ndb.BooleanProperty(default=False)
+    is_past = ndb.BooleanProperty()
 #
 # Functions to make and find gigs
 #
@@ -46,7 +46,7 @@ def new_gig(the_band, title, date=None, contact=None, details="", setlist="", ca
     if date is None:
         date = datetime.datetime.now()
     the_gig = Gig(parent=the_band.key, title=title, contact=contact, \
-                    details=details, setlist=setlist, date=date, call=call)
+                    details=details, setlist=setlist, date=date, call=call, is_past=False)
     the_gig.put()
     debug_print('new_gig: added new gig: {0} on {1}'.format(title, str(date)))
     return the_gig
@@ -153,7 +153,7 @@ def make_archive_for_gig_key(the_gig_key):
         the_gig = the_gig_key.get()
         if the_gig.archive_id:
             gigarchive.delete_archive(the_gig.archive_id)
-        print 'gig: {0}'.format(archive_id)
+        print 'gig: {0}'.format(the_gig)
         the_gig.archive_id = archive_id
         the_gig.put()
 
