@@ -14,12 +14,16 @@
 <div class="row">
     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0">
         <div id="upcomingevents">
-            <table class="table">
-            {% import 'plan_edit.html' as plan_edit with context %}
-            {% for plan in upcoming_plans %}
-                {{ plan_edit.plan_edit(plan, section_info, show_date=True, show_member=False, show_band=True, show_gig_name=True) }}
-            {% endfor %}
-            </table>                
+            {% if upcoming_plans %}
+                <table class="table">
+                {% import 'plan_edit.html' as plan_edit with context %}
+                {% for plan in upcoming_plans %}
+                    {{ plan_edit.plan_edit(plan, section_info, show_date=True, show_member=False, show_band=True, show_gig_name=True) }}
+                {% endfor %}
+                </table>                
+            {% else %}
+                Nothing coming up!
+            {% endif %}
         </div>
     </div>
 </div>
