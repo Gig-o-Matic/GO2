@@ -14,6 +14,8 @@ import band
 import member
 import datetime
 
+plan_text = ["No Plan", "Definitely", "Probably", "Don't Know", "Probably Not", "Can't Do It"]
+
 #
 # class for plan
 #
