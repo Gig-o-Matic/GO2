@@ -162,7 +162,7 @@ class InfoPage(BaseHandler):
         else:
             the_user_status=-1 # no relationship to the band
 
-        if the_user_status==2 or member.member_is_admin(the_user):
+        if the_user_status==2 or member.member_is_superuser(the_user):
             the_pending = get_pending_members_from_band_key(the_band_key)
         else:
             the_pending = []

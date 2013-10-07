@@ -157,7 +157,7 @@ def nav_info(the_user, the_member=None):
         else:
             is_me=False
             
-        if member_is_admin(the_user):
+        if member_is_superuser(the_user):
             is_admin=True
         else:
             is_admin=False
@@ -168,7 +168,7 @@ def nav_info(the_user, the_member=None):
                  'is_admin': is_admin
         }
         
-def member_is_admin(the_member):
+def member_is_superuser(the_member):
     return the_member.role==1
 
 #####
@@ -475,14 +475,19 @@ class AdminPage(BaseHandler):
     """ Page for member administration """
 
     @user_required
-    def get(self):    
-        self._make_page(the_user=self.user)
+    def get(self):
+        if member_is_superuser(self.user):
+            self._make_page(the_user=self.user)
+        else:
+            return;
             
     def _make_page(self,the_user):
     
         # todo make sure the user is a superuser
         
         the_members = get_all_members()
+        
+        print '\n\n{0}\n\n'.format([x.name for x in the_members])
         
         template_args = {
             'title' : 'Member Admin',
