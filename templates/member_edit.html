@@ -6,75 +6,66 @@
             <h1>Edit Profile</h1>
         </div>
     </div>
-    <form class="form-horizontal" id="infoform" role="form" method="post" action="member_edit.html">
+    <form class="form" id="infoform" role="form" method="post" action="member_edit.html">
         <div class="row">
-            <div class="form-group">
-                <label for="membernameinput" class="col-md-2 col-md-offset-1 control-label">Name</label>
-                <div class="col-md-6">
-                    <input type="text" class="form-control" id="membernameinput" placeholder="{{the_member.name}}" name="member_name">
-                </div>
+            <div class="form-group col-md-5 col-md-offset-2">
+                <label for="membernameinput" class="control-label">Name</label>
+                <input type="text" class="form-control" id="membernameinput" placeholder="(required)" value="{{the_member.name}}" name="member_name">
             </div>
         </div>
         <div class="row">
-            <div class="form-group">
-                <label for="memberemailinput" class="col-md-2 col-md-offset-1 control-label">Password</label>
-                <div class="col-md-6">
-                    <input type="password" class="form-control" id="member_password1" name="member_password1">
-                </div>
+            <div class="form-group col-md-5 col-md-offset-2">
+                <label for="memberemailinput" class="control-label">Password</label>
+                <input type="password" class="form-control" id="member_password1" name="member_password1">
             </div>
         </div>
         <div class="row">
-            <div class="form-group">
-                <label for="memberemailinput" class="col-md-2 col-md-offset-1 control-label">Password (again!)</label>
-                <div class="col-md-6">
-                    <input type="password" class="form-control" id="member_password2" name="member_password2">
-                </div>
+            <div class="form-group col-md-5 col-md-offset-2">
+                <label for="memberemailinput" class="control-label">Password (again!)</label>
+                <input type="password" class="form-control" id="member_password2" name="member_password2">
             </div>
         </div>
         <div class="row">
-            <div class="form-group">
-                <label for="memberemailinput" class="col-md-2 col-md-offset-1 control-label">Email</label>
-                <div class="col-md-6">
-                    <input type="email" class="form-control" id="memberemailnput" placeholder="{{the_member.email_address}}" name="member_email">
-                </div>
+            <div class="form-group col-md-5 col-md-offset-2">
+                <label for="memberemailinput" class="control-label">Email</label>
+                <input type="email" class="form-control" id="memberemailnput" placeholder="(required)" value="{{the_member.email_address}}" name="member_email">
             </div>
         </div>
         <div class="row">
-            <div class="form-group">
-                <label for="memberphoneinput" class="col-md-2 col-md-offset-1 control-label">Phone</label>
-                <div class="col-md-6">
-                    <input type="text" class="form-control" id="memberphonenput" placeholder="{{the_member.phone}}" name="member_phone">
-                </div>
+            <div class="form-group col-md-5 col-md-offset-2">
+                <label for="memberphoneinput" class="control-label">Phone</label>
+                <input type="text" class="form-control" id="memberphonenput" placeholder="ring ring" value="{{the_member.phone}}" name="member_phone">
             </div>
         </div>
         <div class="row">
-            <div class="form-group">
-                <label for="memberstatementinput" class="col-md-2 col-md-offset-1 control-label">Statement</label>
-                <div class="col-md-6">
-                    <input type="text" class="form-control" id="memberstatementinput" placeholder="{{the_member.statement}}" name="member_statement">
-                </div>
+            <div class="form-group col-md-5 col-md-offset-2">
+                <label for="memberstatementinput" class="control-label">Statement</label>
+                <input type="text" class="form-control" id="memberstatementinput" placeholder="tell us about yourself" value="{{the_member.statement}}" name="member_statement">
             </div>
         </div>
         <div class="row">
-            <div class="form-group">  
-                <label class="col-md-2 col-md-offset-1 control-label" for="memberprefemailnewgig">Preferences</label>  
-                <div class="col-md-6">  
-                    <label class="checkbox">  
-                        <input type="checkbox" id="memberprefemailnewgig" name="member_prefemailnewgig"
-                        {% if the_member.preferences.email_new_gig %}
-                            checked
-                        {% endif %}
-                        >Email me every time a gig is added  
-                    </label>  
-                </div>  
+            <div class="form-group col-md-5 col-md-offset-2">  
+                <label class="control-label" for="memberprefemailnewgig">Preferences</label>  
+                <label class="checkbox">  
+                    <input type="checkbox" id="memberprefemailnewgig" name="member_prefemailnewgig"
+                    {% if the_member.preferences.email_new_gig %}
+                        checked
+                    {% endif %}
+                    >Email me every time a gig is added  
+                </label>  
             </div>  
         </div>
         <div class="row">
-            <div class="form-group">
-                <div class="col-md-4 col-md-offset-5 text-right">
-                    <a class="btn btn-default" href="{{the_cancel_url}}">Cancel</a>
-                    <button type="submit" class="btn btn-primary">Save</button>
-                </div>
+            {% if nav_info.is_admin %}
+                <div class="form-group col-md-2 col-md-offset-2">
+                    <a data-toggle="modal" href="#deleteModal" class="btn btn-default">Delete</a>
+                </div>        
+                <div class="form-group col-md-3 text-right">
+            {% else %}
+                <div class="form-group col-md-5 col-md-offset-2 text-right">
+            {% endif %}
+                <a class="btn btn-default" href="{{the_cancel_url}}">Cancel</a>
+                <button type="submit" class="btn btn-primary">Save</button>
             </div>
         </div>            
     {% if the_member==None %}
@@ -84,6 +75,30 @@
     {% endif %}
     </form>
 {% endblock content %}
+
+{% block modal %}
+    {% if nav_info.is_admin %}
+        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Confirm Delete</h4>
+                    </div>
+                    <div class="modal-body">
+                        Do you really want to delete this member?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Don't Delete</button>
+                        {% if the_member %}
+                            <a class="btn btn-primary" id="opener" href="/member_delete?mk={{the_member.key.urlsafe()}}">Delete</a>
+                        {% endif %}
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    {% endif %}
+{% endblock modal %}
 
 {% block localscripts %}
 <script src="/js/jquery.validate.js"></script>

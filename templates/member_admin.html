@@ -20,13 +20,7 @@
                 {% endif %}
             {% endif %}
             </div>
-            <div class="col-md-2">
-            {% if member==the_user %}
-                me!
-            {% else %}
-                <a href="/member_delete?mk={{member.key.urlsafe()}}">delete</a>
-            {% endif %}
-            </div>
         </div>
     {% endfor %}
 {% endblock content %}
+
