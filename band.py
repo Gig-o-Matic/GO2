@@ -13,7 +13,6 @@ import webapp2
 from jinja2env import jinja_environment as je
 from debug import *
 
-import assoc
 import member
 import goemail
 
@@ -59,13 +58,6 @@ def get_band_from_id(id):
     debug_print('get_band_from_id looking for id {0}'.format(id))
     return Band.get_by_id(int(id), parent=band_key()) # todo more efficient if we use the band because it's the parent?
     
-def get_member_keys_of_band_key(the_band_key):
-    """ Return member objects by band"""
-    assoc_query = assoc.Assoc.query(assoc.Assoc.band==the_band_key, ancestor=assoc.assoc_key())
-    assocs = assoc_query.fetch()
-    members=[a.member for a in assocs]
-    return members
-
 def get_all_bands():
     """ Return all objects"""
     bands_query = Band.query(ancestor=band_key())
@@ -80,21 +72,14 @@ def get_member_keys_of_band_key_by_section_key(the_band_key):
     the_info=[]
     section_keys=get_section_keys_of_band_key(the_band_key)
     for a_section_key in section_keys:
-        the_member_keys=assoc.get_member_keys_for_section_key(a_section_key)
+        the_member_keys=member.get_member_keys_for_band_key_for_section_key(the_band_key, a_section_key)
         the_info.append([a_section_key,the_member_keys])
 
-    no_section_members=assoc.get_member_keys_of_band_key_no_section(the_band_key)
+    no_section_members=member.get_member_keys_of_band_key_no_section(the_band_key)
     if no_section_members:
         the_info.append([None,no_section_members])
 
     return the_info
-
-def get_pending_members_from_band_key(the_band_key):
-    """ Get all the members who have a status of 0 """
-    assoc_query = assoc.Assoc.query(assoc.Assoc.band==the_band_key, assoc.Assoc.status==0, ancestor=assoc.assoc_key())
-    assocs = assoc_query.fetch()
-    members=ndb.get_multi([a.member for a in assocs])
-    return members
     
 def new_section_for_band(the_band, the_section_name):
     the_section = Section(parent=the_band.key, name=the_section_name)
@@ -156,14 +141,10 @@ class InfoPage(BaseHandler):
             self.response.write('did not find a band!')
             return # todo figure out what to do if we didn't find it
             
-        the_assoc=assoc.get_assoc_for_band_key_and_member_key(the_band_key, the_user.key)
-        if the_assoc:
-            the_user_status=the_assoc.status
-        else:
-            the_user_status=-1 # no relationship to the band
+        the_user_status = member.get_status_for_member_for_band_key(the_user, the_band_key)   
 
         if the_user_status==2 or member.member_is_superuser(the_user):
-            the_pending = get_pending_members_from_band_key(the_band_key)
+            the_pending = member.get_pending_members_from_band_key(the_band_key)
         else:
             the_pending = []
 
@@ -272,15 +253,24 @@ class BandGetMembers(BaseHandler):
             return # todo figure out what to do
             
         the_band_key = ndb.Key(urlsafe=the_band_key_str)
-        the_assocs = assoc.get_assocs_of_band_key(the_band_key)
-
-        the_assoc = assoc.get_assoc_for_band_key_and_member_key(the_band_key, the_user.key)
-        the_user_status=-1
-        if the_assoc:
-            the_user_status = the_assoc.status       
+        members = [m.get() for m in member.get_member_keys_of_band_key(the_band_key)]
         
+        the_user_status = -1
+        assoc_info=[]
+        for m in members:
+            assoc = None
+            for a in m.assocs:
+                if a.band == the_band_key:
+                    assoc = a
+                    break
+            if assoc:
+                assoc_info.append( {'name':m.name, 'status':a.status, 'member_key':m.key} )
+                if m.key == the_user:
+                    the_user_status = a.status
+                        
+        print '\n\n{0}\n\n'.format(assoc_info)
         template_args = {
-            'the_assocs' : the_assocs,
+            'the_assocs' : assoc_info,
             'the_user_status' : the_user_status,
             'nav_info' : member.nav_info(the_user, None)    
         }
@@ -301,10 +291,7 @@ class BandGetSections(BaseHandler):
         the_band_key = ndb.Key(urlsafe=the_band_key_str)
         the_members_by_section = get_member_keys_of_band_key_by_section_key(the_band_key)
 
-        the_assoc = assoc.get_assoc_for_band_key_and_member_key(the_band_key, the_user.key)
-        the_user_status=-1
-        if the_assoc:
-            the_user_status = the_assoc.status       
+        the_user_status = member.get_status_for_member_for_band_key(the_user, the_band_key)
                 
         template_args = {
             'the_members_by_section' : the_members_by_section,
@@ -401,15 +388,9 @@ class ConfirmMember(BaseHandler):
         the_member_key=ndb.Key(urlsafe=the_member_keyurl)
         the_band_key=ndb.Key(urlsafe=the_band_keyurl)
                     
-        the_assoc = assoc.get_assoc_for_band_key_and_member_key(the_band_key, the_member_key)
-        
-        if the_assoc is None:
-            return # todo what to do?
-            
-        the_assoc.status=1
-        the_assoc.put()
-
         the_member = the_member_key.get()
+        member.confirm_member_for_band_key(the_member, the_band_key)
+
         the_band = the_band_key.get()
         goemail.send_band_accepted_email(the_member.email_address, the_band.name)
 
@@ -420,35 +401,28 @@ class AdminMember(BaseHandler):
     
     @user_required
     def get(self):
-        """ post handler - wants an ak """
+        """ post handler - wants a member key and a band key, and a flag """
         
         # todo - make sure the user is a superuser or already an admin of this band
 
-        the_assoc_keyurl=self.request.get('ak','0')
+        the_member_keyurl=self.request.get('mk','0')
+        the_band_keyurl=self.request.get('bk','0')
         the_do=self.request.get('do','')
 
-        if the_assoc_keyurl=='0':
+        if the_member_keyurl=='0' or the_band_keyurl=='0':
             return # todo figure out what to do
 
         if the_do=='':
             return # todo figure out what to do
 
-        the_assoc=ndb.Key(urlsafe=the_assoc_keyurl).get()
+        the_member_key = ndb.Key(urlsafe=the_member_keyurl)
+        the_band_key = ndb.Key(urlsafe=the_band_keyurl)
+        member.set_admin_for_member_key_and_band_key(the_member_key, the_band_key, int(the_do))
 
-        print 'found assoc: {0}'.format(the_assoc)
-        if the_assoc:
-            if (the_do == '0'):
-                the_assoc.status=1
-            elif (the_do == '1'):
-                the_assoc.status=2
-            the_assoc.put()
-        else:
-            return # todo figure out what to do
-
-        return self.redirect('/band_info.html?bk={0}'.format(the_assoc.band.urlsafe()))
+        return self.redirect('/band_info.html?bk={0}'.format(the_band_keyurl))
 
 class RemoveMember(BaseHandler):
-    """ grant or revoke admin rights """
+    """ user quits band """
     
     @user_required
     def get(self):
@@ -456,19 +430,17 @@ class RemoveMember(BaseHandler):
         
         # todo - make sure the user is a superuser or already an admin of this band
 
-        the_assoc_keyurl=self.request.get('ak','0')
+        the_member_keyurl=self.request.get('mk','0')
+        the_band_keyurl=self.request.get('bk','0')
 
-        if the_assoc_keyurl=='0':
+        if the_member_keyurl=='0' or the_band_keyurl=='0':
             return # todo figure out what to do
 
-        the_assoc=ndb.Key(urlsafe=the_assoc_keyurl).get()
+        the_member_key = ndb.Key(urlsafe=the_member_keyurl)
+        the_band_key = ndb.Key(urlsafe=the_band_keyurl)
+        member.delete_association(the_member_key.get(), the_band_key)
 
-        if the_assoc:
-            the_assoc.key.delete()
-        else:
-            return # todo figure out what to do
-
-        return self.redirect('/band_info.html?bk={0}'.format(the_assoc.band.urlsafe()))
+        return self.redirect('/band_info.html?bk={0}'.format(the_band_keyurl))
 
 class AdminPage(BaseHandler):
     """ Page for band administration """

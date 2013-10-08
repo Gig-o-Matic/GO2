@@ -39,8 +39,6 @@ application = webapp2.WSGIApplication([
     webapp2.Route('/member_get_assocs.html', member.ManageBandsGetAssocs, name='getassocs'),
     webapp2.Route('/member_new_assoc', member.ManageBandsNewAssoc, name='newassoc'),
     webapp2.Route('/member_delete_assoc.html', member.ManageBandsDeleteAssoc, name='deleteassoc'),
-    webapp2.Route('/member_add_section.html', member.AddSectionForMemberForBand, name='addsection'),
-    webapp2.Route('/member_leave_section.html', member.LeaveSectionForMemberForBand, name='leavesection'),
     webapp2.Route('/member_new_default_section', member.NewDefaultSection),
     webapp2.Route('/member_admin.html', member.AdminPage),
     webapp2.Route('/member_makeadmin', member.AdminMember),

@@ -28,14 +28,14 @@ class Assoc(ndb.Model):
     section_count = ndb.ComputedProperty(lambda self: len(self.sections))
     
     
-def new_association(band, member):
+def XXXnew_association(band, member):
     """ associate a band and a member """
     
     # todo make sure there's not already an assoc between member and band
     the_assoc = Assoc(parent=assoc_key(), band=band.key, member=member.key, status=0)
     the_assoc.put()
 
-def delete_association(the_band, the_member):
+def XXXdelete_association(the_band, the_member):
     """ find the association between band and member """
     assoc_query = Assoc.query(ndb.AND(Assoc.member==the_member.key, Assoc.band==the_band.key),
                               ancestor=assoc_key())

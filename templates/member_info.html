@@ -105,7 +105,7 @@ function add_section_for_member(sk, mk, ak) {
 
 function handle_section_click() {
     var sk=$(this).attr("id");
-    var ak=$(this).attr("data-ak");
+    var bk=$(this).attr("data-bk");
     var mk='{{the_member.key.urlsafe()}}';
     add_section_for_member(sk, mk, ak);
 }

@@ -1,12 +1,12 @@
 <table class="table table-striped">
 {% for the_assoc in the_assocs %}
-    {% if the_assoc.status > 0 %}
+    {% if the_assoc['status'] > 0 %}
         <tr>
         <td>
-            <a href='/member_info.html?mk={{the_assoc.member.urlsafe()}}'>{{ the_assoc.member.get().name }}</a>
+            <a href='/member_info.html?mk={{the_assoc['member_key'].urlsafe()}}'>{{ the_assoc['name'] }}</a>
         </td>
-        {% if nav_info['is_superuser'] or user_is_superuser %} 
-            {% if the_assoc.member!=the_user.key %}
+        {% if nav_info['is_superuser'] or the_user_status > 1 %} 
+            {% if the_assoc['member_key']!=the_user.key %}
                 <td>
                     {% if the_assoc.status==1 %}
                         <a href="/band_makeadmin?do=1&ak={{the_assoc.key.urlsafe()}}">make band admin</a>

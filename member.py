@@ -14,11 +14,9 @@ from webapp2_extras import security
 import time
 
 import webapp2
-import assoc
 import gig
 import band
 import plan
-import assoc
 
 from jinja2env import jinja_environment as je
 
@@ -34,6 +32,12 @@ class MemberPreferences(ndb.Model):
     """ class to hold user preferences """
     email_new_gig = ndb.BooleanProperty(default=True)
 
+class MemberAssoc(ndb.Model):
+    """ class to hold details of the association with a band """
+    band = ndb.KeyProperty()
+    status = ndb.IntegerProperty( default=0 ) # 0 = pending, 1 = member, 2 = band admin
+    default_section = ndb.KeyProperty( default=None )
+
 #
 # class for member
 #
@@ -46,6 +50,7 @@ class Member(webapp2_extras.appengine.auth.models.User):
     role = ndb.IntegerProperty(default=0) # 0=vanilla member, 1=superuser
     created = ndb.DateTimeProperty(auto_now_add=True)
     preferences = ndb.StructuredProperty(MemberPreferences)
+    assocs = ndb.StructuredProperty(MemberAssoc, repeated=True)
 
     def set_password(self, raw_password):
         """Sets the password for the current user
@@ -76,22 +81,75 @@ class Member(webapp2_extras.appengine.auth.models.User):
                 return user, timestamp
 
         return None, None
-    
+        
 def get_all_members():
     """ Return all member objects """
     member_query = Member.query()
     members = member_query.fetch()
-    print 'found {0} members'.format(len(members))
+    return members
+
+def get_member_keys_of_band_key(the_band_key):
+    """ Return member objects by band"""
+    member_query = Member.query( ndb.AND(Member.assocs.band==the_band_key, Member.assocs.status>0 ) )
+    members = member_query.fetch(keys_only=True)
+    return members
+
+def get_pending_members_from_band_key(the_band_key):
+    """ Get all the members who have a status of 0 """
+    member_query = Member.query( ndb.AND(Member.assocs.band==the_band_key, Member.assocs.status==0) )
+    members = member_query.fetch()
+    return members
+
+def get_member_keys_for_band_key_for_section_key(the_band_key, the_section_key):
+    """ Return member objects by band with no default section"""
+    member_query = Member.query( ndb.AND( Member.assocs.band==the_band_key,
+                                          Member.assocs.default_section==the_section_key,
+                                          Member.assocs.status>0) )
+    members = member_query.fetch(keys_only=True)
     return members
     
+def get_member_keys_of_band_key_no_section(the_band_key):    
+    """ Return member objects by band with no default section"""
+    member_query = Member.query( ndb.AND( Member.assocs.band==the_band_key, 
+                                          Member.assocs.default_section==None,
+                                          Member.assocs.status>0) )
+    members = member_query.fetch(keys_only=True)
+    return members
+
+def get_status_for_member_for_band_key(the_member, the_band_key):
+    """ find the association between this member and a band, and return the status """
+    the_status = -1
+    for a in the_member.assocs:
+        if a.band == the_band_key:
+            the_status = a.status
+            break
+    return the_status
+    
+def confirm_member_for_band_key(the_member, the_band_key):
+    """ assuming this member is pending, confirm them """
+    for i in range(0, len(the_member.assocs)):
+        if the_member.assocs[i].band == the_band_key:
+            the_member.assocs[i].status = 1
+            the_member.put()
+            break
+
+def set_admin_for_member_key_and_band_key(the_member_key, the_band_key, the_do):
+    """ find the assoc for this member and band, and make the member an admin (or take it away """
+    the_member = the_member_key.get()
+    for i in range(0, len(the_member.assocs)):
+        if the_member.assocs[i].band == the_band_key:
+            the_member.assocs[i].status = 1 + the_do
+            the_member.put()
+            break
+    
 def forget_member_from_key(the_member_key):
-    """ deletes a member, including all assocs and plans """
+    """ deletes a member, including all gig plans """
 
     # first find all of the assocs to bands
-    the_assocs=assoc.get_assocs_for_member_key(the_member_key)
-    # delete all plans & assocs
+    the_assocs=the_member_key.get().assocs
+    # delete all plans
     for an_assoc in the_assocs:
-        assoc.delete_association(an_assoc.band.get(), the_member_key.get())
+        plan.delete_plans_for_member_key_for_band_key(the_member_key, an_assoc.band)
 
     # delete the old unique values
     the_member=the_member_key.get()
@@ -110,41 +168,50 @@ def get_member_from_key(key):
     """ Return member objects by key"""
     return key.get()
 
+def new_association(member, band):
+    """ associate a band and a member """
+    assoc=MemberAssoc(band=band.key, status=0)
+    member.assocs.append(assoc)
+    member.put()
+    
+def delete_association(member, band_key):
+    """ delete association between member and band """
+    for i in range(0, len(member.assocs)):
+        a = member.assocs[i]
+        if a.band == band_key:
+            member.assocs.pop(i)
+            member.put()
+            break
+
+def set_default_section(the_member_key, the_band_key, the_section_key):
+    """ find the band in a member's list of assocs, and set default section """
+    for a in the_member_key.get().assocs:
+        if a.band == the_band_key:
+            a.default_section = the_section_key
+            break
+
+
 def get_bands_of_member(the_member):
     """ Return band objects by member"""
-    assoc_query = assoc.Assoc.query(assoc.Assoc.member==the_member.key, ancestor=assoc.assoc_key())
-    assocs = assoc_query.fetch()
-    debug_print('get_bands_of_member: got {0} assocs for member key id {1} ({2})'.format(len(assocs),the_member.key.id(),the_member.name))
+    assocs = the_member.assocs
     bands=[a.band.get() for a in assocs]
-    debug_print('get_bands_of_member: found {0} bands for member {1}'.format(len(bands),the_member.name))
     return bands
 
 def get_confirmed_bands_of_member(the_member):
     """ Return band objects by member"""
-    assoc_query = assoc.Assoc.query(assoc.Assoc.member==the_member.key, assoc.Assoc.status > 0, ancestor=assoc.assoc_key())
-    assocs = assoc_query.fetch()
-    bands=[a.band.get() for a in assocs]
+    assocs = the_member.assocs
+    bands=[a.band.get() for a in assocs if a.status >= 1]
     return bands
-
-def get_sections_for_member_key_band_key(the_member_key, the_band_key):
-    """ find the sections for a member within a given band """
-    
-    the_assoc = assoc.get_assoc_for_band_key_and_member_key(the_band_key, the_member_key)
-    if the_assoc:
-        the_sections = the_assoc.sections
-    else:
-        the_sections=None        
-    return the_sections
 
 def default_section_for_band_key(the_member, the_band_key):
     """ find the default section for a member within a given band """
     
-    the_assoc = assoc.get_assoc_for_band_key_and_member_key(the_band_key, the_member.key)
-
-    if the_assoc:
-        the_section = the_assoc.default_section
-    else:
-        the_section=None        
+    the_section = None
+    for a in the_member.assocs:
+        if a.band == the_band_key:
+            the_section = a.default_section
+            break
+            
     return the_section
 
 def nav_info(the_user, the_member=None):
@@ -349,9 +416,9 @@ class ManageBandsGetAssocs(BaseHandler):
             return # todo figure out what to do
             
         the_member_key=ndb.Key(urlsafe=the_member_key)
-        the_member=the_member_key.get()
+        the_member = the_member_key.get()
         
-        the_assocs=assoc.get_assocs_for_member_key(the_member_key)
+        the_assocs = the_member.assocs
 
         the_assoc_info=[]
         for an_assoc in the_assocs:
@@ -386,7 +453,7 @@ class ManageBandsNewAssoc(BaseHandler):
         the_member=ndb.Key(urlsafe=the_member_key).get()
         the_band=ndb.Key(urlsafe=the_band_key).get()
         
-        assoc.new_association(the_band, the_member)
+        new_association(the_member, the_band)
         
 
 class ManageBandsDeleteAssoc(BaseHandler):
@@ -405,52 +472,13 @@ class ManageBandsDeleteAssoc(BaseHandler):
         if the_member_keyurl=='0' or the_band_keyurl=='0':
             return # todo figure out what to do
         
-        the_member=ndb.Key(urlsafe=the_member_keyurl).get()
-        the_band=ndb.Key(urlsafe=the_band_keyurl).get()
+        the_member_key=ndb.Key(urlsafe=the_member_keyurl)
+        the_band_key=ndb.Key(urlsafe=the_band_keyurl)
 
-        assoc.delete_association(the_band, the_member)
-        plan.delete_plans_for_member_for_band_key(the_member, the_band.key)
+        delete_association(the_member.get(), the_band_key)
+        plan.delete_plans_for_member_key_for_band_key(the_member_key, the_band_key)
         
-        return self.redirect('/member_info.html?mk={0}'.format(the_member.key.urlsafe()))
-
-class AddSectionForMemberForBand(BaseHandler):
-    """ handle adding a section in a band for a member """
-    
-    def post(self):
-        """ post handler """
-        
-        print 'adding a section for a member'
-        the_member_keyurl=self.request.get('mk','0')
-        the_section_keyurl=self.request.get('sk','0')
-        the_assoc_keyurl=self.request.get('ak','0')
-
-        if the_member_keyurl=='0' or the_section_keyurl=='0' or the_assoc_keyurl=='0':
-            return # todo figure out what to do
-
-        the_assoc=ndb.Key(urlsafe=the_assoc_keyurl)
-        the_section=ndb.Key(urlsafe=the_section_keyurl)
-
-        assoc.add_section_for_assoc(the_assoc, the_section)
-        
-        
-class LeaveSectionForMemberForBand(BaseHandler):
-    """ handle leaving a section in a band for a member """
-    
-    def post(self):
-        """ post handler """
-        
-        print 'leaving a section for a member'
-        the_member_keyurl=self.request.get('mk','0')
-        the_section_keyurl=self.request.get('sk','0')
-        the_assoc_keyurl=self.request.get('ak','0')
-
-        if the_member_keyurl=='0' or the_section_keyurl=='0' or the_assoc_keyurl=='0':
-            return # todo figure out what to do
-
-        the_assoc=ndb.Key(urlsafe=the_assoc_keyurl)
-        the_section=ndb.Key(urlsafe=the_section_keyurl)
-
-        assoc.leave_section_for_assoc(the_assoc, the_section)
+        return self.redirect('/member_info.html?mk={0}'.format(the_member_keyurl))
         
 class NewDefaultSection(BaseHandler):
     """ change the default section for a member's band association """
@@ -459,15 +487,17 @@ class NewDefaultSection(BaseHandler):
         """ post handler - wants an ak and sk """
         
         the_section_keyurl=self.request.get('sk','0')
-        the_assoc_keyurl=self.request.get('ak','0')
+        the_member_keyurl=self.request.get('mk','0')
+        the_band_keyurl=self.request.get('bk','0')
 
-        if the_section_keyurl=='0' or the_assoc_keyurl=='0':
+        if the_section_keyurl=='0' or the_assoc_keyurl=='0' or the_band_keyurl=='0':
             return # todo figure out what to do
 
         the_section_key=ndb.Key(urlsafe=the_section_keyurl)
-        the_assoc_key=ndb.Key(urlsafe=the_assoc_keyurl)
+        the_member_key=ndb.Key(urlsafe=the_member_keyurl)
+        the_band_key=ndb.Key(urlsafe=the_member_keyurl)
         
-        assoc.set_default_section(the_assoc_key, the_section_key)
+        set_default_section(the_member_key, the_band_key, the_section_key)
 
 class AdminPage(BaseHandler):
     """ Page for member administration """

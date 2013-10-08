@@ -5,7 +5,6 @@ import webapp2_extras.appengine.auth.models
 
 import webapp2
 import member
-import assoc
 import gig
 import datetime
 import band

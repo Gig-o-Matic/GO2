@@ -32,3 +32,14 @@ indexes:
   properties:
   - name: is_past
   - name: date
+
+- kind: Member
+  properties:
+  - name: assocs.band
+  - name: assocs.default_section
+  - name: assocs.status
+
+- kind: Member
+  properties:
+  - name: assocs.band
+  - name: assocs.status

@@ -93,9 +93,9 @@ def delete_plans_for_gig(the_gig):
     for a_plan in plans:
         a_plan.key.delete()
         
-def delete_plans_for_member_for_band_key(the_member, the_band_key):
+def delete_plans_for_member_key_for_band_key(the_member_key, the_band_key):
     """ A gig is being deleted, so forget everyone's plans about it """
-    plan_query = Plan.query(Plan.member==the_member.key, ancestor=the_band_key)
+    plan_query = Plan.query(Plan.member==the_member_key, ancestor=the_band_key)
     plans = plan_query.fetch(keys_only=True)
     ndb.delete_multi(plans)
         

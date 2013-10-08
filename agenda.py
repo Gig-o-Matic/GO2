@@ -4,7 +4,6 @@ from requestmodel import *
 
 import webapp2
 import member
-import assoc
 import gig
 import plan
 import band
@@ -51,7 +50,7 @@ class MainPage(BaseHandler):
             'title' : 'Agenda',
             'upcoming_plans' : upcoming_plans,
             'weighin_plans' : weighin_plans,
-            'get_sections_for_member_key_band_key' : member.get_sections_for_member_key_band_key,
+            'get_the_section_keys' : band.get_section_keys_of_band_key,
             'nav_info' : member.nav_info(the_user, None),          
             'agenda_is_active' : True
         }
