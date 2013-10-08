@@ -32,7 +32,7 @@
     <td class="plan-cell" style="min-width: 200px">
         {% if plan.member == the_user.key or nav_info['is_admin'] %}    
             <div class="form-group plan-comment-input">
-                <input type="text" id="c-{{plan.key.urlsafe()}}" class="form-control" placeholder="{{plan.comment}}" onchange="update_comment('{{plan.key.urlsafe()}}')">
+                <input type="text" id="c-{{plan.key.urlsafe()}}" class="form-control" value="{{plan.comment}}" onchange="update_comment('{{plan.key.urlsafe()}}')">
             </div>
         {% else %}
             {{plan.comment}}

@@ -20,11 +20,11 @@
         <i class="icon-spinner icon-spin icon-large"></i>
     </button>
     <ul class="dropdown-menu" role="menu">
-        <li><a href="#" onclick="update_plan('{{plan.key.urlsafe()}}','1')">{{ icon(1) }} Definitely</a></li>
-        <li><a href="#" onclick="update_plan('{{plan.key.urlsafe()}}','2')">{{ icon(2) }} Probably</a></li>
-        <li><a href="#" onclick="update_plan('{{plan.key.urlsafe()}}','3')">{{ icon(3) }} Don't Know</a></li>
-        <li><a href="#" onclick="update_plan('{{plan.key.urlsafe()}}','4')">{{ icon(4) }} Probably Not</a></li>
-        <li><a href="#" onclick="update_plan('{{plan.key.urlsafe()}}','5')">{{ icon(5) }} Can't Do It</a></li>
+        <li><a onclick="update_plan('{{plan.key.urlsafe()}}','1')">{{ icon(1) }} Definitely</a></li>
+        <li><a onclick="update_plan('{{plan.key.urlsafe()}}','2')">{{ icon(2) }} Probably</a></li>
+        <li><a onclick="update_plan('{{plan.key.urlsafe()}}','3')">{{ icon(3) }} Don't Know</a></li>
+        <li><a onclick="update_plan('{{plan.key.urlsafe()}}','4')">{{ icon(4) }} Probably Not</a></li>
+        <li><a onclick="update_plan('{{plan.key.urlsafe()}}','5')">{{ icon(5) }} Can't Do It</a></li>
     </ul>
 </div>
 {%- endmacro %}

@@ -54,8 +54,8 @@ function update_comment(pk) {
                     },
                     function(responseTxt,statusTxt,xhr){
                         if(statusTxt=="success")
-                            elem.parentNode.className="form-group has-success";
-                            setTimeout(function(){elem.parentNode.className="form-group";}, 1000);
+                            elem.parentNode.className="form-group plan-comment-input has-success";
+                            setTimeout(function(){elem.parentNode.className="form-group plan-comment-input";}, 1000);
                         if(statusTxt=="error")
                           alert("Error: "+xhr.status+": "+xhr.statusText);
                     });
