@@ -28,7 +28,7 @@
                 <div class="col-md-2 col-md-offset-2">Personal Statement</div>
                 <div class="col-md-8">{{ the_member.statement|e }}</div>
             </div>
-            {% if nav_info['is_me'] or nav_info['is_admin'] %}
+            {% if nav_info['is_me'] or nav_info['is_superuser'] %}
                 <br>
                 <div class="row">
                     <div class="col-md-8 col-md-offset-2">
@@ -38,7 +38,7 @@
             {% endif %}
         </div>
     </div>
-    {% if nav_info['is_me'] or nav_info['is_admin'] %}
+    {% if nav_info['is_me'] or nav_info['is_superuser'] %}
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h4 class="panel-title">                    

@@ -13,7 +13,7 @@
         <li {{ 'class="active"' if agenda_is_active }}><a href="/agenda.html">Agenda</a></li>
         <li {{ 'class="active"' if calview_is_active }}><a href="/calview.html">Calendar</a></li>
         <li {{ 'class="active"' if newgig_is_active }}><a href="/gig_edit.html?new=1">Add Gig</a></li>
-        {% if nav_info['is_admin'] %}
+        {% if nav_info['is_superuser'] %}
         <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin<b class="caret"></b></a>
             <ul class="dropdown-menu" role="menu">

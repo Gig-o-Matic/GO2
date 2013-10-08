@@ -5,7 +5,7 @@
         <td>
             <a href='/member_info.html?mk={{the_assoc.member.urlsafe()}}'>{{ the_assoc.member.get().name }}</a>
         </td>
-        {% if nav_info['is_admin'] or user_is_admin %} 
+        {% if nav_info['is_superuser'] or user_is_superuser %} 
             {% if the_assoc.member!=the_user.key %}
                 <td>
                     {% if the_assoc.status==1 %}

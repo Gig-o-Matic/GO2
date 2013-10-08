@@ -158,14 +158,12 @@ def nav_info(the_user, the_member=None):
             is_me=False
             
         if member_is_superuser(the_user):
-            is_admin=True
+            is_superuser=True
         else:
-            is_admin=False
-                        
-        print 'is_admin is {0}'.format(is_admin)
+            is_superuser=False
                         
         return { 'is_me': is_me,
-                 'is_admin': is_admin
+                 'is_superuser': is_superuser
         }
         
 def member_is_superuser(the_member):
