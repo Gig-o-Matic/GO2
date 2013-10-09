@@ -5,7 +5,7 @@ import band
 import gig
 import member
 
-SENDER_EMAIL = 'aoppenheimer@gmail.com'
+SENDER_EMAIL = 'gigomatic.superuser@gmail.com'
 
 def send_registration_email(the_email, the_url):
 
