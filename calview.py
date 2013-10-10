@@ -24,7 +24,6 @@ class MainPage(BaseHandler):
         template_args = {
             'title' : 'Calendar',
             'calview_is_active' : True,
-            'nav_info' : member.nav_info(the_user, None)
         }
         self.render_template('calview.html', template_args)
 

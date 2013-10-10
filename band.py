@@ -158,7 +158,6 @@ class InfoPage(BaseHandler):
             'the_user_is_confirmed' : the_user_is_confirmed,
             'the_user_is_band_admin' : the_user_admin_status,
             'the_pending_members' : the_pending,
-            'nav_info' : member.nav_info(the_user, None)
         }
         self.render_template('band_info.html', template_args)
 
@@ -191,7 +190,6 @@ class EditPage(BaseHandler):
         template_args = {
             'title' : 'Band Edit',
             'the_band' : the_band,
-            'nav_info' : member.nav_info(the_user, None),
             'newmember_is_active' : is_new,
             'is_new' : is_new
         }
@@ -266,7 +264,6 @@ class BandGetMembers(BaseHandler):
             'the_band_key' : the_band_key,
             'the_assocs' : assoc_info,
             'the_user_is_band_admin' : the_user_is_band_admin,
-            'nav_info' : member.nav_info(the_user, None)    
         }
         self.render_template('band_members.html', template_args)
 
@@ -289,7 +286,6 @@ class BandGetSections(BaseHandler):
                 
         template_args = {
             'the_members_by_section' : the_members_by_section,
-            'nav_info' : member.nav_info(the_user, None),
             'the_user_is_band_admin' : the_user_is_band_admin
         }
         self.render_template('band_sections.html', template_args)
@@ -452,6 +448,5 @@ class AdminPage(BaseHandler):
         template_args = {
             'title' : 'Band Admin',
             'the_bands' : the_bands,
-            'nav_info' : member.nav_info(the_user)
         }
         self.render_template('band_admin.html', template_args)

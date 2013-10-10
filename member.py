@@ -236,25 +236,6 @@ def default_section_for_band_key(the_member, the_band_key):
             break
             
     return the_section
-
-def nav_info(the_user, the_member=None):
-
-        if (the_member is not None):
-            if the_user.key == the_member.key:
-                is_me=True
-            else:
-                is_me=False
-        else:
-            is_me=False
-            
-        if member_is_superuser(the_user):
-            is_superuser=True
-        else:
-            is_superuser=False
-                        
-        return { 'is_me': is_me,
-                 'is_superuser': is_superuser
-        }
         
 def member_is_superuser(the_member):
     return the_member.is_superuser
@@ -307,7 +288,7 @@ class InfoPage(BaseHandler):
             'the_member' : the_member,
             'the_bands' : the_bands,
             'all_bands' : band.get_all_bands(),
-            'nav_info' : nav_info(the_user, the_member)
+            'member_is_me' : the_user == the_member
         }
         self.render_template('member_info.html', template_args)
 
@@ -342,7 +323,7 @@ class EditPage(BaseHandler):
         template_args = {
             'title' : 'Edit Profile',
             'the_member' : the_member,
-            'nav_info' : nav_info(the_user, the_member),
+            'member_is_me' : the_user == the_member,
             'the_cancel_url' : the_cancel_url
         }
         self.render_template('member_edit.html', template_args)
@@ -543,7 +524,6 @@ class AdminPage(BaseHandler):
         template_args = {
             'title' : 'Member Admin',
             'the_members' : the_members,
-            'nav_info' : nav_info(the_user)
         }
         self.render_template('member_admin.html', template_args)
 

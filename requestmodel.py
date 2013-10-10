@@ -74,7 +74,12 @@ class BaseHandler(webapp2.RequestHandler):
         if not params:
             params = {}
 
+        is_superuser = False
+        if self.user:
+            is_superuser = self.user.is_superuser
+
         params['the_user'] = self.user
+        params['the_user_is_superuser'] = is_superuser
         params['logout_link'] = self.uri_for('logout')
         print 'user is {0}'.format(self.user)
         template = je.get_template(filename)

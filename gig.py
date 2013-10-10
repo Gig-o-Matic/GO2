@@ -205,7 +205,6 @@ class InfoPage(BaseHandler):
                 'gig' : the_gig,
                 'member_plans' : the_plans,
                 'the_section_keys' : the_section_keys,
-                'nav_info' : member.nav_info(the_user, None)
             }
             self.render_template('gig_info.html', template_args)
 
@@ -216,7 +215,6 @@ class InfoPage(BaseHandler):
                 'title' : 'Archived Gig Info',
                 'gig' : the_gig,
                 'archived_plans' : the_archived_plans,
-                'nav_info' : member.nav_info(the_user, None)
             }
             self.render_template('gig_archived_info.html', template_args)
             
@@ -250,7 +248,6 @@ class EditPage(BaseHandler):
             'title' : 'Gig Edit',
             'gig' : the_gig,
             'all_bands' : member.get_bands_of_member(the_user),
-            'nav_info' : member.nav_info(the_user, None),
             'newgig_is_active' : is_new
         }
         self.render_template('gig_edit.html', template_args)

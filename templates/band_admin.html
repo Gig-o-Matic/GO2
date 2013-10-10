@@ -16,7 +16,7 @@
     {% endfor %}
     <br>
     <div class="row">
-        {% if nav_info['is_superuser'] %}
+        {% if the_user_is_superuser %}
             <div class="col-md-4 col-md-offset-2">
                 <a class="btn btn-primary btn-sm" href="/band_edit.html?new=1">Add a Band</a>
             </div>

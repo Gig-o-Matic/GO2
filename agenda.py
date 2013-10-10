@@ -51,7 +51,6 @@ class MainPage(BaseHandler):
             'upcoming_plans' : upcoming_plans,
             'weighin_plans' : weighin_plans,
             'get_the_section_keys' : band.get_section_keys_of_band_key,
-            'nav_info' : member.nav_info(the_user, None),          
             'agenda_is_active' : True
         }
         self.render_template('agenda.html', template_args)
