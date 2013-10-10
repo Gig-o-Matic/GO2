@@ -84,19 +84,19 @@ class Member(webapp2_extras.appengine.auth.models.User):
         
 def get_all_members():
     """ Return all member objects """
-    member_query = Member.query()
+    member_query = Member.query().order(Member.name)
     members = member_query.fetch()
     return members
 
 def get_member_keys_of_band_key(the_band_key):
     """ Return member objects by band"""
-    member_query = Member.query( ndb.AND(Member.assocs.band==the_band_key, Member.assocs.status>0 ) )
+    member_query = Member.query( ndb.AND(Member.assocs.band==the_band_key, Member.assocs.status>0 ) ).order(Member.assocs.status).order(Member.name)
     members = member_query.fetch(keys_only=True)
     return members
 
 def get_pending_members_from_band_key(the_band_key):
     """ Get all the members who have a status of 0 """
-    member_query = Member.query( ndb.AND(Member.assocs.band==the_band_key, Member.assocs.status==0) )
+    member_query = Member.query( ndb.AND(Member.assocs.band==the_band_key, Member.assocs.status==0) ).order(Member.assocs.status).order(Member.name)
     members = member_query.fetch()
     return members
 
@@ -104,7 +104,7 @@ def get_member_keys_for_band_key_for_section_key(the_band_key, the_section_key):
     """ Return member objects by band with no default section"""
     member_query = Member.query( ndb.AND( Member.assocs.band==the_band_key,
                                           Member.assocs.default_section==the_section_key,
-                                          Member.assocs.status>0) )
+                                          Member.assocs.status>0) ).order(Member.assocs.status).order(Member.name)
     members = member_query.fetch(keys_only=True)
     return members
     
@@ -112,7 +112,7 @@ def get_member_keys_of_band_key_no_section(the_band_key):
     """ Return member objects by band with no default section"""
     member_query = Member.query( ndb.AND( Member.assocs.band==the_band_key, 
                                           Member.assocs.default_section==None,
-                                          Member.assocs.status>0) )
+                                          Member.assocs.status>0) ).order(Member.assocs.status).order(Member.name)
     members = member_query.fetch(keys_only=True)
     return members
 

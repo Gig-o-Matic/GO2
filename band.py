@@ -26,6 +26,7 @@ def band_key(band_name='band_key'):
 class Band(ndb.Model):
     """ Models a gig-o-matic band """
     name = ndb.StringProperty()
+    lower_name = ndb.ComputedProperty(lambda self: self.name.lower())
     website = ndb.TextProperty()
     description = ndb.TextProperty()
     sections = ndb.KeyProperty( repeated=True ) # instrumental sections
@@ -60,7 +61,7 @@ def get_band_from_id(id):
     
 def get_all_bands():
     """ Return all objects"""
-    bands_query = Band.query(ancestor=band_key())
+    bands_query = Band.query(ancestor=band_key()).order(Band.lower_name)
     all_bands = bands_query.fetch()
     debug_print('get_all_bands: found {0} bands'.format(len(all_bands)))
     return all_bands

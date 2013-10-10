@@ -16,6 +16,16 @@ indexes:
   - name: member
   - name: status
 
+- kind: Band
+  ancestor: yes
+  properties:
+  - name: lower_name
+
+- kind: Band
+  ancestor: yes
+  properties:
+  - name: name
+
 - kind: Gig
   ancestor: yes
   properties:
@@ -42,4 +52,17 @@ indexes:
 - kind: Member
   properties:
   - name: assocs.band
+  - name: assocs.default_section
   - name: assocs.status
+  - name: name
+
+- kind: Member
+  properties:
+  - name: assocs.band
+  - name: assocs.status
+
+- kind: Member
+  properties:
+  - name: assocs.band
+  - name: assocs.status
+  - name: name
