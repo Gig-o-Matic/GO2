@@ -47,7 +47,7 @@ class Member(webapp2_extras.appengine.auth.models.User):
     email_address = ndb.TextProperty()
     phone = ndb.StringProperty(indexed=False)
     statement = ndb.TextProperty()
-    role = ndb.IntegerProperty(default=0) # 0=vanilla member, 1=superuser
+    is_superuser = ndb.BooleanProperty(default=False)
     created = ndb.DateTimeProperty(auto_now_add=True)
     preferences = ndb.StructuredProperty(MemberPreferences)
     assocs = ndb.StructuredProperty(MemberAssoc, repeated=True)
@@ -90,7 +90,7 @@ def get_all_members():
 
 def get_member_keys_of_band_key(the_band_key):
     """ Return member objects by band"""
-    member_query = Member.query( ndb.AND(Member.assocs.band==the_band_key, Member.assocs.status>0 ) ).order(Member.assocs.status).order(Member.name)
+    member_query = Member.query( ndb.AND(Member.assocs.band==the_band_key, Member.assocs.status!=0 ) ).order(Member.assocs.status).order(Member.name)
     members = member_query.fetch(keys_only=True)
     return members
 
@@ -238,7 +238,7 @@ def nav_info(the_user, the_member=None):
         }
         
 def member_is_superuser(the_member):
-    return the_member.role==1
+    return the_member.is_superuser
 
 #####
 #
@@ -572,9 +572,9 @@ class AdminMember(BaseHandler):
         
         # todo - make sure the user is a superuser
         if (the_do=='0'):
-            the_member.role=0
+            the_member.is_superuser=False
         elif (the_do=='1'):
-            the_member.role=1
+            the_member.is_superuser=True
         else:
             return # todo figure out what to do
 

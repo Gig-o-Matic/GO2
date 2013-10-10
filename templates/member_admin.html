@@ -13,7 +13,7 @@
             {% if member==the_user %}
                 me!
             {% else %}
-                {% if member.role==0 %}
+                {% if member.is_superuser==False %}
                     <a href="/member_makeadmin?do=1&mk={{member.key.urlsafe()}}">make admin</a>
                 {% else %}    
                     <a href="/member_makeadmin?do=0&mk={{member.key.urlsafe()}}">remove admin</a>
