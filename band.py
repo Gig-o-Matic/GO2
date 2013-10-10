@@ -271,6 +271,7 @@ class BandGetMembers(BaseHandler):
                         
         print '\n\n{0}\n\n'.format(assoc_info)
         template_args = {
+            'the_band_key' : the_band_key,
             'the_assocs' : assoc_info,
             'the_user_status' : the_user_status,
             'nav_info' : member.nav_info(the_user, None)    
