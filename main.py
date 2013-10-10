@@ -13,7 +13,7 @@ import band
 config = {
   'webapp2_extras.auth': {
     'user_model': 'member.Member',
-    'user_attributes': ['name', 'role']
+    'user_attributes': ['name', 'is_superuser']
   },
   'webapp2_extras.sessions': {
     'secret_key': 'GABBAGABBAHEY'
