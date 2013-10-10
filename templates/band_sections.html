@@ -13,18 +13,18 @@
             <a href='/member_info.html?mk={{the_member_key.urlsafe()}}'>{{ the_member_key.get().name }}</a><br>
         {% endfor %}
     </td>
-    {% if not the_section[1] and the_section[0] and (nav_info['is_superuser'] or the_user_status>1) %} 
+    {% if not the_section[1] and the_section[0] and (nav_info['is_superuser'] or the_user_is_band_admin) %} 
     <td>
         <a class="btn btn-default btn-sm" onclick="delete_section('{{the_section[0].urlsafe()}}')"href="#">Delete Section</a>
     </td>
     {% else %}
     <td></td>
     {% endif %}
-    {% if (nav_info['is_superuser'] or the_user_status>1) and the_section[0] %}
+    {% if (nav_info['is_superuser'] or the_user_is_band_admin) and the_section[0] %}
         {% if loop.first %}
             <td></td>
             <td><a class="btn btn-default btn-sm movesection" onclick="move(0,'{{the_section[0].urlsafe()}}')" href="#"><i class="icon-circle-arrow-down icon-large"></i></a></td>
-        {% elif loop.last %}
+        {% elif loop.last or (loop.index == loop.length-1 and the_members_by_section[loop.length-1][0]==None) %}
             <td><a class="btn btn-default btn-sm movesection" onclick="move(1,'{{the_section[0].urlsafe()}}')"  href="#"><i class="icon-circle-arrow-up icon-large"></i></a></td>
             <td></td>
         {% else %}

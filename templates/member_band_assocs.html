@@ -5,7 +5,7 @@
                 <a href="/band_info.html?bk={{the_info.assoc.band.urlsafe()}}">{{the_info.assoc.band.get().name}}</a>
             </div>
             <div class="col-md-3">
-            {% if the_info.assoc.status == 0 %}
+            {% if the_info.assoc.is_confirmed == 0 %}
                 pending
             {% elif the_info.sections|length == 0 %}
             {% else %}

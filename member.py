@@ -35,7 +35,8 @@ class MemberPreferences(ndb.Model):
 class MemberAssoc(ndb.Model):
     """ class to hold details of the association with a band """
     band = ndb.KeyProperty()
-    status = ndb.IntegerProperty( default=0 ) # 0 = pending, 1 = member, 2 = band admin
+    is_confirmed = ndb.BooleanProperty( default=False )
+    is_band_admin = ndb.BooleanProperty( default = False )
     default_section = ndb.KeyProperty( default=None )
 
 #
@@ -90,13 +91,13 @@ def get_all_members():
 
 def get_member_keys_of_band_key(the_band_key):
     """ Return member objects by band"""
-    member_query = Member.query( ndb.AND(Member.assocs.band==the_band_key, Member.assocs.status!=0 ) ).order(Member.assocs.status).order(Member.name)
+    member_query = Member.query( ndb.AND(Member.assocs.band==the_band_key, Member.assocs.is_confirmed==True ) ).order(Member.name)
     members = member_query.fetch(keys_only=True)
     return members
 
 def get_pending_members_from_band_key(the_band_key):
-    """ Get all the members who have a status of 0 """
-    member_query = Member.query( ndb.AND(Member.assocs.band==the_band_key, Member.assocs.status==0) ).order(Member.assocs.status).order(Member.name)
+    """ Get all the members who are pending """
+    member_query = Member.query( ndb.AND(Member.assocs.band==the_band_key, Member.assocs.is_confirmed==False) ).order(Member.name)
     members = member_query.fetch()
     return members
 
@@ -104,7 +105,7 @@ def get_member_keys_for_band_key_for_section_key(the_band_key, the_section_key):
     """ Return member objects by band with no default section"""
     member_query = Member.query( ndb.AND( Member.assocs.band==the_band_key,
                                           Member.assocs.default_section==the_section_key,
-                                          Member.assocs.status>0) ).order(Member.assocs.status).order(Member.name)
+                                          Member.assocs.is_confirmed==True) ).order(Member.name)
     members = member_query.fetch(keys_only=True)
     return members
     
@@ -112,16 +113,34 @@ def get_member_keys_of_band_key_no_section(the_band_key):
     """ Return member objects by band with no default section"""
     member_query = Member.query( ndb.AND( Member.assocs.band==the_band_key, 
                                           Member.assocs.default_section==None,
-                                          Member.assocs.status>0) ).order(Member.assocs.status).order(Member.name)
+                                          Member.assocs.is_confirmed==True) ).order(Member.name)
     members = member_query.fetch(keys_only=True)
     return members
 
-def get_status_for_member_for_band_key(the_member, the_band_key):
-    """ find the association between this member and a band, and return the status """
-    the_status = -1
+def get_associated_status_for_member_for_band_key(the_member, the_band_key):
+    """ find the association between this member and a band, and True if there is one """
+    the_status = False
     for a in the_member.assocs:
         if a.band == the_band_key:
-            the_status = a.status
+            the_status = True
+            break
+    return the_status
+
+def get_confirmed_status_for_member_for_band_key(the_member, the_band_key):
+    """ find the association between this member and a band, and return the status """
+    the_status = False
+    for a in the_member.assocs:
+        if a.band == the_band_key:
+            the_status = a.is_confirmed
+            break
+    return the_status
+
+def get_admin_status_for_member_for_band_key(the_member, the_band_key):
+    """ find the association between this member and a band, and return the status """
+    the_status = False
+    for a in the_member.assocs:
+        if a.band == the_band_key:
+            the_status = a.is_band_admin
             break
     return the_status
     
@@ -129,7 +148,7 @@ def confirm_member_for_band_key(the_member, the_band_key):
     """ assuming this member is pending, confirm them """
     for i in range(0, len(the_member.assocs)):
         if the_member.assocs[i].band == the_band_key:
-            the_member.assocs[i].status = 1
+            the_member.assocs[i].is_confirmed = True
             the_member.put()
             break
 
@@ -138,7 +157,7 @@ def set_admin_for_member_key_and_band_key(the_member_key, the_band_key, the_do):
     the_member = the_member_key.get()
     for i in range(0, len(the_member.assocs)):
         if the_member.assocs[i].band == the_band_key:
-            the_member.assocs[i].status = 1 + the_do
+            the_member.assocs[i].is_band_admin = True if (the_do==1) else False
             the_member.put()
             break
     
@@ -170,7 +189,7 @@ def get_member_from_key(key):
 
 def new_association(member, band):
     """ associate a band and a member """
-    assoc=MemberAssoc(band=band.key, status=0)
+    assoc=MemberAssoc(band=band.key, is_band_admin=False)
     member.assocs.append(assoc)
     member.put()
     
@@ -204,7 +223,7 @@ def get_bands_of_member(the_member):
 def get_confirmed_bands_of_member(the_member):
     """ Return band objects by member"""
     assocs = the_member.assocs
-    bands=[a.band.get() for a in assocs if a.status >= 1]
+    bands=[a.band.get() for a in assocs if a.is_confirmed==True]
     return bands
 
 def default_section_for_band_key(the_member, the_band_key):

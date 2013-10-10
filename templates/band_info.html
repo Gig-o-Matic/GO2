@@ -33,8 +33,8 @@
         </div>
     </div>
 </div> <!-- panel -->
-{% if the_user_status == -1 and ( nav_info['is_superuser'] == False ) %}
-{% elif the_user_status == 0 and ( nav_info['is_superuser'] == False ) %}
+{% if the_user_is_associated == False and ( nav_info['is_superuser'] == False ) %}
+{% elif the_user_is_confirmed == False and ( nav_info['is_superuser'] == False ) %}
     Your membership is pending - ask a band member to confirm you!
 {% else %}
     {% if the_pending_members %}
@@ -91,7 +91,7 @@
                 </div>
             </div>
             <div class="row">
-                {% if nav_info['is_superuser'] or the_user_status>1 %}
+                {% if nav_info['is_superuser'] or the_user_is_band_admin %}
                     <div class="col-md-4 col-md-offset-2">
                         <a data-toggle="modal" href="#newsectionmodal" class="btn btn-primary btn-sm" id="{{the_band.key.urlsafe()}}">Add a Section</a>
                     </div>
@@ -103,7 +103,7 @@
 {% endblock content %}
 
 {% block modal %}
-    {% if nav_info['is_superuser'] or the_user_status>1 %}
+    {% if nav_info['is_superuser'] or the_user_is_band_admin %}
 	<!-- Modal -->
     <div class="modal fade" id="newsectionmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">

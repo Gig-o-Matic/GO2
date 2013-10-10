@@ -47,6 +47,13 @@ indexes:
   properties:
   - name: assocs.band
   - name: assocs.default_section
+  - name: assocs.is_confirmed
+  - name: name
+
+- kind: Member
+  properties:
+  - name: assocs.band
+  - name: assocs.default_section
   - name: assocs.status
 
 - kind: Member
@@ -54,6 +61,12 @@ indexes:
   - name: assocs.band
   - name: assocs.default_section
   - name: assocs.status
+  - name: name
+
+- kind: Member
+  properties:
+  - name: assocs.band
+  - name: assocs.is_confirmed
   - name: name
 
 - kind: Member

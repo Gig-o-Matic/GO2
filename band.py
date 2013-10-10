@@ -142,9 +142,11 @@ class InfoPage(BaseHandler):
             self.response.write('did not find a band!')
             return # todo figure out what to do if we didn't find it
             
-        the_user_status = member.get_status_for_member_for_band_key(the_user, the_band_key)   
+        the_user_is_associated = member.get_associated_status_for_member_for_band_key(the_user, the_band_key)
+        the_user_is_confirmed = member.get_confirmed_status_for_member_for_band_key(the_user, the_band_key)
+        the_user_admin_status = member.get_admin_status_for_member_for_band_key(the_user, the_band_key)   
 
-        if the_user_status==2 or member.member_is_superuser(the_user):
+        if the_user_admin_status or member.member_is_superuser(the_user):
             the_pending = member.get_pending_members_from_band_key(the_band_key)
         else:
             the_pending = []
@@ -152,7 +154,9 @@ class InfoPage(BaseHandler):
         template_args = {
             'title' : 'Band Info',
             'the_band' : the_band,
-            'the_user_status' : the_user_status,
+            'the_user_is_associated' : the_user_is_associated,
+            'the_user_is_confirmed' : the_user_is_confirmed,
+            'the_user_is_band_admin' : the_user_admin_status,
             'the_pending_members' : the_pending,
             'nav_info' : member.nav_info(the_user, None)
         }
@@ -164,11 +168,9 @@ class EditPage(BaseHandler):
 
     @user_required
     def get(self):
-        print 'BAND_EDIT GET HANDLER'
         self.make_page(the_user=self.user)
 
     def make_page(self, the_user):
-        debug_print('IN BAND_EDIT {0}'.format(the_user.name))
 
         if self.request.get("new",None) is not None:
             #  creating a new band
@@ -178,7 +180,6 @@ class EditPage(BaseHandler):
         else:
             is_new=False
             the_band_key=self.request.get("bk",'0')
-            print 'the_band_key is {0}'.format(the_band_key)
             if the_band_key=='0':
                 return
             else:
@@ -186,7 +187,6 @@ class EditPage(BaseHandler):
                 if the_band is None:
                     self.response.write('did not find a band!')
                     return # todo figure out what to do if we didn't find it
-                debug_print('found band object: {0}'.format(the_band.name))
 
         template_args = {
             'title' : 'Band Edit',
@@ -199,9 +199,6 @@ class EditPage(BaseHandler):
                     
     def post(self):
         """post handler - if we are edited by the template, handle it here and redirect back to info page"""
-        print 'BAND_EDIT POST HANDLER'
-
-        print str(self.request.arguments())
 
         the_user = self.user
 
@@ -219,22 +216,18 @@ class EditPage(BaseHandler):
        
         band_name=self.request.get("band_name",None)
         if band_name is not None and band_name != '':
-            print 'got name {0}'.format(band_name)
             the_band.name=band_name
                 
         band_website=self.request.get("band_website",None)
         if band_website is not None and band_website != '':
-            print 'got website {0}'.format(band_website)
             the_band.website=band_website
 
         band_description=self.request.get("band_description",None)
         if band_description is not None and band_description != '':
-            print 'got description {0}'.format(band_description)
             the_band.description=band_description
             
         band_tz=self.request.get("band_tz",None)
         if band_tz is not None and band_tz != '':
-            print 'got tz {0}'.format(band_tz)
             the_band.time_zone_correction=int(band_tz)
 
         the_band.put()            
@@ -256,7 +249,7 @@ class BandGetMembers(BaseHandler):
         the_band_key = ndb.Key(urlsafe=the_band_key_str)
         members = [m.get() for m in member.get_member_keys_of_band_key(the_band_key)]
         
-        the_user_status = -1
+        the_user_is_band_admin = False
         assoc_info=[]
         for m in members:
             assoc = None
@@ -265,15 +258,14 @@ class BandGetMembers(BaseHandler):
                     assoc = a
                     break
             if assoc:
-                assoc_info.append( {'name':m.name, 'status':a.status, 'member_key':m.key} )
+                assoc_info.append( {'name':m.name, 'is_confirmed':a.is_confirmed, 'is_band_admin':a.is_band_admin, 'member_key':m.key} )
                 if m.key == the_user:
-                    the_user_status = a.status
+                    the_user_is_band_admin = a.is_band_admin
                         
-        print '\n\n{0}\n\n'.format(assoc_info)
         template_args = {
             'the_band_key' : the_band_key,
             'the_assocs' : assoc_info,
-            'the_user_status' : the_user_status,
+            'the_user_is_band_admin' : the_user_is_band_admin,
             'nav_info' : member.nav_info(the_user, None)    
         }
         self.render_template('band_members.html', template_args)
@@ -293,12 +285,12 @@ class BandGetSections(BaseHandler):
         the_band_key = ndb.Key(urlsafe=the_band_key_str)
         the_members_by_section = get_member_keys_of_band_key_by_section_key(the_band_key)
 
-        the_user_status = member.get_status_for_member_for_band_key(the_user, the_band_key)
+        the_user_is_band_admin = member.get_admin_status_for_member_for_band_key(the_user, the_band_key)
                 
         template_args = {
             'the_members_by_section' : the_members_by_section,
             'nav_info' : member.nav_info(the_user, None),
-            'the_user_status' : the_user_status
+            'the_user_is_band_admin' : the_user_is_band_admin
         }
         self.render_template('band_sections.html', template_args)
 

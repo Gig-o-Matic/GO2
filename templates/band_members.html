@@ -1,16 +1,16 @@
 <table class="table table-striped">
 {% for the_assoc in the_assocs %}
-    {% if the_assoc['status'] > 0 %}
+    {% if the_assoc['is_confirmed'] %}
         <tr>
         <td>
             <a href='/member_info.html?mk={{the_assoc['member_key'].urlsafe()}}'>{{ the_assoc['name'] }}</a>
         </td>
-        {% if nav_info['is_superuser'] or the_user_status > 1 %} 
+        {% if nav_info['is_superuser'] or the_user_is_band_admin==True %} 
             {% if the_assoc['member_key']!=the_user.key %}
                 <td>
-                    {% if the_assoc.status==1 %}
+                    {% if the_assoc['is_band_admin']==False %}
                         <a href="/band_makeadmin?do=1&mk={{the_assoc['member_key'].urlsafe()}}&bk={{the_band_key.urlsafe()}}">make band admin</a>
-                    {% elif the_assoc.status==2 %}
+                    {% elif the_assoc['is_band_admin']==True %}
                         admin (<a href="/band_makeadmin?do=0&mk={{the_assoc['member_key'].urlsafe()}}&bk={{the_band_key.urlsafe()}}">remove</a>)
                     {% endif %}
                 </td>
