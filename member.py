@@ -185,10 +185,14 @@ def delete_association(member, band_key):
 
 def set_default_section(the_member_key, the_band_key, the_section_key):
     """ find the band in a member's list of assocs, and set default section """
-    for a in the_member_key.get().assocs:
-        if a.band == the_band_key:
-            a.default_section = the_section_key
-            break
+    the_member=the_member_key.get()
+    print '\n\nsetting default for member {0}'.format(the_member.name)
+    if (the_member):
+        for i in range(0, len(the_member.assocs)):
+            if the_member.assocs[i].band == the_band_key:
+                the_member.assocs[i].default_section = the_section_key
+                the_member.put()
+                break
 
 
 def get_bands_of_member(the_member):
@@ -475,27 +479,27 @@ class ManageBandsDeleteAssoc(BaseHandler):
         the_member_key=ndb.Key(urlsafe=the_member_keyurl)
         the_band_key=ndb.Key(urlsafe=the_band_keyurl)
 
-        delete_association(the_member.get(), the_band_key)
+        delete_association(the_member_key.get(), the_band_key)
         plan.delete_plans_for_member_key_for_band_key(the_member_key, the_band_key)
         
         return self.redirect('/member_info.html?mk={0}'.format(the_member_keyurl))
         
-class NewDefaultSection(BaseHandler):
+class SetSection(BaseHandler):
     """ change the default section for a member's band association """
     
     def post(self):
         """ post handler - wants an ak and sk """
-        
+
         the_section_keyurl=self.request.get('sk','0')
         the_member_keyurl=self.request.get('mk','0')
         the_band_keyurl=self.request.get('bk','0')
 
-        if the_section_keyurl=='0' or the_assoc_keyurl=='0' or the_band_keyurl=='0':
+        if the_section_keyurl=='0' or the_member_keyurl=='0' or the_band_keyurl=='0':
             return # todo figure out what to do
 
         the_section_key=ndb.Key(urlsafe=the_section_keyurl)
         the_member_key=ndb.Key(urlsafe=the_member_keyurl)
-        the_band_key=ndb.Key(urlsafe=the_member_keyurl)
+        the_band_key=ndb.Key(urlsafe=the_band_keyurl)
         
         set_default_section(the_member_key, the_band_key, the_section_key)
 

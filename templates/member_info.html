@@ -81,71 +81,30 @@ function updateBands() {
             function(responseTxt,statusTxt,xhr){
                 if(statusTxt=="success")
                     document.getElementById('bandlist').innerHTML=responseTxt;
-                     $("a.section-click").click(handle_section_click);
-                     $("a.leave-section-click").click(handle_leave_section_click);
                 if(statusTxt=="error")
                     alert("Error: "+xhr.status+": "+xhr.statusText);
             });
 }
 
-function add_section_for_member(sk, mk, ak) {
-   $.post('/member_add_section.html',
+function section_select(bk) {
+    elem=document.getElementById("sbk-"+bk)
+    sk=elem.options[elem.selectedIndex].id
+    if (sk==0) {
+        updateBands();
+        return false;
+    }
+    var mk='{{the_member.key.urlsafe()}}';
+    $.post('/member_set_section',
             {
                 mk: mk,
                 sk: sk,
-                ak: ak
+                bk: bk
             },
             function(responseTxt,statusTxt,xhr){
-                if(statusTxt=="success")
-                    updateBands();
                 if(statusTxt=="error")
                     alert("Error: "+xhr.status+": "+xhr.statusText);
             });
 }
-
-function handle_section_click() {
-    var sk=$(this).attr("id");
-    var bk=$(this).attr("data-bk");
-    var mk='{{the_member.key.urlsafe()}}';
-    add_section_for_member(sk, mk, ak);
-}
-
-function leave_section_for_member(sk, mk, ak) {
-   $.post('/member_leave_section.html',
-            {
-                mk: mk,
-                sk: sk,
-                ak: ak
-            },
-            function(responseTxt,statusTxt,xhr){
-                if(statusTxt=="success")
-                    updateBands();
-                if(statusTxt=="error")
-                    alert("Error: "+xhr.status+": "+xhr.statusText);
-            });
-}
-
-function handle_leave_section_click() {
-    var sk=$(this).attr("id");
-    var ak=$(this).attr("data-ak");
-    var mk='{{the_member.key.urlsafe()}}';
-    leave_section_for_member(sk, mk, ak);
-}
-
-function new_default_section(ak, sk) {
-        $.post("/member_new_default_section",
-        {
-            ak: ak,
-            sk: sk
-        },
-        function(responseTxt,statusTxt,xhr){
-            if(statusTxt=="success")
-                updateBands();
-            if(statusTxt=="error")
-              alert("Error: "+xhr.status+": "+xhr.statusText);
-        });
-}
-    
 
 $(document).ready(function() {
     updateBands();

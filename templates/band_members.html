@@ -9,13 +9,13 @@
             {% if the_assoc['member_key']!=the_user.key %}
                 <td>
                     {% if the_assoc.status==1 %}
-                        <a href="/band_makeadmin?do=1&ak={{the_assoc.key.urlsafe()}}">make band admin</a>
+                        <a href="/band_makeadmin?do=1&ak={{the_assoc['member_key'].urlsafe()}}">make band admin</a>
                     {% elif the_assoc.status==2 %}
-                        admin (<a href="/band_makeadmin?do=0&ak={{the_assoc.key.urlsafe()}}">remove</a>)
+                        admin (<a href="/band_makeadmin?do=0&ak={{the_assoc['member_key'].urlsafe()}}">remove</a>)
                     {% endif %}
                 </td>
                 <td>
-                    <a href="/band_removemember?ak={{the_assoc.key.urlsafe()}}">remove from band</a>
+                    <a href="/band_removemember?ak={{the_assoc['member_key'].urlsafe()}}">remove from band</a>
                 </td>
             {% else %}
                 <td>(me)</td>
