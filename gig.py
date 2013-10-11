@@ -248,6 +248,10 @@ class EditPage(BaseHandler):
             debug_print('found gig object: {0}'.format(the_gig.title))
             is_new = False
                     
+        all_bands = member.get_bands_of_member(the_user)
+        if not all_bands:
+            return # member has no bands, so no point
+
         template_args = {
             'title' : 'Gig Edit',
             'gig' : the_gig,
