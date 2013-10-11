@@ -34,7 +34,8 @@
                     {% for assoc in the_member.assocs %}
                         {% if assoc.is_confirmed %}
                             {% set the_band = assoc.band.get() %}
-                            <a href="/band_info.html?bk={{ the_band.key.urlsafe() }}">{{ the_band.name }}</a>
+                            <a href="/band_info.html?bk={{ the_band.key.urlsafe() }}">{{ the_band.name }}</a>{% if loop.last == False %},
+                            {% endif %}
                         {% endif %}
                     {% endfor %}
                 </div>
