@@ -8,6 +8,8 @@
             {% if the_info.assoc.is_confirmed == 0 %}
                 pending
             {% elif the_info.sections|length == 0 %}
+                </div>
+                <div class="col-md-2">                
             {% else %}
                 <div class="dropdown">
                     <select class="form-control" id='sbk-{{the_info.assoc.band.urlsafe()}}' onchange="section_select('{{the_info.assoc.band.urlsafe()}}')">
