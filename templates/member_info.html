@@ -28,6 +28,17 @@
                 <div class="col-md-2 col-md-offset-2">Personal Statement</div>
                 <div class="col-md-8">{{ the_member.statement|e }}</div>
             </div>
+            <div class="row">
+                <div class="col-md-2 col-md-offset-2">My Bands</div>
+                <div class="col-md-8">
+                    {% for assoc in the_member.assocs %}
+                        {% if assoc.is_confirmed %}
+                            {% set the_band = assoc.band.get() %}
+                            <a href="/band_info.html?bk={{ the_band.key.urlsafe() }}">{{ the_band.name }}</a>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
             {% if member_is_me or the_user_is_superuser %}
                 <br>
                 <div class="row">
