@@ -376,8 +376,8 @@ class EditPage(BaseHandler):
        
        # if we're changing email addresses, make sure we're changing to something unique
         member_email=self.request.get("member_email", None)
-        if member_email is not None and member_email != '':
-            print 'got email {0}'.format(member_email)
+        if member_email is not None and member_email != '' and member_email != the_member.email_address:
+            # only change email if it's been changed
             success, existing = \
                 Unique.create_multi(['Member.auth_id:%s'%member_email,
                                      'Member.email_address:%s'%member_email])
