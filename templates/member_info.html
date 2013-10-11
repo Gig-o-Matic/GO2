@@ -106,6 +106,21 @@ function section_select(bk) {
             });
 }
 
+function multi_select(bk) {
+    elem=document.getElementById("msbk-"+bk)
+    var mk='{{the_member.key.urlsafe()}}';
+    $.post('/member_set_multi',
+            {
+                mk: mk,
+                bk: bk,
+                do: elem.checked
+            },
+            function(responseTxt,statusTxt,xhr){
+                if(statusTxt=="error")
+                    alert("Error: "+xhr.status+": "+xhr.statusText);
+            });
+}
+
 $(document).ready(function() {
     updateBands();
     $("a.band-click").click(function(){

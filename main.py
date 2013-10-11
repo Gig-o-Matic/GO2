@@ -43,6 +43,7 @@ application = webapp2.WSGIApplication([
     webapp2.Route('/member_makeadmin', member.AdminMember),
     webapp2.Route('/member_delete', member.DeleteMember),
     webapp2.Route('/member_set_section', member.SetSection),
+    webapp2.Route('/member_set_multi',member.SetMulti),
     webapp2.Route('/gig_info.html', gig.InfoPage, name="gig_info"),
     webapp2.Route('/gig_edit.html', gig.EditPage),
     webapp2.Route('/gig_archive', gig.ArchiveHandler),

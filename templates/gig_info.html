@@ -1,6 +1,8 @@
 {% extends 'go2base.html' %}
 
 {% block content %}
+    {% set the_band_key = gig.key.parent() %}
+
 
     <div class="row">
         <div class="col-md-4 col-md-offset-2"><h1>Gig Info</h1></div>
@@ -18,7 +20,7 @@
     <div class="row">&nbsp;</div>
     <div class="row">
         <div class="col-md-2 col-md-offset-2">Band</div>
-        <div class="col-md-8"><a href="band_info.html?bk={{gig.key.parent().urlsafe()}}">{{ gig.key.parent().get().name|e }}</a></div>
+        <div class="col-md-8"><a href="band_info.html?bk={{the_band_key.urlsafe()}}">{{ the_band_key.get().name|e }}</a></div>
     </div>
     <div class="row">&nbsp;</div>
     <div class="row">
@@ -40,19 +42,21 @@
         <div class="col-md-8 col-md-offset-2">
             <table class="table table-striped">
             {% import 'plan_edit.html' as plan_edit with context %}                
-            {% for the_section in member_plans %}
+            {% for the_section in the_section_keys %}
             <tr>
                 <td>
-                    {% if the_section[0] %}
-                        {{the_section[0].get().name}}
+                    {% if the_section %}
+                        {{the_section.get().name}}
                     {% else %}
                         No Section
                     {% endif %}
                 </td>
                 <td>
                     <table class="table">
-                        {% for member_plan in the_section[1] %}
-                            {{ plan_edit.plan_edit(member_plan[1], section_info, show_date=False, show_member=True, show_band=False, show_gig_name=False, show_section=True) }}
+                        {% for member_plan in the_plans %}
+                            {% if member_plan['the_plan_key'].get().section == the_section %}
+                                {{ plan_edit.plan_edit(member_plan, show_date=False, show_member=True, show_band=False, show_gig_name=False, show_section=True) }}
+                            {% endif %}
                         {% endfor %}
                     </table>
                 </td>

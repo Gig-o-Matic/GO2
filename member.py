@@ -38,7 +38,7 @@ class MemberAssoc(ndb.Model):
     is_confirmed = ndb.BooleanProperty( default=False )
     is_band_admin = ndb.BooleanProperty( default = False )
     default_section = ndb.KeyProperty( default=None )
-
+    is_multisectional = ndb.BooleanProperty( default = False )
 #
 # class for member
 #
@@ -100,6 +100,15 @@ def get_pending_members_from_band_key(the_band_key):
     member_query = Member.query( ndb.AND(Member.assocs.band==the_band_key, Member.assocs.is_confirmed==False) ).order(Member.name)
     members = member_query.fetch()
     return members
+
+def get_assoc_for_band_key(the_member, the_band_key):
+    """ find the association with a band and return it """
+    the_assoc = None
+    for a in the_member.assocs:
+        if a.band == the_band_key:
+            the_assoc=a
+            break
+    return the_assoc
 
 def get_member_keys_for_band_key_for_section_key(the_band_key, the_section_key):
     """ Return member objects by band with no default section"""
@@ -213,6 +222,16 @@ def set_default_section(the_member_key, the_band_key, the_section_key):
                 the_member.put()
                 break
 
+def set_multi(the_member_key, the_band_key, the_do):
+    """ find the band in a member's list of assocs, and set default section """
+    the_member=the_member_key.get()
+    if (the_member):
+        for i in range(0, len(the_member.assocs)):
+            if the_member.assocs[i].band == the_band_key:
+                the_member.assocs[i].is_multisectional = the_do
+                the_member.put()
+                break
+
 
 def get_bands_of_member(the_member):
     """ Return band objects by member"""
@@ -225,6 +244,12 @@ def get_confirmed_bands_of_member(the_member):
     assocs = the_member.assocs
     bands=[a.band.get() for a in assocs if a.is_confirmed==True]
     return bands
+
+def get_confirmed_assocs_of_member(the_member):
+    """ Return assocs objects by member"""
+    assocs = the_member.assocs
+    the_list=[a for a in assocs if a.is_confirmed==True]
+    return the_list
 
 def default_section_for_band_key(the_member, the_band_key):
     """ find the default section for a member within a given band """
@@ -502,6 +527,28 @@ class SetSection(BaseHandler):
         the_band_key=ndb.Key(urlsafe=the_band_keyurl)
         
         set_default_section(the_member_key, the_band_key, the_section_key)
+
+class SetMulti(BaseHandler):
+    """ change the default section for a member's band association """
+    
+    def post(self):
+        """ post handler - wants an ak and sk """
+
+        the_member_keyurl=self.request.get('mk','0')
+        the_band_keyurl=self.request.get('bk','0')
+        the_do=self.request.get('do','')
+
+        if the_band_keyurl=='0' or the_member_keyurl=='0':
+            return # todo figure out what to do
+            
+        if  the_do=='':
+            return
+
+        the_band_key=ndb.Key(urlsafe=the_band_keyurl)
+        the_member_key=ndb.Key(urlsafe=the_member_keyurl)
+        
+        set_multi(the_member_key, the_band_key, (the_do=='true'))
+
 
 class AdminPage(BaseHandler):
     """ Page for member administration """

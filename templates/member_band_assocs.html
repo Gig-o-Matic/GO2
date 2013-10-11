@@ -26,6 +26,13 @@
                 </div> <!-- dropdown -->
             {% endif %}
             </div>
+            <div class="col-md-2">
+                <input type="checkbox" id='msbk-{{the_info.assoc.band.urlsafe()}}' onclick="multi_select('{{the_info.assoc.band.urlsafe()}}')"
+                {% if the_info.assoc.is_multisectional %}
+                    checked
+                {% endif %}
+                > I play in other sections, too
+            </div>
             <div class="col-md-2">            
                 <a class="btn btn-default btn-sm" href="/member_delete_assoc.html?bk={{the_info.assoc.band.urlsafe()}}&mk={{the_member.key.urlsafe()}}"><i class="icon-minus-sign-alt icon-sm"></i> Leave Band</a>
             </div>

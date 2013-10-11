@@ -53,18 +53,16 @@ def get_gig_from_key(key):
     """ Return gig objects by key"""
     return key.get()
         
-def get_gigs_for_band(the_band, num=None, start_date=None):
+def get_gigs_for_bands(the_band_list, num=None, start_date=None):
     """ Return gig objects by band, ignoring past gigs """
         
-    if (type(the_band) is not list):
-        band_list = [the_band]
-    else:
-        band_list = the_band
+    if (type(the_band_list) is not list):
+        the_band_list = [the_band_list]
 
     if start_date:
         # correct the start date in case we're a non-UTC band (everyone, probably)
         # assumes that all the bands are in the same timezone
-        test_band=band_list[0]
+        test_band=the_band_list[0]
         print 'raw start date is {0}'.format(start_date)
         if test_band.time_zone_correction:
             # this band is in a non-UTC time zone!
@@ -74,7 +72,7 @@ def get_gigs_for_band(the_band, num=None, start_date=None):
         print 'final start date is {0}'.format(start_date)
     
     all_gigs = []
-    for a_band in band_list:
+    for a_band in the_band_list:
         if start_date is None:
             gig_query = Gig.query(Gig.is_archived==False, ancestor=a_band.key).order(Gig.date)
         else:
@@ -186,25 +184,31 @@ class InfoPage(BaseHandler):
         if not the_gig.is_archived:
             the_band_key = the_gig.key.parent()
 
-            the_members_by_section = band.get_member_keys_of_band_key_by_section_key(the_band_key)
-
-            the_plans=[]
-            for the_section in the_members_by_section:
-                section_plans=[]
-                for a_member_key in the_section[1]:
-                    the_plan=plan.get_plan_for_member_for_gig(a_member_key.get(), the_gig)
-                    # add the plan to the list, but only if the member's section for this gig is this section
-                    if the_plan and the_plan.section == the_section[0]:
-                        section_plans.append( [a_member_key, the_plan] )
-                the_plans.append( (the_section[0], section_plans) )
-
+            the_member_keys = member.get_member_keys_of_band_key(the_band_key)
+            
+            the_plans = []
+            
+            for a_member_key in the_member_keys:
+                a_member = a_member_key.get()
+                the_plan = plan.get_plan_for_member_for_gig(a_member, the_gig)
+                info_block={}
+                info_block['the_gig_key'] = the_gig.key
+                info_block['the_plan_key'] = the_plan.key
+                info_block['the_member_key'] = a_member_key
+                info_block['the_band_key'] = the_band_key
+                info_block['the_assoc'] = member.get_assoc_for_band_key(the_user, the_band_key)
+                print '\n\n{0}'.format(info_block)
+                the_plans.append(info_block)
+                
             the_section_keys = band.get_section_keys_of_band_key(the_band_key)
+            if member.get_member_keys_of_band_key_no_section(the_band_key):
+                the_section_keys.append(None)                
 
             template_args = {
                 'title' : 'Gig Info',
                 'gig' : the_gig,
-                'member_plans' : the_plans,
-                'the_section_keys' : the_section_keys,
+                'the_plans' : the_plans,
+                'the_section_keys' : the_section_keys
             }
             self.render_template('gig_info.html', template_args)
 
