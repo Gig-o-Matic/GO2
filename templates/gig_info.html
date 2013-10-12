@@ -34,7 +34,7 @@
     </div>
     <div class="row">&nbsp;</div>
     <div class="row">
-        <div class="col-md-2 col-md-offset-2">Setlist <a href="print_setlist?gk={{gig.key.urlsafe()}}"><i class="icon-print"></i></a></div>
+        <div class="col-md-2 col-md-offset-2">Setlist{% if gig.setlist %} <a href="print_setlist?gk={{gig.key.urlsafe()}}"><i class="icon-print"></i></a>{% endif %}</div>
         <div class="col-md-8">{{ gig.setlist|e|replace("\n","<br>")}}</div>
     </div>
     <div class="row">&nbsp;</div>
