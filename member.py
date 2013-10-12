@@ -216,12 +216,12 @@ def delete_association(member, band_key):
 def set_default_section(the_member_key, the_band_key, the_section_key):
     """ find the band in a member's list of assocs, and set default section """
     the_member=the_member_key.get()
-    print '\n\nsetting default for member {0}'.format(the_member.name)
     if (the_member):
         for i in range(0, len(the_member.assocs)):
             if the_member.assocs[i].band == the_band_key:
                 the_member.assocs[i].default_section = the_section_key
-                the_member.put()
+                the_member.put()                
+                plan.set_section_for_empty_plans(the_member_key, the_band_key, the_section_key)                
                 break
 
 def set_multi(the_member_key, the_band_key, the_do):
