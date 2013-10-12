@@ -52,6 +52,8 @@ class Member(webapp2_extras.appengine.auth.models.User):
     created = ndb.DateTimeProperty(auto_now_add=True)
     preferences = ndb.StructuredProperty(MemberPreferences)
     assocs = ndb.StructuredProperty(MemberAssoc, repeated=True)
+    number_of_bands = ndb.ComputedProperty(lambda self: len([a for a in self.assocs if a.is_confirmed]))
+
 
     def set_password(self, raw_password):
         """Sets the password for the current user

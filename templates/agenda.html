@@ -18,7 +18,7 @@
                 <table class="table">
                 {% import 'plan_edit.html' as plan_edit with context %}
                 {% for plan_info in upcoming_plans %}
-                    {{ plan_edit.plan_edit(plan_info, show_date=True, show_member=False, show_band=True, show_gig_name=True) }}
+                    {{ plan_edit.plan_edit(plan_info, show_date=True, show_member=False, show_band=the_user.number_of_bands>1, show_gig_name=True) }}
                 {% endfor %}
                 </table>                
             {% else %}
@@ -39,7 +39,7 @@
             <div id="weighinevents">
                 <table class="table">
                 {% for plan_info in weighin_plans %}
-                    {{ plan_edit.plan_edit(plan_info, show_date=True, show_member=False, show_band=True, show_gig_name=True) }}
+                    {{ plan_edit.plan_edit(plan_info, show_date=True, show_member=False, show_band=the_user.number_of_bands>1, show_gig_name=True) }}
                 {% endfor %}
                 </table>                
             </div>

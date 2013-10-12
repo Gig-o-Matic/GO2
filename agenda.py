@@ -23,14 +23,6 @@ class MainPage(BaseHandler):
     def _make_page(self,the_user):
         """ construct page for agenda view """
         
-
-# {% set the_gig_key = plan_info['gig_key'] %}
-# {% set the_plan_key = plan_info['plan_key'] %}
-# {% set the_member_key = plan_info['member_key'] %}
-# {% set the_band_key = plan_info['band_key'] %}
-# {% set the_assoc = plan_info['assoc'] %}
-
-
         # find the bands this member is associated with
         the_assocs = member.get_confirmed_assocs_of_member(the_user)
         the_bands = [a.band.get() for a in the_assocs]
