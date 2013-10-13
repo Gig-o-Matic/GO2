@@ -91,6 +91,12 @@ def get_all_members():
     members = member_query.fetch()
     return members
 
+def reset_motd():
+    members=get_all_members()
+    for m in members:
+        m.seen_motd=False
+    ndb.put_multi(members)
+
 def get_member_keys_of_band_key(the_band_key):
     """ Return member objects by band"""
     member_query = Member.query( ndb.AND(Member.assocs.band==the_band_key, Member.assocs.is_confirmed==True ) ).order(Member.name)

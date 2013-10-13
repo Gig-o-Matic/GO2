@@ -15,6 +15,32 @@ import webapp2
 import motd_db
 import member
 
+class AdminPage(BaseHandler):
+    """ Page for motd administration """
+
+    @user_required
+    def get(self):
+        if member.member_is_superuser(self.user):
+            self._make_page(the_user=self.user)
+        else:
+            return;
+            
+    def _make_page(self,the_user):
+    
+        template_args = {
+            'title' : 'MOTD Admin'
+        }
+        self.render_template('motd_admin.html', template_args)
+
+
+    @user_required
+    def post(self):
+        the_motd=self.request.get('motd_content','')
+        motd_db.set_motd(the_motd)
+        member.reset_motd()
+        self.redirect(self.uri_for('home'))
+
+
 class SeenHandler(BaseHandler):
     @user_required
     def post(self):    
