@@ -41,6 +41,11 @@
 
             <div class="container">
                     <div class="inner-container">
+                            {% if the_user %}
+                                {% block motd %}
+                                    {% include 'motd.html' %}
+                                {% endblock %}
+                            {% endif %}
                             {% block content %}
                             {% endblock content %}
                     </div> <!-- /.inner-container -->
@@ -61,4 +66,13 @@
     <script src="bootstrap/js/bootstrap.min.js"></script>
     {% block localscripts %}
     {% endblock localscripts %}
+    {% if the_user %}
+        <script>
+            $(document).ready(function() {
+                $('#motd-alert').bind('closed.bs.alert', function () {
+                    $.post("/seen_motd",{ mk:"{{the_user.key.urlsafe()}}" })
+                });
+            });
+        </script>
+    {% endif %}
 </html>

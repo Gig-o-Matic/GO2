@@ -12,6 +12,8 @@ import webapp2
 from webapp2_extras import auth
 from webapp2_extras import sessions
 
+import motd_db
+
 def user_required(handler):
     """
         Decorator that checks if there's a user associated with the current session.
@@ -81,6 +83,8 @@ class BaseHandler(webapp2.RequestHandler):
         params['the_user'] = self.user
         params['the_user_is_superuser'] = is_superuser
         params['logout_link'] = self.uri_for('logout')
+        if self.user is not None and not self.user.seen_motd:
+            params['motd'] = motd_db.get_motd()
         print 'user is {0}'.format(self.user)
         template = je.get_template(filename)
         self.response.write(template.render(params))

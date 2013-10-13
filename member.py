@@ -53,7 +53,7 @@ class Member(webapp2_extras.appengine.auth.models.User):
     preferences = ndb.StructuredProperty(MemberPreferences)
     assocs = ndb.StructuredProperty(MemberAssoc, repeated=True)
     number_of_bands = ndb.ComputedProperty(lambda self: len([a for a in self.assocs if a.is_confirmed]))
-
+    seen_motd = ndb.BooleanProperty(default=False)
 
     def set_password(self, raw_password):
         """Sets the password for the current user
@@ -266,6 +266,12 @@ def default_section_for_band_key(the_member, the_band_key):
         
 def member_is_superuser(the_member):
     return the_member.is_superuser
+
+def set_seen_motd_for_member_key(the_member_key):
+    the_member = the_member_key.get()
+    the_member.seen_motd = True
+    the_member.put()
+
 
 #####
 #
