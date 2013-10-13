@@ -32,10 +32,9 @@
                 <div class="col-md-2 col-md-offset-2">My Bands</div>
                 <div class="col-md-8">
                     {% for assoc in the_member.assocs %}
-                        {% if assoc.is_confirmed %}
+                        {% if assoc.is_confirmed == True %}
                             {% set the_band = assoc.band.get() %}
-                            <a href="/band_info.html?bk={{ the_band.key.urlsafe() }}">{{ the_band.name }}</a>{% if loop.last == False %},
-                            {% endif %}
+                            <a href="/band_info.html?bk={{ the_band.key.urlsafe() }}">{{ the_band.name }}</a>{% if loop.last == False %}, {% endif %}
                         {% endif %}
                     {% endfor %}
                 </div>
