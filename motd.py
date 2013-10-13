@@ -59,4 +59,20 @@ class SeenHandler(BaseHandler):
         else:
             return # todo what to do?
 
+class SeenWelcomeHandler(BaseHandler):
+    @user_required
+    def post(self):    
+        """ post handler for welcome page """
+
+        the_member_keystr=self.request.get("mk",'0')
+        
+        if the_member_keystr=='0':
+            return # todo what to do if it's not passed in?
+
+        the_member_key = ndb.Key(urlsafe=the_member_keystr)       
+        if the_member_key:
+            member.set_seen_welcome_for_member_key(the_member_key)
+        else:
+            return # todo what to do?
+
 

@@ -31,6 +31,7 @@ application = webapp2.WSGIApplication([
     webapp2.Route('/forgot', login.ForgotPasswordHandler, name='forgot'),                  
     webapp2.Route('/password', login.SetPasswordHandler),
     webapp2.Route('/help', help.HelpHandler),
+    webapp2.Route('/seen_welcome', motd.SeenWelcomeHandler),
     webapp2.Route('/seen_motd', motd.SeenHandler),
     webapp2.Route('/agenda.html', agenda.MainPage, name='home'),
     webapp2.Route('/agenda.html', agenda.MainPage, name='agenda'),

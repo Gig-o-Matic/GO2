@@ -83,6 +83,8 @@ class BaseHandler(webapp2.RequestHandler):
         params['the_user'] = self.user
         params['the_user_is_superuser'] = is_superuser
         params['logout_link'] = self.uri_for('logout')
+        if self.user is not None and not self.user.seen_welcome:
+            params['welcome'] = True
         if self.user is not None and not self.user.seen_motd:
             params['motd'] = motd_db.get_motd()
         print 'user is {0}'.format(self.user)

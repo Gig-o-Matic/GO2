@@ -42,9 +42,12 @@
             <div class="container">
                     <div class="inner-container">
                             {% if the_user %}
+                                {% block welcome %}
+                                    {% include 'welcome.html' %}
+                                {% endblock welcome %}
                                 {% block motd %}
                                     {% include 'motd.html' %}
-                                {% endblock %}
+                                {% endblock motd %}
                             {% endif %}
                             {% block content %}
                             {% endblock content %}
@@ -71,6 +74,9 @@
             $(document).ready(function() {
                 $('#motd-alert').bind('closed.bs.alert', function () {
                     $.post("/seen_motd",{ mk:"{{the_user.key.urlsafe()}}" })
+                });
+                $('#welcome-alert').bind('closed.bs.alert', function () {
+                    $.post("/seen_welcome",{ mk:"{{the_user.key.urlsafe()}}" })
                 });
             });
         </script>
