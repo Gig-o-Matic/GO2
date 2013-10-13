@@ -67,20 +67,6 @@
     <div class="panel panel-default">
         <div class="panel-heading">
             <h4 class="panel-title">
-                Members
-            </h4>
-        </div>
-        <div class="panel-body">
-            <div class="row">
-                <div class="col-md-8 col-md-offset-2" id="memberlist">
-                    <i class="icon-spinner icon-spin icon-large"></i>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h4 class="panel-title">
                 Sections
             </h4>
         </div>        
@@ -99,6 +85,23 @@
             </div>
         </div>
     </div> <!-- panel -->
+    {% if the_user_is_band_admin or the_user_is_superuser %}    
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    Member Admin
+                </h4>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2" id="memberlist">
+                        <i class="icon-spinner icon-spin icon-large"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    
 {% endif %}
 {% endblock content %}
 
