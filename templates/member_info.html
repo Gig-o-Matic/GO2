@@ -3,79 +3,85 @@
 
 {% block content %}
     <div class="row">
-        <div class="col-md-5 col-md-offset-2">
-            <h1>Profile</h1>
-        </div>
-    </div> 
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h4 class="panel-title">Info</h4>
-        </div>
-        <div class="panel-body">
+        <div class="col-md-8 col-md-offset-2">
             <div class="row">
-                <div class="col-md-2 col-md-offset-2">Name</div>
-                <div class="col-md-8">{{ the_member.name|e }}</div>
-            </div>
-            <div class="row">
-                <div class="col-md-2 col-md-offset-2">Email</div>
-                <div class="col-md-8">{{ the_member.email_address|e }}</div>
-            </div>
-            <div class="row">
-                <div class="col-md-2 col-md-offset-2">Phone</div>
-                <div class="col-md-8">{{ the_member.phone|e }}</div>
-            </div>
-            <div class="row">
-                <div class="col-md-2 col-md-offset-2">Personal Statement</div>
-                <div class="col-md-8">{{ the_member.statement|e }}</div>
-            </div>
-            <div class="row">
-                <div class="col-md-2 col-md-offset-2">My Bands</div>
-                <div class="col-md-8">
-                    {% for assoc in the_member.assocs %}
-                        {% if assoc.is_confirmed == True %}
-                            {% set the_band = assoc.band.get() %}
-                            <a href="/band_info.html?bk={{ the_band.key.urlsafe() }}">{{ the_band.name }}</a>{% if loop.last == False %}, {% endif %}
-                        {% endif %}
-                    {% endfor %}
+                <div class="col-md-5 col-md-offset-0">
+                    <h1>Profile</h1>
+                </div>
+            </div> 
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">Info</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-2 col-sm-2 col-xs-3">Name</div>
+                        <div class="col-md-10 col-sm-10 col-xs-9">{{ the_member.name|e }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 col-sm-2 col-xs-3">Email</div>
+                        <div class="col-md-10 col-sm-10 col-xs-9"><a href="mailto:{{the_member.email_address}}">{{ the_member.email_address|e }}</a></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 col-sm-2 col-xs-3">Phone</div>
+                        <div class="col-md-10 col-sm-10 col-xs-9">{{ the_member.phone|e }}</div>
+                    </div>
+                    <div class="row"><br></div>
+                    <div class="row">
+                        <div class="col-md-2 col-sm-2 col-xs-3">Personal Statement</div>
+                        <div class="col-md-10 col-sm-10 col-xs-9">{{ the_member.statement|e }}</div>
+                    </div>
+                    <div class="row"><br></div>
+                    <div class="row">
+                        <div class="col-md-2 col-sm-2 col-xs-3">My Bands</div>
+                        <div class="col-md-10 col-sm-10 col-xs-9">
+                            {% for assoc in the_member.assocs %}
+                                {% if assoc.is_confirmed == True %}
+                                    {% set the_band = assoc.band.get() %}
+                                    <a href="/band_info.html?bk={{ the_band.key.urlsafe() }}">{{ the_band.name }}</a>{% if loop.last == False %}, {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% if member_is_me or the_user_is_superuser %}
+                        <br>
+                        <div class="row">
+                            <div class="col-md-8 col-md-offset-2 col-sm-offset-2 col-xs-offset-3">
+                                <a class="btn btn-primary btn-sm" href="member_edit.html?mk={{ the_member.key.urlsafe() }}">Edit</a>
+                            </div>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
             {% if member_is_me or the_user_is_superuser %}
-                <br>
-                <div class="row">
-                    <div class="col-md-8 col-md-offset-2">
-                        <a class="btn btn-primary btn-sm" href="member_edit.html?mk={{ the_member.key.urlsafe() }}">Edit</a>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">                    
+                              Bands
+                        </h4>
+                    </div>
+                    <div class="panel-body">        
+                        <div class="row">
+                            <div class="col-md-10 col-md-offset-2" id="bandlist">
+                                <i class="icon-spinner icon-spin icon-large"></i>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8 col-md-offset-2">
+                                <div class="dropdown">
+                                    <button type="button" class="btn btn-sm btn-default dropdown-toggle text-center" data-toggle="dropdown">
+                                        <i class="icon-plus-sign-alt icon-sm"></i> Add Band
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                                        {% for a_band in all_bands %}
+                                        <li role="presentation"><a class="band-click" id="{{a_band.key.urlsafe()}}"role="menuitem" tabindex="-1" href="#">{{a_band.name}}</a></li>
+                                        {% endfor %}
+                                    </ul>
+                                </div> <!-- dropdown -->
+                            </div>
+                        </div> <!-- row -->
                     </div>
                 </div>
-            {% endif %}
-        </div>
-    </div>
-    {% if member_is_me or the_user_is_superuser %}
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h4 class="panel-title">                    
-                      Bands
-                </h4>
-            </div>
-            <div class="panel-body">        
-                <div class="row">
-                    <div class="col-md-10 col-md-offset-2" id="bandlist">
-                        <i class="icon-spinner icon-spin icon-large"></i>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-8 col-md-offset-2">
-                        <div class="dropdown">
-                            <button type="button" class="btn btn-sm btn-default dropdown-toggle text-center" data-toggle="dropdown">
-                                <i class="icon-plus-sign-alt icon-sm"></i> Add Band
-                            </button>
-                            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                                {% for a_band in all_bands %}
-                                <li role="presentation"><a class="band-click" id="{{a_band.key.urlsafe()}}"role="menuitem" tabindex="-1" href="#">{{a_band.name}}</a></li>
-                                {% endfor %}
-                            </ul>
-                        </div> <!-- dropdown -->
-                    </div>
-                </div> <!-- row -->
             </div> <!-- panel-body -->
         </div> <!-- panel -->
     {% endif %}

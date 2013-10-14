@@ -3,21 +3,21 @@
 {% block content %}
     <div class="row">
         {% if newgig_is_active %}
-            <div class="col-md-5 col-md-offset-2"><h1>New Gig</h1></div>
+            <div class="col-md-5 col-md-offset-0"><h1>New Gig</h1></div>
         {% else %}
-            <div class="col-md-5 col-md-offset-2"><h1>Edit Gig</h1></div>
+            <div class="col-md-5 col-md-offset-0"><h1>Edit Gig</h1></div>
         {% endif %}
     </div>
     <form class="form" role="form" method="post" action="gig_edit.html">
         <div class="row">
-            <div class="form-group col-md-5 col-md-offset-2">
-                <label for="gigtitleinput" class="control-label">Gig</label>
+            <div class="form-group col-md-8 col-md-offset-2">
+                <label for="gigtitleinput" class="control-label">Gig Title</label>
                 <input type="text" class="form-control" id="gigtitleinput" placeholder="(required)" value="{{gig.title}}" name="gig_title">
             </div>
         </div>
         {% if all_bands|length > 1 %}
             <div class="row">
-                <div class="form-group col-md-5 col-md-offset-2">
+                <div class="form-group col-md-3 col-md-offset-2">
                     {% if newgig_is_active %}
                         <label for="gigband" class="control-label">Band</label>
                         <select id="gigband" class="form-control" name="gig_band">
@@ -36,19 +36,19 @@
             <input type="hidden" name="gig_band" value="{{all_bands[0].key.urlsafe()}}">
         {% endif %}
         <div class="row">
-            <div class="form-group col-md-5 col-md-offset-2">
+            <div class="form-group col-md-8 col-md-offset-2">
                 <label for="gigdetailsinput" class="control-label">Details</label>
                 <textarea class="form-control" id="gigdetailsinput" placeholder="who? what? where? when? why?" name="gig_details">{{gig.details}}</textarea>
             </div>
         </div>            
         <div class="row">
-            <div class="form-group col-md-5 col-md-offset-2">
+            <div class="form-group col-md-8 col-md-offset-2">
                 <label for="gigsetlistinput" class="control-label">Setlist</label>
                 <textarea class="form-control" id="gigsetlistinput" placeholder="setlist here" name="gig_setlist">{{gig.setlist}}</textarea>
             </div>
         </div>            
         <div class="row">
-            <div class="form-group col-md-5 col-md-offset-2">
+            <div class="form-group col-md-3 col-md-offset-2">
                 <label for="gigdateinput" class="control-label">Date</label>
                 <input type="text" class="datepicker form-control" id="gigdateinput" placeholder="(required)" 
                 {% if gig != None %} value="{{gig.date.strftime('%-m/%-d/%Y')}}" {% endif %}
@@ -62,7 +62,7 @@
                     <a data-toggle="modal" href="#archiveModal" class="btn btn-default">Archive</a>
                 {% endif %}   
             </div>
-            <div class="form-group col-md-3 text-right">                
+            <div class="form-group col-md-6 text-right">                
                     {% if gig==None %}
                         <a class="btn btn-default" href="agenda.html">Cancel</a>
                     {% else %}

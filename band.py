@@ -216,13 +216,9 @@ class EditPage(BaseHandler):
         if band_name is not None and band_name != '':
             the_band.name=band_name
                 
-        band_website=self.request.get("band_website",None)
-        if band_website is not None and band_website != '':
-            the_band.website=band_website
+        the_band.website=self.request.get("band_website",None)
 
-        band_description=self.request.get("band_description",None)
-        if band_description is not None and band_description != '':
-            the_band.description=band_description
+        the_band.description=self.request.get("band_description",None)
             
         band_tz=self.request.get("band_tz",None)
         if band_tz is not None and band_tz != '':
@@ -257,7 +253,7 @@ class BandGetMembers(BaseHandler):
                     break
             if assoc:
                 assoc_info.append( {'name':m.name, 'is_confirmed':a.is_confirmed, 'is_band_admin':a.is_band_admin, 'member_key':m.key} )
-                if m.key == the_user:
+                if m.key == the_user.key:
                     the_user_is_band_admin = a.is_band_admin
                         
         template_args = {

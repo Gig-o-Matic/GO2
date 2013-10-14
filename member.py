@@ -27,7 +27,6 @@ def member_key(member_name='member_key'):
     """Constructs a Datastore key for a Guestbook entity with guestbook_name."""
     return ndb.Key('member', member_name)
 
-
 class MemberPreferences(ndb.Model):
     """ class to hold user preferences """
     email_new_gig = ndb.BooleanProperty(default=True)

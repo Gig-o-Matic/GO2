@@ -122,6 +122,7 @@ class VerificationHandler(BaseHandler):
             if not user.verified:
                 user.verified = True
                 user.put()
+            self.auth.unset_session()
 
             self.display_message('User email address has been verified. Proceed <a href="/login">here</a>')
             return

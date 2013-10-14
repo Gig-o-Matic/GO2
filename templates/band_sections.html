@@ -1,40 +1,47 @@
-<table class="table table-striped">
 {% for the_section in the_members_by_section %}
-    <tr>
-    <td>
-        {% if the_section[0] %}
-            {{the_section[0].get().name}}
-        {% else %}
-            No Section
+    <div class="row" style="padding-top: 5px; padding-bottom: 5px; {{ loop.cycle('', 'background:#f5f5f5;') }}">
+        <div class="col-md-2 col-sm-2 col-xs-3">
+            {% if the_section[0] %}
+                {{the_section[0].get().name}}
+            {% else %}
+                No Section
+            {% endif %}
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-9">
+            {% if the_section[1] %}
+                {% for the_member_key in the_section[1] %}
+                        <a href='/member_info.html?mk={{the_member_key.urlsafe()}}'>{{ the_member_key.get().name }}</a><br>
+                {% endfor %}
+            {% else %}
+                &nbsp;
+            {% endif %}
+        </div>
+        {% if (the_user_is_superuser or the_user_is_band_admin) %}
+            <div class="col-md-2 col-sm-2 col-xs-8">
+                    {% if the_section[0] and not the_section[1] %} 
+                        <a class="btn btn-default btn-sm" onclick="delete_section('{{the_section[0].urlsafe()}}')"href="#">Delete Section</a>
+                    {% endif %}
+            </div>
+            {% if the_section[0] %}
+                {% if loop.first %}
+                    <div class="col-md-1 col-sm-1 col-xs-2"></div>
+                    <div class="col-md-1 col-sm-1 col-xs-2 text-left">
+                        <a class="btn btn-default btn-sm movesection" onclick="move(0,'{{the_section[0].urlsafe()}}')" href="#"><i class="icon-circle-arrow-down icon-large"></i></a>
+                    </div>
+                {% elif loop.last or (loop.index == loop.length-1 and the_members_by_section[loop.length-1][0]==None) %}
+                    <div class="col-md-1 col-sm-1 col-xs-2 text-right">                
+                        <a class="btn btn-default btn-sm movesection" onclick="move(1,'{{the_section[0].urlsafe()}}')"  href="#"><i class="icon-circle-arrow-up icon-large"></i></a>
+                    </div>
+                    <div class="col-md-1 col-sm-1 col-xs-2"></div>
+                {% else %}
+                    <div class="col-md-1 col-sm-1 col-xs-2 text-right">                
+                        <a class="btn btn-default btn-sm movesection" onclick="move(1,'{{the_section[0].urlsafe()}}')"  href="#"><i class="icon-circle-arrow-up icon-large"></i></a>
+                    </div>
+                    <div class="col-md-1 col-sm-1 col-xs-2 text-left">                
+                        <a class="btn btn-default btn-sm movesection" onclick="move(0,'{{the_section[0].urlsafe()}}')"  href="#"><i class="icon-circle-arrow-down icon-large"></i></a>
+                    </div>
+                {% endif %}
+            {% endif %}
         {% endif %}
-    </td>
-    <td>
-        {% for the_member_key in the_section[1] %}
-            <a href='/member_info.html?mk={{the_member_key.urlsafe()}}'>{{ the_member_key.get().name }}</a><br>
-        {% endfor %}
-    </td>
-    {% if not the_section[1] and the_section[0] and (the_user_is_superuser or the_user_is_band_admin) %} 
-    <td>
-        <a class="btn btn-default btn-sm" onclick="delete_section('{{the_section[0].urlsafe()}}')"href="#">Delete Section</a>
-    </td>
-    {% else %}
-    <td></td>
-    {% endif %}
-    {% if (the_user_is_superuser or the_user_is_band_admin) and the_section[0] %}
-        {% if loop.first %}
-            <td></td>
-            <td><a class="btn btn-default btn-sm movesection" onclick="move(0,'{{the_section[0].urlsafe()}}')" href="#"><i class="icon-circle-arrow-down icon-large"></i></a></td>
-        {% elif loop.last or (loop.index == loop.length-1 and the_members_by_section[loop.length-1][0]==None) %}
-            <td><a class="btn btn-default btn-sm movesection" onclick="move(1,'{{the_section[0].urlsafe()}}')"  href="#"><i class="icon-circle-arrow-up icon-large"></i></a></td>
-            <td></td>
-        {% else %}
-            <td><a class="btn btn-default btn-sm movesection" onclick="move(1,'{{the_section[0].urlsafe()}}')"  href="#"><i class="icon-circle-arrow-up icon-large"></i></a></td>
-            <td><a class="btn btn-default btn-sm movesection" onclick="move(0,'{{the_section[0].urlsafe()}}')"  href="#"><i class="icon-circle-arrow-down icon-large"></i></a></td>
-        {% endif %}
-    {% else %}
-        <td></td>
-        <td></td>
-    {% endif %}
-    </tr>
+    </div>
 {% endfor %}
-</table>

@@ -1,27 +1,24 @@
-<table class="table table-striped">
 {% for the_assoc in the_assocs %}
-    {% if the_assoc['is_confirmed'] %}
-        <tr>
-        <td>
+    <div class="row" style="padding-top: 5px; padding-bottom: 5px; {{ loop.cycle('', 'background:#f5f5f5;') }}">
+        <div class="col-md-2 col-sm-2 col-xs-3">
             <a href='/member_info.html?mk={{the_assoc['member_key'].urlsafe()}}'>{{ the_assoc['name'] }}</a>
-        </td>
-        {% if the_user_is_superuser or the_user_is_band_admin==True %} 
-            {% if the_assoc['member_key']!=the_user.key %}
-                <td>
-                    {% if the_assoc['is_band_admin']==False %}
-                        <a href="/band_makeadmin?do=1&mk={{the_assoc['member_key'].urlsafe()}}&bk={{the_band_key.urlsafe()}}">make band admin</a>
-                    {% elif the_assoc['is_band_admin']==True %}
-                        admin (<a href="/band_makeadmin?do=0&mk={{the_assoc['member_key'].urlsafe()}}&bk={{the_band_key.urlsafe()}}">remove</a>)
-                    {% endif %}
-                </td>
-                <td>
-                    <a href="/band_removemember?mk={{the_assoc['member_key'].urlsafe()}}&bk={{the_band_key.urlsafe()}}">remove from band</a>
-                </td>
-            {% else %}
-                <td>(me)</td>
+        </div>
+        <div class="col-md-2 col-sm-2 col-xs-2">
+            {% if the_assoc['is_band_admin']==True %}
+            Admin
             {% endif %}
+        </div>
+        {% if the_assoc['member_key']!=the_user.key %}
+            <div class="col-md-2 col-sm-2 col-xs-2">
+                {% if the_assoc['is_band_admin']==False %}
+                    <a class="btn btn-default btn-sm" href="/band_makeadmin?do=1&mk={{the_assoc['member_key'].urlsafe()}}&bk={{the_band_key.urlsafe()}}">grant</a>
+                {% elif the_assoc['is_band_admin']==True %}
+                    <a class="btn btn-default btn-sm" href="/band_makeadmin?do=0&mk={{the_assoc['member_key'].urlsafe()}}&bk={{the_band_key.urlsafe()}}">revoke!</a>
+                {% endif %}
+            </div>
+            <div class="col-md-6">
+                <a class="btn btn-default btn-sm" href="/band_removemember?mk={{the_assoc['member_key'].urlsafe()}}&bk={{the_band_key.urlsafe()}}">remove from band</a>
+            </div>
         {% endif %}
-        </tr>
-    {% endif %}
+    </div>
 {% endfor %}
-</table>

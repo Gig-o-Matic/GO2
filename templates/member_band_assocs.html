@@ -5,14 +5,14 @@
                 <a href="/band_info.html?bk={{the_info.assoc.band.urlsafe()}}">{{the_info.assoc.band.get().name}}</a>
             </div>
             {% if the_info.assoc.is_confirmed == 0 %}
-                <div class="col-md-5">
+                <div class="col-md-7">
                     pending
                 </div>
             {% elif the_info.sections|length == 0 %}
-                <div class="col-md-5">
+                <div class="col-md-7">
                 </div>
             {% else %}
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <div class="dropdown">
                         <select class="form-control" id='sbk-{{the_info.assoc.band.urlsafe()}}' onchange="section_select('{{the_info.assoc.band.urlsafe()}}')">
                         {% if the_info.assoc.default_section == None %}
@@ -29,15 +29,15 @@
                         </select>
                     </div> <!-- dropdown -->
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-3">
                     <input type="checkbox" id='msbk-{{the_info.assoc.band.urlsafe()}}' onclick="multi_select('{{the_info.assoc.band.urlsafe()}}')"
                     {% if the_info.assoc.is_multisectional %}
                         checked
                     {% endif %}
-                    > I play in other sections, too
+                    > other sections, too
                 </div>
             {% endif %}
-            <div class="col-md-2">            
+            <div class="col-md-3">            
                 <a class="btn btn-default btn-sm" href="/member_delete_assoc.html?bk={{the_info.assoc.band.urlsafe()}}&mk={{the_member.key.urlsafe()}}"><i class="icon-minus-sign-alt icon-sm"></i> Leave Band</a>
             </div>
         </div>
