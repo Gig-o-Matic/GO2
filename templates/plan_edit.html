@@ -33,9 +33,9 @@
         </div>
     {% endif %}
     {% if is_agenda==True %}
-        <div class="col-md-1 col-sm-2 col-xs-3">
+        <div class="col-md-1 col-sm-2 col-xs-3" style="text-align: center;">
     {% else %}
-        <div class="col-md-2 col-sm-2 col-xs-3">
+        <div class="col-md-2 col-sm-2 col-xs-3" style="text-align: center;">
     {% endif %}
         {% if the_member_key == the_user.key or the_user_is_superuser %}
             {{ plan_icon.icon_button(the_plan_key.get()) }}
