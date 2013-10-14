@@ -45,15 +45,15 @@
     </div>
     {% if show_section %}
         {% if show_band %}
-            <div class="col-md-3 col-sm-4 col-xs-4">
+            <div class="col-md-3 col-sm-4">
         {% else %}
-            <div class="col-md-5 col-sm-6 col-xs-6">
+            <div class="col-md-5 col-sm-6">
         {% endif %}
     {% else %}
         {% if show_band %}
-            <div class="col-md-5 col-sm-6 col-xs-6">
+            <div class="col-md-5 col-sm-4">
         {% else %}
-            <div class="col-md-7 col-sm-8 col-xs-8">
+            <div class="col-md-7 col-sm-6">
         {% endif %}
     {% endif %}
         {% if the_member_key == the_user.key or the_user_is_superuser %}    
