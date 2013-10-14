@@ -4,7 +4,6 @@
 <div class="row">
     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0"><h1>Agenda</h1></div>
 </div>
-
 <div class="row">
     &nbsp;
 </div>
@@ -19,7 +18,7 @@
                 {% for plan_info in upcoming_plans %}
                     <div class="row" style="padding-top: 5px; padding-bottom: 5px; {{ loop.cycle('', 'background:#f5f5f5;') }}">
                         <div class="col-md-12">
-                            {{ plan_edit.plan_edit(plan_info, show_date=True, show_member=False, show_band=the_user.number_of_bands>1, show_gig_name=True) }}
+                            {{ plan_edit.plan_edit(plan_info, is_agenda=True) }}
                         </div>
                     </div>
                 {% endfor %}
@@ -42,7 +41,7 @@
                 <div class="row" style="padding-top: 5px; padding-bottom: 5px; {{ loop.cycle('', 'background:#f5f5f5;') }}">
                     <div class="col-md-12">
                         {% for plan_info in weighin_plans %}
-                            {{ plan_edit.plan_edit(plan_info, show_date=True, show_member=False, show_band=the_user.number_of_bands>1, show_gig_name=True) }}
+                            {{ plan_edit.plan_edit(plan_info, is_agenda=True) }}
                         {% endfor %}
                     </div>
                 </div>

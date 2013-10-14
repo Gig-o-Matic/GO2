@@ -1,40 +1,61 @@
 {% import 'plan_icon.html' as plan_icon %}
-{% macro plan_edit(plan_info, show_date=False, show_member=False, show_band=False, show_gig_name=False, show_section=True) -%}
+
+{% macro plan_edit(plan_info, is_agenda) -%}
 {% set the_gig_key = plan_info['the_gig_key'] %}
 {% set the_plan_key = plan_info['the_plan_key'] %}
 {% set the_member_key = plan_info['the_member_key'] %}
+{% set show_band = is_agenda==True and the_member_key.get().number_of_bands>1 %}
 {% set the_band_key = plan_info['the_band_key'] %}
 {% set the_assoc = plan_info['the_assoc'] %}
+{% if the_assoc and the_assoc.is_multisectional %}
+    {% set show_section = True %}
+{% else %}
+    {% set show_section = False %}
+{% endif %}
 <div class="row">
-    {% if show_gig_name %}
+    {% if is_agenda==True %}
         <div class="col-md-2 col-sm-2 col-xs-3">
             <a href="gig_info.html?gk={{ the_gig_key.urlsafe() }}" >{{ the_gig_key.get().title|e }}</a>
         </div>
-    {% endif %}
-    {% if show_date %}
         <div class="col-md-2 col-sm-2 col-xs-3">
             {{ the_gig_key.get().date|e }}
         </div>
     {% endif %}
-    {% if show_member %}
-        <div class="col-md-2 col-sm-2 col-xs-3">
+    {% if is_agenda==False %}
+        <div class="col-md-3 col-sm-3 col-xs-4">
              <a href='/member_info.html?mk={{the_member_key.urlsafe()}}'>{{ the_member_key.get().name }}</a>
         </div>
     {% endif %}
-    {% if show_band %}
+    {% if is_agenda==True and show_band==True %}
         <div class="col-md-2 col-sm-2 col-xs-3">
             <a href="band_info.html?bk={{ the_band_key.urlsafe()}}">
              {{ the_band_key.get().name|e }}</a>
         </div>
     {% endif %}
-    <div class="col-md-1 col-sm-2 col-xs-3">
+    {% if is_agenda==True %}
+        <div class="col-md-1 col-sm-2 col-xs-3">
+    {% else %}
+        <div class="col-md-2 col-sm-2 col-xs-3">
+    {% endif %}
         {% if the_member_key == the_user.key or the_user_is_superuser %}
             {{ plan_icon.icon_button(the_plan_key.get()) }}
         {% else %}
             {{ plan_icon.icon(the_plan_key.get().value) }}
         {% endif %}
     </div>
-    <div class="col-md-3 col-sm-4 col-xs-3">
+    {% if show_section %}
+        {% if show_band %}
+            <div class="col-md-3 col-sm-4 col-xs-4">
+        {% else %}
+            <div class="col-md-5 col-sm-6 col-xs-6">
+        {% endif %}
+    {% else %}
+        {% if show_band %}
+            <div class="col-md-5 col-sm-6 col-xs-6">
+        {% else %}
+            <div class="col-md-7 col-sm-8 col-xs-8">
+        {% endif %}
+    {% endif %}
         {% if the_member_key == the_user.key or the_user_is_superuser %}    
             <div class="form-group plan-comment-input">
                 <input type="text" id="c-{{the_plan_key.urlsafe()}}" class="form-control" value="{{the_plan_key.get().comment}}" onchange="update_comment('{{the_plan_key.urlsafe()}}')">
@@ -43,7 +64,7 @@
             {{the_plan_key.get().comment}}
         {% endif %}
     </div>
-    {% if show_section and the_assoc and the_assoc.is_multisectional %}
+    {% if show_section %}
         <div class="col-md-2 col-sm-3 col-xs-3">
             {% if get_the_section_keys %}
                 {% set the_section_keys = get_the_section_keys(the_band_key) %}
