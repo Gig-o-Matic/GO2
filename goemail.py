@@ -112,3 +112,27 @@ def announce_new_gig(the_gig, the_gig_url):
             if the_member.preferences.email_new_gig:
                 send_newgig_email(the_member.email_address, the_gig, the_band, the_gig_url)
         
+
+def send_new_member_email(band,new_member):
+    members=member.get_admin_members_from_band_key(band.key)
+    for the_member in members:
+        send_the_new_member_email(the_member.email_address, new_member=new_member, the_band=band)
+        
+ 
+def send_the_new_member_email(the_email_address, new_member, the_band):
+    if not mail.is_email_valid(the_email_address):
+        return False
+    message = mail.EmailMessage()
+    message.sender = SENDER_EMAIL
+    message.to = the_email_address
+    message.subject = 'Gig-O-Matic New Member for band {0}'.format(the_band.name)
+    message.body = """
+Hello! A new member has signed up for your band {0}. Please log in and
+confirm the membership.
+
+Thanks,
+The Gig-O-Matic Team
+
+    """.format(the_band.name)
+    message.send()
+    return True        

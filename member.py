@@ -17,6 +17,7 @@ import webapp2
 import gig
 import band
 import plan
+import goemail
 
 from jinja2env import jinja_environment as je
 
@@ -106,6 +107,12 @@ def get_member_keys_of_band_key(the_band_key):
 def get_pending_members_from_band_key(the_band_key):
     """ Get all the members who are pending """
     member_query = Member.query( ndb.AND(Member.assocs.band==the_band_key, Member.assocs.is_confirmed==False) ).order(Member.name)
+    members = member_query.fetch()
+    return members
+
+def get_admin_members_from_band_key(the_band_key):
+    """ Get all the members who are admins """
+    member_query = Member.query( ndb.AND(Member.assocs.band==the_band_key, Member.assocs.is_band_admin==True) )
     members = member_query.fetch()
     return members
 
@@ -207,8 +214,9 @@ def get_member_from_key(key):
 def new_association(member, band):
     """ associate a band and a member """
     assoc=MemberAssoc(band=band.key, is_band_admin=False)
-    member.assocs.append(assoc)
+    member.assocs.append(assoc) # todo - insert this in alphabetical order
     member.put()
+    goemail.send_new_member_email(band,member)
     
 def delete_association(member, band_key):
     """ delete association between member and band """
