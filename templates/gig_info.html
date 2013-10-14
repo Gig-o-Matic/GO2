@@ -47,35 +47,40 @@
                 </div>
             </div>  <!-- panel body -->
         </div> <!-- panel -->
-    </div> <!-- row -->
-    <div class="row">&nbsp;</div>
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <table class="table table-striped">
-            {% import 'plan_edit.html' as plan_edit with context %}                
-            {% for the_section in the_section_keys %}
-            <tr>
-                <td>
-                    {% if the_section %}
-                        {{the_section.get().name}}
-                    {% else %}
-                        No Section
-                    {% endif %}
-                </td>
-                <td>
-                    <table class="table">
-                        {% for member_plan in the_plans %}
-                            {% if member_plan['the_plan_key'].get().section == the_section %}
-                                {{ plan_edit.plan_edit(member_plan, show_date=False, show_member=True, show_band=False, show_gig_name=False, show_section=True) }}
-                            {% endif %}
+        <div class="row">&nbsp;</div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    Member Plans
+                </h4>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        {% import 'plan_edit.html' as plan_edit with context %}                
+                        {% for the_section in the_section_keys %}
+                            <div class="row" style="padding-top: 5px; padding-bottom: 5px; {{ loop.cycle('', 'background:#f5f5f5;') }}">
+                                <div class="col-md-2">
+                                    {% if the_section %}
+                                        {{the_section.get().name}}
+                                    {% else %}
+                                        No Section
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-10">
+                                    {% for member_plan in the_plans %}
+                                        {% if member_plan['the_plan_key'].get().section == the_section %}
+                                            {{ plan_edit.plan_edit(member_plan, show_date=False, show_member=True, show_band=False, show_gig_name=False, show_section=True) }}
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
                         {% endfor %}
-                    </table>
-                </td>
-            </tr>
-            {% endfor %}
-            </table>
-        </div>
-    </div>
+                    </div>
+                </div>
+            </div> <!-- panel body -->
+        </div> <!-- panel -->
+    </row>        
 {% endblock content %}
 
 {% block localscripts %}

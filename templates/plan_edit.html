@@ -5,36 +5,36 @@
 {% set the_member_key = plan_info['the_member_key'] %}
 {% set the_band_key = plan_info['the_band_key'] %}
 {% set the_assoc = plan_info['the_assoc'] %}
-<tr>
+<div class="row">
     {% if show_gig_name %}
-        <td class="plan-cell">
+        <div class="col-md-2 col-sm-2 col-xs-3">
             <a href="gig_info.html?gk={{ the_gig_key.urlsafe() }}" >{{ the_gig_key.get().title|e }}</a>
-        </td>
+        </div>
     {% endif %}
     {% if show_date %}
-        <td class="plan-cell" width="20%">
+        <div class="col-md-2 col-sm-2 col-xs-3">
             {{ the_gig_key.get().date|e }}
-        </td>
+        </div>
     {% endif %}
     {% if show_member %}
-        <td class="plan-cell" width="20%">
+        <div class="col-md-2 col-sm-2 col-xs-3">
              <a href='/member_info.html?mk={{the_member_key.urlsafe()}}'>{{ the_member_key.get().name }}</a>
-        </td>
+        </div>
     {% endif %}
     {% if show_band %}
-        <td class="plan-cell" width="20%">
+        <div class="col-md-2 col-sm-2 col-xs-3">
             <a href="band_info.html?bk={{ the_band_key.urlsafe()}}">
              {{ the_band_key.get().name|e }}</a>
-        </td>
+        </div>
     {% endif %}
-    <td class="plan-cell" width="10%">
+    <div class="col-md-1 col-sm-2 col-xs-3">
         {% if the_member_key == the_user.key or the_user_is_superuser %}
             {{ plan_icon.icon_button(the_plan_key.get()) }}
         {% else %}
             {{ plan_icon.icon(the_plan_key.get().value) }}
         {% endif %}
-    </td>
-    <td class="plan-cell" style="min-width: 200px">
+    </div>
+    <div class="col-md-3 col-sm-4 col-xs-3">
         {% if the_member_key == the_user.key or the_user_is_superuser %}    
             <div class="form-group plan-comment-input">
                 <input type="text" id="c-{{the_plan_key.urlsafe()}}" class="form-control" value="{{the_plan_key.get().comment}}" onchange="update_comment('{{the_plan_key.urlsafe()}}')">
@@ -42,9 +42,9 @@
         {% else %}
             {{the_plan_key.get().comment}}
         {% endif %}
-    </td>
+    </div>
     {% if show_section and the_assoc and the_assoc.is_multisectional %}
-        <td class="plan-cell" style="min-width: 150px">
+        <div class="col-md-2 col-sm-3 col-xs-3">
             {% if get_the_section_keys %}
                 {% set the_section_keys = get_the_section_keys(the_band_key) %}
             {% endif %}
@@ -53,7 +53,7 @@
             <div class="form-group plan-comment-input">
                 <select class="form-control" id="sel-{{the_plan_key.urlsafe()}}" onchange="option_select('{{the_plan_key.urlsafe()}}')">
                 {% if the_plan_key.get().section == None %}
-                    <option selected id='0'>Select a section!</option>
+                    <option selected id='0'>section...</option>
                 {% endif %}
                 {% for section_key in the_section_keys %}
                     {% if section_key %}
@@ -68,7 +68,7 @@
                 </select>
             </div>
             {% endif %}
-        </td>
+        </div>
     {% endif %}
-</tr>
+</div>
 {%- endmacro %}

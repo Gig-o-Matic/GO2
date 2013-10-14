@@ -15,12 +15,14 @@
     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0">
         <div id="upcomingevents">
             {% if upcoming_plans %}
-                <table class="table">
                 {% import 'plan_edit.html' as plan_edit with context %}
                 {% for plan_info in upcoming_plans %}
-                    {{ plan_edit.plan_edit(plan_info, show_date=True, show_member=False, show_band=the_user.number_of_bands>1, show_gig_name=True) }}
+                    <div class="row" style="padding-top: 5px; padding-bottom: 5px; {{ loop.cycle('', 'background:#f5f5f5;') }}">
+                        <div class="col-md-12">
+                            {{ plan_edit.plan_edit(plan_info, show_date=True, show_member=False, show_band=the_user.number_of_bands>1, show_gig_name=True) }}
+                        </div>
+                    </div>
                 {% endfor %}
-                </table>                
             {% else %}
                 Nothing coming up!
             {% endif %}
@@ -37,11 +39,13 @@
     <div class="row">
         <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0">
             <div id="weighinevents">
-                <table class="table">
-                {% for plan_info in weighin_plans %}
-                    {{ plan_edit.plan_edit(plan_info, show_date=True, show_member=False, show_band=the_user.number_of_bands>1, show_gig_name=True) }}
-                {% endfor %}
-                </table>                
+                <div class="row" style="padding-top: 5px; padding-bottom: 5px; {{ loop.cycle('', 'background:#f5f5f5;') }}">
+                    <div class="col-md-12">
+                        {% for plan_info in weighin_plans %}
+                            {{ plan_edit.plan_edit(plan_info, show_date=True, show_member=False, show_band=the_user.number_of_bands>1, show_gig_name=True) }}
+                        {% endfor %}
+                    </div>
+                </div>
             </div>
         </div>
     </div>

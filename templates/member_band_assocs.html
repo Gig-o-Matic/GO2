@@ -1,6 +1,6 @@
 {% if the_assoc_info %}
     {% for the_info in the_assoc_info %}
-        <div class="row">
+        <div class="row" style="padding-top: 5px; padding-bottom: 5px; {{ loop.cycle('', 'background:#f5f5f5;') }}">
             <div class="col-md-2">
                 <a href="/band_info.html?bk={{the_info.assoc.band.urlsafe()}}">{{the_info.assoc.band.get().name}}</a>
             </div>
@@ -41,7 +41,6 @@
                 <a class="btn btn-default btn-sm" href="/member_delete_assoc.html?bk={{the_info.assoc.band.urlsafe()}}&mk={{the_member.key.urlsafe()}}"><i class="icon-minus-sign-alt icon-sm"></i> Leave Band</a>
             </div>
         </div>
-        <hr>
     {% endfor %}
 {% else %}
     You need to add a band!
