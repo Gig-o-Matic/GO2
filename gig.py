@@ -188,9 +188,12 @@ class InfoPage(BaseHandler):
             
             the_plans = []
             
+            need_empty_section = False
             for a_member_key in the_member_keys:
                 a_member = a_member_key.get()
                 the_plan = plan.get_plan_for_member_for_gig(a_member, the_gig)
+                if the_plan.section == None:
+                    need_empty_section = True
                 info_block={}
                 info_block['the_gig_key'] = the_gig.key
                 info_block['the_plan_key'] = the_plan.key
@@ -201,7 +204,7 @@ class InfoPage(BaseHandler):
                 the_plans.append(info_block)
                 
             the_section_keys = band.get_section_keys_of_band_key(the_band_key)
-            if member.get_member_keys_of_band_key_no_section(the_band_key):
+            if need_empty_section:
                 the_section_keys.append(None)                
 
             template_args = {
