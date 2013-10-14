@@ -29,8 +29,8 @@ class Gig(ndb.Model):
     """ Models a gig-o-matic gig """
     title = ndb.StringProperty()
     contact = ndb.UserProperty()
-    details = ndb.TextProperty(indexed=True)
-    setlist = ndb.TextProperty(indexed=True)
+    details = ndb.TextProperty()
+    setlist = ndb.TextProperty()
     date = ndb.DateProperty(auto_now_add=True)
     call = ndb.TimeProperty()
     archive_id = ndb.TextProperty()
