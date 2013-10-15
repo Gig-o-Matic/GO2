@@ -45,24 +45,24 @@
     </div>
     {% if show_section %}
         {% if show_band %}
-            <div class="col-md-3 col-sm-4">
+            <div class="col-md-3 col-sm-4 col-xs-4">
         {% else %}
-            <div class="col-md-5 col-sm-6">
+            <div class="col-md-5 col-sm-6 col-xs-6">
         {% endif %}
     {% else %}
         {% if show_band %}
-            <div class="col-md-5 col-sm-4">
+            <div class="col-md-5 col-sm-4 col-xs-4">
         {% else %}
-            <div class="col-md-7 col-sm-6">
+            <div class="col-md-7 col-sm-6 col-xs-6">
         {% endif %}
     {% endif %}
-        {% if the_member_key == the_user.key or the_user_is_superuser %}    
-            <div class="form-group plan-comment-input">
-                <input type="text" id="c-{{the_plan_key.urlsafe()}}" class="form-control" value="{{the_plan_key.get().comment}}" onchange="update_comment('{{the_plan_key.urlsafe()}}')">
-            </div>
-        {% else %}
-            {{the_plan_key.get().comment}}
-        {% endif %}
+    {% if the_member_key == the_user.key or the_user_is_superuser %}    
+        <div class="form-group plan-comment-input">
+            <input type="text" id="c-{{the_plan_key.urlsafe()}}" class="form-control" value="{{the_plan_key.get().comment}}" onchange="update_comment('{{the_plan_key.urlsafe()}}')">
+        </div>
+    {% else %}
+        {{the_plan_key.get().comment}}
+    {% endif %}
     </div>
     {% if show_section %}
         <div class="col-md-2 col-sm-3 col-xs-3">
