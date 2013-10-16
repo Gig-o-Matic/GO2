@@ -15,6 +15,9 @@ handlers:
 - url: /fullcalendar
   static_dir: fullcalendar
 
+- url: /bootstrap3-editable
+  static_dir: bootstrap3-editable
+
 - url: /css
   static_dir: css
   

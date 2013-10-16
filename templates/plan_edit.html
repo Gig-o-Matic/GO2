@@ -56,10 +56,8 @@
             <div class="col-md-7 col-sm-6 col-xs-6">
         {% endif %}
     {% endif %}
-    {% if the_member_key == the_user.key or the_user_is_superuser %}    
-        <div class="form-group plan-comment-input">
-            <input type="text" id="c-{{the_plan_key.urlsafe()}}" class="form-control" value="{{the_plan_key.get().comment}}" onchange="update_comment('{{the_plan_key.urlsafe()}}')">
-        </div>
+    {% if the_member_key == the_user.key or the_user_is_superuser %}
+        <a href="#" class="comment-thing" id="username" data-type="text" data-pk="{{the_plan_key.urlsafe()}}" data-url="/updateplancomment" data-title="">{{the_plan_key.get().comment}}</a>
     {% else %}
         {{the_plan_key.get().comment}}
     {% endif %}

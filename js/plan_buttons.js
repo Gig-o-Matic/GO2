@@ -44,24 +44,6 @@ function update_plan(pk, val) {
                 });
 }
 
-function update_comment(pk) {
-        elem=document.getElementById("c-"+pk);
-        var val=elem.value;
-        $.post("/updateplancomment",
-                    {
-                        val: val,
-                        pk: pk
-                    },
-                    function(responseTxt,statusTxt,xhr){
-                        if(statusTxt=="success")
-                            elem.parentNode.className="form-group plan-comment-input has-success";
-                            setTimeout(function(){elem.parentNode.className="form-group plan-comment-input";}, 1000);
-                        if(statusTxt=="error")
-                          alert("Error: "+xhr.status+": "+xhr.statusText);
-                    });
-
-}
-
 function option_select(pk) {
     elem=document.getElementById("sel-"+pk)
     $.post("/updateplansection",
@@ -78,6 +60,8 @@ function option_select(pk) {
 
 $(document).ready(function() {
     init_plan_buttons();
+    $('.comment-thing').editable({
+        emptytext: '<i class="icon-comment-alt"></i>'
+    });
 });
-
 

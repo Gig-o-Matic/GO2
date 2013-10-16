@@ -120,7 +120,7 @@ class UpdatePlanComment(webapp2.RequestHandler):
     def post(self):
         """post handler - if a comment is edited, update the database"""
 
-        the_value=self.request.get("val", "")
+        the_value=self.request.get("value", "")
         the_plan_key=self.request.get("pk",'0')
         
         if (the_plan_key=='0'):
