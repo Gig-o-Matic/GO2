@@ -25,7 +25,6 @@ body {
   background-color: #f5f5f5;
 }
 
-
 /* Custom page CSS
 -------------------------------------------------- */
 /* Not required for template or sticky footer method. */
@@ -41,6 +40,10 @@ body {
 #footer > .container {
   padding-left: 15px;
   padding-right: 15px;
+}
+
+.page-header {
+  margin-top: 0px;
 }
 
 code {
