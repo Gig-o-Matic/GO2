@@ -3,9 +3,9 @@
 {% block content %}
     <div class="row">
         {% if newband_is_active %}
-            <div class="col-md-5 col-md-offset-2"><h1>New Band</h1></div>
+            <div class="page-header col-md-5 col-md-offset-2"><h1>New Band</h1></div>
         {% else %}
-            <div class="col-md-5 col-md-offset-2"><h1>Edit Band</h1></div>
+            <div class="page-header col-md-5 col-md-offset-2"><h1>Edit Band</h1></div>
         {% endif %}
     </div>
     <form class="form" role="form" method="post" action="band_edit.html">

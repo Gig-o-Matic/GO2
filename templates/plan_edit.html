@@ -70,7 +70,7 @@
             {% set the_section_keys = the_band_key.get().sections %}
             {% if the_section_keys and the_section_keys|length > 1 and (the_plan_key.get().member == the_user.key or the_user_is_superuser)%}
             <div class="form-group plan-comment-input">
-                <select class="form-control" id="sel-{{the_plan_key.urlsafe()}}" onchange="option_select('{{the_plan_key.urlsafe()}}')">
+                <select class="form-control input-sm" id="sel-{{the_plan_key.urlsafe()}}" onchange="option_select('{{the_plan_key.urlsafe()}}')">
                 {% if the_plan_key.get().section == None %}
                     <option selected id='0'>section...</option>
                 {% endif %}

@@ -2,112 +2,113 @@
 
 {% block content %}
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="row">
-                <div class="col-md-5 col-md-offset-0">
-                    <h1>Band Info</h1>
-                </div>
-            </div> 
+        <div class="page-header col-md-8 col-md-offset-2">
+            <h1>Band Info</h1>
+        </div> 
+    </div>
 
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h4 class="panel-title">
-                    Info
-                </h4>
-            </div>
-            <div class="panel-body">
-                <div class="row">&nbsp;</div>
-                <div class="row">
-                    <div class="col-md-2 col-sm-2 col-xs-3">Name</div>
-                    <div class="col-md-10 col-sm-10 col-xs-9">{{ the_band.name|e }}</div>
-                </div>
-                <div class="row">
-                    <div class="col-md-2 col-sm-2 col-xs-3">Website</div>
-                    <div class="col-md-10 col-sm-10 col-xs-9">
-                        {% if the_band.website %}
-                            <a href="http://{{the_band.website}}" target="new">{{ the_band.website|e }}</a>
-                        {% endif %}
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-2 col-sm-2 col-xs-3">Description</div>
-                    <div class="col-md-10 col-sm-10 col-xs-9">{{ the_band.description|e }}</div>
-                </div>
-                <div class="row">
-                    {% if the_user_is_band_admin or the_user_is_superuser %}
-                        <br>
-                        <div class="col-md-8 col-md-offset-2 col-sm-offset-2 col-xs-offset-3">
-                            <a class="btn btn-primary btn-sm" href="band_edit.html?bk={{ the_band.key.urlsafe() }}">Edit</a>
-                        </div>
-                    {% endif %}
-                </div>
-            </div>
-        </div> <!-- panel -->
-        {% if the_user_is_associated == False and ( the_user_is_superuser == False ) %}
-        {% elif the_user_is_confirmed == False and ( the_user_is_superuser == False ) %}
-            Your membership is pending - ask a band member to confirm you!
-        {% else %}
-            {% if the_pending_members %}
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            Pending Members <span class="badge">{{the_pending_members|length}}</span>
-                        </h4>
-                    </div>        
-                    <div class="panel-body">
-                        {% for m in the_pending_members %}
-                        <div class="row">
-                            <div class="col-md-3 col-sm-3 col-xs-4">
-                                {{ m.name|e }}
-                            </div>
-                            <div class="col-md-9 col-sm-9 col-xs-8">
-                                <a class="btn btn-default btn-sm" href="/band_confirm_member?mk={{m.key.urlsafe()}}&bk={{the_band.key.urlsafe()}}">yes, confirm member!</a>
-                            </div>
-                        </div>
-                        {% endfor %}
-                    </div>
-                </div> <!-- panel -->        
-            {% endif %}
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4 class="panel-title">
-                        Sections
+                        Info
                     </h4>
-                </div>        
+                </div>
                 <div class="panel-body">
+                    <div class="row">&nbsp;</div>
                     <div class="row">
-                        <div class="col-md-12 col-md-offset-0" id="sectionlist">
-                            <i class="icon-spinner icon-spin icon-large"></i>
+                        <div class="col-md-2 col-sm-2 col-xs-3">Name</div>
+                        <div class="col-md-10 col-sm-10 col-xs-9">{{ the_band.name|e }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 col-sm-2 col-xs-3">Website</div>
+                        <div class="col-md-10 col-sm-10 col-xs-9">
+                            {% if the_band.website %}
+                                <a href="http://{{the_band.website}}" target="new">{{ the_band.website|e }}</a>
+                            {% endif %}
                         </div>
                     </div>
                     <div class="row">
-                        {% if the_user_is_superuser or the_user_is_band_admin %}
-                            <div class="col-md-4 col-md-offset-0">
-                                <br>
-                                <a data-toggle="modal" href="#newsectionmodal" class="btn btn-primary btn-sm" id="{{the_band.key.urlsafe()}}">Add a Section</a>
+                        <div class="col-md-2 col-sm-2 col-xs-3">Description</div>
+                        <div class="col-md-10 col-sm-10 col-xs-9">{{ the_band.description|e }}</div>
+                    </div>
+                    <div class="row">
+                        {% if the_user_is_band_admin or the_user_is_superuser %}
+                            <br>
+                            <div class="col-md-8 col-md-offset-2 col-sm-offset-2 col-xs-offset-3">
+                                <a class="btn btn-primary btn-sm" href="band_edit.html?bk={{ the_band.key.urlsafe() }}">Edit</a>
                             </div>
                         {% endif %}
                     </div>
                 </div>
             </div> <!-- panel -->
-            {% if the_user_is_band_admin or the_user_is_superuser %}    
+            {% if the_user_is_associated == False and ( the_user_is_superuser == False ) %}
+            {% elif the_user_is_confirmed == False and ( the_user_is_superuser == False ) %}
+                Your membership is pending - ask a band member to confirm you!
+            {% else %}
+                {% if the_pending_members %}
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                Pending Members <span class="badge">{{the_pending_members|length}}</span>
+                            </h4>
+                        </div>        
+                        <div class="panel-body">
+                            {% for m in the_pending_members %}
+                            <div class="row">
+                                <div class="col-md-3 col-sm-3 col-xs-4">
+                                    {{ m.name|e }}
+                                </div>
+                                <div class="col-md-9 col-sm-9 col-xs-8">
+                                    <a class="btn btn-default btn-sm" href="/band_confirm_member?mk={{m.key.urlsafe()}}&bk={{the_band.key.urlsafe()}}">yes, confirm member!</a>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div> <!-- panel -->        
+                {% endif %}
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                            Member Admin
+                            Sections
                         </h4>
-                    </div>
+                    </div>        
                     <div class="panel-body">
                         <div class="row">
-                            <div class="col-md-12 col-md-offset-0" id="memberlist">
+                            <div class="col-md-12 col-md-offset-0" id="sectionlist">
                                 <i class="icon-spinner icon-spin icon-large"></i>
                             </div>
                         </div>
+                        <div class="row">
+                            {% if the_user_is_superuser or the_user_is_band_admin %}
+                                <div class="col-md-4 col-md-offset-0">
+                                    <br>
+                                    <a data-toggle="modal" href="#newsectionmodal" class="btn btn-primary btn-sm" id="{{the_band.key.urlsafe()}}">Add a Section</a>
+                                </div>
+                            {% endif %}
+                        </div>
                     </div>
-                </div>
-            {% endif %}
+                </div> <!-- panel -->
+                {% if the_user_is_band_admin or the_user_is_superuser %}    
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                Member Admin
+                            </h4>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-12 col-md-offset-0" id="memberlist">
+                                    <i class="icon-spinner icon-spin icon-large"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
         </div>
-    </div>    
+    </div>
 {% endif %}
 {% endblock content %}
 
