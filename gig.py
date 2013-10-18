@@ -291,11 +291,11 @@ class EditPage(BaseHandler):
             the_gig.title = gig_title
         
         gig_details = self.request.get("gig_details", None)
-        if gig_details is not None and gig_details != '':
+        if gig_details is not None:
             the_gig.details = gig_details
 
         gig_setlist = self.request.get("gig_setlist", None)
-        if gig_setlist is not None and gig_setlist != '':
+        if gig_setlist is not None:
             the_gig.setlist = gig_setlist
 
         gig_date = self.request.get("gig_date", None)
