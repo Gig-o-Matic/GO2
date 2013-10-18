@@ -72,7 +72,7 @@
                 {% if the_member_key == the_user.key or the_user_is_superuser %}
                     {{ plan_icon.icon_button(the_plan_key.get()) }}
                 {% else %}
-                    {{ plan_icon.icon(the_plan_key.get().value) }}
+                    {{ plan_icon.icon_display(the_plan_key.get().value) }}
                 {% endif %}
                 {% if the_member_key == the_user.key or the_user_is_superuser %}
                     <a href="#" class="comment-thing" id="username" data-type="text" data-pk="{{the_plan_key.urlsafe()}}" data-url="/updateplancomment" data-title="">{{the_plan_key.get().comment}}</a>

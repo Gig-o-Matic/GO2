@@ -62,6 +62,7 @@ $(document).ready(function() {
     init_plan_buttons();
     $('.comment-thing').editable({
         emptytext: '<i class="icon-comment-alt"></i>',
+        emptyclass: 'empty-comment',
         mode: 'inline'
     });
 });
