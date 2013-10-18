@@ -58,6 +58,20 @@ function option_select(pk) {
                 });
 }
 
+function section_select(pk, sk, name) {
+    $.post("/updateplansection",
+                {
+                    sk: sk,
+                    pk: pk
+                },
+                function(responseTxt,statusTxt,xhr){
+                    if(statusTxt=="success")
+                        $('#sel-'+pk).html(name+ " <span class='caret'></span>")
+                    if(statusTxt=="error")
+                      alert("Error: "+xhr.status+": "+xhr.statusText);
+                });
+}
+
 $(document).ready(function() {
     init_plan_buttons();
     $('.comment-thing').editable({

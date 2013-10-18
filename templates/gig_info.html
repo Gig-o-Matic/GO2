@@ -24,7 +24,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-2 col-sm-2 col-xs-3">Date</div>
-                        <div class="col-md-10 col-sm-10 col-xs-9">{{ gig.date.strftime('%-m/%-d/%Y')|e }}</div>
+                        <div class="col-md-10 col-sm-10 col-xs-9">{{ gig.date.strftime('%-m/%-d')|e }}</div>
                     </div>
                     <div class="row">&nbsp;</div>
                     <div class="row">
@@ -52,20 +52,20 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-md-12">
-                            {% import 'plan_edit.html' as plan_edit with context %}                
+                            {% import 'gig_plan_edit.html' as plan_edit with context %}                
                             {% for the_section in the_section_keys %}
                                 <div class="row" style="padding-top: 5px; padding-bottom: 5px; {{ loop.cycle('', 'background:#f5f5f5;') }}">
-                                    <div class="col-md-2">
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
                                         {% if the_section %}
                                             {{the_section.get().name}}
                                         {% else %}
                                             No Section
                                         {% endif %}
                                     </div>
-                                    <div class="col-md-10">
+                                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
                                         {% for member_plan in the_plans %}
                                             {% if member_plan['the_plan_key'].get().section == the_section %}
-                                                {{ plan_edit.plan_edit(member_plan, is_agenda=False) }}
+                                                {{ plan_edit.plan_edit(member_plan) }}
                                             {% endif %}
                                         {% endfor %}
                                     </div>
