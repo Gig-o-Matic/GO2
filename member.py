@@ -427,12 +427,12 @@ class EditPage(BaseHandler):
             the_member.name=member_name
                 
         member_phone=self.request.get("member_phone", None)
-        if member_phone is not None and member_phone != '':
+        if member_phone is not None:
             print 'got phone {0}'.format(member_phone)
             the_member.phone=member_phone
 
         member_statement=self.request.get("member_statement", None)
-        if member_statement is not None and member_statement != '':
+        if member_statement is not None:
             print 'got statement {0}'.format(member_statement)
             the_member.statement=member_statement
 
