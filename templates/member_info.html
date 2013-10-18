@@ -101,7 +101,7 @@ function updateBands() {
             });
 }
 
-function section_select(bk) {
+function XXsection_select(bk) {
     elem=document.getElementById("sbk-"+bk)
     sk=elem.options[elem.selectedIndex].id
     if (sk==0) {
@@ -116,6 +116,22 @@ function section_select(bk) {
                 bk: bk
             },
             function(responseTxt,statusTxt,xhr){
+                if(statusTxt=="error")
+                    alert("Error: "+xhr.status+": "+xhr.statusText);
+            });
+}
+
+function section_select(bk, sk, name) {
+    var mk='{{the_member.key.urlsafe()}}';
+    $.post('/member_set_section',
+            {
+                mk: mk,
+                sk: sk,
+                bk: bk
+            },
+            function(responseTxt,statusTxt,xhr){
+                if(statusTxt=="success")
+                    $('#sbk-'+bk).html(name+ " <span class='caret'></span>")
                 if(statusTxt=="error")
                     alert("Error: "+xhr.status+": "+xhr.statusText);
             });

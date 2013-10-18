@@ -15,12 +15,12 @@
 {%- endmacro %}
 
 {% macro icon_display(plan) -%}
-    <button class="btn btn-link icon-display">{{ icon(plan) }}</button>
+    <button class="btn btn-link btn-sm icon-display">{{ icon(plan) }}</button>
 {%- endmacro %}
 
 {% macro icon_button(plan) -%}
 <div class="btn-group">
-    <button type="button" class="btn btn-default dropdown-toggle text-center plan-button" data-toggle="dropdown" id="{{plan.key.urlsafe()}}" data-init="{{plan.value}}">
+    <button type="button" class="btn btn-default btn-sm dropdown-toggle text-center plan-button" data-toggle="dropdown" id="{{plan.key.urlsafe()}}" data-init="{{plan.value}}">
         <i class="icon-spinner icon-spin icon-large"></i>
     </button>
     <ul class="dropdown-menu" role="menu">

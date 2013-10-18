@@ -88,7 +88,7 @@
                     {% set the_section_keys = the_band_key.get().sections %}
                     {% if the_section_keys and the_section_keys|length > 1 and (the_plan_key.get().member == the_user.key or the_user_is_superuser)%}
                     <div class="dropdown">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" id='sel-{{the_plan_key.urlsafe()}}'>
+                        <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" id='sel-{{the_plan_key.urlsafe()}}'>
                             {% if the_plan_key.get().section == None %}
                                 section...  <span class="caret"></span>
                             {% else %}

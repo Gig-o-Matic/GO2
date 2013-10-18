@@ -378,7 +378,7 @@ class ConfirmMember(BaseHandler):
         member.confirm_member_for_band_key(the_member, the_band_key)
 
         the_band = the_band_key.get()
-        goemail.send_band_accepted_email(the_member.email_address, the_band.name)
+        goemail.send_band_accepted_email(the_member.email_address, the_band)
 
         return self.redirect('/band_info.html?bk={0}'.format(the_band_keyurl))
         

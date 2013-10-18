@@ -13,6 +13,7 @@
                 </div>
             {% else %}
                 <div class="col-md-4">
+{#
                     <div class="dropdown">
                         <select class="form-control" id='sbk-{{the_info.assoc.band.urlsafe()}}' onchange="section_select('{{the_info.assoc.band.urlsafe()}}')">
                         {% if the_info.assoc.default_section == None %}
@@ -28,6 +29,23 @@
                         {% endfor %}
                         </select>
                     </div> <!-- dropdown -->
+#}                  
+                    <div class="dropdown">
+                        <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" id='sbk-{{the_info.assoc.band.urlsafe()}}'>
+                            {% if the_info.assoc.default_section == None %}
+                                section...  <span class="caret"></span>
+                            {% else %}
+                                {{the_info.assoc.default_section.get().name}} <span class="caret"></span>
+                            {% endif %}
+                        </button>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                            {% for section_key in the_info.sections %}
+                                <li><a onclick="section_select('{{the_info.assoc.band.urlsafe()}}','{{section_key.urlsafe()}}','{{section_key.get().name}}')">{{ section_key.get().name }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    
+                    
                 </div>
                 <div class="col-md-3">
                     <input type="checkbox" id='msbk-{{the_info.assoc.band.urlsafe()}}' onclick="multi_select('{{the_info.assoc.band.urlsafe()}}')"
