@@ -14,7 +14,8 @@ ENABLE_EMAIL = True
 
 class LoginPage(BaseHandler):
     def get(self):
-        self._serve_page()
+        the_url = self.request.get('originalurl')
+        self._serve_page(the_url=the_url)
 
     def post(self):
         email = self.request.get('email')
@@ -22,16 +23,22 @@ class LoginPage(BaseHandler):
         try:
             u = self.auth.get_user_by_password(email, password, remember=True,
                 save_session=True)
-            self.redirect(self.uri_for('home'))
+
+            the_url = self.request.get('originalurl',None)
+            if the_url:
+                self.redirect(str(the_url))
+            else:
+                self.redirect(self.uri_for('home'))
         except (InvalidAuthIdError, InvalidPasswordError) as e:
             logging.info('Login failed for user %s because of %s', email, type(e))
             self._serve_page(True)
 
-    def _serve_page(self, failed=False):
+    def _serve_page(self, the_url=None, failed=False):
         username = self.request.get('username')
         params = {
             'username': username,
-            'failed': failed
+            'failed': failed,
+            'originalurl': the_url
         }
         self.render_template('login.html', params)
 

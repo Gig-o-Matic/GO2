@@ -14,6 +14,9 @@
         <input type="text" value="{{ username }}" name="email"/>
         <label for="password">Password</label>
         <input type="password" name="password"/>
+        {% if originalurl %}
+            <input type="hidden" name="originalurl" value="{{originalurl}}">
+        {% endif %}
         <button type="submit" class="btn">Login</button>
     </form>
 
