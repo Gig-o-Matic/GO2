@@ -29,7 +29,7 @@ The Gig-O-Matic Team
     message.send()
     return True
 
-def send_band_accepted_email(the_email, the_band_name):
+def send_band_accepted_email(the_email, the_band):
 
     if not mail.is_email_valid(the_email):
         return False
@@ -41,10 +41,12 @@ def send_band_accepted_email(the_email, the_band_name):
     message.body = """
 Hello! You have been confirmed as a member of {0} and can now start using Gig-O-Matic to manage stuff.
 
+<http://gig-o-matic.appspot.com/band_info.html?bk={1}>
+
 Thanks,
 The Gig-O-Matic Team
 
-    """.format(the_band_name)
+    """.format(the_band.name, the_band.key.urlsafe())
 
     message.send()
     return True
