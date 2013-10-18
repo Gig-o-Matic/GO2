@@ -32,6 +32,18 @@ handlers:
 
 - url: /font-awesome
   static_dir: font-awesome
+  
+- url: /signup
+  script: main.application
+  secure: always
+ 
+- url: /login
+  script: main.application
+  secure: always
+ 
+- url: /forgot
+  script: main.application
+  secure: always  
 
 - url: /.*
   script: main.application
