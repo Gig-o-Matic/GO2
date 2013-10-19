@@ -18,6 +18,7 @@ import band
 import plan
 import goemail
 import gigarchive
+import assoc
 
 from debug import debug_print
 import datetime
@@ -133,7 +134,7 @@ def get_gigs_for_band_for_dates(the_band, start_date, end_date):
 
 def get_gigs_for_member_for_dates(the_member, start_date, end_date):
     """ return gig objects for the bands of a member """
-    the_bands = member.get_confirmed_bands_of_member(the_member)
+    the_bands = assoc.get_confirmed_bands_of_member(the_member)
     all_gigs = []
     for a_band in the_bands:
         all_gigs.extend(get_gigs_for_band_for_dates(a_band, \
@@ -184,7 +185,7 @@ class InfoPage(BaseHandler):
         if not the_gig.is_archived:
             the_band_key = the_gig.key.parent()
 
-            the_member_keys = member.get_member_keys_of_band_key(the_band_key)
+            the_member_keys = assoc.get_member_keys_of_band_key(the_band_key)
             
             the_plans = []
             
@@ -199,7 +200,7 @@ class InfoPage(BaseHandler):
                 info_block['the_plan_key'] = the_plan.key
                 info_block['the_member_key'] = a_member_key
                 info_block['the_band_key'] = the_band_key
-                info_block['the_assoc'] = member.get_assoc_for_band_key(the_user, the_band_key)
+                info_block['the_assoc'] = assoc.get_assoc_for_band_key_and_member_key(the_user.key, the_band_key)
                 print '\n\n{0}'.format(info_block)
                 the_plans.append(info_block)
                 
@@ -251,14 +252,14 @@ class EditPage(BaseHandler):
             debug_print('found gig object: {0}'.format(the_gig.title))
             is_new = False
                     
-        all_bands = member.get_bands_of_member(the_user)
+        all_bands = assoc.get_bands_of_member(the_user)
         if not all_bands:
             return # member has no bands, so no point
 
         template_args = {
             'title' : 'Gig Edit',
             'gig' : the_gig,
-            'all_bands' : member.get_bands_of_member(the_user),
+            'all_bands' : assoc.get_bands_of_member(the_user),
             'newgig_is_active' : is_new
         }
         self.render_template('gig_edit.html', template_args)

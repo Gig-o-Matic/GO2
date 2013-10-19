@@ -85,6 +85,7 @@ class BaseHandler(webapp2.RequestHandler):
             is_superuser = self.user.is_superuser
 
         params['the_user'] = self.user
+        params['the_user_has_bands'] = True # todo - figure this out
         params['the_user_is_superuser'] = is_superuser
         params['logout_link'] = self.uri_for('logout')
         if self.user is not None and not self.user.seen_welcome:

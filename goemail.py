@@ -4,6 +4,7 @@ from google.appengine.api import users
 import band
 import gig
 import member
+import assoc
 
 SENDER_EMAIL = 'gigomatic.superuser@gmail.com'
 
@@ -107,7 +108,7 @@ The Gig-O-Matic Team
 def announce_new_gig(the_gig, the_gig_url):
     the_band_key = the_gig.key.parent()
     the_band=the_band_key.get()
-    the_members = member.get_member_keys_of_band_key(the_band_key)
+    the_members = assoc.get_member_keys_of_band_key(the_band_key)
     for the_member_key in the_members:
         the_member = the_member_key.get()
         if the_member.preferences:
@@ -116,7 +117,7 @@ def announce_new_gig(the_gig, the_gig_url):
         
 
 def send_new_member_email(band,new_member):
-    members=member.get_admin_members_from_band_key(band.key)
+    members=assoc.get_admin_members_from_band_key(band.key)
     for the_member in members:
         send_the_new_member_email(the_member.email_address, new_member=new_member, the_band=band)
         

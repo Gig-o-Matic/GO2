@@ -12,6 +12,7 @@ import webapp2
 import gig
 import band
 import member
+import assoc
 import datetime
 
 plan_text = ["No Plan", "Definitely", "Probably", "Don't Know", "Probably Not", "Can't Do It"]
@@ -32,7 +33,7 @@ class Plan(ndb.Model):
 
 def new_plan(the_gig, the_member, value):
     """ associate a gig and a member """
-    the_plan = Plan(parent=the_gig.key, member=the_member.key, value=value, comment="", section=member.default_section_for_band_key(the_member, the_gig.key.parent()))
+    the_plan = Plan(parent=the_gig.key, member=the_member.key, value=value, comment="", section=assoc.default_section_for_band_key(the_member, the_gig.key.parent()))
     the_plan.put()
     return the_plan
 

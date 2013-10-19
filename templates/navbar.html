@@ -10,7 +10,7 @@
     </div>
     <div class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
-        {% if the_user.number_of_bands > 0 %}
+        {% if the_user_has_bands %}
             <li {{ 'class="active"' if agenda_is_active }}><a href="/agenda.html">Agenda</a></li>
             <li {{ 'class="active"' if calview_is_active }}><a href="/calview.html">Calendar</a></li>
             <li {{ 'class="active"' if newgig_is_active }}><a href="/gig_edit.html?new=1">Add Gig</a></li>

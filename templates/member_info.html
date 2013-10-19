@@ -35,11 +35,9 @@
                     <div class="row">
                         <div class="col-md-2 col-sm-2 col-xs-3">My Bands</div>
                         <div class="col-md-10 col-sm-10 col-xs-9">
-                            {% for assoc in the_member.assocs %}
-                                {% if assoc.is_confirmed == True %}
-                                    {% set the_band = assoc.band.get() %}
-                                    <a href="/band_info.html?bk={{ the_band.key.urlsafe() }}">{{ the_band.name }}</a>{% if loop.last == False %}, {% endif %}
-                                {% endif %}
+                            {% for band_key in the_band_keys %}
+                                {% set the_band = band_key.get() %}
+                                <a href="/band_info.html?bk={{ the_band.key.urlsafe() }}">{{ the_band.name }}</a>{% if loop.last == False %}, {% endif %}
                             {% endfor %}
                         </div>
                     </div>

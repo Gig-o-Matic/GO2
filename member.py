@@ -18,6 +18,7 @@ import gig
 import band
 import plan
 import goemail
+import assoc
 
 from jinja2env import jinja_environment as je
 
@@ -32,13 +33,6 @@ class MemberPreferences(ndb.Model):
     """ class to hold user preferences """
     email_new_gig = ndb.BooleanProperty(default=True)
 
-class MemberAssoc(ndb.Model):
-    """ class to hold details of the association with a band """
-    band = ndb.KeyProperty()
-    is_confirmed = ndb.BooleanProperty( default=False )
-    is_band_admin = ndb.BooleanProperty( default = False )
-    default_section = ndb.KeyProperty( default=None )
-    is_multisectional = ndb.BooleanProperty( default = False )
 #
 # class for member
 #
@@ -51,8 +45,6 @@ class Member(webapp2_extras.appengine.auth.models.User):
     is_superuser = ndb.BooleanProperty(default=False)
     created = ndb.DateTimeProperty(auto_now_add=True)
     preferences = ndb.StructuredProperty(MemberPreferences)
-    assocs = ndb.StructuredProperty(MemberAssoc, repeated=True)
-    number_of_bands = ndb.ComputedProperty(lambda self: len([a for a in self.assocs if a.is_confirmed]))
     seen_motd = ndb.BooleanProperty(default=False)
     seen_welcome = ndb.BooleanProperty(default=False)
 
@@ -98,101 +90,18 @@ def reset_motd():
         m.seen_motd=False
     ndb.put_multi(members)
 
-def get_member_keys_of_band_key(the_band_key):
-    """ Return member objects by band"""
-    member_query = Member.query( ndb.AND(Member.assocs.band==the_band_key, Member.assocs.is_confirmed==True ) ).order(Member.name)
-    members = member_query.fetch(keys_only=True)
-    return members
-
-def get_pending_members_from_band_key(the_band_key):
-    """ Get all the members who are pending """
-    member_query = Member.query( ndb.AND(Member.assocs.band==the_band_key, Member.assocs.is_confirmed==False) ).order(Member.name)
-    members = member_query.fetch()
-    return members
-
-def get_admin_members_from_band_key(the_band_key):
-    """ Get all the members who are admins """
-    member_query = Member.query( ndb.AND(Member.assocs.band==the_band_key, Member.assocs.is_band_admin==True) )
-    members = member_query.fetch()
-    return members
-
-def get_assoc_for_band_key(the_member, the_band_key):
-    """ find the association with a band and return it """
-    the_assoc = None
-    for a in the_member.assocs:
-        if a.band == the_band_key:
-            the_assoc=a
-            break
-    return the_assoc
-
-def get_member_keys_for_band_key_for_section_key(the_band_key, the_section_key):
-    """ Return member objects by band with no default section"""
-    member_query = Member.query( ndb.AND( Member.assocs.band==the_band_key,
-                                          Member.assocs.default_section==the_section_key,
-                                          Member.assocs.is_confirmed==True) ).order(Member.name)
-    members = member_query.fetch(keys_only=True)
-    return members
-    
-def get_member_keys_of_band_key_no_section(the_band_key):    
-    """ Return member objects by band with no default section"""
-    member_query = Member.query( ndb.AND( Member.assocs.band==the_band_key, 
-                                          Member.assocs.default_section==None,
-                                          Member.assocs.is_confirmed==True) ).order(Member.name)
-    members = member_query.fetch(keys_only=True)
-    return members
-
-def get_associated_status_for_member_for_band_key(the_member, the_band_key):
-    """ find the association between this member and a band, and True if there is one """
-    the_status = False
-    for a in the_member.assocs:
-        if a.band == the_band_key:
-            the_status = True
-            break
-    return the_status
-
-def get_confirmed_status_for_member_for_band_key(the_member, the_band_key):
-    """ find the association between this member and a band, and return the status """
-    the_status = False
-    for a in the_member.assocs:
-        if a.band == the_band_key:
-            the_status = a.is_confirmed
-            break
-    return the_status
-
-def get_admin_status_for_member_for_band_key(the_member, the_band_key):
-    """ find the association between this member and a band, and return the status """
-    the_status = False
-    for a in the_member.assocs:
-        if a.band == the_band_key:
-            the_status = a.is_band_admin
-            break
-    return the_status
-    
-def confirm_member_for_band_key(the_member, the_band_key):
-    """ assuming this member is pending, confirm them """
-    for i in range(0, len(the_member.assocs)):
-        if the_member.assocs[i].band == the_band_key:
-            the_member.assocs[i].is_confirmed = True
-            the_member.put()
-            break
-
-def set_admin_for_member_key_and_band_key(the_member_key, the_band_key, the_do):
-    """ find the assoc for this member and band, and make the member an admin (or take it away """
-    the_member = the_member_key.get()
-    for i in range(0, len(the_member.assocs)):
-        if the_member.assocs[i].band == the_band_key:
-            the_member.assocs[i].is_band_admin = True if (the_do==1) else False
-            the_member.put()
-            break
     
 def forget_member_from_key(the_member_key):
     """ deletes a member, including all gig plans """
 
     # first find all of the assocs to bands
-    the_assocs=the_member_key.get().assocs
+    the_assocs = assoc.get_assocs_of_member_key(the_member_key=the_member_key, confirmed_only=False)
     # delete all plans
     for an_assoc in the_assocs:
         plan.delete_plans_for_member_key_for_band_key(the_member_key, an_assoc.band)
+
+    # now quit the bands
+    delete_multi(the_assocs)
 
     # delete the old unique values
     the_member=the_member_key.get()
@@ -211,73 +120,9 @@ def get_member_from_key(key):
     """ Return member objects by key"""
     return key.get()
 
-def new_association(member, band):
-    """ associate a band and a member """
-    assoc=MemberAssoc(band=band.key, is_band_admin=False)
-    member.assocs.append(assoc) # todo - insert this in alphabetical order
-    member.put()
-    goemail.send_new_member_email(band,member)
-    
-def delete_association(member, band_key):
-    """ delete association between member and band """
-    for i in range(0, len(member.assocs)):
-        a = member.assocs[i]
-        if a.band == band_key:
-            member.assocs.pop(i)
-            member.put()
-            break
+def member_count_bands(the_member_key):
+    return len(assoc.get_assocs_of_member_key(the_member_key, confirmed_only=True, keys_only=True))
 
-def set_default_section(the_member_key, the_band_key, the_section_key):
-    """ find the band in a member's list of assocs, and set default section """
-    the_member=the_member_key.get()
-    if (the_member):
-        for i in range(0, len(the_member.assocs)):
-            if the_member.assocs[i].band == the_band_key:
-                the_member.assocs[i].default_section = the_section_key
-                the_member.put()                
-                plan.set_section_for_empty_plans(the_member_key, the_band_key, the_section_key)                
-                break
-
-def set_multi(the_member_key, the_band_key, the_do):
-    """ find the band in a member's list of assocs, and set default section """
-    the_member=the_member_key.get()
-    if (the_member):
-        for i in range(0, len(the_member.assocs)):
-            if the_member.assocs[i].band == the_band_key:
-                the_member.assocs[i].is_multisectional = the_do
-                the_member.put()
-                break
-
-
-def get_bands_of_member(the_member):
-    """ Return band objects by member"""
-    assocs = the_member.assocs
-    bands=[a.band.get() for a in assocs]
-    return bands
-
-def get_confirmed_bands_of_member(the_member):
-    """ Return band objects by member"""
-    assocs = the_member.assocs
-    bands=[a.band.get() for a in assocs if a.is_confirmed==True]
-    return bands
-
-def get_confirmed_assocs_of_member(the_member):
-    """ Return assocs objects by member"""
-    assocs = the_member.assocs
-    the_list=[a for a in assocs if a.is_confirmed==True]
-    return the_list
-
-def default_section_for_band_key(the_member, the_band_key):
-    """ find the default section for a member within a given band """
-    
-    the_section = None
-    for a in the_member.assocs:
-        if a.band == the_band_key:
-            the_section = a.default_section
-            break
-            
-    return the_section
-        
 def member_is_superuser(the_member):
     return the_member.is_superuser
 
@@ -330,15 +175,15 @@ class InfoPage(BaseHandler):
             is_me = False
             
         # find the bands this member is associated with
-        the_bands=get_bands_of_member(the_member)
+        the_band_keys=assoc.get_band_keys_of_member_key(the_member_key=the_member.key, confirmed_only=True)
         
-        if the_bands is None:
-            return # todo figure out what to do if there are no bands for this member
+#         if the_bands is None:
+#             return # todo figure out what to do if there are no bands for this member
                     
         template_args = {
             'title' : 'Member Info',
             'the_member' : the_member,
-            'the_bands' : the_bands,
+            'the_band_keys' : the_band_keys,
             'all_bands' : band.get_all_bands(),
             'member_is_me' : the_user == the_member
         }
@@ -474,7 +319,7 @@ class ManageBandsGetAssocs(BaseHandler):
         the_member_key=ndb.Key(urlsafe=the_member_key)
         the_member = the_member_key.get()
         
-        the_assocs = the_member.assocs
+        the_assocs = assoc.get_assocs_of_member_key(the_member_key=the_member.key, confirmed_only=False)
 
         the_assoc_info=[]
         for an_assoc in the_assocs:
@@ -509,7 +354,7 @@ class ManageBandsNewAssoc(BaseHandler):
         the_member=ndb.Key(urlsafe=the_member_key).get()
         the_band=ndb.Key(urlsafe=the_band_key).get()
         
-        new_association(the_member, the_band)
+        assoc.new_association(the_member, the_band)
         
 
 class ManageBandsDeleteAssoc(BaseHandler):
@@ -531,7 +376,7 @@ class ManageBandsDeleteAssoc(BaseHandler):
         the_member_key=ndb.Key(urlsafe=the_member_keyurl)
         the_band_key=ndb.Key(urlsafe=the_band_keyurl)
 
-        delete_association(the_member_key.get(), the_band_key)
+        assoc.delete_association(the_member_key, the_band_key)
         plan.delete_plans_for_member_key_for_band_key(the_member_key, the_band_key)
         
         return self.redirect('/member_info.html?mk={0}'.format(the_member_keyurl))
@@ -553,7 +398,7 @@ class SetSection(BaseHandler):
         the_member_key=ndb.Key(urlsafe=the_member_keyurl)
         the_band_key=ndb.Key(urlsafe=the_band_keyurl)
         
-        set_default_section(the_member_key, the_band_key, the_section_key)
+        assoc.set_default_section(the_member_key, the_band_key, the_section_key)
 
 class SetMulti(BaseHandler):
     """ change the default section for a member's band association """
@@ -574,7 +419,7 @@ class SetMulti(BaseHandler):
         the_band_key=ndb.Key(urlsafe=the_band_keyurl)
         the_member_key=ndb.Key(urlsafe=the_member_keyurl)
         
-        set_multi(the_member_key, the_band_key, (the_do=='true'))
+        assoc.set_multi(the_member_key, the_band_key, (the_do=='true'))
 
 
 class AdminPage(BaseHandler):

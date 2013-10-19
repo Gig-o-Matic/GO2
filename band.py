@@ -15,6 +15,7 @@ from debug import *
 
 import member
 import goemail
+import assoc
 
 def band_key(band_name='band_key'):
     """Constructs a Datastore key for a Guestbook entity with guestbook_name."""
@@ -73,10 +74,10 @@ def get_member_keys_of_band_key_by_section_key(the_band_key):
     the_info=[]
     section_keys=get_section_keys_of_band_key(the_band_key)
     for a_section_key in section_keys:
-        the_member_keys=member.get_member_keys_for_band_key_for_section_key(the_band_key, a_section_key)
+        the_member_keys=assoc.get_member_keys_for_band_key_for_section_key(the_band_key, a_section_key)
         the_info.append([a_section_key,the_member_keys])
 
-    no_section_members=member.get_member_keys_of_band_key_no_section(the_band_key)
+    no_section_members=assoc.get_member_keys_of_band_key_no_section(the_band_key)
     if no_section_members:
         the_info.append([None,no_section_members])
 
@@ -142,12 +143,12 @@ class InfoPage(BaseHandler):
             self.response.write('did not find a band!')
             return # todo figure out what to do if we didn't find it
             
-        the_user_is_associated = member.get_associated_status_for_member_for_band_key(the_user, the_band_key)
-        the_user_is_confirmed = member.get_confirmed_status_for_member_for_band_key(the_user, the_band_key)
-        the_user_admin_status = member.get_admin_status_for_member_for_band_key(the_user, the_band_key)   
+        the_user_is_associated = assoc.get_associated_status_for_member_for_band_key(the_user, the_band_key)
+        the_user_is_confirmed = assoc.get_confirmed_status_for_member_for_band_key(the_user, the_band_key)
+        the_user_admin_status = assoc.get_admin_status_for_member_for_band_key(the_user, the_band_key)   
 
         if the_user_admin_status or member.member_is_superuser(the_user):
-            the_pending = member.get_pending_members_from_band_key(the_band_key)
+            the_pending = assoc.get_pending_members_from_band_key(the_band_key)
         else:
             the_pending = []
 
@@ -241,20 +242,14 @@ class BandGetMembers(BaseHandler):
             return # todo figure out what to do
             
         the_band_key = ndb.Key(urlsafe=the_band_key_str)
-        members = [m.get() for m in member.get_member_keys_of_band_key(the_band_key)]
-        
-        the_user_is_band_admin = False
+
+        assocs = assoc.get_assocs_of_band_key(the_band_key=the_band_key, confirmed_only=True)
         assoc_info=[]
-        for m in members:
-            assoc = None
-            for a in m.assocs:
-                if a.band == the_band_key:
-                    assoc = a
-                    break
-            if assoc:
-                assoc_info.append( {'name':m.name, 'is_confirmed':a.is_confirmed, 'is_band_admin':a.is_band_admin, 'member_key':m.key} )
-                if m.key == the_user.key:
-                    the_user_is_band_admin = a.is_band_admin
+        the_user_is_band_admin = False
+        for a in assocs:
+            assoc_info.append( {'name':a.member_name, 'is_confirmed':a.is_confirmed, 'is_band_admin':a.is_band_admin, 'member_key':a.member} )
+            if a.member == the_user.key:
+                the_user_is_band_admin = a.is_band_admin
                         
         template_args = {
             'the_band_key' : the_band_key,
@@ -278,7 +273,7 @@ class BandGetSections(BaseHandler):
         the_band_key = ndb.Key(urlsafe=the_band_key_str)
         the_members_by_section = get_member_keys_of_band_key_by_section_key(the_band_key)
 
-        the_user_is_band_admin = member.get_admin_status_for_member_for_band_key(the_user, the_band_key)
+        the_user_is_band_admin = assoc.get_admin_status_for_member_for_band_key(the_user, the_band_key)
                 
         template_args = {
             'the_members_by_section' : the_members_by_section,
@@ -375,7 +370,7 @@ class ConfirmMember(BaseHandler):
         the_band_key=ndb.Key(urlsafe=the_band_keyurl)
                     
         the_member = the_member_key.get()
-        member.confirm_member_for_band_key(the_member, the_band_key)
+        assoc.confirm_member_for_band_key(the_member, the_band_key)
 
         the_band = the_band_key.get()
         goemail.send_band_accepted_email(the_member.email_address, the_band)
@@ -403,7 +398,7 @@ class AdminMember(BaseHandler):
 
         the_member_key = ndb.Key(urlsafe=the_member_keyurl)
         the_band_key = ndb.Key(urlsafe=the_band_keyurl)
-        member.set_admin_for_member_key_and_band_key(the_member_key, the_band_key, int(the_do))
+        assoc.set_admin_for_member_key_and_band_key(the_member_key, the_band_key, int(the_do))
 
         return self.redirect('/band_info.html?bk={0}'.format(the_band_keyurl))
 
@@ -424,7 +419,7 @@ class RemoveMember(BaseHandler):
 
         the_member_key = ndb.Key(urlsafe=the_member_keyurl)
         the_band_key = ndb.Key(urlsafe=the_band_keyurl)
-        member.delete_association(the_member_key.get(), the_band_key)
+        assoc.delete_association(the_member_key.get(), the_band_key)
 
         return self.redirect('/band_info.html?bk={0}'.format(the_band_keyurl))
 

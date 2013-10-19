@@ -7,6 +7,7 @@ import member
 import gig
 import plan
 import band
+import assoc
 
 from jinja2env import jinja_environment as je
 from debug import debug_print
@@ -24,7 +25,7 @@ class MainPage(BaseHandler):
         """ construct page for agenda view """
         
         # find the bands this member is associated with
-        the_assocs = member.get_confirmed_assocs_of_member(the_user)
+        the_assocs = assoc.get_confirmed_assocs_of_member(the_user)
         the_bands = [a.band.get() for a in the_assocs]
         
         if the_bands is None or len(the_bands)==0:
@@ -49,17 +50,21 @@ class MainPage(BaseHandler):
                 info_block['the_member_key'] = the_user.key
                 the_band_key = the_plan.key.parent().get().key.parent()
                 info_block['the_band_key'] = the_band_key
-                info_block['the_assoc'] = member.get_assoc_for_band_key(the_user, the_band_key)
+                info_block['the_assoc'] = assoc.get_assoc_for_band_key_and_member_key(the_user.key, the_band_key)
                 if (i<num_to_put_in_upcoming):
                     upcoming_plans.append( info_block )
                 else:            
                     if (the_plan.value == 0 ):
                         weighin_plans.append( info_block )
 
+        number_of_bands = member.member_count_bands(the_user.key)
+
+
         template_args = {
             'title' : 'Agenda',
             'upcoming_plans' : upcoming_plans,
             'weighin_plans' : weighin_plans,
+            'show_band' : number_of_bands>1,
             'agenda_is_active' : True
         }
         self.render_template('agenda.html', template_args)
