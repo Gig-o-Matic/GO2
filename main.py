@@ -23,7 +23,7 @@ config = {
 }
 
 application = webapp2.WSGIApplication([
-    webapp2.Route('/', agenda.MainPage),
+    webapp2.Route('/', agenda.MainPage, name='home'),
     webapp2.Route('/login', login.LoginPage, name='login'),
     webapp2.Route('/logout', login.LogoutHandler, name='logout'),
     webapp2.Route('/signup', login.SignupPage, name='signup'),
@@ -55,6 +55,7 @@ application = webapp2.WSGIApplication([
     webapp2.Route('/print_setlist', gig.PrintSetlist),
     webapp2.Route('/band_info.html',band.InfoPage),
     webapp2.Route('/band_edit.html',band.EditPage),
+    webapp2.Route('/band_delete.html',band.DeleteBand),
     webapp2.Route('/band_get_members',band.BandGetMembers, name='getmembers'),
     webapp2.Route('/band_get_sections',band.BandGetSections, name='getsections'),
     webapp2.Route('/band_new_section',band.NewSection),

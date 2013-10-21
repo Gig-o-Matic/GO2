@@ -16,6 +16,8 @@ from debug import *
 import member
 import goemail
 import assoc
+import gig
+import plan
 
 def band_key(band_name='band_key'):
     """Constructs a Datastore key for a Guestbook entity with guestbook_name."""
@@ -40,6 +42,27 @@ def new_band(name):
     the_band.put()
     debug_print('new_band: added new band: {0}'.format(name))
     return the_band
+
+def forget_band_from_key(the_band_key):
+    # delete all assocs
+    the_assoc_keys = assoc.get_assocs_of_band_key(the_band_key, confirmed_only=False, keys_only=True)
+    ndb.delete_multi(the_assoc_keys)
+
+    # delete the gigs
+    the_band = the_band_key.get()
+    the_gigs = gig.get_gigs_for_bands(the_band, num=None, start_date=None)
+    the_gig_keys = [a_gig.key for a_gig in the_gigs]
+    
+    # delete the plans
+    for a_gig_key in the_gig_keys:
+        plan_keys = plan.get_plan_keys_for_gig_key(a_gig_key)
+        ndb.delete_multi(plan_keys)
+    
+    ndb.delete_multi(the_gig_keys)
+    
+    # delete the band
+    the_band_key.delete()
+
         
 def get_band_from_name(band_name):
     """ Return a Band object by name"""
@@ -228,6 +251,26 @@ class EditPage(BaseHandler):
         the_band.put()            
 
         return self.redirect('/band_info.html?bk={0}'.format(the_band.key.urlsafe()))
+        
+class DeleteBand(BaseHandler):
+    """ completely delete band """
+    
+    @user_required
+    def get(self):
+        """ post handler - wants a bk """
+        
+        the_band_keyurl=self.request.get('bk','0')
+
+        if the_band_keyurl=='0':
+            return # todo figure out what to do
+
+        the_band_key=ndb.Key(urlsafe=the_band_keyurl)
+        
+        the_user = self.user # todo - make sure the user is a superuser
+        
+        forget_band_from_key(the_band_key)
+
+        return self.redirect('/band_admin.html')
         
 class BandGetMembers(BaseHandler):
     """ returns the members related to a band """                   

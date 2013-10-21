@@ -54,7 +54,7 @@ def get_gig_from_key(key):
     """ Return gig objects by key"""
     return key.get()
         
-def get_gigs_for_bands(the_band_list, num=None, start_date=None):
+def get_gigs_for_bands(the_band_list, num=None, start_date=None, keys_only=False):
     """ Return gig objects by band, ignoring past gigs """
         
     if (type(the_band_list) is not list):

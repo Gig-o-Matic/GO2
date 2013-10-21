@@ -14,7 +14,7 @@ ENABLE_EMAIL = True
 
 class LoginPage(BaseHandler):
     def get(self):
-        the_url = self.request.get('originalurl')
+        the_url = self.request.get('originalurl',None)
         self._serve_page(the_url=the_url)
 
     def post(self):
@@ -25,6 +25,7 @@ class LoginPage(BaseHandler):
                 save_session=True)
 
             the_url = self.request.get('originalurl',None)
+            print '\n\nHEY:{0}\n\n'.format(the_url)
             if the_url:
                 self.redirect(str(the_url))
             else:
