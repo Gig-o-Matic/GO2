@@ -36,7 +36,10 @@
     </head>
 
     <body>
-        <div id="wrap">
+        <div id="wrap"
+            {% block wrapclass %}
+            {% endblock wrapclass %}        
+        >
             {% block navbar %}
                     {% include 'navbar.html' %}
             {% endblock navbar %}
@@ -56,11 +59,13 @@
                     </div> <!-- /.inner-container -->
             </div><!-- /.container -->
         </div> <!-- /.wrap -->
-        <div id="footer">
-            <div class="container">
-                <a href="/credits"><p class="text-muted credit">Who made this thing?</p></a>
+        {% block footer %}
+            <div id="footer">
+                <div class="container">
+                    <a href="/credits"><p class="text-muted credit">Who made this thing?</p></a>
+                </div>
             </div>
-        </div>
+        {% endblock footer %}
         {% block modal %}
         {% endblock modal %}
     </body>

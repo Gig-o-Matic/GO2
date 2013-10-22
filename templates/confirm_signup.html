@@ -1,0 +1,22 @@
+{% extends 'go2base.html' %}
+
+{% block navbar %}
+    <!-- no navbar -->
+{% endblock navbar %}
+
+{% block wrapclass %}
+class="landingwrap"
+{% endblock wrapclass %}
+
+{% block content %}
+    <div id="landingpage_content">
+        <h3>Signed Up!</h3>
+        <br>
+        <p>Great job - you've signed up. Check your inbox for a confirmation email, 
+        and follow the directions to continue the process.</p>
+
+        {% if msg %}
+            <br><br>{{ msg }}
+        {% endif %}
+    </div>
+{% endblock content %}

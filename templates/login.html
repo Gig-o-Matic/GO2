@@ -4,22 +4,35 @@
     <!-- no navbar -->
 {% endblock navbar %}
 
+{% block wrapclass %}
+class="landingwrap"
+{% endblock wrapclass %}
+
 {% block content %}
-    {% if failed %}
-        <strong>Login failed!</strong> Check your credentials and try again.
-    {% endif %}
-
-    <form class="form" action= "/login" method="POST">
-        <label for="email">Email Address</label>
-        <input type="text" value="{{ username }}" name="email"/>
-        <label for="password">Password</label>
-        <input type="password" name="password"/>
-        {% if originalurl %}
-            <input type="hidden" name="originalurl" value="{{originalurl}}">
+    <div id="landingpage_content">
+        <h3>Welcome to Gig-o-Matic!</h3>
+    
+        {% if failed %}
+            <br>
+            <strong>Login failed!</strong> Check your credentials and try again.
         {% endif %}
-        <button type="submit" class="btn">Login</button>
-    </form>
+        <br>
+        <form class="form" action= "/login" method="POST">
+            <label for="email">Email Address</label>
+            <input type="text" value="{{ username }}" name="email"/>
+            <label for="password">Password</label>
+            <input type="password" name="password"/>
+            {% if originalurl %}
+                <input type="hidden" name="originalurl" value="{{originalurl}}">
+            {% endif %}
+            <button type="submit" class="btn">Login</button>
+        </form>
 
-    <a href="/forgot">Forgot password</a><br><br>
-    <a href="/signup">New? Sign Up!</a>
+        <a href="/forgot">Forgot password</a><br><br>
+        <a href="/signup">New? Sign Up!</a><br><br>
+        Want your band on the Gig-o? Email <a href="mailto:gigomatic.superuser@gmail.com">here</a>.
+    </div>
 {% endblock content %}
+
+{% block footer %}
+{% endblock footer %}

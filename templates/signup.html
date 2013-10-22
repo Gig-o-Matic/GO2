@@ -4,16 +4,28 @@
     <!-- no navbar -->
 {% endblock navbar %}
 
+{% block wrapclass %}
+class="landingwrap"
+{% endblock wrapclass %}
+
+
 {% block content %}
-    <h1>Register a new user</h1>
-    <form action="/signup" method="POST">
-    <label for="email">Email address</label>
-    <input type="text" name="email" />
-    <label for="password">Password</label>
-    <input type="password" name="password" />
-    <label for="name">Display Name</label>
-    <input type="text" name="name" />
-    <input type="submit" value="Create user" />
-    </form>
+    <div id="landingpage_content">
+        <h3>Register with the Gig-o-Matic</h3>
+        <br>
+        {% if failed %}
+            <strong>Sorry, someone already has that email address.</strong>
+        {% endif %}
+        
+        <form action="/signup" method="POST">
+        <label for="email">Email address</label>
+        <input type="text" name="email" />
+        <label for="password">Password</label>
+        <input type="password" name="password" />
+        <label for="name">Display Name</label>
+        <input type="text" name="name" />
+        <input type="submit" value="Create user" />
+        </form>
+    </div>
 {% endblock content %}
 

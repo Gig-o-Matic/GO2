@@ -31,8 +31,7 @@ class LoginPage(BaseHandler):
             else:
                 self.redirect(self.uri_for('home'))
         except (InvalidAuthIdError, InvalidPasswordError) as e:
-            logging.info('Login failed for user %s because of %s', email, type(e))
-            self._serve_page(True)
+            self._serve_page(failed=True)
 
     def _serve_page(self, the_url=None, failed=False):
         username = self.request.get('username')
@@ -57,7 +56,7 @@ class LogoutHandler(BaseHandler):
 class SignupPage(BaseHandler):
     """ class for handling signup requests """
     def get(self):
-        self.render_template('signup.html')
+        self._serve_page(self, failed=False)
 
     def post(self):
         email = self.request.get('email')
@@ -71,8 +70,7 @@ class SignupPage(BaseHandler):
             email_address=email, name=name, password_raw=password,
             verified=False)
         if not user_data[0]: #user_data is a tuple
-            self.display_message('Unable to create user for email %s because of \
-                duplicate keys %s' % (name, user_data[1]))
+            self._serve_page(self,failed=True)
             return
         
         user = user_data[1]
@@ -84,14 +82,25 @@ class SignupPage(BaseHandler):
             signup_token=token, _full=True)
 
         if ENABLE_EMAIL:
-            if goemail.send_registration_email(email, verification_url):
-                msg = "An email has been sent - check your inbox! {0}".format(verification_url)
-            else:
-                msg = "Email failed!"
+            goemail.send_registration_email(email, verification_url)
+            msg=verification_url
         else:
-            msg = 'Verification link is <a href="{0}">{0}</a>'.format(verification_url)
+            msg=''
+
+        params = {
+            'msg':msg
+        }
+        self.render_template('confirm_signup.html', params)
             
         self.display_message(msg)
+
+    def _serve_page(self, the_url=None, failed=False):
+    
+        params = {
+            'failed': failed,
+        }
+        self.render_template('signup.html', params)
+
 
 ##########
 #

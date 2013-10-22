@@ -62,3 +62,15 @@ code {
 .empty-comment {
     color: black;
 }
+
+.landingwrap {
+    background-image:url('/images/bone.png');
+}
+
+#landingpage_content {
+    margin-top: 200px;
+    padding: 20px;
+    border: 1px solid;
+    border-color: black;
+    background-color: white;
+}

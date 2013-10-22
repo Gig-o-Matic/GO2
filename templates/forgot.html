@@ -4,17 +4,22 @@
     <!-- no navbar -->
 {% endblock navbar %}
 
+{% block wrapclass %}
+class="landingwrap"
+{% endblock wrapclass %}
+
 {% block content %}
-    <h1>Recover password</h1>
+    <div id="landingpage_content">
+        <h3>Recover password</h3>
+        <br>
+        <p>Forgot your password? Click the link below to receive a link to recover your password.</p>
 
-    <p>Forgot your password? Click the link below to receive a link to recover your password.</p>
-
-    {% if not_found %}
-        <strong>Not found!</strong> We could not found any user with the given username.
-    {% endif %} 
-
-    <form class="form" action= "/forgot" method="POST">
-        <input type="text" value="{{ username }}" name="username"/>
-        <input type="submit" value="Send password reset link"/>
-    </form>
+        {% if not_found %}
+            <strong>Not found!</strong> We could not found any user with the given username.
+        {% endif %} 
+        <form class="form" action= "/forgot" method="POST">
+            <input type="text" value="{{ username }}" name="username"/>
+            <input type="submit" value="Send password reset link"/>
+        </form>
+    </div>
 {% endblock content %}
