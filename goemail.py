@@ -18,7 +18,7 @@ def send_registration_email(the_email, the_url):
     message.to = the_email
     message.subject = 'Welcome to Gig-O-Matic'
     message.body = """
-Hello! You have registered to join Gig-O-Matic - click the link below to continue the process.
+Hello! You have registered to join Gig-O-Matic - click the link below to log in and you're good to go.
 
 {0}
 
@@ -40,7 +40,7 @@ def send_band_accepted_email(the_email, the_band):
     message.to = the_email
     message.subject = 'Gig-O-Matic: Confirmed!'
     message.body = """
-Hello! You have been confirmed as a member of {0} and can now start using Gig-O-Matic to manage stuff.
+Hello! You have been confirmed as a member of {0} and can now start using Gig-O-Matic to manage your band life.
 
 <http://gig-o-matic.appspot.com/band_info.html?bk={1}>
 
@@ -133,9 +133,11 @@ def send_the_new_member_email(the_email_address, new_member, the_band):
 Hello! A new member has signed up for your band {0}. Please log in and
 confirm the membership.
 
+<http://gig-o-matic.appspot.com/band_info.html?bk={1}>
+
 Thanks,
 The Gig-O-Matic Team
 
-    """.format(the_band.name)
+    """.format(the_band.name, the_band.key.urlsafe())
     message.send()
     return True        

@@ -62,7 +62,6 @@ class SignupPage(BaseHandler):
         email = self.request.get('email')
         name = self.request.get('name')
         password = self.request.get('password')
-        last_name = self.request.get('lastname')
 
         unique_properties = ['email_address']
         user_data = self.user_model.create_user(email,
@@ -81,10 +80,10 @@ class SignupPage(BaseHandler):
         verification_url = self.uri_for('verification', type='v', user_id=user_id,
             signup_token=token, _full=True)
 
-        if ENABLE_EMAIL:
-            goemail.send_registration_email(email, verification_url)
+        if not ENABLE_EMAIL:
             msg=verification_url
         else:
+            goemail.send_registration_email(email, verification_url)
             msg=''
 
         params = {
@@ -141,8 +140,9 @@ class VerificationHandler(BaseHandler):
                 user.put()
             self.auth.unset_session()
 
-            self.display_message('User email address has been verified. Proceed <a href="/login">here</a>')
-            return
+#             self.display_message('User email address has been verified. Proceed <a href="/login">here</a>')
+            self.redirect(self.uri_for('login'))
+
         elif verification_type == 'p':
             # supply user to the page
             params = {
@@ -234,26 +234,3 @@ class ForgotPasswordHandler(BaseHandler):
     }
     self.render_template('forgot.html', params)
 
-# config = {
-#     'webapp2_extras.auth': {
-#         'user_model': 'models.User',
-#         'user_attributes': ['name']
-#     },
-#     'webapp2_extras.sessions': {
-#         'secret_key': 'YOUR_SECRET_KEY'
-#     }
-# }
-
-# app = webapp2.WSGIApplication([
-#           webapp2.Route('/', MainHandler, name='home'),
-#           webapp2.Route('/signup', SignupHandler),
-#           webapp2.Route('/<type:v|p>/<user_id:\d+>-<signup_token:.+>',
-#               handler=VerificationHandler, name='verification'),
-#           webapp2.Route('/password', SetPasswordHandler),
-#           webapp2.Route('/login', LoginHandler, name='login'),
-#           webapp2.Route('/logout', LogoutHandler, name='logout'),
-#           webapp2.Route('/forgot', ForgotPasswordHandler, name='forgot'),
-#           webapp2.Route('/authenticated', AuthenticatedHandler, name='authenticated')
-# ], debug=True, config=config)
-# 
-# logging.getLogger().setLevel(logging.DEBUG)
