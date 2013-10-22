@@ -10,16 +10,40 @@ class="landingwrap"
 
 {% block content %}
     <div id="landingpage_content">
-        <h3>Recover password</h3>
-        <br>
-        <p>Forgot your password? Click the link below to receive a link to recover your password.</p>
+        <div class="row">
+            <div class="page-header col-md-5 col-md-offset-2">
+                <h3>Reset password</h3>
+            </div>
+        </div> 
 
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                Forgot your password? Don't feel bad! Enter your email to receive a link to make a new, better, 
+                easier-to-remember one.<br><br>
+            </div>
+        </div>
         {% if not_found %}
-            <strong>Not found!</strong> We could not found any user with the given username.
+            <div class="row">
+                <div class="col-md-5 col-md-offset-2">
+                    <strong>Not found!</strong> We could not found any user with the given username.
+                </div>
+            </div>
         {% endif %} 
-        <form class="form" action= "/forgot" method="POST">
-            <input type="text" value="{{ username }}" name="username"/>
-            <input type="submit" value="Send password reset link"/>
+
+        <form class="form form-horizontal" role="form" action= "/forgot" method="POST">
+            <div class="row">
+                <div class="form-group">
+                    <label for="username" class="control-label col-md-2 col-md-offset-2">Email Address</label>
+                    <div class="col-md-5">
+                        <input type="text" class="form-control" value="{{ username }}" name="username"/>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8 col-md-offset-4">
+                    <input type="submit" class="btn btn-primary" value="Send password reset link"/>
+                </div>
+            </div>
         </form>
     </div>
 {% endblock content %}

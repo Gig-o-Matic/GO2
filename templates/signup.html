@@ -11,20 +11,51 @@ class="landingwrap"
 
 {% block content %}
     <div id="landingpage_content">
-        <h3>Register with the Gig-o-Matic</h3>
-        <br>
+        <div class="row">
+            <div class="page-header col-md-5 col-md-offset-2">
+                <h3>Register with the Gig-o-Matic</h3>
+            </div>
+        </div>
+    
         {% if failed %}
-            <strong>Sorry, someone already has that email address.</strong>
+            <div class="row">
+                <div class="col-md-5 col-md-offset-2">
+                    <strong>Sorry, someone already has that email address.</strong>
+                </div>
+            </div>
         {% endif %}
         
-        <form action="/signup" method="POST">
-        <label for="email">Email address</label>
-        <input type="text" name="email" />
-        <label for="password">Password</label>
-        <input type="password" name="password" />
-        <label for="name">Display Name</label>
-        <input type="text" name="name" />
-        <input type="submit" value="Create user" />
+        <form class="form-horizontal" role="form" action="/signup" method="POST">
+            <div class="row">
+                <div class="form-group">
+                    <label for="email" class="control-label col-md-2 col-md-offset-2">Email address</label>
+                    <div class="col-md-5">
+                        <input type="text" class="form-control" name="email" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <label for="password" class="control-label col-md-2 col-md-offset-2">Password</label>
+                    <div class="col-md-5">
+                        <input type="password" class="form-control" name="password" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <label for="name" class="control-label col-md-2 col-md-offset-2">Display Name</label>
+                    <div class="col-md-5">
+                        <input type="text" class="form-control" name="name" />
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-8 col-md-offset-4">
+                    <input type="submit" class="btn btn-primary" value="Sign me up!" />
+                </div>
+            </div>
         </form>
     </div>
 {% endblock content %}

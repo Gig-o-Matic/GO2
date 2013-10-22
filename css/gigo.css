@@ -73,4 +73,5 @@ code {
     border: 1px solid;
     border-color: black;
     background-color: white;
+    opacity: .95;
 }
