@@ -101,7 +101,8 @@ def forget_member_from_key(the_member_key):
         plan.delete_plans_for_member_key_for_band_key(the_member_key, an_assoc.band)
 
     # now quit the bands
-    delete_multi(the_assocs)
+    the_assoc_keys=[a.key for a in the_assocs]
+    ndb.delete_multi(the_assoc_keys)
 
     # delete the old unique values
     the_member=the_member_key.get()
