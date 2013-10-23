@@ -462,7 +462,7 @@ class RemoveMember(BaseHandler):
 
         the_member_key = ndb.Key(urlsafe=the_member_keyurl)
         the_band_key = ndb.Key(urlsafe=the_band_keyurl)
-        assoc.delete_association(the_member_key.get(), the_band_key)
+        assoc.delete_association(the_member_key, the_band_key)
 
         return self.redirect('/band_info.html?bk={0}'.format(the_band_keyurl))
 
