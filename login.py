@@ -10,7 +10,7 @@ import logging
 import member
 import goemail
 
-ENABLE_EMAIL = False
+ENABLE_EMAIL = True
 
 class LoginPage(BaseHandler):
     def get(self):
@@ -36,6 +36,7 @@ class LoginPage(BaseHandler):
     def _serve_page(self, the_url=None, failed=False):
         username = self.request.get('username')
         params = {
+            'title' : 'Login',        
             'username': username,
             'failed': failed,
             'originalurl': the_url
@@ -87,6 +88,7 @@ class SignupPage(BaseHandler):
             msg=''
 
         params = {
+            'title' : 'Signed Up',        
             'msg':msg
         }
         self.render_template('confirm_signup.html', params)
@@ -96,6 +98,7 @@ class SignupPage(BaseHandler):
     def _serve_page(self, the_url=None, failed=False):
     
         params = {
+            'title' : 'Sign Up',        
             'failed': failed,
         }
         self.render_template('signup.html', params)
@@ -146,6 +149,7 @@ class VerificationHandler(BaseHandler):
         elif verification_type == 'p':
             # supply user to the page
             params = {
+                'title' : 'Reset Password',            
                 'user': user,
                 'token': signup_token
             }
@@ -229,8 +233,9 @@ class ForgotPasswordHandler(BaseHandler):
   def _serve_page(self, not_found=False):
     username = self.request.get('username')
     params = {
-      'username': username,
-      'not_found': not_found
+        'title' : 'Reset Password',    
+        'username': username,
+        'not_found': not_found
     }
     self.render_template('forgot.html', params)
 
