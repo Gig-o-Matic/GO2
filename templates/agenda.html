@@ -5,7 +5,18 @@
     <div class="page-header col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0"><h1>Agenda: {{the_user.name}}</h1></div>
 </div>
 <div class="row">
-    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0"><h3>Upcoming</h3></div>
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0">
+        <a href="/agenda_switch"><i class="fa fa-refresh fs-lg"></i> change view</a>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0">
+    {% if the_user.show_long_agenda %}
+        <h3>All Upcoming Gigs</h3>
+    {% else %}
+        <h3>Next Few Gigs</h3>
+    {% endif %}
+    </div>
 </div>
 <div class="row">
     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0">
@@ -30,7 +41,7 @@
         &nbsp;
     </div>
     <div class="row">
-        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0"><h3>Weigh In</h3></div>
+        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0"><h3>Weigh In On These</h3></div>
     </div>
     <div class="row">
         <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0">

@@ -38,6 +38,7 @@ application = webapp2.WSGIApplication([
     webapp2.Route('/seen_motd', motd.SeenHandler),
     webapp2.Route('/agenda.html', agenda.MainPage, name='home'),
     webapp2.Route('/agenda.html', agenda.MainPage, name='agenda'),
+    webapp2.Route('/agenda_switch', agenda.SwitchView),    
     webapp2.Route('/calview.html', calview.MainPage),
     webapp2.Route('/member_info.html', member.InfoPage, name='memberinfo'),
     webapp2.Route('/member_edit.html', member.EditPage),

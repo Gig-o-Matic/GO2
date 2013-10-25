@@ -31,7 +31,11 @@ class MainPage(BaseHandler):
         if the_bands is None or len(the_bands)==0:
             return self.redirect('/member_info.html?mk={0}'.format(the_user.key.urlsafe()))
 
-        num_to_put_in_upcoming=5
+        if the_user.show_long_agenda:
+            num_to_put_in_upcoming=1000
+        else:
+            num_to_put_in_upcoming=5
+            
         today_date = datetime.datetime.now()
         the_gigs = gig.get_gigs_for_bands(the_bands, num=num_to_put_in_upcoming, start_date=today_date)
         all_gigs = gig.get_gigs_for_bands(the_bands, start_date=today_date)
@@ -51,7 +55,7 @@ class MainPage(BaseHandler):
                 the_band_key = the_plan.key.parent().get().key.parent()
                 info_block['the_band_key'] = the_band_key
                 info_block['the_assoc'] = assoc.get_assoc_for_band_key_and_member_key(the_user.key, the_band_key)
-                if (i<num_to_put_in_upcoming):
+                if num_to_put_in_upcoming and i<num_to_put_in_upcoming:
                     upcoming_plans.append( info_block )
                 else:            
                     if (the_plan.value == 0 ):
@@ -68,3 +72,17 @@ class MainPage(BaseHandler):
             'agenda_is_active' : True
         }
         self.render_template('agenda.html', template_args)
+
+
+class SwitchView(BaseHandler):
+    @user_required
+    def get(self):    
+        """ get handler for agenda view """
+        the_user=self.user
+        
+        if the_user.show_long_agenda:
+            the_user.show_long_agenda=False
+        else:
+            the_user.show_long_agenda=True
+        the_user.put()
+        return self.redirect(self.uri_for("home"))
