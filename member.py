@@ -238,13 +238,11 @@ class EditPage(BaseHandler):
         the_member_key=self.request.get("mk",'0')
         
         if the_member_key=='0':
-            # it's a new user
-            the_member=new_member()
+            return # todo figure out what to do if we didn't find it
         else:
             the_member=ndb.Key(urlsafe=the_member_key).get()
             
         if the_member is None:
-            self.response.write('did not find a member!')
             return # todo figure out what to do if we didn't find it
        
        # if we're changing email addresses, make sure we're changing to something unique

@@ -67,7 +67,7 @@ class SignupPage(BaseHandler):
         user_data = self.user_model.create_user(email,
             unique_properties,
             email_address=email, name=name, password_raw=password,
-            verified=False)
+            verified=False, preferences=member.MemberPreferences())
         if not user_data[0]: #user_data is a tuple
             self._serve_page(self,failed=True)
             return
