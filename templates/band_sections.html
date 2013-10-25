@@ -26,19 +26,19 @@
                 {% if loop.first %}
                     <div class="col-md-1 col-sm-1 col-xs-2"></div>
                     <div class="col-md-1 col-sm-1 col-xs-2 text-left">
-                        <a class="btn btn-default btn-sm movesection" onclick="move(0,'{{the_section[0].urlsafe()}}')"><i class="icon-circle-arrow-down icon-large"></i></a>
+                        <a class="btn btn-default btn-sm movesection" onclick="move(0,'{{the_section[0].urlsafe()}}')"><i class="fa fa-arrow-circle-down fa-lg"></i></a>
                     </div>
                 {% elif loop.last or (loop.index == loop.length-1 and the_members_by_section[loop.length-1][0]==None) %}
                     <div class="col-md-1 col-sm-1 col-xs-2 text-right">                
-                        <a class="btn btn-default btn-sm movesection" onclick="move(1,'{{the_section[0].urlsafe()}}')"><i class="icon-circle-arrow-up icon-large"></i></a>
+                        <a class="btn btn-default btn-sm movesection" onclick="move(1,'{{the_section[0].urlsafe()}}')"><i class="fa fa-arrow-circle-up fa-lg"></i></a>
                     </div>
                     <div class="col-md-1 col-sm-1 col-xs-2"></div>
                 {% else %}
                     <div class="col-md-1 col-sm-1 col-xs-2 text-right">                
-                        <a class="btn btn-default btn-sm movesection" onclick="move(1,'{{the_section[0].urlsafe()}}')"><i class="icon-circle-arrow-up icon-large"></i></a>
+                        <a class="btn btn-default btn-sm movesection" onclick="move(1,'{{the_section[0].urlsafe()}}')"><i class="fa fa-arrow-circle-up fa-lg"></i></a>
                     </div>
                     <div class="col-md-1 col-sm-1 col-xs-2 text-left">                
-                        <a class="btn btn-default btn-sm movesection" onclick="move(0,'{{the_section[0].urlsafe()}}')"><i class="icon-circle-arrow-down icon-large"></i></a>
+                        <a class="btn btn-default btn-sm movesection" onclick="move(0,'{{the_section[0].urlsafe()}}')"><i class="fa fa-arrow-circle-down fa-lg"></i></a>
                     </div>
                 {% endif %}
             {% endif %}

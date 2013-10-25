@@ -1,16 +1,16 @@
 {% macro icon(plan_value=-1) -%}
     {% if plan_value == 1 %}
-        <i class="icon-plus-sign icon-large" style="color:green"></i><i class="icon-plus-sign icon-large" style="color:green"></i>
+        <i class="fa fa-plus-circle fa-lg" style="color:green"></i><i class="fa fa-plus-circle fa-lg" style="color:green"></i>
     {% elif plan_value == 2 %}
-        <i class="icon-circle-blank icon-large" style="visibility:hidden"></i><i class="icon-plus-sign icon-large" style="color:green"></i>
+        <i class="fa fa-circle fa-lg" style="visibility:hidden"></i><i class="fa fa-plus-circle fa-lg" style="color:green"></i>
     {% elif plan_value == 3 %}
-        <i class="icon-plus-sign icon-large" style="color:green"></i><i class="icon-minus-sign icon-large" style="color:red"></i>
+        <i class="fa fa-plus-circle fa-lg" style="color:green"></i><i class="fa fa-minus-circle fa-lg" style="color:red"></i>
     {% elif plan_value == 4 %}
-        <i class="icon-circle-blank icon-large" style="visibility:hidden"></i><i class="icon-minus-sign icon-large" style="color:red"></i>
+        <i class="fa fa-circle fa-lg" style="visibility:hidden"></i><i class="fa fa-minus-circle fa-lg" style="color:red"></i>
     {% elif plan_value == 5 %}
-        <i class="icon-minus-sign icon-large" style="color:red"></i><i class="icon-minus-sign icon-large" style="color:red"></i>                
+        <i class="fa fa-minus-circle fa-lg" style="color:red"></i><i class="fa fa-minus-circle fa-lg" style="color:red"></i>                
     {% else %}
-        <i class="icon-circle-blank icon-large" style="visibility:hidden"></i><i class="icon-question-sign icon-large" style="color:black"></i>
+        <i class="fa fa-circle fa-lg" style="visibility:hidden"></i><i class="fa fa-question-circle fa-lg" style="color:black"></i>
     {% endif %}
 {%- endmacro %}
 
@@ -21,7 +21,7 @@
 {% macro icon_button(plan) -%}
 <div class="btn-group">
     <button type="button" class="btn btn-default btn-sm dropdown-toggle text-center plan-button" data-toggle="dropdown" id="{{plan.key.urlsafe()}}" data-init="{{plan.value}}">
-        <i class="icon-spinner icon-spin icon-large"></i>
+        <i class="fa fa-spinner fa-spin fa-lg"></i>
     </button>
     <ul class="dropdown-menu" role="menu">
         <li><a onclick="update_plan('{{plan.key.urlsafe()}}','1')">{{ icon(1) }} Definitely</a></li>

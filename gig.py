@@ -251,17 +251,20 @@ class EditPage(BaseHandler):
                 return # todo figure out what to do if we didn't find it
             is_new = False
                     
-        all_bands = assoc.get_bands_of_member(the_user)
+        all_bands = assoc.get_confirmed_bands_of_member(the_user)
         if not all_bands:
-            return # member has no bands, so no point
-
-        template_args = {
-            'title' : 'Gig Edit',
-            'gig' : the_gig,
-            'all_bands' : assoc.get_bands_of_member(the_user),
-            'newgig_is_active' : is_new
-        }
-        self.render_template('gig_edit.html', template_args)
+            template_args = {
+                'title' : 'Add a Gig',
+            }
+            self.render_template('no_band_gig.html', template_args)
+        else:
+            template_args = {
+                'title' : 'Gig Edit',
+                'gig' : the_gig,
+                'all_bands' : all_bands,
+                'newgig_is_active' : is_new
+            }
+            self.render_template('gig_edit.html', template_args)
         
         
     def post(self):
