@@ -2,6 +2,16 @@
 
 
 {% block content %}
+    {% if email_change_msg %}
+    <div class="row">
+        <div class="page-header col-md-8 col-md-offset-2">
+            <div id="motd-alert" class="alert alert-info fade in">
+                {{ email_change_msg }}
+                <a class="close" data-dismiss="alert" href="#" aria-hidden="true">&times;</a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
     <div class="row">
         <div class="page-header col-md-8 col-md-offset-2">
             <h1>Profile</h1>

@@ -27,6 +27,7 @@ application = webapp2.WSGIApplication([
     webapp2.Route('/login', login.LoginPage, name='login'),
     webapp2.Route('/logout', login.LogoutHandler, name='logout'),
     webapp2.Route('/signup', login.SignupPage, name='signup'),
+    webapp2.Route('/check_email', login.CheckEmail),
     webapp2.Route('/<type:v|p>/<user_id:\d+>-<signup_token:.+>',
                   handler=login.VerificationHandler, name='verification'),
     webapp2.Route('/forgot', login.ForgotPasswordHandler, name='forgot'),                  

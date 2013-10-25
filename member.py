@@ -155,12 +155,10 @@ class InfoPage(BaseHandler):
         print 'IN MEMBER_INFO {0}'.format(the_user.name)
 
         the_member_key=self.request.get("mk",'0')
-        print 'member_key is {0}'.format(the_member_key)
         if the_member_key!='0':
             # if we've just edited this member, the database may not have
             # invalidated the cache. Therefore, use a method to get the 
             # member that uses an ancestor query.
-#            the_member=member.get_member_from_urlsafe_key(the_member_key)
             the_member=ndb.Key(urlsafe=the_member_key).get()
         else:
             return # todo what to do if it's not passed in?
@@ -178,15 +176,20 @@ class InfoPage(BaseHandler):
         # find the bands this member is associated with
         the_band_keys=assoc.get_band_keys_of_member_key(the_member_key=the_member.key, confirmed_only=True)
         
-#         if the_bands is None:
-#             return # todo figure out what to do if there are no bands for this member
+        email_change = self.request.get('e',False)
+        print '\n\nwoo {0}\n\n'.format(email_change)
+        if email_change=='True':
+            email_change_msg='You have selected a new email address - check your inbox to verify the new address!'
+        else:
+            email_change_msg = None
                     
         template_args = {
             'title' : 'Member Info',
             'the_member' : the_member,
             'the_band_keys' : the_band_keys,
             'all_bands' : band.get_all_bands(),
-            'member_is_me' : the_user == the_member
+            'member_is_me' : the_user == the_member,
+            'email_change_msg' : email_change_msg
         }
         self.render_template('member_info.html', template_args)
 
@@ -200,6 +203,7 @@ class EditPage(BaseHandler):
 
     def _make_page(self, the_user):
         debug_print('IN MEMBER_EDIT {0}'.format(the_user.name))
+
 
         the_member_key=self.request.get("mk",'0')
         print 'the_member_key is {0}'.format(the_member_key)
@@ -244,26 +248,29 @@ class EditPage(BaseHandler):
             
         if the_member is None:
             return # todo figure out what to do if we didn't find it
+
+        change_email=False
        
        # if we're changing email addresses, make sure we're changing to something unique
         member_email=self.request.get("member_email", None)
         if member_email is not None and member_email != '' and member_email != the_member.email_address:
             # only change email if it's been changed
-            success, existing = \
-                Unique.create_multi(['Member.auth_id:%s'%member_email,
-                                     'Member.email_address:%s'%member_email])
+            change_email=True
+#             success, existing = \
+#                 Unique.create_multi(['Member.auth_id:%s'%member_email,
+#                                      'Member.email_address:%s'%member_email])
+# 
+#             if not success:
+#                 self.display_message('Unable to create user for email %s because of \
+#                     duplicate keys' % member_email)
+#                 return
+#                 
+#             # delete the old unique values
+#             Unique.delete_multi(['Member.auth_id:%s'%the_member.email_address,
+#                                  'Member.email_address:%s'%the_member.email_address])
 
-            if not success:
-                self.display_message('Unable to create user for email %s because of \
-                    duplicate keys' % member_email)
-                return
-                
-            # delete the old unique values
-            Unique.delete_multi(['Member.auth_id:%s'%the_member.email_address,
-                                 'Member.email_address:%s'%the_member.email_address])
-
-            the_member.email_address=member_email
-            the_member.auth_ids=[member_email]
+#            the_member.email_address=member_email
+#            the_member.auth_ids=[member_email]
        
         member_name=self.request.get("member_name", None)
         if member_name is not None and member_name != '':
@@ -302,7 +309,9 @@ class EditPage(BaseHandler):
 
         the_member.put()                    
 
-        return self.redirect('/member_info.html?mk={0}'.format(the_member.key.urlsafe()))
+#        return self.redirect('/member_info.html?mk={0}'.format(the_member.key.urlsafe()))
+        return self.redirect(self.uri_for("memberinfo",mk=the_member.key.urlsafe(),e=change_email))
+
 
 class ManageBandsGetAssocs(BaseHandler):
     """ returns the assocs related to a member """                   

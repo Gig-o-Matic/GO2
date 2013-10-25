@@ -234,3 +234,19 @@ class ForgotPasswordHandler(BaseHandler):
     }
     self.render_template('forgot.html', params)
 
+##########
+#
+# CheckEmail - verifies an email address is available
+#
+##########
+class CheckEmail(BaseHandler):
+
+    def post(self):
+        test_email = self.request.get('member_email')
+        email_ok = 'true'
+        if test_email != self.user.email_address:
+            if self.user_model.get_by_auth_id(test_email):
+                email_ok = 'false'
+        self.response.write(email_ok)
+        
+
