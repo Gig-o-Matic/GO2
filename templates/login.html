@@ -45,9 +45,14 @@ class="landingwrap"
                 <input type="hidden" name="originalurl" value="{{originalurl}}">
             {% endif %}
             <div class="row">
-                <div class="col-md-8 col-md-offset-4">
+                <div class="col-md-3 col-md-offset-4">
                     <button type="submit" class="btn btn-primary">Login</button>
                     <a href="/forgot">Forgot password?</a>
+                </div>
+                <div class="col-md-4">
+                    <div class="checkbox">
+                        <input type="checkbox" name="remember">remember me</input>
+                    </div>
                 </div>
             </div>
         </form>

@@ -20,8 +20,12 @@ class LoginPage(BaseHandler):
     def post(self):
         email = self.request.get('email')
         password = self.request.get('password')
+        remember = self.request.get('remember',False)
+        if remember:
+            remember = True
+        
         try:
-            u = self.auth.get_user_by_password(email, password, remember=True,
+            u = self.auth.get_user_by_password(email, password, remember=remember,
                 save_session=True)
 
             the_url = self.request.get('originalurl',None)
