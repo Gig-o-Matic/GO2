@@ -249,7 +249,6 @@ class EditPage(BaseHandler):
             if the_gig is None:
                 self.response.write('did not find a band or gig!')
                 return # todo figure out what to do if we didn't find it
-            debug_print('found gig object: {0}'.format(the_gig.title))
             is_new = False
                     
         all_bands = assoc.get_bands_of_member(the_user)
