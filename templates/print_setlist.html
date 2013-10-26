@@ -1,12 +1,43 @@
-<html>
-<body>
-<H2>Setlist For {{the_gig.title}}</H1>
-{{ the_gig.date }}<br><br>
-{{ the_gig.setlist|e|replace("\n","<br>")}}
-</body>
+{% extends 'go2base.html' %}
+
+{% block navbar %}
+    <!-- no navbar -->
+{% endblock navbar %}
+
+{% block wrapclass %}
+class="landingwrap"
+{% endblock wrapclass %}
+
+{% block content %}
+{% import 'plan_icon.html' as plan_icon %}
+
+<div class="row page-header">
+    <h3>Setlist For {{the_gig.title}}</h3>
+</div>
+<div class="row">
+    {{ the_gig.date }}
+</div>
+<br>
+<div class="row">
+    {{ the_gig.setlist|e|replace("\n","<br>")}}
+</div>
+{% endblock content %}
+{% block footer %}
+{% endblock footer %}
+
+{% block localscripts %}
 <script>window.jQuery || document.write('<script src="/jquery/jquery-1.10.2.js"><\/script>')</script>
 <script>
 $(document).ready(function() {
     window.print()
 });
-</script>
+</script></script>{% endblock localscripts %}
+
+
+
+<html>
+<body>
+<H2></H1>
+{{ the_gig.date }}<br><br>
+{{ the_gig.setlist|e|replace("\n","<br>")}}
+</body>
