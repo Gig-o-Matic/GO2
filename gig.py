@@ -143,6 +143,13 @@ def get_gigs_for_member_for_dates(the_member, start_date, end_date):
                                                     end_date))
     return all_gigs
 
+def get_old_gig_keys(end_date):
+    """ Return gig objects by band, past gigs OK """
+    gig_query = Gig.query(ndb.AND(Gig.is_archived == False, \
+                                  Gig.date <= end_date))
+    gigs = gig_query.fetch(keys_only=True)
+    return gigs
+
 def make_archive_for_gig_key(the_gig_key):
     """ makes an archive for a gig - files away all the plans, then delete them """
     
@@ -154,6 +161,12 @@ def make_archive_for_gig_key(the_gig_key):
         print 'gig: {0}'.format(the_gig)
         the_gig.archive_id = archive_id
         the_gig.put()
+
+        # also delete any plans, since they're all now in the archive
+        plan_keys = plan.get_plan_keys_for_gig_key(the_gig_key)
+        for a_plan_key in plan_keys:
+            a_plan_key.delete()
+
 
 #
 #
@@ -425,9 +438,15 @@ class ArchiveHandler(BaseHandler):
         the_gig_key=ndb.Key(urlsafe=gig_key_str)
         if the_gig_key:
             make_archive_for_gig_key(the_gig_key)
-            plan_keys = plan.get_plan_keys_for_gig_key(the_gig_key)
-            for a_plan_key in plan_keys:
-                a_plan_key.delete()
 
         return self.redirect('/gig_info.html?gk={0}'.format(gig_key_str))
         
+class AutoArchiveHandler(BaseHandler):
+    """ automatically archive old gigs """
+    def get(self):
+        date = datetime.datetime.now()
+        end_date = date - datetime.timedelta(days=3)
+        the_gig_keys = get_old_gig_keys(end_date = end_date)
+        print '\n\nautoarchive got {0} gigs\n\n'.format(len(the_gig_keys))
+        for a_gig_key in the_gig_keys:
+            make_archive_for_gig_key(a_gig_key)

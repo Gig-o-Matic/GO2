@@ -37,7 +37,10 @@ def make_archive_for_gig_key(the_gig_key):
             if (the_section_key):
                 the_section_name=the_section_key.get().name
             else:
-                the_section_name='None'
+                if len(the_plans)==1:
+                    the_section_name=''
+                else:
+                    the_section_name='No Section'
             the_archive_text = '{0}\n{1}'.format(the_archive_text,the_section_name)
         
             for member_plans in a_section[1]:

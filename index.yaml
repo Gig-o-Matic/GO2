@@ -40,6 +40,11 @@ indexes:
   - name: name
 
 - kind: Gig
+  properties:
+  - name: is_archived
+  - name: date
+
+- kind: Gig
   ancestor: yes
   properties:
   - name: date
