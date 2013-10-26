@@ -33,7 +33,7 @@ class Gig(ndb.Model):
     details = ndb.TextProperty()
     setlist = ndb.TextProperty()
     date = ndb.DateProperty(auto_now_add=True)
-    call = ndb.TimeProperty()
+    call = ndb.TextProperty( default=None )
     archive_id = ndb.TextProperty()
     is_archived = ndb.ComputedProperty(lambda self: self.archive_id is not None)
 #
@@ -306,6 +306,10 @@ class EditPage(BaseHandler):
                                                       '%m/%d/%Y').date()
             # todo validate form entry so date isn't bogus
        
+        gig_call = self.request.get("gig_call", '')
+        if gig_call is not None:
+            the_gig.call = gig_call
+
         the_gig.put()            
 
         if gig_is_new:

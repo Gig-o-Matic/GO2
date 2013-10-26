@@ -48,13 +48,17 @@
                 <label for="gigsetlistinput" class="control-label">Setlist</label>
                 <textarea class="form-control" id="gigsetlistinput" placeholder="setlist here" name="gig_setlist">{{gig.setlist}}</textarea>
             </div>
-        </div>            
+        </div>
         <div class="row">
             <div class="form-group col-md-3 col-md-offset-2 col-sm-4 col-xs-5">
                 <label for="gigdateinput" class="control-label">Date</label>
                 <input type="text" class="datepicker form-control" id="gigdateinput" placeholder="(required)" 
                 {% if gig != None %} value="{{gig.date.strftime('%-m/%-d/%Y')}}" {% endif %}
                 name="gig_date">
+            </div>
+            <div class="form-group col-md-3 col-sm-4 col-xs-5">
+                <label for="gigcallinput" class="control-label">Call Time</label>
+                <input type="text" class="form-control" id="gigcallinput" placeholder="3:20" value="{{gig.call}}" name="gig_call">
             </div>
         </div>
         <div class="row">
