@@ -1,0 +1,67 @@
+{% extends 'go2base.html' %}
+
+{% block navbar %}
+    <!-- no navbar -->
+{% endblock navbar %}
+
+{% block wrapclass %}
+class="landingwrap"
+{% endblock wrapclass %}
+
+{% block content %}
+{% import 'plan_icon.html' as plan_icon %}
+
+<div class="row page-header">
+    <h3>Member Plans For Gig: {{the_gig.title}}</h3>
+</div>
+<div class="row">
+    {{ the_gig.date }}
+</div>
+<br>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4 class="panel-title">Members Planning To Be There</h4>  
+    </div>
+    <div class="panel-body">
+        {% for the_section in the_section_keys %}
+            <div class="row" style="padding-top: 5px; padding-bottom: 5px; {{ loop.cycle('', 'background:#f5f5f5;') }}">
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                    {% if the_section %}
+                        {{the_section.get().name}}
+                    {% else %}
+                        No Section
+                    {% endif %}
+                </div>
+                <div class="col-lg-10">
+                    {% for member_plan in the_plans %}
+                        {% set the_plan = member_plan['the_plan_key'].get() %}
+                        {% if the_plan.section  == the_section and the_plan.value and the_plan.value < 3 %}
+                            {% set the_member = the_plan.member.get() %}
+                            <div class="row">
+                                <div class="col-md-3 col-sm-3 col-xs-3">
+                                    {{ the_member.name }}
+                                </div>
+                                <div class="col-md-3 col-sm-3 col-xs-3">
+                                    {% if the_member.phone %}
+                                        {{ the_member.phone }}
+                                    {% endif %}
+                                </div>                                    
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}
+{% block footer %}
+{% endblock footer %}
+
+{% block localscripts %}
+<script>window.jQuery || document.write('<script src="/jquery/jquery-1.10.2.js"><\/script>')</script>
+<script>
+$(document).ready(function() {
+    window.print()
+});
+</script>{% endblock localscripts %}

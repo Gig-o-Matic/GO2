@@ -201,7 +201,6 @@ class InfoPage(BaseHandler):
                 info_block['the_member_key'] = a_member_key
                 info_block['the_band_key'] = the_band_key
                 info_block['the_assoc'] = assoc.get_assoc_for_band_key_and_member_key(the_user.key, the_band_key)
-                print '\n\n{0}'.format(info_block)
                 the_plans.append(info_block)
                 
             the_section_keys = band.get_section_keys_of_band_key(the_band_key)
@@ -344,17 +343,64 @@ class PrintSetlist(BaseHandler):
 
     def _make_page(self, the_user):
 
-        the_gig_key = self.request.get("gk", '0')
+        the_gig_keyurl = self.request.get("gk", '0')
         
-        if (the_gig_key == '0'):
+        if (the_gig_keyurl == '0'):
             return # todo what else to do?
         else:
-            the_gig = ndb.Key(urlsafe=the_gig_key).get()
+            the_gig = ndb.Key(urlsafe=the_gig_keyurl).get()
 
         template_args = {
             'the_gig' : the_gig,
         }
         self.render_template('print_setlist.html', template_args)
+        
+class PrintPlanlist(BaseHandler):
+    """ print-friendly list of member plans """
+    
+    @user_required
+    def get(self):
+        self._make_page(self.user)
+    
+    def _make_page(self, the_user):
+        the_gig_keyurl = self.request.get("gk", '0')
+        
+        if (the_gig_keyurl == '0'):
+            return # todo what else to do?
+        else:
+            the_gig_key = ndb.Key(urlsafe=the_gig_keyurl)
+            
+        the_gig = the_gig_key.get()   
+        the_band_key = the_gig_key.parent()
+        the_member_keys = assoc.get_member_keys_of_band_key(the_band_key)
+        the_plans = []        
+        need_empty_section = False
+        for a_member_key in the_member_keys:
+            a_member = a_member_key.get()
+            the_plan = plan.get_plan_for_member_for_gig(a_member, the_gig)
+            if the_plan.section == None:
+                need_empty_section = True
+            info_block={}
+            info_block['the_gig_key'] = the_gig.key
+            info_block['the_plan_key'] = the_plan.key
+            info_block['the_member_key'] = a_member_key
+            info_block['the_band_key'] = the_band_key
+            info_block['the_assoc'] = assoc.get_assoc_for_band_key_and_member_key(the_user.key, the_band_key)
+            the_plans.append(info_block)
+            
+        the_section_keys = band.get_section_keys_of_band_key(the_band_key)
+        if need_empty_section:
+            the_section_keys.append(None)                
+
+        template_args = {
+            'title' : 'Gig Info',
+            'the_gig' : the_gig,
+            'the_plans' : the_plans,
+            'the_section_keys' : the_section_keys
+        }
+        self.render_template('print_planlist.html', template_args)
+        
+            
         
 class ArchiveHandler(BaseHandler):
     """ archive this gig, baby! """
