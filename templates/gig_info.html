@@ -72,7 +72,7 @@
                                     <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
                                         {% if the_section %}
                                             {{the_section.get().name}}
-                                        {% else %}
+                                        {% elif the_section_keys | length > 1 %}
                                             No Section
                                         {% endif %}
                                     </div>
