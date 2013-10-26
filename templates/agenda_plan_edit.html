@@ -3,6 +3,7 @@
 {% macro plan_edit(plan_info) -%}
 
 {% set the_gig_key = plan_info['the_gig_key'] %}
+{% set the_gig = the_gig_key.get() %}
 {% set the_plan_key = plan_info['the_plan_key'] %}
 {% set the_member_key = plan_info['the_member_key'] %}
 {% set the_band_key = plan_info['the_band_key'] %}
@@ -52,10 +53,15 @@
     <div class="col-lg-{{grp1_lg}} col-md-{{grp1_lg}} col-sm-{{grp1_sm}} col-xs-{{grp1_sm}}">
         <div class="row">
             <div class="col-md-{{title_lg}} col-sm-{{title_sm}} col-xs-{{title_sm}}">
-                <a href="gig_info.html?gk={{ the_gig_key.urlsafe() }}" ><strong>{{ the_gig_key.get().title|e }}</strong></a>
+                <a href="gig_info.html?gk={{ the_gig_key.urlsafe() }}" ><strong>{{ the_gig.title|e }}</strong></a>
+                {% if the_gig.status==1 %}
+                    <i class="fa fa-check-circle" style="color:green"></i>
+                {% elif the_gig.status==2 %}
+                    <i class="fa fa-times-circle" style="color:red"></i>
+                {% endif %}
             </div>
             <div class="col-md-{{date_lg}} col-sm-{{date_sm}} col-xs-{{date_sm}}">
-                {{ the_gig_key.get().date.strftime('%-m/%-d')|e }}
+                {{ the_gig.date.strftime('%-m/%-d')|e }}
             </div>
             {% if show_band==True %}
                 <div class="col-md-{{band_lg}} col-sm-{{band_sm}} col-xs-{{band_sm}}">

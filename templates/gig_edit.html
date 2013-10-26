@@ -50,15 +50,29 @@
             </div>
         </div>
         <div class="row">
-            <div class="form-group col-md-3 col-md-offset-2 col-sm-4 col-xs-5">
+            <div class="form-group col-md-3 col-md-offset-2 col-sm-4 col-xs-4">
                 <label for="gigdateinput" class="control-label">Date</label>
                 <input type="text" class="datepicker form-control" id="gigdateinput" placeholder="(required)" 
                 {% if gig != None %} value="{{gig.date.strftime('%-m/%-d/%Y')}}" {% endif %}
                 name="gig_date">
             </div>
-            <div class="form-group col-md-3 col-sm-4 col-xs-5">
+            <div class="form-group col-md-3 col-sm-4 col-xs-4">
                 <label for="gigcallinput" class="control-label">Call Time</label>
-                <input type="text" class="form-control" id="gigcallinput" placeholder="3:20" value="{{gig.call}}" name="gig_call">
+                <input type="text" class="form-control" id="gigcallinput" placeholder="4:20" value="{{gig.call}}" name="gig_call">
+            </div>
+            <div class="form-group col-md-2 col-sm-4 col-xs-4">
+                <label for="gigcallinput" class="control-label">Status</label>
+                    <select class="form-control" name="gig_status">
+                        <option value="0"
+                        {% if gig.status==1 %}selected{% endif %}
+                        >??</option>
+                        <option value="1"
+                        {% if gig.status==1 %}selected{% endif %}
+                        >confirmed!</option>
+                        <option value="2"
+                        {% if gig.status==2 %}selected{% endif %}
+                        >canceled</option>
+                    </select>
             </div>
         </div>
         <div class="row">

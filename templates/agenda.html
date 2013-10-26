@@ -1,6 +1,7 @@
 {% extends 'go2base.html' %}
 
 {% block content %}
+{% import 'agenda_plan_edit.html' as plan_edit with context %}
 <div class="row">
     <div class="page-header col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0"><h1>Agenda: {{the_user.name}}</h1></div>
 </div>
@@ -22,7 +23,6 @@
     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0">
         <div id="upcomingevents">
             {% if upcoming_plans %}
-                {% import 'agenda_plan_edit.html' as plan_edit with context %}
                 {% for plan_info in upcoming_plans %}
                     <div class="row" style="padding-top: 5px; padding-bottom: 5px; {{ loop.cycle('', 'background:#f5f5f5;') }}">
                         <div class="col-md-12">
@@ -46,13 +46,13 @@
     <div class="row">
         <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0">
             <div id="weighinevents">
-                <div class="row" style="padding-top: 5px; padding-bottom: 5px; {{ loop.cycle('', 'background:#f5f5f5;') }}">
-                    <div class="col-md-12">
-                        {% for plan_info in weighin_plans %}
+                {% for plan_info in weighin_plans %}
+                    <div class="row" style="padding-top: 5px; padding-bottom: 5px; {{ loop.cycle('', 'background:#f5f5f5;') }}">
+                        <div class="col-md-12">
                             {{ plan_edit.plan_edit(plan_info) }}
-                        {% endfor %}
+                        </div>
                     </div>
-                </div>
+                {% endfor %}
             </div>
         </div>
     </div>

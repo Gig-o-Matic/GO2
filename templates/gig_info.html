@@ -16,7 +16,16 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-md-2 col-sm-2 col-xs-3">Gig</div>
-                        <div class="col-md-10 col-sm-10 col-xs-9">{{ gig.title|e }}</div>
+                        <div class="col-md-10 col-sm-10 col-xs-9"><strong>{{ gig.title|e }}</strong></div>
+                    </div>                    
+                    <div class="row">
+                        <div class="col-md-10 col-md-offset-2 col-sm-10 col-sm-offset-2 col-xs-9 col-xs-offset-2 ">
+                            {% if gig.status==1 %}
+                                <i class="fa fa-check-circle" style="color:green"></i> Confirmed!
+                            {% elif gig.status==2 %}
+                                <i class="fa fa-times-circle" style="color:red"></i> <strong>Cancelled!</strong>
+                            {% endif %}
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-md-2 col-sm-2 col-xs-3">Band</div>

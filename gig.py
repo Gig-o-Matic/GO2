@@ -34,6 +34,7 @@ class Gig(ndb.Model):
     setlist = ndb.TextProperty()
     date = ndb.DateProperty(auto_now_add=True)
     call = ndb.TextProperty( default=None )
+    status = ndb.IntegerProperty( default=0 )
     archive_id = ndb.TextProperty()
     is_archived = ndb.ComputedProperty(lambda self: self.archive_id is not None)
 #
@@ -309,6 +310,9 @@ class EditPage(BaseHandler):
         gig_call = self.request.get("gig_call", '')
         if gig_call is not None:
             the_gig.call = gig_call
+
+        gig_status = self.request.get("gig_status", '0')
+        the_gig.status = int(gig_status)
 
         the_gig.put()            
 
