@@ -61,7 +61,7 @@ function section_select(pk, sk, name) {
 $(document).ready(function() {
     init_plan_buttons();
     $('.comment-thing').editable({
-        emptytext: '<i class="icon-comment-alt"></i>',
+        emptytext: '<i class="fa fa-comment-o"></i>',
         emptyclass: 'empty-comment',
         mode: 'inline'
     });

@@ -45,6 +45,10 @@ handlers:
   script: main.application
   secure: always  
 
+- url: /gig_autoarchive
+  script: main.application
+  login: admin
+  
 - url: /.*
   script: main.application
   

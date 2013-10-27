@@ -447,6 +447,6 @@ class AutoArchiveHandler(BaseHandler):
         date = datetime.datetime.now()
         end_date = date - datetime.timedelta(days=3)
         the_gig_keys = get_old_gig_keys(end_date = end_date)
-        print '\n\nautoarchive got {0} gigs\n\n'.format(len(the_gig_keys))
         for a_gig_key in the_gig_keys:
             make_archive_for_gig_key(a_gig_key)
+        goemail.notify_superuser_of_archive(len(the_gig_keys))

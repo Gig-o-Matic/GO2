@@ -141,3 +141,14 @@ The Gig-O-Matic Team
     """.format(the_band.name, the_band.key.urlsafe())
     message.send()
     return True        
+
+def notify_superuser_of_archive(the_num):
+    message = mail.EmailMessage()
+    message.sender = SENDER_EMAIL
+    message.to = 'gigomatic.superuser@gmail.com'
+    message.subject = 'Gig-O-Matic Auto-Archiver'
+    message.body = """
+Yo! The Gig-o-Matic archived {0} gigs last night.
+    """.format(the_num)
+    message.send()
+    return True        
