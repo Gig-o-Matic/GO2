@@ -8,7 +8,7 @@
             <div class="page-header col-md-5 col-md-offset-2"><h1>Edit Band</h1></div>
         {% endif %}
     </div>
-    <form class="form" role="form" method="post" action="band_edit.html">
+    <form id="infoform" class="form" role="form" method="post" action="band_edit.html">
         <div class="row">
             <div class="form-group col-md-5 col-md-offset-2">
                 <label for="bandnameinput" class="control-label">Name</label>
@@ -74,4 +74,19 @@
         </div><!-- /.modal -->
     {% endif %}
 {% endblock modal %}
+
+{% block localscripts %}
+<script src="/js/jquery.validate.js"></script>
+<script>
+$(document).ready(function() {
+    $("#infoform").validate({
+        rules: {
+            band_name: {
+                required: true
+            }
+        }
+    });
+});
+</script>
+{% endblock localscripts %}
 

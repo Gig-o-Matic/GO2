@@ -109,26 +109,28 @@
 {% block localscripts %}
 <script src="/js/jquery.validate.js"></script>
 <script>
-$("#infoform").validate({
-    rules: {
-        member_email: {
-            required: true,
-            email: true,
-            remote: {
-                url: "/check_email",
-                type: "post",
-                dataType: 'json'                
+$(document).ready(function() {
+    $("#infoform").validate({
+        rules: {
+            member_email: {
+                required: true,
+                email: true,
+                remote: {
+                    url: "/check_email",
+                    type: "post",
+                    dataType: 'json'                
+                }
+            },
+            member_password2: {
+                equalTo: "#member_password1"
             }
         },
-        member_password2: {
-            equalTo: "#member_password1"
+        messages: {
+            member_email: {
+                remote: "email already in use"
+            }
         }
-    },
-    messages: {
-        member_email: {
-            remote: "email already in use"
-        }
-    }
+    });
 });
 </script>
 {% endblock localscripts %}

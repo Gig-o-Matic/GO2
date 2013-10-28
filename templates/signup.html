@@ -25,7 +25,7 @@ class="landingwrap"
             </div>
         {% endif %}
         
-        <form class="form-horizontal" role="form" action="/signup" method="POST">
+        <form id="infoform" class="form-horizontal" role="form" action="/signup" method="POST">
             <div class="row">
                 <div class="form-group">
                     <label for="email" class="control-label col-md-2 col-md-offset-2">Email address</label>
@@ -52,7 +52,8 @@ class="landingwrap"
             </div>
             
             <div class="row">
-                <div class="col-md-8 col-md-offset-4">
+                <div class="col-md-5 col-md-offset-4 text-right">
+                    <a class="btn btn-default" href="/">Cancel</a>
                     <input type="submit" class="btn btn-primary" value="Sign me up!" />
                 </div>
             </div>
@@ -65,4 +66,17 @@ class="landingwrap"
 
 {% block localscripts %}
 <script src="/js/randomback.js"></script>
+<script src="/js/jquery.validate.js"></script>
+<script>
+$(document).ready(function() {
+    $("#infoform").validate({
+        rules: {
+            email: {
+                required: true,
+                email: true
+            }
+        }
+    });
+});
+</script>
 {% endblock localscripts %}
