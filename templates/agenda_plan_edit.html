@@ -15,10 +15,10 @@
 {% endif %}
 
 {% if show_band==True %}
-    {% set title_lg = 4 %}
-    {% set title_sm = 4 %}
-    {% set date_lg = 4 %}
-    {% set date_sm = 4 %}
+    {% set date_lg = 2 %}
+    {% set date_sm = 2 %}
+    {% set title_lg = 6 %}
+    {% set title_sm = 6 %}
     {% set band_lg = 4 %}
     {% set band_sm = 4 %}
     
@@ -27,10 +27,11 @@
     {% set grp2_lg = 6 %}
     {% set grp2_sm = 12 %}
 {% else %}
-    {% set title_lg = 6 %}
-    {% set title_sm = 6 %}
-    {% set date_lg = 6 %}
-    {% set date_sm = 6 %}
+    {% set date_lg = 2 %}
+    {% set date_sm = 2 %}
+    {% set title_lg = 10 %}
+    {% set title_sm = 10 %}
+
     {% set grp1_lg = 4 %}
     {% set grp1_sm = 12 %}
     {% set grp2_lg = 8 %}
@@ -38,20 +39,22 @@
 {% endif %}
 
 {% if show_section %}
+    {% set plan_lg = 8 %}
+    {% set plan_sm = 6 %}
     {% set section_lg = 4 %}
     {% set section_sm = 2 %}
-
-    {% set plan_lg = 8 %}
-    {% set plan_sm = 8 %}
 {% else %}
     {% set plan_lg = 12 %}
-    {% set plan_sm = 10 %}
+    {% set plan_sm = 8 %}
 {% endif %}
 
 
 <div class="row">
     <div class="col-lg-{{grp1_lg}} col-md-{{grp1_lg}} col-sm-{{grp1_sm}} col-xs-{{grp1_sm}}">
         <div class="row">
+            <div class="col-md-{{date_lg}} col-sm-{{date_sm}} col-xs-{{date_sm}}">
+                {{ the_gig.date.strftime('%-m/%-d')|e }}
+            </div>
             <div class="col-md-{{title_lg}} col-sm-{{title_sm}} col-xs-{{title_sm}}">
                 <a href="gig_info.html?gk={{ the_gig_key.urlsafe() }}" ><strong>{{ the_gig.title|e }}</strong></a>
                 {% if the_gig.status==1 %}
@@ -59,9 +62,6 @@
                 {% elif the_gig.status==2 %}
                     <i class="fa fa-times-circle" style="color:red"></i>
                 {% endif %}
-            </div>
-            <div class="col-md-{{date_lg}} col-sm-{{date_sm}} col-xs-{{date_sm}}">
-                {{ the_gig.date.strftime('%-m/%-d')|e }}
             </div>
             {% if show_band==True %}
                 <div class="col-md-{{band_lg}} col-sm-{{band_sm}} col-xs-{{band_sm}}">
@@ -73,6 +73,7 @@
     </div>
     <div class="col-lg-{{grp2_lg}} col-md-{{grp2_lg}} col-sm-{{grp2_sm}} col-xs-{{grp2_sm}}">
         <div class="row">
+            <div class="col-sm-2 col-xs-2 visible-sm visible-xs"></div>
             <div class="col-lg-{{plan_lg}} col-md-{{plan_lg}} col-md-offset-0 col-sm-{{plan_sm}} col-sm-offset-{{plan_sm_offset}} col-xs-{{plan_sm}} col-xs-offset-{{plan_sm_offset}} ">
                 {% if the_member_key == the_user.key or the_user_is_superuser %}
                     {{ plan_icon.icon_button(the_plan_key.get()) }}
