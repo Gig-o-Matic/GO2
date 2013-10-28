@@ -68,6 +68,9 @@ class SignupPage(BaseHandler):
         name = self.request.get('name')
         password = self.request.get('password')
 
+        if name=='':
+            name=email
+
         unique_properties = ['email_address']
         user_data = self.user_model.create_user(email,
             unique_properties,
@@ -97,8 +100,6 @@ class SignupPage(BaseHandler):
         }
         self.render_template('confirm_signup.html', params)
             
-        self.display_message(msg)
-
     def _serve_page(self, the_url=None, failed=False):
     
         params = {
