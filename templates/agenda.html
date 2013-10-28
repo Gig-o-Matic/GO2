@@ -7,7 +7,12 @@
 </div>
 <div class="row">
     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0">
-        <a href="/agenda_switch"><i class="fa fa-refresh fs-lg"></i> change view</a>
+        <a href="/agenda_switch"><i class="fa fa-refresh fs-lg"></i>
+        {% if long_agenda %}
+            show brief
+        {% else %}
+            show all
+        {% endif %}</a>
     </div>
 </div>
 <div class="row">

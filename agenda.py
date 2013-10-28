@@ -69,6 +69,7 @@ class MainPage(BaseHandler):
             'upcoming_plans' : upcoming_plans,
             'weighin_plans' : weighin_plans,
             'show_band' : number_of_bands>1,
+            'long_agenda' : the_user.show_long_agenda,
             'agenda_is_active' : True
         }
         self.render_template('agenda.html', template_args)
