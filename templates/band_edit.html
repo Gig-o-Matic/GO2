@@ -17,6 +17,12 @@
         </div>
         <div class="row">
             <div class="form-group col-md-5 col-md-offset-2">
+                <label for="bandshortnameinput" class="control-label">Short Name</label>
+                <input type="text" class="form-control" id="bandshortnameinput" placeholder="whts it clld?" value="{{the_band.shortname}}" name="band_shortname">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-5 col-md-offset-2">
                 <label for="bandwebsiteinput" class="control-label">Website</label>
                 <input type="text" class="form-control" id="bandwebsiteinput" placeholder="www.yourband.org" value="{% if the_band.website %}{{the_band.website}}{% endif %}" name="band_website">
             </div>

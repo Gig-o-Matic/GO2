@@ -30,6 +30,7 @@ class Band(ndb.Model):
     """ Models a gig-o-matic band """
     name = ndb.StringProperty()
     lower_name = ndb.ComputedProperty(lambda self: self.name.lower())
+    shortname = ndb.StringProperty()
     website = ndb.TextProperty()
     description = ndb.TextProperty()
     sections = ndb.KeyProperty( repeated=True ) # instrumental sections
@@ -40,7 +41,6 @@ def new_band(name):
     """ Make and return a new band """
     the_band = Band(parent=band_key(), name=name)
     the_band.put()
-    debug_print('new_band: added new band: {0}'.format(name))
     return the_band
 
 def forget_band_from_key(the_band_key):
@@ -239,6 +239,10 @@ class EditPage(BaseHandler):
         band_name=self.request.get("band_name",None)
         if band_name is not None and band_name != '':
             the_band.name=band_name
+                
+        band_shortname=self.request.get("band_shortname",None)
+        if band_shortname is not None:
+            the_band.shortname=band_shortname
                 
         the_band.website=self.request.get("band_website",None)
 
