@@ -9,6 +9,7 @@ import gig
 import datetime
 import band
 import json
+import assoc
 
 from debug import debug_print
 
@@ -42,6 +43,8 @@ class CalEvents(BaseHandler):
             
         the_member=ndb.Key(urlsafe=the_member_key).get()
         
+        num_bands = len(assoc.get_band_keys_of_member_key(the_member.key, confirmed_only=True))
+        
         gigs=gig.get_gigs_for_member_for_dates(the_member, start_date, end_date)
         
         events=[]
@@ -49,18 +52,27 @@ class CalEvents(BaseHandler):
         cindex=0
         taken_colors={}
         for a_gig in gigs:
-            parent=a_gig.key.parent()
-            if parent in taken_colors:
-                now_color=taken_colors[parent]
+            band_key=a_gig.key.parent()
+            if band_key in taken_colors:
+                now_color=taken_colors[band_key]
             else:
                 if cindex >= len(colors):
                     cindex=0
                 now_color=colors[cindex]
                 cindex=cindex+1
-                taken_colors[parent]=now_color
+                taken_colors[band_key]=now_color
+
+            the_title = a_gig.title
+            if num_bands > 1:
+                the_band = band_key.get()
+                if the_band.shortname:
+                    the_title = '{0}:\n{1}'.format(the_band.shortname, the_title)
+                else:
+                    the_title = '{0}:\n{1}'.format(the_band.name, the_title)
+            
 
             events.append({
-                            'title':a_gig.title,
+                            'title':the_title,
                             'start':str(a_gig.date),
                             'url':'/gig_info.html?gk={0}'.format(a_gig.key.urlsafe()),
                             'color':now_color
