@@ -323,6 +323,8 @@ class BandGetSections(BaseHandler):
         the_user_is_band_admin = assoc.get_admin_status_for_member_for_band_key(the_user, the_band_key)
                 
         template_args = {
+            'the_band' : the_band_key.get(),
+            'the_section_count' : len(the_members_by_section),
             'the_members_by_section' : the_members_by_section,
             'the_user_is_band_admin' : the_user_is_band_admin
         }
