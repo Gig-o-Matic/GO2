@@ -28,7 +28,8 @@ class AdminPage(BaseHandler):
     def _make_page(self,the_user):
     
         template_args = {
-            'title' : 'MOTD Admin'
+            'title' : 'MOTD Admin',
+            'current' : motd_db.get_motd()
         }
         self.render_template('motd_admin.html', template_args)
 
