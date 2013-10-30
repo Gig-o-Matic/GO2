@@ -3,7 +3,7 @@
 {% block content %}
 {% import 'agenda_plan_edit.html' as plan_edit with context %}
 <div class="row">
-    <div class="page-header col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0"><h1>Agenda: {{the_user.name}}</h1></div>
+    <div class="page-header col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0"><h1>Schedule: {{the_user.name}}</h1></div>
 </div>
 <div class="row">
     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0">
@@ -18,9 +18,9 @@
 <div class="row">
     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0">
     {% if the_user.show_long_agenda %}
-        <h3>All Upcoming Gigs</h3>
+        <h3>All Upcoming</h3>
     {% else %}
-        <h3>Next Few Gigs</h3>
+        <h3>Next Few</h3>
     {% endif %}
     </div>
 </div>

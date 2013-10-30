@@ -65,7 +65,7 @@ class MainPage(BaseHandler):
 
 
         template_args = {
-            'title' : 'Agenda',
+            'title' : 'Schedule',
             'upcoming_plans' : upcoming_plans,
             'weighin_plans' : weighin_plans,
             'show_band' : number_of_bands>1,

@@ -502,3 +502,20 @@ class AdminMember(BaseHandler):
         the_member.put()
 
         return self.redirect('/member_admin.html')        
+        
+class GetBandList(BaseHandler):
+    """ return a list of bands """
+    
+    @user_required
+    def post(self):
+        """ post handler - wants a mk """
+        
+        the_member_keyurl=self.request.get('mk','0')
+        if the_member_keyurl=='0':
+            return # todo figure out what to do
+        the_member_key=ndb.Key(urlsafe=the_member_keyurl)
+        band_keys=assoc.get_band_keys_of_member_key(the_member_key, confirmed_only=True)
+        template_args = {
+            'the_bands' : [bandkey.get() for bandkey in band_keys]
+        }
+        self.render_template('navbar_bandlist.html', template_args)            

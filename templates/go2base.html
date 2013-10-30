@@ -79,6 +79,19 @@
     {% endblock localscripts %}
     {% if the_user %}
         <script>
+            function updateNavbarBands() {
+                $.post('/member_get_bands',
+                {
+                    mk: '{{the_user.key.urlsafe()}}'
+                },
+                function(responseTxt,statusTxt,xhr){
+                    if(statusTxt=="success")
+                        document.getElementById('bandlinks').innerHTML=responseTxt;
+                    if(statusTxt=="error")
+                        alert("Error: "+xhr.status+": "+xhr.statusText);
+                });
+            }
+        
             $(document).ready(function() {
                 $('#motd-alert').bind('closed.bs.alert', function () {
                     $.post("/seen_motd",{ mk:"{{the_user.key.urlsafe()}}" })
@@ -86,6 +99,7 @@
                 $('#welcome-alert').bind('closed.bs.alert', function () {
                     $.post("/seen_welcome",{ mk:"{{the_user.key.urlsafe()}}" })
                 });
+                updateNavbarBands();
             });
         </script>
     {% endif %}
