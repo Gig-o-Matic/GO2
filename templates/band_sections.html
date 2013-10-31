@@ -1,12 +1,22 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h4 class="panel-title">
-                            {% if the_section_count > 1 %}
-                                Sections
-                            {% else %}
+                        <div class="row">
+                            <div class="col-md-2 col-sm-2 col-xs-3">
+                                {% if the_section_count > 1 %}
+                                    <strong>Sections</strong>
+                                {% else %}
+                                    <strong>Members</strong>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-8 col-sm-8 col-xs-7">
                                 Members
+                            </div>
+                            {% if (the_user_is_superuser or the_user_is_band_admin) %}
+                                <div class="col-md-2 col-sm-2 col-xs-2">
+                                    Order
+                                </div>
                             {% endif %}
-                        </h4>
+                        </div>
                     </div>        
                     <div class="panel-body">
                         <div class="row">

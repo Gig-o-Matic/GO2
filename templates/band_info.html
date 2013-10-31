@@ -11,9 +11,7 @@
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h4 class="panel-title">
-                        Info
-                    </h4>
+                    <strong>Info</strong>
                 </div>
                 <div class="panel-body">
                     <div class="row">&nbsp;</div>
@@ -54,9 +52,9 @@
                 {% if the_pending_members %}
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h4 class="panel-title">
+                            <strong>
                                 Pending Members <span class="badge">{{the_pending_members|length}}</span>
-                            </h4>
+                            </strong>
                         </div>        
                         <div class="panel-body">
                             {% for m in the_pending_members %}
@@ -83,9 +81,9 @@
                 {% if the_user_is_band_admin or the_user_is_superuser %}    
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h4 class="panel-title">
+                            <strong>
                                 Member Admin
-                            </h4>
+                            </strong>
                         </div>
                         <div class="panel-body">
                             <div class="row">
