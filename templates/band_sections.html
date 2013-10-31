@@ -1,16 +1,18 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <div class="row">
-                            <div class="col-md-2 col-sm-2 col-xs-3">
-                                {% if the_section_count > 1 %}
+                            {% if the_section_count > 1 %}
+                                <div class="col-md-2 col-sm-2 col-xs-3">
                                     <strong>Sections</strong>
-                                {% else %}
+                                </div>
+                                <div class="col-md-8 col-sm-8 col-xs-7">
+                                    Members
+                                </div>
+                            {% else %}
+                                <div class="col-md-10 col-sm-10 col-xs-10">
                                     <strong>Members</strong>
-                                {% endif %}
-                            </div>
-                            <div class="col-md-8 col-sm-8 col-xs-7">
-                                Members
-                            </div>
+                                </div>
+                            {% endif %}
                             {% if (the_user_is_superuser or the_user_is_band_admin) %}
                                 <div class="col-md-2 col-sm-2 col-xs-2">
                                     Order
