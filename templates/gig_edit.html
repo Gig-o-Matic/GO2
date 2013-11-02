@@ -17,12 +17,20 @@
                 <input type="text" class="form-control" id="gigtitleinput" placeholder="(required)" value="{{gig.title}}" name="gig_title">
             </div>
         </div>
+        <div class="row">
+            <div class="form-group col-md-3 col-md-offset-2">
+                <label for="gigcontact" class="control-label">Contact</label>
+                <select class="form-control" name="gig_contact" id="gig-contacts">
+                </select>
+            </div>
+             </div>
+        </div>
         {% if all_bands|length > 1 %}
             <div class="row">
                 <div class="form-group col-md-3 col-md-offset-2">
                     {% if newgig_is_active %}
                         <label for="gigband" class="control-label">Band</label>
-                        <select id="gigband" class="form-control" name="gig_band">
+                        <select id="gigband" class="form-control" name="gig_band" onChange="handleBandChange(this)">
                             {% for a_band in all_bands %}
                                 <option value="{{a_band.key.urlsafe()}}"
                                 {% if (gig and a_band.key.urlsafe() == gig.key.parent().urlsafe()) or (gig==None and loop.first) %}
@@ -144,14 +152,47 @@
 <script src="/datepicker/js/bootstrap-datepicker.js"></script>
 <script>
 $(document).ready(function () {
-$('#gigdateinput').datepicker({
-            format: 'm/d/yyyy'
-        });
-$('#gigdateinput')
-  .on('changeDate', function(ev){
-    $('#gigdateinput').datepicker('hide')
-  });
+    $('#gigdateinput').datepicker({
+                format: 'm/d/yyyy'
+            });
+    $('#gigdateinput')
+      .on('changeDate', function(ev){
+        $('#gigdateinput').datepicker('hide')
+      });
+    updateContactList('{{all_bands[0].key.urlsafe()}}');
 });
+
+function updateContactList(bk) {
+    $.post("/band_get_member_list",
+                {
+                    bk: bk
+                },
+                function(responseTxt,statusTxt,xhr){
+                    if(statusTxt=="success")
+                        obj = JSON && JSON.parse(responseTxt) || $.parseJSON(responseTxt);
+                        inner=""
+                        for(i=0; i<obj.length; i++) {
+                            inner=inner+"<option value='"+obj[i][1]+"'"
+                            {% if newgig_is_active %}
+                                if (obj[i][1] == '{{the_user.key.urlsafe()}}') {
+                            {% else %}
+                                if (obj[i][1] == '{{gig.contact.urlsafe()}}') {
+                            {% endif %}
+                                inner=inner+" SELECTED"
+                            }
+                            inner=inner+">"+obj[i][0]+"</option>"
+                        }
+                        $('#gig-contacts').html(inner);
+                    if(statusTxt=="error")
+                      alert("Error: "+xhr.status+": "+xhr.statusText);
+                });
+}
+
+function handleBandChange(sel) {
+    var bk=sel.value;
+    updateContactList(bk);
+};
+
 </script>
 {% endblock localscripts %}
 

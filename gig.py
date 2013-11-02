@@ -29,7 +29,7 @@ import datetime
 class Gig(ndb.Model):
     """ Models a gig-o-matic gig """
     title = ndb.StringProperty()
-    contact = ndb.UserProperty()
+    contact = ndb.KeyProperty()
     details = ndb.TextProperty()
     setlist = ndb.TextProperty()
     date = ndb.DateProperty(auto_now_add=True)
@@ -305,6 +305,10 @@ class EditPage(BaseHandler):
         gig_title = self.request.get("gig_title", None)
         if gig_title is not None and gig_title != '':
             the_gig.title = gig_title
+        
+        gig_contact = self.request.get("gig_contact", None)
+        if gig_contact is not None and gig_contact != '':
+            the_gig.contact = ndb.Key(urlsafe=gig_contact)
         
         gig_details = self.request.get("gig_details", None)
         if gig_details is not None:

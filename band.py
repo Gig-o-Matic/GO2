@@ -18,6 +18,7 @@ import goemail
 import assoc
 import gig
 import plan
+import json
 
 def band_key(band_name='band_key'):
     """Constructs a Datastore key for a Guestbook entity with guestbook_name."""
@@ -490,3 +491,20 @@ class AdminPage(BaseHandler):
             'the_bands' : the_bands,
         }
         self.render_template('band_admin.html', template_args)
+
+class GetMemberList(BaseHandler):
+    """ service function to return a list of member names """
+
+    def post(self):
+        the_band_keyurl=self.request.get('bk','0')
+
+        response_val = []
+        if the_band_keyurl=='0':
+            pass
+        else:
+            the_band_key = ndb.Key(urlsafe=the_band_keyurl)
+            the_member_keys = assoc.get_member_keys_of_band_key(the_band_key)
+            response_val = [ [x.get().name, x.urlsafe()] for x in the_member_keys ]
+            
+        self.response.write(json.dumps(response_val))
+
