@@ -84,11 +84,10 @@ def get_band_from_id(id):
     debug_print('get_band_from_id looking for id {0}'.format(id))
     return Band.get_by_id(int(id), parent=band_key()) # todo more efficient if we use the band because it's the parent?
     
-def get_all_bands():
+def get_all_bands(keys_only=False):
     """ Return all objects"""
     bands_query = Band.query(ancestor=band_key()).order(Band.lower_name)
-    all_bands = bands_query.fetch()
-    debug_print('get_all_bands: found {0} bands'.format(len(all_bands)))
+    all_bands = bands_query.fetch(keys_only=keys_only)
     return all_bands
 
 def get_section_keys_of_band_key(the_band_key):

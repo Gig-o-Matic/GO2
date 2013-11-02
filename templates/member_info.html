@@ -62,20 +62,22 @@
                         <div id="bandlist">
                             <i class="fa fa-spinner fa-spin"></i>
                         </div>
-                        <div class="row">
-                            <div class="col-md-12">                        
-                                <div class="dropdown">
-                                    <button type="button" class="btn btn-sm btn-default dropdown-toggle text-center" data-toggle="dropdown">
-                                        <i class="fa fa-plus-square"></i> Add Band
-                                    </button>
-                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                                        {% for a_band in all_bands %}
-                                        <li role="presentation"><a class="band-click" id="{{a_band.key.urlsafe()}}"role="menuitem" tabindex="-1" href="#">{{a_band.name}}</a></li>
-                                        {% endfor %}
-                                    </ul>
-                                </div> <!-- dropdown -->
-                            </div>
-                        </div> <!-- row -->
+                        {% if all_bands %}
+                            <div class="row">
+                                <div class="col-md-12">                        
+                                    <div class="dropdown">
+                                        <button type="button" class="btn btn-sm btn-default dropdown-toggle text-center" data-toggle="dropdown">
+                                            <i class="fa fa-plus-square"></i> Add Band
+                                        </button>
+                                        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                                            {% for a_band in all_bands %}
+                                            <li role="presentation"><a class="band-click" id="{{a_band.key.urlsafe()}}"role="menuitem" tabindex="-1" href="#">{{a_band.name}}</a></li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div> <!-- dropdown -->
+                                </div>
+                            </div> <!-- row -->
+                        {% endif %}
                     </div>
                 </div>
             </div> <!-- panel-body -->

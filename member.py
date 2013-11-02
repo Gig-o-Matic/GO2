@@ -183,12 +183,14 @@ class InfoPage(BaseHandler):
             email_change_msg='You have selected a new email address - check your inbox to verify the new address!'
         else:
             email_change_msg = None
-                    
+            
+        all_bands = band.get_all_bands()
+                                    
         template_args = {
             'title' : 'Member Info',
             'the_member' : the_member,
             'the_band_keys' : the_band_keys,
-            'all_bands' : band.get_all_bands(),
+            'all_bands' : all_bands,
             'member_is_me' : the_user == the_member,
             'email_change_msg' : email_change_msg
         }
@@ -357,7 +359,8 @@ class ManageBandsNewAssoc(BaseHandler):
         the_member=ndb.Key(urlsafe=the_member_key).get()
         the_band=ndb.Key(urlsafe=the_band_key).get()
         
-        assoc.new_association(the_member, the_band)
+        if assoc.get_assoc_for_band_key_and_member_key(the_band_key = the_band.key, the_member_key = the_member.key) == None:
+            assoc.new_association(the_member, the_band)
         
 
 class ManageBandsDeleteAssoc(BaseHandler):
