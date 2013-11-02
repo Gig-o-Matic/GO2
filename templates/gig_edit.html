@@ -159,7 +159,11 @@ $(document).ready(function () {
       .on('changeDate', function(ev){
         $('#gigdateinput').datepicker('hide')
       });
-    updateContactList('{{all_bands[0].key.urlsafe()}}');
+    {% if newgig_is_active %}
+        updateContactList('{{all_bands[0].key.urlsafe()}}');
+    {% else %}
+        updateContactList('{{gig.key.parent().urlsafe()}}');
+    {% endif %}
 });
 
 function updateContactList(bk) {
@@ -175,11 +179,13 @@ function updateContactList(bk) {
                             inner=inner+"<option value='"+obj[i][1]+"'"
                             {% if newgig_is_active %}
                                 if (obj[i][1] == '{{the_user.key.urlsafe()}}') {
-                            {% else %}
+                                    inner=inner+" SELECTED"
+                                }
+                            {% elif gig.contact %}
                                 if (obj[i][1] == '{{gig.contact.urlsafe()}}') {
+                                    inner=inner+" SELECTED"
+                                }
                             {% endif %}
-                                inner=inner+" SELECTED"
-                            }
                             inner=inner+">"+obj[i][0]+"</option>"
                         }
                         $('#gig-contacts').html(inner);
