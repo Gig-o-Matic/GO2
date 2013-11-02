@@ -24,7 +24,7 @@ class="landingwrap"
 </div>
 <br>
 <div class="row">
-    {{ the_gig.setlist|e|replace("\n","<br>")}}
+    <pre>{{ the_gig.setlist }}</pre>
 </div>
 {% endblock content %}
 {% block footer %}
@@ -37,12 +37,3 @@ $(document).ready(function() {
     window.print()
 });
 </script></script>{% endblock localscripts %}
-
-
-
-<html>
-<body>
-<H2></H1>
-{{ the_gig.date }}<br><br>
-{{ the_gig.setlist|e|replace("\n","<br>")}}
-</body>
