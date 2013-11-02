@@ -11,20 +11,6 @@
         </div>
     </div>
     <form class="form" role="form" method="post" action="gig_edit.html">
-        <div class="row">
-            <div class="form-group col-md-8 col-md-offset-2">
-                <label for="gigtitleinput" class="control-label">Gig Title</label>
-                <input type="text" class="form-control" id="gigtitleinput" placeholder="(required)" value="{{gig.title}}" name="gig_title">
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-3 col-md-offset-2">
-                <label for="gigcontact" class="control-label">Contact</label>
-                <select class="form-control" name="gig_contact" id="gig-contacts">
-                </select>
-            </div>
-             </div>
-        </div>
         {% if all_bands|length > 1 %}
             <div class="row">
                 <div class="form-group col-md-3 col-md-offset-2">
@@ -45,6 +31,20 @@
         {% else %}
             <input type="hidden" name="gig_band" value="{{all_bands[0].key.urlsafe()}}">
         {% endif %}
+        <div class="row">
+            <div class="form-group col-md-8 col-md-offset-2">
+                <label for="gigtitleinput" class="control-label">Gig Title</label>
+                <input type="text" class="form-control" id="gigtitleinput" placeholder="(required)" value="{{gig.title}}" name="gig_title">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-3 col-md-offset-2">
+                <label for="gigcontact" class="control-label">Contact</label>
+                <select class="form-control" name="gig_contact" id="gig-contacts">
+                </select>
+            </div>
+             </div>
+        </div>
         <div class="row">
             <div class="form-group col-md-8 col-md-offset-2">
                 <label for="gigdetailsinput" class="control-label">Details</label>
