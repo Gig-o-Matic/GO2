@@ -55,6 +55,14 @@ def get_gig_from_key(key):
     """ Return gig objects by key"""
     return key.get()
         
+def adjust_date_for_band(the_band, the_date):
+    if the_band.time_zone_correction:
+        # this band is in a non-UTC time zone!
+        the_date=the_date+datetime.timedelta(hours=the_band.time_zone_correction)
+    the_date = the_date.replace(hour=0, minute=0, second=0, microsecond=0)
+    return the_date
+
+    
 def get_gigs_for_bands(the_band_list, num=None, start_date=None, keys_only=False):
     """ Return gig objects by band, ignoring past gigs """
         
@@ -62,16 +70,7 @@ def get_gigs_for_bands(the_band_list, num=None, start_date=None, keys_only=False
         the_band_list = [the_band_list]
 
     if start_date:
-        # correct the start date in case we're a non-UTC band (everyone, probably)
-        # assumes that all the bands are in the same timezone
-        test_band=the_band_list[0]
-        print 'raw start date is {0}'.format(start_date)
-        if test_band.time_zone_correction:
-            # this band is in a non-UTC time zone!
-            start_date=start_date+datetime.timedelta(hours=test_band.time_zone_correction)
-            print 'tz start date is {0}'.format(start_date)
-        start_date = start_date.replace(hour=0, minute=0, second=0, microsecond=0)
-        print 'final start date is {0}'.format(start_date)
+        start_date = adjust_date_for_band(the_band_list[0], start_date)
     
     all_gigs = []
     for a_band in the_band_list:
@@ -121,30 +120,43 @@ def get_gigs_for_bands(the_band_list, num=None, start_date=None, keys_only=False
     
     
     
-def get_gigs_for_band_for_dates(the_band, start_date, end_date):
+def get_gigs_for_band_key_for_dates(the_band_key, start_date, end_date):
     """ Return gig objects by band, past gigs OK """
+
+    if start_date:
+        start_date = adjust_date_for_band(the_band_key.get(), start_date)
+
+    if end_date:
+        end_date = adjust_date_for_band(the_band_key.get(), end_date)
+
     gig_query = Gig.query(ndb.AND(Gig.date >= start_date, \
                                   Gig.date <= end_date), \
-                                  ancestor=the_band.key).order(Gig.date)
+                                  ancestor=the_band_key).order(Gig.date)
     gigs = gig_query.fetch()
-    debug_print('get_gigs_for_band_for_dates: got {0} gigs for \
-                 band key id {1} ({2})'.format(len(gigs), \
-                                                the_band.key.id(), \
-                                                the_band.name))
     return gigs
 
 def get_gigs_for_member_for_dates(the_member, start_date, end_date):
     """ return gig objects for the bands of a member """
     the_bands = assoc.get_confirmed_bands_of_member(the_member)
+
+    if start_date:
+        start_date = adjust_date_for_band(the_bands[0], start_date)
+
+    if end_date:
+        end_date = adjust_date_for_band(the_bands[0], end_date)
+
     all_gigs = []
     for a_band in the_bands:
-        all_gigs.extend(get_gigs_for_band_for_dates(a_band, \
+        all_gigs.extend(get_gigs_for_band_key_for_dates(a_band.key, \
                                                     start_date, \
                                                     end_date))
     return all_gigs
 
 def get_old_gig_keys(end_date):
     """ Return gig objects by band, past gigs OK """
+    
+    # todo do we need to adjust the date?
+    
     gig_query = Gig.query(ndb.AND(Gig.is_archived == False, \
                                   Gig.date <= end_date))
     gigs = gig_query.fetch(keys_only=True)

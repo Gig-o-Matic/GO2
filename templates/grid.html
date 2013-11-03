@@ -1,0 +1,50 @@
+{% extends 'go2base.html' %}
+{% import 'plan_icon.html' as plan_icon %}
+
+{% block content %}
+<div class="row">
+    <div class="page-header col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0"><h1>Grid o'Gigs</h1></div>
+</div>
+<div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0">
+        {{ the_band_key.get().name }}
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0">
+        {{ the_month }}
+    </div>
+</div>
+<div class="page-header col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0">
+    <table class="table">
+        <tr>
+            <td colspan=2></td>
+            {% for gig in the_gigs %}
+                <td align="middle"><a href="/gig_info.html?gk={{gig.key.urlsafe()}}">{{ gig.title }}</a></td>
+            {% endfor %}
+        </tr>
+        {% for section in the_member_keys_by_section %}
+            {% for member in section[1] %}
+                <tr>
+                    {% if loop.first %}
+                        <td rowspan="{{section[1]|length}}">
+                            {% if section[0] %}
+                                {{ section[0].get().name }}
+                            {% else %}
+                                No Section
+                            {% endif %}
+                        </td>
+                    {% endif %}
+                    <td>
+                        <a href="/member_info.html?mk={{member.urlsafe()}}">{{ member.get().name }}</a>
+                    </td>
+                    {% for gig in the_gigs %}
+                        <td  style="white-space: nowrap;" align="middle">{{ plan_icon.icon(the_plans[member][gig.key]) }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        {% endfor %}
+    </table>
+</div>
+{% endblock content %}
+

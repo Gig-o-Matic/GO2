@@ -47,8 +47,8 @@ def get_plan_keys_for_gig_key(the_gig_key):
     plan_keys = plan_query.fetch(keys_only=True)
     return plan_keys
 
-def get_plan_for_member_for_gig(the_member, the_gig):
-    plan_query = Plan.query(Plan.member==the_member.key, ancestor=the_gig.key)
+def get_plan_for_member_key_for_gig_key(the_member_key, the_gig_key):
+    plan_query = Plan.query(Plan.member==the_member_key, ancestor=the_gig_key)
     plans = plan_query.fetch()
     if len(plans)>1:
         return None #todo what to do if there's more than one plan        
@@ -57,6 +57,9 @@ def get_plan_for_member_for_gig(the_member, the_gig):
     else:
         # no plan? make a new one
         return new_plan(the_gig, the_member, 0)
+
+def get_plan_for_member_for_gig(the_member, the_gig):
+    return get_plan_for_member_key_for_gig_key(the_member_key=the_member.key, the_gig_key=the_gig.key)
 
 def leave_section(the_assoc, the_gone_section_key, the_new_default_key):
     """ find all the plans for a member, and if any are for a section the member left, swap for another """
