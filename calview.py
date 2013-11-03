@@ -50,7 +50,7 @@ class CalEvents(BaseHandler):
         gigs=gig.get_gigs_for_member_for_dates(the_member, start_date, end_date)
         
         events=[]
-        colors=['#FF88FF','#77f077','#55c0c0','#d0d0d0','#f0f055','#ff8888']
+        colors=['#FF9F80','#D1F2A5','#EFFAB4','#FFC48C','#F56991']
 
         for a_gig in gigs:
             band_key=a_gig.key.parent()
