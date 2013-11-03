@@ -34,8 +34,8 @@ class CalEvents(BaseHandler):
     def post(self):    
         the_user = self.user
         
-        start_date=datetime.date.fromtimestamp(int(self.request.get('start')))
-        end_date=datetime.date.fromtimestamp(int(self.request.get('end')))
+        start_date=datetime.datetime.fromtimestamp(int(self.request.get('start')))
+        end_date=datetime.datetime.fromtimestamp(int(self.request.get('end')))
         the_member_key=self.request.get('mk',0)
         
         if the_member_key==0:

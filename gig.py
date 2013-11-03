@@ -61,7 +61,6 @@ def adjust_date_for_band(the_band, the_date):
         the_date=the_date+datetime.timedelta(hours=the_band.time_zone_correction)
     the_date = the_date.replace(hour=0, minute=0, second=0, microsecond=0)
     return the_date
-
     
 def get_gigs_for_bands(the_band_list, num=None, start_date=None, keys_only=False):
     """ Return gig objects by band, ignoring past gigs """

@@ -86,20 +86,7 @@ class MainPage(BaseHandler):
             'the_month' : start_date.month,
             'the_year' : start_date.year,
             'the_gigs' : the_gigs,
-            'the_plans' : the_plans
+            'the_plans' : the_plans,
+            'grid_is_active' : True
         }
         self.render_template('grid.html', template_args)
-
-
-class SwitchView(BaseHandler):
-    @user_required
-    def get(self):    
-        """ get handler for agenda view """
-        the_user=self.user
-        
-        if the_user.show_long_agenda:
-            the_user.show_long_agenda=False
-        else:
-            the_user.show_long_agenda=True
-        the_user.put()
-        return self.redirect(self.uri_for("home"))
