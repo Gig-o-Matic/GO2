@@ -82,7 +82,7 @@ class MainPage(BaseHandler):
             'all_band_keys' : the_band_keys,
             'the_band_key' : the_band_key,
             'the_member_keys_by_section' : the_member_keys,
-            'the_month_string' : start_date.strftime("%B, %Y"),
+            'the_month_string' : start_date.strftime("%b, %Y"),
             'the_month' : start_date.month,
             'the_year' : start_date.year,
             'the_gigs' : the_gigs,

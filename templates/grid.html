@@ -3,10 +3,14 @@
 
 {% block content %}
 <div class="row">
-    <div class="page-header col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0"><h1>Grid o'Gigs</h1></div>
+    <div class="page-header col-lg-8 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0"><h2>Grid o'Gigs</h2></div>
 </div>
 <div class="row">
-    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0">
+    <div class="col-lg-8 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0">
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-0">
         {% if all_band_keys|length > 1 %}
             <div class="dropdown">
                 <button type="button" class="btn btn-sm btn-default dropdown-toggle text-center" data-toggle="dropdown">
@@ -19,21 +23,23 @@
                 </ul>
             </div> <!-- dropdown -->
         {% endif %}
+        <br>
     </div>
 </div>
 <div class="row">
-    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0">
-        <a class="btn btn-default" href="/grid.html?bk={{the_band_key.urlsafe()}}&m={{the_month}}&y={{the_year}}&d=-1"><i class="fa fa-arrow-left"></i></a>
+    <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-0" style="white-space: nowrap;">
+        <a class="btn btn-default btn-sm" href="/grid.html?bk={{the_band_key.urlsafe()}}&m={{the_month}}&y={{the_year}}&d=-1"><i class="fa fa-arrow-left"></i></a>
         {{ the_month_string }}
-        <a class="btn btn-default" href="/grid.html?bk={{the_band_key.urlsafe()}}&m={{the_month}}&y={{the_year}}&d=1"><i class="fa fa-arrow-right"></i></a>
+        <a class="btn btn-default btn-sm" href="/grid.html?bk={{the_band_key.urlsafe()}}&m={{the_month}}&y={{the_year}}&d=1"><i class="fa fa-arrow-right"></i></a>
     </div>
 </div>
 {% if the_gigs %}
 <div class="row">
-    <div class="page-header col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0">
+    <div class="col-sm-offset-0 col-md-10 col-md-offset-1">
         <table class="table">
             <tr>
-                <td colspan=2></td>
+                <td colspan=2 style="white-space: nowrap;">
+                </td>
                 {% for gig in the_gigs %}
                     <td align="middle">{{ gig.date.strftime('%-m/%-d/%Y') }}<br>({{ gig.date.strftime('%a') }})</td>
                 {% endfor %}
