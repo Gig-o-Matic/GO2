@@ -7,12 +7,25 @@
 </div>
 <div class="row">
     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0">
-        {{ the_band_key.get().name }}
+        {% if all_band_keys|length > 1 %}
+            <div class="dropdown">
+                <button type="button" class="btn btn-sm btn-default dropdown-toggle text-center" data-toggle="dropdown">
+                    {{ the_band_key.get().name }} <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                    {% for a_band_key in all_band_keys %}
+                    <li role="presentation"><a href="/grid.html?bk={{a_band_key.urlsafe()}}&m={{the_month}}&y={{the_year}}">{{a_band_key.get().name}}</a></li>
+                    {% endfor %}
+                </ul>
+            </div> <!-- dropdown -->
+        {% endif %}
     </div>
 </div>
 <div class="row">
     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0">
-        {{ the_month }}
+        <a class="btn btn-default" href="/grid.html?bk={{the_band_key.urlsafe()}}&m={{the_month}}&y={{the_year}}&d=-1"><i class="fa fa-arrow-left"></i></a>
+        {{ the_month_string }}
+        <a class="btn btn-default" href="/grid.html?bk={{the_band_key.urlsafe()}}&m={{the_month}}&y={{the_year}}&d=1"><i class="fa fa-arrow-right"></i></a>
     </div>
 </div>
 <div class="page-header col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0">

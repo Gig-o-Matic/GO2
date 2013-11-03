@@ -56,7 +56,7 @@ def get_plan_for_member_key_for_gig_key(the_member_key, the_gig_key):
         return plans[0]
     else:
         # no plan? make a new one
-        return new_plan(the_gig, the_member, 0)
+        return new_plan(the_gig_key.get(), the_member_key.get(), 0)
 
 def get_plan_for_member_for_gig(the_member, the_gig):
     return get_plan_for_member_key_for_gig_key(the_member_key=the_member.key, the_gig_key=the_gig.key)
