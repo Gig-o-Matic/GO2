@@ -47,7 +47,7 @@ class Member(webapp2_extras.appengine.auth.models.User):
     preferences = ndb.StructuredProperty(MemberPreferences)
     seen_motd = ndb.BooleanProperty(default=False)
     seen_welcome = ndb.BooleanProperty(default=False)
-    show_long_agenda = ndb.BooleanProperty(default=False)
+    show_long_agenda = ndb.BooleanProperty(default=True)
 
     def set_password(self, raw_password):
         """Sets the password for the current user
