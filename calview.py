@@ -43,24 +43,19 @@ class CalEvents(BaseHandler):
             
         the_member=ndb.Key(urlsafe=the_member_key).get()
         
-        num_bands = len(assoc.get_band_keys_of_member_key(the_member.key, confirmed_only=True))
+        
+        the_bands = assoc.get_band_keys_of_member_key(the_member.key, confirmed_only=True)
+        num_bands = len(the_bands)
         
         gigs=gig.get_gigs_for_member_for_dates(the_member, start_date, end_date)
         
         events=[]
         colors=['#FF88FF','#55c0c0','#d0d0d0','#f0f055','#77f077','#ff8888']
-        cindex=0
-        taken_colors={}
+
         for a_gig in gigs:
             band_key=a_gig.key.parent()
-            if band_key in taken_colors:
-                now_color=taken_colors[band_key]
-            else:
-                if cindex >= len(colors):
-                    cindex=0
-                now_color=colors[cindex]
-                cindex=cindex+1
-                taken_colors[band_key]=now_color
+
+            cindex = the_bands.index(band_key) % len(colors)            
 
             the_title = a_gig.title
             if num_bands > 1:
@@ -75,7 +70,7 @@ class CalEvents(BaseHandler):
                             'title':the_title,
                             'start':str(a_gig.date),
                             'url':'/gig_info.html?gk={0}'.format(a_gig.key.urlsafe()),
-                            'color':now_color
+                            'color':colors[cindex]
                             })
         
         testevent=json.dumps(events)
