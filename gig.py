@@ -252,7 +252,7 @@ class EditPage(BaseHandler):
         if is_new:
             user_is_band_admin = False
         else:
-            user_is_band_adming = assoc.get_admin_status_for_member_for_band_key(the_user, the_gig.key.parent())
+            user_is_band_admin = assoc.get_admin_status_for_member_for_band_key(the_user, the_gig.key.parent())
             
         all_bands = assoc.get_confirmed_bands_of_member(the_user)
         if not all_bands:
