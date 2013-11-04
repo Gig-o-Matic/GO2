@@ -490,8 +490,15 @@ class CommentHandler(BaseHandler):
         if comment_str is None or comment_str=='':
             return
         
+        dt=datetime.datetime.now()
+
+        offset_str = self.request.get("o", None)
+        if comment_str is not None:
+            offset=int(offset_str)
+            dt = dt - datetime.timedelta(hours=offset)
+
         user=self.user
-        timestr=datetime.datetime.now().strftime('%-m/%-d/%Y %I:%M%p')
+        timestr=dt.strftime('%-m/%-d/%Y %I:%M%p')
         new_comment = '{0} ({1}) said at {2}:\n{3}'.format(user.name, user.email_address, timestr, comment_str)
 
         new_id = gigcomment.add_comment_for_gig(new_comment, the_gig.comment_id)

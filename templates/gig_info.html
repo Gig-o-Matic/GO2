@@ -130,10 +130,13 @@
 <script src="/js/plan_buttons.js"></script>
 <script>
 function add_comment() {
+    var d = new Date();
+    offset=d.getTimezoneOffset()/60;
     $.post("/gig_add_comment",
                 {
                     gk: '{{gig.key.urlsafe()}}',
-                    c: $('#commentinput').val()
+                    c: $('#commentinput').val(),
+                    o: offset
                 },
                 function(responseTxt,statusTxt,xhr){
                     if(statusTxt=="success")
