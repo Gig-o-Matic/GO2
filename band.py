@@ -318,14 +318,18 @@ class BandGetSections(BaseHandler):
             return # todo figure out what to do
             
         the_band_key = ndb.Key(urlsafe=the_band_key_str)
+        the_band = the_band_key.get()
         the_members_by_section = get_member_keys_of_band_key_by_section_key(the_band_key)
 
         the_user_is_band_admin = assoc.get_admin_status_for_member_for_band_key(the_user, the_band_key)
+
+        num_sections=len(the_band.sections)
                 
         template_args = {
             'the_band' : the_band_key.get(),
             'the_section_count' : len(the_members_by_section),
             'the_members_by_section' : the_members_by_section,
+            'num_sections' : num_sections,
             'the_user_is_band_admin' : the_user_is_band_admin
         }
         self.render_template('band_sections.html', template_args)
