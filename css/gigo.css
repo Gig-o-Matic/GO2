@@ -75,3 +75,11 @@ code {
     background-color: white;
     opacity: .95;
 }
+
+pre {
+    font: inherit;
+    border: inherit;
+    background-color: inherit;
+    padding: inherit;
+    margin: inherit;
+}
