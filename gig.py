@@ -248,7 +248,12 @@ class EditPage(BaseHandler):
                 self.response.write('did not find a band or gig!')
                 return # todo figure out what to do if we didn't find it
             is_new = False
-                    
+
+        if is_new:
+            user_is_band_admin = False
+        else:
+            user_is_band_adming = assoc.get_admin_status_for_member_for_band_key(the_user, the_gig.key.parent())
+            
         all_bands = assoc.get_confirmed_bands_of_member(the_user)
         if not all_bands:
             template_args = {
@@ -260,7 +265,7 @@ class EditPage(BaseHandler):
                 'title' : 'Gig Edit',
                 'gig' : the_gig,
                 'all_bands' : all_bands,
-                'user_is_band_admin': assoc.get_admin_status_for_member_for_band_key(the_user, the_gig.key.parent()),
+                'user_is_band_admin': user_is_band_admin,
                 'newgig_is_active' : is_new
             }
             self.render_template('gig_edit.html', template_args)
