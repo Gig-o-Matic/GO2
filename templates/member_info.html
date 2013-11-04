@@ -100,7 +100,7 @@ function updateBands() {
             },
             function(responseTxt,statusTxt,xhr){
                 if(statusTxt=="success")
-                    document.getElementById('bandlist').innerHTML=responseTxt;
+                    $('#bandlist').html(responseTxt);
                 if(statusTxt=="error")
                     alert("Error: "+xhr.status+": "+xhr.statusText);
             });
