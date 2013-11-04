@@ -68,7 +68,11 @@
             <div class="row">&nbsp;</div>
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <strong>Member Plans <a href="print_planlist?gk={{gig.key.urlsafe()}}"><i class="fa fa-print"></i></a></strong>
+                    <strong>Member Plans
+                    {% if gig.is_frozen %}
+                        (frozen)
+                    {% endif %}<a href="print_planlist?gk={{gig.key.urlsafe()}}"><i class="fa fa-print"></i></a>
+                    </strong>
                 </div>
                 <div class="panel-body">
                     <div class="row">

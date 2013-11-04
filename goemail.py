@@ -142,13 +142,13 @@ The Gig-O-Matic Team
     message.send()
     return True        
 
-def notify_superuser_of_archive(the_num):
+def notify_superuser_of_frozen(the_num):
     message = mail.EmailMessage()
     message.sender = SENDER_EMAIL
     message.to = 'gigomatic.superuser@gmail.com'
-    message.subject = 'Gig-O-Matic Auto-Archiver'
+    message.subject = 'Gig-O-Matic Auto-Freezer'
     message.body = """
-Yo! The Gig-o-Matic archived {0} gigs last night.
+Yo! The Gig-o-Matic froze {0} gigs last night.
     """.format(the_num)
     message.send()
     return True        

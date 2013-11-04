@@ -17,7 +17,6 @@ import member
 import band
 import plan
 import goemail
-import gigarchive
 import gigcomment
 import assoc
 
@@ -36,9 +35,8 @@ class Gig(ndb.Model):
     date = ndb.DateProperty(auto_now_add=True)
     call = ndb.TextProperty( default=None )
     status = ndb.IntegerProperty( default=0 )
-    archive_id = ndb.TextProperty()
-    is_archived = ndb.ComputedProperty(lambda self: self.archive_id is not None)
     comment_id = ndb.TextProperty( default = None)
+    is_frozen = ndb.BooleanProperty( default = False )
 #
 # Functions to make and find gigs
 #
@@ -76,9 +74,9 @@ def get_gigs_for_bands(the_band_list, num=None, start_date=None, keys_only=False
     all_gigs = []
     for a_band in the_band_list:
         if start_date is None:
-            gig_query = Gig.query(Gig.is_archived==False, ancestor=a_band.key).order(Gig.date)
+            gig_query = Gig.query(ancestor=a_band.key).order(Gig.date)
         else:
-            gig_query = Gig.query(ndb.AND(Gig.date >= start_date, Gig.is_archived==False), \
+            gig_query = Gig.query(Gig.date >= start_date, \
                                   ancestor=a_band.key).order(Gig.date)
         the_gigs = gig_query.fetch()
         all_gigs.append(the_gigs)
@@ -153,33 +151,14 @@ def get_gigs_for_member_for_dates(the_member, start_date, end_date):
                                                     end_date))
     return all_gigs
 
-def get_old_gig_keys(end_date):
+def get_old_gigs(end_date):
     """ Return gig objects by band, past gigs OK """
     
     # todo do we need to adjust the date?
     
-    gig_query = Gig.query(ndb.AND(Gig.is_archived == False, \
-                                  Gig.date <= end_date))
-    gigs = gig_query.fetch(keys_only=True)
+    gig_query = Gig.query(Gig.date <= end_date)
+    gigs = gig_query.fetch()
     return gigs
-
-def make_archive_for_gig_key(the_gig_key):
-    """ makes an archive for a gig - files away all the plans, then delete them """
-    
-    archive_id = gigarchive.make_archive_for_gig_key(the_gig_key)
-    if archive_id:
-        the_gig = the_gig_key.get()
-        if the_gig.archive_id:
-            gigarchive.delete_archive(the_gig.archive_id)
-        print 'gig: {0}'.format(the_gig)
-        the_gig.archive_id = archive_id
-        the_gig.put()
-
-        # also delete any plans, since they're all now in the archive
-        plan_keys = plan.get_plan_keys_for_gig_key(the_gig_key)
-        for a_plan_key in plan_keys:
-            a_plan_key.delete()
-
 
 #
 #
@@ -209,56 +188,42 @@ class InfoPage(BaseHandler):
             self.response.write('did not find a gig!')
             return # todo figure out what to do if we didn't find it
             
-        if not the_gig.is_archived:
-            the_band_key = the_gig.key.parent()
+        the_band_key = the_gig.key.parent()
 
-            the_member_keys = assoc.get_member_keys_of_band_key(the_band_key)
+        the_member_keys = assoc.get_member_keys_of_band_key(the_band_key)
+        
+        the_plans = []
+        
+        need_empty_section = False
+        for a_member_key in the_member_keys:
+            a_member = a_member_key.get()
+            the_plan = plan.get_plan_for_member_for_gig(a_member, the_gig)
+            if the_plan.section == None:
+                need_empty_section = True
+            info_block={}
+            info_block['the_gig_key'] = the_gig.key
+            info_block['the_plan_key'] = the_plan.key
+            info_block['the_member_key'] = a_member_key
+            info_block['the_band_key'] = the_band_key
+            info_block['the_assoc'] = assoc.get_assoc_for_band_key_and_member_key(the_user.key, the_band_key)
+            the_plans.append(info_block)
             
-            the_plans = []
-            
-            need_empty_section = False
-            for a_member_key in the_member_keys:
-                a_member = a_member_key.get()
-                the_plan = plan.get_plan_for_member_for_gig(a_member, the_gig)
-                if the_plan.section == None:
-                    need_empty_section = True
-                info_block={}
-                info_block['the_gig_key'] = the_gig.key
-                info_block['the_plan_key'] = the_plan.key
-                info_block['the_member_key'] = a_member_key
-                info_block['the_band_key'] = the_band_key
-                info_block['the_assoc'] = assoc.get_assoc_for_band_key_and_member_key(the_user.key, the_band_key)
-                the_plans.append(info_block)
-                
-            the_section_keys = band.get_section_keys_of_band_key(the_band_key)
-            if need_empty_section:
-                the_section_keys.append(None)
+        the_section_keys = band.get_section_keys_of_band_key(the_band_key)
+        if need_empty_section:
+            the_section_keys.append(None)
 
-            the_comment_text = None
-            if the_gig.comment_id:
-                the_comment_text = gigcomment.get_comment(the_gig.comment_id)
+        the_comment_text = None
+        if the_gig.comment_id:
+            the_comment_text = gigcomment.get_comment(the_gig.comment_id)
 
-            template_args = {
-                'title' : 'Gig Info',
-                'gig' : the_gig,
-                'the_plans' : the_plans,
-                'the_section_keys' : the_section_keys,
-                'comment_text' : the_comment_text
-            }
-            self.render_template('gig_info.html', template_args)
-
-        else:
-            # this is an archived gig
-            the_archived_plans = gigarchive.get_archived_plans(the_gig.archive_id)
-            template_args = {
-                'title' : 'Archived Gig Info',
-                'gig' : the_gig,
-                'archived_plans' : the_archived_plans,
-                'comment_text' : the_comment_text
-            }
-            self.render_template('gig_archived_info.html', template_args)
-            
-
+        template_args = {
+            'title' : 'Gig Info',
+            'gig' : the_gig,
+            'the_plans' : the_plans,
+            'the_section_keys' : the_section_keys,
+            'comment_text' : the_comment_text
+        }
+        self.render_template('gig_info.html', template_args)            
 
 class EditPage(BaseHandler):
     """ A class for rendering the gig edit page """
@@ -294,6 +259,7 @@ class EditPage(BaseHandler):
                 'title' : 'Gig Edit',
                 'gig' : the_gig,
                 'all_bands' : all_bands,
+                'user_is_band_admin': assoc.get_admin_status_for_member_for_band_key(the_user, the_gig.key.parent()),
                 'newgig_is_active' : is_new
             }
             self.render_template('gig_edit.html', template_args)
@@ -349,6 +315,12 @@ class EditPage(BaseHandler):
 
         gig_status = self.request.get("gig_status", '0')
         the_gig.status = int(gig_status)
+        
+        gig_freeze = self.request.get("gig_freezeplans", None)
+        if gig_freeze:
+            the_gig.is_frozen = True
+        else:
+            the_gig.is_frozen = False
 
         the_gig.put()            
 
@@ -372,8 +344,6 @@ class DeleteHandler(BaseHandler):
                 self.response.write('did not find gig!')
             else:
                 the_gig = ndb.Key(urlsafe=the_gig_key).get()
-                if the_gig.is_archived:
-                    gigarchive.delete_archive(the_gig.archive_id)
                 if the_gig.comment_id:
                     gigcomment.delete_comment(the_gig.comment_id)
                 plan.delete_plans_for_gig(the_gig)            
@@ -445,36 +415,17 @@ class PrintPlanlist(BaseHandler):
             'the_section_keys' : the_section_keys
         }
         self.render_template('print_planlist.html', template_args)
-        
-            
-        
-class ArchiveHandler(BaseHandler):
-    """ archive this gig, baby! """
-            
-    @user_required
-    def get(self):
-
-        # find the gig we're interested in
-        gig_key_str = self.request.get("gk", None)
-        if gig_key_str is None:
-            self.response.write('no gig key passed in!')
-            return # todo figure out what to do if there's no ID passed in
-            
-        the_gig_key=ndb.Key(urlsafe=gig_key_str)
-        if the_gig_key:
-            make_archive_for_gig_key(the_gig_key)
-
-        return self.redirect('/gig_info.html?gk={0}'.format(gig_key_str))
-        
-class AutoArchiveHandler(BaseHandler):
-    """ automatically archive old gigs """
+                
+class AutoFreezeHandler(BaseHandler):
+    """ automatically freeze old gigs """
     def get(self):
         date = datetime.datetime.now()
         end_date = date - datetime.timedelta(days=3)
-        the_gig_keys = get_old_gig_keys(end_date = end_date)
-        for a_gig_key in the_gig_keys:
-            make_archive_for_gig_key(a_gig_key)
-        goemail.notify_superuser_of_archive(len(the_gig_keys))
+        the_gigs = get_old_gigs(end_date = end_date)
+        for a_gig in the_gigs:
+            a_gig.is_frozen=True
+            a_gig.put()
+        goemail.notify_superuser_of_frozen(len(the_gigs))
         
 class CommentHandler(BaseHandler):
     """ takes a new comment and adds it to the gig """

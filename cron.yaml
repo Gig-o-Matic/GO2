@@ -1,4 +1,4 @@
 cron:
 - description: auto-archiving
-  url: /gig_autoarchive
+  url: /gig_autofreeze
   schedule: every day 05:00

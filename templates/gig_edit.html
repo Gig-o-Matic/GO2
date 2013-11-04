@@ -83,11 +83,21 @@
                     </select>
             </div>
         </div>
+        {% if user_is_band_admin or the_user_is_superuser %}
+            <div class="row">
+                <div class="form-group col-md-4 col-md-offset-2 col-sm-6 col-sm-offset-0 col-xs-6 col-xs-offset-0">        
+                    <input type="checkbox" id="freezeplans" name="gig_freezeplans"
+                    {% if gig.is_frozen %}
+                        checked
+                    {% endif %}
+                    > Freeze member plans  
+                </div>
+            </div>
+        {% endif %}
         <div class="row">
             <div class="form-group col-md-4 col-md-offset-2 col-sm-6 col-sm-offset-0 col-xs-6 col-xs-offset-0">
                 {% if gig!=None %}
                     <a data-toggle="modal" href="#deleteModal" class="btn btn-default">Delete</a>
-                    <a data-toggle="modal" href="#archiveModal" class="btn btn-default">Archive</a>
                 {% endif %}   
             </div>
             <div class="form-group col-md-4 text-right">                
@@ -128,25 +138,6 @@
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 
-    <div class="modal fade" id="archiveModal" tabindex="-1" role="dialog" aria-labelledby="archiveModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Confirm archive</h4>
-                </div>
-                <div class="modal-body">
-                    Do you really want to archive this gig?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Don't Archive</button>
-                    {% if gig %}
-                        <a class="btn btn-primary" id="opener" href="gig_archive?&gk={{ gig.key.urlsafe() }}">Archive</a>
-                    {% endif %}
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
 {% endblock modal %}
 {% block localscripts %}
 <script src="/datepicker/js/bootstrap-datepicker.js"></script>

@@ -81,12 +81,12 @@
         <div class="row">
             <div class="col-sm-2 col-xs-2 visible-sm visible-xs"></div>
             <div class="col-lg-{{plan_lg}} col-md-{{plan_lg}} col-md-offset-0 col-sm-{{plan_sm}} col-sm-offset-{{plan_sm_offset}} col-xs-{{plan_sm}} col-xs-offset-{{plan_sm_offset}} ">
-                {% if the_member_key == the_user.key or the_user_is_superuser %}
+                {% if (the_gig.is_frozen == False) and (the_member_key == the_user.key or the_user_is_superuser) %}
                     {{ plan_icon.icon_button(the_plan_key.get()) }}
                 {% else %}
                     {{ plan_icon.icon_display(the_plan_key.get().value) }}
                 {% endif %}
-                {% if the_member_key == the_user.key or the_user_is_superuser %}
+                {% if (the_gig.is_frozen == False) and (the_member_key == the_user.key or the_user_is_superuser) %}
                     <a href="#" class="comment-thing" id="username" data-type="text" data-pk="{{the_plan_key.urlsafe()}}" data-url="/updateplancomment" data-title="">{{the_plan_key.get().comment}}</a>
                 {% else %}
                     {{the_plan_key.get().comment}}
@@ -98,7 +98,7 @@
                         {% set the_section_keys = get_the_section_keys(the_band_key) %}
                     {% endif %}
                     {% set the_section_keys = the_band.sections %}
-                    {% if the_section_keys and the_section_keys|length > 1 and (the_plan_key.get().member == the_user.key or the_user_is_superuser)%}
+                    {% if the_section_keys and the_section_keys|length > 1 and (the_gig.is_frozen == False) and (the_plan_key.get().member == the_user.key or the_user_is_superuser)%}
                     <div class="dropdown">
                         <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" id='sel-{{the_plan_key.urlsafe()}}'>
                             {% if the_plan_key.get().section == None %}

@@ -10,7 +10,7 @@ import logging
 import member
 import goemail
 
-ENABLE_EMAIL = True
+ENABLE_EMAIL = False
 
 class LoginPage(BaseHandler):
     def get(self):
