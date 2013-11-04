@@ -5,42 +5,7 @@
 <div class="row">
     <div class="page-header col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0"><h2>Schedule: {{the_user.name}}</h2></div>
 </div>
-<div class="row">
-    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0">
-        <a href="/agenda_switch"><i class="fa fa-refresh fs-lg"></i>
-        {% if long_agenda %}
-            show brief
-        {% else %}
-            show all
-        {% endif %}</a>
-    </div>
-</div>
-<div class="row">
-    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0">
-    {% if the_user.show_long_agenda %}
-        <h3>All Upcoming</h3>
-    {% else %}
-        <h3>Next Few</h3>
-    {% endif %}
-    </div>
-</div>
-<div class="row">
-    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0">
-        <div id="upcomingevents">
-            {% if upcoming_plans %}
-                {% for plan_info in upcoming_plans %}
-                    <div class="row" style="padding-top: 5px; padding-bottom: 5px; {{ loop.cycle('', 'background:#f5f5f5;') }}">
-                        <div class="col-md-12">
-                            {{ plan_edit.plan_edit(plan_info) }}
-                        </div>
-                    </div>
-                {% endfor %}
-            {% else %}
-                Nothing coming up!
-            {% endif %}
-        </div>
-    </div>
-</div>
+
 {% if weighin_plans %}
     <div class="row">
         &nbsp;
@@ -62,6 +27,44 @@
         </div>
     </div>
 {% endif %}
+
+<div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0">
+    {% if the_user.show_long_agenda %}
+        <h3>All Upcoming Gigs</h3>
+    {% else %}
+        <h3>My Next Few Gigs</h3>
+    {% endif %}
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0">
+        <a href="/agenda_switch"><i class="fa fa-refresh fs-lg"></i>
+        {% if long_agenda %}
+            show brief
+        {% else %}
+            show all
+        {% endif %}</a>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0">
+        <div id="upcomingevents">
+            {% if upcoming_plans %}
+                {% for plan_info in upcoming_plans %}
+                    <div class="row" style="padding-top: 5px; padding-bottom: 5px; {{ loop.cycle('', 'background:#f5f5f5;') }}">
+                        <div class="col-md-12">
+                            {{ plan_edit.plan_edit(plan_info) }}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                Nothing coming up!
+            {% endif %}
+        </div>
+    </div>
+</div>
+
 {% endblock content %}
 
 {% block localscripts %}

@@ -55,7 +55,7 @@ class MainPage(BaseHandler):
                 the_band_key = the_plan.key.parent().get().key.parent()
                 info_block['the_band_key'] = the_band_key
                 info_block['the_assoc'] = assoc.get_assoc_for_band_key_and_member_key(the_user.key, the_band_key)
-                if num_to_put_in_upcoming and i<num_to_put_in_upcoming:
+                if num_to_put_in_upcoming and i<num_to_put_in_upcoming and the_plan.value:
                     upcoming_plans.append( info_block )
                 else:            
                     if (the_plan.value == 0 ):
