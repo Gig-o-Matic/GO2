@@ -24,7 +24,7 @@ class="landingwrap"
 </div>
 <br>
 <div class="row">
-    <pre>{{ the_gig.setlist }}</pre>
+    {{ the_gig.setlist | html_content | safe }}
 </div>
 {% endblock content %}
 {% block footer %}

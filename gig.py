@@ -19,6 +19,7 @@ import plan
 import goemail
 import gigcomment
 import assoc
+import jinja2env
 
 from debug import debug_print
 import datetime
@@ -458,4 +459,21 @@ class CommentHandler(BaseHandler):
             the_gig.put()
 
         return
-        
+
+class GetCommentHandler(BaseHandler):
+    """ returns the comment for a gig if there is one """
+    
+    @user_required
+    def post(self):
+    
+        gig_key_str = self.request.get("gk", None)
+        if gig_key_str is None:
+            return # todo figure out what to do if there's no ID passed in
+        the_gig = ndb.Key(urlsafe=gig_key_str).get()
+
+        if the_gig.comment_id:
+            the_comment = gigcomment.get_comment(the_gig.comment_id)
+            
+            self.response.write(jinja2env.html_content(the_comment))
+        else:
+            self.response.write('')
