@@ -4,19 +4,19 @@ function set_plan_button(the_id, the_value) {
 
     switch(the_value) {
         case '1':
-            the_result='<i class="fa fa-plus-circle fa-lg" style="color:green"></i><i class="fa fa-plus-circle fa-lg" style="color:green"></i>'
+            the_result='<i class="fa fa-check-circle fa-lg" style="color:green"></i><i class="fa fa-check-circle fa-lg" style="color:green"></i>'
             break;
         case '2':
-            the_result='<i class="fa fa-circle fa-lg" style="visibility:hidden"></i><i class="fa fa-plus-circle fa-lg" style="color:green"></i>'
+            the_result='<i class="fa fa-circle fa-lg" style="visibility:hidden"></i><i class="fa fa-check-circle fa-lg" style="color:green"></i>'
             break;
         case '3':
-            the_result='<i class="fa fa-plus-circle fa-lg" style="color:green"></i><i class="fa fa-minus-circle fa-lg" style="color:red"></i>'
+            the_result='<i class="fa fa-check-circle fa-lg" style="color:green"></i><i class="fa fa-times-circle fa-lg" style="color:red"></i>'
             break;
         case '4':
-            the_result='<i class="fa fa-circle fa-lg" style="visibility:hidden"></i><i class="fa fa-minus-circle fa-lg" style="color:red"></i>'
+            the_result='<i class="fa fa-circle fa-lg" style="visibility:hidden"></i><i class="fa fa-times-circle fa-lg" style="color:red"></i>'
             break;
         case '5':
-            the_result='<i class="fa fa-minus-circle fa-lg" style="color:red"></i><i class="fa fa-minus-circle fa-lg" style="color:red"></i>'
+            the_result='<i class="fa fa-times-circle fa-lg" style="color:red"></i><i class="fa fa-times-circle fa-lg" style="color:red"></i>'
             break;
     }
     
