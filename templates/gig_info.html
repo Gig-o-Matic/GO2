@@ -69,7 +69,6 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <strong>Member Plans <a href="print_planlist?gk={{gig.key.urlsafe()}}"><i class="fa fa-print"></i></a></strong>
-                    
                 </div>
                 <div class="panel-body">
                     <div class="row">
@@ -97,11 +96,53 @@
                     </div>
                 </div> <!-- panel body -->
             </div> <!-- panel -->
+            <div class="row">&nbsp;</div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>Comments</strong>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12" id="gig_comment">
+                            {% if comment_text %}
+                                <pre>{{ comment_text }}</pre>
+                            {% else %}
+                                No Comments (yet...)
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="row">&nbsp;</div>
+                    <div class="row">
+                        <div class="col-lg-10 col-md-10">
+                            <textarea class="form-control" id="commentinput" placeholder="say your piece!" name="comment_input" rows="2"></textarea>
+                        </div>
+                        <div class="col-lg-2 col-md-2">
+                            <button type="button" class="btn btn-primary btn-sm" onclick="add_comment();">Say it!</button>
+                        </div>
+                    </div>                    
+                </div> <!-- panel body -->
+            </div> <!-- panel -->
         </div>
-    </row>        
+    </div> <!-- row -->
 {% endblock content %}
 
 {% block localscripts %}
 <script src="/js/plan_buttons.js"></script>
+<script>
+function add_comment() {
+    $.post("/gig_add_comment",
+                {
+                    gk: '{{gig.key.urlsafe()}}',
+                    c: $('#commentinput').val()
+                },
+                function(responseTxt,statusTxt,xhr){
+                    if(statusTxt=="success")
+                        $('#commentinput').val('')
+                    if(statusTxt=="error")
+                        alert("Error: "+xhr.status+": "+xhr.statusText);
+                });
+    
+}
+</script>
 {% endblock localscripts %}
 

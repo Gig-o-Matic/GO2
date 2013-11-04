@@ -18,6 +18,7 @@ import band
 import plan
 import goemail
 import gigarchive
+import gigcomment
 import assoc
 
 from debug import debug_print
@@ -37,6 +38,7 @@ class Gig(ndb.Model):
     status = ndb.IntegerProperty( default=0 )
     archive_id = ndb.TextProperty()
     is_archived = ndb.ComputedProperty(lambda self: self.archive_id is not None)
+    comment_id = ndb.TextProperty( default = None)
 #
 # Functions to make and find gigs
 #
@@ -230,13 +232,18 @@ class InfoPage(BaseHandler):
                 
             the_section_keys = band.get_section_keys_of_band_key(the_band_key)
             if need_empty_section:
-                the_section_keys.append(None)                
+                the_section_keys.append(None)
+
+            the_comment_text = None
+            if the_gig.comment_id:
+                the_comment_text = gigcomment.get_comment(the_gig.comment_id)
 
             template_args = {
                 'title' : 'Gig Info',
                 'gig' : the_gig,
                 'the_plans' : the_plans,
-                'the_section_keys' : the_section_keys
+                'the_section_keys' : the_section_keys,
+                'comment_text' : the_comment_text
             }
             self.render_template('gig_info.html', template_args)
 
@@ -247,6 +254,7 @@ class InfoPage(BaseHandler):
                 'title' : 'Archived Gig Info',
                 'gig' : the_gig,
                 'archived_plans' : the_archived_plans,
+                'comment_text' : the_comment_text
             }
             self.render_template('gig_archived_info.html', template_args)
             
@@ -290,7 +298,7 @@ class EditPage(BaseHandler):
             }
             self.render_template('gig_edit.html', template_args)
         
-        
+    @user_required        
     def post(self):
         """post handler - if we are edited by the template, handle it here 
            and redirect back to info page"""
@@ -366,6 +374,8 @@ class DeleteHandler(BaseHandler):
                 the_gig = ndb.Key(urlsafe=the_gig_key).get()
                 if the_gig.is_archived:
                     gigarchive.delete_archive(the_gig.archive_id)
+                if the_gig.comment_id:
+                    gigcomment.delete_comment(the_gig.comment_id)
                 plan.delete_plans_for_gig(the_gig)            
                 the_gig.key.delete()
             return self.redirect('/agenda.html')
@@ -465,3 +475,29 @@ class AutoArchiveHandler(BaseHandler):
         for a_gig_key in the_gig_keys:
             make_archive_for_gig_key(a_gig_key)
         goemail.notify_superuser_of_archive(len(the_gig_keys))
+        
+class CommentHandler(BaseHandler):
+    """ takes a new comment and adds it to the gig """
+
+    @user_required
+    def post(self):
+        gig_key_str = self.request.get("gk", None)
+        if gig_key_str is None:
+            return # todo figure out what to do if there's no ID passed in
+        the_gig = ndb.Key(urlsafe=gig_key_str).get()
+
+        comment_str = self.request.get("c", None)
+        if comment_str is None or comment_str=='':
+            return
+        
+        user=self.user
+        timestr=datetime.datetime.now().strftime('%-m/%-d/%Y %I:%M%p')
+        new_comment = '{0} ({1}) said at {2}:\n{3}'.format(user.name, user.email_address, timestr, comment_str)
+
+        new_id = gigcomment.add_comment_for_gig(new_comment, the_gig.comment_id)
+        if new_id != the_gig.comment_id:
+            the_gig.comment_id = new_id
+            the_gig.put()
+
+        return
+        

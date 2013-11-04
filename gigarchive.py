@@ -56,6 +56,7 @@ def make_archive_for_gig_key(the_gig_key):
     my_document = search.Document(
         fields=[
            search.TextField(name='plans', value=the_archive_text),
+           search.TextField(name='type', value='archive')
            ])
 
     try:
