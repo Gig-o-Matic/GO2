@@ -26,7 +26,6 @@ class Assoc(ndb.Model):
     is_multisectional = ndb.BooleanProperty( default = False )
     member_name = ndb.StringProperty() # need this for ordering
     
-    
 def get_member_keys_of_band_key(the_band_key):
     """ Return member objects by band"""        
     assoc_query = Assoc.query( ndb.AND(Assoc.band==the_band_key, Assoc.is_confirmed==True ) ).order(Assoc.member_name)
@@ -135,7 +134,6 @@ def set_default_section(the_member_key, the_band_key, the_section_key):
     if a:
         a.default_section = the_section_key
         a.put()
-        plan.set_section_for_empty_plans(the_member_key, the_band_key, the_section_key)                
 
 def set_multi(the_member_key, the_band_key, the_do):
     """ find the band in a member's list of assocs, and set default section """
@@ -145,6 +143,7 @@ def set_multi(the_member_key, the_band_key, the_do):
         a.put()
 
 def get_assocs_of_band_key(the_band_key, confirmed_only=False, keys_only=False):
+    """ go get all the assocs for a band """
     if confirmed_only:
         assoc_query = Assoc.query( ndb.AND(Assoc.band==the_band_key, Assoc.is_confirmed==True ) )
     else:

@@ -160,7 +160,22 @@ def get_old_gigs(end_date):
     gig_query = Gig.query(Gig.date <= end_date)
     gigs = gig_query.fetch()
     return gigs
-
+    
+def set_sections_for_empty_plans(the_gig):
+    """ For this gig, get all plans. For plans with no section set, get the users default and set it """
+    """ This is used when freezing a gig's plans """
+    
+    the_plan_keys = plan.get_plan_keys_for_gig_key(the_gig.key)
+    the_band_key = the_gig.key.parent()
+    for a_plan_key in the_plan_keys:
+        a_plan = a_plan_key.get()
+        if a_plan.section is None:
+            the_member_key = a_plan.member
+            the_assoc = assoc.get_assoc_for_band_key_and_member_key(the_member_key, the_band_key)
+            if the_assoc:
+                a_plan.section = the_assoc.default_section
+                a_plan.put()
+            
 #
 #
 # Handlers
@@ -191,24 +206,29 @@ class InfoPage(BaseHandler):
             
         the_band_key = the_gig.key.parent()
 
-        the_member_keys = assoc.get_member_keys_of_band_key(the_band_key)
-        
+        the_assocs = assoc.get_assocs_of_band_key(the_band_key, confirmed_only=True, keys_only=False)
+
         the_plans = []
         
         need_empty_section = False
-        for a_member_key in the_member_keys:
+        for the_assoc in the_assocs:
+            a_member_key = the_assoc.member
             a_member = a_member_key.get()
             the_plan = plan.get_plan_for_member_for_gig(a_member, the_gig)
-            if the_plan.section == None:
+            if the_plan.section==None and the_assoc.default_section==None:
                 need_empty_section = True
             info_block={}
             info_block['the_gig_key'] = the_gig.key
             info_block['the_plan_key'] = the_plan.key
             info_block['the_member_key'] = a_member_key
             info_block['the_band_key'] = the_band_key
-            info_block['the_assoc'] = assoc.get_assoc_for_band_key_and_member_key(the_user.key, the_band_key)
-            the_plans.append(info_block)
-            
+            info_block['the_assoc'] = the_assoc
+            if the_plan.section is not None:
+                info_block['the_section'] = the_plan.section
+            else:
+                info_block['the_section'] = the_assoc.default_section            
+            the_plans.append(info_block)          
+        
         the_section_keys = band.get_section_keys_of_band_key(the_band_key)
         if need_empty_section:
             the_section_keys.append(None)
@@ -325,6 +345,7 @@ class EditPage(BaseHandler):
         gig_freeze = self.request.get("gig_freezeplans", None)
         if gig_freeze:
             the_gig.is_frozen = True
+            set_sections_for_empty_plans(the_gig)
         else:
             the_gig.is_frozen = False
 

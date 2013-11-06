@@ -128,6 +128,14 @@ def delete_section_key(the_section_key):
         the_band.sections.pop(i)
         the_band.put()
     the_section_key.delete()
+    
+    # todo The app doesn't let you delete a section unless it's empty. But for any gig,
+    # it's possible that the user has previously specified that he wants to play in the
+    # section to be deleted. So, find plans with the section set, and reset the section
+    # for that plan back to None to use the default. Note that this has one bad side-effect:
+    # if the gig is frozen, in theory the plans won't change. But this will lose the member's
+    # section that was frozen when the gig was frozen. Ah well.
+    plan.remove_section_from_plans(the_section_key)
 
 #
 # class for section

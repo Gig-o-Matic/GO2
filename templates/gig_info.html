@@ -89,7 +89,7 @@
                                     </div>
                                     <div class="col-lg-10 col-md-10 col-sm-8 col-xs-8">
                                         {% for member_plan in the_plans %}
-                                            {% if member_plan['the_plan_key'].get().section == the_section %}
+                                            {% if member_plan['the_section'] == the_section %}
                                                 {{ plan_edit.plan_edit(member_plan) }}
                                             {% endif %}
                                         {% endfor %}

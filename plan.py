@@ -33,7 +33,7 @@ class Plan(ndb.Model):
 
 def new_plan(the_gig, the_member, value):
     """ associate a gig and a member """
-    the_plan = Plan(parent=the_gig.key, member=the_member.key, value=value, comment="", section=assoc.default_section_for_band_key(the_member, the_gig.key.parent()))
+    the_plan = Plan(parent=the_gig.key, member=the_member.key, value=value, comment="", section=None)
     the_plan.put()
     return the_plan
 
@@ -61,15 +61,6 @@ def get_plan_for_member_key_for_gig_key(the_member_key, the_gig_key):
 def get_plan_for_member_for_gig(the_member, the_gig):
     return get_plan_for_member_key_for_gig_key(the_member_key=the_member.key, the_gig_key=the_gig.key)
 
-def leave_section(the_assoc, the_gone_section_key, the_new_default_key):
-    """ find all the plans for a member, and if any are for a section the member left, swap for another """
-    plan_query = Plan.query(Plan.member==the_assoc.member)
-    plans = plan_query.fetch()
-    for plan in plans:
-        if (plan.section == the_gone_section_key):
-            plan.section = the_new_default_key
-            plan.put()
-
 def update_plan(the_plan, the_value):
     the_plan.value=the_value
     the_plan.put()
@@ -82,14 +73,13 @@ def update_plan_section_key(the_plan, the_section_key):
     the_plan.section=the_section_key
     the_plan.put()
 
-def set_section_for_empty_plans(the_member_key, the_band_key, the_section_key):
-    """ find plans for a member for a band, and if there's no section, set it """
-    the_gigs = gig.get_gigs_for_bands(the_band_key.get(), start_date=datetime.datetime.now())
-    for a_gig in the_gigs:
-        the_plan = get_plan_for_member_for_gig(the_member_key.get(), a_gig)
-        if the_plan.section is None:
-            the_plan.section=the_section_key
-            the_plan.put()
+def remove_section_from_plans(the_section_key):
+    """ if any plans have this section key, set the section to None """
+    plan_query = Plan.query(Plan.section==the_section_key)
+    the_plans = plan_query.fetch()
+    for the_plan in the_plans:
+        the_plan.section=None
+    ndb.put_multi(the_plans)
 
 def delete_plans_for_gig(the_gig):
     """ A gig is being deleted, so forget everyone's plans about it """
