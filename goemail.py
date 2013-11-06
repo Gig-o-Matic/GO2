@@ -5,6 +5,7 @@ import band
 import gig
 import member
 import assoc
+import logging
 
 SENDER_EMAIL = 'gigomatic.superuser@gmail.com'
 
@@ -118,11 +119,15 @@ def announce_new_gig(the_gig, the_gig_url):
 
 def send_new_member_email(band,new_member):
     members=assoc.get_admin_members_from_band_key(band.key)
+    logging.debug('found admin members: {0}'.format([x.email_address for x in members]))
     for the_member in members:
         send_the_new_member_email(the_member.email_address, new_member=new_member, the_band=band)
         
  
 def send_the_new_member_email(the_email_address, new_member, the_band):
+
+    logging.debug('sent new_member_email to {0}'.format(the_email_address))
+
     if not mail.is_email_valid(the_email_address):
         return False
     message = mail.EmailMessage()
@@ -138,7 +143,7 @@ http://gig-o-matic.appspot.com/band_info.html?bk={2}
 Thanks,
 The Gig-O-Matic Team
 
-    """.format(the_member.name, the_band.name, the_band.key.urlsafe())
+    """.format(new_member.name, the_band.name, the_band.key.urlsafe())
     message.send()
     return True        
 

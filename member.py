@@ -359,7 +359,7 @@ class ManageBandsNewAssoc(BaseHandler):
         the_member=ndb.Key(urlsafe=the_member_key).get()
         the_band=ndb.Key(urlsafe=the_band_key).get()
         
-        if assoc.get_assoc_for_band_key_and_member_key(the_band_key = the_band.key, the_member_key = the_member.key) == None:
+        if assoc.get_assoc_for_band_key_and_member_key(the_band_key = the_band.key, the_member_key = the_member.key) is None:
             assoc.new_association(the_member, the_band)
         
 
