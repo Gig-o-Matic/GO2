@@ -83,7 +83,7 @@
                     </select>
             </div>
         </div>
-        {% if user_is_band_admin or the_user_is_superuser %}
+        {% if newgig_is_active==False and (user_is_band_admin or the_user_is_superuser) %}
             <div class="row">
                 <div class="form-group col-md-4 col-md-offset-2 col-sm-6 col-sm-offset-0 col-xs-6 col-xs-offset-0">        
                     <input type="checkbox" id="freezeplans" name="gig_freezeplans"
