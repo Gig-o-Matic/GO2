@@ -150,7 +150,10 @@ $(document).ready(function() {
                     },
                     function(responseTxt,statusTxt,xhr){
                         if(statusTxt=="success")
-                            updateBands();
+                            $('#bandlist').html('<i class="fa fa-spinner fa-spin"></i>');
+                            setTimeout(function() {
+                                updateBands()
+                            }, 500); // delay to let database catch up
                         if(statusTxt=="error")
                           alert("Error: "+xhr.status+": "+xhr.statusText);
                     });

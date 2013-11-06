@@ -339,7 +339,6 @@ class ManageBandsGetAssocs(BaseHandler):
         }
         self.render_template('member_band_assocs.html', template_args)
         
-
 class ManageBandsNewAssoc(BaseHandler):
     """ makes a new assoc for a member """                   
 
@@ -360,7 +359,7 @@ class ManageBandsNewAssoc(BaseHandler):
         the_band=ndb.Key(urlsafe=the_band_key).get()
         
         if assoc.get_assoc_for_band_key_and_member_key(the_band_key = the_band.key, the_member_key = the_member.key) is None:
-            assoc.new_association(the_member, the_band)
+            assoc.new_association(the_member, the_band)        
         
 
 class ManageBandsDeleteAssoc(BaseHandler):
