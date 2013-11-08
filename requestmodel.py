@@ -22,7 +22,6 @@ def user_required(handler):
     def check_login(self, *args, **kwargs):
         auth = self.auth
         if not auth.get_user_by_session():
-            print '\n\n path is {0}\n\n'.format(self.request.path)
             if self.request.path=='/':
                 self.redirect(self.uri_for('login'),abort=True)
             else:
