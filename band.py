@@ -48,6 +48,10 @@ def forget_band_from_key(the_band_key):
     # delete all assocs
     the_assoc_keys = assoc.get_assocs_of_band_key(the_band_key, confirmed_only=False, keys_only=True)
     ndb.delete_multi(the_assoc_keys)
+    
+    # delete the sections
+    the_section_keys = get_section_keys_of_band_key(the_band_key)
+    ndb.delete_multi(the_section_keys)
 
     # delete the gigs
     the_band = the_band_key.get()
