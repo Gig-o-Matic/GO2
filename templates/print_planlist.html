@@ -38,9 +38,9 @@ class="landingwrap"
                     {% endif %}
                 </div>
                 <div class="col-lg-10">
-                    {% for member_plan in the_plans %}
+                    {% for member_plan in the_plans %}                    
                         {% set the_plan = member_plan['the_plan_key'].get() %}
-                        {% if the_plan.section  == the_section and the_plan.value and the_plan.value < 3 %}
+                        {% if member_plan['the_section']  == the_section and the_plan.value and the_plan.value < 3 %}
                             {% set the_member = the_plan.member.get() %}
                             <div class="row">
                                 <div class="col-md-3 col-sm-3 col-xs-3">

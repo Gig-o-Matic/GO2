@@ -21,6 +21,7 @@ import gigarchive
 import gigcomment
 import assoc
 import jinja2env
+import logging
 
 from debug import debug_print
 import datetime
@@ -449,25 +450,41 @@ class PrintPlanlist(BaseHandler):
             
         the_gig = the_gig_key.get()   
         the_band_key = the_gig_key.parent()
-        the_member_keys = assoc.get_member_keys_of_band_key(the_band_key)
-        the_plans = []        
+
+        the_assocs = assoc.get_assocs_of_band_key(the_band_key, confirmed_only=True, keys_only=False)
+
+        the_plans = []
+    
         need_empty_section = False
-        for a_member_key in the_member_keys:
+        for the_assoc in the_assocs:
+            a_member_key = the_assoc.member
             a_member = a_member_key.get()
             the_plan = plan.get_plan_for_member_for_gig(a_member, the_gig)
-            if the_plan.section == None:
+            if the_plan.section==None and the_assoc.default_section==None:
                 need_empty_section = True
             info_block={}
             info_block['the_gig_key'] = the_gig.key
             info_block['the_plan_key'] = the_plan.key
             info_block['the_member_key'] = a_member_key
             info_block['the_band_key'] = the_band_key
-            info_block['the_assoc'] = assoc.get_assoc_for_band_key_and_member_key(the_user.key, the_band_key)
-            the_plans.append(info_block)
+            info_block['the_assoc'] = the_assoc
+            if the_plan.section is not None:
+                info_block['the_section'] = the_plan.section
+            else:
+                info_block['the_section'] = the_assoc.default_section            
+
+            logging.error('xxx {0}'.format(info_block['the_section']))
+            logging.error('xxx {0}'.format(info_block['the_section'].get()))
+            if info_block['the_section']:
+                logging.error('the section = {0}'.format(info_block['the_section'].get().name))
+            else:
+                logging.error('no section')
             
+            the_plans.append(info_block)          
+    
         the_section_keys = band.get_section_keys_of_band_key(the_band_key)
         if need_empty_section:
-            the_section_keys.append(None)                
+            the_section_keys.append(None)            
 
         template_args = {
             'title' : 'Gig Info',
