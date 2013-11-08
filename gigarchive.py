@@ -51,7 +51,7 @@ def make_archive_for_gig_key(the_gig_key):
                                                                the_member.name,
                                                                plan.plan_text[the_plan.value],
                                                                the_comment)
-            the_archive_text = '{0}\n{1}'.format(the_archive_text,the_section_name)
+            the_archive_text = '{0}\n'.format(the_archive_text)
 
     # create a document
     my_document = search.Document(
