@@ -23,7 +23,6 @@ import assoc
 import jinja2env
 import logging
 
-from debug import debug_print
 import datetime
 
 #
@@ -52,7 +51,6 @@ def new_gig(the_band, title, date=None, contact=None, details="", setlist="", ca
     the_gig = Gig(parent=the_band.key, title=title, contact=contact, \
                     details=details, setlist=setlist, date=date, call=call)
     the_gig.put()
-    debug_print('new_gig: added new gig: {0} on {1}'.format(title, str(date)))
     return the_gig
                 
 def get_gig_from_key(key):
@@ -114,7 +112,6 @@ def get_gigs_for_bands(the_band_list, num=None, start_date=None, keys_only=False
             sorted_gigs = []
 
     sorted_gigs = list1
-    print 'sorted gigs got {0}'.format(len(list1))
 
     if num is None:
         return list1
@@ -188,7 +185,6 @@ def make_archive_for_gig_key(the_gig_key):
         the_gig = the_gig_key.get()
         if the_gig.archive_id:
             gigarchive.delete_archive(the_gig.archive_id)
-        print 'gig: {0}'.format(the_gig)
         the_gig.archive_id = archive_id
         the_gig.put()
 
@@ -472,13 +468,6 @@ class PrintPlanlist(BaseHandler):
                 info_block['the_section'] = the_plan.section
             else:
                 info_block['the_section'] = the_assoc.default_section            
-
-            logging.error('xxx {0}'.format(info_block['the_section']))
-            logging.error('xxx {0}'.format(info_block['the_section'].get()))
-            if info_block['the_section']:
-                logging.error('the section = {0}'.format(info_block['the_section'].get().name))
-            else:
-                logging.error('no section')
             
             the_plans.append(info_block)          
     
