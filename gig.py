@@ -531,12 +531,12 @@ class CommentHandler(BaseHandler):
         timestr=dt.strftime('%-m/%-d/%Y %I:%M%p')
         new_comment = '{0} ({1}) said at {2}:\n{3}'.format(user.name, user.email_address, timestr, comment_str)
 
-        new_id = gigcomment.add_comment_for_gig(new_comment, the_gig.comment_id)
+        new_id, the_comment_text = gigcomment.add_comment_for_gig(new_comment, the_gig.comment_id)
         if new_id != the_gig.comment_id:
             the_gig.comment_id = new_id
             the_gig.put()
 
-        return
+        self.response.write(jinja2env.html_content(the_comment_text))
 
 class GetCommentHandler(BaseHandler):
     """ returns the comment for a gig if there is one """

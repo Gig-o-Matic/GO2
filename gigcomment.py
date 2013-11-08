@@ -36,7 +36,7 @@ def add_comment_for_gig(the_comment, the_comment_id=None):
     
     doc_id = result[0].id
     
-    return doc_id
+    return doc_id, the_comment_text
     
 def get_comment(comment_id):
     index = search.Index(name="gigomatic_index")
