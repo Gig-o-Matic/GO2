@@ -32,8 +32,6 @@ def get_motd_object():
     motd_query = Motd.query()
     motd = motd_query.fetch(1)
     
-    print '\n\nfetched motd {0}'.format(motd)
-
     if len(motd) == 0:
         return None
     else:
