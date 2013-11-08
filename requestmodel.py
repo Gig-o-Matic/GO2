@@ -92,7 +92,6 @@ class BaseHandler(webapp2.RequestHandler):
             params['welcome'] = True
         if self.user is not None and not self.user.seen_motd:
             params['motd'] = motd_db.get_motd()
-        print 'user is {0}'.format(self.user)
         template = je.get_template(filename)
         self.response.write(template.render(params))
 
