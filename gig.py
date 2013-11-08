@@ -222,7 +222,10 @@ class InfoPage(BaseHandler):
         the_gig = gig_key.get()
 
         if the_gig is None:
-            self.response.write('did not find a gig!')
+            template_args = {
+                'title' : 'Uh Oh!',
+            }
+            self.render_template('no_gig_found.html', template_args)
             return # todo figure out what to do if we didn't find it
 
         the_comment_text = None
