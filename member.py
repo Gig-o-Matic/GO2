@@ -153,7 +153,6 @@ class InfoPage(BaseHandler):
         self._make_page(the_user=self.user)
             
     def _make_page(self,the_user):
-        print 'IN MEMBER_INFO {0}'.format(the_user.name)
 
         the_member_key=self.request.get("mk",'0')
         if the_member_key!='0':
@@ -167,7 +166,6 @@ class InfoPage(BaseHandler):
         if the_member is None:
             self.response.write('did not find a member!')
             return # todo figure out what to do if we didn't find it
-        debug_print('found member object: {0}'.format(the_member.name))
         
         if the_member.key == the_user.key:
             is_me = True
@@ -178,7 +176,6 @@ class InfoPage(BaseHandler):
         the_band_keys=assoc.get_band_keys_of_member_key(the_member_key=the_member.key, confirmed_only=True)
         
         email_change = self.request.get('e',False)
-        print '\n\nwoo {0}\n\n'.format(email_change)
         if email_change=='True':
             email_change_msg='You have selected a new email address - check your inbox to verify the new address!'
         else:
@@ -201,15 +198,11 @@ class EditPage(BaseHandler):
 
     @user_required
     def get(self):
-        print 'MEMBER_EDIT GET HANDLER'
         self._make_page(the_user=self.user)
 
     def _make_page(self, the_user):
-        debug_print('IN MEMBER_EDIT {0}'.format(the_user.name))
-
-
         the_member_key=self.request.get("mk",'0')
-        print 'the_member_key is {0}'.format(the_member_key)
+
         if the_member_key!='0':
             the_member = ndb.Key(urlsafe=the_member_key).get()
         else:
@@ -217,7 +210,6 @@ class EditPage(BaseHandler):
         if the_member is None:
             self.response.write('did not find a member!')
             return # todo figure out what to do if we didn't find it
-        debug_print('found member object: {0}'.format(the_member.name))
 
         if the_member==None:
             the_cancel_url=self.uri_for("agenda")
@@ -236,9 +228,6 @@ class EditPage(BaseHandler):
 
     def post(self):
         """post handler - if we are edited by the template, handle it here and redirect back to info page"""
-        print 'MEMBER_EDIT POST HANDLER'
-
-        print str(self.request.arguments())
 
         the_user = self.user            
 
@@ -272,17 +261,14 @@ class EditPage(BaseHandler):
        
         member_name=self.request.get("member_name", None)
         if member_name is not None and member_name != '':
-            print 'got name {0}'.format(member_name)
             the_member.name=member_name
                 
         member_phone=self.request.get("member_phone", None)
         if member_phone is not None:
-            print 'got phone {0}'.format(member_phone)
             the_member.phone=member_phone
 
         member_statement=self.request.get("member_statement", None)
         if member_statement is not None:
-            print 'got statement {0}'.format(member_statement)
             the_member.statement=member_statement
 
         member_password1=self.request.get("member_password1", None)
@@ -345,8 +331,6 @@ class ManageBandsNewAssoc(BaseHandler):
     def post(self):    
         """ makes a new assoc for a member """
         
-        print 'in new assoc handler'
-        
         the_user = self.user
         
         the_member_key=self.request.get('mk','0')
@@ -367,8 +351,6 @@ class ManageBandsDeleteAssoc(BaseHandler):
 
     def get(self):    
         """ deletes an assoc for a member """
-        
-        print 'in delete assoc handler'
         
         the_user = self.user
         
@@ -442,8 +424,6 @@ class AdminPage(BaseHandler):
         # todo make sure the user is a superuser
         
         the_members = get_all_members()
-        
-        print '\n\n{0}\n\n'.format([x.name for x in the_members])
         
         template_args = {
             'title' : 'Member Admin',
