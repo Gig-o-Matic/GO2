@@ -40,8 +40,8 @@ class Member(webapp2_extras.appengine.auth.models.User):
     """ Models a gig-o-matic member """
     name = ndb.StringProperty()
     email_address = ndb.TextProperty()
-    phone = ndb.StringProperty(indexed=False)
-    statement = ndb.TextProperty()
+    phone = ndb.StringProperty(default='', indexed=False)
+    statement = ndb.TextProperty(default='')
     is_superuser = ndb.BooleanProperty(default=False)
     created = ndb.DateTimeProperty(auto_now_add=True)
     preferences = ndb.StructuredProperty(MemberPreferences)
