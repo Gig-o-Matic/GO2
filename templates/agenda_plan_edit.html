@@ -9,6 +9,7 @@
 {% set the_band_key = plan_info['the_band_key'] %}
 {% set the_band = the_band_key.get() %}
 {% set the_assoc = plan_info['the_assoc'] %}
+{% set the_section = plan_info['the_section'] %}
 {% if the_assoc and the_assoc.is_multisectional %}
     {% set show_section = True %}
 {% else %}
@@ -101,10 +102,10 @@
                     {% if the_section_keys and the_section_keys|length > 1 and (the_plan_key.get().member == the_user.key or the_user_is_superuser)%}
                     <div class="dropdown">
                         <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" id='sel-{{the_plan_key.urlsafe()}}'>
-                            {% if the_plan_key.get().section == None %}
+                            {% if the_section == None %}
                                 section...  <span class="caret"></span>
                             {% else %}
-                                {{the_plan_key.get().section.get().name}} <span class="caret"></span>
+                                {{the_section.get().name}} <span class="caret"></span>
                             {% endif %}
                         </button>
                         <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
