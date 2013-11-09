@@ -78,21 +78,27 @@
                     </div>
                 </div>
 
-                {% if the_user_is_band_admin or the_user_is_superuser %}    
+                {% if the_user_is_band_admin or the_user_is_superuser %}   
+                <div class="panel-group" id="accordion"> 
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <strong>
-                                Member Admin
-                            </strong>
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                                <strong>
+                                    Member Admin
+                                </strong>
+                            </a>
                         </div>
-                        <div class="panel-body">
-                            <div class="row">
-                                <div class="col-md-12 col-md-offset-0" id="memberlist">
-                                    <i class="fa fa-spinner fa-spin fa-lg"></i>
+                        <div id="collapseOne" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-12 col-md-offset-0" id="memberlist">
+                                        <i class="fa fa-spinner fa-spin fa-lg"></i>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        <//div>
                     </div>
+                </div>
                 {% endif %}
             </div>
         </div>
