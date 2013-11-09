@@ -47,7 +47,7 @@ class CalEvents(BaseHandler):
         the_bands = assoc.get_band_keys_of_member_key(the_member.key, confirmed_only=True)
         num_bands = len(the_bands)
         
-        gigs=gig.get_gigs_for_member_for_dates(the_member, start_date, end_date)
+        gigs=gig.get_gigs_for_member_for_dates(the_member=the_member, start_date=start_date, end_date=end_date, get_canceled=False)
         
         events=[]
         colors=['#FF9F80','#D1F2A5','#EFFAB4','#FFC48C','#F56991']

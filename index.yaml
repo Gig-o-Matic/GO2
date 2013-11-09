@@ -58,6 +58,12 @@ indexes:
 - kind: Gig
   ancestor: yes
   properties:
+  - name: is_canceled
+  - name: date
+
+- kind: Gig
+  ancestor: yes
+  properties:
   - name: is_past
   - name: date
 
