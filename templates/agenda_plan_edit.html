@@ -55,7 +55,7 @@
     <div class="col-lg-{{grp1_lg}} col-md-{{grp1_lg}} col-sm-{{grp1_sm}} col-xs-{{grp1_sm}}">
         <div class="row">
             <div class="col-md-{{date_lg}} col-sm-{{date_sm}} col-xs-{{date_sm}}">
-                {{ the_gig.date.strftime('%-m/%-d')|e }}
+                {{ the_gig.date.strftime('%-m/%-d %a')|e }}
             </div>
             <div class="col-md-{{title_lg}} col-sm-{{title_sm}} col-xs-{{title_sm}}">
                 <a href="gig_info.html?gk={{ the_gig_key.urlsafe() }}" ><strong>{{ the_gig.title|e }}</strong></a>
