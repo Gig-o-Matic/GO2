@@ -37,7 +37,7 @@ class Gig(ndb.Model):
     date = ndb.DateProperty(auto_now_add=True)
     call = ndb.TextProperty( default=None )
     status = ndb.IntegerProperty( default=0 )
-    archive_id = ndb.TextProperty()
+    archive_id = ndb.TextProperty( default=None )
     is_archived = ndb.ComputedProperty(lambda self: self.archive_id is not None)
     comment_id = ndb.TextProperty( default = None)
 #
@@ -80,6 +80,7 @@ def get_gigs_for_bands(the_band_list, num=None, start_date=None, keys_only=False
         else:
             gig_query = Gig.query(ndb.AND(Gig.date >= start_date, Gig.is_archived==False), \
                                   ancestor=a_band.key).order(Gig.date)
+
         the_gigs = gig_query.fetch()
         all_gigs.append(the_gigs)
         
@@ -133,6 +134,7 @@ def get_gigs_for_band_key_for_dates(the_band_key, start_date, end_date):
                                   Gig.date <= end_date), \
                                   ancestor=the_band_key).order(Gig.date)
     gigs = gig_query.fetch()
+    
     return gigs
 
 def get_gigs_for_member_for_dates(the_member, start_date, end_date):
