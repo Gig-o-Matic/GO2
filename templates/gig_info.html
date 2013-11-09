@@ -50,7 +50,7 @@
                     <div class="row">&nbsp;</div>
                     <div class="row">
                         <div class="col-md-2 col-sm-2 col-xs-3">Details</div>
-                        <div class="col-md-10 col-sm-10 col-xs-9">{{ gig.details  | html_content | safe  }}</div>
+                        <div class="col-md-10 col-sm-10 col-xs-9 trunc">{{ gig.details  | html_content | safe  }}</div>
                     </div>
                     <div class="row">&nbsp;</div>
                     <div class="row">
@@ -129,6 +129,11 @@
 {% block localscripts %}
 <script src="/js/plan_buttons.js"></script>
 <script src="/js/comments.js"></script>
-
+<script src="/js/jquery.truncator.js"></script>
+<script>
+$(document).ready(function() {
+    $('.trunc').truncate({max_length: 500});
+});
+</script>
 {% endblock localscripts %}
 
