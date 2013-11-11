@@ -10,25 +10,35 @@
 import band
 import plan
 import gig
+import assoc
 
 from google.appengine.api import search 
 
 def make_archive_for_gig_key(the_gig_key):
     """ makes an archive for a gig - files away all the plans, then delete them """
 
-    the_members_by_section = band.get_member_keys_of_band_key_by_section_key(the_gig_key.parent())
+
     the_gig = the_gig_key.get()
     the_band = the_gig_key.parent().get()
+    the_assocs = assoc.get_confirmed_assocs_of_band_key(the_band.key)
+    the_sections = the_band.sections
+
+    the_members_by_section = band.get_member_keys_of_band_key_by_section_key(the_gig_key.parent())
     
     the_plans=[]
-    for the_section in the_members_by_section:
+    for the_section in the_sections:
         section_plans=[]
-        for a_member_key in the_section[1]:
-            the_plan=plan.get_plan_for_member_for_gig(a_member_key.get(), the_gig)
+        for an_assoc in the_assocs:
+            the_plan=plan.get_plan_for_member_key_for_gig_key(an_assoc.member, the_gig_key)
             # add the plan to the list, but only if the member's section for this gig is this section
-            if the_plan and the_plan.section == the_section[0]:
-                section_plans.append( [a_member_key, the_plan] )
-        the_plans.append( (the_section[0], section_plans) )
+            if the_plan:
+                test_section = the_plan.section
+                if not test_section:
+                    test_section=an_assoc.default_section
+                
+                if test_section == the_section:
+                    section_plans.append( [an_assoc.member, the_plan] )
+        the_plans.append( (the_section, section_plans) )
     
     the_archive_text = ""
     for a_section in the_plans:

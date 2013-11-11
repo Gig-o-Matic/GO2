@@ -33,6 +33,14 @@ def get_member_keys_of_band_key(the_band_key):
     members = [a.member for a in assocs]
     return members
 
+
+def get_confirmed_assocs_of_band_key(the_band_key):
+    """ return all assoc keys for a band """
+    assoc_query = Assoc.query( ndb.AND(Assoc.band==the_band_key, Assoc.is_confirmed==True ) ).order(Assoc.member_name)
+    assocs = assoc_query.fetch()
+    return assocs
+
+
 def get_pending_members_from_band_key(the_band_key):
     """ Get all the members who are pending """
     assoc_query = Assoc.query( ndb.AND(Assoc.band==the_band_key, Assoc.is_confirmed==False) ).order(Assoc.member_name)
