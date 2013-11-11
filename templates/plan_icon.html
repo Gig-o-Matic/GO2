@@ -1,16 +1,16 @@
 {% macro icon(plan_value=-1) -%}
     {% if plan_value == 1 %}
-        <i class="fa fa-check-circle fa-lg" style="color:green"></i><i class="fa fa-check-circle fa-lg" style="color:green"></i>
+        <i class="fa fa-circle fa-lg" style="color:green"></i>
     {% elif plan_value == 2 %}
-        <i class="fa fa-circle fa-lg" style="visibility:hidden"></i><i class="fa fa-check-circle fa-lg" style="color:green"></i>
+        <i class="fa fa-circle-o fa-lg" style="color:green"></i>
     {% elif plan_value == 3 %}
-        <i class="fa fa-question-circle fa-lg" style="color:gray"></i><i class="fa fa-question-circle fa-lg" style="color:gray"></i>
+        <i class="fa fa-question fa-lg" style="color:gray"></i>
     {% elif plan_value == 4 %}
-        <i class="fa fa-circle fa-lg" style="visibility:hidden"></i><i class="fa fa-times-circle fa-lg" style="color:red"></i>
+        <i class="fa fa-square-o fa-lg" style="color:red"></i>
     {% elif plan_value == 5 %}
-        <i class="fa fa-times-circle fa-lg" style="color:red"></i><i class="fa fa-times-circle fa-lg" style="color:red"></i>                
+        <i class="fa fa-square fa-lg" style="color:red"></i>                
     {% else %}
-        <i class="fa fa-circle fa-lg" style="visibility:hidden"></i><i class="fa fa-circle-o fa-lg" style="color:black"></i>
+        <i class="fa fa-circle-o fa-lg" style="color:black"></i>
     {% endif %}
 {%- endmacro %}
 

@@ -1,22 +1,22 @@
 function set_plan_button(the_id, the_value) {
 
-    var the_result='<i class="fa fa-circle fa-lg" style="visibility:hidden"></i><i class="fa fa-circle-o fa-lg" style="color:black"></i>'
+    var the_result='<i class="fa fa-circle-o fa-lg" style="color:black"></i>'
 
     switch(the_value) {
         case '1':
-            the_result='<i class="fa fa-check-circle fa-lg" style="color:green"></i><i class="fa fa-check-circle fa-lg" style="color:green"></i>'
+            the_result='<i class="fa fa-circle fa-lg" style="color:green"></i>'
             break;
         case '2':
-            the_result='<i class="fa fa-circle fa-lg" style="visibility:hidden"></i><i class="fa fa-check-circle fa-lg" style="color:green"></i>'
+            the_result='<i class="fa fa-circle-o fa-lg" style="color:green"></i>'
             break;
         case '3':
-            the_result='<i class="fa fa-question-circle fa-lg" style="color:gray"></i><i class="fa fa-question-circle fa-lg" style="color:gray"></i>'
+            the_result='<i class="fa fa-question fa-lg" style="color:gray"></i>'
             break;
         case '4':
-            the_result='<i class="fa fa-circle fa-lg" style="visibility:hidden"></i><i class="fa fa-times-circle fa-lg" style="color:red"></i>'
+            the_result='<i class="fa fa-square-o fa-lg" style="color:red"></i>'
             break;
         case '5':
-            the_result='<i class="fa fa-times-circle fa-lg" style="color:red"></i><i class="fa fa-times-circle fa-lg" style="color:red"></i>'
+            the_result='<i class="fa fa-square fa-lg" style="color:red"></i>'
             break;
     }
     
