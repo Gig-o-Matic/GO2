@@ -1,6 +1,6 @@
 function set_plan_button(the_id, the_value) {
 
-    var the_result='<i class="fa fa-circle-o fa-lg" style="color:black"></i>'
+    var the_result='<i class="fa fa-minus fa-sm" style="color:black"></i>'
 
     switch(the_value) {
         case '1':
