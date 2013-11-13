@@ -19,6 +19,7 @@ import assoc
 import gig
 import plan
 import json
+import logging
 
 def band_key(band_name='band_key'):
     """Constructs a Datastore key for a Guestbook entity with guestbook_name."""
@@ -304,7 +305,8 @@ class BandGetMembers(BaseHandler):
         assoc_info=[]
         the_user_is_band_admin = False
         for a in assocs:
-            assoc_info.append( {'name':a.member_name, 'is_confirmed':a.is_confirmed, 'is_band_admin':a.is_band_admin, 'member_key':a.member} )
+            m = a.member.get()
+            assoc_info.append( {'name':(m.nickname if m.nickname else m.name), 'is_confirmed':a.is_confirmed, 'is_band_admin':a.is_band_admin, 'member_key':a.member} )
             if a.member == the_user.key:
                 the_user_is_band_admin = a.is_band_admin
                         

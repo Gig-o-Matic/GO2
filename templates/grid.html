@@ -68,7 +68,8 @@
                                 background:#f5f5f5;"
                             {% endif %}
                         ">
-                            <a href="/member_info.html?mk={{member.urlsafe()}}">{{ member.get().name }}</a>
+                            {% set the_member = member.get() %}
+                            <a href="/member_info.html?mk={{member.urlsafe()}}">{% if the_member.nickname %}{{the_member.nickname}}{% else %}{{ the_member.name }}{% endif %}</a>
                         </td>
                         {% for gig in the_gigs %}
                             <td  style="white-space: nowrap;

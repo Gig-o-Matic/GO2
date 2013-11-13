@@ -41,7 +41,7 @@
           <li {{ 'class="active"' if help_is_active }}><a href="/help">Help</a></li>   
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                {{ the_user.name }}
+                {% if the_user.nickname %}{{the_user.nickname}}{% else %}{{ the_user.name }}{% endif %}
                 <b class="caret"></b></a>
             <ul class="dropdown-menu">
               <li><a href="/member_info.html?mk={{the_user.key.urlsafe()}}">My Profile</a></li>

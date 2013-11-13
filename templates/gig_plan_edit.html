@@ -5,6 +5,7 @@
 {% set the_gig_key = plan_info['the_gig_key'] %}
 {% set the_plan_key = plan_info['the_plan_key'] %}
 {% set the_member_key = plan_info['the_member_key'] %}
+{% set the_member = the_member_key.get() %}
 {% set the_band_key = plan_info['the_band_key'] %}
 {% set the_assoc = plan_info['the_assoc'] %}
 {% if the_assoc and the_assoc.is_multisectional %}
@@ -40,7 +41,7 @@
 <div class="row">
     <div class="col-lg-{{grp1_lg}} col-md-{{grp1_lg}} col-sm-{{grp1_sm}} col-xs-{{grp1_sm}}">
         <div class="row">
-             <a href='/member_info.html?mk={{the_member_key.urlsafe()}}'>{{ the_member_key.get().name }}</a>
+             <a href='/member_info.html?mk={{the_member_key.urlsafe()}}'>{% if the_member.nickname %}{{ the_member.nickname }}{% else %}{{ the_member.name }}{% endif %}</a>
         </div>
     </div>
     <div class="col-lg-{{grp2_lg}} col-md-{{grp2_lg}} col-sm-{{grp2_sm}} col-xs-{{grp2_sm}}">

@@ -16,7 +16,11 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-md-2 col-sm-2 col-xs-3">Name</div>
-                        <div class="col-md-10 col-sm-10 col-xs-9">{{ the_member.name|e }}</div>
+                        <div class="col-md-10 col-sm-10 col-xs-9">{{ the_member.name|e }}
+                            {% if the_member.nickname %}
+                                ({{ the_member.nickname | e }})
+                            {% endif %}
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-md-2 col-sm-2 col-xs-3">Email</div>

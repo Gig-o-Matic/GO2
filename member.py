@@ -39,6 +39,7 @@ class MemberPreferences(ndb.Model):
 class Member(webapp2_extras.appengine.auth.models.User):
     """ Models a gig-o-matic member """
     name = ndb.StringProperty()
+    nickname = ndb.StringProperty()
     email_address = ndb.TextProperty()
     phone = ndb.StringProperty(default='', indexed=False)
     statement = ndb.TextProperty(default='')
@@ -262,6 +263,10 @@ class EditPage(BaseHandler):
         member_name=self.request.get("member_name", None)
         if member_name is not None and member_name != '':
             the_member.name=member_name
+                
+        member_nickname=self.request.get("member_nickname", None)
+        if member_nickname is not None:
+            the_member.nickname=member_nickname
                 
         member_phone=self.request.get("member_phone", None)
         if member_phone is not None:
