@@ -57,8 +57,10 @@ def make_archive_for_gig_key(the_gig_key):
                 the_member = member_plans[0].get()
                 the_plan = member_plans[1]
                 the_comment = '- {0}'.format(the_plan.comment) if the_plan.comment else ""
-                the_archive_text = '{0}\n\t{1} - {2} {3}'.format(the_archive_text,
+                the_nickname = ' ({0})'.format(the_member.nickname) if the_member.nickname else ''
+                the_archive_text = '{0}\n\t{1}{2} - {3} {4}'.format(the_archive_text,
                                                                the_member.name,
+                                                               the_nickname,
                                                                plan.plan_text[the_plan.value],
                                                                the_comment)
             the_archive_text = '{0}\n'.format(the_archive_text)
