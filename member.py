@@ -39,7 +39,7 @@ class MemberPreferences(ndb.Model):
 class Member(webapp2_extras.appengine.auth.models.User):
     """ Models a gig-o-matic member """
     name = ndb.StringProperty()
-    nickname = ndb.StringProperty()
+    nickname = ndb.StringProperty( default=None )
     email_address = ndb.TextProperty()
     phone = ndb.StringProperty(default='', indexed=False)
     statement = ndb.TextProperty(default='')

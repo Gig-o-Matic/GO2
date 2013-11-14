@@ -16,7 +16,7 @@
         <div class="row">
             <div class="form-group col-md-5 col-md-offset-2">
                 <label for="membernameinput" class="control-label">Nickname</label>
-                <input type="text" class="form-control" id="membernicknameinput" placeholder="call me..." value="{{the_member.nickname}}" name="member_nickname">
+                <input type="text" class="form-control" id="membernicknameinput" placeholder="call me..." value="{% if the_member.nickname %}{{the_member.nickname}}{% endif %}" name="member_nickname">
             </div>
         </div>
         <div class="row">
