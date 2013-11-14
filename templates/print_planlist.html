@@ -28,35 +28,40 @@ class="landingwrap"
         <strong>Members Planning To Be There</strong>  
     </div>
     <div class="panel-body">
+        <table class="table">
         {% for the_section in the_section_keys %}
-            <div class="row" style="padding-top: 5px; padding-bottom: 5px; {{ loop.cycle('', 'background:#f5f5f5;') }}">
-                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                    {% if the_section %}
-                        {{the_section.get().name}}
-                    {% else %}
-                        No Section
-                    {% endif %}
-                </div>
-                <div class="col-lg-10">
-                    {% for member_plan in the_plans %}                    
-                        {% set the_plan = member_plan['the_plan_key'].get() %}
-                        {% if member_plan['the_section']  == the_section and the_plan.value and the_plan.value < 3 %}
-                            {% set the_member = the_plan.member.get() %}
-                            <div class="row">
-                                <div class="col-md-3 col-sm-3 col-xs-3">
-                                    {{ the_member.name }}
-                                </div>
-                                <div class="col-md-3 col-sm-3 col-xs-3">
-                                    {% if the_member.phone %}
-                                        {{ the_member.phone }}
-                                    {% endif %}
-                                </div>                                    
-                            </div>
+            {% set section_title = False %}
+            {% for member_plan in the_plans %}                    
+                {% set the_plan = member_plan['the_plan_key'].get() %}
+                {% if member_plan['the_section']  == the_section and the_plan.value and the_plan.value < 3 %}
+                    {% set the_member = the_plan.member.get() %}
+                    <tr>
+                        <td width="20%">
+                        {% if section_title == False %}
+                                {% if the_section %}
+                                    {{the_section.get().name}}
+                                {% else %}
+                                    No Section
+                                {% endif %}
+                                {% set section_title = True %}
                         {% endif %}
-                    {% endfor %}
-                </div>
-            </div>
+                        </td>
+                            <td width="50%">
+                                {{ the_member.name }}
+                                {% if the_plan.value == 2 %}
+                                    (probable)
+                                {% endif %}
+                            </td>
+                            <td width="30%">
+                                {% if the_member.phone %}
+                                    {{ the_member.phone }}
+                                {% endif %}
+                            </td> 
+                    </tr>
+                {% endif %}
+            {% endfor %}
         {% endfor %}
+        </table>
     </div>
 </div>
 {% endblock content %}
