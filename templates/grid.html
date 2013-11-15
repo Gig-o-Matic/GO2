@@ -48,7 +48,10 @@
             <tr>
                 <td colspan=2></td>
                 {% for gig in the_gigs %}
-                    <td align="middle"><a href="/gig_info.html?gk={{gig.key.urlsafe()}}">{{ gig.title }}</a></td>
+                    <td align="middle"><a href="/gig_info.html?gk={{gig.key.urlsafe()}}">{{ gig.title }}</a>
+                    {% if gig.is_archived %}
+                        (archived)
+                    {% endif %}</td>
                 {% endfor %}
             </tr>
             {% for section in the_member_keys_by_section %}
@@ -76,7 +79,7 @@
                             {% if member == the_user.key %}
                                 background:#f5f5f5;
                             {% endif %}
-                            " align="middle">{{ plan_icon.icon(the_plans[member][gig.key]) }}</td>
+                            " align="middle">{% if gig.is_archived == False %}{{ plan_icon.icon(the_plans[member][gig.key]) }}{% endif %}</td>
                         {% endfor %}
                     </tr>
                 {% endfor %}
