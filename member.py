@@ -182,13 +182,11 @@ class InfoPage(BaseHandler):
         else:
             email_change_msg = None
             
-        all_bands = band.get_all_bands()
                                     
         template_args = {
             'title' : 'Member Info',
             'the_member' : the_member,
             'the_band_keys' : the_band_keys,
-            'all_bands' : all_bands,
             'member_is_me' : the_user == the_member,
             'email_change_msg' : email_change_msg
         }
@@ -329,7 +327,31 @@ class ManageBandsGetAssocs(BaseHandler):
             'the_assoc_info' : the_assoc_info
         }
         self.render_template('member_band_assocs.html', template_args)
+
+class ManageBandsGetOtherBands(BaseHandler):
+    """ return the popup of other bands """
+
+    def post(self):    
+        """ return the bands for a member """
+        the_user = self.user
+
+        the_member_key=self.request.get('mk','0')
         
+        if the_member_key=='0':
+            return # todo figure out what to do
+            
+        the_member_key=ndb.Key(urlsafe=the_member_key)
+        the_band_keys=assoc.get_band_keys_of_member_key(the_member_key=the_member_key, confirmed_only=False)
+                    
+        every_band = band.get_all_bands()
+        all_bands = [a_band for a_band in every_band if a_band.key not in the_band_keys]
+
+        template_args = {
+            'all_bands' : all_bands
+        }
+        self.render_template('member_band_popup.html', template_args)
+    
+            
 class ManageBandsNewAssoc(BaseHandler):
     """ makes a new assoc for a member """                   
 

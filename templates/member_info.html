@@ -71,22 +71,9 @@
                         <div id="bandlist">
                             <i class="fa fa-spinner fa-spin"></i>
                         </div>
-                        {% if all_bands %}
-                            <div class="row">
-                                <div class="col-md-12">                        
-                                    <div class="dropdown">
-                                        <button type="button" class="btn btn-sm btn-default dropdown-toggle text-center" data-toggle="dropdown">
-                                            <i class="fa fa-plus-square"></i> Add Band
-                                        </button>
-                                        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                                            {% for a_band in all_bands %}
-                                            <li role="presentation"><a class="band-click" id="{{a_band.key.urlsafe()}}"role="menuitem" tabindex="-1" href="#">{{a_band.name}}</a></li>
-                                            {% endfor %}
-                                        </ul>
-                                    </div> <!-- dropdown -->
-                                </div>
-                            </div> <!-- row -->
-                        {% endif %}
+                        <div id="bandpopup">
+                            <i class="fa fa-spinner fa-spin"></i>
+                        </div>
                     </div>
                 </div>
             </div> <!-- panel-body -->
@@ -98,13 +85,28 @@
 {% block localscripts %}
 <script>
 function updateBands() {
-    $.post('/member_get_assocs.html',
+    $.post('/member_get_assocs',
             {
                 mk: '{{ the_member.key.urlsafe() }}'
             },
             function(responseTxt,statusTxt,xhr){
                 if(statusTxt=="success")
                     $('#bandlist').html(responseTxt);
+                    updateBandlist()
+                if(statusTxt=="error")
+                    alert("Error: "+xhr.status+": "+xhr.statusText);
+            });
+}
+
+function updateBandlist() {
+    $.post('/member_get_other_bands',
+            {
+                mk: '{{ the_member.key.urlsafe() }}'
+            },
+            function(responseTxt,statusTxt,xhr){
+                if(statusTxt=="success")
+                    $('#bandpopup').html(responseTxt);
+                    setupClick();
                 if(statusTxt=="error")
                     alert("Error: "+xhr.status+": "+xhr.statusText);
             });
@@ -142,8 +144,7 @@ function multi_select(bk) {
             });
 }
 
-$(document).ready(function() {
-    updateBands();
+function setupClick() {
     $("a.band-click").click(function(){
         var mk='{{the_member.key.urlsafe()}}';
         var bk=$(this).attr("id");
@@ -162,6 +163,11 @@ $(document).ready(function() {
                           alert("Error: "+xhr.status+": "+xhr.statusText);
                     });
     });
+}
+
+$(document).ready(function() {
+    updateBands();
+    setupClick();
 });
 </script>
 {% endblock localscripts %}
