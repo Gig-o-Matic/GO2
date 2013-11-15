@@ -59,28 +59,6 @@
     </form>
 {% endblock content %}
 
-{% block modal %}
-    {% if is_new == False %}
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <strong>Confirm Delete</strong>
-                    </div>
-                    <div class="modal-body">
-                        Do you really want to delete this band?
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Don't Delete</button>
-                        <a class="btn btn-primary" id="opener" href="band_delete?bk={{ the_band.key.urlsafe() }}">Delete</a>
-                    </div>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->
-    {% endif %}
-{% endblock modal %}
-
 {% block localscripts %}
 <script src="/js/jquery.validate.js"></script>
 <script>
