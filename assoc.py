@@ -131,10 +131,9 @@ def new_association(member, band):
     assoc.put()
     goemail.send_new_member_email(band,member)
     
-def delete_association(the_member_key, the_band_key):
+def delete_association(the_assoc):
     """ delete association between member and band """
-    a = get_assoc_for_band_key_and_member_key(the_member_key, the_band_key)
-    a.key.delete()
+    the_assoc.key.delete()
 
 def set_default_section(the_member_key, the_band_key, the_section_key):
     """ find the band in a member's list of assocs, and set default section """

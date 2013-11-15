@@ -81,6 +81,26 @@
     </div>
 {% endblock content %}
 
+{% block modal %}
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Confirm Delete</h4>
+                </div>
+                <div class="modal-body">
+                    Do you really want to leave <span id='band-name'></span>?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Don't Leave</button>
+                    <a class="btn btn-primary" id="leave-ak" href="/member_delete_assoc.html?ak=">Yes, Leave</a>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+{% endblock modal %}
+
 {% block localscripts %}
 <script>
 function updateBands() {
@@ -141,6 +161,12 @@ function multi_select(bk) {
                 if(statusTxt=="error")
                     alert("Error: "+xhr.status+": "+xhr.statusText);
             });
+}
+
+function leave_band(ak, bandname) {
+    $('#band-name').html(bandname);
+    $('#leave-ak').attr('href','/member_delete_assoc.html?ak='+ak);
+    $('#deleteModal').modal('show');
 }
 
 function setupClick() {

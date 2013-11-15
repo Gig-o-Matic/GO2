@@ -27,8 +27,6 @@
                             {% endfor %}
                         </ul>
                     </div>
-                    
-                    
                 </div>
                 <div class="col-md-3">
                     <input type="checkbox" id='msbk-{{the_info.assoc.band.urlsafe()}}' onclick="multi_select('{{the_info.assoc.band.urlsafe()}}')"
@@ -39,7 +37,8 @@
                 </div>
             {% endif %}
             <div class="col-md-3">            
-                <a class="btn btn-default btn-sm" href="/member_delete_assoc.html?bk={{the_info.assoc.band.urlsafe()}}&mk={{the_member.key.urlsafe()}}"><i class="fa fa-minus-square"></i> Leave Band</a>
+<!--                 <a class="btn btn-default btn-sm" href="/member_delete_assoc.html?bk={{the_info.assoc.band.urlsafe()}}&mk={{the_member.key.urlsafe()}}"><i class="fa fa-minus-square"></i> Leave Band</a> -->
+                <button class="btn btn-default btn-sm" onclick="leave_band('{{the_info.assoc.key.urlsafe()}}','{{the_info.assoc.band.get().name}}')""><i class="fa fa-minus-square"></i> Leave Band</button>
             </div>
         </div>
     {% endfor %}

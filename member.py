@@ -381,19 +381,20 @@ class ManageBandsDeleteAssoc(BaseHandler):
         
         the_user = self.user
         
-        the_member_keyurl=self.request.get('mk','0')
-        the_band_keyurl=self.request.get('bk','0')
+        the_assoc_keyurl=self.request.get('ak','0')
 
-        if the_member_keyurl=='0' or the_band_keyurl=='0':
+        if the_assoc_keyurl=='0':
             return # todo figure out what to do
         
-        the_member_key=ndb.Key(urlsafe=the_member_keyurl)
-        the_band_key=ndb.Key(urlsafe=the_band_keyurl)
+        the_assoc=ndb.Key(urlsafe=the_assoc_keyurl).get()
+        
+        the_member_key=the_assoc.member
+        the_band_key=the_assoc.band
 
-        assoc.delete_association(the_member_key, the_band_key)
+        assoc.delete_association(the_assoc)
         plan.delete_plans_for_member_key_for_band_key(the_member_key, the_band_key)
         
-        return self.redirect('/member_info.html?mk={0}'.format(the_member_keyurl))
+        return self.redirect('/member_info.html?mk={0}'.format(the_member_key.urlsafe()))
         
 class SetSection(BaseHandler):
     """ change the default section for a member's band association """
