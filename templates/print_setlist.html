@@ -34,6 +34,8 @@ class="landingwrap"
 <script>window.jQuery || document.write('<script src="/jquery/jquery-1.10.2.js"><\/script>')</script>
 <script>
 $(document).ready(function() {
-    window.print()
+    window.print();
+//     window.onfocus = function() { window.close(); }
+    setTimeout(function(){window.close();}, 1);
 });
 </script></script>{% endblock localscripts %}

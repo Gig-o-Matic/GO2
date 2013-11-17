@@ -54,7 +54,7 @@
                     </div>
                     <div class="row">&nbsp;</div>
                     <div class="row">
-                        <div class="col-md-2 col-sm-2 col-xs-3">Setlist{% if gig.setlist %} <a href="print_setlist?gk={{gig.key.urlsafe()}}"><i class="fa fa-print"></i></a>{% endif %}</div>
+                        <div class="col-md-2 col-sm-2 col-xs-3">Setlist{% if gig.setlist %} <a href="print_setlist?gk={{gig.key.urlsafe()}}" target="new"><i class="fa fa-print"></i></a>{% endif %}</div>
                         <div class="col-md-10 col-sm-10 col-xs-9">{{ gig.setlist  | html_content | safe }}</div>
                     </div>
                     <div class="row">
@@ -68,7 +68,7 @@
             <div class="row">&nbsp;</div>
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <strong>Member Plans <a href="print_planlist?gk={{gig.key.urlsafe()}}"><i class="fa fa-print"></i></a></strong>
+                    <strong>Member Plans <a href="print_planlist?gk={{gig.key.urlsafe()}}" target="new"><i class="fa fa-print"></i></a></strong>
                 </div>
                 <div class="panel-body">
                     <div class="row">
