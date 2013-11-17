@@ -9,22 +9,24 @@
 </div>
 <div class="row">
     <div class="col-md-8 col-md-offset-2">
-        <div class="row">
+        <table>
             {% for b in the_bands %}
-            <div class="col-sm-6 col-md-4">
-                <div class="thumbnail">
-                    {% if b.thumbnail_img %}
-                        <img width=300 height=200 src="{{b.thumbimg}}" alt="...">
-                    {% else %}
-                        <img width=300 height=200 src="/images/band_thumbnail.png" style="border:1px solid gray" alt="...">
-                    {% endif %}
-                    <div class="caption">
-                        <a href="/band_info.html?bk={{b.key.urlsafe()}}"><h3>{{ b.name }}</h3></a>
+                {{ loop.cycle('<tr>'|safe,'','') }}
+                <td valign="top">
+                    <div class="thumbnail">
+                        {% if b.thumbnail_img %}
+                            <img width="300" height="200" src="{{b.thumbimg}}" alt="...">
+                        {% else %}
+                            <img width="300" height="200" src="/images/band_thumbnail.png" style="border:1px solid gray" alt="...">
+                        {% endif %}
+                        <div class="caption">
+                            <a href="/band_info.html?bk={{b.key.urlsafe()}}"><h3>{{ b.name }}</h3></a>
+                        </div>
                     </div>
-                </div>
-            </div>
+                </td>
+                {{ loop.cycle('','','</tr>'|safe) }}
             {% endfor %}
-        </div>
+        </table>
     </div>
 </div>
 {% endblock content %}
