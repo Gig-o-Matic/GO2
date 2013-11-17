@@ -1,7 +1,9 @@
 {% if the_bands %}
     {% for band in the_bands %}
-        <li><a href="/band_info.html?bk={{ band.key.urlsafe() }}">{{ band.name }}</a></li>
+        <li role="presentation"><a href="/band_info.html?bk={{ band.key.urlsafe() }}">{{ band.name }}</a></li>
     {% endfor %}
+    <li role="presentation" class="divider"></li>
+    <li role="presentation"><a href="/band_nav.html">Band Navigator</a></li>
 {% else %}
     <li><a href="#">No bands yet!</a></li>
 {% endif %}

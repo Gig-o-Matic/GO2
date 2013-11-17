@@ -3,7 +3,10 @@
 {% block content %}
     <div class="row">
         <div class="page-header col-md-8 col-md-offset-2">
-            <h2>Band Info</h2>
+            <h2>{{ the_band.name|e }}
+            {% if the_band.shortname %}
+                ( {{ the_band.shortname }} )
+            {% endif %}</h2>
         </div> 
     </div>
 
@@ -14,15 +17,6 @@
                     <strong>Info</strong>
                 </div>
                 <div class="panel-body">
-                    <div class="row">&nbsp;</div>
-                    <div class="row">
-                        <div class="col-md-2 col-sm-2 col-xs-3">Name</div>
-                        <div class="col-md-10 col-sm-10 col-xs-9">{{ the_band.name|e }}
-                            {% if the_band.shortname %}
-                                ( {{ the_band.shortname }} )
-                            {% endif %}
-                        </div>
-                    </div>
                     <div class="row">
                         <div class="col-md-2 col-sm-2 col-xs-3">Website</div>
                         <div class="col-md-10 col-sm-10 col-xs-9">

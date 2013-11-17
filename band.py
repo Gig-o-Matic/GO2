@@ -38,6 +38,7 @@ class Band(ndb.Model):
     sections = ndb.KeyProperty( repeated=True ) # instrumental sections
     created = ndb.DateTimeProperty(auto_now_add=True)
     time_zone_correction = ndb.IntegerProperty(default=0)
+    thumbnail_img = ndb.TextProperty(default=None)
 
 def new_band(name):
     """ Make and return a new band """
@@ -523,3 +524,18 @@ class GetMemberList(BaseHandler):
             
         self.response.write(json.dumps(response_val))
 
+
+class BandNavPage(BaseHandler):
+
+    @user_required
+    def get(self):
+        self.make_page(the_user=self.user)
+
+    def make_page(self, the_user):
+        the_bands = get_all_bands()
+    
+        template_args = {
+            'title' : 'Band Navigator',
+            'the_bands' : the_bands,
+        }
+        self.render_template('band_nav.html', template_args)
