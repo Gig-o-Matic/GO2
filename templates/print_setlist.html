@@ -4,8 +4,11 @@
     <!-- no navbar -->
 {% endblock navbar %}
 
+{% block bodyclass %}
+    style="padding-top:0px"
+{% endblock bodyclass %}
+
 {% block wrapclass %}
-class="landingwrap"
 {% endblock wrapclass %}
 
 {% block welcome %}
@@ -16,7 +19,7 @@ class="landingwrap"
 {% block content %}
 {% import 'plan_icon.html' as plan_icon %}
 
-<div class="row page-header">
+<div class="row">
     <h3>Setlist For {{the_gig.title}}</h3>
 </div>
 <div class="row">
@@ -35,7 +38,6 @@ class="landingwrap"
 <script>
 $(document).ready(function() {
     window.print();
-//     window.onfocus = function() { window.close(); }
     setTimeout(function(){window.close();}, 1);
 });
 </script></script>{% endblock localscripts %}

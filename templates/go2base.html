@@ -43,7 +43,10 @@
 
     </head>
 
-    <body>
+    <body
+        {% block bodyclass %}
+        {% endblock bodyclass %}        
+    >
         <div id="wrap"
             {% block wrapclass %}
             {% endblock wrapclass %}        
