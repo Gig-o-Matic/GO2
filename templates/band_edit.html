@@ -23,8 +23,14 @@
         </div>
         <div class="row">
             <div class="form-group col-md-5 col-md-offset-2">
-                <label for="bandwebsiteinput" class="control-label">Website</label>
-                <input type="text" class="form-control" id="bandwebsiteinput" placeholder="www.yourband.org" value="{% if the_band.website %}{{the_band.website}}{% endif %}" name="band_website">
+                <label for="bandthumbnailinput" class="control-label">Website</label>
+                <input type="text" class="form-control" id="bandthumbnailinput" placeholder="www.yourband.org" value="{% if the_band.website %}{{the_band.website}}{% endif %}" name="band_website">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-5 col-md-offset-2">
+                <label for="bandwebsiteinput" class="control-label">Thumbnail Image</label>
+                <input type="text" class="form-control" id="bandwebsiteinput" placeholder="url of 200x300 picture for band navigtor page" value="{% if the_band.thumbnail_img %}{{the_band.thumbnail_img}}{% endif %}" name="band_thumbnail">
             </div>
         </div>
         <div class="row">

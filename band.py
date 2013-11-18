@@ -258,6 +258,8 @@ class EditPage(BaseHandler):
                 
         the_band.website=self.request.get("band_website",None)
 
+        the_band.thumbnail_img=self.request.get("band_thumbnail",None)
+
         the_band.description=self.request.get("band_description",None)
             
         band_tz=self.request.get("band_tz",None)
