@@ -18,17 +18,27 @@
                 </div>
                 <div class="panel-body">
                     <div class="row">
-                        <div class="col-md-2 col-sm-2 col-xs-3">Website</div>
-                        <div class="col-md-10 col-sm-10 col-xs-9">
-                            {% if the_band.website %}
-                                <a href="http://{{the_band.website}}" target="new">{{ the_band.website|e }}</a>
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            {% if the_band.description %}
+                                {{ the_band.description|e }}
+                            {% else %}
+                                A Band of Mystery...
                             {% endif %}
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-2 col-sm-2 col-xs-3">Description</div>
-                        <div class="col-md-10 col-sm-10 col-xs-9">{{ the_band.description|e }}</div>
-                    </div>
+                    {% if the_band.website %}
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                &nbsp;
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 col-sm-2 col-xs-3">Website</div>
+                            <div class="col-md-10 col-sm-10 col-xs-9">
+                                    <a href="http://{{the_band.website}}" target="new">{{ the_band.website|e }}</a>
+                            </div>
+                        </div>
+                    {% endif %}
                     <div class="row">
                         {% if the_user_is_band_admin or the_user_is_superuser %}
                             <br>
