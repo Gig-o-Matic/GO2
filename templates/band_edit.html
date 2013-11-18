@@ -24,7 +24,8 @@
         <div class="row">
             <div class="form-group col-md-5 col-md-offset-2">
                 <label for="banddescriptioninput" class="control-label">Description</label>
-                <input type="text" class="form-control" id="memeberdescriptioninput" placeholder="tell us a little about the band" value="{% if the_band.description %}{{the_band.description}}{% endif %}" name="band_description">
+<!--                 <input type="text" class="form-control" id="memeberdescriptioninput" placeholder="tell us a little about the band" value="{% if the_band.description %}{{the_band.description}}{% endif %}" name="band_description"> -->
+                <textarea class="form-control" rows="10" id="banddescriptioninput" placeholder="tell us a little about the band" name="band_description">{% if the_band.description %}{{the_band.description}}{% endif %}</textarea>
             </div>
         </div>
         <div class="row">

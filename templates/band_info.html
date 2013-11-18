@@ -20,7 +20,7 @@
                     <div class="row">
                         <div class="col-md-12 col-sm-12 col-xs-12">
                             {% if the_band.description %}
-                                {{ the_band.description|e }}
+                                {{ the_band.description | html_content | safe  }}
                             {% else %}
                                 A Band of Mystery...
                             {% endif %}
