@@ -548,7 +548,7 @@ class CommentHandler(BaseHandler):
 
         user=self.user
         timestr=dt.strftime('%-m/%-d/%Y %I:%M%p')
-        new_comment = '{0} ({1}) said at {2}:\n{3}'.format(user.name, user.email_address, timestr, comment_str)
+        new_comment = u'{0} ({1}) said at {2}:\n{3}'.format(user.name, user.email_address, timestr, comment_str)
 
         new_id, the_comment_text = gigcomment.add_comment_for_gig(new_comment, the_gig.comment_id)
         if new_id != the_gig.comment_id:

@@ -14,11 +14,11 @@ def add_comment_for_gig(the_comment, the_comment_id=None):
 
     if the_comment_id:
         the_comment_text=get_comment(the_comment_id)
-        the_comment_text = '{0}\n-----\n'.format(the_comment_text)
+        the_comment_text = u'{0}\n-----\n'.format(the_comment_text)
     else:
         the_comment_text=""
         
-    the_comment_text = '{0}{1}'.format(the_comment_text,the_comment)
+    the_comment_text = u'{0}{1}'.format(the_comment_text,the_comment)
         
     # create a document
     my_document = search.Document(
