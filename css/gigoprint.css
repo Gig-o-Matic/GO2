@@ -1,0 +1,20 @@
+/* Sticky footer styles
+-------------------------------------------------- */
+
+/* Custom page CSS
+-------------------------------------------------- */
+/* Not required for template or sticky footer method. */
+
+.table tbody > tr > td.plan-cell {
+    vertical-align: middle;
+}
+
+.icon-display {
+    pointer-events: none;
+    cursor: not-allowed;
+}
+
+.empty-comment {
+    color: black;
+}
+
