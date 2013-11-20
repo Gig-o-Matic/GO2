@@ -256,6 +256,22 @@ function delete_section(sk) {
     return false;
 }
 
+function member_section(mk, sk) {
+    var bk='{{the_band.key.urlsafe()}}';
+    $.post('/member_set_section',
+            {
+                mk: mk,
+                sk: sk,
+                bk: bk
+            },
+            function(responseTxt,statusTxt,xhr){
+                if(statusTxt=="success")
+                    setTimeout(function(){updateSections(); updateMembers();}, 1000);
+                if(statusTxt=="error")
+                    alert("Error: "+xhr.status+": "+xhr.statusText);
+            });
+}
+
 $(document).ready(function() {
     updateMembers();
     updateSections();

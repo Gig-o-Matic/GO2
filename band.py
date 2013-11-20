@@ -311,7 +311,12 @@ class BandGetMembers(BaseHandler):
         the_user_is_band_admin = False
         for a in assocs:
             m = a.member.get()
-            assoc_info.append( {'name':(m.nickname if m.nickname else m.name), 'is_confirmed':a.is_confirmed, 'is_band_admin':a.is_band_admin, 'member_key':a.member} )
+            if a.default_section:
+                s = a.default_section.get().name
+            else:
+                s = None
+            print 's is {0}'.format(s)
+            assoc_info.append( {'name':(m.nickname if m.nickname else m.name), 'is_confirmed':a.is_confirmed, 'is_band_admin':a.is_band_admin, 'member_key':a.member, 'section':s} )
             if a.member == the_user.key:
                 the_user_is_band_admin = a.is_band_admin
                         

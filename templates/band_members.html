@@ -11,13 +11,29 @@
         {% if the_assoc['member_key']!=the_user.key %}
             <div class="col-md-2 col-sm-2 col-xs-2">
                 {% if the_assoc['is_band_admin']==False %}
-                    <a class="btn btn-default btn-sm" href="/band_makeadmin?do=1&mk={{the_assoc['member_key'].urlsafe()}}&bk={{the_band_key.urlsafe()}}">grant</a>
+                    <a class="btn btn-default btn-sm" href="/band_makeadmin?do=1&mk={{the_assoc['member_key'].urlsafe()}}&bk={{the_band_key.urlsafe()}}">grant admin</a>
                 {% elif the_assoc['is_band_admin']==True %}
                     <a class="btn btn-default btn-sm" href="/band_makeadmin?do=0&mk={{the_assoc['member_key'].urlsafe()}}&bk={{the_band_key.urlsafe()}}">revoke!</a>
                 {% endif %}
             </div>
-            <div class="col-md-6">
+            <div class="col-md-3">
                 <a class="btn btn-default btn-sm" href="/band_removemember?mk={{the_assoc['member_key'].urlsafe()}}&bk={{the_band_key.urlsafe()}}">remove from band</a>
+            </div>
+            <div class="col-md-3">
+                    <div class="dropdown">
+                        <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
+                            {% if the_assoc['section'] == None %}
+                                section...  <span class="caret"></span>
+                            {% else %}
+                                {{ the_assoc['section'] }} <span class="caret"></span>
+                            {% endif %}
+                        </button>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                             {% for section_key in the_band_key.get().sections %}
+                                 <li><a onclick="member_section('{{ the_assoc['member_key'].urlsafe()}}','{{section_key.urlsafe()}}')">{{ section_key.get().name }}</a></li>
+                             {% endfor %}
+                        </ul>
+                    </div>
             </div>
         {% endif %}
     </div>
