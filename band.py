@@ -194,6 +194,8 @@ class InfoPage(BaseHandler):
             'the_user_is_confirmed' : the_user_is_confirmed,
             'the_user_is_band_admin' : the_user_admin_status,
             'the_pending_members' : the_pending,
+            'num_sections' : len(the_band.sections)
+
         }
         self.render_template('band_info.html', template_args)
 
