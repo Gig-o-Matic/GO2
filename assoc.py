@@ -152,9 +152,9 @@ def set_multi(the_member_key, the_band_key, the_do):
 def get_assocs_of_band_key(the_band_key, confirmed_only=False, keys_only=False):
     """ go get all the assocs for a band """
     if confirmed_only:
-        assoc_query = Assoc.query( ndb.AND(Assoc.band==the_band_key, Assoc.is_confirmed==True ) )
+        assoc_query = Assoc.query( ndb.AND(Assoc.band==the_band_key, Assoc.is_confirmed==True ) ).order(Assoc.member_name)
     else:
-        assoc_query = Assoc.query( Assoc.band==the_band_key )
+        assoc_query = Assoc.query( Assoc.band==the_band_key ).order(Assoc.member_name)
     assocs = assoc_query.fetch(keys_only=keys_only)
     return assocs
 
@@ -195,4 +195,11 @@ def default_section_for_band_key(the_member, the_band_key):
         return a.default_section
     else:
         return None
+
+def change_member_name(the_member_key, member_name):
+    """ find assocs for this member and change the member's name """
+    the_assocs = get_assocs_of_member_key(the_member_key)
+    for a in the_assocs:
+        a.member_name = member_name
+    ndb.put_multi(the_assocs)
     

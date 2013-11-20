@@ -230,15 +230,17 @@ class EditPage(BaseHandler):
 
         the_user = self.user            
 
-        the_member_key=self.request.get("mk",'0')
+        the_member_keyurl=self.request.get("mk",'0')
         
-        if the_member_key=='0':
+        if the_member_keyurl=='0':
             return # todo figure out what to do if we didn't find it
         else:
-            the_member=ndb.Key(urlsafe=the_member_key).get()
+            the_member_key=ndb.Key(urlsafe=the_member_keyurl)
             
-        if the_member is None:
+        if the_member_key is None:
             return # todo figure out what to do if we didn't find it
+
+        the_member = the_member_key.get()
 
        # if we're changing email addresses, make sure we're changing to something unique
         member_email=self.request.get("member_email", None)
@@ -261,6 +263,8 @@ class EditPage(BaseHandler):
         member_name=self.request.get("member_name", None)
         if member_name is not None and member_name != '':
             the_member.name=member_name
+        else:
+            member_name = None
                 
         member_nickname=self.request.get("member_nickname", None)
         if member_nickname is not None:
@@ -295,6 +299,9 @@ class EditPage(BaseHandler):
             the_member.preferences.email_new_gig = False
 
         the_member.put()                    
+
+        if member_name:
+            assoc.change_member_name(the_member_key, member_name)
 
         return self.redirect(self.uri_for("memberinfo",mk=the_member.key.urlsafe()))
 
