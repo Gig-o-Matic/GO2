@@ -81,12 +81,11 @@ def remove_section_from_plans(the_section_key):
         the_plan.section=None
     ndb.put_multi(the_plans)
 
-def delete_plans_for_gig(the_gig):
+def delete_plans_for_gig_key(the_gig_key):
     """ A gig is being deleted, so forget everyone's plans about it """
-    plan_query = Plan.query(ancestor=the_gig.key)
-    plans = plan_query.fetch()
-    for a_plan in plans:
-        a_plan.key.delete()
+    plan_query = Plan.query(ancestor=the_gig_key)
+    the_plan_keys = plan_query.fetch(keys_only=True)
+    ndb.delete_multi(the_plan_keys)
         
 def delete_plans_for_member_key_for_band_key(the_member_key, the_band_key):
     """ A gig is being deleted, so forget everyone's plans about it """

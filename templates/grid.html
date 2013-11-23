@@ -51,6 +51,12 @@
                     <td align="middle"><a href="/gig_info.html?gk={{gig.key.urlsafe()}}">{{ gig.title }}</a>
                     {% if gig.is_archived %}
                         (archived)
+                    {% else %}
+                        {% if gig.status==1 %}
+                            <i class="fa fa-check-circle" style="color:green"></i>
+                        {% elif gig.status==2 %}
+                            <i class="fa fa-times-circle" style="color:red"></i>
+                        {% endif %}                    
                     {% endif %}</td>
                 {% endfor %}
             </tr>
@@ -79,7 +85,7 @@
                             {% if member == the_user.key %}
                                 background:#f5f5f5;
                             {% endif %}
-                            " align="middle">{% if gig.is_archived == False %}{{ plan_icon.icon(the_plans[member][gig.key]) }}{% endif %}</td>
+                            " align="middle">{% if gig.is_archived == False and gig.status != 2 %}{{ plan_icon.icon(the_plans[member][gig.key]) }}{% endif %}</td>
                         {% endfor %}
                     </tr>
                 {% endfor %}

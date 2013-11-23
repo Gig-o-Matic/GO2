@@ -78,6 +78,7 @@
             {% endif %}
         </div>
     </div>
+    {% if the_gig.status != 2 %}
     <div class="col-lg-{{grp2_lg}} col-md-{{grp2_lg}} col-sm-{{grp2_sm}} col-xs-{{grp2_sm}}">
         <div class="row">
             <div class="col-sm-2 col-xs-2 visible-sm visible-xs"></div>
@@ -121,5 +122,10 @@
             {% endif %}
         </div>
     </div>
+    {% else %}
+    <div class="col-lg-{{grp2_lg}} col-md-{{grp2_lg}} col-sm-{{grp2_sm}} col-xs-{{grp2_sm}}">
+        <strong>Cancelled!</strong>
+    </div>
+    {% endif %}
 </div>
 {%- endmacro %}

@@ -199,10 +199,7 @@ def make_archive_for_gig_key(the_gig_key):
         the_gig.put()
 
         # also delete any plans, since they're all now in the archive
-        plan_keys = plan.get_plan_keys_for_gig_key(the_gig_key)
-        for a_plan_key in plan_keys:
-            a_plan_key.delete()
-
+        plan.delete_plans_for_gig_key(the_gig_key)
 
 #
 #
