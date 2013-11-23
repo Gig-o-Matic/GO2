@@ -15,7 +15,7 @@ import member
 import assoc
 import datetime
 
-plan_text = ["No Plan", "Definitely", "Probably", "Don't Know", "Probably Not", "Can't Do It"]
+plan_text = ["No Plan", "Definitely", "Probably", "Don't Know", "Probably Not", "Can't Do It", "Not Interested"]
 
 #
 # class for plan

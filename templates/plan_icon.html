@@ -9,6 +9,8 @@
         <i class="fa fa-square-o fa-lg" style="color:red"></i>
     {% elif plan_value == 5 %}
         <i class="fa fa-square fa-lg" style="color:red"></i>                
+    {% elif plan_value == 6 %}
+        <i class="fa fa-times fa-lg" style="color:black"></i>                
     {% else %}
         <i class="fa fa-minus fa-sm" style="color:black"></i>
     {% endif %}
@@ -24,11 +26,13 @@
         <i class="fa fa-spinner fa-spin fa-lg"></i>
     </button>
     <ul class="dropdown-menu" role="menu">
-        <li><a onclick="update_plan('{{plan.key.urlsafe()}}','1')">{{ icon(1) }} Definitely</a></li>
-        <li><a onclick="update_plan('{{plan.key.urlsafe()}}','2')">{{ icon(2) }} Probably</a></li>
-        <li><a onclick="update_plan('{{plan.key.urlsafe()}}','3')">{{ icon(3) }} Don't Know</a></li>
-        <li><a onclick="update_plan('{{plan.key.urlsafe()}}','4')">{{ icon(4) }} Probably Not</a></li>
-        <li><a onclick="update_plan('{{plan.key.urlsafe()}}','5')">{{ icon(5) }} Can't Do It</a></li>
+        <li role="presentation"><a onclick="update_plan('{{plan.key.urlsafe()}}','1')">{{ icon(1) }} Definitely</a></li>
+        <li role="presentation"><a onclick="update_plan('{{plan.key.urlsafe()}}','2')">{{ icon(2) }} Probably</a></li>
+        <li role="presentation"><a onclick="update_plan('{{plan.key.urlsafe()}}','3')">{{ icon(3) }} Don't Know</a></li>
+        <li role="presentation"><a onclick="update_plan('{{plan.key.urlsafe()}}','4')">{{ icon(4) }} Probably Not</a></li>
+        <li role="presentation"><a onclick="update_plan('{{plan.key.urlsafe()}}','5')">{{ icon(5) }} Can't Do It</a></li>
+        <li role="presentation" class="divider"></li>
+        <li role="presentation"><a onclick="update_plan('{{plan.key.urlsafe()}}','6')">{{ icon(6) }} Not Interested</a></li>
     </ul>
 </div>
 {%- endmacro %}
