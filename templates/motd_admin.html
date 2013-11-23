@@ -9,7 +9,7 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2 well">
             {% if current %}
-                {{ current }}
+                {{ current  | html_content | safe }}
             {% else %}
                 (No MOTD Set!)
             {% endif %}
