@@ -31,7 +31,7 @@
         <link href="/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet">
 
         <!-- Custom styles for this template -->
-        <link href="css/gigo.css" rel="stylesheet">
+        <link href="/css/gigo.css" rel="stylesheet">
 
 
         <!-- Don't cache anything. Ever. -->
@@ -89,33 +89,35 @@
     <script src="/bootstrap3-editable/js/bootstrap-editable.js"></script>    
     {% block localscripts %}
     {% endblock localscripts %}
-    {% if the_user %}
-        <script>
-            function updateNavbarBands() {
-                $.post('/member_get_bands',
-                {
-                    mk: '{{the_user.key.urlsafe()}}'
-                },
-                function(responseTxt,statusTxt,xhr){
-                    if(statusTxt=="success")
-                        tmp=document.getElementById('bandlinks')
-                        if (tmp) {
-                            tmp.innerHTML=responseTxt;
-                        }
-                    if(statusTxt=="error")
-                        alert("Error: "+xhr.status+": "+xhr.statusText);
-                });
-            }
+    {% block navbarscripts %}
+        {% if the_user %}
+            <script>
+                function updateNavbarBands() {
+                    $.post('/member_get_bands',
+                    {
+                        mk: '{{the_user.key.urlsafe()}}'
+                    },
+                    function(responseTxt,statusTxt,xhr){
+                        if(statusTxt=="success")
+                            tmp=document.getElementById('bandlinks')
+                            if (tmp) {
+                                tmp.innerHTML=responseTxt;
+                            }
+                        if(statusTxt=="error")
+                            alert("Error: "+xhr.status+": "+xhr.statusText);
+                    });
+                }
         
-            $(document).ready(function() {
-                $('#motd-alert').bind('closed.bs.alert', function () {
-                    $.post("/seen_motd",{ mk:"{{the_user.key.urlsafe()}}" })
+                $(document).ready(function() {
+                    $('#motd-alert').bind('closed.bs.alert', function () {
+                        $.post("/seen_motd",{ mk:"{{the_user.key.urlsafe()}}" })
+                    });
+                    $('#welcome-alert').bind('closed.bs.alert', function () {
+                        $.post("/seen_welcome",{ mk:"{{the_user.key.urlsafe()}}" })
+                    });
+                    updateNavbarBands();
                 });
-                $('#welcome-alert').bind('closed.bs.alert', function () {
-                    $.post("/seen_welcome",{ mk:"{{the_user.key.urlsafe()}}" })
-                });
-                updateNavbarBands();
-            });
-        </script>
-    {% endif %}
+            </script>
+        {% endif %}
+    {% endblock navbarscripts %}
 </html>
