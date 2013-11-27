@@ -1,0 +1,34 @@
+{% extends 'go2base.html' %}
+
+{% block navbar %}
+    <!-- no navbar -->
+{% endblock navbar %}
+
+{% block wrapclass %}
+class="landingwrap"
+{% endblock wrapclass %}
+
+{% block content %}
+    <div id="landingpage_content">
+        {% if success %}
+            <h3>Email Changed!</h3>
+            <br>
+            <p>Nice work - you've changed your email address to {{the_email}}.</p>
+        {% else %}
+            <h3>Email Problem!</h3>
+            <br>
+            <p>Uh oh - there was a problem changing your email address. Please try again.</p>
+        {% endif %}
+    </div>
+{% endblock content %}
+
+{% block footer %}
+{% endblock footer %}
+
+{% block localscripts %}
+<script src="/js/randomback.js"></script>
+{% endblock localscripts %}
+
+{% block navbarscripts %}
+    <!-- no navbar -->
+{% endblock navbarscripts %}

@@ -50,6 +50,16 @@
                 </div>
             </div> <!-- panel -->
             {% if the_user_is_associated == False and ( the_user_is_superuser == False ) %}
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <strong>
+                            Upcoming Gigs
+                        </strong>
+                    </div>
+                    <div class="panel-body" id="upcoming-gigs">
+                        <i class="fa fa-spinner fa-spin fa-lg"></i>
+                    </div>
+                </div>
             {% elif the_user_is_confirmed == False and ( the_user_is_superuser == False ) %}
                 Your membership is pending - ask a band member to confirm you!
             {% else %}
@@ -180,30 +190,49 @@
 {% block localscripts %}
 <script src="/js/jquery.validate.js"></script>
 <script>
-function updateMembers() {
-    $.post('/band_get_members',
+function updateUpcoming() {
+    if (document.getElementById('upcoming-gigs')) {
+        $.post('/band_get_upcoming',
             {
                 bk: '{{ the_band.key.urlsafe() }}'
             },
             function(responseTxt,statusTxt,xhr){
                 if(statusTxt=="success")
-                    document.getElementById('memberlist').innerHTML=responseTxt;
+                    document.getElementById('upcoming-gigs').innerHTML=responseTxt;
                 if(statusTxt=="error")
                     alert("Error: "+xhr.status+": "+xhr.statusText);
             });
+    }
+}
+
+function updateMembers() {
+    if (document.getElementById('memberlist')) {
+        $.post('/band_get_members',
+                {
+                    bk: '{{ the_band.key.urlsafe() }}'
+                },
+                function(responseTxt,statusTxt,xhr){
+                    if(statusTxt=="success")
+                        document.getElementById('memberlist').innerHTML=responseTxt;
+                    if(statusTxt=="error")
+                        alert("Error: "+xhr.status+": "+xhr.statusText);
+                });
+    }
 }
 
 function updateSections() {
-    $.post('/band_get_sections',
-            {
-                bk: '{{ the_band.key.urlsafe() }}'
-            },
-            function(responseTxt,statusTxt,xhr){
-                if(statusTxt=="success")
-                    document.getElementById('sectionlist').innerHTML=responseTxt;
-                if(statusTxt=="error")
-                    alert("Error: "+xhr.status+": "+xhr.statusText);
-            });
+    if (document.getElementById('sectionlist')) {
+        $.post('/band_get_sections',
+                {
+                    bk: '{{ the_band.key.urlsafe() }}'
+                },
+                function(responseTxt,statusTxt,xhr){
+                    if(statusTxt=="success")
+                        document.getElementById('sectionlist').innerHTML=responseTxt;
+                    if(statusTxt=="error")
+                        alert("Error: "+xhr.status+": "+xhr.statusText);
+                });
+    }
 }
 
 function handle_new_section() {
@@ -275,7 +304,7 @@ function member_section(mk, sk) {
 $(document).ready(function() {
     updateMembers();
     updateSections();
-
+    updateUpcoming();
     $("#modal-form").validate({
         rules: {
             new_section: {

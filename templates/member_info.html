@@ -24,7 +24,9 @@
                     </div>
                     <div class="row">
                         <div class="col-md-2 col-sm-2 col-xs-3">Email</div>
-                        <div class="col-md-10 col-sm-10 col-xs-9"><a href="mailto:{{the_member.email_address}}">{{ the_member.email_address|e }}</a></div>
+                        <div class="col-md-10 col-sm-10 col-xs-9"><a href="mailto:{{the_member.email_address}}">{{ the_member.email_address }}</a>
+                        {% if email_change_msg %}<br>{{ email_change_msg }}{% endif %}
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-md-2 col-sm-2 col-xs-3">Phone</div>

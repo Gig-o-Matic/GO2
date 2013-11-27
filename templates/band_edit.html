@@ -48,6 +48,17 @@
         </div>
         <div class="row">
             <div class="form-group col-md-5 col-md-offset-2">
+                <label class="checkbox">  
+                    <input type="checkbox" id="bandsharegigs" name="band_sharegigs"
+                    {% if the_band.share_gigs %}
+                        checked
+                    {% endif %}
+                    >Let non-members see upcoming gigs   
+                </label>  
+            </div>
+        </div>        
+        <div class="row">
+            <div class="form-group col-md-5 col-md-offset-2">
                 <div class="text-right">
                     {% if the_member==None or is_new %}
                         <a class="btn btn-default" href="agenda.html">Cancel</a>

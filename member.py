@@ -19,6 +19,7 @@ import band
 import plan
 import goemail
 import assoc
+import login
 
 from jinja2env import jinja_environment as je
 
@@ -49,6 +50,7 @@ class Member(webapp2_extras.appengine.auth.models.User):
     seen_motd = ndb.BooleanProperty(default=False)
     seen_welcome = ndb.BooleanProperty(default=False)
     show_long_agenda = ndb.BooleanProperty(default=True)
+    pending_change_email = ndb.TextProperty(default='', indexed=False)
 
     def set_password(self, raw_password):
         """Sets the password for the current user
@@ -57,6 +59,33 @@ class Member(webapp2_extras.appengine.auth.models.User):
                 The raw password which will be hashed and stored
         """
         self.password = security.generate_password_hash(raw_password, length=12)
+
+    def set_email_to_pending(self):
+        """ Changes the email address for the current user"""
+
+        new_email = self.pending_change_email
+        success = False
+        if new_email != '':
+            success, existing = \
+                Unique.create_multi(['Member.auth_id:%s'%new_email,
+                                     'Member.email_address:%s'%new_email])
+            if not success:
+                logging.error('Unable to create user for email %s because of \
+                    duplicate keys' % new_email)
+            else:
+                # delete the old unique values
+                Unique.delete_multi(['Member.auth_id:%s'%self.email_address,
+                                     'Member.email_address:%s'%self.email_address])
+
+                self.email_address=new_email
+                self.auth_ids=[new_email]
+            self.pending_change_email = ''
+            self.put()
+
+        if success:
+            return new_email
+        else:
+            return None
 
     @classmethod
     def get_by_auth_token(cls, user_id, token, subject='auth'):
@@ -79,6 +108,17 @@ class Member(webapp2_extras.appengine.auth.models.User):
                 return user, timestamp
 
         return None, None
+
+    @classmethod
+    def create_email_token(cls, user_id):
+        entity = cls.token_model.create(user_id, 'email')
+        return entity.token
+
+    @classmethod
+    def delete_email_token(cls, user_id, token):
+        cls.token_model.get_key(user_id, 'email', token).delete()
+
+
         
 def get_all_members():
     """ Return all member objects """
@@ -177,8 +217,8 @@ class InfoPage(BaseHandler):
         the_band_keys=assoc.get_band_keys_of_member_key(the_member_key=the_member.key, confirmed_only=True)
         
         email_change = self.request.get('e',False)
-        if email_change=='True':
-            email_change_msg='You have selected a new email address - check your inbox to verify the new address!'
+        if email_change:
+            email_change_msg='You have selected a new email address - check your inbox to verify!'
         else:
             email_change_msg = None
             
@@ -245,21 +285,12 @@ class EditPage(BaseHandler):
        # if we're changing email addresses, make sure we're changing to something unique
         member_email=self.request.get("member_email", None)
         if member_email is not None and member_email != '' and member_email != the_member.email_address:
-            # only change email if it's been changed
-            success, existing = \
-                Unique.create_multi(['Member.auth_id:%s'%member_email,
-                                     'Member.email_address:%s'%member_email])
-            if not success:
-                self.display_message('Unable to create user for email %s because of \
-                    duplicate keys' % member_email)
-                return                
-            # delete the old unique values
-            Unique.delete_multi(['Member.auth_id:%s'%the_member.email_address,
-                                 'Member.email_address:%s'%the_member.email_address])
-
-            the_member.email_address=member_email
-            the_member.auth_ids=[member_email]
-       
+            # store the pending address and invite the user to confirm it
+            the_member.pending_change_email = member_email
+            login.request_new_email(self, member_email)
+        else:
+            the_member.pending_change_email = ''
+                   
         member_name=self.request.get("member_name", None)
         if member_name is not None and member_name != '':
             the_member.name=member_name
@@ -303,7 +334,10 @@ class EditPage(BaseHandler):
         if member_name:
             assoc.change_member_name(the_member_key, member_name)
 
-        return self.redirect(self.uri_for("memberinfo",mk=the_member.key.urlsafe()))
+        if (the_member.pending_change_email):
+            return self.redirect(self.uri_for("memberinfo",mk=the_member.key.urlsafe(),e=1))
+        else:
+            return self.redirect(self.uri_for("memberinfo",mk=the_member.key.urlsafe()))
 
 
 class ManageBandsGetAssocs(BaseHandler):

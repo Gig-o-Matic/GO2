@@ -20,6 +20,7 @@ import gig
 import plan
 import json
 import logging
+import datetime
 
 def band_key(band_name='band_key'):
     """Constructs a Datastore key for a Guestbook entity with guestbook_name."""
@@ -39,6 +40,7 @@ class Band(ndb.Model):
     created = ndb.DateTimeProperty(auto_now_add=True)
     time_zone_correction = ndb.IntegerProperty(default=0)
     thumbnail_img = ndb.TextProperty(default=None)
+    share_gigs = ndb.BooleanProperty(default=True)
 
 def new_band(name):
     """ Make and return a new band """
@@ -263,6 +265,12 @@ class EditPage(BaseHandler):
         the_band.thumbnail_img=self.request.get("band_thumbnail",None)
 
         the_band.description=self.request.get("band_description",None)
+            
+        share_gigs=self.request.get("band_sharegigs",None)
+        if (share_gigs):
+            the_band.share_gigs = True
+        else:
+            the_band.share_gigs = False
             
         band_tz=self.request.get("band_tz",None)
         if band_tz is not None and band_tz != '':
@@ -548,3 +556,24 @@ class BandNavPage(BaseHandler):
             'the_bands' : the_bands,
         }
         self.render_template('band_nav.html', template_args)
+
+class GetUpcoming(BaseHandler):
+
+    def post(self):
+        the_band_keyurl=self.request.get('bk','0')
+
+        if the_band_keyurl=='0':
+            return # todo figure out what to do
+
+        the_band_key = ndb.Key(urlsafe=the_band_keyurl)
+
+        today_date = datetime.datetime.now()
+        the_gigs = gig.get_gigs_for_bands(the_band_key.get(), start_date=today_date)
+        
+        print '\n\ngot {0} gigs\n\n'.format(len(the_gigs))
+        
+        template_args = {
+            'the_gigs' : the_gigs,
+        }
+        self.render_template('band_upcoming.html', template_args)
+        

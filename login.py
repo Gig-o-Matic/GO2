@@ -10,7 +10,7 @@ import logging
 import member
 import goemail
 
-ENABLE_EMAIL = True
+ENABLE_EMAIL = False
 
 class LoginPage(BaseHandler):
     def get(self):
@@ -130,7 +130,7 @@ class VerificationHandler(BaseHandler):
                                                     'signup')
 
         if not user:
-            logging.info( \
+            logging.error( \
                 'Could not find any user with id "%s" signup token "%s"',
                 user_id, signup_token)
             self.abort(404)
@@ -158,6 +158,49 @@ class VerificationHandler(BaseHandler):
                 'token': signup_token
             }
             self.render_template('resetpassword.html', params)
+        else:
+            logging.info('verification type not supported')
+            self.abort(404)
+
+##########
+#
+# EmailVerificationHandler
+#
+##########
+class EmailVerificationHandler(BaseHandler):
+    """ handles user verification """
+    def get(self, *args, **kwargs):
+        user = None
+        user_id = kwargs['user_id']
+        signup_token = kwargs['signup_token']
+        verification_type = kwargs['type']
+
+        # it should be something more concise like
+        # self.auth.get_user_by_token(user_id, signup_token
+        # unfortunately the auth interface does not (yet) allow to manipulate
+        # signup tokens concisely
+        user, ts = self.user_model.get_by_auth_token(int(user_id),
+                                                     signup_token,
+                                                    'email')
+
+        if not user:
+            logging.error( \
+                'Could not find any user with id "%s" signup token "%s"',
+                user_id, signup_token)
+            self.abort(404)
+        
+        # store user data in the session
+        self.auth.set_session(self.auth.store.user_to_dict(user), remember=True)
+
+        if verification_type == 'e':
+            new_email = user.set_email_to_pending()
+            # remove signup token, we don't want users to come back with an old link
+            self.user_model.delete_email_token(user.get_id(), signup_token)
+            template_args = {
+                'success' : new_email != None,
+                'the_email' : new_email
+            }
+            self.render_template('confirm_email_change.html', template_args)            
         else:
             logging.info('verification type not supported')
             self.abort(404)
@@ -218,9 +261,9 @@ class ForgotPasswordHandler(BaseHandler):
       return
 
     user_id = user.get_id()
-    token = self.user_model.create_signup_token(user_id)
+    token = member.Member.create_signup_token(user_id)
 
-    verification_url = self.uri_for('verification', type='p', user_id=user_id,
+    verification_url = BaseHandler.uri_for('verification', type='p', user_id=user_id,
       signup_token=token, _full=True)
 
     if ENABLE_EMAIL:
@@ -259,3 +302,24 @@ class CheckEmail(BaseHandler):
         self.response.write(email_ok)
         
 
+
+##########
+#
+# request_new_email
+#
+##########
+def request_new_email(the_request, the_new_address):
+    """"    if a member has asked for a new email address, send a confirmation email, and
+            if it comes back, make the change. """
+            
+    # in theory, we've already verified that the email is unique - we'll trust that
+    
+    # set up a token
+    user_id = the_request.user.get_id()
+    token = the_request.user_model.create_email_token(user_id)
+
+    verification_url = the_request.uri_for('verification', type='e', user_id=user_id,
+            signup_token=token, _full=True)
+
+    logging.error('\n\nemail change link: {0}\n\n'.format(verification_url))
+    goemail.send_the_pending_email(the_new_address, verification_url)

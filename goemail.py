@@ -144,6 +144,27 @@ The Gig-O-Matic Team
     message.send()
     return True        
 
+def send_the_pending_email(the_email_address, the_confirm_link):
+    if not mail.is_email_valid(the_email_address):
+        return False
+    message = mail.EmailMessage()
+    message.sender = SENDER_EMAIL
+    message.to = the_email_address
+    message.subject = 'Gig-O-Matic Confirm Email Address'
+    message.body = u"""
+Hi there! Someone has requested to change their Gig-O-Matic ID to this email address.
+If it's you, please click the link to confirm. If not, just ignore this and it will
+go away.
+
+{0}
+
+Thanks,
+Team Gig-O-Matic
+
+    """.format(the_confirm_link)
+    message.send()
+    return True
+
 def notify_superuser_of_archive(the_num):
     message = mail.EmailMessage()
     message.sender = SENDER_EMAIL
