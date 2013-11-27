@@ -1,0 +1,14 @@
+{% if the_gigs | length == 0 %}
+    Nothing!
+{% else %}
+    {% for the_gig in the_gigs %}
+        <div class="row">
+            <div class="col-md-2">
+                {{ the_gig.date.strftime('%-m/%-d') }}
+            </div>
+            <div class="col-md-10">
+                {{ the_gig.title }}<br>
+            </div>
+        </div>
+    {% endfor %}
+{% endif %}
