@@ -175,6 +175,9 @@ function updateContactList(bk) {
                     if(statusTxt=="success")
                         obj = JSON && JSON.parse(responseTxt) || $.parseJSON(responseTxt);
                         inner=""
+                        {% if gig.contact==None %}
+                            inner = inner+"<option value=''>??</option>"
+                        {% endif %}
                         for(i=0; i<obj.length; i++) {
                             inner=inner+"<option value='"+obj[i][1]+"'"
                             {% if newgig_is_active %}

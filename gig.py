@@ -162,6 +162,19 @@ def get_gigs_for_member_for_dates(the_member, start_date, end_date, get_canceled
                                                     get_canceled=get_canceled))
     return all_gigs
 
+def get_gigs_for_contact_key(the_contact_key, the_band_key):
+    """ pass in a member key, get back the gigs for which this member is the contact """
+    gig_query = Gig.query(Gig.contact == the_contact_key, ancestor=the_band_key)
+    gigs = gig_query.fetch()
+    return gigs
+
+def reset_gigs_for_contact_key(the_member_key, the_band_key):
+    """ find gigs for which member is contact, and set contact to None """
+    gigs = get_gigs_for_contact_key(the_contact_key=the_member_key, the_band_key=the_band_key)
+    for g in gigs:
+        g.contact = None
+    ndb.put_multi(gigs)
+
 def get_old_gig_keys(end_date):
     """ Return gig objects by band, past gigs OK """
     

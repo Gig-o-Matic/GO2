@@ -502,7 +502,11 @@ class RemoveMember(BaseHandler):
 
         the_member_key = ndb.Key(urlsafe=the_member_keyurl)
         the_band_key = ndb.Key(urlsafe=the_band_keyurl)
-        assoc.delete_association(the_member_key, the_band_key)
+        
+        # find the association between band and member
+        the_assoc=assoc.get_assoc_for_band_key_and_member_key(the_member_key, the_band_key)
+        assoc.delete_association(the_assoc)
+        gig.reset_gigs_for_contact_key(the_member_key, the_band_key)
 
         return self.redirect('/band_info.html?bk={0}'.format(the_band_keyurl))
 

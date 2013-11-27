@@ -138,9 +138,10 @@ def forget_member_from_key(the_member_key):
 
     # first find all of the assocs to bands
     the_assocs = assoc.get_assocs_of_member_key(the_member_key=the_member_key, confirmed_only=False)
-    # delete all plans
+    # delete all plans & abdicate as contact for gigs
     for an_assoc in the_assocs:
         plan.delete_plans_for_member_key_for_band_key(the_member_key, an_assoc.band)
+        gig.reset_gigs_for_contact_key(the_member_key, an_assoc.band)
 
     # now quit the bands
     the_assoc_keys=[a.key for a in the_assocs]
@@ -434,6 +435,7 @@ class ManageBandsDeleteAssoc(BaseHandler):
 
         assoc.delete_association(the_assoc)
         plan.delete_plans_for_member_key_for_band_key(the_member_key, the_band_key)
+        gig.reset_gigs_for_contact_key(the_member_key, the_band_key)
         
         return self.redirect('/member_info.html?mk={0}'.format(the_member_key.urlsafe()))
         
