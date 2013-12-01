@@ -495,10 +495,16 @@ class AdminPage(BaseHandler):
         # todo make sure the user is a superuser
         
         the_members = get_all_members()
+
+        member_band_info={}
+        for a_member in the_members:
+            assocs=assoc.get_assocs_of_member_key(a_member.key, confirmed_only=False)
+            member_band_info[a_member.key] = assocs
         
         template_args = {
             'title' : 'Member Admin',
             'the_members' : the_members,
+            'the_band_info' : member_band_info
         }
         self.render_template('member_admin.html', template_args)
 
