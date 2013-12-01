@@ -32,7 +32,7 @@ application = webapp2.WSGIApplication([
     webapp2.Route('/<type:v|p>/<user_id:\d+>-<signup_token:.+>',
                   handler=login.VerificationHandler, name='verification'),
     webapp2.Route('/<type:e>/<user_id:\d+>-<signup_token:.+>',
-                  handler=login.EmailVerificationHandler),
+                  handler=login.EmailVerificationHandler, name='emailverification'),
     webapp2.Route('/forgot', login.ForgotPasswordHandler, name='forgot'),                  
     webapp2.Route('/password', login.SetPasswordHandler),
     webapp2.Route('/help', help.HelpHandler),

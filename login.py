@@ -318,8 +318,7 @@ def request_new_email(the_request, the_new_address):
     user_id = the_request.user.get_id()
     token = the_request.user_model.create_email_token(user_id)
 
-    verification_url = the_request.uri_for('verification', type='e', user_id=user_id,
+    verification_url = the_request.uri_for('emailverification', type='e', user_id=user_id,
             signup_token=token, _full=True)
 
-    logging.error('\n\nemail change link: {0}\n\n'.format(verification_url))
     goemail.send_the_pending_email(the_new_address, verification_url)
