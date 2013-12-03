@@ -33,11 +33,13 @@
                         <div class="col-md-10 col-sm-10 col-xs-9">{{ the_member.phone|e }}</div>
                     </div>
                     <div class="row"><br></div>
-                    <div class="row">
-                        <div class="col-md-2 col-sm-2 col-xs-3">Personal Statement</div>
-                        <div class="col-md-10 col-sm-10 col-xs-9">{{ the_member.statement|e }}</div>
-                    </div>
-                    <div class="row"><br></div>
+                    {% if the_member.statement %}
+                        <div class="row">
+                            <div class="col-md-2 col-sm-2 col-xs-3">Personal Statement</div>
+                            <div class="col-md-10 col-sm-10 col-xs-9">{{ the_member.statement|e }}</div>
+                        </div>
+                        <div class="row"><br></div>
+                    {% endif %}
                     <div class="row">
                         <div class="col-md-2 col-sm-2 col-xs-3">My Bands</div>
                         <div class="col-md-10 col-sm-10 col-xs-9">
