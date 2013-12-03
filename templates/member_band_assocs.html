@@ -1,18 +1,23 @@
 {% if the_assoc_info %}
+    {% if the_assoc_info | length > 1 %}
+        <table class="table table-striped">
+    {% else %}
+        <table class="table">
+    {% endif %}
     {% for the_info in the_assoc_info %}
-        <div class="row" style="padding-top: 5px; padding-bottom: 5px; {{ loop.cycle('', 'background:#f5f5f5;') }}">
-            <div class="col-md-2">
+        <tr>
+            <td style="border-top:none;">
                 <a href="/band_info.html?bk={{the_info.assoc.band.urlsafe()}}">{{the_info.assoc.band.get().name}}</a>
-            </div>
+            </td>
             {% if the_info.assoc.is_confirmed == 0 %}
-                <div class="col-md-7">
+                <td colspan=2 style="border-top:none;">
                     pending
-                </div>
+                </td>
             {% elif the_info.sections|length == 0 %}
-                <div class="col-md-7">
-                </div>
+                <td colspan=2 style="border-top:none;">
+                </td>
             {% else %}
-                <div class="col-md-4">          
+                <td style="border-top:none;">          
                     <div class="dropdown">
                         <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" id='sbk-{{the_info.assoc.band.urlsafe()}}'>
                             {% if the_info.assoc.default_section == None %}
@@ -27,21 +32,22 @@
                             {% endfor %}
                         </ul>
                     </div>
-                </div>
-                <div class="col-md-3">
+                </td>
+                <td style="border-top:none;">
                     <input type="checkbox" id='msbk-{{the_info.assoc.band.urlsafe()}}' onclick="multi_select('{{the_info.assoc.band.urlsafe()}}')"
                     {% if the_info.assoc.is_multisectional %}
                         checked
                     {% endif %}
                     > other sections, too
-                </div>
+                </td>
             {% endif %}
-            <div class="col-md-3">            
+            <td style="border-top:none;">            
 <!--                 <a class="btn btn-default btn-sm" href="/member_delete_assoc.html?bk={{the_info.assoc.band.urlsafe()}}&mk={{the_member.key.urlsafe()}}"><i class="fa fa-minus-square"></i> Leave Band</a> -->
                 <button class="btn btn-default btn-sm" onclick="leave_band('{{the_info.assoc.key.urlsafe()}}','{{the_info.assoc.band.get().name}}')""><i class="fa fa-minus-square"></i> Leave Band</button>
-            </div>
-        </div>
+            </td>
+        </tr>
     {% endfor %}
+    </table>
 {% else %}
         You need to add a band!
 {% endif %}
