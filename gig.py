@@ -424,7 +424,7 @@ class DeleteHandler(BaseHandler):
                     gigarchive.delete_archive(the_gig.archive_id)
                 if the_gig.comment_id:
                     gigcomment.delete_comment(the_gig.comment_id)
-                plan.delete_plans_for_gig(the_gig)            
+                plan.delete_plans_for_gig_key(the_gig.key)
                 the_gig.key.delete()
             return self.redirect('/agenda.html')
             
