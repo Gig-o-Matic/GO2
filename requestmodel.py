@@ -94,6 +94,16 @@ class BaseHandler(webapp2.RequestHandler):
         template = je.get_template(filename)
         self.response.write(template.render(params))
 
+    def render_nouser_template(self, filename, params=None):
+        if not params:
+            params = {}
+
+        params['the_user'] = None
+        params['the_user_has_bands'] = True # todo - figure this out
+        params['the_user_is_superuser'] = False
+        template = je.get_template(filename)
+        self.response.write(template.render(params))
+
     def display_message(self, message):
         """Utility function to display a template with a simple message."""
         params = {
