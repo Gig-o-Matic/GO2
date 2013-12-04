@@ -28,7 +28,11 @@ The Gig-O-Matic Team
 
     """.format(the_url)
 
-    message.send()
+    try:
+        message.send()
+    except:
+        logging.error('failed to send email!')
+        
     return True
 
 def send_band_accepted_email(the_email, the_band):
@@ -50,7 +54,11 @@ The Gig-O-Matic Team
 
     """.format(the_band.name, the_band.key.urlsafe())
 
-    message.send()
+    try:
+        message.send()
+    except:
+        logging.error('failed to send email!')
+        
     return True
     
     
@@ -74,7 +82,11 @@ The Gig-O-Matic Team
 
     """.format(the_url)
 
-    message.send()
+    try:
+        message.send()
+    except:
+        logging.error('failed to send email!')
+        
     return True
     
 ##########
@@ -103,7 +115,11 @@ Thanks,
 The Gig-O-Matic Team
 
     """.format(the_band.name, the_gig.title, the_gig.date, the_gig.details, the_gig_url)
-    message.send()
+    try:
+        message.send()
+    except:
+        logging.error('failed to send email!')
+        
     return True
 
 
@@ -142,7 +158,11 @@ Thanks,
 The Gig-O-Matic Team
 
     """.format(new_member.name, the_band.name, the_band.key.urlsafe())
-    message.send()
+    try:
+        message.send()
+    except:
+        logging.error('failed to send email!')
+        
     return True        
 
 def send_the_pending_email(the_email_address, the_confirm_link):
@@ -163,7 +183,11 @@ Thanks,
 Team Gig-O-Matic
 
     """.format(the_confirm_link)
-    message.send()
+    try:
+        message.send()
+    except:
+        logging.error('failed to send email!')
+
     return True
 
 def notify_superuser_of_archive(the_num):
@@ -174,5 +198,9 @@ def notify_superuser_of_archive(the_num):
     message.body = """
 Yo! The Gig-o-Matic archived {0} gigs last night.
     """.format(the_num)
-    message.send()
+    try:
+        message.send()
+    except:
+        logging.error('failed to send email!')
+        
     return True        
