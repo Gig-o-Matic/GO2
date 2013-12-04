@@ -57,6 +57,7 @@ The Gig-O-Matic Team
 def send_forgot_email(the_email, the_url):
 
     if not mail.is_email_valid(the_email):
+        logging.error("send_forgot_email invalid email: {0}".format(the_email))
         return False
         
     message = mail.EmailMessage()

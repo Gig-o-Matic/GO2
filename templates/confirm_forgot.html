@@ -1,0 +1,33 @@
+{% extends 'go2base.html' %}
+
+{% block navbar %}
+    <!-- no navbar -->
+{% endblock navbar %}
+
+{% block wrapclass %}
+class="landingwrap"
+{% endblock wrapclass %}
+
+{% block content %}
+    <div id="landingpage_content">
+        <h3>Password Reset!</h3>
+        <br>
+        <p>We've sent an email with a confirmation link, 
+        so follow the directions to continue the process.</p>
+
+        {% if msg %}
+            <br><br>{{ msg }}
+        {% endif %}
+    </div>
+{% endblock content %}
+
+{% block footer %}
+{% endblock footer %}
+
+{% block localscripts %}
+<script src="/js/randomback.js"></script>
+{% endblock localscripts %}
+
+{% block navbarscripts %}
+    <!-- no navbar -->
+{% endblock navbarscripts %}

@@ -267,15 +267,16 @@ class ForgotPasswordHandler(BaseHandler):
       signup_token=token, _full=True)
 
     if ENABLE_EMAIL:
-        if goemail.send_forgot_email(user_id, verification_url):
-            msg = "An email has been sent - check your inbox! {0}".format(url)
-        else:
-            msg = "Email failed!"
+        goemail.send_forgot_email(user.email_address, verification_url)
+        msg=""
     else:
-        msg = 'Send an email to user in order to reset their password. \
-              They will be able to do so by visiting <a href="{url}">{url}</a>'
+        msg = verification_url
 
-    self.display_message(msg.format(url=verification_url))
+    params = {
+        'title' : 'Signed Up',
+        'msg' : msg
+    }
+    self.render_template('confirm_forgot.html', params)
   
   def _serve_page(self, not_found=False):
     username = self.request.get('username')
