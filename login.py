@@ -263,8 +263,10 @@ class ForgotPasswordHandler(BaseHandler):
     user_id = user.get_id()
     token = member.Member.create_signup_token(user_id)
 
-    verification_url = BaseHandler.uri_for('verification', type='p', user_id=user_id,
+    verification_url = self.uri_for('verification', type='p', user_id=user_id,
       signup_token=token, _full=True)
+
+    logging.error('\n\n{0}\n\n'.format(verification_url))
 
     if ENABLE_EMAIL:
         if goemail.send_forgot_email(user_id, verification_url):
