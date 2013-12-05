@@ -33,8 +33,8 @@
                             {% endif %}
                         </button>
                         <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                             {% for section_key in the_band_key.get().sections %}
-                                 <li><a onclick="member_section('{{ the_assoc['member_key'].urlsafe()}}','{{section_key.urlsafe()}}')">{{ section_key.get().name }}</a></li>
+                             {% for a_section in the_sections %}
+                                 <li><a onclick="member_section('{{ the_assoc['member_key'].urlsafe()}}','{{a_section.key.urlsafe()}}')">{{ a_section.name }}</a></li>
                              {% endfor %}
                         </ul>
                     </div>

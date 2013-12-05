@@ -328,9 +328,13 @@ class BandGetMembers(BaseHandler):
             if a.member == the_user.key:
                 the_user_is_band_admin = a.is_band_admin
                         
+        the_section_keys = the_band_key.get().sections
+        the_sections = ndb.get_multi(the_section_keys)
+
         template_args = {
             'the_band_key' : the_band_key,
             'the_assocs' : assoc_info,
+            'the_sections' : the_sections,
             'the_user_is_band_admin' : the_user_is_band_admin,
         }
         self.render_template('band_members.html', template_args)
