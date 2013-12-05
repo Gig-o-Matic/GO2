@@ -64,7 +64,7 @@
                         {% set the_section_keys = get_the_section_keys(the_band_key) %}
                     {% endif %}
                     {% set the_section_keys = the_band_key.get().sections %}
-                    {% if the_section_keys and the_section_keys|length > 1 and (the_plan.member == the_user.key or the_user_is_superuser)%}
+                    {% if the_sections and the_sections|length > 1 and (the_plan.member == the_user.key or the_user_is_superuser)%}
 
                     <div class="dropdown">
                         <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" id='sel-{{the_plan_key.urlsafe()}}'>
@@ -75,9 +75,9 @@
                             {% endif %}
                         </button>
                         <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                            {% for section_key in the_section_keys %}
+                            {% for a_section in the_sections %}
                                 {% if section_key %}
-                                    <li><a onclick="section_select('{{the_plan_key.urlsafe()}}','{{section_key.urlsafe()}}','{{section_key.get().name}}')">{{ section_key.get().name }}</a></li>
+                                    <li><a onclick="section_select('{{the_plan_key.urlsafe()}}','{{a_section.key.urlsafe()}}','{{a_section.name}}')">{{ a_section.name }}</a></li>
                                 {% endif %}
                             {% endfor %}
                         </ul>

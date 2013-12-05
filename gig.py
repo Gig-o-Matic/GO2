@@ -275,15 +275,16 @@ class InfoPage(BaseHandler):
                 the_plans.append(info_block)          
         
             the_section_keys = band.get_section_keys_of_band_key(the_band_key)
+            the_sections = ndb.get_multi(the_section_keys)
             if need_empty_section:
-                the_section_keys.append(None)
+                the_sections.append(None)
 
 
             template_args = {
                 'title' : 'Gig Info',
                 'gig' : the_gig,
                 'the_plans' : the_plans,
-                'the_section_keys' : the_section_keys,
+                'the_sections' : the_sections,
                 'comment_text' : the_comment_text
             }
             self.render_template('gig_info.html', template_args)

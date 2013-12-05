@@ -75,18 +75,19 @@
                     <div class="row">
                         <div class="col-md-12">
                             {% import 'gig_plan_edit.html' as plan_edit with context %}                
-                            {% for the_section in the_section_keys %}
+                            {% for the_section in the_sections %}
                                 <div class="row" style="padding-top: 5px; padding-bottom: 5px; {{ loop.cycle('', 'background:#f5f5f5;') }}">
                                     <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4">
                                         {% if the_section %}
-                                            {{the_section.get().name}}
-                                        {% elif the_section_keys | length > 1 %}
+                                            {{the_section.name}}
+                                        {% elif the_sections | length > 1 %}
                                             No Section
                                         {% endif %}
                                     </div>
                                     <div class="col-lg-10 col-md-10 col-sm-8 col-xs-8">
                                         {% for member_plan in the_plans %}
-                                            {% if member_plan['the_section'] == the_section %}
+                                            {% if (the_section == None and member_plan['the_section'] == None) or
+                                                  (the_section != None and the_section.key == member_plan['the_section']) %}
                                                 {{ plan_edit.plan_edit(member_plan) }}
                                             {% endif %}
                                         {% endfor %}
