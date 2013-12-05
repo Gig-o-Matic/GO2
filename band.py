@@ -102,17 +102,29 @@ def get_section_keys_of_band_key(the_band_key):
     return the_band_key.get().sections
 
 def get_member_keys_of_band_key_by_section_key(the_band_key):
+    the_assocs = assoc.get_confirmed_assocs_of_band_key(the_band_key)
+    the_section_keys = get_section_keys_of_band_key(the_band_key)
+    
     the_info=[]
-    section_keys=get_section_keys_of_band_key(the_band_key)
-    for a_section_key in section_keys:
-        the_member_keys=assoc.get_member_keys_for_band_key_for_section_key(the_band_key, a_section_key)
-        the_info.append([a_section_key,the_member_keys])
+    for a_section_key in the_section_keys:
+        the_section_info=[]
+        for an_assoc in the_assocs:
+            if an_assoc.default_section == a_section_key:
+                the_section_info.append(an_assoc.member)
+        if the_section_info:
+            the_info.append( [a_section_key, the_section_info] )
 
-    no_section_members=assoc.get_member_keys_of_band_key_no_section(the_band_key)
-    if no_section_members:
-        the_info.append([None,no_section_members])
+    # now look for empty section
+    the_section_info=[]
+    for an_assoc in the_assocs:
+        if an_assoc.default_section == None:
+            the_section_info.append(an_assoc.member)
+    if the_section_info:
+        the_info.append( [None, the_section_info] )
 
     return the_info
+    
+
     
 def new_section_for_band(the_band, the_section_name):
     the_section = Section(parent=the_band.key, name=the_section_name)
@@ -323,7 +335,7 @@ class BandGetMembers(BaseHandler):
                 s = a.default_section.get().name
             else:
                 s = None
-            print 's is {0}'.format(s)
+
             assoc_info.append( {'name':(m.nickname if m.nickname else m.name), 'is_confirmed':a.is_confirmed, 'is_band_admin':a.is_band_admin, 'member_key':a.member, 'section':s} )
             if a.member == the_user.key:
                 the_user_is_band_admin = a.is_band_admin
