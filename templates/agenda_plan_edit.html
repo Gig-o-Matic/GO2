@@ -6,8 +6,7 @@
 {% set the_gig = the_gig_key.get() %}
 {% set the_plan_key = plan_info['the_plan_key'] %}
 {% set the_member_key = plan_info['the_member_key'] %}
-{% set the_band_key = plan_info['the_band_key'] %}
-{% set the_band = the_band_key.get() %}
+{% set the_band = plan_info['the_band'] %}
 {% set the_assoc = plan_info['the_assoc'] %}
 {% set the_section = plan_info['the_section'] %}
 {% if the_assoc and the_assoc.is_multisectional %}
@@ -67,7 +66,7 @@
             </div>
             {% if show_band==True %}
                 <div class="col-md-{{band_lg}} col-sm-{{band_sm}} col-xs-{{band_sm}}">
-                    <a href="band_info.html?bk={{ the_band_key.urlsafe()}}">
+                    <a href="band_info.html?bk={{ the_band.key.urlsafe()}}">
                     {% if the_band.shortname %}
                         {{ the_band.shortname|e }}
                     {% else %}
@@ -97,7 +96,7 @@
             {% if show_section %}
                 <div class="col-md-{{section_lg}} col-sm-{{section_sm}} col-xs-{{section_sm}}">
                     {% if get_the_section_keys %}
-                        {% set the_section_keys = get_the_section_keys(the_band_key) %}
+                        {% set the_section_keys = get_the_section_keys(the_band.key) %}
                     {% endif %}
                     {% set the_section_keys = the_band.sections %}
                     {% if the_section_keys and the_section_keys|length > 1 and (the_plan_key.get().member == the_user.key or the_user_is_superuser)%}
