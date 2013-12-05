@@ -71,18 +71,18 @@ def get_assoc_for_band_key_and_member_key(the_member_key, the_band_key, confirme
 
 def get_member_keys_for_band_key_for_section_key(the_band_key, the_section_key):
     """ Return member objects by band with specified default section"""
-    assoc_query = Assoc.query( ndb.AND( Assoc.band==the_band_key,
-                                        Assoc.default_section==the_section_key,
-                                        Assoc.is_confirmed==True) ).order(Assoc.member_name)
+    assoc_query = Assoc.query(Assoc.band==the_band_key,
+                              Assoc.default_section==the_section_key,
+                              Assoc.is_confirmed==True ).order(Assoc.member_name)
     assocs = assoc_query.fetch()
     members = [a.member for a in assocs]
     return members
     
 def get_member_keys_of_band_key_no_section(the_band_key):    
     """ Return member objects by band with no default section"""
-    assoc_query = Assoc.query( ndb.AND( Assoc.band==the_band_key, 
-                                        Assoc.default_section==None,
-                                        Assoc.is_confirmed==True) ).order(Assoc.member_name)
+    assoc_query = Assoc.query( Assoc.band==the_band_key, 
+                               Assoc.default_section==None,
+                               Assoc.is_confirmed==True).order(Assoc.member_name)
     assocs = assoc_query.fetch()
     members = [a.member for a in assocs]
     return members
