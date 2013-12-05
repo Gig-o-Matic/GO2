@@ -5,10 +5,11 @@
 {% set the_gig_key = plan_info['the_gig_key'] %}
 {% set the_gig = the_gig_key.get() %}
 {% set the_plan_key = plan_info['the_plan_key'] %}
+{% set the_plan = the_plan_key.get() %}
 {% set the_member_key = plan_info['the_member_key'] %}
 {% set the_band = plan_info['the_band'] %}
 {% set the_assoc = plan_info['the_assoc'] %}
-{% set the_section = plan_info['the_section'] %}
+{% set the_section_key = plan_info['the_section'] %}
 {% if the_assoc and the_assoc.is_multisectional %}
     {% set show_section = True %}
 {% else %}
@@ -83,14 +84,14 @@
             <div class="col-sm-2 col-xs-2 visible-sm visible-xs"></div>
             <div class="col-lg-{{plan_lg}} col-md-{{plan_lg}} col-md-offset-0 col-sm-{{plan_sm}} col-sm-offset-{{plan_sm_offset}} col-xs-{{plan_sm}} col-xs-offset-{{plan_sm_offset}} ">
                 {% if the_member_key == the_user.key or the_user_is_superuser %}
-                    {{ plan_icon.icon_button(the_plan_key.get()) }}
+                    {{ plan_icon.icon_button(the_plan) }}
                 {% else %}
-                    {{ plan_icon.icon_display(the_plan_key.get().value) }}
+                    {{ plan_icon.icon_display(the_plan.value) }}
                 {% endif %}
                 {% if the_member_key == the_user.key or the_user_is_superuser %}
-                    <a href="#" class="comment-thing" id="username" data-type="text" data-pk="{{the_plan_key.urlsafe()}}" data-url="/updateplancomment" data-title="">{{the_plan_key.get().comment}}</a>
+                    <a href="#" class="comment-thing" id="username" data-type="text" data-pk="{{the_plan_key.urlsafe()}}" data-url="/updateplancomment" data-title="">{{the_plan.comment}}</a>
                 {% else %}
-                    {{the_plan_key.get().comment}}
+                    {{the_plan.comment}}
                 {% endif %}
             </div>
             {% if show_section %}
@@ -99,18 +100,19 @@
                         {% set the_section_keys = get_the_section_keys(the_band.key) %}
                     {% endif %}
                     {% set the_section_keys = the_band.sections %}
-                    {% if the_section_keys and the_section_keys|length > 1 and (the_plan_key.get().member == the_user.key or the_user_is_superuser)%}
+                    {% if the_section_keys and the_section_keys|length > 1 and (the_plan.member == the_user.key or the_user_is_superuser)%}
                     <div class="dropdown">
                         <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" id='sel-{{the_plan_key.urlsafe()}}'>
                             {% if the_section == None %}
                                 section...  <span class="caret"></span>
                             {% else %}
-                                {{the_section.get().name}} <span class="caret"></span>
+                                {{the_section_key.get().name}} <span class="caret"></span>
                             {% endif %}
                         </button>
                         <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
                             {% for section_key in the_section_keys %}
-                                <li><a onclick="section_select('{{the_plan_key.urlsafe()}}','{{section_key.urlsafe()}}','{{section_key.get().name}}')">{{ section_key.get().name }}</a></li>
+                                {% set a_section = section_key.get() %}
+                                <li><a onclick="section_select('{{the_plan_key.urlsafe()}}','{{section_key.urlsafe()}}','{{a_section.name}}')">{{ a_section.name }}</a></li>
                             {% endfor %}
                         </ul>
                     </div>
