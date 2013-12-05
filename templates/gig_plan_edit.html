@@ -1,9 +1,9 @@
 {% import 'plan_icon.html' as plan_icon %}
 
 {% macro plan_edit(plan_info) -%}
-
 {% set the_gig_key = plan_info['the_gig_key'] %}
 {% set the_plan_key = plan_info['the_plan_key'] %}
+{% set the_plan = the_plan_key.get() %}
 {% set the_member_key = plan_info['the_member_key'] %}
 {% set the_member = the_member_key.get() %}
 {% set the_band_key = plan_info['the_band_key'] %}
@@ -48,14 +48,14 @@
         <div class="row">
             <div class="col-lg-{{plan_lg}} col-md-{{plan_lg}} col-md-offset-0 col-sm-{{plan_sm}} col-sm-offset-{{plan_sm_offset}} col-xs-{{plan_sm}} col-xs-offset-{{plan_sm_offset}} ">
                 {% if the_member_key == the_user.key or the_user_is_superuser %}
-                    {{ plan_icon.icon_button(the_plan_key.get()) }}
+                    {{ plan_icon.icon_button(the_plan) }}
                 {% else %}
-                    {{ plan_icon.icon_display(the_plan_key.get().value) }}
+                    {{ plan_icon.icon_display(the_plan.value) }}
                 {% endif %}
                 {% if the_member_key == the_user.key or the_user_is_superuser %}
-                    <a href="#" class="comment-thing" id="username" data-type="text" data-pk="{{the_plan_key.urlsafe()}}" data-url="/updateplancomment" data-title="">{{the_plan_key.get().comment}}</a>
+                    <a href="#" class="comment-thing" id="username" data-type="text" data-pk="{{the_plan_key.urlsafe()}}" data-url="/updateplancomment" data-title="">{{the_plan.comment}}</a>
                 {% else %}
-                    {{the_plan_key.get().comment}}
+                    {{the_plan.comment}}
                 {% endif %}
             </div>
             {% if show_section %}
@@ -64,14 +64,14 @@
                         {% set the_section_keys = get_the_section_keys(the_band_key) %}
                     {% endif %}
                     {% set the_section_keys = the_band_key.get().sections %}
-                    {% if the_section_keys and the_section_keys|length > 1 and (the_plan_key.get().member == the_user.key or the_user_is_superuser)%}
+                    {% if the_section_keys and the_section_keys|length > 1 and (the_plan.member == the_user.key or the_user_is_superuser)%}
 
                     <div class="dropdown">
                         <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" id='sel-{{the_plan_key.urlsafe()}}'>
-                            {% if the_plan_key.get().section == None %}
+                            {% if the_plan.section == None %}
                                 section...  <span class="caret"></span>
                             {% else %}
-                                {{the_plan_key.get().section.get().name}} <span class="caret"></span>
+                                {{the_plan.section.get().name}} <span class="caret"></span>
                             {% endif %}
                         </button>
                         <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">

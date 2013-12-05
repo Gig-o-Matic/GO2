@@ -259,8 +259,7 @@ class InfoPage(BaseHandler):
             need_empty_section = False
             for the_assoc in the_assocs:
                 a_member_key = the_assoc.member
-                a_member = a_member_key.get()
-                the_plan = plan.get_plan_for_member_for_gig(a_member, the_gig)
+                the_plan = plan.get_plan_for_member_key_for_gig_key(a_member_key, gig_key)
                 if the_plan.section==None and the_assoc.default_section==None:
                     need_empty_section = True
                 info_block={}
@@ -474,8 +473,7 @@ class PrintPlanlist(BaseHandler):
         need_empty_section = False
         for the_assoc in the_assocs:
             a_member_key = the_assoc.member
-            a_member = a_member_key.get()
-            the_plan = plan.get_plan_for_member_for_gig(a_member, the_gig)
+            the_plan = plan.get_plan_for_member_key_for_gig_key(a_member_key, the_gig_key)
             if the_plan.section==None and the_assoc.default_section==None:
                 need_empty_section = True
             info_block={}
