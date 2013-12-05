@@ -327,10 +327,13 @@ class BandGetMembers(BaseHandler):
         the_band_key = ndb.Key(urlsafe=the_band_key_str)
 
         assocs = assoc.get_assocs_of_band_key(the_band_key=the_band_key, confirmed_only=True)
+        the_members = ndb.get_multi([a.member for a in assocs])
+        
         assoc_info=[]
         the_user_is_band_admin = False
-        for a in assocs:
-            m = a.member.get()
+        for i in range(0,len(assocs)):
+            a=assocs[i]
+            m=the_members[i]
             if a.default_section:
                 s = a.default_section.get().name
             else:
