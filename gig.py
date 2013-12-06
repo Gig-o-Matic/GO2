@@ -35,7 +35,12 @@ class Gig(ndb.Model):
     details = ndb.TextProperty()
     setlist = ndb.TextProperty()
     date = ndb.DateProperty(auto_now_add=True)
-    call = ndb.TextProperty( default=None )
+    calltime = ndb.TextProperty( default=None )
+    settime = ndb.TextProperty( default=None )
+    endtime = ndb.TextProperty( default=None )
+    address = ndb.TextProperty( default=None )
+    dress = ndb.TextProperty( default=None )
+    paid = ndb.TextProperty( default=None )
     status = ndb.IntegerProperty( default=0 ) # 1=confirmed, 2=cancelled
     archive_id = ndb.TextProperty( default=None )
     is_archived = ndb.ComputedProperty(lambda self: self.archive_id is not None)
@@ -50,7 +55,7 @@ def new_gig(the_band, title, date=None, contact=None, details="", setlist="", ca
     if date is None:
         date = datetime.datetime.now()
     the_gig = Gig(parent=the_band.key, title=title, contact=contact, \
-                    details=details, setlist=setlist, date=date, call=call)
+                    details=details, setlist=setlist, date=date, calltime=call)
     the_gig.put()
     return the_gig
                 
@@ -393,7 +398,31 @@ class EditPage(BaseHandler):
        
         gig_call = self.request.get("gig_call", '')
         if gig_call is not None:
-            the_gig.call = gig_call
+            the_gig.calltime = gig_call
+
+        gig_set = self.request.get("gig_set", '')
+        if gig_set is not None:
+            the_gig.settime = gig_set
+
+        gig_end = self.request.get("gig_end", '')
+        if gig_end is not None:
+            the_gig.endtime = gig_end
+
+        gig_end = self.request.get("gig_end", '')
+        if gig_end is not None:
+            the_gig.endtime = gig_end
+
+        gig_address = self.request.get("gig_address", '')
+        if gig_address is not None:
+            the_gig.address = gig_address
+
+        gig_dress = self.request.get("gig_dress", '')
+        if gig_dress is not None:
+            the_gig.dress = gig_dress
+
+        gig_paid = self.request.get("gig_paid", '')
+        if gig_paid is not None:
+            the_gig.paid = gig_paid
 
         gig_status = self.request.get("gig_status", '0')
         the_gig.status = int(gig_status)

@@ -29,15 +29,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-2 col-sm-2 col-xs-3">Band</div>
-                        <div class="col-md-10 col-sm-10 col-xs-9"><a href="band_info.html?bk={{the_band_key.urlsafe()}}">{{ the_band_key.get().name|e }}</a></div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-2 col-sm-2 col-xs-3">Date</div>
-                        <div class="col-md-10 col-sm-10 col-xs-9">{{ gig.date.strftime('%-m/%-d/%Y (%A)')|e }}</div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-2 col-sm-2 col-xs-3">Call Time</div>
-                        <div class="col-md-10 col-sm-10 col-xs-9">{{ gig.call }}</div>
+                        <div class="col-md-10 col-sm-10 col-xs-9"><a href="band_info.html?bk={{the_band_key.urlsafe()}}">{{ the_band_key.get().name }}</a></div>
                     </div>
                     <div class="row">
                         <div class="col-md-2 col-sm-2 col-xs-3">Contact</div>
@@ -46,10 +38,52 @@
                                 <a href="/member_info.html?mk='{{gig.contact.urlsafe()}}'">{{ gig.contact.get().name }}</a>
                             {% endif %}
                         </div>
-                    </div>
+                    </div>                    
                     <div class="row">&nbsp;</div>
                     <div class="row">
-                        <div class="col-md-2 col-sm-2 col-xs-3">Details</div>
+                        <div class="col-md-2 col-sm-2 col-xs-3"><i class="fa fa-calendar"></i></div>
+                        <div class="col-md-10 col-sm-10 col-xs-9">{{ gig.date.strftime('%-m/%-d/%Y (%A)')|e }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2"><i class="fa fa-clock-o"></i></div>
+                        <div class="col-md-2 col-sm-2 col-xs-3">Call: 
+                        {% if gig.calltime %}
+                            {{ gig.calltime }}
+                        {% else %}
+                            ??
+                        {% endif %}
+                        </div>
+                        {% if gig.settime %}
+                            <div class="col-md-offset-2 col-md-2 col-sm-2 col-xs-3">Set: {{ gig.settime }}</div>
+                        {% endif %}
+                        {% if gig.endtime %}
+                            <div class="col-md-offset-2 col-md-2 col-sm-2 col-xs-3">End: {{ gig.endtime }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="row">&nbsp;</div>
+                    {% if gig.address %}
+                        <div class="row">
+                            <div class="col-md-2 col-sm-2 col-xs-3">Address</div>
+                            <div class="col-md-10 col-sm-10 col-xs-9"><a href="http://maps.google.com?q={{gig.address | replace(' ','+')}}" target="new">{{ gig.address }}</a></div>
+                        </div>
+                        <div class="row">&nbsp;</div>
+                    {% endif %}
+                    {% if gig.dress %}
+                        <div class="row">
+                            <div class="col-md-2 col-sm-2 col-xs-3">Dress Details</div>
+                            <div class="col-md-10 col-sm-10 col-xs-9">{{ gig.dress }}</div>
+                        </div>
+                        <div class="row">&nbsp;</div>
+                    {% endif %}
+                    {% if gig.paid %}
+                        <div class="row">
+                            <div class="col-md-2 col-sm-2 col-xs-3">Pay Deal</div>
+                            <div class="col-md-10 col-sm-10 col-xs-9">{{ gig.paid }}</div>
+                        </div>
+                        <div class="row">&nbsp;</div>
+                    {% endif %}
+                    <div class="row">
+                        <div class="col-md-2 col-sm-2 col-xs-3">More Details</div>
                         <div class="col-md-10 col-sm-10 col-xs-9 trunc">{{ gig.details  | html_content | safe  }}</div>
                     </div>
                     <div class="row">&nbsp;</div>
