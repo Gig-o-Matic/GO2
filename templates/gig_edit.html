@@ -68,7 +68,7 @@
             </div>
             <div class="form-group col-md-2 col-sm-4 col-xs-4">
                 <label for="gigenddateinput" class="control-label">End Date</label>
-                <input type="text" class="datepicker form-control" id="gigenddateinput" placeholder="(if multi-day)" 
+                <input type="text" class="datepicker form-control" id="gigenddateinput" name="gig_enddate" placeholder="(if multi-day)" 
                 {% if gig != None  and gig.enddate != None %} value="{{gig.enddate.strftime('%-m/%-d/%Y')}}" {% endif %}
                 name="gig_enddate">
             </div>
@@ -203,6 +203,11 @@ $(document).ready(function () {
         rules: {
             gig_date: {
                 required: true,
+                date: true
+            },
+            gig_enddate: {
+                date: true,
+                greaterThan: "#gigdateinput"
             }
         }
     });
@@ -215,6 +220,21 @@ $(document).ready(function () {
         updateContactList('{{gig.key.parent().urlsafe()}}');
     {% endif %}
 });
+
+jQuery.validator.addMethod("greaterThan", 
+function(value, element, params) {
+
+    if (value=="") {
+        return True;
+    }
+
+    if (!/Invalid|NaN/.test(new Date(value))) {
+        return new Date(value) > new Date($(params).val());
+    }
+
+    return isNaN(value) && isNaN($(params).val()) 
+        || (Number(value) > Number($(params).val())); 
+},'Must be greater than start date!');
 
 function updateContactList(bk) {
     $.post("/band_get_member_list",
