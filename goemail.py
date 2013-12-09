@@ -97,6 +97,14 @@ The Gig-O-Matic Team
 def send_newgig_email(the_email_address, the_gig, the_band, the_gig_url):
     if not mail.is_email_valid(the_email_address):
         return False
+        
+    contact_key=the_gig.contact
+    if contact_key:
+        contact_name=contact_key.get().name
+    else:
+        contact_name="??"
+        
+        
     message = mail.EmailMessage()
     message.sender = SENDER_EMAIL
     message.to = the_email_address
@@ -106,15 +114,17 @@ Hello! A new gig has been added to the Gig-O-Matic for your band {0}:
 
 {1}
 Date: {2}
+Time: {3}
+Contact: {4}
 
-{3}
+{5}
 
-Can you make it? You can (and should!) weigh in here: {4}
+Can you make it? You can (and should!) weigh in here: {6}
 
 Thanks,
 The Gig-O-Matic Team
 
-    """.format(the_band.name, the_gig.title, the_gig.date, the_gig.details, the_gig_url)
+    """.format(the_band.name, the_gig.title, the_gig.date, the_gig.settime, contact_name, the_gig.details, the_gig_url)
     try:
         message.send()
     except:
