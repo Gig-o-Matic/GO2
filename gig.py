@@ -35,6 +35,7 @@ class Gig(ndb.Model):
     details = ndb.TextProperty()
     setlist = ndb.TextProperty()
     date = ndb.DateProperty(auto_now_add=True)
+    enddate = ndb.DateProperty( default=None )
     calltime = ndb.TextProperty( default=None )
     settime = ndb.TextProperty( default=None )
     endtime = ndb.TextProperty( default=None )
@@ -394,8 +395,15 @@ class EditPage(BaseHandler):
         if gig_date is not None and gig_date != '':
             the_gig.date = datetime.datetime.strptime(gig_date, \
                                                       '%m/%d/%Y').date()
-            # todo validate form entry so date isn't bogus
+        # todo validate form entry so date isn't bogus
        
+        gig_enddate = self.request.get("gig_enddate", None)
+        if gig_enddate is not None and gig_enddate != '':
+            the_gig.enddate = datetime.datetime.strptime(gig_enddate, \
+                                                      '%m/%d/%Y').date()
+        else:
+            the_gig.enddate = None
+
         gig_call = self.request.get("gig_call", '')
         if gig_call is not None:
             the_gig.calltime = gig_call

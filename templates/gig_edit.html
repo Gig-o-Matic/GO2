@@ -10,7 +10,7 @@
         {% endif %}
         </div>
     </div>
-    <form class="form" role="form" method="post" action="gig_edit.html">
+    <form class="form" id="infoform" role="form" method="post" action="gig_edit.html">
         {% if all_bands|length > 1 %}
             <div class="row">
                 <div class="form-group col-md-3 col-md-offset-2">
@@ -62,11 +62,19 @@
         <div class="row">
             <div class="form-group col-md-2 col-md-offset-2 col-sm-4 col-xs-4">
                 <label for="gigdateinput" class="control-label">Date</label>
-                <input type="text" class="datepicker form-control" id="gigdateinput" placeholder="(required)" 
+                <input type="text" class="datepicker form-control" id="gigdateinput" name="gig_date" placeholder="(required)" 
                 {% if gig != None %} value="{{gig.date.strftime('%-m/%-d/%Y')}}" {% endif %}
                 name="gig_date">
             </div>
             <div class="form-group col-md-2 col-sm-4 col-xs-4">
+                <label for="gigenddateinput" class="control-label">End Date</label>
+                <input type="text" class="datepicker form-control" id="gigenddateinput" placeholder="(if multi-day)" 
+                {% if gig != None  and gig.enddate != None %} value="{{gig.enddate.strftime('%-m/%-d/%Y')}}" {% endif %}
+                name="gig_enddate">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-2 col-md-offset-2 col-sm-4 col-xs-4">
                 <label for="gigcallinput" class="control-label">Call Time</label>
                 <input type="text" class="form-control" id="gigcallinput" placeholder="4:20" value="{{gig.calltime}}" name="gig_call">
             </div>
@@ -172,6 +180,7 @@
 {% endblock modal %}
 {% block localscripts %}
 <script src="/datepicker/js/bootstrap-datepicker.js"></script>
+<script src="/js/jquery.validate.js"></script>
 <script>
 $(document).ready(function () {
     $('#gigdateinput').datepicker({
@@ -181,6 +190,25 @@ $(document).ready(function () {
       .on('changeDate', function(ev){
         $('#gigdateinput').datepicker('hide')
       });
+      
+    $('#gigenddateinput').datepicker({
+                format: 'm/d/yyyy'
+            });
+    $('#gigenddateinput')
+      .on('changeDate', function(ev){
+        $('#gigenddateinput').datepicker('hide')
+      });
+      
+    $("#infoform").validate({
+        rules: {
+            gig_date: {
+                required: true,
+            }
+        }
+    });
+
+
+      
     {% if newgig_is_active %}
         updateContactList('{{all_bands[0].key.urlsafe()}}');
     {% else %}

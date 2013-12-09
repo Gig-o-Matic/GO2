@@ -69,6 +69,7 @@ class CalEvents(BaseHandler):
             events.append({
                             'title':the_title,
                             'start':str(a_gig.date),
+                            'end': str(a_gig.enddate) if a_gig.enddate else None,
                             'url':'/gig_info.html?gk={0}'.format(a_gig.key.urlsafe()),
                             'color':colors[cindex]
                             })
