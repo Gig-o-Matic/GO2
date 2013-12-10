@@ -21,6 +21,8 @@ import goemail
 import assoc
 import login
 
+import logging
+
 from jinja2env import jinja_environment as je
 
 import json
@@ -40,6 +42,7 @@ class MemberPreferences(ndb.Model):
 class Member(webapp2_extras.appengine.auth.models.User):
     """ Models a gig-o-matic member """
     name = ndb.StringProperty()
+    lower_name = ndb.ComputedProperty(lambda self: self.name.lower())    
     nickname = ndb.StringProperty( default=None )
     email_address = ndb.TextProperty()
     phone = ndb.StringProperty(default='', indexed=False)
@@ -120,9 +123,14 @@ class Member(webapp2_extras.appengine.auth.models.User):
 
 
         
-def get_all_members():
+def get_all_members(order=True):
     """ Return all member objects """
-    member_query = Member.query().order(Member.name)
+
+    if order:
+        member_query = Member.query().order(Member.lower_name)
+    else:
+        member_query = Member.query()
+    
     members = member_query.fetch()
     return members
 
@@ -578,3 +586,15 @@ class GetBandList(BaseHandler):
             'the_bands' : [bandkey.get() for bandkey in band_keys]
         }
         self.render_template('navbar_bandlist.html', template_args)            
+
+class RewriteAll(BaseHandler):
+    """ get all member objects from the database, and write them back. this will force """
+    """ an update to the structure, useful when adding properties. But ugly. """
+    
+    @user_required
+    def get(self):
+        the_members = get_all_members(order=False)
+
+        ndb.put_multi(the_members)
+
+        self.redirect(self.uri_for('memberadmin'))
