@@ -47,8 +47,6 @@ class SeenHandler(BaseHandler):
     def post(self):    
         """ get handler for help page """
 
-        print 'setting motd seen'
-
         the_member_keystr=self.request.get("mk",'0')
         
         if the_member_keystr=='0':
