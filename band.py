@@ -77,7 +77,7 @@ def get_band_from_name(band_name):
     """ Return a Band object by name"""
     bands_query = Band.query(Band.name==band_name, ancestor=band_key())
     band = bands_query.fetch(1)
-    debug_print('get_band_from_name: found {0} bands for name {1}'.format(len(band),band_name))
+
     if len(band)==1:
         return band[0]
     else:
@@ -89,7 +89,7 @@ def get_band_from_key(key):
 
 def get_band_from_id(id):
     """ Return band object by id"""
-    debug_print('get_band_from_id looking for id {0}'.format(id))
+
     return Band.get_by_id(int(id), parent=band_key()) # todo more efficient if we use the band because it's the parent?
     
 def get_all_bands(keys_only=False):
@@ -129,7 +129,7 @@ def get_member_keys_of_band_key_by_section_key(the_band_key):
 def new_section_for_band(the_band, the_section_name):
     the_section = Section(parent=the_band.key, name=the_section_name)
     the_section.put()
-    debug_print('new section {0} for band {1}'.format(the_section_name, the_band.name))
+
     if the_band.sections:
         if the_section not in the_band.sections:
             the_band.sections.append(the_section.key)
@@ -394,8 +394,6 @@ class NewSection(BaseHandler):
     def post(self):    
         """ makes a new assoc for a member """
         
-        print 'in new section handler'
-        
         the_user = self.user
         
         the_section_name=self.request.get('section_name','0')
@@ -413,9 +411,7 @@ class DeleteSection(BaseHandler):
 
     def post(self):    
         """ makes a new assoc for a member """
-        
-        print 'in new section handler'
-        
+                
         the_user = self.user
         
         the_section_key_url=self.request.get('sk','0')
