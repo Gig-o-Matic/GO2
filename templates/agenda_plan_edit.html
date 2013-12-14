@@ -103,7 +103,7 @@
                     {% if the_section_keys and the_section_keys|length > 1 and (the_plan.member == the_user.key or the_user_is_superuser)%}
                     <div class="dropdown">
                         <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" id='sel-{{the_plan_key.urlsafe()}}'>
-                            {% if the_section == None %}
+                            {% if the_section_key == None %}
                                 section...  <span class="caret"></span>
                             {% else %}
                                 {{the_section_key.get().name}} <span class="caret"></span>
