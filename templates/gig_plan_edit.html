@@ -76,7 +76,7 @@
                         </button>
                         <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
                             {% for a_section in the_sections %}
-                                {% if section_key %}
+                                {% if a_section %}
                                     <li><a onclick="section_select('{{the_plan_key.urlsafe()}}','{{a_section.key.urlsafe()}}','{{a_section.name}}')">{{ a_section.name }}</a></li>
                                 {% endif %}
                             {% endfor %}
