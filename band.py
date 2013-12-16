@@ -330,6 +330,9 @@ class BandGetMembers(BaseHandler):
         the_members = ndb.get_multi([a.member for a in assocs])
         
         the_members = sorted(the_members,key=lambda member: member.lower_name)
+        # now sort the assocs to be in the same order as the member list
+        assocs = sorted(assocs,key=lambda a: [m.key for m in the_members].index(a.member))
+        
         
         assoc_info=[]
         the_user_is_band_admin = False
