@@ -301,6 +301,22 @@ function member_section(mk, sk) {
             });
 }
 
+function multi_select(mk) {
+    elem=document.getElementById("msbk-"+mk)
+    var bk='{{the_band.key.urlsafe()}}';
+    $.post('/member_set_multi',
+            {
+                mk: mk,
+                bk: bk,
+                do: elem.checked
+            },
+            function(responseTxt,statusTxt,xhr){
+                if(statusTxt=="error")
+                    alert("Error: "+xhr.status+": "+xhr.statusText);
+            });
+}
+
+
 $(document).ready(function() {
     updateMembers();
     updateSections();

@@ -344,7 +344,7 @@ class BandGetMembers(BaseHandler):
             else:
                 s = None
 
-            assoc_info.append( {'name':(m.nickname if m.nickname else m.name), 'is_confirmed':a.is_confirmed, 'is_band_admin':a.is_band_admin, 'member_key':a.member, 'section':s} )
+            assoc_info.append( {'name':(m.nickname if m.nickname else m.name), 'is_confirmed':a.is_confirmed, 'is_band_admin':a.is_band_admin, 'member_key':a.member, 'section':s, 'is_multisectional':a.is_multisectional} )
             if a.member == the_user.key:
                 the_user_is_band_admin = a.is_band_admin
                         
