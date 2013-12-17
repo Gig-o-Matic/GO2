@@ -64,7 +64,7 @@
                         {% set the_section_keys = get_the_section_keys(the_band_key) %}
                     {% endif %}
                     {% set the_section_keys = the_band_key.get().sections %}
-                    {% if the_sections and the_sections|length > 1 and (the_plan.member == the_user.key or the_user_is_superuser)%}
+                    {% if the_sections and the_sections|length > 1 and (the_plan.member == the_user.key or the_user_is_superuser or user_is_band_admin)%}
 
                     <div class="dropdown">
                         <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" id='sel-{{the_plan_key.urlsafe()}}'>

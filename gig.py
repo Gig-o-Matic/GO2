@@ -285,13 +285,16 @@ class InfoPage(BaseHandler):
             if need_empty_section:
                 the_sections.append(None)
 
+            # is the current user a band admin?
+            user_is_band_admin = assoc.get_admin_status_for_member_for_band_key(the_user, the_band_key)
 
             template_args = {
                 'title' : 'Gig Info',
                 'gig' : the_gig,
                 'the_plans' : the_plans,
                 'the_sections' : the_sections,
-                'comment_text' : the_comment_text
+                'comment_text' : the_comment_text,
+                'user_is_band_admin' : user_is_band_admin
             }
             self.render_template('gig_info.html', template_args)
 
