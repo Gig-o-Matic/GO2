@@ -201,6 +201,9 @@ $(document).ready(function () {
       
     $("#infoform").validate({
         rules: {
+            gig_title: {
+                required: true
+            },
             gig_date: {
                 required: true,
                 date: true
@@ -225,7 +228,7 @@ jQuery.validator.addMethod("greaterThan",
 function(value, element, params) {
 
     if (value=="") {
-        return True;
+        return true;
     }
 
     if (!/Invalid|NaN/.test(new Date(value))) {
