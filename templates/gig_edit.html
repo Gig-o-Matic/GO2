@@ -198,6 +198,20 @@ $(document).ready(function () {
       .on('changeDate', function(ev){
         $('#gigenddateinput').datepicker('hide')
       });
+
+
+    $.validator.addMethod(
+        "gigoDate",
+        function(value, element) {
+            if (value=="") {
+                return true;
+            } else {
+                // put your own logic here, this is just a (crappy) example
+                return value.match(/^\d\d?\/\d\d?\/\d\d\d\d$/);
+            }
+        },
+        "Please enter a date in the format mm/dd/yyyy."
+    );
       
     $("#infoform").validate({
         rules: {
@@ -206,10 +220,10 @@ $(document).ready(function () {
             },
             gig_date: {
                 required: true,
-                date: true
+                gigoDate: true
             },
             gig_enddate: {
-                date: true,
+                gigoDate: true,
                 greaterThan: "#gigdateinput"
             }
         }
