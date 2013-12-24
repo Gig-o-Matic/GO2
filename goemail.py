@@ -214,3 +214,28 @@ Yo! The Gig-o-Matic archived {0} gigs last night.
         logging.error('failed to send email!')
         
     return True        
+
+def send_band_request_email(the_email_address, the_name, the_info):
+    if not mail.is_email_valid(the_email_address):
+        return False
+    message = mail.EmailMessage()
+    message.sender = SENDER_EMAIL
+    message.to = 'gigomatic.superuser@gmail.com'
+    message.subject = 'Gig-O-Matic New Band Request'
+    message.body = u"""
+Hi there! Someone has requested to add their band to the Gig-O-Matic. SO EXCITING!
+
+{0}
+{1}
+{2}
+
+Enjoy,
+Team Gig-O-Matic
+
+    """.format(the_email_address, the_name, the_info)
+    try:
+        message.send()
+    except:
+        logging.error('failed to send email!')
+
+    return True
