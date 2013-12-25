@@ -1,0 +1,24 @@
+{% for member in the_members %}
+    <div class="row">
+        <div class="col-md-2">
+            <a href="/member_info.html?mk={{member.key.urlsafe()}}">{{ member.name|e }}</a>
+        </div>
+        <div class="col-md-6">
+            {% for an_assoc in the_band_info[member.key] %}
+                {% set the_band = an_assoc.band.get() %}
+                <a href="/band_info.html?bk={{the_band.key.urlsafe()}}">{{ the_band.name }}</a>{% if not an_assoc.is_confirmed %}&nbsp;(pending){% endif %}{% if not loop.last %}, {% endif %}
+            {% endfor %}
+        </div>
+        <div class="col-md-4">
+        {% if member==the_user %}
+            me!
+        {% else %}
+            {% if member.is_superuser==False %}
+                <a href="/member_makeadmin?do=1&mk={{member.key.urlsafe()}}">make admin</a>
+            {% else %}    
+                <a href="/member_makeadmin?do=0&mk={{member.key.urlsafe()}}">remove admin</a>
+            {% endif %}
+        {% endif %}
+        </div>
+    </div>
+{% endfor %}

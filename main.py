@@ -56,6 +56,7 @@ else:
         webapp2.Route('/member_new_assoc', member.ManageBandsNewAssoc, name='newassoc'),
         webapp2.Route('/member_delete_assoc.html', member.ManageBandsDeleteAssoc, name='deleteassoc'),
         webapp2.Route('/member_admin.html', member.AdminPage, name="memberadmin"),
+        webapp2.Route('/member_admin_get_all_members', member.AdminPageAllMembers),
         webapp2.Route('/member_makeadmin', member.AdminMember),
         webapp2.Route('/member_delete', member.DeleteMember),
         webapp2.Route('/member_set_section', member.SetSection),
