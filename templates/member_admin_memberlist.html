@@ -1,6 +1,6 @@
 {% for member in the_members %}
     <div class="row">
-        <div class="col-md-2">
+        <div class="col-md-4">
             <a href="/member_info.html?mk={{member.key.urlsafe()}}">{{ member.name|e }}</a>
         </div>
         <div class="col-md-6">
@@ -9,7 +9,7 @@
                 <a href="/band_info.html?bk={{the_band.key.urlsafe()}}">{{ the_band.name }}</a>{% if not an_assoc.is_confirmed %}&nbsp;(pending){% endif %}{% if not loop.last %}, {% endif %}
             {% endfor %}
         </div>
-        <div class="col-md-4">
+        <div class="col-md-2">
         {% if member==the_user %}
             me!
         {% else %}
