@@ -215,6 +215,21 @@ Yo! The Gig-o-Matic archived {0} gigs last night.
         
     return True        
 
+
+def notify_superuser_of_old_tokens(the_num):
+    message = mail.EmailMessage()
+    message.sender = SENDER_EMAIL
+    message.to = 'gigomatic.superuser@gmail.com'
+    message.subject = 'Gig-O-Matic Old Tokens'
+    message.body = """
+Yo! The Gig-o-Matic found {0} old signup tokens last night.
+    """.format(the_num)
+    try:
+        message.send()
+    except:
+        logging.error('failed to send email!')
+    return True        
+
 def send_band_request_email(the_email_address, the_name, the_info):
     if not mail.is_email_valid(the_email_address):
         return False

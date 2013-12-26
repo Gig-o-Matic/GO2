@@ -5,10 +5,13 @@ Handlers for user-related pages: login, logout, signup, verify
 from google.appengine.api import users
 from webapp2_extras.auth import *
 from requestmodel import *
+from webapp2_extras.appengine.auth.models import UserToken
+
 
 import logging
 import member
 import goemail
+import datetime
 
 ENABLE_EMAIL = True
 
@@ -323,3 +326,28 @@ def request_new_email(the_request, the_new_address):
             signup_token=token, _full=True)
 
     goemail.send_the_pending_email(the_new_address, verification_url)
+    
+
+def get_all_signup_tokens():
+    """ Return UserToken objects with subject 'signup' """
+    token_query = UserToken.query(UserToken.subject=='signup').order(UserToken.created)
+    tokens = token_query.fetch()
+    return tokens
+    
+##########
+#
+# auto delete old signup tokens - we don't want them hanging around forever
+#
+##########
+class AutoDeleteSignupTokenHandler(BaseHandler):
+    """ automatically delete old tokens """
+    def get(self):
+        the_tokens = get_all_signup_tokens()
+        
+        now = datetime.datetime.now()
+        delta = datetime.timedelta(days=2)
+        limit = now - delta
+        the_old_tokens=[a_token for a_token in the_tokens if a_token.created < limit]
+        
+        goemail.notify_superuser_of_old_tokens(len(the_old_tokens))
+    

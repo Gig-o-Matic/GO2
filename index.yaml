@@ -103,3 +103,8 @@ indexes:
   - name: assocs.band
   - name: assocs.status
   - name: name
+
+- kind: UserToken
+  properties:
+  - name: subject
+  - name: created

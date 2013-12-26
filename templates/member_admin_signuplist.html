@@ -1,0 +1,15 @@
+{% for token in the_tokens %}
+    <div class="row">
+        <div class="col-md-4">
+            {{ token.created }}
+        </div>
+        <div class="col-md-4">
+            {{ token.user }}
+        </div>
+        <div class="col-md-4">
+            {% if token.is_old %}
+                (deleting soon)
+            {% endif %}
+        </div>
+    </div>
+{% endfor %}

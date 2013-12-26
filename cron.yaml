@@ -2,3 +2,6 @@ cron:
 - description: auto-archiving
   url: /gig_autoarchive
   schedule: every day 05:00
+- description: scour for old signup tokens
+  url: /login_auto_old_token
+  schedule: every day 05:30

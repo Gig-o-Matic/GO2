@@ -20,6 +20,7 @@ import plan
 import goemail
 import assoc
 import login
+import datetime
 
 import logging
 
@@ -120,8 +121,6 @@ class Member(webapp2_extras.appengine.auth.models.User):
     @classmethod
     def delete_email_token(cls, user_id, token):
         cls.token_model.get_key(user_id, 'email', token).delete()
-
-
         
 def get_all_members(order=True):
     """ Return all member objects """
@@ -533,6 +532,35 @@ class AdminPageAllMembers(BaseHandler):
         }
         self.render_template('member_admin_memberlist.html', template_args)
         
+class AdminPageSignupMembers(BaseHandler):
+    """ Page for member administration """
+
+    @user_required
+    def post(self):
+        if member_is_superuser(self.user):
+            self._make_page(the_user=self.user)
+        else:
+            return;
+            
+    def _make_page(self,the_user):
+    
+        # todo make sure the user is a superuser
+        
+        the_tokens = login.get_all_signup_tokens()
+        
+        now = datetime.datetime.now()
+        delta = datetime.timedelta(days=2)
+        limit = now - delta
+        for a_token in the_tokens:
+            if a_token.created < limit:
+                a_token.is_old=True
+                logging.error("\n\ngot an old one\n\n")
+        
+        template_args = {
+            'the_tokens' : the_tokens
+        }
+        self.render_template('member_admin_signuplist.html', template_args)
+
 class DeleteMember(BaseHandler):
     """ completely delete member """
     
