@@ -19,7 +19,8 @@ def send_registration_email(the_email, the_url):
     message.to = the_email
     message.subject = 'Welcome to Gig-O-Matic'
     message.body = u"""
-Hello! You have registered to join Gig-O-Matic - click the link below to log in and you're good to go.
+Hello! You have registered to join Gig-O-Matic - click the link below to log in and you're good to go. (The link
+is good for 48 hours - after that you can just register again to get a new one if you need it.)
 
 {0}
 
