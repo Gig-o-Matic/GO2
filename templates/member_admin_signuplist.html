@@ -6,9 +6,12 @@
         <div class="col-md-4">
             {{ token.user }}
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
+            {{ token.email }}
+        </div>
+        <div class="col-md-1">
             {% if token.is_old %}
-                (deleting soon)
+                (del)
             {% endif %}
         </div>
     </div>

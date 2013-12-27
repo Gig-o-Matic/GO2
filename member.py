@@ -520,6 +520,7 @@ class AdminPageAllMembers(BaseHandler):
         # todo make sure the user is a superuser
         
         the_members = get_all_members()
+        the_members = [x for x in the_members if x.verified]
 
         member_band_info={}
         for a_member in the_members:
@@ -552,9 +553,14 @@ class AdminPageSignupMembers(BaseHandler):
         delta = datetime.timedelta(days=2)
         limit = now - delta
         for a_token in the_tokens:
+            the_member = Member.get_by_id(int(a_token.user))
+            if the_member:
+                a_token.email = the_member.email_address
+            else:
+                a_token.email = None
+            print '\n\ngot email {0}\n\n'.format(a_token.email)
             if a_token.created < limit:
                 a_token.is_old=True
-                logging.error("\n\ngot an old one\n\n")
         
         template_args = {
             'the_tokens' : the_tokens

@@ -1,7 +1,7 @@
 {% for member in the_members %}
     <div class="row">
         <div class="col-md-4">
-            <a href="/member_info.html?mk={{member.key.urlsafe()}}">{{ member.name|e }}</a>
+            <a href="/member_info.html?mk={{member.key.urlsafe()}}">{{ member.name }}</a>
         </div>
         <div class="col-md-6">
             {% for an_assoc in the_band_info[member.key] %}
