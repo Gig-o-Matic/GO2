@@ -6,7 +6,7 @@ from google.appengine.api import users
 from webapp2_extras.auth import *
 from requestmodel import *
 from webapp2_extras.appengine.auth.models import UserToken
-
+from google.appengine.ext import ndb
 
 import logging
 import member
@@ -350,4 +350,6 @@ class AutoDeleteSignupTokenHandler(BaseHandler):
         the_old_tokens=[a_token for a_token in the_tokens if a_token.created < limit]
         
         goemail.notify_superuser_of_old_tokens(len(the_old_tokens))
-    
+
+        for a_token in the_old_tokens:
+            a_token.key.delete()
