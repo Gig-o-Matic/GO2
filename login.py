@@ -349,7 +349,9 @@ class AutoDeleteSignupTokenHandler(BaseHandler):
         limit = now - delta
         the_old_tokens=[a_token for a_token in the_tokens if a_token.created < limit]
         
-        goemail.notify_superuser_of_old_tokens(len(the_old_tokens))
+#         goemail.notify_superuser_of_old_tokens(len(the_old_tokens))
+#         if len(the_old_tokens) > 0:
+        logging.info("deleted {0} unused signup tokens".format(len(the_old_tokens)))
 
         for a_token in the_old_tokens:
             a_token.key.delete()

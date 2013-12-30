@@ -49,6 +49,10 @@ handlers:
   script: main.application
   login: admin
   
+- url: /login_auto_old_token
+  script: main.application
+  login: admin
+
 - url: /.*
   script: main.application
   

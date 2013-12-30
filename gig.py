@@ -570,7 +570,8 @@ class AutoArchiveHandler(BaseHandler):
         the_gig_keys = get_old_gig_keys(end_date = end_date)
         for a_gig_key in the_gig_keys:
             make_archive_for_gig_key(a_gig_key)
-        goemail.notify_superuser_of_archive(len(the_gig_keys))
+#         if len(the_gig_keys) > 0:
+        logging.info("Archived {0} gigs".format(len(the_gig_keys)))
         
 class CommentHandler(BaseHandler):
     """ takes a new comment and adds it to the gig """
