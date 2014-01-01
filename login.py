@@ -355,3 +355,10 @@ class AutoDeleteSignupTokenHandler(BaseHandler):
 
         for a_token in the_old_tokens:
             a_token.key.delete()
+
+class WhatisPageHandler(BaseHandler):
+    """ handle the whatis page """
+    
+    def get(self):
+        self.render_template('whatis.html', {})
+    

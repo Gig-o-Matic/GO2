@@ -93,5 +93,6 @@ else:
         webapp2.Route('/updateplan', plan.UpdatePlan),
         webapp2.Route('/updateplancomment', plan.UpdatePlanComment),
         webapp2.Route('/updateplansection', plan.UpdatePlanSection),
-        webapp2.Route('/motd_admin.html', motd.AdminPage)
+        webapp2.Route('/motd_admin.html', motd.AdminPage),
+        webapp2.Route('/whatis.html', login.WhatisPageHandler)
     ], config=config, debug=True)
