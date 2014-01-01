@@ -360,5 +360,8 @@ class WhatisPageHandler(BaseHandler):
     """ handle the whatis page """
     
     def get(self):
-        self.render_template('whatis.html', {})
+        params = {
+            'title' : 'What it is!'
+        }
+        self.render_template('whatis.html', params)
     
