@@ -1,5 +1,13 @@
 {% extends 'go2base.html' %}
 
+{% if band_has_sections %}
+    {% set plan_size_lg=10 %}
+    {% set plan_size_sm=8 %}
+{% else %}
+    {% set plan_size_lg=12 %}
+    {% set plan_size_sm=12 %}
+{% endif %}
+
 {% block content %}
     {% set the_band_key = gig.key.parent() %}
     <div class="row">
@@ -114,14 +122,16 @@
                             {% import 'gig_plan_edit.html' as plan_edit with context %}                
                             {% for the_section in the_sections %}
                                 <div class="row" style="padding-top: 5px; padding-bottom: 5px; {{ loop.cycle('', 'background:#f5f5f5;') }}">
-                                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4">
-                                        {% if the_section %}
-                                            {{the_section.name}}
-                                        {% elif the_sections | length > 1 %}
-                                            No Section
-                                        {% endif %}
-                                    </div>
-                                    <div class="col-lg-10 col-md-10 col-sm-8 col-xs-8">
+                                    {% if band_has_sections %}
+                                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4">
+                                            {% if the_section %}
+                                                {{the_section.name}}
+                                            {% elif the_sections | length > 1 %}
+                                                No Section
+                                            {% endif %}
+                                        </div>
+                                    {% endif %}
+                                    <div class="col-lg-{{plan_size_lg}} col-md-{{plan_size_lg}} col-sm-{{plan_size_sm}} col-xs-{{plan_size_sm}}">
                                         {% for member_plan in the_plans %}
                                             {% if (the_section == None and member_plan['the_section'] == None) or
                                                   (the_section != None and the_section.key == member_plan['the_section']) %}

@@ -284,6 +284,11 @@ class InfoPage(BaseHandler):
             the_sections = ndb.get_multi(the_section_keys)
             if need_empty_section:
                 the_sections.append(None)
+                
+            if len(the_section_keys)==0:
+                band_has_sections = False
+            else:
+                band_has_sections = True
 
             # is the current user a band admin?
             user_is_band_admin = assoc.get_admin_status_for_member_for_band_key(the_user, the_band_key)
@@ -294,6 +299,7 @@ class InfoPage(BaseHandler):
                 'the_plans' : the_plans,
                 'the_sections' : the_sections,
                 'comment_text' : the_comment_text,
+                'band_has_sections' : band_has_sections,
                 'user_is_band_admin' : user_is_band_admin
             }
             self.render_template('gig_info.html', template_args)
