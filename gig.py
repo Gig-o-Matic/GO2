@@ -42,7 +42,7 @@ class Gig(ndb.Model):
     address = ndb.TextProperty( default=None )
     dress = ndb.TextProperty( default=None )
     paid = ndb.TextProperty( default=None )
-    status = ndb.IntegerProperty( default=0 ) # 1=confirmed, 2=cancelled
+    status = ndb.IntegerProperty( default=0 ) # 1=confirmed, 2=cancelled, 3=asking
     archive_id = ndb.TextProperty( default=None )
     is_archived = ndb.ComputedProperty(lambda self: self.archive_id is not None)
     is_canceled = ndb.ComputedProperty(lambda self: self.status == 2)

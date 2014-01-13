@@ -64,6 +64,8 @@
                         <i class="fa fa-check-circle" style="color:green"></i>
                     {% elif the_gig.status==2 %}
                         <i class="fa fa-times-circle" style="color:red"></i>
+                    {% elif the_gig.status==3 %}
+                        <i class="fa fa-question-circle" style="color:orange"></i>
                     {% endif %}
                 </div>
                 {% if show_band==True %}

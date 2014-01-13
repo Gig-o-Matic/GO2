@@ -32,6 +32,8 @@
                                 <i class="fa fa-check-circle" style="color:green"></i> Confirmed!
                             {% elif gig.status==2 %}
                                 <i class="fa fa-times-circle" style="color:red"></i> <strong>Cancelled!</strong>
+                            {% elif gig.status==3 %}
+                                <i class="fa fa-question-circle" style="color:orange"></i> <strong>Opinion?</strong>
                             {% endif %}
                         </div>
                     </div>
