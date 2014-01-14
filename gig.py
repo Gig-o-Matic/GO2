@@ -154,18 +154,19 @@ def get_gigs_for_member_for_dates(the_member, start_date, end_date, get_canceled
     """ return gig objects for the bands of a member """
     the_bands = assoc.get_confirmed_bands_of_member(the_member)
 
-    if start_date:
-        start_date = adjust_date_for_band(the_bands[0], start_date)
-
-    if end_date:
-        end_date = adjust_date_for_band(the_bands[0], end_date)
-
     all_gigs = []
-    for a_band in the_bands:
-        all_gigs.extend(get_gigs_for_band_key_for_dates(the_band_key=a_band.key, \
-                                                    start_date=start_date, \
-                                                    end_date=end_date,
-                                                    get_canceled=get_canceled))
+    if len(the_bands) > 0:
+        if start_date:
+            start_date = adjust_date_for_band(the_bands[0], start_date)
+
+        if end_date:
+            end_date = adjust_date_for_band(the_bands[0], end_date)
+
+        for a_band in the_bands:
+            all_gigs.extend(get_gigs_for_band_key_for_dates(the_band_key=a_band.key, \
+                                                        start_date=start_date, \
+                                                        end_date=end_date,
+                                                        get_canceled=get_canceled))
     return all_gigs
 
 def get_gigs_for_contact_key(the_contact_key, the_band_key):
