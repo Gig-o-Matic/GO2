@@ -6,6 +6,7 @@ from google.appengine.api import users
 from webapp2_extras.auth import *
 from requestmodel import *
 from webapp2_extras.appengine.auth.models import UserToken
+from webapp2_extras.appengine.auth.models import User
 from google.appengine.ext import ndb
 
 import logging
@@ -328,12 +329,21 @@ def request_new_email(the_request, the_new_address):
     goemail.send_the_pending_email(the_new_address, verification_url)
     
 
-def get_all_signup_tokens():
-    """ Return UserToken objects with subject 'signup' """
-    token_query = UserToken.query(UserToken.subject=='signup').order(UserToken.created)
-    tokens = token_query.fetch()
-    return tokens
+def get_old_signup_tokens():
+    """ Return query with subject 'signup' """
+
+    expiredTokensQuery = UserToken.query(UserToken.subject=='signup', UserToken.created <= (datetime.datetime.utcnow() - datetime.timedelta(days=2)))
+    expiredTokens = expiredTokensQuery.fetch(keys_only=True)
+    return expiredTokens
     
+def get_old_auth_tokens():
+    """ Return query with subject 'auth' """
+
+    expiredTokensQuery = UserToken.query(UserToken.subject=='auth', UserToken.created <= (datetime.datetime.utcnow() - datetime.timedelta(weeks=3)))
+    expiredTokens = expiredTokensQuery.fetch(keys_only=True)
+    return expiredTokens
+
+
 ##########
 #
 # auto delete old signup tokens - we don't want them hanging around forever
@@ -342,19 +352,15 @@ def get_all_signup_tokens():
 class AutoDeleteSignupTokenHandler(BaseHandler):
     """ automatically delete old tokens """
     def get(self):
-        the_tokens = get_all_signup_tokens()
-        
-        now = datetime.datetime.now()
-        delta = datetime.timedelta(days=2)
-        limit = now - delta
-        the_old_tokens=[a_token for a_token in the_tokens if a_token.created < limit]
-        
-#         goemail.notify_superuser_of_old_tokens(len(the_old_tokens))
-#         if len(the_old_tokens) > 0:
-        logging.info("deleted {0} unused signup tokens".format(len(the_old_tokens)))
+        the_token_keys = get_old_signup_tokens()
+        logging.info("deleting {0} unused signup tokens".format(len(the_token_keys)))
+        if len(the_token_keys):
+            ndb.delete_multi(the_token_keys)
 
-        for a_token in the_old_tokens:
-            a_token.key.delete()
+        the_token_keys = get_old_auth_tokens()
+        logging.info("deleting {0} old auth tokens".format(len(the_token_keys)))
+        if len(the_token_keys):
+            ndb.delete_multi(the_token_keys)
 
 class WhatisPageHandler(BaseHandler):
     """ handle the whatis page """
