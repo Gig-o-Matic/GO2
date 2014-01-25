@@ -15,34 +15,34 @@
                 </div>
                 <div class="panel-body">
                     <div class="row">
-                        <div class="col-md-2 col-sm-2 col-xs-3">Name</div>
-                        <div class="col-md-10 col-sm-10 col-xs-9">{{ the_member.name|e }}
+                        <div class="col-md-3 col-sm-3 col-xs-3">Name</div>
+                        <div class="col-md-9 col-sm-9 col-xs-9">{{ the_member.name|e }}
                             {% if the_member.nickname %}
                                 ({{ the_member.nickname | e }})
                             {% endif %}
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-2 col-sm-2 col-xs-3">Email</div>
-                        <div class="col-md-10 col-sm-10 col-xs-9"><a href="mailto:{{the_member.email_address}}">{{ the_member.email_address }}</a>
+                        <div class="col-md-3 col-sm-3 col-xs-3">Email</div>
+                        <div class="col-md-9 col-sm-9 col-xs-9"><a href="mailto:{{the_member.email_address}}">{{ the_member.email_address }}</a>
                         {% if email_change_msg %}<br>{{ email_change_msg }}{% endif %}
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-2 col-sm-2 col-xs-3">Phone</div>
-                        <div class="col-md-10 col-sm-10 col-xs-9">{{ the_member.phone|e }}</div>
+                        <div class="col-md-3 col-sm-3 col-xs-3">Phone</div>
+                        <div class="col-md-9 col-sm-9 col-xs-9">{{ the_member.phone|e }}</div>
                     </div>
                     <div class="row"><br></div>
                     {% if the_member.statement %}
                         <div class="row">
-                            <div class="col-md-2 col-sm-2 col-xs-3">Personal Statement</div>
-                            <div class="col-md-10 col-sm-10 col-xs-9">{{ the_member.statement|e }}</div>
+                            <div class="col-md-3 col-sm-3 col-xs-3">Personal Statement</div>
+                            <div class="col-md-9 col-sm-9 col-xs-9">{{ the_member.statement|e }}</div>
                         </div>
                         <div class="row"><br></div>
                     {% endif %}
                     <div class="row">
-                        <div class="col-md-2 col-sm-2 col-xs-3">My Bands</div>
-                        <div class="col-md-10 col-sm-10 col-xs-9">
+                        <div class="col-md-3 col-sm-3 col-xs-3">My Bands</div>
+                        <div class="col-md-9 col-sm-9 col-xs-9">
                             {% for band_key in the_band_keys %}
                                 {% set the_band = band_key.get() %}
                                 <a href="/band_info.html?bk={{ the_band.key.urlsafe() }}">{{ the_band.name }}</a>{% if loop.last == False %}, {% endif %}
@@ -52,8 +52,13 @@
                     {% if member_is_me or the_user_is_superuser %}
                         <br>
                         <div class="row">
-                            <div class="col-md-2 col-sm-2 col-xs-3">Email me for new gigs:</div>
-                            <div class="col-md-10 col-sm-10 col-xs-9">{{ the_member.preferences.email_new_gig }}</div>
+                            <div class="col-md-3 col-sm-3 col-xs-3">Email me for new gigs:</div>
+                            <div class="col-md-9 col-sm-9 col-xs-9">{{ the_member.preferences.email_new_gig }}</div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-3 col-sm-3 col-xs-3">Hide canceled gigs:</div>
+                            <div class="col-md-9 col-sm-9 col-xs-9">{{ the_member.preferences.hide_canceled_gigs }}</div>
                         </div>
                         <br>
                         <div class="row">

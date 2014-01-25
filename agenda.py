@@ -37,10 +37,14 @@ class MainPage(BaseHandler):
             num_to_put_in_upcoming=1000
         else:
             num_to_put_in_upcoming=5
+
+        show_canceled=True
+        if the_user.preferences and the_user.preferences.hide_canceled_gigs:
+            show_canceled=False
             
         today_date = datetime.datetime.now()
-        the_gigs = gig.get_gigs_for_bands(the_bands, num=num_to_put_in_upcoming, start_date=today_date)
-        all_gigs = gig.get_gigs_for_bands(the_bands, start_date=today_date)
+#         the_gigs = gig.get_gigs_for_bands(the_bands, num=num_to_put_in_upcoming, start_date=today_date)
+        all_gigs = gig.get_gigs_for_bands(the_bands, show_canceled=show_canceled, start_date=today_date)
 
         upcoming_plans = []
         weighin_plans = []        

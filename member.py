@@ -36,6 +36,7 @@ def member_key(member_name='member_key'):
 class MemberPreferences(ndb.Model):
     """ class to hold user preferences """
     email_new_gig = ndb.BooleanProperty(default=True)
+    hide_canceled_gigs = ndb.BooleanProperty(default=False)
 
 #
 # class for member
@@ -336,6 +337,12 @@ class EditPage(BaseHandler):
             the_member.preferences.email_new_gig = True
         else:
             the_member.preferences.email_new_gig = False
+
+        member_prefhidecanceledgigs=self.request.get("member_prefhidecanceledgigs", None)
+        if (member_prefhidecanceledgigs):
+            the_member.preferences.hide_canceled_gigs = True
+        else:
+            the_member.preferences.hide_canceled_gigs = False
 
         the_member.put()                    
 

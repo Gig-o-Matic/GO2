@@ -63,6 +63,13 @@
                             {% endif %}
                             >Email me every time a gig is added  
                         </label>  
+                        <label class="checkbox">  
+                            <input type="checkbox" id="memberprefhidecanceledgigs" name="member_prefhidecanceledgigs"
+                            {% if the_member.preferences.hide_canceled_gigs %}
+                                checked
+                            {% endif %}
+                            >Hide canceled gigs on my agenda page  
+                        </label>  
                     </div>
                 </div>  
             </div>

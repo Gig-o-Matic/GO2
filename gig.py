@@ -71,7 +71,7 @@ def adjust_date_for_band(the_band, the_date):
     the_date = the_date.replace(hour=0, minute=0, second=0, microsecond=0)
     return the_date
     
-def get_gigs_for_bands(the_band_list, num=None, start_date=None, keys_only=False):
+def get_gigs_for_bands(the_band_list, num=None, start_date=None, show_canceled=True, keys_only=False):
     """ Return gig objects by band, ignoring past gigs """
         
     if (type(the_band_list) is not list):
@@ -85,8 +85,13 @@ def get_gigs_for_bands(the_band_list, num=None, start_date=None, keys_only=False
         if start_date is None:
             gig_query = Gig.query(Gig.is_archived==False, ancestor=a_band.key).order(Gig.date)
         else:
-            gig_query = Gig.query(ndb.AND(Gig.date >= start_date, Gig.is_archived==False), \
-                                  ancestor=a_band.key).order(Gig.date)
+            if show_canceled:
+                gig_query = Gig.query(Gig.date >= start_date, Gig.is_archived==False, \
+                                      ancestor=a_band.key).order(Gig.date)
+            else:
+                gig_query = Gig.query(Gig.date >= start_date, Gig.is_archived==False, \
+                                      Gig.is_canceled==False, \
+                                      ancestor=a_band.key).order(Gig.date)
 
         the_gigs = gig_query.fetch()
         all_gigs.append(the_gigs)
