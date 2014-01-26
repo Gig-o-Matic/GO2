@@ -95,6 +95,13 @@
                         </div>
                         <div class="row">&nbsp;</div>
                     {% endif %}
+                    {% if gig.leader %}
+                        <div class="row">
+                            <div class="col-md-2 col-sm-2 col-xs-3">Leader</div>
+                            <div class="col-md-10 col-sm-10 col-xs-9">{{ gig.leader }}</div>
+                        </div>                    
+                        <div class="row">&nbsp;</div>
+                    {% endif %}
                     <div class="row">
                         <div class="col-md-2 col-sm-2 col-xs-3">More Details</div>
                         <div class="col-md-10 col-sm-10 col-xs-9 trunc">{{ gig.details  | html_content | safe  }}</div>
