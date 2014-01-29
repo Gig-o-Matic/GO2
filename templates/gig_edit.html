@@ -122,6 +122,18 @@
                 <textarea class="form-control" rows="10" id="gigsetlistinput" placeholder="setlist here" name="gig_setlist">{{gig.setlist}}</textarea>
             </div>
         </div>
+        
+        {% if newgig_is_active %}
+            <div class="row">
+                <div class="form-group col-md-8 col-md-offset-2">
+                    <label class="checkbox">  
+                        <input type="checkbox" id="newgig_notifymembers" name="gig_notifymembers" checked
+                        >Email members about this new gig  
+                    </label>  
+                </div>
+            </div>
+        {% endif %}
+        
         <div class="row">
             <div class="form-group col-md-4 col-md-offset-2 col-sm-6 col-sm-offset-0 col-xs-6 col-xs-offset-0">
                 {% if gig!=None %}

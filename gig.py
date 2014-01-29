@@ -457,7 +457,9 @@ class EditPage(BaseHandler):
 
         the_gig.put()            
 
-        if gig_is_new:
+        gig_notify = self.request.get("gig_notifymembers", None)
+
+        if gig_is_new and gig_notify is not None:
             goemail.announce_new_gig(the_gig, self.uri_for('gig_info', _full=True, gk=the_gig.key.urlsafe()))
 
         return self.redirect(\
