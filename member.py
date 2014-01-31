@@ -37,6 +37,7 @@ class MemberPreferences(ndb.Model):
     """ class to hold user preferences """
     email_new_gig = ndb.BooleanProperty(default=True)
     hide_canceled_gigs = ndb.BooleanProperty(default=False)
+    locale = ndb.TextProperty(default='en')
 
 #
 # class for member

@@ -3,7 +3,7 @@
 {% block content %}
 {% import 'agenda_plan_edit.html' as plan_edit with context %}
 <div class="row">
-    <div class="page-header col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0"><h2>Schedule: {% if the_user.nickname %}{{the_user.nickname}}{%else%}{{the_user.name}}{% endif %}</h2></div>
+    <div class="page-header col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0"><h2>{% trans %}Schedule{% endtrans %}: {% if the_user.nickname %}{{the_user.nickname}}{%else%}{{the_user.name}}{% endif %}</h2></div>
 </div>
 
 {% if weighin_plans %}

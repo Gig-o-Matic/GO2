@@ -1,6 +1,6 @@
 import jinja2
 import os
-
+from babel.support import Translations
 
 def br_escape(value): 
      return value.replace('\n','<br>\n')
@@ -20,11 +20,15 @@ def guess_autoescape(template_name):
     ext = template_name.rsplit('.', 1)[1]
     return ext in ('html', 'htm', 'xml')
 
+
 jinja_environment = jinja2.Environment(autoescape=guess_autoescape,
                   loader=jinja2.FileSystemLoader(os.path.dirname(__file__)+"/templates"),
-                  extensions=['jinja2.ext.autoescape'])
+                  extensions=['jinja2.ext.autoescape','jinja2.ext.i18n'])
 
 jinja_environment.filters['html_content'] = html_content
+
+translations = Translations.load(os.path.dirname(__file__)+"/locale",['it','en'])
+jinja_environment.install_gettext_translations(translations)
 
 # jinja_environment = jinja2.Environment(
 #     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)+"/templates"),

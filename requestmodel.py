@@ -2,7 +2,8 @@
 Base class for webapp2 request handlers
 """
 
-from jinja2env import jinja_environment as je
+# from jinja2env import jinja_environment as je
+
 from google.appengine.ext import ndb
 
 #import logging
@@ -11,6 +12,8 @@ import webapp2
 
 from webapp2_extras import auth
 from webapp2_extras import sessions
+from webapp2_extras import i18n
+from webapp2_extras import jinja2
 
 import motd_db
 
@@ -75,7 +78,24 @@ class BaseHandler(webapp2.RequestHandler):
             """Shortcut to access the current session."""
             return self.session_store.get_session(backend="datastore")
 
+    @webapp2.cached_property
+    def jinja2(self):
+        # Returns a Jinja2 renderer cached in the app registry.
+        return jinja2.get_jinja2(app=self.app)
+
+    def render_response(self, filename, args):
+        # Renders a template and writes the result to the response.
+        rv = self.jinja2.render_template(filename, **args)
+        self.response.write(rv)
+
     def render_template(self, filename, params=None):
+    
+        if self.user.preferences.locale:
+            i18n.get_i18n().set_locale(self.user.preferences.locale)
+        else:
+            i18n.get_i18n().set_locale('en')
+        
+
         if not params:
             params = {}
 
@@ -91,8 +111,9 @@ class BaseHandler(webapp2.RequestHandler):
             params['welcome'] = True
         if self.user is not None and not self.user.seen_motd:
             params['motd'] = motd_db.get_motd()
-        template = je.get_template(filename)
-        self.response.write(template.render(params))
+#         template = je.get_template(filename)
+#         self.response.write(template.render(params))
+        self.render_response(filename, params)
 
     def render_nouser_template(self, filename, params=None):
         if not params:
@@ -101,8 +122,9 @@ class BaseHandler(webapp2.RequestHandler):
         params['the_user'] = None
         params['the_user_has_bands'] = True # todo - figure this out
         params['the_user_is_superuser'] = False
-        template = je.get_template(filename)
-        self.response.write(template.render(params))
+#         template = je.get_template(filename)
+#         self.response.write(template.render(params))
+        self.render_response(filename, params)
 
     def display_message(self, message):
         """Utility function to display a template with a simple message."""

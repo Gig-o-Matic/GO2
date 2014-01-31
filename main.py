@@ -14,6 +14,7 @@ import motd
 import credits
 import maintenance
 import stats
+import jinja2ext
 
 config = {
   'webapp2_extras.auth': {
@@ -22,6 +23,11 @@ config = {
   },
   'webapp2_extras.sessions': {
     'secret_key': 'GABBAGABBAHEY'
+  },
+  'webapp2_extras.jinja2': {
+             'template_path': 'templates',
+             'environment_args': { 'extensions': ['jinja2.ext.i18n'] },
+             'filters': {'html_content': jinja2ext.html_content}
   }
 }
 
