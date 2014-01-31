@@ -20,7 +20,8 @@ import goemail
 import gigarchive
 import gigcomment
 import assoc
-import jinja2env
+# import jinja2env
+import jinja2ext
 import logging
 
 import datetime
@@ -632,7 +633,7 @@ class CommentHandler(BaseHandler):
             the_gig.comment_id = new_id
             the_gig.put()
 
-        self.response.write(jinja2env.html_content(the_comment_text))
+        self.response.write(jinja2ext.html_content(the_comment_text))
 
 class GetCommentHandler(BaseHandler):
     """ returns the comment for a gig if there is one """
@@ -647,7 +648,6 @@ class GetCommentHandler(BaseHandler):
 
         if the_gig.comment_id:
             the_comment = gigcomment.get_comment(the_gig.comment_id)
-            
-            self.response.write(jinja2env.html_content(the_comment))
+            self.response.write(jinja2ext.html_content(the_comment))
         else:
             self.response.write('')

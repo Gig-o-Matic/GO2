@@ -20,5 +20,5 @@ msgstr ""
 
 #: templates/agenda.html:6
 msgid "Schedule"
-msgstr "Schedule (it)"
+msgstr "Programma"
 

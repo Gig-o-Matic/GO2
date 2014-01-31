@@ -90,8 +90,11 @@ class BaseHandler(webapp2.RequestHandler):
 
     def render_template(self, filename, params=None):
     
-        if self.user.preferences.locale:
-            i18n.get_i18n().set_locale(self.user.preferences.locale)
+        if self.user:
+            if self.user.preferences.locale:
+                i18n.get_i18n().set_locale(self.user.preferences.locale)
+            else:
+                i18n.get_i18n().set_locale('en')
         else:
             i18n.get_i18n().set_locale('en')
         

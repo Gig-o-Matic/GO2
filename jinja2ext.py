@@ -1,3 +1,5 @@
+import jinja2
+
 def html_content(value):
     # Escape, then convert newlines to br tags, then wrap with Markup object
     # so that the <br> tags don't get escaped.
