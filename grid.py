@@ -64,7 +64,11 @@ class MainPage(BaseHandler):
         else:
             end_date = end_date.replace(year = end_date.year + 1, month=1, day=1)
 
-        the_gigs = gig.get_gigs_for_band_key_for_dates(the_band_key, start_date, end_date)
+        show_canceled=True
+        if the_user.preferences and the_user.preferences.hide_canceled_gigs:
+            show_canceled=False
+
+        the_gigs = gig.get_gigs_for_band_key_for_dates(the_band_key, start_date, end_date, get_canceled=show_canceled)
         the_member_keys = band.get_member_keys_of_band_key_by_section_key(the_band_key)
 
         the_plans = {}
