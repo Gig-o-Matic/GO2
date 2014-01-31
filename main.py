@@ -13,6 +13,7 @@ import help
 import motd
 import credits
 import maintenance
+import stats
 
 config = {
   'webapp2_extras.auth': {
@@ -94,5 +95,6 @@ else:
         webapp2.Route('/updateplancomment', plan.UpdatePlanComment),
         webapp2.Route('/updateplansection', plan.UpdatePlanSection),
         webapp2.Route('/motd_admin.html', motd.AdminPage),
-        webapp2.Route('/whatis.html', login.WhatisPageHandler)
+        webapp2.Route('/whatis.html', login.WhatisPageHandler),
+        webapp2.Route('/stats.html', stats.StatsPage)
     ], config=config, debug=True)

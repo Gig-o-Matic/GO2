@@ -28,9 +28,8 @@ class MainPage(BaseHandler):
         # find the bands this member is associated with
         the_assocs = assoc.get_confirmed_assocs_of_member(the_user)
         the_band_keys = [a.band for a in the_assocs]
-        the_bands = ndb.get_multi(the_band_keys)
         
-        if the_bands is None or len(the_bands)==0:
+        if the_band_keys is None or len(the_band_keys)==0:
             return self.redirect('/member_info.html?mk={0}'.format(the_user.key.urlsafe()))
 
         if the_user.show_long_agenda:
@@ -44,7 +43,7 @@ class MainPage(BaseHandler):
             
         today_date = datetime.datetime.now()
 #         the_gigs = gig.get_gigs_for_bands(the_bands, num=num_to_put_in_upcoming, start_date=today_date)
-        all_gigs = gig.get_gigs_for_bands(the_bands, show_canceled=show_canceled, start_date=today_date)
+        all_gigs = gig.get_gigs_for_band_keys(the_band_keys, show_canceled=show_canceled, start_date=today_date)
 
         upcoming_plans = []
         weighin_plans = []        
@@ -60,15 +59,15 @@ class MainPage(BaseHandler):
                 info_block['the_member_key'] = the_user.key
                 a_band_key = a_gig.key.parent()
                 a_band = None
-                for test_band in the_bands:
-                    if test_band.key == a_band_key:
-                        a_band = test_band
+                for test_band_key in the_band_keys:
+                    if test_band_key == a_band_key:
+                        a_band_key = test_band_key
                         break
-                if a_band == None:
+                if a_band_key == None:
                     logging.error('agenda.MainPage error: no band for gig')
                     continue
-                info_block['the_band'] = a_band
-                info_block['the_assoc'] = assoc.get_assoc_for_band_key_and_member_key(the_user.key, a_band.key)
+                info_block['the_band'] = a_band_key.get()
+                info_block['the_assoc'] = assoc.get_assoc_for_band_key_and_member_key(the_user.key, a_band_key)
                 if the_plan.section is None:
                     info_block['the_section'] = info_block['the_assoc'].default_section
                 else:
@@ -79,7 +78,7 @@ class MainPage(BaseHandler):
                     if (the_plan.value == 0 ):
                         weighin_plans.append( info_block )
 
-        number_of_bands = len(the_bands)
+        number_of_bands = len(the_band_keys)
 
 
         template_args = {

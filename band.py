@@ -58,8 +58,7 @@ def forget_band_from_key(the_band_key):
     ndb.delete_multi(the_section_keys)
 
     # delete the gigs
-    the_band = the_band_key.get()
-    the_gigs = gig.get_gigs_for_bands(the_band, num=None, start_date=None)
+    the_gigs = gig.get_gigs_for_band_keys(the_band_key, num=None, start_date=None)
     the_gig_keys = [a_gig.key for a_gig in the_gigs]
     
     # delete the plans

@@ -1,0 +1,101 @@
+{% extends 'go2base.html' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-5 col-md-offset-2"><h2>Stats!</h1></div>
+    </div> 
+    {% for stat in the_stats %}
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <a href="/band_info.html?bk={{stat[1].urlsafe()}}">{{ stat[0] }}</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div id="memberstats-{{stat[1].urlsafe()}}" style="width:100%; height:400px;"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div id="gigstats-{{stat[1].urlsafe()}}" style="width:100%; height:400px;"></div>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock content %}
+
+{% block localscripts %}
+<script src="http://code.highcharts.com/highcharts.js"></script>
+<script>
+function makememberchart(which,counts) { 
+    $('#memberstats-'+which).highcharts({
+        chart: {
+            type: 'line',
+            height: 200
+        },
+        title: {
+            text: 'Number of Members'
+        },
+        xAxis: {
+            type: 'datetime'
+        },
+        yAxis: {
+            allowDecimals: false
+        },
+        series: [{
+            data: counts
+        }],
+        legend: {
+            enabled: false
+        },
+        credits: {
+            enabled: false
+        }
+    });
+}
+
+function makegigchart(which,counts) { 
+    $('#gigstats-'+which).highcharts({
+        chart: {
+            type: 'line',
+            height: 200
+        },
+        title: {
+            text: 'Number of Upcoming Gigs'
+        },
+        xAxis: {
+            type: 'datetime'
+        },
+        yAxis: {
+            allowDecimals: false
+        },
+        series: [{
+            data: counts
+        }],
+        legend: {
+            enabled: false
+        },
+        credits: {
+            enabled: false
+        }
+    });
+}
+
+$(function () {
+    {% for s in the_stats %}
+        var stats=jQuery.parseJSON('{{s[2]|safe}}')
+        var the_member_data=new Array()
+        for (var i=0; i<stats.length; i++) {
+            the_member_data.push(new Array(Date.UTC(stats[i][0],stats[i][1],stats[i][2]),stats[i][3]))
+        }
+        makememberchart('{{s[1].urlsafe()}}',the_member_data)
+
+        var the_gig_data=new Array()
+        for (var i=0; i<stats.length; i++) {
+            the_gig_data.push(new Array(Date.UTC(stats[i][0],stats[i][1],stats[i][2]),stats[i][4]))
+        }
+        makegigchart('{{s[1].urlsafe()}}',the_gig_data)
+    {% endfor %} 
+});
+
+</script>
+{% endblock localscripts %}

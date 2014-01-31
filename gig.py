@@ -34,7 +34,8 @@ class Gig(ndb.Model):
     contact = ndb.KeyProperty()
     details = ndb.TextProperty()
     setlist = ndb.TextProperty()
-    date = ndb.DateProperty(auto_now_add=True)
+    created_date = ndb.DateProperty( auto_now_add=True )
+    date = ndb.DateProperty( default=True)
     enddate = ndb.DateProperty( default=None )
     calltime = ndb.TextProperty( default=None )
     settime = ndb.TextProperty( default=None )
@@ -72,27 +73,27 @@ def adjust_date_for_band(the_band, the_date):
     the_date = the_date.replace(hour=0, minute=0, second=0, microsecond=0)
     return the_date
     
-def get_gigs_for_bands(the_band_list, num=None, start_date=None, show_canceled=True, keys_only=False):
+def get_gigs_for_band_keys(the_band_key_list, num=None, start_date=None, show_canceled=True, keys_only=False):
     """ Return gig objects by band, ignoring past gigs """
         
-    if (type(the_band_list) is not list):
-        the_band_list = [the_band_list]
+    if (type(the_band_key_list) is not list):
+        the_band_key_list = [the_band_key_list]
 
     if start_date:
-        start_date = adjust_date_for_band(the_band_list[0], start_date)
+        start_date = adjust_date_for_band(the_band_key_list[0].get(), start_date)
     
     all_gigs = []
-    for a_band in the_band_list:
+    for a_band_key in the_band_key_list:
         if start_date is None:
-            gig_query = Gig.query(Gig.is_archived==False, ancestor=a_band.key).order(Gig.date)
+            gig_query = Gig.query(Gig.is_archived==False, ancestor=a_band_key).order(Gig.date)
         else:
             if show_canceled:
                 gig_query = Gig.query(Gig.date >= start_date, Gig.is_archived==False, \
-                                      ancestor=a_band.key).order(Gig.date)
+                                      ancestor=a_band_key).order(Gig.date)
             else:
                 gig_query = Gig.query(Gig.date >= start_date, Gig.is_archived==False, \
                                       Gig.is_canceled==False, \
-                                      ancestor=a_band.key).order(Gig.date)
+                                      ancestor=a_band_key).order(Gig.date)
 
         the_gigs = gig_query.fetch()
         all_gigs.append(the_gigs)
@@ -155,6 +156,13 @@ def get_gigs_for_band_key_for_dates(the_band_key, start_date, end_date, get_canc
     gigs = gig_query.fetch()
     
     return gigs
+
+def get_gigs_for_creation_date(the_band_key, the_creation_date):
+    """ return gigs created on a particular date """
+    gig_query = Gig.query(Gig.created_date == the_creation_date, ancestor=the_band_key)
+    gigs = gig_query.fetch()
+    return gigs
+    
 
 def get_gigs_for_member_for_dates(the_member, start_date, end_date, get_canceled=True):
     """ return gig objects for the bands of a member """

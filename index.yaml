@@ -24,6 +24,11 @@ indexes:
   - name: member_name
 
 - kind: Assoc
+  properties:
+  - name: band
+  - name: member_name
+
+- kind: Assoc
   ancestor: yes
   properties:
   - name: member
@@ -38,6 +43,11 @@ indexes:
   ancestor: yes
   properties:
   - name: name
+
+- kind: BandStats
+  properties:
+  - name: band
+  - name: date
 
 - kind: Gig
   properties:
