@@ -329,6 +329,13 @@ def request_new_email(the_request, the_new_address):
     goemail.send_the_pending_email(the_new_address, verification_url)
     
 
+def get_all_signup_tokens():
+    """ Return query with subject 'signup' """
+
+    signupTokensQuery = UserToken.query(UserToken.subject=='signup')
+    signupTokens = signupTokensQuery.fetch()
+    return signupTokens
+
 def get_old_signup_tokens():
     """ Return query with subject 'signup' """
 

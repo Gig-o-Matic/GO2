@@ -345,6 +345,13 @@ class EditPage(BaseHandler):
         else:
             the_member.preferences.hide_canceled_gigs = False
 
+        member_preflocale=self.request.get("member_preflocale",None)
+        if (member_preflocale):
+            the_member.preferences.locale = member_preflocale
+        else:
+            the_member.preferences.hide_canceled_gigs = "en"
+        
+
         the_member.put()                    
 
         if member_name:
@@ -566,7 +573,7 @@ class AdminPageSignupMembers(BaseHandler):
                 a_token.email = the_member.email_address
             else:
                 a_token.email = None
-            print '\n\ngot email {0}\n\n'.format(a_token.email)
+
             if a_token.created < limit:
                 a_token.is_old=True
         
