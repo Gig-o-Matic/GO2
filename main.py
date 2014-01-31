@@ -96,5 +96,6 @@ else:
         webapp2.Route('/updateplansection', plan.UpdatePlanSection),
         webapp2.Route('/motd_admin.html', motd.AdminPage),
         webapp2.Route('/whatis.html', login.WhatisPageHandler),
-        webapp2.Route('/stats.html', stats.StatsPage)
+        webapp2.Route('/stats.html', stats.StatsPage),
+        webapp2.Route('/generate_stats', stats.AutoGenerateStats)
     ], config=config, debug=True)

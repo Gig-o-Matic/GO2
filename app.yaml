@@ -53,6 +53,10 @@ handlers:
   script: main.application
   login: admin
 
+- url: /generate_stats
+  script: main.application
+  login: admin
+
 - url: /.*
   script: main.application
   

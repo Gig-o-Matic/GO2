@@ -30,13 +30,13 @@ class BandStats(ndb.Model):
     number_upcoming_gigs = ndb.IntegerProperty()
     number_gigs_created_today = ndb.IntegerProperty()
     
-def get_stats(the_band_key):
+def get_band_stats(the_band_key):
     """ Return all the stats we have for a band """
     stats_query = BandStats.query( BandStats.band==the_band_key).order(BandStats.date)
     the_stats = stats_query.fetch()
     return the_stats
     
-def make_stats(the_band_key):
+def make_band_stats(the_band_key):
     """ make a stats object for a band key and return it """
     the_stats = BandStats(band=the_band_key)
 
@@ -72,7 +72,7 @@ class StatsPage(BaseHandler):
         stats=[]    
         for a_band in the_bands:
                 
-            a_stat = get_stats(a_band.key)
+            a_stat = get_band_stats(a_band.key)
             
             the_count_data=[]
             for s in a_stat:
@@ -86,3 +86,16 @@ class StatsPage(BaseHandler):
             'the_stats' : stats
         }
         self.render_template('stats.html', template_args)
+
+
+##########
+#
+# auto generate stats
+#
+##########
+class AutoGenerateStats(BaseHandler):
+    """ automatically generate statistics """
+    def get(self):
+        the_band_keys = band.get_all_bands(keys_only = True)
+        for band_key in the_band_keys:
+            make_band_stats(band_key)

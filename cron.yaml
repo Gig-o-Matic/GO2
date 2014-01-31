@@ -5,3 +5,6 @@ cron:
 - description: scour for old signup tokens
   url: /login_auto_old_token
   schedule: every day 05:30
+- description: generate stats
+  url: /generate_stats
+  schedule: every day 05:15
