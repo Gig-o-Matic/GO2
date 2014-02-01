@@ -349,7 +349,7 @@ class EditPage(BaseHandler):
         if (member_preflocale):
             the_member.preferences.locale = member_preflocale
         else:
-            the_member.preferences.hide_canceled_gigs = "en"
+            the_member.preferences.locale = "en"
         
 
         the_member.put()                    
