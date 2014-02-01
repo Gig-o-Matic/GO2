@@ -1,7 +1,6 @@
 from google.appengine.api import users
 
 import webapp2
-from jinja2env import jinja_environment as je
 
 class MainPage(webapp2.RequestHandler):
 

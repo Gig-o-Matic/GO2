@@ -24,8 +24,6 @@ import datetime
 
 import logging
 
-from jinja2env import jinja_environment as je
-
 import json
 from debug import debug_print
 

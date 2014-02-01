@@ -9,7 +9,6 @@ from requestmodel import *
 import webapp2_extras.appengine.auth.models
 
 import webapp2
-from jinja2env import jinja_environment as je
 from debug import *
 
 import assoc

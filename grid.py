@@ -9,7 +9,6 @@ import plan
 import band
 import assoc
 
-from jinja2env import jinja_environment as je
 from debug import debug_print
     
 import datetime

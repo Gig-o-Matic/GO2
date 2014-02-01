@@ -10,7 +10,6 @@ import band
 import assoc
 import logging
 
-from jinja2env import jinja_environment as je
 from debug import debug_print
     
 import datetime

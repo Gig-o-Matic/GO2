@@ -13,9 +13,6 @@ import webapp2_extras.appengine.auth.models
 
 import webapp2
 
-import jinja2env
-
-
 
 class MaintenancePage(BaseHandler):
     """ class to serve the maintenance info page """

@@ -3,7 +3,6 @@ from google.appengine.api import users
 from requestmodel import *
 
 import webapp2
-from jinja2env import jinja_environment as je
 import logging
 import goemail
 
