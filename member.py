@@ -196,7 +196,7 @@ def format_date_for_member(the_user, the_date, format="short"):
         the_str='{0} {1}'.format(format_date(the_date,locale=the_locale,format="short"),
                           format_date(the_date,locale=the_locale,format="EEE"))
     else:
-        the_str='{0}'.format(format_date(the_date,locale=the_locale,format="full"))
+        the_str=u'{0}'.format(format_date(the_date,locale=the_locale,format="full"))
     return the_str
         
 #####
