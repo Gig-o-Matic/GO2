@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-02-01 18:30-0500\n"
+"POT-Creation-Date: 2014-02-01 18:42-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -53,6 +53,76 @@ msgstr ""
 msgid "Cancelled!"
 msgstr ""
 
+#: templates/band_edit.html:6
+msgid "New Band"
+msgstr ""
+
+#: templates/band_edit.html:8
+msgid "Edit Band"
+msgstr ""
+
+#: templates/band_edit.html:14 templates/member_info.html:18
+msgid "Name"
+msgstr ""
+
+#: templates/band_edit.html:15
+msgid "what's it called?"
+msgstr ""
+
+#: templates/band_edit.html:20
+msgid "Short Name"
+msgstr ""
+
+#: templates/band_edit.html:21
+msgid "whts it clld?"
+msgstr ""
+
+#: templates/band_edit.html:26
+msgid "Description"
+msgstr ""
+
+#: templates/band_edit.html:28
+msgid "tell us a little about the band"
+msgstr ""
+
+#: templates/band_edit.html:33 templates/band_info.html:36
+msgid "Website"
+msgstr ""
+
+#: templates/band_edit.html:39
+msgid "Thumbnail Image"
+msgstr ""
+
+#: templates/band_edit.html:40
+msgid "url of 200x300 picture for band navigtor page"
+msgstr ""
+
+#: templates/band_edit.html:45
+msgid "Time Zone"
+msgstr ""
+
+#: templates/band_edit.html:46
+msgid "UTC offset"
+msgstr ""
+
+#: templates/band_edit.html:56
+msgid "Let non-members see upcoming gigs"
+msgstr ""
+
+#: templates/band_edit.html:64 templates/band_edit.html:66
+#: templates/band_info.html:180 templates/member_edit.html:88
+msgid "Cancel"
+msgstr ""
+
+#: templates/band_edit.html:68 templates/band_info.html:181
+#: templates/member_edit.html:89
+msgid "Save"
+msgstr ""
+
+#: templates/band_edit.html:92 templates/member_edit.html:146
+msgid "This field is required!"
+msgstr ""
+
 #: templates/band_info.html:8
 msgid "a.k.a."
 msgstr ""
@@ -63,10 +133,6 @@ msgstr ""
 
 #: templates/band_info.html:25
 msgid "A Band of Mystery..."
-msgstr ""
-
-#: templates/band_info.html:36
-msgid "Website"
 msgstr ""
 
 #: templates/band_info.html:46 templates/member_info.html:66
@@ -109,8 +175,12 @@ msgstr ""
 msgid "New Section"
 msgstr ""
 
-#: templates/band_info.html:180 templates/member_edit.html:88
-msgid "Cancel"
+#: templates/band_sections.html:9
+msgid "No Section"
+msgstr ""
+
+#: templates/band_sections.html:25
+msgid "Delete Section"
 msgstr ""
 
 #: templates/member_band_assocs.html:14
@@ -201,10 +271,6 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: templates/member_edit.html:89
-msgid "Save"
-msgstr ""
-
 #: templates/member_edit.html:107 templates/member_info.html:99
 msgid "Confirm Delete"
 msgstr ""
@@ -221,16 +287,8 @@ msgstr ""
 msgid "email already in use"
 msgstr ""
 
-#: templates/member_edit.html:146
-msgid "This field is required!"
-msgstr ""
-
 #: templates/member_edit.html:147
 msgid "Please enter a valid email address!"
-msgstr ""
-
-#: templates/member_info.html:18
-msgid "Name"
 msgstr ""
 
 #: templates/member_info.html:38

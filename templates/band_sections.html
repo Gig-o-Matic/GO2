@@ -6,7 +6,7 @@
                 {% if the_section[0] %}
                     {{the_section[0].get().name}}
                 {% else %}
-                    No Section
+                    {% trans %}No Section{% endtrans %}
                 {% endif %}
             </div>
         {% endif %}
@@ -22,7 +22,7 @@
         {% if (the_user_is_superuser or the_user_is_band_admin) %}
             <div class="col-md-2 col-sm-2 col-xs-8">
                     {% if the_section[0] and not the_section[1] %} 
-                        <a class="btn btn-default btn-sm" onclick="delete_section('{{the_section[0].urlsafe()}}'); return false;" href="#">Delete Section</a>
+                        <a class="btn btn-default btn-sm" onclick="delete_section('{{the_section[0].urlsafe()}}'); return false;" href="#">{% trans %}Delete Section{% endtrans %}</a>
                     {% endif %}
             </div>
             {% if num_sections > 1 and the_section[0] %}
