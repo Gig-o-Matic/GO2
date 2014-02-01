@@ -11,7 +11,7 @@
         &nbsp;
     </div>
     <div class="row">
-        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0"><h3>Future Gigs: Weigh In!</h3></div>
+        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0"><h3>{% trans %}Future Gigs: Weigh In!{% endtrans %}</h3></div>
     </div>
     <div class="row">
         <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0">
@@ -31,9 +31,9 @@
 <div class="row">
     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0">
     {% if the_user.show_long_agenda %}
-        <h3>All Upcoming Gigs</h3>
+        <h3>{% trans %}All Upcoming Gigs{% endtrans %}</h3>
     {% else %}
-        <h3>My Next Few Gigs</h3>
+        <h3>{% trans %}My Next Few Gigs{% endtrans %}</h3>
     {% endif %}
     </div>
 </div>
@@ -41,9 +41,9 @@
     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0">
         <a href="/agenda_switch"><i class="fa fa-refresh fs-lg"></i>
         {% if long_agenda %}
-            show brief
+            {% trans %}show brief{% endtrans %}
         {% else %}
-            show all
+            {% trans %}show all{% endtrans %}
         {% endif %}</a>
     </div>
 </div>
@@ -59,7 +59,7 @@
                     </div>
                 {% endfor %}
             {% else %}
-                Nothing coming up!
+                {% trans %}Nothing coming up!{% endtrans %}
             {% endif %}
         </div>
     </div>

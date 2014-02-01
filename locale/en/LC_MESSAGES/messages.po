@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-01-31 12:58-0500\n"
+"POT-Creation-Date: 2014-01-31 21:52-0500\n"
 "PO-Revision-Date: 2014-01-31 12:58-0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: en <LL@li.org>\n"
@@ -20,5 +20,29 @@ msgstr ""
 
 #: templates/agenda.html:6
 msgid "Schedule"
+msgstr ""
+
+#: templates/agenda.html:14
+msgid "Future Gigs: Weigh In!"
+msgstr ""
+
+#: templates/agenda.html:34
+msgid "All Upcoming Gigs"
+msgstr ""
+
+#: templates/agenda.html:36
+msgid "My Next Few Gigs"
+msgstr ""
+
+#: templates/agenda.html:44
+msgid "show brief"
+msgstr ""
+
+#: templates/agenda.html:46
+msgid "show all"
+msgstr ""
+
+#: templates/agenda.html:62
+msgid "Nothing coming up!"
 msgstr ""
 
