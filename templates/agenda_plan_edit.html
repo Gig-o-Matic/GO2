@@ -106,7 +106,7 @@
                         <div class="dropdown">
                             <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" id='sel-{{the_plan_key.urlsafe()}}'>
                                 {% if the_section_key == None %}
-                                    section...  <span class="caret"></span>
+                                    {% trans %}section{% endtrans %}...  <span class="caret"></span>
                                 {% else %}
                                     {{the_section_key.get().name}} <span class="caret"></span>
                                 {% endif %}
@@ -127,7 +127,7 @@
         </div>
         {% else %}
         <div class="col-lg-{{grp2_lg}} col-md-{{grp2_lg}} col-sm-{{grp2_sm}} col-xs-{{grp2_sm}}">
-            <strong>Cancelled!</strong>
+            <strong>{% trans %}Cancelled!{% endtrans %}</strong>
         </div>
         {% endif %}
     </div>

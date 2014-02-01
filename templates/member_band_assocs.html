@@ -11,7 +11,7 @@
             </td>
             {% if the_info.assoc.is_confirmed == 0 %}
                 <td colspan=2 style="border-top:none;">
-                    pending
+                    {% trans %}pending{% endtrans %}
                 </td>
             {% elif the_info.sections|length == 0 %}
                 <td colspan=2 style="border-top:none;">
@@ -21,7 +21,7 @@
                     <div class="dropdown">
                         <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" id='sbk-{{the_info.assoc.band.urlsafe()}}'>
                             {% if the_info.assoc.default_section == None %}
-                                section...  <span class="caret"></span>
+                                {% trans %}section{% endtrans %}...  <span class="caret"></span>
                             {% else %}
                                 {{the_info.assoc.default_section.get().name}} <span class="caret"></span>
                             {% endif %}
@@ -38,16 +38,16 @@
                     {% if the_info.assoc.is_multisectional %}
                         checked
                     {% endif %}
-                    > other sections, too
+                    > {% trans %}other sections, too{% endtrans %}
                 </td>
             {% endif %}
             <td style="border-top:none;">            
 <!--                 <a class="btn btn-default btn-sm" href="/member_delete_assoc.html?bk={{the_info.assoc.band.urlsafe()}}&mk={{the_member.key.urlsafe()}}"><i class="fa fa-minus-square"></i> Leave Band</a> -->
-                <button class="btn btn-default btn-sm" onclick="leave_band('{{the_info.assoc.key.urlsafe()}}','{{the_info.assoc.band.get().name}}')""><i class="fa fa-minus-square"></i> Leave Band</button>
+                <button class="btn btn-default btn-sm" onclick="leave_band('{{the_info.assoc.key.urlsafe()}}','{{the_info.assoc.band.get().name}}')""><i class="fa fa-minus-square"></i> {% trans %}Leave Band{% endtrans %}</button>
             </td>
         </tr>
     {% endfor %}
     </table>
 {% else %}
-        You need to add a band!
+        {% trans %}You need to add a band!{% endtrans %}
 {% endif %}

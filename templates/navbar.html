@@ -12,40 +12,40 @@
       <ul class="nav navbar-nav">
         {% if the_user_has_bands %}
         <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Gigs<b class="caret"></b></a>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans %}Gigs{% endtrans %}<b class="caret"></b></a>
             <ul class="dropdown-menu" role="menu">
-                <li {{ 'class="active"' if agenda_is_active }}><a href="/agenda.html">Schedule</a></li>
-                <li {{ 'class="active"' if calview_is_active }}><a href="/calview.html">Calendar</a></li>
-                <li {{ 'class="active"' if grid_is_active }}><a href="/grid.html">Grid</a></li>
+                <li {{ 'class="active"' if agenda_is_active }}><a href="/agenda.html">{% trans %}Schedule{% endtrans %}</a></li>
+                <li {{ 'class="active"' if calview_is_active }}><a href="/calview.html">{% trans %}Calendar{% endtrans %}</a></li>
+                <li {{ 'class="active"' if grid_is_active }}><a href="/grid.html">{% trans %}Grid{% endtrans %}</a></li>
             </ul>
             <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Bands<b class="caret"></b></a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans %}Bands{% endtrans %}<b class="caret"></b></a>
                 <ul class="dropdown-menu" role="menu" id="bandlinks">
-                  <li><a href="#">No bands yet!</a></li>
+                  <li><a href="#">{% trans %}No bands yet!{% endtrans %}</a></li>
                 </ul>
             </li>
-            <li {{ 'class="active"' if newgig_is_active }}><a href="/gig_edit.html?new=1">Add Gig</a></li>
+            <li {{ 'class="active"' if newgig_is_active }}><a href="/gig_edit.html?new=1">{% trans %}Add Gig{% endtrans %}</a></li>
         {% endif %}
         {% if the_user_is_superuser %}
         <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin<b class="caret"></b></a>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans %}Admin{% endtrans %}<b class="caret"></b></a>
             <ul class="dropdown-menu" role="menu">
-              <li><a href="/member_admin.html">Member Admin</a></li>
-              <li><a href="/band_admin.html">Band Admin</a></li>
-              <li><a href="/motd_admin.html">MOTD Admin</a></li>
+              <li><a href="/member_admin.html">{% trans %}Member Admin{% endtrans %}</a></li>
+              <li><a href="/band_admin.html">{% trans %}Band Admin{% endtrans %}</a></li>
+              <li><a href="/motd_admin.html">{% trans %}MOTD Admin{% endtrans %}</a></li>
             </ul>
         </li>
         {% endif %}
       </ul>
       <ul class="nav navbar-nav navbar-right">
-          <li {{ 'class="active"' if help_is_active }}><a href="/help">Help</a></li>   
+          <li {{ 'class="active"' if help_is_active }}><a href="/help">{% trans %}Help{% endtrans %}</a></li>   
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 {% if the_user.nickname %}{{the_user.nickname}}{% else %}{{ the_user.name }}{% endif %}
                 <b class="caret"></b></a>
             <ul class="dropdown-menu">
-              <li><a href="/member_info.html?mk={{the_user.key.urlsafe()}}">My Profile</a></li>
-              <li><a href="{{logout_link}}">Logout</a></li>
+              <li><a href="/member_info.html?mk={{the_user.key.urlsafe()}}">{% trans %}My Profile{% endtrans %}</a></li>
+              <li><a href="{{logout_link}}">{% trans %}Logout{% endtrans %}</a></li>
             </ul>
           </li>
       </ul>

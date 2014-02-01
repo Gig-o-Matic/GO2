@@ -3,57 +3,57 @@
 {% block content %}
     <div class="row">
         <div class="page-header col-md-5 col-md-offset-2">
-            <h2>Profile Info</h1>
+            <h2>{% trans %}Profile Info{% endtrans %}</h1>
         </div>
     </div>
     <form class="form" id="infoform" role="form" method="post" action="member_edit.html">
         <div class="row">
             <div class="form-group col-md-5 col-md-offset-2">
-                <label for="membernameinput" class="control-label">Full Name</label>
-                <input type="text" class="form-control" id="membernameinput" placeholder="(required)" value="{{the_member.name}}" name="member_name">
+                <label for="membernameinput" class="control-label">{% trans %}Full Name{% endtrans %}</label>
+                <input type="text" class="form-control" id="membernameinput" placeholder="{% trans %}(required){% endtrans %}" value="{{the_member.name}}" name="member_name">
             </div>
         </div>
         <div class="row">
             <div class="form-group col-md-5 col-md-offset-2">
-                <label for="membernameinput" class="control-label">Nickname</label>
-                <input type="text" class="form-control" id="membernicknameinput" placeholder="call me..." value="{% if the_member.nickname %}{{the_member.nickname}}{% endif %}" name="member_nickname">
+                <label for="membernameinput" class="control-label">{% trans %}Nickname{% endtrans %}</label>
+                <input type="text" class="form-control" id="membernicknameinput" placeholder="{% trans %}call me...{% endtrans %}" value="{% if the_member.nickname %}{{the_member.nickname}}{% endif %}" name="member_nickname">
             </div>
         </div>
         <div class="row">
             <div class="form-group col-md-5 col-md-offset-2">
-                <label for="memberemailinput" class="control-label">Password</label>
+                <label for="memberemailinput" class="control-label">{% trans %}Password{% endtrans %}</label>
                 <input type="password" class="form-control" id="member_password1" name="member_password1">
             </div>
         </div>
         <div class="row">
             <div class="form-group col-md-5 col-md-offset-2">
-                <label for="memberemailinput" class="control-label">Password (again!)</label>
+                <label for="memberemailinput" class="control-label">{% trans %}Password (again!){% endtrans %}</label>
                 <input type="password" class="form-control" id="member_password2" name="member_password2">
             </div>
         </div>
         <div class="row">
             <div class="form-group col-md-5 col-md-offset-2">
-                <label for="memberemailinput" class="control-label">Email</label>
-                <input type="email" class="form-control" id="memberemailnput" placeholder="(required)" value="{{the_member.email_address}}" name="member_email">
+                <label for="memberemailinput" class="control-label">{% trans %}Email{% endtrans %}</label>
+                <input type="email" class="form-control" id="memberemailnput" placeholder="{% trans %}(required){% endtrans %}" value="{{the_member.email_address}}" name="member_email">
             </div>
         </div>
         <div class="row">
             <div class="form-group col-md-5 col-md-offset-2">
-                <label for="memberphoneinput" class="control-label">Phone</label>
-                <input type="text" class="form-control" id="memberphonenput" placeholder="ring ring" value="{{the_member.phone}}" name="member_phone">
+                <label for="memberphoneinput" class="control-label">{% trans %}Phone{% endtrans %}</label>
+                <input type="text" class="form-control" id="memberphonenput" placeholder="{% trans %}ring ring{% endtrans %}" value="{{the_member.phone}}" name="member_phone">
             </div>
         </div>
         <div class="row">
             <div class="form-group col-md-5 col-md-offset-2">
-                <label for="memberstatementinput" class="control-label">Statement</label>
-                <input type="text" class="form-control" id="memberstatementinput" placeholder="I have naturally curly hair and enjoy long walks on the beach." value="{{the_member.statement}}" name="member_statement">
+                <label for="memberstatementinput" class="control-label">{% trans %}Statement{% endtrans %}</label>
+                <input type="text" class="form-control" id="memberstatementinput" placeholder="{% trans %}I have naturally curly hair and enjoy long walks on the beach.{% endtrans %}" value="{{the_member.statement}}" name="member_statement">
             </div>
         </div>
         <div class="row">
             <div class="form-group col-md-5 col-md-offset-2">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <strong>Preferences</strong>
+                        <strong>{% trans %}Preferences{% endtrans %}</strong>
                     </div>
                     <div class="panel-body">
                         <label class="checkbox">  
@@ -61,17 +61,17 @@
                             {% if the_member.preferences.email_new_gig %}
                                 checked
                             {% endif %}
-                            >Email me every time a gig is added  
+                            >{% trans %}Email me every time a gig is added{% endtrans %}  
                         </label>  
                         <label class="checkbox">  
                             <input type="checkbox" id="memberprefhidecanceledgigs" name="member_prefhidecanceledgigs"
                             {% if the_member.preferences.hide_canceled_gigs %}
                                 checked
                             {% endif %}
-                            >Hide canceled gigs on my agenda page  
+                            >{% trans %}Hide canceled gigs on my agenda page{% endtrans %}  
                         </label>  
-                        <label for="memberpreflocale" class="control-label">Locale</label>
-                        <input type="text" class="form-control" id="memberpreflocale" placeholder="ring ring" value="{{the_member.preferences.locale}}" name="member_preflocale">
+                        <label for="memberpreflocale" class="control-label">{% trans %}Locale{% endtrans %}</label>
+                        <input type="text" class="form-control" id="memberpreflocale" placeholder="{% trans %}ring ring{% endtrans %}" value="{{the_member.preferences.locale}}" name="member_preflocale">
                     </div>
                 </div>  
             </div>
@@ -79,14 +79,14 @@
         <div class="row">
             {% if the_user_is_superuser %}
                 <div class="form-group col-md-2 col-md-offset-2">
-                    <a data-toggle="modal" href="#deleteModal" class="btn btn-default">Delete</a>
+                    <a data-toggle="modal" href="#deleteModal" class="btn btn-default">{% trans %}Delete{% endtrans %}</a>
                 </div>        
                 <div class="form-group col-md-3 text-right">
             {% else %}
                 <div class="form-group col-md-5 col-md-offset-2 text-right">
             {% endif %}
-                <a class="btn btn-default" href="{{the_cancel_url}}">Cancel</a>
-                <button type="submit" class="btn btn-primary">Save</button>
+                <a class="btn btn-default" href="{{the_cancel_url}}">{% trans %}Cancel{% endtrans %}</a>
+                <button type="submit" class="btn btn-primary">{% trans %}Save{% endtrans %}</button>
             </div>
         </div>            
     {% if the_member==None %}
@@ -104,15 +104,15 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title">Confirm Delete</h4>
+                        <h4 class="modal-title">{% trans %}Confirm Delete{% endtrans %}</h4>
                     </div>
                     <div class="modal-body">
-                        Do you really want to delete this member?
+                        {% trans %}Do you really want to delete this member?{% endtrans %}
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Don't Delete</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">{% trans %}Don't Delete{% endtrans %}</button>
                         {% if the_member %}
-                            <a class="btn btn-primary" id="opener" href="/member_delete?mk={{the_member.key.urlsafe()}}">Delete</a>
+                            <a class="btn btn-primary" id="opener" href="/member_delete?mk={{the_member.key.urlsafe()}}">{% trans %}Delete{% endtrans %}</a>
                         {% endif %}
                     </div>
                 </div><!-- /.modal-content -->
@@ -142,7 +142,9 @@ $(document).ready(function() {
         },
         messages: {
             member_email: {
-                remote: "email already in use"
+                remote: "{% trans %}email already in use{% endtrans %}",
+                required: "{% trans %}This field is required!{% endtrans %}",
+                email: "{% trans %}Please enter a valid email address!{% endtrans %}"
             }
         }
     });
