@@ -56,6 +56,7 @@ class MainPage(BaseHandler):
                 info_block['the_gig_key'] = a_gig.key
                 info_block['the_plan_key'] = the_plan.key
                 info_block['the_member_key'] = the_user.key
+                info_block['the_date_str'] = member.format_date_for_member(the_user, a_gig.date, "short")
                 a_band_key = a_gig.key.parent()
                 a_band = None
                 for test_band_key in the_band_keys:

@@ -309,9 +309,17 @@ class InfoPage(BaseHandler):
             # is the current user a band admin?
             user_is_band_admin = assoc.get_admin_status_for_member_for_band_key(the_user, the_band_key)
 
+            datestr = member.format_date_for_member(the_user, the_gig.date, format="long")
+            if the_gig.enddate:
+                enddatestr = ' - {0}'.format(member.format_date_for_member(the_gig.enddate, the_user, format="long"))
+            else:
+                enddatestr = ''
+
             template_args = {
                 'title' : 'Gig Info',
                 'gig' : the_gig,
+                'date_str' : datestr,
+                'enddate_str' : enddatestr,
                 'the_plans' : the_plans,
                 'the_sections' : the_sections,
                 'comment_text' : the_comment_text,

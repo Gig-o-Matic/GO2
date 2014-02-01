@@ -92,6 +92,7 @@ class BaseHandler(webapp2.RequestHandler):
     
         if self.user:
             if self.user.preferences.locale:
+                print '\n\n'+self.user.preferences.locale+'\n\n'
                 i18n.get_i18n().set_locale(self.user.preferences.locale)
             else:
                 i18n.get_i18n().set_locale('en')

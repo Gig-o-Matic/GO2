@@ -23,6 +23,7 @@ import login
 import datetime
 
 import logging
+from babel.dates import format_date, format_datetime, format_time
 
 import json
 from debug import debug_print
@@ -187,7 +188,17 @@ def set_seen_welcome_for_member_key(the_member_key):
     the_member.seen_welcome = True
     the_member.put()
 
-
+def format_date_for_member(the_user, the_date, format="short"):
+    the_locale='en'
+    if the_user.preferences and the_user.preferences.locale:
+        the_locale=the_user.preferences.locale
+    if format=='short':
+        the_str='{0} {1}'.format(format_date(the_date,locale=the_locale,format="short"),
+                          format_date(the_date,locale=the_locale,format="EEE"))
+    else:
+        the_str='{0}'.format(format_date(the_date,locale=the_locale,format="full"))
+    return the_str
+        
 #####
 #
 # Page Handlers
