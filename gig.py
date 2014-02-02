@@ -381,7 +381,8 @@ class EditPage(BaseHandler):
                 'gig' : the_gig,
                 'all_bands' : all_bands,
                 'user_is_band_admin': user_is_band_admin,
-                'newgig_is_active' : is_new
+                'newgig_is_active' : is_new,
+                'the_date_formatter' : member.format_date_for_member
             }
             self.render_template('gig_edit.html', template_args)
         

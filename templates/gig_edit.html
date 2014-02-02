@@ -66,7 +66,7 @@
             <div class="form-group col-md-2 col-md-offset-2 col-sm-4 col-xs-4">
                 <label for="gigdateinput" class="control-label">{% trans %}Date{% endtrans %}</label>
                 <input type="text" class="datepicker form-control" id="gigdateinput" name="gig_date" placeholder="(required)" 
-                {% if gig != None %} value="{{gig.date.strftime('%-m/%-d/%Y')}}" {% endif %}
+                {% if gig != None %} value="{{ the_date_formatter(the_user, gig.date, 'short')}}" {% endif %}
                 name="gig_date">
             </div>
             <div class="form-group col-md-2 col-sm-4 col-xs-4">
@@ -205,7 +205,8 @@
 <script>
 $(document).ready(function () {
     $('#gigdateinput').datepicker({
-                format: 'm/d/yyyy'
+                language: '{{ the_user.preferences.locale }}'
+//                 format: 'm/d/yyyy'
             });
     $('#gigdateinput')
       .on('changeDate', function(ev){
