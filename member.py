@@ -21,6 +21,7 @@ import goemail
 import assoc
 import login
 import datetime
+import lang
 
 import logging
 from babel.dates import format_date, format_datetime, format_time
@@ -279,7 +280,8 @@ class EditPage(BaseHandler):
             'title' : 'Edit Profile',
             'the_member' : the_member,
             'member_is_me' : the_user == the_member,
-            'the_cancel_url' : the_cancel_url
+            'the_cancel_url' : the_cancel_url,
+            'lang' : lang
         }
         self.render_template('member_edit.html', template_args)
                     
