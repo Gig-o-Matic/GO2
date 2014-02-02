@@ -3,19 +3,19 @@
         <div class="col-md-3 col-sm-3 col-xs-3">
             <a href='/member_info.html?mk={{the_assoc['member_key'].urlsafe()}}'>{{ the_assoc['name'] }}</a>
             {% if the_assoc['is_band_admin']==True %}
-            (admin)
+            {% trans %}(admin){% endtrans %}
             {% endif %}
         </div>
         {% if the_assoc['member_key']!=the_user.key %}
             <div class="col-md-2 col-sm-2 col-xs-2">
                 {% if the_assoc['is_band_admin']==False %}
-                    <a class="btn btn-default btn-sm" href="/band_makeadmin?do=1&mk={{the_assoc['member_key'].urlsafe()}}&bk={{the_band_key.urlsafe()}}">grant admin</a>
+                    <a class="btn btn-default btn-sm" href="/band_makeadmin?do=1&mk={{the_assoc['member_key'].urlsafe()}}&bk={{the_band_key.urlsafe()}}">{% trans %}grant admin{% endtrans %}</a>
                 {% elif the_assoc['is_band_admin']==True %}
-                    <a class="btn btn-default btn-sm" href="/band_makeadmin?do=0&mk={{the_assoc['member_key'].urlsafe()}}&bk={{the_band_key.urlsafe()}}">revoke!</a>
+                    <a class="btn btn-default btn-sm" href="/band_makeadmin?do=0&mk={{the_assoc['member_key'].urlsafe()}}&bk={{the_band_key.urlsafe()}}">{% trans %}revoke!{% endtrans %}</a>
                 {% endif %}
             </div>
             <div class="col-md-3">
-                <a class="btn btn-default btn-sm" href="/band_removemember?mk={{the_assoc['member_key'].urlsafe()}}&bk={{the_band_key.urlsafe()}}">remove from band</a>
+                <a class="btn btn-default btn-sm" href="/band_removemember?mk={{the_assoc['member_key'].urlsafe()}}&bk={{the_band_key.urlsafe()}}">{% trans %}remove from band{% endtrans %}</a>
             </div>
         {% else %}
             <div class="col-md-5 col-sm-5 col-xs-5">
@@ -25,7 +25,7 @@
                     <div class="dropdown">
                         <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
                             {% if the_assoc['section'] == None %}
-                                section...  <span class="caret"></span>
+                                {% trans %}section{% endtrans %}...  <span class="caret"></span>
                             {% else %}
                                 {{ the_assoc['section'] }} <span class="caret"></span>
                             {% endif %}
@@ -42,7 +42,7 @@
                 {% if the_assoc['is_multisectional'] %}
                     checked
                 {% endif %}
-                > +others
+                > +{% trans %}others{% endtrans %}
             </div>
     </div>
 {% endfor %}

@@ -12,37 +12,37 @@
     {% set the_band_key = gig.key.parent() %}
     <div class="row">
         <div class="page-header col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0">
-            <h2>Gig Info</h1>
+            <h2>{% trans %}Gig Info{% endtrans %}</h1>
         </div>
     </div>
     <div class="row">
         <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <strong>Info</strong>
+                    <strong>{% trans %}Info{% endtrans %}</strong>
                 </div>
                 <div class="panel-body">
                     <div class="row">
-                        <div class="col-md-2 col-sm-2 col-xs-3">Gig</div>
+                        <div class="col-md-2 col-sm-2 col-xs-3">{% trans %}Gig{% endtrans %}</div>
                         <div class="col-md-10 col-sm-10 col-xs-9"><strong>{{ gig.title|e }}</strong></div>
                     </div>                    
                     <div class="row">
                         <div class="col-md-10 col-md-offset-2 col-sm-10 col-sm-offset-2 col-xs-9 col-xs-offset-2 ">
                             {% if gig.status==1 %}
-                                <i class="fa fa-check-circle" style="color:green"></i> Confirmed!
+                                <i class="fa fa-check-circle" style="color:green"></i> {% trans %}Confirmed!{% endtrans %}
                             {% elif gig.status==2 %}
-                                <i class="fa fa-times-circle" style="color:red"></i> <strong>Cancelled!</strong>
+                                <i class="fa fa-times-circle" style="color:red"></i> <strong>{% trans %}Cancelled!{% endtrans %}</strong>
                             {% elif gig.status==3 %}
-                                <i class="fa fa-question-circle" style="color:orange"></i> <strong>Opinion?</strong>
+                                <i class="fa fa-question-circle" style="color:orange"></i> <strong>{% trans %}Opinion?{% endtrans %}</strong>
                             {% endif %}
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-2 col-sm-2 col-xs-3">Band</div>
+                        <div class="col-md-2 col-sm-2 col-xs-3">{% trans %}Band{% endtrans %}</div>
                         <div class="col-md-10 col-sm-10 col-xs-9"><a href="band_info.html?bk={{the_band_key.urlsafe()}}">{{ the_band_key.get().name }}</a></div>
                     </div>
                     <div class="row">
-                        <div class="col-md-2 col-sm-2 col-xs-3">Contact</div>
+                        <div class="col-md-2 col-sm-2 col-xs-3">{% trans %}Contact{% endtrans %}</div>
                         <div class="col-md-10 col-sm-10 col-xs-9">
                             {% if gig.contact %}
                                 <a href="/member_info.html?mk='{{gig.contact.urlsafe()}}'">{{ gig.contact.get().name }}</a>
@@ -56,7 +56,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-2"><i class="fa fa-clock-o"></i></div>
-                        <div class="col-md-2 col-sm-2 col-xs-3">Call: 
+                        <div class="col-md-2 col-sm-2 col-xs-3">{% trans %}Call Time{% endtrans %}: 
                         {% if gig.calltime %}
                             {{ gig.calltime }}
                         {% else %}
@@ -64,54 +64,54 @@
                         {% endif %}
                         </div>
                         {% if gig.settime %}
-                            <div class="col-md-offset-2 col-md-2 col-sm-2 col-xs-3">Set: {{ gig.settime }}</div>
+                            <div class="col-md-offset-2 col-md-2 col-sm-2 col-xs-3">{% trans %}Set Time{% endtrans %}: {{ gig.settime }}</div>
                         {% endif %}
                         {% if gig.endtime %}
-                            <div class="col-md-offset-2 col-md-2 col-sm-2 col-xs-3">End: {{ gig.endtime }}</div>
+                            <div class="col-md-offset-2 col-md-2 col-sm-2 col-xs-3">{% trans %}End Time{% endtrans %}: {{ gig.endtime }}</div>
                         {% endif %}
                     </div>
                     <div class="row">&nbsp;</div>
                     {% if gig.address %}
                         <div class="row">
-                            <div class="col-md-2 col-sm-2 col-xs-3">Address</div>
+                            <div class="col-md-2 col-sm-2 col-xs-3">{% trans %}Address{% endtrans %}</div>
                             <div class="col-md-10 col-sm-10 col-xs-9"><a href="http://maps.google.com?q={{gig.address | replace(' ','+')}}" target="new">{{ gig.address }}</a></div>
                         </div>
                         <div class="row">&nbsp;</div>
                     {% endif %}
                     {% if gig.dress %}
                         <div class="row">
-                            <div class="col-md-2 col-sm-2 col-xs-3">Dress Details</div>
+                            <div class="col-md-2 col-sm-2 col-xs-3">{% trans %}What to Wear{% endtrans %}</div>
                             <div class="col-md-10 col-sm-10 col-xs-9">{{ gig.dress }}</div>
                         </div>
                         <div class="row">&nbsp;</div>
                     {% endif %}
                     {% if gig.paid %}
                         <div class="row">
-                            <div class="col-md-2 col-sm-2 col-xs-3">Pay Deal</div>
+                            <div class="col-md-2 col-sm-2 col-xs-3">{% trans %}Pay Deal{% endtrans %}</div>
                             <div class="col-md-10 col-sm-10 col-xs-9">{{ gig.paid }}</div>
                         </div>
                         <div class="row">&nbsp;</div>
                     {% endif %}
                     {% if gig.leader %}
                         <div class="row">
-                            <div class="col-md-2 col-sm-2 col-xs-3">Leader</div>
+                            <div class="col-md-2 col-sm-2 col-xs-3">{% trans %}Leader{% endtrans %}</div>
                             <div class="col-md-10 col-sm-10 col-xs-9">{{ gig.leader }}</div>
                         </div>                    
                         <div class="row">&nbsp;</div>
                     {% endif %}
                     <div class="row">
-                        <div class="col-md-2 col-sm-2 col-xs-3">More Details</div>
+                        <div class="col-md-2 col-sm-2 col-xs-3">{% trans %}More Details{% endtrans %}</div>
                         <div class="col-md-10 col-sm-10 col-xs-9 trunc">{{ gig.details  | html_content | safe  }}</div>
                     </div>
                     <div class="row">&nbsp;</div>
                     <div class="row">
-                        <div class="col-md-2 col-sm-2 col-xs-3">Setlist{% if gig.setlist %} <a href="print_setlist?gk={{gig.key.urlsafe()}}" target="new"><i class="fa fa-print"></i></a>{% endif %}</div>
+                        <div class="col-md-2 col-sm-2 col-xs-3">{% trans %}Setlist{% endtrans %}{% if gig.setlist %} <a href="print_setlist?gk={{gig.key.urlsafe()}}" target="new"><i class="fa fa-print"></i></a>{% endif %}</div>
                         <div class="col-md-10 col-sm-10 col-xs-9">{{ gig.setlist  | html_content | safe }}</div>
                     </div>
                     <div class="row">
                         <br>
                         <div class="col-md-12">
-                            <a class="btn btn-primary btn-sm" href="gig_edit.html?gk={{ gig.key.urlsafe() }}">Edit</a>
+                            <a class="btn btn-primary btn-sm" href="gig_edit.html?gk={{ gig.key.urlsafe() }}">{% trans %}Edit{% endtrans %}</a>
                         </div>
                     </div>
                 </div>  <!-- panel body -->
@@ -120,7 +120,7 @@
             {% if gig.status != 2 %}
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <strong>Member Plans <a href="print_planlist?gk={{gig.key.urlsafe()}}" target="new"><i class="fa fa-print"></i></a></strong>
+                    <strong>{% trans %}Member Plans{% endtrans %} <a href="print_planlist?gk={{gig.key.urlsafe()}}" target="new"><i class="fa fa-print"></i></a></strong>
                 </div>
                 <div class="panel-body">
                     <div class="row">
@@ -133,7 +133,7 @@
                                             {% if the_section %}
                                                 {{the_section.name}}
                                             {% elif the_sections | length > 1 %}
-                                                No Section
+                                                {% trans %}No Section{% endtrans %}
                                             {% endif %}
                                         </div>
                                     {% endif %}
@@ -155,7 +155,7 @@
             {% endif %}
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <strong>Comments</strong>
+                    <strong>{% trans %}Comments{% endtrans %}</strong>
                 </div>
                 <div class="panel-body">
                     <div class="row">
@@ -163,17 +163,17 @@
                             {% if comment_text %}
                                 {{ comment_text | html_content | safe }}
                             {% else %}
-                                No Comments (yet...)
+                                {% trans %}No Comments (yet...){% endtrans %}
                             {% endif %}
                         </div>
                     </div>
                     <div class="row">&nbsp;</div>
                     <div class="row">
                         <div class="col-lg-10 col-md-10">
-                            <textarea class="form-control" id="commentinput" placeholder="say your piece!" name="comment_input" rows="2"></textarea>
+                            <textarea class="form-control" id="commentinput" placeholder="{% trans %}say your piece!{% endtrans %}" name="comment_input" rows="2"></textarea>
                         </div>
                         <div class="col-lg-2 col-md-2">
-                            <button type="button" class="btn btn-primary btn-sm" onclick="add_comment('{{gig.key.urlsafe()}}');">Say it!</button>
+                            <button type="button" class="btn btn-primary btn-sm" onclick="add_comment('{{gig.key.urlsafe()}}');">{% trans %}Say it!{% endtrans %}</button>
                         </div>
                     </div>                    
                 </div> <!-- panel body -->

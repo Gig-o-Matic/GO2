@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-02-01 18:42-0500\n"
+"POT-Creation-Date: 2014-02-01 19:05-0500\n"
 "PO-Revision-Date: 2014-02-01 18:13-0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: it <LL@li.org>\n"
@@ -46,11 +46,12 @@ msgstr "(it)"
 msgid "Nothing coming up!"
 msgstr "(it)"
 
-#: templates/agenda_plan_edit.html:109 templates/member_band_assocs.html:24
+#: templates/agenda_plan_edit.html:109 templates/band_members.html:28
+#: templates/member_band_assocs.html:24
 msgid "section"
 msgstr "(it)"
 
-#: templates/agenda_plan_edit.html:130
+#: templates/agenda_plan_edit.html:130 templates/gig_info.html:34
 msgid "Cancelled!"
 msgstr "(it)"
 
@@ -129,7 +130,8 @@ msgstr "(it)"
 msgid "a.k.a."
 msgstr "(it)"
 
-#: templates/band_info.html:17 templates/member_info.html:14
+#: templates/band_info.html:17 templates/gig_info.html:22
+#: templates/member_info.html:14
 msgid "Info"
 msgstr "(it)"
 
@@ -137,7 +139,8 @@ msgstr "(it)"
 msgid "A Band of Mystery..."
 msgstr "(it)"
 
-#: templates/band_info.html:46 templates/member_info.html:66
+#: templates/band_info.html:46 templates/gig_info.html:114
+#: templates/member_info.html:66
 msgid "Edit"
 msgstr "(it)"
 
@@ -177,7 +180,29 @@ msgstr "(it)"
 msgid "New Section"
 msgstr "(it)"
 
-#: templates/band_sections.html:9
+#: templates/band_members.html:6
+#, fuzzy
+msgid "(admin)"
+msgstr "(it)"
+
+#: templates/band_members.html:12
+#, fuzzy
+msgid "grant admin"
+msgstr "(it)"
+
+#: templates/band_members.html:14
+msgid "revoke!"
+msgstr "(it)"
+
+#: templates/band_members.html:18
+msgid "remove from band"
+msgstr "(it)"
+
+#: templates/band_members.html:45
+msgid "others"
+msgstr "(it)"
+
+#: templates/band_sections.html:9 templates/gig_info.html:136
 #, fuzzy
 msgid "No Section"
 msgstr "(it)"
@@ -185,6 +210,89 @@ msgstr "(it)"
 #: templates/band_sections.html:25
 #, fuzzy
 msgid "Delete Section"
+msgstr "(it)"
+
+#: templates/gig_info.html:15
+msgid "Gig Info"
+msgstr "(it)"
+
+#: templates/gig_info.html:26
+msgid "Gig"
+msgstr "(it)"
+
+#: templates/gig_info.html:32
+msgid "Confirmed!"
+msgstr "(it)"
+
+#: templates/gig_info.html:36
+msgid "Opinion?"
+msgstr "(it)"
+
+#: templates/gig_info.html:41
+#, fuzzy
+msgid "Band"
+msgstr "(it)"
+
+#: templates/gig_info.html:45
+msgid "Contact"
+msgstr "(it)"
+
+#: templates/gig_info.html:59
+#, fuzzy
+msgid "Call Time"
+msgstr "(it)"
+
+#: templates/gig_info.html:67
+msgid "Set Time"
+msgstr "(it)"
+
+#: templates/gig_info.html:70
+msgid "End Time"
+msgstr "(it)"
+
+#: templates/gig_info.html:76
+msgid "Address"
+msgstr "(it)"
+
+#: templates/gig_info.html:83
+msgid "What to Wear"
+msgstr "(it)"
+
+#: templates/gig_info.html:90
+msgid "Pay Deal"
+msgstr "(it)"
+
+#: templates/gig_info.html:97
+msgid "Leader"
+msgstr "(it)"
+
+#: templates/gig_info.html:103
+msgid "More Details"
+msgstr "(it)"
+
+#: templates/gig_info.html:108
+msgid "Setlist"
+msgstr "(it)"
+
+#: templates/gig_info.html:123
+#, fuzzy
+msgid "Member Plans"
+msgstr "(it)"
+
+#: templates/gig_info.html:158
+msgid "Comments"
+msgstr "(it)"
+
+#: templates/gig_info.html:166
+msgid "No Comments (yet...)"
+msgstr "(it)"
+
+#: templates/gig_info.html:173
+msgid "say your piece!"
+msgstr "(it)"
+
+#: templates/gig_info.html:176
+msgid "Say it!"
 msgstr "(it)"
 
 #: templates/member_band_assocs.html:14
