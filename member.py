@@ -194,10 +194,13 @@ def format_date_for_member(the_user, the_date, format="short"):
     if the_user.preferences and the_user.preferences.locale:
         the_locale=the_user.preferences.locale
     if format=='short':
-        the_str='{0} {1}'.format(format_date(the_date,locale=the_locale,format="short"),
-                          format_date(the_date,locale=the_locale,format="EEE"))
-    else:
+        the_str=u'{0}'.format(format_date(the_date,locale=the_locale,format="short"))
+    elif format=='long':
         the_str=u'{0}'.format(format_date(the_date,locale=the_locale,format="full"))
+    elif format=='month':
+        the_str=u'{0}'.format(format_date(the_date,locale=the_locale,format="MMMM y"))
+    elif format=='day':
+        the_str=u'{0}'.format(format_date(the_date,locale=the_locale,format="EEE"))
     return the_str
         
 #####

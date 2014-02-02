@@ -56,7 +56,6 @@ class MainPage(BaseHandler):
                 info_block['the_gig_key'] = a_gig.key
                 info_block['the_plan_key'] = the_plan.key
                 info_block['the_member_key'] = the_user.key
-                info_block['the_date_str'] = member.format_date_for_member(the_user, a_gig.date, "short")
                 a_band_key = a_gig.key.parent()
                 a_band = None
                 for test_band_key in the_band_keys:
@@ -87,6 +86,7 @@ class MainPage(BaseHandler):
             'weighin_plans' : weighin_plans,
             'show_band' : number_of_bands>1,
             'long_agenda' : the_user.show_long_agenda,
+            'the_date_formatter' : member.format_date_for_member,
             'agenda_is_active' : True
         }
         self.render_template('agenda.html', template_args)

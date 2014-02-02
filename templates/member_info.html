@@ -1,10 +1,10 @@
 {% extends 'go2base.html' %}
-
+{% from 'tf.html' import truefalse %}
 
 {% block content %}
     <div class="row">
         <div class="page-header col-md-8 col-md-offset-2">
-            <h2>Profile</h1>
+            <h2>{% trans %}Profile{% endtrans %}</h1>
         </div>
     </div>
     <div class="row">
@@ -53,12 +53,12 @@
                         <br>
                         <div class="row">
                             <div class="col-md-3 col-sm-3 col-xs-3">{% trans %}Email me for new gigs{% endtrans %}:</div>
-                            <div class="col-md-9 col-sm-9 col-xs-9">{{ the_member.preferences.email_new_gig }}</div>
+                            <div class="col-md-9 col-sm-9 col-xs-9">{{ truefalse(the_member.preferences.email_new_gig) }}</div>
                         </div>
                         <br>
                         <div class="row">
                             <div class="col-md-3 col-sm-3 col-xs-3">{% trans %}Hide canceled gigs{% endtrans %}:</div>
-                            <div class="col-md-9 col-sm-9 col-xs-9">{{ the_member.preferences.hide_canceled_gigs }}</div>
+                            <div class="col-md-9 col-sm-9 col-xs-9">{{ truefalse(the_member.preferences.hide_canceled_gigs) }}</div>
                         </div>
                         <br>
                         <div class="row">

@@ -4,9 +4,9 @@
     <div class="row">
         <div class="page-header col-md-5 col-md-offset-2">
         {% if newgig_is_active %}
-            <h2>New Gig</h1>
+            <h2>{% trans %}New Gig{% endtrans %}</h1>
         {% else %}
-            <h2>Gig Info</h1>
+            <h2>{% trans %}Gig Info{% endtrans %}</h1>
         {% endif %}
         </div>
     </div>
@@ -15,7 +15,7 @@
             <div class="row">
                 <div class="form-group col-md-3 col-md-offset-2">
                     {% if newgig_is_active %}
-                        <label for="gigband" class="control-label">Band</label>
+                        <label for="gigband" class="control-label">{% trans %}Band{% endtrans %}</label>
                         <select id="gigband" class="form-control" name="gig_band" onChange="handleBandChange(this)">
                             {% for a_band in all_bands %}
                                 <option value="{{a_band.key.urlsafe()}}"
@@ -33,93 +33,93 @@
         {% endif %}
         <div class="row">
             <div class="form-group col-md-8 col-md-offset-2">
-                <label for="gigtitleinput" class="control-label">Gig Title</label>
+                <label for="gigtitleinput" class="control-label">{% trans %}Gig Title{% endtrans %}</label>
                 <input type="text" class="form-control" id="gigtitleinput" placeholder="(required)" value="{{gig.title}}" name="gig_title">
             </div>
         </div>
         <div class="row">
             <div class="form-group col-md-4 col-md-offset-2">
-                <label for="gigcontact" class="control-label">Contact</label>
+                <label for="gigcontact" class="control-label">{% trans %}Contact{% endtrans %}</label>
                 <select class="form-control" name="gig_contact" id="gig-contacts">
                 </select>
             </div>
             <div class="form-group col-md-2 col-sm-4 col-xs-4">
-                <label for="gigstatusinput" class="control-label">Status</label>
+                <label for="gigstatusinput" class="control-label">{% trans %}Status{% endtrans %}</label>
                     <select class="form-control" id="gigstatusinput" name="gig_status">
                         <option value="0"
                         {% if gig.status==1 %}selected{% endif %}
                         >??</option>
                         <option value="1"
                         {% if gig.status==1 %}selected{% endif %}
-                        >confirmed!</option>
+                        >{% trans %}Confirmed!{% endtrans %}</option>
                         <option value="2"
                         {% if gig.status==2 %}selected{% endif %}
-                        >cancelled</option>
+                        >{% trans %}Cancelled!{% endtrans %}</option>
                         <option value="3"
                         {% if gig.status==3 %}selected{% endif %}
-                        >opinion?</option>
+                        >{% trans %}Opinion?{% endtrans %}</option>
                     </select>
             </div>
              
         </div>
         <div class="row">
             <div class="form-group col-md-2 col-md-offset-2 col-sm-4 col-xs-4">
-                <label for="gigdateinput" class="control-label">Date</label>
+                <label for="gigdateinput" class="control-label">{% trans %}Date{% endtrans %}</label>
                 <input type="text" class="datepicker form-control" id="gigdateinput" name="gig_date" placeholder="(required)" 
                 {% if gig != None %} value="{{gig.date.strftime('%-m/%-d/%Y')}}" {% endif %}
                 name="gig_date">
             </div>
             <div class="form-group col-md-2 col-sm-4 col-xs-4">
-                <label for="gigenddateinput" class="control-label">End Date</label>
-                <input type="text" class="datepicker form-control" id="gigenddateinput" name="gig_enddate" placeholder="(if multi-day)" 
+                <label for="gigenddateinput" class="control-label">{% trans %}End Date{% endtrans %}</label>
+                <input type="text" class="datepicker form-control" id="gigenddateinput" name="gig_enddate" placeholder="({% trans %}if multi-day{% endtrans %})" 
                 {% if gig != None  and gig.enddate != None %} value="{{gig.enddate.strftime('%-m/%-d/%Y')}}" {% endif %}
                 name="gig_enddate">
             </div>
         </div>
         <div class="row">
             <div class="form-group col-md-2 col-md-offset-2 col-sm-4 col-xs-4">
-                <label for="gigcallinput" class="control-label">Call Time</label>
+                <label for="gigcallinput" class="control-label">{% trans %}Call Time{% endtrans %}</label>
                 <input type="text" class="form-control" id="gigcallinput" placeholder="4:20" value="{{gig.calltime}}" name="gig_call">
             </div>
             <div class="form-group col-md-2 col-sm-4 col-xs-4">
-                <label for="gigsetinput" class="control-label">Set Time</label>
+                <label for="gigsetinput" class="control-label">{% trans %}Set Time{% endtrans %}</label>
                 <input type="text" class="form-control" id="gigsetinput" placeholder="" value="{{gig.settime}}" name="gig_set">
             </div>
             <div class="form-group col-md-2 col-sm-4 col-xs-4">
-                <label for="gigendinput" class="control-label">End Time</label>
+                <label for="gigendinput" class="control-label">{% trans %}End Time{% endtrans %}</label>
                 <input type="text" class="form-control" id="gigendinput" placeholder="" value="{{gig.endtime}}" name="gig_end">
             </div>
         </div>
         <div class="row">
             <div class="form-group col-md-offset-2 col-md-4 col-sm-4 col-xs-4">
-                <label for="gigaddressinput" class="control-label">Address</label>
+                <label for="gigaddressinput" class="control-label">{% trans %}Address{% endtrans %}</label>
                 <input type="text" class="form-control" id="gigaddressinput" placeholder="Cloudcuckooland" value="{{gig.address}}" name="gig_address">
             </div>
             <div class="form-group col-md-2 col-sm-4 col-xs-4">
-                <label for="gigdressinput" class="control-label">Dress</label>
-                <input type="text" class="form-control" id="gigdressinput" placeholder="Pants Optional" value="{{gig.dress}}" name="gig_dress">
+                <label for="gigdressinput" class="control-label">{% trans %}What To Wear{% endtrans %}</label>
+                <input type="text" class="form-control" id="gigdressinput" placeholder="{% trans %}Pants Optional{% endtrans %}" value="{{gig.dress}}" name="gig_dress">
             </div>
             <div class="form-group col-md-2 col-sm-4 col-xs-4">
-                <label for="gigpaidinput" class="control-label">Pay Deal</label>
-                <input type="text" class="form-control" id="gigpaidinput" placeholder="As If" value="{{gig.paid}}" name="gig_paid">
+                <label for="gigpaidinput" class="control-label">{% trans %}Pay Deal{% endtrans %}</label>
+                <input type="text" class="form-control" id="gigpaidinput" placeholder="{% trans %}As If{% endtrans %}" value="{{gig.paid}}" name="gig_paid">
             </div>
         </div>
         <div class="row">
             <div class="form-group col-md-offset-2 col-md-4 col-sm-4 col-xs-4">
-                <label for="gigleaderinput" class="control-label">Leader</label>
+                <label for="gigleaderinput" class="control-label">{% trans %}Leader{% endtrans %}</label>
                 <input type="text" class="form-control" id="gigleaderinput" placeholder="Arthur Fiedler" value="{{gig.leader}}" name="gig_leader">
             </div>
         </div>
         <div class="row">
             <div class="form-group col-md-8 col-md-offset-2">
-                <label for="gigdetailsinput" class="control-label">More Details</label>
-                <textarea class="form-control" rows="10" id="gigdetailsinput" placeholder="who? what? where? when? why?" name="gig_details">{{gig.details}}</textarea>
+                <label for="gigdetailsinput" class="control-label">{% trans %}More Details{% endtrans %}</label>
+                <textarea class="form-control" rows="10" id="gigdetailsinput" placeholder="{% trans %}who? what? where? when? why?{% endtrans %}" name="gig_details">{{gig.details}}</textarea>
             </div>
         </div>            
         <div class="row">
             <div class="form-group col-md-8 col-md-offset-2">
-                <label for="gigsetlistinput" class="control-label">Setlist</label>
-                <textarea class="form-control" rows="10" id="gigsetlistinput" placeholder="setlist here" name="gig_setlist">{{gig.setlist}}</textarea>
+                <label for="gigsetlistinput" class="control-label">{% trans %}Setlist{% endtrans %}</label>
+                <textarea class="form-control" rows="10" id="gigsetlistinput" placeholder="{% trans %}setlist here{% endtrans %}" name="gig_setlist">{{gig.setlist}}</textarea>
             </div>
         </div>
         
@@ -128,7 +128,7 @@
                 <div class="form-group col-md-8 col-md-offset-2">
                     <label class="checkbox">  
                         <input type="checkbox" id="newgig_notifymembers" name="gig_notifymembers" checked
-                        >Email members about this new gig  
+                        >{% trans %}Email members about this new gig{% endtrans %}  
                     </label>  
                 </div>
             </div>
@@ -137,17 +137,17 @@
         <div class="row">
             <div class="form-group col-md-4 col-md-offset-2 col-sm-6 col-sm-offset-0 col-xs-6 col-xs-offset-0">
                 {% if gig!=None %}
-                    <a data-toggle="modal" href="#deleteModal" class="btn btn-default">Delete</a>
-                    <a data-toggle="modal" href="#archiveModal" class="btn btn-default">Archive</a>
+                    <a data-toggle="modal" href="#deleteModal" class="btn btn-default">{% trans %}Delete{% endtrans %}</a>
+                    <a data-toggle="modal" href="#archiveModal" class="btn btn-default">{% trans %}Archive{% endtrans %}</a>
                 {% endif %}   
             </div>
             <div class="form-group col-md-4 text-right">                
                     {% if gig==None %}
-                        <a class="btn btn-default" href="agenda.html">Cancel</a>
+                        <a class="btn btn-default" href="agenda.html">{% trans %}Cancel{% endtrans %}</a>
                     {% else %}
-                        <a class="btn btn-default" href="gig_info.html?gk={{ gig.key.urlsafe() }}">Cancel</a>
+                        <a class="btn btn-default" href="gig_info.html?gk={{ gig.key.urlsafe() }}">{% trans %}Cancel{% endtrans %}</a>
                     {% endif %}
-                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="submit" class="btn btn-primary">{% trans %}Save{% endtrans %}</button>
             </div>
         </div>
         {% if gig==None %}
@@ -164,15 +164,15 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Confirm Delete</h4>
+                    <h4 class="modal-title">{% trans %}Confirm Delete{% endtrans %}</h4>
                 </div>
                 <div class="modal-body">
-                    Do you really want to delete this gig?
+                    {% trans %}Do you really want to delete this gig?{% endtrans %}
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Don't Delete</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{% trans %}Don't Delete{% endtrans %}</button>
                     {% if gig %}
-                        <a class="btn btn-primary" id="opener" href="gig_delete?&gk={{ gig.key.urlsafe() }}">Delete</a>
+                        <a class="btn btn-primary" id="opener" href="gig_delete?&gk={{ gig.key.urlsafe() }}">{% trans %}Delete{% endtrans %}</a>
                     {% endif %}
                 </div>
             </div><!-- /.modal-content -->
@@ -184,15 +184,15 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Confirm archive</h4>
+                    <h4 class="modal-title">{% trans %}Confirm archive{% endtrans %}</h4>
                 </div>
                 <div class="modal-body">
-                    Do you really want to archive this gig?
+                    {% trans %}Do you really want to archive this gig?{% endtrans %}
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Don't Archive</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{% trans %}Don't Archive{% endtrans %}</button>
                     {% if gig %}
-                        <a class="btn btn-primary" id="opener" href="gig_archive?&gk={{ gig.key.urlsafe() }}">Archive</a>
+                        <a class="btn btn-primary" id="opener" href="gig_archive?&gk={{ gig.key.urlsafe() }}">{% trans %}Archive{% endtrans %}</a>
                     {% endif %}
                 </div>
             </div><!-- /.modal-content -->
@@ -272,7 +272,7 @@ function(value, element, params) {
 
     return isNaN(value) && isNaN($(params).val()) 
         || (Number(value) > Number($(params).val())); 
-},'Must be greater than start date!');
+},'{% trans %}Must be later than start date!{% endtrans %}');
 
 function updateContactList(bk) {
     $.post("/band_get_member_list",
@@ -301,7 +301,7 @@ function updateContactList(bk) {
                         }
                         $('#gig-contacts').html(inner);
                     if(statusTxt=="error")
-                      alert("Error: "+xhr.status+": "+xhr.statusText);
+                      alert("{% trans %}Error{% endtrans %}: "+xhr.status+": "+xhr.statusText);
                 });
 }
 

@@ -85,9 +85,10 @@ class MainPage(BaseHandler):
             'all_band_keys' : the_band_keys,
             'the_band_key' : the_band_key,
             'the_member_keys_by_section' : the_member_keys,
-            'the_month_string' : start_date.strftime("%b, %Y"),
+            'the_month_string' : member.format_date_for_member(the_user, start_date, 'month'),
             'the_month' : start_date.month,
             'the_year' : start_date.year,
+            'the_date_formatter' : member.format_date_for_member,
             'the_gigs' : the_gigs,
             'the_plans' : the_plans,
             'grid_is_active' : True

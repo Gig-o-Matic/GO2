@@ -3,7 +3,7 @@
 
 {% block content %}
 <div class="row">
-    <div class="page-header col-lg-8 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0"><h2>Grid o'Gigs</h2></div>
+    <div class="page-header col-lg-8 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0"><h2>{% trans %}Grid o'Gigs{% endtrans %}</h2></div>
 </div>
 <div class="row">
     <div class="col-lg-8 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0">
@@ -41,7 +41,7 @@
                 <td colspan=2 style="white-space: nowrap;">
                 </td>
                 {% for gig in the_gigs %}
-                    <td align="middle">{{ gig.date.strftime('%-m/%-d/%Y') }}<br>({{ gig.date.strftime('%a') }})</td>
+                    <td align="middle">{{ the_date_formatter(the_user,gig.date,'short') }}<br>({{ the_date_formatter(the_user,gig.date,'day') }})</td>
                 {% endfor %}
                 <td width="100%"></td>
             </tr>
@@ -68,7 +68,7 @@
                                 {% if section[0] %}
                                     {{ section[0].get().name }}
                                 {% else %}
-                                    No Section
+                                    {% trans %}No Section{% endtrans %}
                                 {% endif %}
                             </td>
                         {% endif %}
