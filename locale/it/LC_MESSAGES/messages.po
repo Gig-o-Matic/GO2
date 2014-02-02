@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-02-01 22:07-0500\n"
+"POT-Creation-Date: 2014-02-01 22:18-0500\n"
 "PO-Revision-Date: 2014-02-01 18:13-0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: it <LL@li.org>\n"
@@ -205,6 +205,7 @@ msgid "others"
 msgstr "(it)"
 
 #: templates/band_sections.html:9 templates/gig_info.html:136
+#: templates/grid.html:71
 #, fuzzy
 msgid "No Section"
 msgstr "(it)"
@@ -392,6 +393,10 @@ msgstr "(it)"
 
 #: templates/gig_info.html:176
 msgid "Say it!"
+msgstr "(it)"
+
+#: templates/go2base.html:78
+msgid "Who made this thing?"
 msgstr "(it)"
 
 #: templates/grid.html:6
