@@ -115,8 +115,6 @@ class BaseHandler(webapp2.RequestHandler):
             params['welcome'] = True
         if self.user is not None and not self.user.seen_motd:
             params['motd'] = motd_db.get_motd()
-#         template = je.get_template(filename)
-#         self.response.write(template.render(params))
         self.render_response(filename, params)
 
     def render_nouser_template(self, filename, params=None):
@@ -126,8 +124,6 @@ class BaseHandler(webapp2.RequestHandler):
         params['the_user'] = None
         params['the_user_has_bands'] = True # todo - figure this out
         params['the_user_is_superuser'] = False
-#         template = je.get_template(filename)
-#         self.response.write(template.render(params))
         self.render_response(filename, params)
 
     def display_message(self, message):
