@@ -34,7 +34,7 @@
         <div class="row">
             <div class="form-group col-md-8 col-md-offset-2">
                 <label for="gigtitleinput" class="control-label">{% trans %}Gig Title{% endtrans %}</label>
-                <input type="text" class="form-control" id="gigtitleinput" placeholder="(required)" value="{{gig.title}}" name="gig_title">
+                <input type="text" class="form-control" id="gigtitleinput" placeholder="({%trans%}required{%endtrans%})" value="{{gig.title}}" name="gig_title">
             </div>
         </div>
         <div class="row">
@@ -65,14 +65,14 @@
         <div class="row">
             <div class="form-group col-md-2 col-md-offset-2 col-sm-4 col-xs-4">
                 <label for="gigdateinput" class="control-label">{% trans %}Date{% endtrans %}</label>
-                <input type="text" class="datepicker form-control" id="gigdateinput" name="gig_date" placeholder="(required)" 
-                {% if gig != None %} value="{{ the_date_formatter(the_user, gig.date, 'short')}}" {% endif %}
+                <input type="text" class="datepicker form-control" id="gigdateinput" name="gig_date" placeholder="({%trans%}required{%endtrans%})" 
+                {% if gig != None %} value="{{ the_date_formatter(the_user, gig.date, 'datepicker')}}" {% endif %}
                 name="gig_date">
             </div>
             <div class="form-group col-md-2 col-sm-4 col-xs-4">
                 <label for="gigenddateinput" class="control-label">{% trans %}End Date{% endtrans %}</label>
                 <input type="text" class="datepicker form-control" id="gigenddateinput" name="gig_enddate" placeholder="({% trans %}if multi-day{% endtrans %})" 
-                {% if gig != None  and gig.enddate != None %} value="{{gig.enddate.strftime('%-m/%-d/%Y')}}" {% endif %}
+                {% if gig != None  and gig.enddate != None %} value="{{ the_date_formatter(the_user, gig.enddate, 'datepicker')}}" {% endif %}
                 name="gig_enddate">
             </div>
         </div>
@@ -201,12 +201,12 @@
 {% endblock modal %}
 {% block localscripts %}
 <script src="/datepicker/js/bootstrap-datepicker.js"></script>
+<script src="/datepicker/js/locales/bootstrap-datepicker.{{ the_user.preferences.locale }}.js"></script>
 <script src="/js/jquery.validate.js"></script>
 <script>
 $(document).ready(function () {
     $('#gigdateinput').datepicker({
                 language: '{{ the_user.preferences.locale }}'
-//                 format: 'm/d/yyyy'
             });
     $('#gigdateinput')
       .on('changeDate', function(ev){
@@ -214,7 +214,7 @@ $(document).ready(function () {
       });
       
     $('#gigenddateinput').datepicker({
-                format: 'm/d/yyyy'
+                language: '{{ the_user.preferences.locale }}'
             });
     $('#gigenddateinput')
       .on('changeDate', function(ev){

@@ -193,6 +193,7 @@ def format_date_for_member(the_user, the_date, format="short"):
     the_locale='en'
     if the_user.preferences and the_user.preferences.locale:
         the_locale=the_user.preferences.locale
+    the_str=''
     if format=='short':
         the_str=u'{0}'.format(format_date(the_date,locale=the_locale,format="short"))
     elif format=='long':
@@ -201,6 +202,10 @@ def format_date_for_member(the_user, the_date, format="short"):
         the_str=u'{0}'.format(format_date(the_date,locale=the_locale,format="MMMM y"))
     elif format=='day':
         the_str=u'{0}'.format(format_date(the_date,locale=the_locale,format="EEE"))
+    elif format=='datepicker':
+        # here we want the short format but replace the year with the complete year
+        tmpstr=format_date(the_date,locale=the_locale,format="short")[:-2]
+        the_str=tmpstr+str(the_date.year)
     return the_str
         
 #####

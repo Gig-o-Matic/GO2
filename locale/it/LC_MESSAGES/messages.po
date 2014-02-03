@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-02-01 22:18-0500\n"
+"POT-Creation-Date: 2014-02-02 17:42-0500\n"
 "PO-Revision-Date: 2014-02-01 18:13-0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: it <LL@li.org>\n"
@@ -232,6 +232,11 @@ msgstr "(it)"
 msgid "Gig Title"
 msgstr "(it)"
 
+#: templates/gig_edit.html:37
+#, fuzzy
+msgid "required"
+msgstr "(it)"
+
 #: templates/gig_edit.html:42 templates/gig_info.html:45
 msgid "Contact"
 msgstr "(it)"
@@ -358,11 +363,11 @@ msgstr "(it)"
 msgid "Don't Archive"
 msgstr "(it)"
 
-#: templates/gig_edit.html:275
+#: templates/gig_edit.html:276
 msgid "Must be later than start date!"
 msgstr "(it)"
 
-#: templates/gig_edit.html:304
+#: templates/gig_edit.html:305
 msgid "Error"
 msgstr "(it)"
 

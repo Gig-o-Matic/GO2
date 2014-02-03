@@ -25,6 +25,7 @@ import jinja2ext
 import logging
 
 import datetime
+import babel
 
 #
 # class for gig
@@ -311,7 +312,7 @@ class InfoPage(BaseHandler):
 
             datestr = member.format_date_for_member(the_user, the_gig.date, format="long")
             if the_gig.enddate:
-                enddatestr = ' - {0}'.format(member.format_date_for_member(the_gig.enddate, the_user, format="long"))
+                enddatestr = u' - {0}'.format(member.format_date_for_member(the_user, the_gig.enddate, format="long"))
             else:
                 enddatestr = ''
 
@@ -427,14 +428,16 @@ class EditPage(BaseHandler):
 
         gig_date = self.request.get("gig_date", None)
         if gig_date is not None and gig_date != '':
-            the_gig.date = datetime.datetime.strptime(gig_date, \
-                                                      '%m/%d/%Y').date()
+#             the_gig.date = datetime.datetime.strptime(gig_date, \
+#                                                       '%m/%d/%Y').date()
+            the_gig.date = babel.dates.parse_date(gig_date,locale=self.user.preferences.locale)
         # todo validate form entry so date isn't bogus
        
         gig_enddate = self.request.get("gig_enddate", None)
         if gig_enddate is not None and gig_enddate != '':
-            the_gig.enddate = datetime.datetime.strptime(gig_enddate, \
-                                                      '%m/%d/%Y').date()
+#             the_gig.enddate = datetime.datetime.strptime(gig_enddate, \
+#                                                       '%m/%d/%Y').date()
+            the_gig.enddate = babel.dates.parse_date(gig_enddate,locale=self.user.preferences.locale)
         else:
             the_gig.enddate = None
 
