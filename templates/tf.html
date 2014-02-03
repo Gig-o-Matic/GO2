@@ -1,0 +1,7 @@
+{% macro truefalse(value) -%}
+{% if value %}
+    {% trans %}True{% endtrans %}
+{% else %}
+    {% trans %}False{% endtrans %}
+{% endif %}
+{%- endmacro %}
