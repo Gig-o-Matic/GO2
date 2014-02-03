@@ -15,6 +15,7 @@ import assoc
 import gig
 import band
 
+import logging
 import json
 
 def stats_key(member_name='stats_key'):
@@ -41,9 +42,11 @@ def make_band_stats(the_band_key):
 
     all_member_keys = assoc.get_member_keys_of_band_key(the_band_key)
     the_stats.number_members = len(all_member_keys)
+    logging.info("band {0} stats: {1} members".format(the_band_key.id(), the_stats.number_members))
     
     all_gigs = gig.get_gigs_for_band_keys(the_band_key, keys_only=True)
     the_stats.number_upcoming_gigs = len(all_gigs)
+    logging.info("band {0} stats: {1} upcoming gigs".format(the_band_key.id(), the_stats.number_upcoming_gigs))
     
     today_gigs = gig.get_gigs_for_creation_date(the_band_key, the_stats.date)
     the_stats.number_gigs_created_today = len(today_gigs)
