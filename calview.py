@@ -33,9 +33,17 @@ class CalEvents(BaseHandler):
 
     def post(self):    
         the_user = self.user
+
+        print '\n\n'
+        print self.request.get('start')
+        print '\n\n'
         
-        start_date=datetime.datetime.fromtimestamp(int(self.request.get('start')))
-        end_date=datetime.datetime.fromtimestamp(int(self.request.get('end')))
+#         start_date=datetime.datetime.fromtimestamp(int(self.request.get('start')))
+#         end_date=datetime.datetime.fromtimestamp(int(self.request.get('end')))
+
+        start_date=datetime.datetime.strptime( self.request.get('start'), "%Y-%m-%d" )
+        end_date=datetime.datetime.strptime( self.request.get('end'), "%Y-%m-%d" )+datetime.timedelta(days=1)
+
         the_member_key=self.request.get('mk',0)
         
         if the_member_key==0:
@@ -69,7 +77,7 @@ class CalEvents(BaseHandler):
             events.append({
                             'title':the_title,
                             'start':str(a_gig.date),
-                            'end': str(a_gig.enddate) if a_gig.enddate else None,
+                            'end': str(a_gig.enddate+datetime.timedelta(days=1)) if a_gig.enddate else None,
                             'url':'/gig_info.html?gk={0}'.format(a_gig.key.urlsafe()),
                             'color':colors[cindex]
                             })

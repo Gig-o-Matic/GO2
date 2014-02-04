@@ -10,7 +10,9 @@
 {% endblock content %}
 
 {% block localscripts %}
+    <script src='/js/moment.min.js'></script>
     <script src='/fullcalendar/fullcalendar.min.js'></script>
+    <script src='/fullcalendar/lang/{{the_user.preferences.locale}}.js'></script>
     <script>
     $(document).ready(function() {
         // page is now ready, initialize the calendar...
