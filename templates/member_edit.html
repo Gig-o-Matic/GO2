@@ -70,6 +70,7 @@
                             {% endif %}
                             >{% trans %}Hide canceled gigs on my agenda page{% endtrans %}  
                         </label>  
+{% if true %}
                         <label for="memberpreflocale" class="control-label">{% trans %}Language{% endtrans %}</label>
                             <select class="form-control" id="memberpreflocale" name="member_preflocale">
                                 {% for locale in lang.LOCALES %}
@@ -78,7 +79,7 @@
                                 >{{locale[1]}}</option>
                                 {% endfor %}
                             </select>
-                        
+{% endif %}                        
                     </div>
                 </div>  
             </div>

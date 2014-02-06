@@ -26,13 +26,13 @@
         <i class="fa fa-spinner fa-spin fa-lg"></i>
     </button>
     <ul class="dropdown-menu" role="menu">
-        <li role="presentation"><a onclick="update_plan('{{plan.key.urlsafe()}}','1')">{{ icon(1) }} Definitely</a></li>
-        <li role="presentation"><a onclick="update_plan('{{plan.key.urlsafe()}}','2')">{{ icon(2) }} Probably</a></li>
-        <li role="presentation"><a onclick="update_plan('{{plan.key.urlsafe()}}','3')">{{ icon(3) }} Don't Know</a></li>
-        <li role="presentation"><a onclick="update_plan('{{plan.key.urlsafe()}}','4')">{{ icon(4) }} Probably Not</a></li>
-        <li role="presentation"><a onclick="update_plan('{{plan.key.urlsafe()}}','5')">{{ icon(5) }} Can't Do It</a></li>
+        <li role="presentation"><a onclick="update_plan('{{plan.key.urlsafe()}}','1')">{{ icon(1) }} {% trans %}Definitely{% endtrans %}</a></li>
+        <li role="presentation"><a onclick="update_plan('{{plan.key.urlsafe()}}','2')">{{ icon(2) }} {% trans %}Probably{% endtrans %}</a></li>
+        <li role="presentation"><a onclick="update_plan('{{plan.key.urlsafe()}}','3')">{{ icon(3) }} {% trans %}Don't Know{% endtrans %}</a></li>
+        <li role="presentation"><a onclick="update_plan('{{plan.key.urlsafe()}}','4')">{{ icon(4) }} {% trans %}Probably Not{% endtrans %}</a></li>
+        <li role="presentation"><a onclick="update_plan('{{plan.key.urlsafe()}}','5')">{{ icon(5) }} {% trans %}Can't Do It{% endtrans %}</a></li>
         <li role="presentation" class="divider"></li>
-        <li role="presentation"><a onclick="update_plan('{{plan.key.urlsafe()}}','6')">{{ icon(6) }} Not Interested</a></li>
+        <li role="presentation"><a onclick="update_plan('{{plan.key.urlsafe()}}','6')">{{ icon(6) }} {% trans %}Not Interested{% endtrans %}</a></li>
     </ul>
 </div>
 {%- endmacro %}
