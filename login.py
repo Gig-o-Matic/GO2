@@ -299,12 +299,16 @@ class ForgotPasswordHandler(BaseHandler):
 class CheckEmail(BaseHandler):
 
     def post(self):
-        test_email = self.request.get('member_email')
-        email_ok = 'true'
-        if test_email != self.user.email_address:
-            if self.user_model.get_by_auth_id(test_email):
-                email_ok = 'false'
-        self.response.write(email_ok)
+        if self.user.is_superuser:
+            logging.info("superuser overriding email check")        
+            self.response.write('true')
+        else:
+            test_email = self.request.get('member_email')
+            email_ok = 'true'
+            if test_email != self.user.email_address:
+                if self.user_model.get_by_auth_id(test_email):
+                    email_ok = 'false'
+            self.response.write(email_ok)
         
 
 
