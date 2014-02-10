@@ -1,4 +1,4 @@
-# Italian translations for PROJECT.
+﻿# Italian translations for PROJECT.
 # Copyright (C) 2014 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
@@ -20,19 +20,19 @@ msgstr ""
 
 #: templates/agenda.html:6 templates/navbar.html:17
 msgid "Schedule"
-msgstr "Agenda di"
+msgstr "Agenda"
 
 #: templates/agenda.html:14
 msgid "Future Gigs: Weigh In!"
-msgstr "Date future: Ci stai?"
+msgstr "Suonate in programma: Ci stai?"
 
 #: templates/agenda.html:34
 msgid "All Upcoming Gigs"
-msgstr "Tutte le prossime uscite"
+msgstr "Suonate in programma - hai risposto:"
 
 #: templates/agenda.html:36
 msgid "My Next Few Gigs"
-msgstr "Le mie prossime suonate"
+msgstr "Suonate imminenti - hai risposto:"
 
 #: templates/agenda.html:44
 msgid "show brief"
@@ -87,7 +87,7 @@ msgstr "Descrizione"
 
 #: templates/band_edit.html:28
 msgid "tell us a little about the band"
-msgstr "parlaci un poí della banda"
+msgstr "parlaci un po’ della banda"
 
 #: templates/band_edit.html:33 templates/band_info.html:36
 msgid "Website"
@@ -107,11 +107,11 @@ msgstr "Fuso orario"
 
 #: templates/band_edit.html:46
 msgid "UTC offset"
-msgstr "Differenza di fuso"
+msgstr "Differenza da GMT"
 
 #: templates/band_edit.html:56
 msgid "Let non-members see upcoming gigs"
-msgstr "Permetti anche ai non-membri di vedere prossime uscite"
+msgstr "Permetti ai non-membri di vedere suonate"
 
 #: templates/band_edit.html:64 templates/band_edit.html:66
 #: templates/band_info.html:180 templates/gig_edit.html:146
@@ -126,7 +126,7 @@ msgstr "Salva"
 
 #: templates/band_edit.html:92 templates/member_edit.html:154
 msgid "This field is required!"
-msgstr "Questo campo Ë obbligatorio!"
+msgstr "Questo campo è obbligatorio!"
 
 #: templates/band_info.html:8
 msgid "a.k.a."
@@ -148,13 +148,11 @@ msgstr "Modifica"
 
 #: templates/band_info.html:56
 msgid "Upcoming Gigs"
-msgstr "Prossime uscite"
+msgstr "Suonate in programma"
 
 #: templates/band_info.html:64
 msgid "Your membership is pending - ask a band member to confirm you!"
-msgstr ""
-"La tua iscrizione Ë in attesa di conferma ñ chiedi a un membro della "
-"banda!"
+msgstr "La tua iscrizione è in attesa di conferma - chiedi a un membro della banda!"
 
 #: templates/band_info.html:70
 msgid "Pending Members"
@@ -204,7 +202,7 @@ msgstr "elimina dalla banda"
 
 #: templates/band_members.html:45
 msgid "others"
-msgstr "altri"
+msgstr "altre"
 
 #: templates/band_sections.html:9 templates/gig_info.html:136
 #: templates/grid.html:71
@@ -265,7 +263,7 @@ msgstr "Data fine"
 
 #: templates/gig_edit.html:74
 msgid "if multi-day"
-msgstr "se di pi˘ giorni"
+msgstr "se di più giorni"
 
 #: templates/gig_edit.html:81 templates/gig_info.html:59
 #, fuzzy
@@ -299,11 +297,11 @@ msgstr "Quanto ci danno?"
 
 #: templates/gig_edit.html:104
 msgid "As If"
-msgstr "SÏ, vabbË"
+msgstr "Sì, vabbè"
 
 #: templates/gig_edit.html:109 templates/gig_info.html:97
 msgid "Leader"
-msgstr "Responsabil"
+msgstr "Responsabile"
 
 #: templates/gig_edit.html:115 templates/gig_info.html:103
 msgid "More Details"
@@ -311,7 +309,7 @@ msgstr "Maggiori dettagli"
 
 #: templates/gig_edit.html:116
 msgid "who? what? where? when? why?"
-msgstr "chi? cosa? dove? quando? perchÈ?"
+msgstr "chi? cosa? dove? quando? perché?"
 
 #: templates/gig_edit.html:121 templates/gig_info.html:108
 msgid "Setlist"
@@ -367,7 +365,7 @@ msgstr "Non archiviare"
 
 #: templates/gig_edit.html:276
 msgid "Must be later than start date!"
-msgstr "Devíessere dopo la data díinizio!"
+msgstr "Deve essere dopo la data di inizio!"
 
 #: templates/gig_edit.html:305
 msgid "Error"
@@ -396,15 +394,15 @@ msgstr "Nessun commento (per ora)"
 
 #: templates/gig_info.html:173
 msgid "say your piece!"
-msgstr "Dií la tua!"
+msgstr "Di’ la tua!"
 
 #: templates/gig_info.html:176
 msgid "Say it!"
-msgstr "Dillo!"
+msgstr "Pubblica"
 
 #: templates/go2base.html:78
 msgid "Who made this thing?"
-msgstr "Chi ha inventato questíarnese?"
+msgstr "Credits"
 
 #: templates/grid.html:6
 msgid "Grid o'Gigs"
@@ -490,7 +488,7 @@ msgstr "Segnalami via e-mail ogni nuova suonata aggiunta"
 #: templates/member_edit.html:71
 #, fuzzy
 msgid "Hide canceled gigs on my agenda page"
-msgstr "Nascondi le suonate annullate dalla mia agenda"
+msgstr "Nascondi suonate annullate dalla mia agenda"
 
 #: templates/member_edit.html:74
 msgid "Language"
@@ -503,7 +501,7 @@ msgstr "Vuoi veramente cancellare questo membro?"
 
 #: templates/member_edit.html:153
 msgid "email already in use"
-msgstr "e-mail gi‡ utilizzata"
+msgstr "e-mail già in uso"
 
 #: templates/member_edit.html:155
 msgid "Please enter a valid email address!"
@@ -545,7 +543,7 @@ msgstr "Non uscire"
 
 #: templates/member_info.html:106
 msgid "Yes, Leave"
-msgstr "SÏ, uscire"
+msgstr "Sì, uscire"
 
 #: templates/navbar.html:15
 msgid "Gigs"
@@ -597,31 +595,31 @@ msgstr "Navigabande"
 
 #: templates/plan_icon.html:29
 msgid "Definitely"
-msgstr ""
+msgstr "Sicuro"
 
 #: templates/plan_icon.html:30
 msgid "Probably"
-msgstr ""
+msgstr "Probabile sì"
 
 #: templates/plan_icon.html:31
 msgid "Don't Know"
-msgstr ""
+msgstr "Non so"
 
 #: templates/plan_icon.html:32
 msgid "Probably Not"
-msgstr ""
+msgstr "Probabile no"
 
 #: templates/plan_icon.html:33
 msgid "Can't Do It"
-msgstr ""
+msgstr "Non posso"
 
 #: templates/plan_icon.html:35
 msgid "Not Interested"
-msgstr ""
+msgstr "Non m'interessa"
 
 #: templates/tf.html:3
 msgid "True"
-msgstr "SÏ"
+msgstr "Sì"
 
 #: templates/tf.html:5
 msgid "False"
