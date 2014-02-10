@@ -109,8 +109,11 @@ def get_member_keys_of_band_key_by_section_key(the_band_key):
         for an_assoc in the_assocs:
             if an_assoc.default_section == a_section_key:
                 the_section_info.append(an_assoc.member)
-        if the_section_info:
-            the_info.append( [a_section_key, the_section_info] )
+# *** 
+# we always want to get the section, even if it's empty.
+#         if the_section_info: 
+        the_info.append( [a_section_key, the_section_info] )
+# *** 
 
     # now look for empty section
     the_section_info=[]
