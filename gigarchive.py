@@ -55,19 +55,19 @@ def make_archive_for_gig_key(the_gig_key):
                         the_section_name=''
                     else:
                         the_section_name='No Section'
-                the_archive_text = '{0}\n{1}'.format(the_archive_text,the_section_name)
+                the_archive_text = u'{0}\n{1}'.format(the_archive_text,the_section_name)
         
                 for member_plans in a_section[1]:
                     the_member = member_plans[0].get()
                     the_plan = member_plans[1]
-                    the_comment = '- {0}'.format(the_plan.comment) if the_plan.comment else ""
-                    the_nickname = ' ({0})'.format(the_member.nickname) if the_member.nickname else ''
-                    the_archive_text = '{0}\n\t{1}{2} - {3} {4}'.format(the_archive_text,
+                    the_comment = u'- {0}'.format(the_plan.comment) if the_plan.comment else ""
+                    the_nickname = u' ({0})'.format(the_member.nickname) if the_member.nickname else ''
+                    the_archive_text = u'{0}\n\t{1}{2} - {3} {4}'.format(the_archive_text,
                                                                    the_member.name,
                                                                    the_nickname,
                                                                    plan.plan_text[the_plan.value],
                                                                    the_comment)
-                the_archive_text = '{0}\n'.format(the_archive_text)
+                the_archive_text = u'{0}\n'.format(the_archive_text)
 
     # create a document
     my_document = search.Document(
