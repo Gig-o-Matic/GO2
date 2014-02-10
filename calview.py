@@ -33,10 +33,6 @@ class CalEvents(BaseHandler):
 
     def post(self):    
         the_user = self.user
-
-        print '\n\n'
-        print self.request.get('start')
-        print '\n\n'
         
 #         start_date=datetime.datetime.fromtimestamp(int(self.request.get('start')))
 #         end_date=datetime.datetime.fromtimestamp(int(self.request.get('end')))
