@@ -232,7 +232,7 @@ $(document).ready(function () {
                 return value.match(/^\d\d?\/\d\d?\/\d\d\d\d$/);
             }
         },
-        "Please enter a date in the format mm/dd/yyyy."
+        "{% trans %}Please enter a date in the format mm/dd/yyyy.{% endtrans %}"
     );
       
     $("#infoform").validate({
@@ -248,6 +248,17 @@ $(document).ready(function () {
                 gigoDate: true,
                 greaterThan: "#gigdateinput"
             }
+        },
+        messages: {
+            gig_title: {
+                required: "{% trans %}This field is required!{% endtrans %}"                
+            },            
+            gig_date: {
+                required: "{% trans %}This field is required!{% endtrans %}"                
+            },            
+            gig_enddate: {
+                required: "{% trans %}This field is required!{% endtrans %}"                
+            }            
         }
     });
 

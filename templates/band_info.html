@@ -327,6 +327,11 @@ $(document).ready(function() {
                 required: true
             }
         },
+        messages: {
+            new_section: {
+                required: "{% trans %}This field is required!{% endtrans %}"                
+            }            
+        },        
         submitHandler: handle_new_section
     });
 });

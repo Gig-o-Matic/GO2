@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-02-06 15:43-0500\n"
+"POT-Creation-Date: 2014-02-10 20:33-0500\n"
 "PO-Revision-Date: 2014-02-01 18:13-0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: en <LL@li.org>\n"
@@ -123,7 +123,9 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-#: templates/band_edit.html:92 templates/member_edit.html:154
+#: templates/band_edit.html:92 templates/band_info.html:332
+#: templates/gig_edit.html:254 templates/gig_edit.html:257
+#: templates/gig_edit.html:260 templates/member_edit.html:154
 msgid "This field is required!"
 msgstr ""
 
@@ -348,11 +350,15 @@ msgstr ""
 msgid "Don't Archive"
 msgstr ""
 
-#: templates/gig_edit.html:276
+#: templates/gig_edit.html:235
+msgid "Please enter a date in the format mm/dd/yyyy."
+msgstr ""
+
+#: templates/gig_edit.html:287
 msgid "Must be later than start date!"
 msgstr ""
 
-#: templates/gig_edit.html:305
+#: templates/gig_edit.html:316
 msgid "Error"
 msgstr ""
 
