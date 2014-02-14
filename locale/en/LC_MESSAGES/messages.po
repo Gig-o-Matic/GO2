@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-02-10 20:33-0500\n"
+"POT-Creation-Date: 2014-02-13 21:38-0500\n"
 "PO-Revision-Date: 2014-02-01 18:13-0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: en <LL@li.org>\n"
@@ -17,6 +17,98 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 1.3\n"
+
+#: goemail.py:35
+msgid "Welcome to Gig-O-Matic"
+msgstr ""
+
+#: goemail.py:46
+#, fuzzy
+msgid "welcome_msg_email"
+msgstr "Hello! You have registered to join Gig-O-Matic - click the link below to "
+"log in and you're good to go. (The linkis good for 48 hours - after that "
+"you can just register again to get a new one if you need it.)\n"
+"\n"
+"{0}\n"
+"\n"
+"Thanks,\n"
+"The Gig-O-Matic Team"
+
+#: goemail.py:65
+msgid "Gig-O-Matic: Confirmed!"
+msgstr ""
+
+#: goemail.py:75
+#, fuzzy
+msgid "member_confirmed_email"
+msgstr "Hello! You have been confirmed as a member of {0} and can now start using"
+" Gig-O-Matic to manage your band life.\n"
+"\n"
+"http://gig-o-matic.appspot.com/band_info.html?bk={1}\n"
+"\n"
+"Thanks,\n"
+"The Gig-O-Matic Team"
+
+#: goemail.py:95
+msgid "Gig-O-Matic Password Reset"
+msgstr ""
+
+#: goemail.py:106
+msgid "forgot_password_email"
+msgstr "Hello! To reset your Gig-O-Matic password, click the link below.\n"
+"\n" 
+"{0}"
+"Thanks,\n"
+"The Gig-O-Matic Team"
+
+#: goemail.py:135
+msgid "Gig-O-Matic New Gig"
+msgstr ""
+
+#: goemail.py:152
+msgid "new_gig_email"
+msgstr "Hello! A new gig has been added to the Gig-O-Matic for your band {0}:\n"
+"\n"
+"{1}\n"
+"Date: {2}\n"
+"Time: {3}\n"
+"Contact: {4}\n"
+"\n"
+"{5}\n"
+"\n"
+"Can you make it? You can (and should!) weigh in here: {6}\n"
+"\n"
+"Thanks,\n"
+"The Gig-O-Matic Team"
+
+#: goemail.py:188
+msgid "Gig-O-Matic New Member for band {0})"
+msgstr ""
+
+#: goemail.py:199
+msgid "new_member_email"
+msgstr "Hello! A new member {0} has signed up for your band {1}. Please log in and\n"
+"confirm the membership.\n"
+"\n"
+"http://gig-o-matic.appspot.com/band_info.html?bk={2}\n"
+"\n" 
+"Thanks,\n"
+"The Gig-O-Matic Team"
+
+#: goemail.py:217
+msgid "Gig-O-Matic Confirm Email Address"
+msgstr ""
+
+#: goemail.py:229
+msgid "confirm_email_address_email"
+msgstr "Hi there! Someone has requested to change their Gig-O-Matic ID to this email address.\n"
+"If it's you, please click the link to confirm. If not, just ignore this and it will\n"
+"go away.\n"
+"\n"
+"{0}\n"
+"\n"
+"Thanks,\n"
+"Team Gig-O-Matic"
 
 #: templates/agenda.html:6 templates/navbar.html:17
 msgid "Schedule"
@@ -157,6 +249,14 @@ msgstr ""
 
 #: templates/band_info.html:70
 msgid "Pending Members"
+msgstr ""
+
+#: templates/band_info.html:80
+msgid "yes, confirm member!"
+msgstr ""
+
+#: templates/band_info.html:81
+msgid "no, reject!"
 msgstr ""
 
 #: templates/band_info.html:96 templates/band_info.html:103
