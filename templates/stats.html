@@ -11,14 +11,17 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <div id="memberstats-{{stat[1].urlsafe()}}" style="width:100%; height:400px;"></div>
+            <div class="col-md-4 col-md-offset-2">
+                <div id="memberstats-{{stat[1].urlsafe()}}"></div>
             </div>
-        </div>
+            <div class="col-md-4">
+                <div id="gigstats-{{stat[1].urlsafe()}}" style="width:100%;"></div>
+            </div>
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
-                <div id="gigstats-{{stat[1].urlsafe()}}" style="width:100%; height:400px;"></div>
+                <hr>
             </div>
+        </div>            
         </div>
     {% endfor %}
 {% endblock content %}
@@ -30,7 +33,8 @@ function makememberchart(which,counts) {
     $('#memberstats-'+which).highcharts({
         chart: {
             type: 'line',
-            height: 200
+            height: 200,
+            width: 300
         },
         title: {
             text: 'Number of Members'
@@ -57,7 +61,8 @@ function makegigchart(which,counts) {
     $('#gigstats-'+which).highcharts({
         chart: {
             type: 'line',
-            height: 200
+            height: 200,
+            width: 300
         },
         title: {
             text: 'Number of Upcoming Gigs'
