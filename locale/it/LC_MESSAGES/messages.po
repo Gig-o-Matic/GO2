@@ -1,4 +1,4 @@
-# Copyright (C) 2014 ORGANIZATION
+﻿# Copyright (C) 2014 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
 #
@@ -19,101 +19,101 @@ msgstr ""
 
 #: goemail.py:35
 msgid "Welcome to Gig-O-Matic"
-msgstr ""
+msgstr "Un benvenuto dal Gig-O-Matic"
 
 #: goemail.py:46
 msgid "welcome_msg_email"
-msgstr "Hello! You have registered to join Gig-O-Matic - click the link below to "
-"log in and you're good to go. (The linkis good for 48 hours - after that "
-"you can just register again to get a new one if you need it.)\n"
+msgstr "Ciao! Hai fatto la registrazione per iscriverti al Gig-O-Matic – ora clicca sul link qui sotto per\n"
+"accedere, e il gioco è fatto! (Il link è abilitato per 48 ore – dopodiché\n"
+"puoi sempre ripetere la registrazione per ottenerlo di nuovo.)\n"
 "\n"
 "{0}\n"
 "\n"
-"Thanks,\n"
-"The Gig-O-Matic Team"
+"Grazie,\n"
+"Il Team Gig-O-Matic"
 
 #: goemail.py:65
 msgid "Gig-O-Matic: Confirmed!"
-msgstr ""
+msgstr "Gig-O-Matic: Confermato!"
 
 #: goemail.py:75
 msgid "member_confirmed_email"
-msgstr "Hello! You have been confirmed as a member of {0} and can now start using"
-" Gig-O-Matic to manage your band life.\n"
+msgstr "Ciao! La tua richiesta di iscrizione è stata confermata. Ora sei tra i membri della {0} e puoi cominciare a utilizzare il\n"
+" Gig-O-Matic per gestire la tua partecipazione in banda.\n"
 "\n"
 "http://gig-o-matic.appspot.com/band_info.html?bk={1}\n"
 "\n"
-"Thanks,\n"
-"The Gig-O-Matic Team"
+"Grazie,\n"
+"Il Team Gig-O-Matic"
 
 #: goemail.py:95
 msgid "Gig-O-Matic Password Reset"
-msgstr ""
+msgstr "Reset della password Gig-O-Matic"
 
 #: goemail.py:106
 msgid "forgot_password_email"
-msgstr "Hello! To reset your Gig-O-Matic password, click the link below.\n"
+msgstr "Ciao! Per resettare la tua password Gig-O-Matic, clicca sul link qui sotto.\n"
 "\n" 
 "{0}"
-"Thanks,\n"
-"The Gig-O-Matic Team"
+"Grazie,\n"
+"Il Team Gig-O-Matic"
 
 #: goemail.py:135
 msgid "Gig-O-Matic New Gig"
-msgstr ""
+msgstr "Gig-O-Matic: Nuova Suonata"
 
 #: goemail.py:152
 msgid "new_gig_email"
-msgstr "Hello! A new gig has been added to the Gig-O-Matic for your band {0}:\n"
+msgstr "Ciao! È stata aggiunta sul Gig-O-Matic una nuova suonata della {0}:\n"
 "\n"
 "{1}\n"
-"Date: {2}\n"
-"Time: {3}\n"
-"Contact: {4}\n"
+"Data: {2}\n"
+"Si suona alle: {3}\n"
+"Contatto: {4}\n"
 "\n"
 "{5}\n"
 "\n"
-"Can you make it? You can (and should!) weigh in here: {6}\n"
+"Ci sarai? Clicca qui sotto per segnalare la tua partecipazione (o meno). È importante! {6}\n"
 "\n"
-"Thanks,\n"
-"The Gig-O-Matic Team"
+"Grazie,\n"
+"Il Team Gig-O-Matic"
 
 #: goemail.py:188
-msgid "Gig-O-Matic New Member for band {0})"
-msgstr ""
+msgid "Gig-O-Matic New Member for band {0}"
+msgstr "Gig-O-Matic: Nuovo membro per la {0}"
 
 #: goemail.py:199
 msgid "new_member_email"
-msgstr "Hello! A new member {0} has signed up for your band {1}. Please log in and\n"
-"confirm the membership.\n"
+msgstr "Ciao! Un nuovo membro, {0}, ha chiesto di iscriversi alla {1}. Accedi al Gig-O-Matic per\n"
+"confermarne l’iscrizione.\n"
 "\n"
 "http://gig-o-matic.appspot.com/band_info.html?bk={2}\n"
 "\n" 
-"Thanks,\n"
-"The Gig-O-Matic Team"
+"Grazie,\n"
+"Il Team Gig-O-Matic"
 
 #: goemail.py:217
 msgid "Gig-O-Matic Confirm Email Address"
-msgstr ""
+msgstr "Gig-O-Matic: conferma indirizzo e-mail"
 
 #: goemail.py:229
 msgid "confirm_email_address_email"
-msgstr "Hi there! Someone has requested to change their Gig-O-Matic ID to this email address.\n"
-"If it's you, please click the link to confirm. If not, just ignore this and it will\n"
-"go away.\n"
+msgstr "Ehilà! Qualcuno ha richiesto di cambiare la sua ID Gig-O-Matic con questo indirizzo e-mail.\n"
+"Se sei tu, clicca sul link per confermare. Se no, ignora questo messaggio e\n"
+"buonanotte.\n"
 "\n"
 "{0}\n"
 "\n"
-"Thanks,\n"
-"Team Gig-O-Matic"
+"Grazie,\n"
+"Il Team Gig-O-Matic"
 
 #: templates/agenda.html:6 templates/navbar.html:17
 msgid "Schedule"
-msgstr "Agenda"
+msgstr "Agenda di"
 
 #: templates/agenda.html:14
 msgid "Future Gigs: Weigh In!"
-msgstr "Suonate in programma: Ci stai?"
+msgstr "Suonate in programma: Ci stai?!"
 
 #: templates/agenda.html:34
 msgid "All Upcoming Gigs"
@@ -230,7 +230,7 @@ msgstr "Info"
 
 #: templates/band_info.html:25
 msgid "A Band of Mystery..."
-msgstr "Una banda misteriosa..."
+msgstr "Una banda tutta da scoprire..."
 
 #: templates/band_info.html:46 templates/gig_info.html:114
 #: templates/member_info.html:66
@@ -244,7 +244,7 @@ msgstr "Suonate in programma"
 #: templates/band_info.html:64
 msgid "Your membership is pending - ask a band member to confirm you!"
 msgstr ""
-"La tua iscrizione è in attesa di conferma - chiedi a un membro della "
+"La tua iscrizione è in attesa di conferma - rivolgiti a un membro della "
 "banda!"
 
 #: templates/band_info.html:70
@@ -253,11 +253,11 @@ msgstr "In attesa di conferma"
 
 #: templates/band_info.html:80
 msgid "yes, confirm member!"
-msgstr ""
+msgstr "sì, conferma membro"
 
 #: templates/band_info.html:81
 msgid "no, reject!"
-msgstr ""
+msgstr "no, rifiuta!"
 
 #: templates/band_info.html:96 templates/band_info.html:103
 msgid "Members"
@@ -369,15 +369,15 @@ msgstr "se di più giorni"
 #: templates/gig_edit.html:81 templates/gig_info.html:59
 #, fuzzy
 msgid "Call Time"
-msgstr "Appuntamento"
+msgstr "Appuntamento alle"
 
 #: templates/gig_edit.html:85 templates/gig_info.html:67
 msgid "Set Time"
-msgstr "Ora inizio"
+msgstr "Si attacca alle"
 
 #: templates/gig_edit.html:89 templates/gig_info.html:70
 msgid "End Time"
-msgstr "Ora fine"
+msgstr "Si finisce alle"
 
 #: templates/gig_edit.html:95 templates/gig_info.html:76
 msgid "Address"
@@ -398,7 +398,7 @@ msgstr "Quanto ci danno?"
 
 #: templates/gig_edit.html:104
 msgid "As If"
-msgstr "Sì, vabbè"
+msgstr "Sì, magari"
 
 #: templates/gig_edit.html:109 templates/gig_info.html:97
 msgid "Leader"
@@ -419,7 +419,7 @@ msgstr "Scaletta"
 #: templates/gig_edit.html:122
 #, fuzzy
 msgid "setlist here"
-msgstr "scaletta ad hoc"
+msgstr "scaletta per l’occasione"
 
 #: templates/gig_edit.html:131
 #, fuzzy
@@ -466,7 +466,7 @@ msgstr "Non archiviare"
 
 #: templates/gig_edit.html:235
 msgid "Please enter a date in the format mm/dd/yyyy."
-msgstr ""
+msgstr "Inserisci data in formato gg/mm/aaaa"
 
 #: templates/gig_edit.html:287
 msgid "Must be later than start date!"
@@ -580,7 +580,7 @@ msgstr "Mi presento"
 
 #: templates/member_edit.html:49
 msgid "I have naturally curly hair and enjoy long walks on the beach."
-msgstr "Ho i riccioli naturali e amo le lunghe passeggiate sulla spiaggia"
+msgstr "Bevo poco, non fumo e adoro il cool jazz"
 
 #: templates/member_edit.html:56
 msgid "Preferences"
@@ -619,7 +619,7 @@ msgstr "Profilo"
 
 #: templates/member_info.html:38
 msgid "Personal Statement"
-msgstr "Presentazione"
+msgstr "Mi presento"
 
 #: templates/member_info.html:44
 #, fuzzy
@@ -640,7 +640,7 @@ msgstr "Bande"
 
 #: templates/member_info.html:102
 msgid "Do you really want to leave"
-msgstr "Vuoi veramente uscire da"
+msgstr "Vuoi veramente uscire dalla"
 
 #: templates/member_info.html:105
 msgid "Don't Leave"
@@ -704,11 +704,11 @@ msgstr "Sicuro"
 
 #: templates/plan_icon.html:30
 msgid "Probably"
-msgstr "Probabile sì"
+msgstr "Quasi sicuro"
 
 #: templates/plan_icon.html:31
 msgid "Don't Know"
-msgstr "Non so"
+msgstr "Incerto"
 
 #: templates/plan_icon.html:32
 msgid "Probably Not"
@@ -720,7 +720,7 @@ msgstr "Non posso"
 
 #: templates/plan_icon.html:35
 msgid "Not Interested"
-msgstr "Non m'interessa"
+msgstr "Mi dissocio!"
 
 #: templates/tf.html:3
 msgid "True"
@@ -736,6 +736,6 @@ msgstr "No"
 #~ msgid "welcome_msg"
 #~ msgstr ""
 
-#~ msgid "member_confirmed"
+#~ msgid ""
 #~ msgstr ""
 
