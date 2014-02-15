@@ -26,7 +26,11 @@ def user_required(handler):
         auth = self.auth
         if not auth.get_user_by_session():
             if self.request.path=='/':
-                self.redirect(self.uri_for('login'),abort=True)
+                locale=self.request.get('locale',None)
+                if locale:
+                    self.redirect(self.uri_for('login',locale=locale),abort=True)
+                else:
+                    self.redirect(self.uri_for('login'),abort=True)
             else:
                 self.redirect(self.uri_for('login',originalurl=self.request.url),abort=True)            
         else:
@@ -90,14 +94,15 @@ class BaseHandler(webapp2.RequestHandler):
 
     def render_template(self, filename, params=None):
     
-        if self.user:
+        if params and 'locale' in params.keys():
+            locale=params['locale']
+        elif self.user:
             if self.user.preferences.locale:
-                i18n.get_i18n().set_locale(self.user.preferences.locale)
-            else:
-                i18n.get_i18n().set_locale('en')
+                locale=self.user.preferences.locale
         else:
-            i18n.get_i18n().set_locale('en')
-        
+            locale = None
+    
+        i18n.get_i18n().set_locale(locale)        
 
         if not params:
             params = {}

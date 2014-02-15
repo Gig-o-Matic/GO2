@@ -20,14 +20,17 @@ class="landingwrap"
 
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
+                {% trans %}forgot_message{% endtrans %}<br><br>
+<!--
                 Forgot your password? Don't feel bad! Enter your email to receive a link to make a new, better, 
                 easier-to-remember one.<br><br>
+-->
             </div>
         </div>
         {% if not_found %}
             <div class="row">
                 <div class="col-md-5 col-md-offset-2">
-                    <strong>Not found!</strong> We could not found any user with the given username.
+                    <strong>{% trans %}Not found!{% endtrans %}</strong> {% trans %}We could not found any user with the given username.{% endtrans %}
                 </div>
             </div>
         {% endif %} 
@@ -35,7 +38,7 @@ class="landingwrap"
         <form class="form form-horizontal" role="form" action= "/forgot" method="POST">
             <div class="row">
                 <div class="form-group">
-                    <label for="username" class="control-label col-md-2 col-md-offset-2">Email Address</label>
+                    <label for="username" class="control-label col-md-2 col-md-offset-2">{% trans %}Email Address{% endtrans %}</label>
                     <div class="col-md-5">
                         <input type="text" class="form-control" value="{{ username }}" name="username"/>
                     </div>
@@ -43,8 +46,8 @@ class="landingwrap"
             </div>
             <div class="row">
                 <div class="col-md-5 col-md-offset-4 text-right">
-                    <a class="btn btn-default" href="/">Cancel</a>                
-                    <input type="submit" class="btn btn-primary" value="Send password reset link"/>
+                    <a class="btn btn-default" href="/{% if locale %}?locale={{ locale }}{% endif %}">{% trans %}Cancel{% endtrans %}</a>                
+                    <input type="submit" class="btn btn-primary" value="{% trans %}Send password reset link{% endtrans %}"/>
                 </div>
             </div>
         </form>

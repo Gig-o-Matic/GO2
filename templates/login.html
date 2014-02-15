@@ -30,7 +30,7 @@ class="landingwrap"
             <div class="row">
                 <div class="form-group">
                     <label for="email" class="control-label col-md-2 col-md-offset-2">{% trans %}Email Address{% endtrans %}</label>
-                    <div class="col-md-5">
+                    <div class="col-md-6">
                         <input type="text" class="form-control" value="{{ username }}" name="email"/>
                     </div>
                 </div>
@@ -38,7 +38,7 @@ class="landingwrap"
             <div class="row">
                 <div class="form-group">
                     <label for="password" class="control-label col-md-2 col-md-offset-2">{% trans %}Password{% endtrans %}</label>
-                    <div class="col-md-5">
+                    <div class="col-md-6">
                         <input type="password" class="form-control" name="password"/>
                     </div>
                 </div>
@@ -47,25 +47,28 @@ class="landingwrap"
                 <input type="hidden" name="originalurl" value="{{originalurl}}">
             {% endif %}
             <div class="row">
-                <div class="col-md-3 col-md-offset-4">
+                <div class="col-md-4 col-md-offset-4">
                     <button type="submit" class="btn btn-primary">{% trans %}Login{% endtrans %}</button>
-                    <a href="/forgot">{% trans %}Forgot password?{% endtrans %}</a>
+                    <a href="/forgot{% if locale %}?locale={{ locale }}{% endif %}">{% trans %}Forgot password?{% endtrans %}</a>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="checkbox">
                         <input type="checkbox" name="remember">{% trans %}Remember me{% endtrans %}</input>
                     </div>
                 </div>
             </div>
+            {% if locale %}
+                <input type='hidden' name='locale' value='{{ locale }}'>
+            {% endif %}
         </form>
         <br><br>
         <div class="row">
             <div class="col-md-8 col-md-offset-4">
                 {% trans %}Not a member?{% endtrans %}        
-                <a class="btn btn-default" href="/signup">{% trans %}Sign Up!{% endtrans %}</a>
+                <a class="btn btn-default" href="/signup{% if locale %}?locale={{ locale }}{% endif %}">{% trans %}Sign Up!{% endtrans %}</a>
                 <br><br>
-                {% trans %}Want your band on the Gig-o?{% endtrans %} {% trans %}Click{% endtrans %} <a href="/help_band_request.html">{% trans %}here{% endtrans %}</a>.
-                {% trans %}What is the Gig-o-Matic, anyway?{% endtrans %} {% trans %}Click{% endtrans %} <a href="/whatis.html">{% trans %}here{% endtrans %}</a>!
+                {% trans %}Want your band on the Gig-o?{% endtrans %} {% trans %}Click{% endtrans %} <a href="/help_band_request.html{% if locale %}?locale={{ locale }}{% endif %}">{% trans %}here{% endtrans %}</a>.
+                {% trans %}What is the Gig-o-Matic, anyway?{% endtrans %} {% trans %}Click{% endtrans %} <a href="/whatis.html{% if locale %}?locale={{ locale }}{% endif %}">{% trans %}here{% endtrans %}</a>!
             </div>
         </div>
     </div>

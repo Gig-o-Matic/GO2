@@ -42,12 +42,16 @@ class LoginPage(BaseHandler):
 
     def _serve_page(self, the_url=None, failed=False):
         username = self.request.get('username')
+
+        locale=self.request.get('locale',None)
+
         params = {
             'username': username,
             'failed': failed,
-            'originalurl': the_url
+            'originalurl': the_url,
+            'locale': locale
         }
-        self.render_template('login.html', params)
+        self.render_template('login.html', params=params)
 
 class LogoutHandler(BaseHandler):
     def get(self):
@@ -96,17 +100,23 @@ class SignupPage(BaseHandler):
             goemail.send_registration_email(the_req=self, the_email=email, the_url=verification_url)
             msg=''
 
+        locale=self.request.get('locale',None)
+
         params = {
-            'msg':msg
+            'msg': msg,
+            'locale': locale
         }
-        self.render_template('confirm_signup.html', params)
+        self.render_template('confirm_signup.html', params=params)
             
     def _serve_page(self, the_url=None, failed=False):
     
+        locale=self.request.get('locale',None)
+
         params = {
             'failed': failed,
+            'locale' : locale
         }
-        self.render_template('signup.html', params)
+        self.render_template('signup.html', params=params)
 
 
 ##########
@@ -157,7 +167,7 @@ class VerificationHandler(BaseHandler):
                 'user': user,
                 'token': signup_token
             }
-            self.render_template('resetpassword.html', params)
+            self.render_template('resetpassword.html', params=params)
         else:
             logging.info('verification type not supported')
             self.abort(404)
@@ -200,7 +210,7 @@ class EmailVerificationHandler(BaseHandler):
                 'success' : new_email != None,
                 'the_email' : new_email
             }
-            self.render_template('confirm_email_change.html', template_args)            
+            self.render_template('confirm_email_change.html', params=template_args)            
         else:
             logging.info('verification type not supported')
             self.abort(404)
@@ -240,7 +250,7 @@ class SetPasswordHandler(BaseHandler):
 class AuthenticatedHandler(BaseHandler):
     @user_required
     def get(self):
-        self.render_template('authenticated.html')
+        self.render_template('authenticated.html', params=None)
 
 ##########
 #
@@ -272,18 +282,25 @@ class ForgotPasswordHandler(BaseHandler):
     else:
         msg = verification_url
 
+    locale=self.request.get('locale',None)
+
     params = {
-        'msg' : msg
+        'msg' : msg,
+        'locale' : locale
     }
-    self.render_template('confirm_forgot.html', params)
+    self.render_template('confirm_forgot.html', params=params)
   
   def _serve_page(self, not_found=False):
+  
+    locale=self.request.get('locale',None)
+
     username = self.request.get('username')
     params = {
         'username': username,
-        'not_found': not_found
+        'not_found': not_found,
+        'locale' : locale
     }
-    self.render_template('forgot.html', params)
+    self.render_template('forgot.html', params=params)
 
 ##########
 #
@@ -372,5 +389,5 @@ class WhatisPageHandler(BaseHandler):
     
     def get(self):
         params = {}
-        self.render_template('whatis.html', params)
+        self.render_template('whatis.html', params=params)
     

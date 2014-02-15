@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-02-14 21:00-0500\n"
+"POT-Creation-Date: 2014-02-15 17:47-0500\n"
 "PO-Revision-Date: 2014-02-01 18:13-0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: en <LL@li.org>\n"
@@ -221,8 +221,9 @@ msgid "Let non-members see upcoming gigs"
 msgstr ""
 
 #: templates/band_edit.html:66 templates/band_edit.html:68
-#: templates/band_info.html:182 templates/gig_edit.html:148
-#: templates/gig_edit.html:150 templates/member_edit.html:98
+#: templates/band_info.html:182 templates/forgot.html:49
+#: templates/gig_edit.html:148 templates/gig_edit.html:150
+#: templates/member_edit.html:98
 msgid "Cancel"
 msgstr ""
 
@@ -324,7 +325,8 @@ msgstr ""
 msgid "others"
 msgstr ""
 
-#: templates/band_nav.html:4 templates/navbar_bandlist.html:6
+#: templates/band_nav.html:4 templates/band_nav.html:9
+#: templates/navbar_bandlist.html:6
 msgid "Band Navigator"
 msgstr ""
 
@@ -364,6 +366,27 @@ msgstr ""
 #: templates/forgot.html:3 templates/forgot.html:17
 #: templates/resetpassword.html:3 templates/resetpassword.html:17
 msgid "Reset Password"
+msgstr ""
+
+#: templates/forgot.html:23
+msgid "forgot_message"
+msgstr "Forgot your password? Don't feel bad! Enter your email to receive a link to make a new, better, easier-to-remember one."
+
+#: templates/forgot.html:33
+msgid "Not found!"
+msgstr ""
+
+#: templates/forgot.html:33
+msgid "We could not found any user with the given username."
+msgstr ""
+
+#: templates/forgot.html:41 templates/login.html:32
+#, fuzzy
+msgid "Email Address"
+msgstr ""
+
+#: templates/forgot.html:50
+msgid "Send password reset link"
 msgstr ""
 
 #: templates/gig_archived_info.html:3 templates/gig_archived_info.html:8
@@ -583,11 +606,6 @@ msgstr ""
 
 #: templates/login.html:24
 msgid "Check your credentials and try again."
-msgstr ""
-
-#: templates/login.html:32
-#, fuzzy
-msgid "Email Address"
 msgstr ""
 
 #: templates/login.html:40 templates/member_edit.html:26

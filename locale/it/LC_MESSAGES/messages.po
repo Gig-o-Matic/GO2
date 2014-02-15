@@ -1,4 +1,3 @@
-﻿# This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
 #
 #, fuzzy
@@ -6,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-02-14 21:00-0500\n"
+"POT-Creation-Date: 2014-02-15 17:47-0500\n"
 "PO-Revision-Date: 2014-02-01 18:13-0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: it <LL@li.org>\n"
@@ -22,10 +21,10 @@ msgstr "Un benvenuto sul Gig-O-Matic"
 
 #: goemail.py:46
 msgid "welcome_msg_email"
-msgstr "Ciao! Hai fatto la registrazione per iscriverti al Gig-O-Matic – ora "
+msgstr ""
+"Ciao! Hai fatto la registrazione per iscriverti al Gig-O-Matic – ora "
 "clicca sul link qui sotto per\n"
-"accedere, e il gioco è fatto! (Il link è attivo per 48 ore – dopodiché"
-"\n"
+"accedere, e il gioco è fatto! (Il link è attivo per 48 ore – dopodiché\n"
 "puoi sempre ripetere la registrazione per ottenerlo di nuovo.)\n"
 "\n"
 "{0}\n"
@@ -39,7 +38,8 @@ msgstr "Gig-O-Matic: Confermato!"
 
 #: goemail.py:75
 msgid "member_confirmed_email"
-msgstr "Ciao! La tua richiesta di iscrizione è stata confermata. Ora sei tra i "
+msgstr ""
+"Ciao! La tua richiesta di iscrizione è stata confermata. Ora sei tra i "
 "membri della {0} e puoi cominciare a utilizzare il\n"
 " Gig-O-Matic per gestire la tua partecipazione in banda.\n"
 "\n"
@@ -54,7 +54,8 @@ msgstr "Reset della password Gig-O-Matic"
 
 #: goemail.py:106
 msgid "forgot_password_email"
-msgstr "Ciao! Per resettare la tua password Gig-O-Matic, clicca sul link qui "
+msgstr ""
+"Ciao! Per resettare la tua password Gig-O-Matic, clicca sul link qui "
 "sotto.\n"
 "\n"
 "{0}Grazie,\n"
@@ -66,7 +67,8 @@ msgstr "Gig-O-Matic: Nuova Suonata"
 
 #: goemail.py:157
 msgid "new_gig_email"
-msgstr "Ciao! È stata aggiunta sul Gig-O-Matic una nuova suonata della {0}:\n"
+msgstr ""
+"Ciao! È stata aggiunta sul Gig-O-Matic una nuova suonata della {0}:\n"
 "\n"
 "{1}\n"
 "Data: {2}\n"
@@ -88,7 +90,8 @@ msgstr "Gig-O-Matic: Nuovo membro per la {0}"
 
 #: goemail.py:204
 msgid "new_member_email"
-msgstr "Ciao! Un nuovo membro, {0}, ha chiesto di iscriversi alla {1}. Accedi al "
+msgstr ""
+"Ciao! Un nuovo membro, {0}, ha chiesto di iscriversi alla {1}. Accedi al "
 "Gig-O-Matic per\n"
 "confermarne l’iscrizione.\n"
 "\n"
@@ -103,7 +106,8 @@ msgstr "Gig-O-Matic: conferma indirizzo e-mail"
 
 #: goemail.py:234
 msgid "confirm_email_address_email"
-msgstr "Ehilà! Qualcuno ha richiesto di cambiare la sua ID Gig-O-Matic con questo"
+msgstr ""
+"Ehilà! Qualcuno ha richiesto di cambiare la sua ID Gig-O-Matic con questo"
 " indirizzo e-mail.\n"
 "Se sei tu, clicca sul link per confermare. Se no, ignora questo messaggio"
 " e\n"
@@ -218,8 +222,9 @@ msgid "Let non-members see upcoming gigs"
 msgstr "Permetti ai non-membri di vedere suonate"
 
 #: templates/band_edit.html:66 templates/band_edit.html:68
-#: templates/band_info.html:182 templates/gig_edit.html:148
-#: templates/gig_edit.html:150 templates/member_edit.html:98
+#: templates/band_info.html:182 templates/forgot.html:49
+#: templates/gig_edit.html:148 templates/gig_edit.html:150
+#: templates/member_edit.html:98
 msgid "Cancel"
 msgstr "Annulla"
 
@@ -263,7 +268,8 @@ msgstr "Suonate in programma"
 
 #: templates/band_info.html:66
 msgid "Your membership is pending - ask a band member to confirm you!"
-msgstr "La tua iscrizione è in attesa di conferma - rivolgiti a un membro della "
+msgstr ""
+"La tua iscrizione è in attesa di conferma - rivolgiti a un membro della "
 "banda!"
 
 #: templates/band_info.html:72
@@ -325,7 +331,8 @@ msgstr "elimina dalla banda"
 msgid "others"
 msgstr "altre"
 
-#: templates/band_nav.html:4 templates/navbar_bandlist.html:6
+#: templates/band_nav.html:4 templates/band_nav.html:9
+#: templates/navbar_bandlist.html:6
 msgid "Band Navigator"
 msgstr "Navigabande"
 
@@ -370,6 +377,27 @@ msgstr "Credits Gig-O-Matic"
 #, fuzzy
 msgid "Reset Password"
 msgstr "Resetta password"
+
+#: templates/forgot.html:23
+msgid "forgot_message"
+msgstr ""
+
+#: templates/forgot.html:33
+msgid "Not found!"
+msgstr ""
+
+#: templates/forgot.html:33
+msgid "We could not found any user with the given username."
+msgstr ""
+
+#: templates/forgot.html:41 templates/login.html:32
+#, fuzzy
+msgid "Email Address"
+msgstr "Indirizzo e-mail"
+
+#: templates/forgot.html:50
+msgid "Send password reset link"
+msgstr ""
 
 #: templates/gig_archived_info.html:3 templates/gig_archived_info.html:8
 msgid "Archived Gig Info"
@@ -604,11 +632,6 @@ msgstr "Login non riuscito!"
 #: templates/login.html:24
 msgid "Check your credentials and try again."
 msgstr "Verifica le tue credenziali e riprova"
-
-#: templates/login.html:32
-#, fuzzy
-msgid "Email Address"
-msgstr "Indirizzo e-mail"
 
 #: templates/login.html:40 templates/member_edit.html:26
 msgid "Password"

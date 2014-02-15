@@ -15,14 +15,14 @@ class="landingwrap"
     <div id="landingpage_content">
         <div class="row">
             <div class="page-header col-md-5 col-md-offset-2">
-                <h3>Register with the Gig-o-Matic</h3>
+                <h3>{% trans %}Register with the Gig-o-Matic{% endtrans %}</h3>
             </div>
         </div>
     
         {% if failed %}
             <div class="row">
                 <div class="col-md-5 col-md-offset-2">
-                    <strong>Sorry, someone already has that email address.</strong>
+                    <strong>{% trans %}Sorry, someone already has that email address.{% endtrans %}</strong>
                 </div>
             </div>
         {% endif %}
@@ -30,7 +30,7 @@ class="landingwrap"
         <form id="infoform" class="form-horizontal" role="form" action="/signup" method="POST">
             <div class="row">
                 <div class="form-group">
-                    <label for="email" class="control-label col-md-2 col-md-offset-2">Email address</label>
+                    <label for="email" class="control-label col-md-2 col-md-offset-2">{% trans %}Email Address{% endtrans %}</label>
                     <div class="col-md-5">
                         <input type="text" class="form-control" name="email" />
                     </div>
@@ -38,7 +38,7 @@ class="landingwrap"
             </div>
             <div class="row">
                 <div class="form-group">
-                    <label for="password" class="control-label col-md-2 col-md-offset-2">Password</label>
+                    <label for="password" class="control-label col-md-2 col-md-offset-2">{% trans %}Password{% endtrans %}</label>
                     <div class="col-md-5">
                         <input type="password" class="form-control" name="password" />
                     </div>
@@ -46,7 +46,7 @@ class="landingwrap"
             </div>
             <div class="row">
                 <div class="form-group">
-                    <label for="name" class="control-label col-md-2 col-md-offset-2">Display Name</label>
+                    <label for="name" class="control-label col-md-2 col-md-offset-2">{% trans %}Display Name{% endtrans %}</label>
                     <div class="col-md-5">
                         <input type="text" class="form-control" name="name" />
                     </div>
@@ -55,10 +55,13 @@ class="landingwrap"
             
             <div class="row">
                 <div class="col-md-5 col-md-offset-4 text-right">
-                    <a class="btn btn-default" href="/">Cancel</a>
+                    <a class="btn btn-default" href="/{% if locale %}?locale={{ locale }}{% endif %}">{% trans %}Cancel{% endtrans %}</a>
                     <input type="submit" class="btn btn-primary" value="Sign me up!" />
                 </div>
             </div>
+            {% if locale %}
+                <input type='hidden' name='locale' value='{{ locale }}'>
+            {% endif %}
         </form>
     </div>
 {% endblock content %}
