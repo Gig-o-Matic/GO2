@@ -22,8 +22,7 @@ msgstr "Un benvenuto dal Gig-O-Matic"
 
 #: goemail.py:46
 msgid "welcome_msg_email"
-msgstr ""
-"Ciao! Hai fatto la registrazione per iscriverti al Gig-O-Matic – ora "
+msgstr "Ciao! Hai fatto la registrazione per iscriverti al Gig-O-Matic – ora "
 "clicca sul link qui sotto per\n"
 "accedere, e il gioco è fatto! (Il link è abilitato per 48 ore – dopodiché"
 "\n"
@@ -40,8 +39,7 @@ msgstr "Gig-O-Matic: Confermato!"
 
 #: goemail.py:75
 msgid "member_confirmed_email"
-msgstr ""
-"Ciao! La tua richiesta di iscrizione è stata confermata. Ora sei tra i "
+msgstr "Ciao! La tua richiesta di iscrizione è stata confermata. Ora sei tra i "
 "membri della {0} e puoi cominciare a utilizzare il\n"
 " Gig-O-Matic per gestire la tua partecipazione in banda.\n"
 "\n"
@@ -56,8 +54,7 @@ msgstr "Reset della password Gig-O-Matic"
 
 #: goemail.py:106
 msgid "forgot_password_email"
-msgstr ""
-"Ciao! Per resettare la tua password Gig-O-Matic, clicca sul link qui "
+msgstr "Ciao! Per resettare la tua password Gig-O-Matic, clicca sul link qui "
 "sotto.\n"
 "\n"
 "{0}Grazie,\n"
@@ -69,8 +66,7 @@ msgstr "Gig-O-Matic: Nuova Suonata"
 
 #: goemail.py:157
 msgid "new_gig_email"
-msgstr ""
-"Ciao! È stata aggiunta sul Gig-O-Matic una nuova suonata della {0}:\n"
+msgstr "Ciao! È stata aggiunta sul Gig-O-Matic una nuova suonata della {0}:\n"
 "\n"
 "{1}\n"
 "Data: {2}\n"
@@ -92,8 +88,7 @@ msgstr "Gig-O-Matic: Nuovo membro per la {0}"
 
 #: goemail.py:204
 msgid "new_member_email"
-msgstr ""
-"Ciao! Un nuovo membro, {0}, ha chiesto di iscriversi alla {1}. Accedi al "
+msgstr "Ciao! Un nuovo membro, {0}, ha chiesto di iscriversi alla {1}. Accedi al "
 "Gig-O-Matic per\n"
 "confermarne l’iscrizione.\n"
 "\n"
@@ -108,8 +103,7 @@ msgstr "Gig-O-Matic: conferma indirizzo e-mail"
 
 #: goemail.py:234
 msgid "confirm_email_address_email"
-msgstr ""
-"Ehilà! Qualcuno ha richiesto di cambiare la sua ID Gig-O-Matic con questo"
+msgstr "Ehilà! Qualcuno ha richiesto di cambiare la sua ID Gig-O-Matic con questo"
 " indirizzo e-mail.\n"
 "Se sei tu, clicca sul link per confermare. Se no, ignora questo messaggio"
 " e\n"
@@ -269,8 +263,7 @@ msgstr "Suonate in programma"
 
 #: templates/band_info.html:66
 msgid "Your membership is pending - ask a band member to confirm you!"
-msgstr ""
-"La tua iscrizione è in attesa di conferma - rivolgiti a un membro della "
+msgstr "La tua iscrizione è in attesa di conferma - rivolgiti a un membro della "
 "banda!"
 
 #: templates/band_info.html:72
