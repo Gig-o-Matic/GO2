@@ -1,4 +1,4 @@
-# This file is distributed under the same license as the PROJECT project.
+﻿# This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
 #
 #, fuzzy
@@ -18,13 +18,13 @@ msgstr ""
 
 #: goemail.py:35
 msgid "Welcome to Gig-O-Matic"
-msgstr "Un benvenuto dal Gig-O-Matic"
+msgstr "Un benvenuto sul Gig-O-Matic"
 
 #: goemail.py:46
 msgid "welcome_msg_email"
 msgstr "Ciao! Hai fatto la registrazione per iscriverti al Gig-O-Matic – ora "
 "clicca sul link qui sotto per\n"
-"accedere, e il gioco è fatto! (Il link è abilitato per 48 ore – dopodiché"
+"accedere, e il gioco è fatto! (Il link è attivo per 48 ore – dopodiché"
 "\n"
 "puoi sempre ripetere la registrazione per ottenerlo di nuovo.)\n"
 "\n"
@@ -76,7 +76,7 @@ msgstr "Ciao! È stata aggiunta sul Gig-O-Matic una nuova suonata della {0}:\n"
 "{5}\n"
 "\n"
 "Ci sarai? Clicca qui sotto per segnalare la tua partecipazione (o meno). "
-"È importante! {6}\n"
+"È decisivo! {6}\n"
 "\n"
 "Grazie,\n"
 "Il Team Gig-O-Matic"
@@ -120,7 +120,7 @@ msgstr "Agenda"
 
 #: templates/agenda.html:17
 msgid "Future Gigs: Weigh In!"
-msgstr "Suonate in programma: Ci stai?!"
+msgstr "Suonate in programma: Ci stai?!?"
 
 #: templates/agenda.html:37
 msgid "All Upcoming Gigs"
@@ -158,7 +158,7 @@ msgstr "Admin banda"
 
 #: templates/band_edit.html:3
 msgid "Band Edit"
-msgstr ""
+msgstr "Modifica banda"
 
 #: templates/band_edit.html:8
 msgid "New Band"
@@ -237,7 +237,7 @@ msgstr "Questo campo è obbligatorio!"
 #: templates/band_info.html:3
 #, fuzzy
 msgid "Band Info"
-msgstr ""
+msgstr "Info banda"
 
 #: templates/band_info.html:10
 msgid "a.k.a."
@@ -250,7 +250,7 @@ msgstr "Info"
 
 #: templates/band_info.html:27
 msgid "A Band of Mystery..."
-msgstr "Una banda tutta da scoprire..."
+msgstr "Una banda ancora da scoprire..."
 
 #: templates/band_info.html:48 templates/gig_info.html:116
 #: templates/member_info.html:68
@@ -346,34 +346,34 @@ msgstr "Calendario"
 
 #: templates/confirm_band_request.html:3
 msgid "Request Received!"
-msgstr ""
+msgstr "Richiesta ricevuta!"
 
 #: templates/confirm_forgot.html:3
 #, fuzzy
 msgid "Password Reset!"
-msgstr ""
+msgstr "Resetta password!"
 
 #: templates/confirm_signup.html:3 templates/confirm_signup.html:15
 msgid "Signed Up!"
-msgstr ""
+msgstr "Iscrizione fatta!"
 
 #: templates/credits.html:3
 msgid "Credits"
-msgstr ""
+msgstr "Credits"
 
 #: templates/credits.html:7
 msgid "Gig-O-Matic Credits"
-msgstr ""
+msgstr "Credits Gig-O-Matic"
 
 #: templates/forgot.html:3 templates/forgot.html:17
 #: templates/resetpassword.html:3 templates/resetpassword.html:17
 #, fuzzy
 msgid "Reset Password"
-msgstr ""
+msgstr "Resetta password"
 
 #: templates/gig_archived_info.html:3 templates/gig_archived_info.html:8
 msgid "Archived Gig Info"
-msgstr ""
+msgstr "Info suonata archiviata"
 
 #: templates/gig_archived_info.html:14 templates/gig_info.html:28
 msgid "Gig"
@@ -387,7 +387,7 @@ msgstr "Banda"
 
 #: templates/gig_edit.html:3 templates/gig_edit.html:11
 msgid "Gig Edit"
-msgstr ""
+msgstr "Modifica suonata"
 
 #: templates/gig_edit.html:9
 msgid "New Gig"
@@ -585,30 +585,30 @@ msgstr "Help"
 #: templates/help_band_request.html:3
 #, fuzzy
 msgid "New Band!"
-msgstr "Nuova banda"
+msgstr "Nuova banda!"
 
 #: templates/login.html:3 templates/login.html:51
 msgid "Login"
-msgstr ""
+msgstr "Login"
 
 #: templates/login.html:17
 #, fuzzy
 msgid "Welcome to Gig-o-Matic!"
-msgstr "Un benvenuto dal Gig-O-Matic"
+msgstr "Un benvenuto sul Gig-O-Matic"
 
 #: templates/login.html:24
 #, fuzzy
 msgid "Login failed!"
-msgstr ""
+msgstr "Login non riuscito!"
 
 #: templates/login.html:24
 msgid "Check your credentials and try again."
-msgstr ""
+msgstr "Verifica le tue credenziali e riprova"
 
 #: templates/login.html:32
 #, fuzzy
 msgid "Email Address"
-msgstr ""
+msgstr "Indirizzo e-mail"
 
 #: templates/login.html:40 templates/member_edit.html:26
 msgid "Password"
@@ -617,41 +617,41 @@ msgstr "Password"
 #: templates/login.html:52
 #, fuzzy
 msgid "Forgot password?"
-msgstr ""
+msgstr "Password dimenticata?"
 
 #: templates/login.html:56
 #, fuzzy
 msgid "Remember me"
-msgstr ""
+msgstr "Ricordami qui"
 
 #: templates/login.html:64
 msgid "Not a member?"
-msgstr ""
+msgstr "Non sei membro?"
 
 #: templates/login.html:65
 msgid "Sign Up!"
-msgstr ""
+msgstr "Iscriviti!"
 
 #: templates/login.html:67
 msgid "Want your band on the Gig-o?"
-msgstr ""
+msgstr "Vuoi la tua banda sul Gig-o?"
 
 #: templates/login.html:67 templates/login.html:68
 msgid "Click"
-msgstr ""
+msgstr "Clicca"
 
 #: templates/login.html:67 templates/login.html:68
 #, fuzzy
 msgid "here"
-msgstr "altre"
+msgstr "qui"
 
 #: templates/login.html:68
 msgid "What is the Gig-o-Matic, anyway?"
-msgstr ""
+msgstr "Che cos’è il Gig-O-Matic?"
 
 #: templates/maintenance.html:3
 msgid "Maintenance!"
-msgstr ""
+msgstr "Lavori in corso!"
 
 #: templates/member_band_assocs.html:14
 msgid "pending"
@@ -676,11 +676,11 @@ msgstr "Aggiungi banda"
 #: templates/member_edit.html:3 templates/member_edit.html:8
 #, fuzzy
 msgid "Edit Profile"
-msgstr ""
+msgstr "Modifica profilo"
 
 #: templates/member_edit.html:14
 msgid "Full Name"
-msgstr "Nome completo"
+msgstr "Nome e Cognome"
 
 #: templates/member_edit.html:15 templates/member_edit.html:39
 msgid "(required)"
@@ -813,7 +813,7 @@ msgstr "Admin"
 
 #: templates/navbar.html:36
 msgid "Stats Page"
-msgstr ""
+msgstr "Pagina statistiche"
 
 #: templates/navbar.html:42
 msgid "Help"
@@ -829,15 +829,15 @@ msgstr "Logout"
 
 #: templates/no_band_gig.html:3 templates/no_gig_found.html:3
 msgid "Uh oh!"
-msgstr ""
+msgstr "Uh oh!"
 
 #: templates/no_band_gig.html:8
 msgid "Adding a Gig"
-msgstr ""
+msgstr "Aggiungere suonata"
 
 #: templates/no_gig_found.html:7
 msgid "No Gig Found!"
-msgstr ""
+msgstr "Nessuna suonata trovata!"
 
 #: templates/plan_icon.html:29
 msgid "Definitely"
@@ -865,12 +865,12 @@ msgstr "Mi dissocio!"
 
 #: templates/signup.html:3
 msgid "Register!"
-msgstr ""
+msgstr "Registrati!"
 
 #: templates/stats.html:3 templates/stats.html:7
 #, fuzzy
 msgid "Stats!"
-msgstr "Stato"
+msgstr "Statistiche"
 
 #: templates/tf.html:3
 msgid "True"
@@ -883,7 +883,7 @@ msgstr "No"
 #: templates/whatis.html:3
 #, fuzzy
 msgid "What Is It?"
-msgstr ""
+msgstr "Che cos’è?"
 
 #~ msgid "Locale"
 #~ msgstr "Lingua"
@@ -895,7 +895,7 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "What is the Gig-O-Matic, anyway?"
-#~ msgstr ""
+#~ msgstr "Che cos’è il Gig-O-Matic?"
 
 #~ msgid "Profile Info"
 #~ msgstr "Info profilo"
