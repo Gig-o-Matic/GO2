@@ -109,7 +109,7 @@ msgstr "Ehilà! Qualcuno ha richiesto di cambiare la sua ID Gig-O-Matic con ques
 
 #: templates/agenda.html:6 templates/navbar.html:17
 msgid "Schedule"
-msgstr "Agenda di"
+msgstr "Agenda"
 
 #: templates/agenda.html:14
 msgid "Future Gigs: Weigh In!"
