@@ -592,7 +592,7 @@ class GetUpcoming(BaseHandler):
         the_band_key = ndb.Key(urlsafe=the_band_keyurl)
 
         today_date = datetime.datetime.now()
-        the_gigs = gig.get_gigs_for_bands(the_band_key.get(), start_date=today_date)
+        the_gigs = gig.get_gigs_for_band_keys(the_band_key, start_date=today_date)
         
         template_args = {
             'the_gigs' : the_gigs,
