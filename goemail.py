@@ -117,7 +117,11 @@ def send_forgot_email(the_req, the_email, the_url):
 # send an email announcing a new gig
 #
 ##########    
-def send_newgig_email(the_locale, the_email_address, the_gig, the_band, the_gig_url):
+def send_newgig_email(the_member, the_gig, the_band, the_gig_url):
+ 
+    the_locale=the_member.preferences.locale
+    the_email_address = the_member.email_address
+    
     if not mail.is_email_valid(the_email_address):
         return False
 
@@ -149,7 +153,8 @@ def send_newgig_email(the_locale, the_email_address, the_gig, the_band, the_gig_
 # The Gig-O-Matic Team
 # 
 #     """.format(the_band.name, the_gig.title, the_gig.date, the_gig.settime, contact_name, the_gig.details, the_gig_url)
-    message.body=_('new_gig_email').format(the_band.name, the_gig.title, the_gig.date, the_gig.settime, contact_name, the_gig.details, the_gig_url)
+    the_date_string = member.format_date_for_member(the_member, the_gig.date)
+    message.body=_('new_gig_email').format(the_band.name, the_gig.title, the_date_string, the_gig.settime, contact_name, the_gig.details, the_gig_url)
 
     try:
         message.send()
@@ -166,7 +171,7 @@ def announce_new_gig(the_gig, the_gig_url):
         the_member = the_member_key.get()
         if the_member.preferences:
             if the_member.preferences.email_new_gig:
-                send_newgig_email(the_member.preferences.locale, the_member.email_address, the_gig, the_band, the_gig_url)
+                send_newgig_email(the_member, the_gig, the_band, the_gig_url)
         
 
 def send_new_member_email(band,new_member):
