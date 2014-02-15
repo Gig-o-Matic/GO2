@@ -1,20 +1,22 @@
 {% extends 'go2base.html' %}
 
+{% block title %}{% trans %}Archived Gig Info{% endtrans %}{% endblock title %}
+
 {% block content %}
     <div class="row">
         <div class="page-header col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0">
-            <h2>Archived Gig Info</h1>
+            <h2>{% trans %}Archived Gig Info{% endtrans %}</h1>
         </div>
     </div>
     <div class="row">
         <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0">
             <div class="row">
-                <div class="col-md-2">Gig</div>
+                <div class="col-md-2">{% trans %}Gig{% endtrans %}</div>
                 <div class="col-md-8">{{ gig.title|e }}</div>
             </div>
             <div class="row">&nbsp;</div>
             <div class="row">
-                <div class="col-md-2">Band</div>
+                <div class="col-md-2">{% trans %}Band{% endtrans %}</div>
                 <div class="col-md-8"><a href="band_info.html?bk={{gig.key.parent().urlsafe()}}">{{ gig.key.parent().get().name|e }}</a></div>
             </div>
             <div class="row">&nbsp;</div>

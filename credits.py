@@ -14,7 +14,5 @@ class CreditsHandler(BaseHandler):
     def _make_page(self,the_user):
         """ construct page for help """
 
-        template_args = {
-            'title' : 'Credits',
-        }
+        template_args = {}
         self.render_template('credits.html', template_args)

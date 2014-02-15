@@ -1,9 +1,11 @@
 {% extends 'go2base.html' %}
 
+{% block title %}{% trans %}Edit Profile{% endtrans %}{% endblock title %}
+
 {% block content %}
     <div class="row">
         <div class="page-header col-md-5 col-md-offset-2">
-            <h2>{% trans %}Profile Info{% endtrans %}</h1>
+            <h2>{% trans %}Edit Profile{% endtrans %}</h1>
         </div>
     </div>
     <form class="form" id="infoform" role="form" method="post" action="member_edit.html">

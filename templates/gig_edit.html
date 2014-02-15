@@ -1,12 +1,14 @@
 {% extends 'go2base.html' %}
 
+{% block title %}{% trans %}Gig Edit{% endtrans %}{% endblock title %}
+
 {% block content %}
     <div class="row">
         <div class="page-header col-md-5 col-md-offset-2">
         {% if newgig_is_active %}
             <h2>{% trans %}New Gig{% endtrans %}</h1>
         {% else %}
-            <h2>{% trans %}Gig Info{% endtrans %}</h1>
+            <h2>{% trans %}Gig Edit{% endtrans %}</h1>
         {% endif %}
         </div>
     </div>

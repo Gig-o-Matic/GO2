@@ -252,7 +252,6 @@ class InfoPage(BaseHandler):
             
                                     
         template_args = {
-            'title' : 'Member Info',
             'the_member' : the_member,
             'the_band_keys' : the_band_keys,
             'member_is_me' : the_user == the_member,
@@ -285,7 +284,6 @@ class EditPage(BaseHandler):
 #            the_cancel_url="member_info.html?mk={0}".format(the_member.key.urlsafe())
 
         template_args = {
-            'title' : 'Edit Profile',
             'the_member' : the_member,
             'member_is_me' : the_user == the_member,
             'the_cancel_url' : the_cancel_url,
@@ -534,9 +532,7 @@ class AdminPage(BaseHandler):
     def _make_page(self,the_user):
     
         # todo make sure the user is a superuser        
-        template_args = {
-            'title' : 'Member Admin'
-        }
+        template_args = {}
         self.render_template('member_admin.html', template_args)
 
 class AdminPageAllMembers(BaseHandler):

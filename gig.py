@@ -262,9 +262,7 @@ class InfoPage(BaseHandler):
         the_gig = gig_key.get()
 
         if the_gig is None:
-            template_args = {
-                'title' : 'Uh Oh!',
-            }
+            template_args = {}
             self.render_template('no_gig_found.html', template_args)
             return # todo figure out what to do if we didn't find it
 
@@ -317,7 +315,6 @@ class InfoPage(BaseHandler):
                 enddatestr = ''
 
             template_args = {
-                'title' : 'Gig Info',
                 'gig' : the_gig,
                 'date_str' : datestr,
                 'enddate_str' : enddatestr,
@@ -333,7 +330,6 @@ class InfoPage(BaseHandler):
             # this is an archived gig
             the_archived_plans = gigarchive.get_archived_plans(the_gig.archive_id)
             template_args = {
-                'title' : 'Archived Gig Info',
                 'gig' : the_gig,
                 'archived_plans' : the_archived_plans,
                 'comment_text' : the_comment_text
@@ -372,13 +368,10 @@ class EditPage(BaseHandler):
             
         all_bands = assoc.get_confirmed_bands_of_member(the_user)
         if not all_bands:
-            template_args = {
-                'title' : 'Add a Gig',
-            }
+            template_args = {}
             self.render_template('no_band_gig.html', template_args)
         else:
             template_args = {
-                'title' : 'Gig Edit',
                 'gig' : the_gig,
                 'all_bands' : all_bands,
                 'user_is_band_admin': user_is_band_admin,
@@ -575,7 +568,6 @@ class PrintPlanlist(BaseHandler):
             the_section_keys.append(None)            
 
         template_args = {
-            'title' : 'Gig Info',
             'the_gig' : the_gig,
             'the_plans' : the_plans,
             'the_section_keys' : the_section_keys

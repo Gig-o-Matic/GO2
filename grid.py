@@ -81,7 +81,6 @@ class MainPage(BaseHandler):
                 
 
         template_args = {
-            'title' : "Grid o'Gigs",
             'all_band_keys' : the_band_keys,
             'the_band_key' : the_band_key,
             'the_member_keys_by_section' : the_member_keys,

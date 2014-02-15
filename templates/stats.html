@@ -1,8 +1,10 @@
 {% extends 'go2base.html' %}
 
+{% block title %}{% trans %}Stats!{% endtrans %}{% endblock title %}
+
 {% block content %}
     <div class="row">
-        <div class="col-md-5 col-md-offset-2"><h2>Stats!</h1></div>
+        <div class="col-md-5 col-md-offset-2"><h2>{% trans %}Stats!{% endtrans %}</h1></div>
     </div> 
     {% for stat in the_stats %}
         <div class="row">

@@ -84,7 +84,6 @@ class StatsPage(BaseHandler):
             stats.append([a_band.name, a_band.key, the_count_data_json])
         
         template_args = {
-            'title' : 'Stats',
             'the_stats' : stats
         }
         self.render_template('stats.html', template_args)

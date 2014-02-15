@@ -17,7 +17,6 @@ class HelpHandler(BaseHandler):
         """ construct page for help """
 
         template_args = {
-            'title' : 'Help',
             'help_is_active' : True
         }
         self.render_template('help.html', template_args)
@@ -33,7 +32,6 @@ class SignUpBandHandler(BaseHandler):
         """ construct page for help """
 
         template_args = {
-            'title' : 'Request Band',
             'help_is_active' : True
         }
         self.render_template('help_band_request.html', template_args)
@@ -48,7 +46,6 @@ class SignUpBandHandler(BaseHandler):
         goemail.send_band_request_email(the_email, the_name, the_info)
 
         params = {
-            'title' : 'Requested!',        
             'msg': ''
         }
         self.render_template('confirm_band_request.html', params)

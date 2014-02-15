@@ -23,8 +23,7 @@ class MainPage(BaseHandler):
     def _make_page(self,the_user):
                 
         template_args = {
-            'title' : 'Calendar',
-            'calview_is_active' : True,
+            'calview_is_active' : True
         }
         self.render_template('calview.html', template_args)
 

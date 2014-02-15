@@ -22,8 +22,6 @@ class MaintenancePage(BaseHandler):
 
     def _make_page(self):
 
-        template_args = {
-            'title' : 'Working On It',
-        }
+        template_args = {}
         self.render_nouser_template('maintenance.html', template_args)
         return

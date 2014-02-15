@@ -1,5 +1,7 @@
 {% extends 'go2base.html' %}
 
+{% block title %}{% trans %}Reset Password{% endtrans %}{% endblock title %}
+
 {% block navbar %}
     <!-- no navbar -->
 {% endblock navbar %}
@@ -12,7 +14,7 @@ class="landingwrap"
     <div id="landingpage_content">
         <div class="row">
             <div class="page-header col-md-5 col-md-offset-2">
-                <h3>Reset password</h3>
+                <h3>{% trans %}Reset Password{% endtrans %}</h3>
             </div>
         </div> 
 

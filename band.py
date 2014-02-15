@@ -203,7 +203,6 @@ class InfoPage(BaseHandler):
             the_pending = []
 
         template_args = {
-            'title' : 'Band Info',
             'the_band' : the_band,
             'the_user_is_associated' : the_user_is_associated,
             'the_user_is_confirmed' : the_user_is_confirmed,
@@ -241,7 +240,6 @@ class EditPage(BaseHandler):
                     return # todo figure out what to do if we didn't find it
 
         template_args = {
-            'title' : 'Band Edit',
             'the_band' : the_band,
             'newmember_is_active' : is_new,
             'is_new' : is_new
@@ -548,7 +546,6 @@ class AdminPage(BaseHandler):
         the_bands = get_all_bands()
         
         template_args = {
-            'title' : 'Band Admin',
             'the_bands' : the_bands,
         }
         self.render_template('band_admin.html', template_args)
@@ -580,7 +577,6 @@ class BandNavPage(BaseHandler):
         the_bands = get_all_bands()
     
         template_args = {
-            'title' : 'Band Navigator',
             'the_bands' : the_bands,
         }
         self.render_template('band_nav.html', template_args)

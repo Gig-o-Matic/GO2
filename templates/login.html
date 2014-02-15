@@ -1,5 +1,7 @@
 {% extends 'go2base.html' %}
 
+{% block title %}{% trans %}Login{% endtrans %}{% endblock title %}
+
 {% block navbar %}
     <!-- no navbar -->
 {% endblock navbar %}
@@ -12,14 +14,14 @@ class="landingwrap"
     <div id="landingpage_content">
         <div class="row">
             <div class="page-header col-md-5 col-md-offset-2">
-                <h3>Welcome to Gig-o-Matic!</h3>
+                <h3>{% trans %}Welcome to Gig-o-Matic!{% endtrans %}</h3>
             </div>
         </div>
     
         {% if failed %}
             <div class="row">
                 <div class="col-md-5 col-md-offset-2">
-                    <strong>Login failed!</strong> Check your credentials and try again.
+                    <strong>{% trans %}Login failed!{% endtrans %}</strong> {% trans %}Check your credentials and try again.{% endtrans %}
                 </div>
             </div>
         {% endif %}
@@ -27,7 +29,7 @@ class="landingwrap"
         <form class="form form-horizontal" role="form" action= "/login" method="POST">
             <div class="row">
                 <div class="form-group">
-                    <label for="email" class="control-label col-md-2 col-md-offset-2">Email Address</label>
+                    <label for="email" class="control-label col-md-2 col-md-offset-2">{% trans %}Email Address{% endtrans %}</label>
                     <div class="col-md-5">
                         <input type="text" class="form-control" value="{{ username }}" name="email"/>
                     </div>
@@ -35,7 +37,7 @@ class="landingwrap"
             </div>
             <div class="row">
                 <div class="form-group">
-                    <label for="password" class="control-label col-md-2 col-md-offset-2">Password</label>
+                    <label for="password" class="control-label col-md-2 col-md-offset-2">{% trans %}Password{% endtrans %}</label>
                     <div class="col-md-5">
                         <input type="password" class="form-control" name="password"/>
                     </div>
@@ -46,12 +48,12 @@ class="landingwrap"
             {% endif %}
             <div class="row">
                 <div class="col-md-3 col-md-offset-4">
-                    <button type="submit" class="btn btn-primary">Login</button>
-                    <a href="/forgot">Forgot password?</a>
+                    <button type="submit" class="btn btn-primary">{% trans %}Login{% endtrans %}</button>
+                    <a href="/forgot">{% trans %}Forgot password?{% endtrans %}</a>
                 </div>
                 <div class="col-md-4">
                     <div class="checkbox">
-                        <input type="checkbox" name="remember">remember me</input>
+                        <input type="checkbox" name="remember">{% trans %}Remember me{% endtrans %}</input>
                     </div>
                 </div>
             </div>
@@ -59,11 +61,11 @@ class="landingwrap"
         <br><br>
         <div class="row">
             <div class="col-md-8 col-md-offset-4">
-                Not a member?        
-                <a class="btn btn-default" href="/signup">Sign Up!</a>
+                {% trans %}Not a member?{% endtrans %}        
+                <a class="btn btn-default" href="/signup">{% trans %}Sign Up!{% endtrans %}</a>
                 <br><br>
-                Want your band on the Gig-o? Click <a href="/help_band_request.html">here</a>.
-                What is the Gig-O-Matic, anyway? Click <a href="/whatis.html">here</a>!
+                {% trans %}Want your band on the Gig-o?{% endtrans %} {% trans %}Click{% endtrans %} <a href="/help_band_request.html">{% trans %}here{% endtrans %}</a>.
+                {% trans %}What is the Gig-o-Matic, anyway?{% endtrans %} {% trans %}Click{% endtrans %} <a href="/whatis.html">{% trans %}here{% endtrans %}</a>!
             </div>
         </div>
     </div>
