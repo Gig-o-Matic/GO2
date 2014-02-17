@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-02-16 21:32-0500\n"
+"POT-Creation-Date: 2014-02-17 15:51-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -536,6 +536,42 @@ msgstr ""
 
 #: templates/help.html:3 templates/help.html:7
 msgid "Help!"
+msgstr ""
+
+#: templates/help.html:16
+msgid "How do I..."
+msgstr ""
+
+#: templates/help.html:18
+msgid "help_question_1"
+msgstr ""
+
+#: templates/help.html:18
+msgid "help_answer_1"
+msgstr ""
+
+#: templates/help.html:19
+msgid "help_question_2"
+msgstr ""
+
+#: templates/help.html:19
+msgid "help_answer_2"
+msgstr ""
+
+#: templates/help.html:20
+msgid "help_question_3"
+msgstr ""
+
+#: templates/help.html:20
+msgid "help_answer_3"
+msgstr ""
+
+#: templates/help.html:21
+msgid "help_question_4"
+msgstr ""
+
+#: templates/help.html:21
+msgid "help_answer_4"
 msgstr ""
 
 #: templates/help_band_request.html:3

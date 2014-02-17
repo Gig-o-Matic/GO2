@@ -1,10 +1,10 @@
-﻿?#
+
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-02-16 21:32-0500\n"
+"POT-Creation-Date: 2014-02-17 15:51-0500\n"
 "PO-Revision-Date: 2014-02-01 18:13-0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: it <LL@li.org>\n"
@@ -20,7 +20,8 @@ msgstr "Un benvenuto sul Gig-O-Matic"
 
 #: goemail.py:51
 msgid "welcome_msg_email"
-msgstr "Ciao! Hai effettuato la registrazione al Gig-O-Matic – ora clicca sul "
+msgstr ""
+"Ciao! Hai effettuato la registrazione al Gig-O-Matic – ora clicca sul "
 "link qui sotto per\n"
 "accedere, e il gioco è fatto! (Il link è attivo per 48 ore – dopodiché\n"
 "puoi sempre ripetere la registrazione per ottenerlo di nuovo.)\n"
@@ -36,7 +37,8 @@ msgstr "Gig-O-Matic: Iscrizione confermata!"
 
 #: goemail.py:80
 msgid "member_confirmed_email"
-msgstr "Ciao! La tua richiesta di iscrizione è stata confermata. Ora sei tra i "
+msgstr ""
+"Ciao! La tua richiesta di iscrizione è stata confermata. Ora sei tra i "
 "membri della {0} e puoi cominciare a utilizzare il\n"
 " Gig-O-Matic per gestire la tua partecipazione in banda.\n"
 "\n"
@@ -51,7 +53,8 @@ msgstr "Reset della password Gig-O-Matic"
 
 #: goemail.py:111
 msgid "forgot_password_email"
-msgstr "Ciao! Per resettare la tua password Gig-O-Matic, clicca sul link qui "
+msgstr ""
+"Ciao! Per resettare la tua password Gig-O-Matic, clicca sul link qui "
 "sotto.\n"
 "\n"
 "{0}\n"
@@ -65,7 +68,8 @@ msgstr "Gig-O-Matic: Nuova Suonata"
 
 #: goemail.py:162
 msgid "new_gig_email"
-msgstr "Ciao! È stata aggiunta sul Gig-O-Matic una nuova suonata della {0}:\n"
+msgstr ""
+"Ciao! È stata aggiunta sul Gig-O-Matic una nuova suonata della {0}:\n"
 "\n"
 "{1}\n"
 "Data: {2}\n"
@@ -87,7 +91,8 @@ msgstr "Gig-O-Matic: Nuovo membro per la {0}"
 
 #: goemail.py:209
 msgid "new_member_email"
-msgstr "Ciao! Un nuovo membro, {0}, ha chiesto di iscriversi alla {1}. Accedi al "
+msgstr ""
+"Ciao! Un nuovo membro, {0}, ha chiesto di iscriversi alla {1}. Accedi al "
 "Gig-O-Matic per\n"
 "confermarne l’iscrizione.\n"
 "\n"
@@ -102,8 +107,9 @@ msgstr "Gig-O-Matic: conferma indirizzo e-mail"
 
 #: goemail.py:239
 msgid "confirm_email_address_email"
-msgstr "Ehilà! Qualcuno ha richiesto di cambiare la sua ID sul Gig-O-Matic con questo"
-" indirizzo e-mail.\n"
+msgstr ""
+"Ehilà! Qualcuno ha richiesto di cambiare la sua ID sul Gig-O-Matic con "
+"questo indirizzo e-mail.\n"
 "Se sei tu, clicca sul link per confermare. Se no, ignora questo messaggio"
 " e\n"
 "buonanotte.\n"
@@ -263,7 +269,8 @@ msgstr "Suonate in programma"
 
 #: templates/band_info.html:66
 msgid "Your membership is pending - ask a band member to confirm you!"
-msgstr "La tua iscrizione è in attesa di conferma - rivolgiti a un membro della "
+msgstr ""
+"La tua iscrizione è in attesa di conferma - rivolgiti a un membro della "
 "banda!"
 
 #: templates/band_info.html:72
@@ -360,8 +367,9 @@ msgstr "Iscrizione fatta!"
 
 #: templates/confirm_signup.html:17
 msgid "signup_confirm_message"
-msgstr "Ecco, l’iscrizione è fatta. Riceverai un’e-mail di conferma e seguendo "
-" le istruzioni potrai completare la procedura."
+msgstr ""
+"Ecco, l’iscrizione è fatta. Riceverai un’e-mail di conferma e seguendo  "
+"le istruzioni potrai completare la procedura."
 
 #: templates/credits.html:3
 msgid "Credits"
@@ -379,7 +387,8 @@ msgstr "Reset della password"
 
 #: templates/forgot.html:23
 msgid "forgot_message"
-msgstr "Password dimenticata? Niente di grave! Inserisci il tuo indirizzo e-mail "
+msgstr ""
+"Password dimenticata? Niente di grave! Inserisci il tuo indirizzo e-mail "
 "per ricevere un link che ti permetterà di sceglierne una nuova, più "
 "facile da ricordare."
 
@@ -610,6 +619,42 @@ msgstr "Griglia"
 #, fuzzy
 msgid "Help!"
 msgstr "Help"
+
+#: templates/help.html:16
+msgid "How do I..."
+msgstr ""
+
+#: templates/help.html:18
+msgid "help_question_1"
+msgstr "...join a band?"
+
+#: templates/help.html:18
+msgid "help_answer_1"
+msgstr "Click your name in the upper-right of this window, and select \"My Profile.\" In the \"Bands\" section, click \"Add Band\" and select the band of your choice! You'll be a pending member until the administrator for that band confirms your membership. You'll get an email about it."
+
+#: templates/help.html:19
+msgid "help_question_2"
+msgstr "...change my section?"
+
+#: templates/help.html:19
+msgid "help_answer_2"
+ msgstr "Click your name in the upper-right of this window, and select \"My Profile.\" In the \"Bands\" section, select your section from the pop-up next to the band. Note that some bands aren't organized by section, so there might not be anything to select. So relax and enjoy the anarchy."
+
+#: templates/help.html:20
+msgid "help_question_3"
+msgstr "...make a suggestion?"
+
+#: templates/help.html:20
+msgid "help_answer_3"
+msgstr "I want to <a href=\"mailto:gigomatic.superuser@gmail.com\">hear about it</a>."
+
+#: templates/help.html:21
+msgid "help_question_4"
+msgstr "...contact the administator?"
+
+#: templates/help.html:21
+msgid "help_answer_4"
+msgstr "<a href=\"mailto:gigomatic.superuser@gmail.com\">Email Here!</a>"
 
 #: templates/help_band_request.html:3
 #, fuzzy
@@ -866,7 +911,12 @@ msgstr "Per aggiungere una suonata"
 
 #: templates/no_band_gig.html:13
 msgid "no_band_gig_message"
-msgstr "Non sei ancora membro confermato di nessuna banda. Appena avrai scelto una banda, un membro di quella banda convaliderà la tua richiesta e riceverai un’e-mail di conferma della tua iscrizione. A quel punto, potrai creare e modificare tutte le suonate che vuoi per quella banda. Quindi, abbi pazienza e controlla le tue e-mail!"
+msgstr ""
+"Non sei ancora membro confermato di nessuna banda. Appena avrai scelto "
+"una banda, un membro di quella banda convaliderà la tua richiesta e "
+"riceverai un’e-mail di conferma della tua iscrizione. A quel punto, "
+"potrai creare e modificare tutte le suonate che vuoi per quella banda. "
+"Quindi, abbi pazienza e controlla le tue e-mail!"
 
 #: templates/no_gig_found.html:7
 msgid "No Gig Found!"
