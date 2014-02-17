@@ -8,8 +8,14 @@
     </div> 
     <div class="row">
         <div class="col-md-5 col-md-offset-2">{{ num_members }} members in {{ num_bands }} bands!</div>
+        <br><br>
     </div> 
     {% for stat in the_stats %}
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <hr>
+            </div>
+        </div>            
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <a href="/band_info.html?bk={{stat[1].urlsafe()}}">{{ stat[0] }}</a>
@@ -22,11 +28,6 @@
             <div class="col-md-4">
                 <div id="gigstats-{{stat[1].urlsafe()}}" style="width:100%;"></div>
             </div>
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <hr>
-            </div>
-        </div>            
         </div>
     {% endfor %}
 {% endblock content %}
@@ -48,7 +49,9 @@ function makememberchart(which,counts) {
             type: 'datetime'
         },
         yAxis: {
-            allowDecimals: false
+            allowDecimals: false,
+            title: {
+                text: 'Members'}
         },
         series: [{
             data: counts
@@ -76,7 +79,9 @@ function makegigchart(which,counts) {
             type: 'datetime'
         },
         yAxis: {
-            allowDecimals: false
+            allowDecimals: false,
+            title: {
+                text: 'Gigs'}
         },
         series: [{
             data: counts
