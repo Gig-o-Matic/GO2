@@ -13,6 +13,7 @@ import logging
 import member
 import goemail
 import datetime
+import lang
 
 ENABLE_EMAIL = True
 
@@ -43,13 +44,14 @@ class LoginPage(BaseHandler):
     def _serve_page(self, the_url=None, failed=False):
         username = self.request.get('username')
 
-        locale=self.request.get('locale',None)
+        locale=self.request.get('locale','en')
 
         params = {
             'username': username,
             'failed': failed,
             'originalurl': the_url,
-            'locale': locale
+            'locale': locale,
+            'languages': lang.LOCALES
         }
         self.render_template('login.html', params=params)
 
@@ -89,6 +91,10 @@ class SignupPage(BaseHandler):
         user = user_data[1]
         user_id = user.get_id()
 
+        locale = self.request.get('locale','en')
+        user.preferences.locale=locale
+        user.put()
+
         token = self.user_model.create_signup_token(user_id)
 
         verification_url = self.uri_for('verification', type='v', user_id=user_id,
@@ -99,8 +105,6 @@ class SignupPage(BaseHandler):
         else:
             goemail.send_registration_email(the_req=self, the_email=email, the_url=verification_url)
             msg=''
-
-        locale=self.request.get('locale',None)
 
         params = {
             'msg': msg,

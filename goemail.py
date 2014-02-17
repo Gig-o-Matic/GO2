@@ -13,18 +13,23 @@ from webapp2_extras.i18n import gettext as _
 
 SENDER_EMAIL = 'gigomatic.superuser@gmail.com'
 
-def set_locale_for_user(the_req):
-    if the_req.user:
-        if the_req.user.preferences.locale:
-            i18n.get_i18n().set_locale(the_req.user.preferences.locale)
-        else:
-            i18n.get_i18n().set_locale('en')
+def set_locale_for_user(the_req, the_locale_override):
+    if the_locale_override:
+        locale=the_locale_override
     else:
-        i18n.get_i18n().set_locale('en')
+        if the_req.user:
+            if the_req.user.preferences.locale:
+                locale=the_req.user.preferences.locale
+            else:
+                locale='en'
+        else:
+            locale='en'
 
-def send_registration_email(the_req, the_email, the_url):
+    i18n.get_i18n().set_locale(locale)
 
-    set_locale_for_user(the_req)
+def send_registration_email(the_req, the_email, the_url, the_locale_override=None):
+
+    set_locale_for_user(the_req, the_locale_override)
 
     if not mail.is_email_valid(the_email):
         return False

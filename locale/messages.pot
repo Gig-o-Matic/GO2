@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-02-15 17:47-0500\n"
+"POT-Creation-Date: 2014-02-16 21:32-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,51 +17,51 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 1.3\n"
 
-#: goemail.py:35
+#: goemail.py:40
 msgid "Welcome to Gig-O-Matic"
 msgstr ""
 
-#: goemail.py:46
+#: goemail.py:51
 msgid "welcome_msg_email"
 msgstr ""
 
-#: goemail.py:65
+#: goemail.py:70
 msgid "Gig-O-Matic: Confirmed!"
 msgstr ""
 
-#: goemail.py:75
+#: goemail.py:80
 msgid "member_confirmed_email"
 msgstr ""
 
-#: goemail.py:95
+#: goemail.py:100
 msgid "Gig-O-Matic Password Reset"
 msgstr ""
 
-#: goemail.py:106
+#: goemail.py:111
 msgid "forgot_password_email"
 msgstr ""
 
-#: goemail.py:139
+#: goemail.py:144
 msgid "Gig-O-Matic New Gig"
 msgstr ""
 
-#: goemail.py:157
+#: goemail.py:162
 msgid "new_gig_email"
 msgstr ""
 
-#: goemail.py:193
+#: goemail.py:198
 msgid "Gig-O-Matic New Member for band {0})"
 msgstr ""
 
-#: goemail.py:204
+#: goemail.py:209
 msgid "new_member_email"
 msgstr ""
 
-#: goemail.py:222
+#: goemail.py:227
 msgid "Gig-O-Matic Confirm Email Address"
 msgstr ""
 
-#: goemail.py:234
+#: goemail.py:239
 msgid "confirm_email_address_email"
 msgstr ""
 
@@ -170,7 +170,7 @@ msgstr ""
 #: templates/band_edit.html:66 templates/band_edit.html:68
 #: templates/band_info.html:182 templates/forgot.html:49
 #: templates/gig_edit.html:148 templates/gig_edit.html:150
-#: templates/member_edit.html:98
+#: templates/member_edit.html:98 templates/signup.html:58
 msgid "Cancel"
 msgstr ""
 
@@ -302,6 +302,10 @@ msgstr ""
 msgid "Signed Up!"
 msgstr ""
 
+#: templates/confirm_signup.html:17
+msgid "signup_confirm_message"
+msgstr ""
+
 #: templates/credits.html:3
 msgid "Credits"
 msgstr ""
@@ -327,7 +331,7 @@ msgstr ""
 msgid "We could not found any user with the given username."
 msgstr ""
 
-#: templates/forgot.html:41 templates/login.html:32
+#: templates/forgot.html:41 templates/login.html:32 templates/signup.html:33
 msgid "Email Address"
 msgstr ""
 
@@ -555,6 +559,7 @@ msgid "Check your credentials and try again."
 msgstr ""
 
 #: templates/login.html:40 templates/member_edit.html:26
+#: templates/signup.html:41
 msgid "Password"
 msgstr ""
 
@@ -566,27 +571,31 @@ msgstr ""
 msgid "Remember me"
 msgstr ""
 
-#: templates/login.html:64
+#: templates/login.html:67
 msgid "Not a member?"
 msgstr ""
 
-#: templates/login.html:65
+#: templates/login.html:68
 msgid "Sign Up!"
 msgstr ""
 
-#: templates/login.html:67
+#: templates/login.html:71
+msgid "Switch to"
+msgstr ""
+
+#: templates/login.html:82
 msgid "Want your band on the Gig-o?"
 msgstr ""
 
-#: templates/login.html:67 templates/login.html:68
+#: templates/login.html:82 templates/login.html:83
 msgid "Click"
 msgstr ""
 
-#: templates/login.html:67 templates/login.html:68
+#: templates/login.html:82 templates/login.html:83
 msgid "here"
 msgstr ""
 
-#: templates/login.html:68
+#: templates/login.html:83
 msgid "What is the Gig-o-Matic, anyway?"
 msgstr ""
 
@@ -770,6 +779,10 @@ msgstr ""
 msgid "Adding a Gig"
 msgstr ""
 
+#: templates/no_band_gig.html:13
+msgid "no_band_gig_message"
+msgstr ""
+
 #: templates/no_gig_found.html:7
 msgid "No Gig Found!"
 msgstr ""
@@ -800,6 +813,22 @@ msgstr ""
 
 #: templates/signup.html:3
 msgid "Register!"
+msgstr ""
+
+#: templates/signup.html:18
+msgid "Register with the Gig-o-Matic"
+msgstr ""
+
+#: templates/signup.html:25
+msgid "Sorry, someone already has that email address."
+msgstr ""
+
+#: templates/signup.html:49
+msgid "Display Name"
+msgstr ""
+
+#: templates/signup.html:59
+msgid "Sign me up!"
 msgstr ""
 
 #: templates/stats.html:3 templates/stats.html:7

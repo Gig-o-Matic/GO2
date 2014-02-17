@@ -51,7 +51,7 @@ class="landingwrap"
                     <button type="submit" class="btn btn-primary">{% trans %}Login{% endtrans %}</button>
                     <a href="/forgot{% if locale %}?locale={{ locale }}{% endif %}">{% trans %}Forgot password?{% endtrans %}</a>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <div class="checkbox">
                         <input type="checkbox" name="remember">{% trans %}Remember me{% endtrans %}</input>
                     </div>
@@ -61,12 +61,24 @@ class="landingwrap"
                 <input type='hidden' name='locale' value='{{ locale }}'>
             {% endif %}
         </form>
-        <br><br>
+        <br>
         <div class="row">
-            <div class="col-md-8 col-md-offset-4">
+            <div class="col-md-4 col-md-offset-4">
                 {% trans %}Not a member?{% endtrans %}        
                 <a class="btn btn-default" href="/signup{% if locale %}?locale={{ locale }}{% endif %}">{% trans %}Sign Up!{% endtrans %}</a>
-                <br><br>
+            </div>
+            <div class="col-md-4">
+                {% trans %}Switch to{% endtrans %}
+                {% for lang in languages %}
+                    {% if lang[0] != locale %}
+                        <a href='/login?locale={{lang[0]}}'>{{ lang[1] }}</a>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-12 col-md-offset-4">
                 {% trans %}Want your band on the Gig-o?{% endtrans %} {% trans %}Click{% endtrans %} <a href="/help_band_request.html{% if locale %}?locale={{ locale }}{% endif %}">{% trans %}here{% endtrans %}</a>.
                 {% trans %}What is the Gig-o-Matic, anyway?{% endtrans %} {% trans %}Click{% endtrans %} <a href="/whatis.html{% if locale %}?locale={{ locale }}{% endif %}">{% trans %}here{% endtrans %}</a>!
             </div>
