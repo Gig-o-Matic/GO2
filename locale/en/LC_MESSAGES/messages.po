@@ -363,7 +363,7 @@ msgstr ""
 
 #: templates/credits.html:3
 msgid "Credits"
-msgstr ""
+msgstr "Who made this thing?"
 
 #: templates/credits.html:7
 msgid "Gig-O-Matic Credits"
