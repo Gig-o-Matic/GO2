@@ -124,15 +124,19 @@ class Member(webapp2_extras.appengine.auth.models.User):
     def delete_email_token(cls, user_id, token):
         cls.token_model.get_key(user_id, 'email', token).delete()
         
-def get_all_members(order=True):
+def get_all_members(order=True, keys_only=False, verified_only=False):
     """ Return all member objects """
 
+    args=[]
+    if verified_only:
+        args=[ndb.GenericProperty('verified')==True]
+
     if order:
-        member_query = Member.query().order(Member.lower_name)
+        member_query = Member.query(*args).order(Member.lower_name)
     else:
-        member_query = Member.query()
+        member_query = Member.query(*args)
     
-    members = member_query.fetch()
+    members = member_query.fetch(keys_only=keys_only)
     return members
 
 def reset_motd():
@@ -549,8 +553,7 @@ class AdminPageAllMembers(BaseHandler):
     
         # todo make sure the user is a superuser
         
-        the_members = get_all_members()
-        the_members = [x for x in the_members if x.verified]
+        the_members = get_all_members(verified_only=True)
 
         member_band_info={}
         for a_member in the_members:

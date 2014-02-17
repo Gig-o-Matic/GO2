@@ -121,6 +121,11 @@ indexes:
   - name: assocs.status
   - name: name
 
+- kind: Member
+  properties:
+  - name: verified
+  - name: lower_name
+
 - kind: UserToken
   properties:
   - name: subject

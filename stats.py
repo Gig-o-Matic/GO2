@@ -14,6 +14,7 @@ from debug import *
 import assoc
 import gig
 import band
+import member
 
 import logging
 import json
@@ -69,6 +70,8 @@ class StatsPage(BaseHandler):
             
     def _make_page(self,the_user):
 
+        the_member_keys = member.get_all_members(order=False, keys_only=True, verified_only=True)
+
         the_bands = band.get_all_bands()
 
         stats=[]    
@@ -84,7 +87,9 @@ class StatsPage(BaseHandler):
             stats.append([a_band.name, a_band.key, the_count_data_json])
         
         template_args = {
-            'the_stats' : stats
+            'the_stats' : stats,
+            'num_members' : len(the_member_keys),
+            'num_bands' : len(the_bands)
         }
         self.render_template('stats.html', template_args)
 
