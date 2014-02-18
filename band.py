@@ -291,6 +291,50 @@ class EditPage(BaseHandler):
 
         return self.redirect('/band_info.html?bk={0}'.format(the_band.key.urlsafe()))
         
+
+
+class InvitePage(BaseHandler):
+
+    @user_required
+    def get(self):
+        self.make_page(the_user=self.user)
+
+    def make_page(self, the_user):
+
+        the_band_key_url=self.request.get("bk",None)
+        if the_band_key_url is None:
+            return
+        else:
+            the_band_key = ndb.Key(urlsafe=the_band_key_url)
+            the_band = the_band_key.get()
+            if the_band is None:
+                self.response.write('did not find a band!')
+                return # todo figure out what to do if we didn't find it
+
+        if not assoc.get_admin_status_for_member_for_band_key(the_user, the_band_key) and not the_user.is_superuser:
+            return self.redirect('/band_info.html?bk={0}'.format(the_band.key.urlsafe()))
+
+        template_args = {
+            'the_band' : the_band
+        }
+        self.render_template('band_invite.html', template_args)
+                    
+    def post(self):
+        """post handler - if we are edited by the template, handle it here and redirect back to info page"""
+
+        the_user = self.user
+
+        the_band_key_url=self.request.get("bk",None)
+        if the_band_key_url is None:
+            self.response.write('did not find a band!')
+            return # todo figure out what to do if we didn't find it
+       
+        the_band_key=ndb.Key(urlsafe=the_band_key_url)
+        if not assoc.get_admin_status_for_member_for_band_key(the_user, the_band_key) and not the_user.is_superuser:  
+            return self.redirect('/band_info.html?bk={0}'.format(the_band.key.urlsafe()))
+
+        return self.redirect('/band_info.html?bk={0}'.format(the_band.key.urlsafe()))
+
 class DeleteBand(BaseHandler):
     """ completely delete band """
     
