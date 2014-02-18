@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-02-17 15:51-0500\n"
+"POT-Creation-Date: 2014-02-17 18:03-0500\n"
 "PO-Revision-Date: 2014-02-01 18:13-0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: it <LL@li.org>\n"
@@ -379,6 +379,24 @@ msgstr "Credits"
 msgid "Gig-O-Matic Credits"
 msgstr "Credits Gig-O-Matic"
 
+#: templates/credits.html:16
+msgid "Gig-O-Matic, version 2!"
+msgstr ""
+
+#: templates/credits.html:22
+msgid "credits_text"
+msgstr ""
+"Written by Aaron Oppenheimer, Second Line Social Aid & Pleasure Society Brass Band. Beta-tested by several intrepid members of the band. Guinea-pigged by the whole band. WOO!<br><br>"
+"Italian translation by Marcello Jatosti. Meraviglioso!"
+
+#: templates/credits.html:33
+msgid "credits_text2"
+msgstr "Uses the following awesome (and open!) technology:"
+
+#: templates/credits.html:55
+msgid "credits_text3"
+msgstr "The project is on <a href=\"https://github.com/SecondLiners/GO2.git\">github</a> - feel free to fork and/or contribute!"
+
 #: templates/forgot.html:3 templates/forgot.html:17
 #: templates/resetpassword.html:3 templates/resetpassword.html:17
 #, fuzzy
@@ -622,35 +640,48 @@ msgstr "Help"
 
 #: templates/help.html:16
 msgid "How do I..."
-msgstr ""
+msgstr "Come faccio a..."
 
 #: templates/help.html:18
 msgid "help_question_1"
-msgstr "...join a band?"
+msgstr "...entrare in una banda?"
 
 #: templates/help.html:18
 msgid "help_answer_1"
-msgstr "Click your name in the upper-right of this window, and select \"My Profile.\" In the \"Bands\" section, click \"Add Band\" and select the band of your choice! You'll be a pending member until the administrator for that band confirms your membership. You'll get an email about it."
+msgstr ""
+"Clicca sul tuo nome nella barra in alto a destra di questa finestra e "
+"seleziona \"Il mio profilo.\" Nel riquadro \"Bande\" (in basso), clicca "
+"su \"Aggiungi banda\" e seleziona la banda che desideri. La tua "
+"iscrizione rimarrà in attesa finché l’amministratore della banda ti "
+"confermerà tra i membri. A iscrizione completata riceverai un’e-mail."
 
 #: templates/help.html:19
 msgid "help_question_2"
-msgstr "...change my section?"
+msgstr "...scegliere/cambiare sezione?"
 
 #: templates/help.html:19
 msgid "help_answer_2"
- msgstr "Click your name in the upper-right of this window, and select \"My Profile.\" In the \"Bands\" section, select your section from the pop-up next to the band. Note that some bands aren't organized by section, so there might not be anything to select. So relax and enjoy the anarchy."
+msgstr ""
+"Clicca sul tuo nome nella barra in alto a destra di questa finestra e "
+"seleziona \"Il mio profilo.\" Nel riquadro \"Bande\" (in basso), scegli "
+"la tua sezione nel menu a tendina accanto alla banda. Se suoni più di uno"
+" strumento, puoi spuntare la casella \"anche altre sezioni.\" Nota che "
+"alcune bande non sono organizzate per sezioni, perciò potrebbe non "
+"esserci nulla da selezionare. Quindi rilassati e goditi l’anarchia."
 
 #: templates/help.html:20
 msgid "help_question_3"
-msgstr "...make a suggestion?"
+msgstr "...dare un suggerimento?"
 
 #: templates/help.html:20
 msgid "help_answer_3"
-msgstr "I want to <a href=\"mailto:gigomatic.superuser@gmail.com\">hear about it</a>."
+msgstr ""
+"I want to <a href=\"mailto:gigomatic.superuser@gmail.com\">hear about "
+"it</a>."
 
 #: templates/help.html:21
 msgid "help_question_4"
-msgstr "...contact the administator?"
+msgstr "...contattare l’amministratore?"
 
 #: templates/help.html:21
 msgid "help_answer_4"
@@ -978,6 +1009,23 @@ msgstr "Sì"
 #: templates/tf.html:5
 msgid "False"
 msgstr "No"
+
+#: templates/welcome.html:3
+msgid "welcome_message"
+msgstr ""
+"Welcome to Gig-O-Matic!<br><br>First things first: Be sure to edit your "
+"profile with info about yourself.<br><br>Second things second: Add a band"
+" or two by clicking on the \"add band\" link below. The band's "
+"administrator will confirm that you're for real, and you'll get an email "
+"confirmation. Which will be awesome.<br><br>Need help? Click <a "
+"href=\"/help\" class=\"alert-link\">here</a> and hopefully you'll get "
+"what you need.<br><br>Need even more help? Contact the <a "
+"href=\"mailto:gigomatic.superuser@gmail.com\" class=\"alert-"
+"link\">Gig-O-Matic Overlords</a>."
+
+#: templates/welcome.html:12
+msgid "dismiss"
+msgstr ""
 
 #: templates/whatis.html:3
 #, fuzzy

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-02-17 15:51-0500\n"
+"POT-Creation-Date: 2014-02-17 18:03-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -312,6 +312,22 @@ msgstr ""
 
 #: templates/credits.html:7
 msgid "Gig-O-Matic Credits"
+msgstr ""
+
+#: templates/credits.html:16
+msgid "Gig-O-Matic, version 2!"
+msgstr ""
+
+#: templates/credits.html:22
+msgid "credits_text"
+msgstr ""
+
+#: templates/credits.html:33
+msgid "credits_text2"
+msgstr ""
+
+#: templates/credits.html:55
+msgid "credits_text3"
 msgstr ""
 
 #: templates/forgot.html:3 templates/forgot.html:17
@@ -877,6 +893,14 @@ msgstr ""
 
 #: templates/tf.html:5
 msgid "False"
+msgstr ""
+
+#: templates/welcome.html:3
+msgid "welcome_message"
+msgstr ""
+
+#: templates/welcome.html:12
+msgid "dismiss"
 msgstr ""
 
 #: templates/whatis.html:3
