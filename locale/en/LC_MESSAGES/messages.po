@@ -60,7 +60,8 @@ msgid "forgot_password_email"
 msgstr ""
 "Hello! To reset your Gig-O-Matic password, click the link below.\n"
 "\n"
-"{0}Thanks,\n"
+"{0}\n"
+"Thanks,\n"
 "The Gig-O-Matic Team"
 
 #: goemail.py:144
