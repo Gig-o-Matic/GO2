@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-02-17 18:03-0500\n"
+"POT-Creation-Date: 2014-02-18 12:49-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -120,6 +120,7 @@ msgid "Edit Band"
 msgstr ""
 
 #: templates/band_edit.html:16 templates/member_info.html:20
+#: templates/signup.html:49
 msgid "Name"
 msgstr ""
 
@@ -873,10 +874,6 @@ msgstr ""
 
 #: templates/signup.html:25
 msgid "Sorry, someone already has that email address."
-msgstr ""
-
-#: templates/signup.html:49
-msgid "Display Name"
 msgstr ""
 
 #: templates/signup.html:59
