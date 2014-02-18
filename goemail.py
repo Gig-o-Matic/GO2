@@ -13,7 +13,7 @@ from webapp2_extras.i18n import gettext as _
 
 SENDER_EMAIL = 'gigomatic.superuser@gmail.com'
 
-def set_locale_for_user(the_req, the_locale_override):
+def set_locale_for_user(the_req, the_locale_override=None):
     if the_locale_override:
         locale=the_locale_override
     else:
