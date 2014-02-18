@@ -97,6 +97,7 @@ else:
         webapp2.Route('/band_nav.html',band.BandNavPage),
         webapp2.Route('/band_get_upcoming', band.GetUpcoming),
         webapp2.Route('/band_invite.html',band.InvitePage),
+        webapp2.Route('/band_send_invites',band.SendInvites),
         webapp2.Route('/calevents', calview.CalEvents),
         webapp2.Route('/updateplan', plan.UpdatePlan),
         webapp2.Route('/updateplancomment', plan.UpdatePlanComment),

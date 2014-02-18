@@ -642,4 +642,23 @@ class GetUpcoming(BaseHandler):
             'the_gigs' : the_gigs,
         }
         self.render_template('band_upcoming.html', template_args)
+
+
+class SendInvites(BaseHandler):
+
+    def post(self):
+        the_user = self.user
+        the_band_keyurl=self.request.get('bk','0')
+
+        if the_band_keyurl=='0':
+            return # todo figure out what to do
+
+        the_band_key = ndb.Key(urlsafe=the_band_keyurl)
+
+        out=''
+        if not assoc.get_admin_status_for_member_for_band_key(the_user, the_band_key) and not the_user.is_superuser:
+            out='not admin'
+                    
+        out='hi there'
         
+        self.response.write(out)

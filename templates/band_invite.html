@@ -27,29 +27,47 @@
     <div class="row">
         <div class="form-group col-md-8 col-md-offset-2 text-right">
             <a class="btn btn-default" href="band_info.html?bk={{the_band.key.urlsafe()}}">{% trans %}Cancel{% endtrans %}</a>
-            <a class="btn btn-primary" onclick="do_invite();">{% trans %}Send Invites{% endtrans %}</a>
+            <a class="btn btn-primary" onclick="do_invite('{{the_band.key.urlsafe()}}');">{% trans %}Send Invites{% endtrans %}</a>
         </div>
     </div>
     
 {% endblock content %}
 
+
+{% block modal %}
+    <div class="modal fade" id="inviteModal" tabindex="-1" role="dialog" aria-labelledby="inviteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">{% trans %}Band Invites{% endtrans %}</h4>
+                </div>
+                <div class="modal-body" id="modalContent">
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-default" href="band_info.html?bk={{the_band.key.urlsafe()}}">{% trans %}Cancel{% endtrans %}</a>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">{% trans %}Try Again{% endtrans %}</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+{% endblock modal %}
+
 {% block localscripts %}
 <script>
-function do_invite(gk) {
-    alert($('#inviteinput').val());
-//     $.post("/gig_add_comment",
-//                 {
-//                     gk: gk,
-//                     c: $('#commentinput').val(),
-//                     o: offset
-//                 },
-//                 function(responseTxt,statusTxt,xhr){
-//                     if(statusTxt=="success")
-//                         $('#commentinput').val('')
-//                         $('#gig_comment').html(responseTxt)
-//                     if(statusTxt=="error")
-//                         alert("Error: "+xhr.status+": "+xhr.statusText);
-//                 });
+function do_invite(bk) {
+    $.post("/band_send_invites",
+                {
+                    bk: bk,
+                    e: $('#inviteinput').val()
+                },
+                function(responseTxt,statusTxt,xhr){
+                    if(statusTxt=="success")
+                        $('#modalContent').html(responseTxt)
+                        $('#inviteModal').modal('show');
+                    if(statusTxt=="error")
+                        alert("Error: "+xhr.status+": "+xhr.statusText);
+                });
     
 }
 </script>
