@@ -42,15 +42,15 @@ def send_registration_email(the_req, the_email, the_url, the_locale_override=Non
     message = mail.EmailMessage()
     message.sender = SENDER_EMAIL
     message.to = the_email
-    message.subject = _('Welcome to Gig-O-Matic')
+    message.subject = _('Welcome to Gig-o-Matic')
 #     message.body = u"""
-# Hello! You have registered to join Gig-O-Matic - click the link below to log in and you're good to go. (The link
+# Hello! You have registered to join Gig-o-Matic - click the link below to log in and you're good to go. (The link
 # is good for 48 hours - after that you can just register again to get a new one if you need it.)
 # 
 # {0}
 # 
 # Thanks,
-# The Gig-O-Matic Team
+# The Gig-o-Matic Team
 # 
 #     """.format(the_url)
     message.body=_('welcome_msg_email').format(the_url)
@@ -72,14 +72,14 @@ def send_band_accepted_email(the_req, the_email, the_band):
     message = mail.EmailMessage()
     message.sender = SENDER_EMAIL
     message.to = the_email
-    message.subject = _('Gig-O-Matic: Confirmed!')
+    message.subject = _('Gig-o-Matic: Confirmed!')
 #     message.body = u"""
-# Hello! You have been confirmed as a member of {0} and can now start using Gig-O-Matic to manage your band life.
+# Hello! You have been confirmed as a member of {0} and can now start using Gig-o-Matic to manage your band life.
 # 
 # http://gig-o-matic.appspot.com/band_info.html?bk={1}
 # 
 # Thanks,
-# The Gig-O-Matic Team
+# The Gig-o-Matic Team
 # 
 #     """.format(the_band.name, the_band.key.urlsafe())
     message.body = _('member_confirmed_email').format(the_band.name, the_band.key.urlsafe())
@@ -102,14 +102,14 @@ def send_forgot_email(the_req, the_email, the_url):
     message = mail.EmailMessage()
     message.sender = SENDER_EMAIL
     message.to = the_email
-    message.subject = _('Gig-O-Matic Password Reset')
+    message.subject = _('Gig-o-Matic Password Reset')
 #     message.body = u"""
-# Hello! To reset your Gig-O-Matic password, click the link below.
+# Hello! To reset your Gig-o-Matic password, click the link below.
 # 
 # {0}
 # 
 # Thanks,
-# The Gig-O-Matic Team
+# The Gig-o-Matic Team
 # 
 #     """.format(the_url)
 
@@ -146,9 +146,9 @@ def send_newgig_email(the_member, the_gig, the_band, the_gig_url):
     message = mail.EmailMessage()
     message.sender = SENDER_EMAIL
     message.to = the_email_address
-    message.subject = _('Gig-O-Matic New Gig')
+    message.subject = _('Gig-o-Matic New Gig')
 #     message.body = u"""
-# Hello! A new gig has been added to the Gig-O-Matic for your band {0}:
+# Hello! A new gig has been added to the Gig-o-Matic for your band {0}:
 # 
 # {1}
 # Date: {2}
@@ -160,7 +160,7 @@ def send_newgig_email(the_member, the_gig, the_band, the_gig_url):
 # Can you make it? You can (and should!) weigh in here: {6}
 # 
 # Thanks,
-# The Gig-O-Matic Team
+# The Gig-o-Matic Team
 # 
 #     """.format(the_band.name, the_gig.title, the_gig.date, the_gig.settime, contact_name, the_gig.details, the_gig_url)
     the_date_string = member.format_date_for_member(the_member, the_gig.date)
@@ -200,7 +200,7 @@ def send_the_new_member_email(the_locale, the_email_address, new_member, the_ban
     message = mail.EmailMessage()
     message.sender = SENDER_EMAIL
     message.to = the_email_address
-    message.subject = _('Gig-O-Matic New Member for band {0})').format(the_band.name)
+    message.subject = _('Gig-o-Matic New Member for band {0})').format(the_band.name)
 #     message.body = u"""
 # Hello! A new member {0} has signed up for your band {1}. Please log in and
 # confirm the membership.
@@ -208,7 +208,7 @@ def send_the_new_member_email(the_locale, the_email_address, new_member, the_ban
 # http://gig-o-matic.appspot.com/band_info.html?bk={2}
 # 
 # Thanks,
-# The Gig-O-Matic Team
+# The Gig-o-Matic Team
 # 
 #     """.format(new_member.name, the_band.name, the_band.key.urlsafe())
     message.body = _('new_member_email').format(new_member.name, the_band.name, the_band.key.urlsafe())
@@ -220,6 +220,37 @@ def send_the_new_member_email(the_locale, the_email_address, new_member, the_ban
         
     return True        
 
+def send_new_band_via_invite_email(the_req, the_band, the_member):
+    set_locale_for_user(the_req, the_member.preferences.locale)
+    
+    message = mail.EmailMessage()
+    message.sender = SENDER_EMAIL
+    message.to = the_member.email_address
+    message.subject = _('Gig-o-Matic New Band Invite')
+    message.body = _('new_band_via_invite_email').format(the_band.name)
+    try:
+        message.send()
+    except:
+        logging.error(u'failed to send new_band_via_invite email to user {0}!'.format(the_member.email_address))
+
+    return True
+
+def send_gigo_invite_email(the_req, the_band, the_member, the_url):
+    set_locale_for_user(the_req) # send the invite in the admin member's language
+    if not mail.is_email_valid(the_member.email_address):
+        return False
+        
+    message = mail.EmailMessage()
+    message.sender = SENDER_EMAIL
+    message.to = the_member.email_address
+    message.subject = _('Invitation to Join Gig-o-Matic')
+    message.body=_('gigo_invite_email').format(the_band.name, the_url)
+    try:
+        message.send()
+    except:
+        logging.error('failed to send email!')
+
+
 def send_the_pending_email(the_req, the_email_address, the_confirm_link):
     if not mail.is_email_valid(the_email_address):
         return False
@@ -229,16 +260,16 @@ def send_the_pending_email(the_req, the_email_address, the_confirm_link):
     message = mail.EmailMessage()
     message.sender = SENDER_EMAIL
     message.to = the_email_address
-    message.subject = _('Gig-O-Matic Confirm Email Address')
+    message.subject = _('Gig-o-Matic Confirm Email Address')
 #     message.body = u"""
-# Hi there! Someone has requested to change their Gig-O-Matic ID to this email address.
+# Hi there! Someone has requested to change their Gig-o-Matic ID to this email address.
 # If it's you, please click the link to confirm. If not, just ignore this and it will
 # go away.
 # 
 # {0}
 # 
 # Thanks,
-# Team Gig-O-Matic
+# Team Gig-o-Matic
 # 
 #     """.format(the_confirm_link)
     message.body=_('confirm_email_address_email').format(the_confirm_link)
@@ -253,7 +284,7 @@ def notify_superuser_of_archive(the_num):
     message = mail.EmailMessage()
     message.sender = SENDER_EMAIL
     message.to = 'gigomatic.superuser@gmail.com'
-    message.subject = 'Gig-O-Matic Auto-Archiver'
+    message.subject = 'Gig-o-Matic Auto-Archiver'
     message.body = """
 Yo! The Gig-o-Matic archived {0} gigs last night.
     """.format(the_num)
@@ -269,7 +300,7 @@ def notify_superuser_of_old_tokens(the_num):
     message = mail.EmailMessage()
     message.sender = SENDER_EMAIL
     message.to = 'gigomatic.superuser@gmail.com'
-    message.subject = 'Gig-O-Matic Old Tokens'
+    message.subject = 'Gig-o-Matic Old Tokens'
     message.body = """
 Yo! The Gig-o-Matic found {0} old signup tokens last night.
     """.format(the_num)
@@ -285,16 +316,16 @@ def send_band_request_email(the_email_address, the_name, the_info):
     message = mail.EmailMessage()
     message.sender = SENDER_EMAIL
     message.to = 'gigomatic.superuser@gmail.com'
-    message.subject = 'Gig-O-Matic New Band Request'
+    message.subject = 'Gig-o-Matic New Band Request'
     message.body = u"""
-Hi there! Someone has requested to add their band to the Gig-O-Matic. SO EXCITING!
+Hi there! Someone has requested to add their band to the Gig-o-Matic. SO EXCITING!
 
 {0}
 {1}
 {2}
 
 Enjoy,
-Team Gig-O-Matic
+Team Gig-o-Matic
 
     """.format(the_email_address, the_name, the_info)
     try:

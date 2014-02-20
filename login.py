@@ -14,6 +14,7 @@ import member
 import goemail
 import datetime
 import lang
+import assoc
 
 ENABLE_EMAIL = True
 
@@ -76,17 +77,6 @@ class SignupPage(BaseHandler):
         name = self.request.get('name')
         password = self.request.get('password')
 
-#         if name=='':
-#             name=email
-# 
-#         unique_properties = ['email_address']
-#         user_data = self.user_model.create_user(email,
-#             unique_properties,
-#             email_address=email, name=name, password_raw=password,
-#             verified=False, preferences=member.MemberPreferences())
-#         if not user_data[0]: #user_data is a tuple
-#             self._serve_page(self,failed=True)
-#             return
         user_data = member.create_new_member(email=email, name=name, password=password)
         if not user_data[0]: #user_data is a tuple
             self._serve_page(self,failed=True)
@@ -223,6 +213,53 @@ class EmailVerificationHandler(BaseHandler):
             logging.info('verification type not supported')
             self.abort(404)
 
+##########
+#
+# InviteVerificationHandler
+#
+##########
+class InviteVerificationHandler(BaseHandler):
+    """ handles user invite verification """
+    def get(self, *args, **kwargs):
+        user = None
+        user_id = kwargs['user_id']
+        signup_token = kwargs['signup_token']
+        verification_type = kwargs['type']
+
+        # it should be something more concise like
+        # self.auth.get_user_by_token(user_id, signup_token
+        # unfortunately the auth interface does not (yet) allow to manipulate
+        # signup tokens concisely
+        user, ts = self.user_model.get_by_auth_token(int(user_id),
+                                                     signup_token,
+                                                    'invite')
+                                                    
+        if not user:
+            logging.error( \
+                'Could not find any user with id "%s" invite token "%s"',
+                user_id, signup_token)
+            self.abort(404)
+        
+        # store user data in the session
+        self.auth.set_session(self.auth.store.user_to_dict(user), remember=True)
+
+        if verification_type == 'i':
+            # ok, this is a user who has one or more invites pending. They have a user but
+            # not a password. We need to do this:
+            #
+            #   - invalidate the invite link so they can't use it again
+            self.user_model.delete_invite_token(user.get_id(), signup_token)
+
+            #   - turn their 'invite' assocs into real assocs
+            assoc.confirm_invites_for_member_key(user.key)
+
+            #   - direct them to a welcome page where they can enter a password
+            template_args = {
+            }
+            self.render_template('invite_welcome.html', params=template_args)            
+        else:
+            logging.info('verification type not supported')
+            self.abort(404)
 ##########
 #
 # SetPasswordHandler

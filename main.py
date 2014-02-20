@@ -44,6 +44,8 @@ else:
                       handler=login.VerificationHandler, name='verification'),
         webapp2.Route('/<type:e>/<user_id:\d+>-<signup_token:.+>',
                       handler=login.EmailVerificationHandler, name='emailverification'),
+        webapp2.Route('/<type:i>/<user_id:\d+>-<signup_token:.+>',
+                      handler=login.InviteVerificationHandler, name='inviteverification'),
         webapp2.Route('/forgot', login.ForgotPasswordHandler, name='forgot'),                  
         webapp2.Route('/password', login.SetPasswordHandler),
         webapp2.Route('/login_auto_old_token', login.AutoDeleteSignupTokenHandler),

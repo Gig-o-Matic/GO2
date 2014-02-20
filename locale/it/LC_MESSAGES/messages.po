@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-02-17 18:03-0500\n"
+"POT-Creation-Date: 2014-02-19 21:29-0500\n"
 "PO-Revision-Date: 2014-02-01 18:13-0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: it <LL@li.org>\n"
@@ -14,11 +14,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 1.3\n"
 
-#: goemail.py:40
-msgid "Welcome to Gig-o-Matic"
-msgstr "Un benvenuto sul Gig-o-Matic"
+#: goemail.py:45
+msgid "Welcome to Gig-O-Matic"
+msgstr ""
 
-#: goemail.py:51
+#: goemail.py:56
 msgid "welcome_msg_email"
 msgstr ""
 "Ciao! Hai effettuato la registrazione al Gig-o-Matic – ora clicca sul "
@@ -31,11 +31,11 @@ msgstr ""
 "Grazie,\n"
 "Il Team Gig-o-Matic"
 
-#: goemail.py:70
+#: goemail.py:75
 msgid "Gig-o-Matic: Confirmed!"
 msgstr "Gig-o-Matic: Iscrizione confermata!"
 
-#: goemail.py:80
+#: goemail.py:85
 msgid "member_confirmed_email"
 msgstr ""
 "Ciao! La tua richiesta di iscrizione è stata confermata. Ora sei tra i "
@@ -47,11 +47,11 @@ msgstr ""
 "Grazie,\n"
 "Il Team Gig-o-Matic"
 
-#: goemail.py:100
+#: goemail.py:105
 msgid "Gig-o-Matic Password Reset"
 msgstr "Reset della password Gig-o-Matic"
 
-#: goemail.py:111
+#: goemail.py:116
 msgid "forgot_password_email"
 msgstr ""
 "Ciao! Per resettare la tua password Gig-o-Matic, clicca sul link qui "
@@ -62,11 +62,11 @@ msgstr ""
 "Grazie,\n"
 "Il Team Gig-o-Matic"
 
-#: goemail.py:144
+#: goemail.py:149
 msgid "Gig-o-Matic New Gig"
 msgstr "Gig-o-Matic: Nuova Suonata"
 
-#: goemail.py:162
+#: goemail.py:167
 msgid "new_gig_email"
 msgstr ""
 "Ciao! È stata aggiunta sul Gig-o-Matic una nuova suonata della {0}:\n"
@@ -84,12 +84,12 @@ msgstr ""
 "Grazie,\n"
 "Il Team Gig-o-Matic"
 
-#: goemail.py:198
+#: goemail.py:203
 #, fuzzy
 msgid "Gig-o-Matic New Member for band {0})"
 msgstr "Gig-o-Matic: Nuovo membro per la {0}"
 
-#: goemail.py:209
+#: goemail.py:214
 msgid "new_member_email"
 msgstr ""
 "Ciao! Un nuovo membro, {0}, ha chiesto di iscriversi alla {1}. Accedi al "
@@ -101,11 +101,19 @@ msgstr ""
 "Grazie,\n"
 "Il Team Gig-o-Matic"
 
-#: goemail.py:227
+#: goemail.py:229
+msgid "Gig-o-Matic New Band Invite"
+msgstr ""
+
+#: goemail.py:230
+msgid "new_band_via_invite_email"
+msgstr ""
+
+#: goemail.py:247
 msgid "Gig-o-Matic Confirm Email Address"
 msgstr "Gig-o-Matic: conferma indirizzo e-mail"
 
-#: goemail.py:239
+#: goemail.py:259
 msgid "confirm_email_address_email"
 msgstr ""
 "Ehilà! Qualcuno ha richiesto di cambiare la sua ID sul Gig-o-Matic con "
@@ -223,18 +231,19 @@ msgid "Let non-members see upcoming gigs"
 msgstr "Permetti ai non-membri di vedere suonate"
 
 #: templates/band_edit.html:66 templates/band_edit.html:68
-#: templates/band_info.html:182 templates/forgot.html:49
-#: templates/gig_edit.html:148 templates/gig_edit.html:150
-#: templates/member_edit.html:98 templates/signup.html:58
+#: templates/band_info.html:187 templates/band_invite.html:29
+#: templates/forgot.html:49 templates/gig_edit.html:148
+#: templates/gig_edit.html:150 templates/member_edit.html:98
+#: templates/signup.html:58
 msgid "Cancel"
 msgstr "Annulla"
 
-#: templates/band_edit.html:70 templates/band_info.html:183
+#: templates/band_edit.html:70 templates/band_info.html:188
 #: templates/gig_edit.html:152 templates/member_edit.html:99
 msgid "Save"
 msgstr "Salva"
 
-#: templates/band_edit.html:94 templates/band_info.html:334
+#: templates/band_edit.html:94 templates/band_info.html:339
 #: templates/gig_edit.html:256 templates/gig_edit.html:259
 #: templates/gig_edit.html:262 templates/member_edit.html:156
 msgid "This field is required!"
@@ -297,7 +306,7 @@ msgstr "Sezioni"
 msgid "Order"
 msgstr "Ordina"
 
-#: templates/band_info.html:125 templates/band_info.html:172
+#: templates/band_info.html:125 templates/band_info.html:177
 msgid "Add a Section"
 msgstr "Aggiungi sezione"
 
@@ -306,9 +315,49 @@ msgstr "Aggiungi sezione"
 msgid "Member Admin"
 msgstr "Membro admin"
 
-#: templates/band_info.html:176
+#: templates/band_info.html:149 templates/band_invite.html:3
+msgid "Invite Members"
+msgstr ""
+
+#: templates/band_info.html:181
 msgid "New Section"
 msgstr "Nuova sezione"
+
+#: templates/band_invite.html:23
+msgid "Emails:"
+msgstr ""
+
+#: templates/band_invite.html:24
+msgid "foo@bar.org"
+msgstr ""
+
+#: templates/band_invite.html:30
+msgid "Send Invites"
+msgstr ""
+
+#: templates/band_invite_result.html:3
+msgid "Band Invites"
+msgstr ""
+
+#: templates/band_invite_result.html:9
+msgid "Email invitations successfully sent to..."
+msgstr ""
+
+#: templates/band_invite_result.html:21
+msgid "Some addresses aren't proper email addresses:"
+msgstr ""
+
+#: templates/band_invite_result.html:31
+msgid "Please enter some email addresses to send invitations."
+msgstr ""
+
+#: templates/band_invite_result.html:36 templates/band_invite_result.html:39
+msgid "Done!"
+msgstr ""
+
+#: templates/band_invite_result.html:40 templates/band_invite_result.html:42
+msgid "Try Again"
+msgstr ""
 
 #: templates/band_members.html:6
 #, fuzzy
@@ -376,18 +425,20 @@ msgid "Credits"
 msgstr "Credits"
 
 #: templates/credits.html:7
-msgid "Gig-o-Matic Credits"
-msgstr "Credits Gig-o-Matic"
+msgid "Gig-O-Matic Credits"
+msgstr ""
 
 #: templates/credits.html:16
-msgid "Gig-o-Matic, version 2!"
+msgid "Gig-O-Matic, version 2!"
 msgstr ""
 
 #: templates/credits.html:22
 msgid "credits_text"
 msgstr ""
-"Written by Aaron Oppenheimer, Second Line Social Aid & Pleasure Society Brass Band. Beta-tested by several intrepid members of the band. Guinea-pigged by the whole band. WOO!<br><br>"
-"Italian translation by Marcello Jatosti. Meraviglioso!"
+"Written by Aaron Oppenheimer, Second Line Social Aid & Pleasure Society "
+"Brass Band. Beta-tested by several intrepid members of the band. Guinea-"
+"pigged by the whole band. WOO!<br><br>Italian translation by Marcello "
+"Jatosti. Meraviglioso!"
 
 #: templates/credits.html:33
 msgid "credits_text2"
@@ -395,7 +446,10 @@ msgstr "Uses the following awesome (and open!) technology:"
 
 #: templates/credits.html:55
 msgid "credits_text3"
-msgstr "The project is on <a href=\"https://github.com/SecondLiners/GO2.git\">github</a> - feel free to fork and/or contribute!"
+msgstr ""
+"The project is on <a "
+"href=\"https://github.com/SecondLiners/GO2.git\">github</a> - feel free "
+"to fork and/or contribute!"
 
 #: templates/forgot.html:3 templates/forgot.html:17
 #: templates/resetpassword.html:3 templates/resetpassword.html:17
@@ -1046,4 +1100,13 @@ msgstr "Che cos’è?"
 
 #~ msgid "Profile Info"
 #~ msgstr "Info profilo"
+
+#~ msgid "Welcome to Gig-o-Matic"
+#~ msgstr "Un benvenuto sul Gig-o-Matic"
+
+#~ msgid "Gig-o-Matic Credits"
+#~ msgstr "Credits Gig-o-Matic"
+
+#~ msgid "Gig-o-Matic, version 2!"
+#~ msgstr ""
 

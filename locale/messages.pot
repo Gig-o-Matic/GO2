@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-02-17 18:03-0500\n"
+"POT-Creation-Date: 2014-02-19 21:29-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,51 +17,59 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 1.3\n"
 
-#: goemail.py:40
+#: goemail.py:45
 msgid "Welcome to Gig-O-Matic"
 msgstr ""
 
-#: goemail.py:51
+#: goemail.py:56
 msgid "welcome_msg_email"
 msgstr ""
 
-#: goemail.py:70
-msgid "Gig-O-Matic: Confirmed!"
+#: goemail.py:75
+msgid "Gig-o-Matic: Confirmed!"
 msgstr ""
 
-#: goemail.py:80
+#: goemail.py:85
 msgid "member_confirmed_email"
 msgstr ""
 
-#: goemail.py:100
-msgid "Gig-O-Matic Password Reset"
+#: goemail.py:105
+msgid "Gig-o-Matic Password Reset"
 msgstr ""
 
-#: goemail.py:111
+#: goemail.py:116
 msgid "forgot_password_email"
 msgstr ""
 
-#: goemail.py:144
-msgid "Gig-O-Matic New Gig"
+#: goemail.py:149
+msgid "Gig-o-Matic New Gig"
 msgstr ""
 
-#: goemail.py:162
+#: goemail.py:167
 msgid "new_gig_email"
 msgstr ""
 
-#: goemail.py:198
-msgid "Gig-O-Matic New Member for band {0})"
+#: goemail.py:203
+msgid "Gig-o-Matic New Member for band {0})"
 msgstr ""
 
-#: goemail.py:209
+#: goemail.py:214
 msgid "new_member_email"
 msgstr ""
 
-#: goemail.py:227
-msgid "Gig-O-Matic Confirm Email Address"
+#: goemail.py:229
+msgid "Gig-o-Matic New Band Invite"
 msgstr ""
 
-#: goemail.py:239
+#: goemail.py:230
+msgid "new_band_via_invite_email"
+msgstr ""
+
+#: goemail.py:247
+msgid "Gig-o-Matic Confirm Email Address"
+msgstr ""
+
+#: goemail.py:259
 msgid "confirm_email_address_email"
 msgstr ""
 
@@ -168,18 +176,19 @@ msgid "Let non-members see upcoming gigs"
 msgstr ""
 
 #: templates/band_edit.html:66 templates/band_edit.html:68
-#: templates/band_info.html:182 templates/forgot.html:49
-#: templates/gig_edit.html:148 templates/gig_edit.html:150
-#: templates/member_edit.html:98 templates/signup.html:58
+#: templates/band_info.html:187 templates/band_invite.html:29
+#: templates/forgot.html:49 templates/gig_edit.html:148
+#: templates/gig_edit.html:150 templates/member_edit.html:98
+#: templates/signup.html:58
 msgid "Cancel"
 msgstr ""
 
-#: templates/band_edit.html:70 templates/band_info.html:183
+#: templates/band_edit.html:70 templates/band_info.html:188
 #: templates/gig_edit.html:152 templates/member_edit.html:99
 msgid "Save"
 msgstr ""
 
-#: templates/band_edit.html:94 templates/band_info.html:334
+#: templates/band_edit.html:94 templates/band_info.html:339
 #: templates/gig_edit.html:256 templates/gig_edit.html:259
 #: templates/gig_edit.html:262 templates/member_edit.html:156
 msgid "This field is required!"
@@ -239,7 +248,7 @@ msgstr ""
 msgid "Order"
 msgstr ""
 
-#: templates/band_info.html:125 templates/band_info.html:172
+#: templates/band_info.html:125 templates/band_info.html:177
 msgid "Add a Section"
 msgstr ""
 
@@ -248,8 +257,48 @@ msgstr ""
 msgid "Member Admin"
 msgstr ""
 
-#: templates/band_info.html:176
+#: templates/band_info.html:149 templates/band_invite.html:3
+msgid "Invite Members"
+msgstr ""
+
+#: templates/band_info.html:181
 msgid "New Section"
+msgstr ""
+
+#: templates/band_invite.html:23
+msgid "Emails:"
+msgstr ""
+
+#: templates/band_invite.html:24
+msgid "foo@bar.org"
+msgstr ""
+
+#: templates/band_invite.html:30
+msgid "Send Invites"
+msgstr ""
+
+#: templates/band_invite_result.html:3
+msgid "Band Invites"
+msgstr ""
+
+#: templates/band_invite_result.html:9
+msgid "Email invitations successfully sent to..."
+msgstr ""
+
+#: templates/band_invite_result.html:21
+msgid "Some addresses aren't proper email addresses:"
+msgstr ""
+
+#: templates/band_invite_result.html:31
+msgid "Please enter some email addresses to send invitations."
+msgstr ""
+
+#: templates/band_invite_result.html:36 templates/band_invite_result.html:39
+msgid "Done!"
+msgstr ""
+
+#: templates/band_invite_result.html:40 templates/band_invite_result.html:42
+msgid "Try Again"
 msgstr ""
 
 #: templates/band_members.html:6

@@ -123,13 +123,20 @@ class Member(webapp2_extras.appengine.auth.models.User):
     @classmethod
     def delete_email_token(cls, user_id, token):
         cls.token_model.get_key(user_id, 'email', token).delete()
+
+    @classmethod
+    def create_invite_token(cls, user_id):
+        entity = cls.token_model.create(user_id, 'invite')
+        return entity.token
+
+    @classmethod
+    def delete_invite_token(cls, user_id, token):
+        cls.token_model.get_key(user_id, 'invite', token).delete()
         
         
 def create_new_member(email, name, password):
-
     if name=='':
         name=email
-
     unique_properties = ['email_address']
     user_data = Member.create_user(email,
         unique_properties,
@@ -190,6 +197,11 @@ def get_member_from_urlsafe_key(urlsafe):
 def get_member_from_key(key):
     """ Return member objects by key"""
     return key.get()
+
+def get_member_from_email(the_email, keys_only=False):
+    """ Return member object from email address """
+    member = Member.get_by_auth_id(the_email)
+    return member
 
 def member_count_bands(the_member_key):
     return len(assoc.get_assocs_of_member_key(the_member_key, confirmed_only=True, keys_only=True))
@@ -470,7 +482,8 @@ class ManageBandsNewAssoc(BaseHandler):
         
         if assoc.get_assoc_for_band_key_and_member_key(the_band_key = the_band.key, the_member_key = the_member.key) is None:
             assoc.new_association(the_member, the_band)        
-        
+            goemail.send_new_member_email(the_band,the_member)
+ 
 
 class ManageBandsDeleteAssoc(BaseHandler):
     """ deletes an assoc for a member """                   

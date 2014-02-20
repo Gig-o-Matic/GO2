@@ -202,12 +202,18 @@ class InfoPage(BaseHandler):
         else:
             the_pending = []
 
+        if the_user_admin_status or member.member_is_superuser(the_user):
+            the_invited = assoc.get_invited_members_from_band_key(the_band_key)
+        else:
+            the_invited = []
+
         template_args = {
             'the_band' : the_band,
             'the_user_is_associated' : the_user_is_associated,
             'the_user_is_confirmed' : the_user_is_confirmed,
             'the_user_is_band_admin' : the_user_admin_status,
             'the_pending_members' : the_pending,
+            'the_invited_members' : the_invited,
             'num_sections' : len(the_band.sections)
 
         }
@@ -375,7 +381,6 @@ class BandGetMembers(BaseHandler):
         the_members = sorted(the_members,key=lambda member: member.lower_name)
         # now sort the assocs to be in the same order as the member list
         assocs = sorted(assocs,key=lambda a: [m.key for m in the_members].index(a.member))
-        
         
         assoc_info=[]
         the_user_is_band_admin = False
@@ -654,6 +659,7 @@ class SendInvites(BaseHandler):
             return # todo figure out what to do
 
         the_band_key = ndb.Key(urlsafe=the_band_keyurl)
+        the_band = the_band_key.get()
 
         out=''
         if not assoc.get_admin_status_for_member_for_band_key(the_user, the_band_key) and not the_user.is_superuser:
@@ -674,6 +680,29 @@ class SendInvites(BaseHandler):
                     ok_email.append(e)
                 else:
                     not_ok_email.append(e)
+                    
+        # ok, now we have a list of good email addresses (or, at least, well-formed email addresses
+        # for each one, create a new member
+        for e in ok_email:
+            user_data = member.create_new_member(email=e, name='', password='')
+            if user_data[0] == False:
+                the_member = member.get_member_from_email(e)
+                # make sure this person isn't already a member
+                if not assoc.get_associated_status_for_member_for_band_key(the_member, the_band_key):
+                    # create assoc for this member - they're already on the gig-o
+                    # send email letting them know they're in the band
+                    assoc.new_association(the_member, the_band, confirm=True)
+                    goemail.send_new_band_via_invite_email(self, the_band, the_member)
+            else:
+                # create assoc for this member - but because they're not verified, will just show up as 'invited'
+                the_user = user_data[1]
+                assoc.new_association(the_user, the_band, confirm=True, invited=True)
+                # send email inviting them to the gig-o
+                token = self.user_model.create_invite_token(the_user.get_id())
+                verification_url = self.uri_for('inviteverification', type='i', user_id=the_user.get_id(),
+                    signup_token=token, _full=True)                
+                print '\n\ninvite email: {0}\n\n'.format(verification_url)
+                goemail.send_gigo_invite_email(self, the_band, the_user, verification_url)                
                 
         template_args = {
             'the_band_keyurl' : the_band_keyurl,
