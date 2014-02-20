@@ -15,13 +15,13 @@ msgstr ""
 "Generated-By: Babel 1.3\n"
 
 #: goemail.py:40
-msgid "Welcome to Gig-O-Matic"
-msgstr "Un benvenuto sul Gig-O-Matic"
+msgid "Welcome to Gig-o-Matic"
+msgstr "Un benvenuto sul Gig-o-Matic"
 
 #: goemail.py:51
 msgid "welcome_msg_email"
 msgstr ""
-"Ciao! Hai effettuato la registrazione al Gig-O-Matic – ora clicca sul "
+"Ciao! Hai effettuato la registrazione al Gig-o-Matic – ora clicca sul "
 "link qui sotto per\n"
 "accedere, e il gioco è fatto! (Il link è attivo per 48 ore – dopodiché\n"
 "puoi sempre ripetere la registrazione per ottenerlo di nuovo.)\n"
@@ -29,47 +29,47 @@ msgstr ""
 "{0}\n"
 "\n"
 "Grazie,\n"
-"Il Team Gig-O-Matic"
+"Il Team Gig-o-Matic"
 
 #: goemail.py:70
-msgid "Gig-O-Matic: Confirmed!"
-msgstr "Gig-O-Matic: Iscrizione confermata!"
+msgid "Gig-o-Matic: Confirmed!"
+msgstr "Gig-o-Matic: Iscrizione confermata!"
 
 #: goemail.py:80
 msgid "member_confirmed_email"
 msgstr ""
 "Ciao! La tua richiesta di iscrizione è stata confermata. Ora sei tra i "
 "membri della {0} e puoi cominciare a utilizzare il\n"
-" Gig-O-Matic per gestire la tua partecipazione in banda.\n"
+" Gig-o-Matic per gestire la tua partecipazione in banda.\n"
 "\n"
 "http://gig-o-matic.appspot.com/band_info.html?bk={1}\n"
 "\n"
 "Grazie,\n"
-"Il Team Gig-O-Matic"
+"Il Team Gig-o-Matic"
 
 #: goemail.py:100
-msgid "Gig-O-Matic Password Reset"
-msgstr "Reset della password Gig-O-Matic"
+msgid "Gig-o-Matic Password Reset"
+msgstr "Reset della password Gig-o-Matic"
 
 #: goemail.py:111
 msgid "forgot_password_email"
 msgstr ""
-"Ciao! Per resettare la tua password Gig-O-Matic, clicca sul link qui "
+"Ciao! Per resettare la tua password Gig-o-Matic, clicca sul link qui "
 "sotto.\n"
 "\n"
 "{0}\n"
 "\n"
 "Grazie,\n"
-"Il Team Gig-O-Matic"
+"Il Team Gig-o-Matic"
 
 #: goemail.py:144
-msgid "Gig-O-Matic New Gig"
-msgstr "Gig-O-Matic: Nuova Suonata"
+msgid "Gig-o-Matic New Gig"
+msgstr "Gig-o-Matic: Nuova Suonata"
 
 #: goemail.py:162
 msgid "new_gig_email"
 msgstr ""
-"Ciao! È stata aggiunta sul Gig-O-Matic una nuova suonata della {0}:\n"
+"Ciao! È stata aggiunta sul Gig-o-Matic una nuova suonata della {0}:\n"
 "\n"
 "{1}\n"
 "Data: {2}\n"
@@ -82,33 +82,33 @@ msgstr ""
 "È fondamentale! {6}\n"
 "\n"
 "Grazie,\n"
-"Il Team Gig-O-Matic"
+"Il Team Gig-o-Matic"
 
 #: goemail.py:198
 #, fuzzy
-msgid "Gig-O-Matic New Member for band {0})"
-msgstr "Gig-O-Matic: Nuovo membro per la {0}"
+msgid "Gig-o-Matic New Member for band {0})"
+msgstr "Gig-o-Matic: Nuovo membro per la {0}"
 
 #: goemail.py:209
 msgid "new_member_email"
 msgstr ""
 "Ciao! Un nuovo membro, {0}, ha chiesto di iscriversi alla {1}. Accedi al "
-"Gig-O-Matic per\n"
+"Gig-o-Matic per\n"
 "confermarne l’iscrizione.\n"
 "\n"
 "http://gig-o-matic.appspot.com/band_info.html?bk={2}\n"
 "\n"
 "Grazie,\n"
-"Il Team Gig-O-Matic"
+"Il Team Gig-o-Matic"
 
 #: goemail.py:227
-msgid "Gig-O-Matic Confirm Email Address"
-msgstr "Gig-O-Matic: conferma indirizzo e-mail"
+msgid "Gig-o-Matic Confirm Email Address"
+msgstr "Gig-o-Matic: conferma indirizzo e-mail"
 
 #: goemail.py:239
 msgid "confirm_email_address_email"
 msgstr ""
-"Ehilà! Qualcuno ha richiesto di cambiare la sua ID sul Gig-O-Matic con "
+"Ehilà! Qualcuno ha richiesto di cambiare la sua ID sul Gig-o-Matic con "
 "questo indirizzo e-mail.\n"
 "Se sei tu, clicca sul link per confermare. Se no, ignora questo messaggio"
 " e\n"
@@ -117,7 +117,7 @@ msgstr ""
 "{0}\n"
 "\n"
 "Grazie,\n"
-"Il Team Gig-O-Matic"
+"Il Team Gig-o-Matic"
 
 #: templates/agenda.html:4 templates/agenda.html:9 templates/navbar.html:17
 msgid "Schedule"
@@ -376,11 +376,11 @@ msgid "Credits"
 msgstr "Credits"
 
 #: templates/credits.html:7
-msgid "Gig-O-Matic Credits"
-msgstr "Credits Gig-O-Matic"
+msgid "Gig-o-Matic Credits"
+msgstr "Credits Gig-o-Matic"
 
 #: templates/credits.html:16
-msgid "Gig-O-Matic, version 2!"
+msgid "Gig-o-Matic, version 2!"
 msgstr ""
 
 #: templates/credits.html:22
@@ -699,7 +699,7 @@ msgstr "Login"
 #: templates/login.html:17
 #, fuzzy
 msgid "Welcome to Gig-o-Matic!"
-msgstr "Un benvenuto sul Gig-O-Matic!"
+msgstr "Un benvenuto sul Gig-o-Matic!"
 
 #: templates/login.html:24
 #, fuzzy
@@ -752,7 +752,7 @@ msgstr "qui"
 
 #: templates/login.html:83
 msgid "What is the Gig-o-Matic, anyway?"
-msgstr "Che cos’è il Gig-O-Matic?"
+msgstr "Che cos’è il Gig-o-Matic?"
 
 #: templates/maintenance.html:3
 msgid "Maintenance!"
@@ -983,7 +983,7 @@ msgstr "Registrati!"
 
 #: templates/signup.html:18
 msgid "Register with the Gig-o-Matic"
-msgstr "Registrati sul Gig-O-Matic"
+msgstr "Registrati sul Gig-o-Matic"
 
 #: templates/signup.html:25
 msgid "Sorry, someone already has that email address."
@@ -1013,7 +1013,7 @@ msgstr "No"
 #: templates/welcome.html:3
 msgid "welcome_message"
 msgstr ""
-"Welcome to Gig-O-Matic!<br><br>First things first: Be sure to edit your "
+"Welcome to Gig-o-Matic!<br><br>First things first: Be sure to edit your "
 "profile with info about yourself.<br><br>Second things second: Add a band"
 " or two by clicking on the \"add band\" link below. The band's "
 "administrator will confirm that you're for real, and you'll get an email "
@@ -1021,7 +1021,7 @@ msgstr ""
 "href=\"/help\" class=\"alert-link\">here</a> and hopefully you'll get "
 "what you need.<br><br>Need even more help? Contact the <a "
 "href=\"mailto:gigomatic.superuser@gmail.com\" class=\"alert-"
-"link\">Gig-O-Matic Overlords</a>."
+"link\">Gig-o-Matic Overlords</a>."
 
 #: templates/welcome.html:12
 msgid "dismiss"
@@ -1041,8 +1041,8 @@ msgstr "Che cos’è?"
 #~ msgid ""
 #~ msgstr ""
 
-#~ msgid "What is the Gig-O-Matic, anyway?"
-#~ msgstr "Che cos’è il Gig-O-Matic?"
+#~ msgid "What is the Gig-o-Matic, anyway?"
+#~ msgstr "Che cos’è il Gig-o-Matic?"
 
 #~ msgid "Profile Info"
 #~ msgstr "Info profilo"
