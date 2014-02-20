@@ -659,6 +659,25 @@ class SendInvites(BaseHandler):
         if not assoc.get_admin_status_for_member_for_band_key(the_user, the_band_key) and not the_user.is_superuser:
             out='not admin'
                     
-        out='hi there'
+        the_email_blob = self.request.get('e','')    
+
+        # remove commas and stuff
+        the_email_blob = the_email_blob.replace(',',' ')
+        the_email_blob = the_email_blob.replace('\n',' ')
+        the_emails = the_email_blob.split(' ')
         
-        self.response.write(out)
+        ok_email = []
+        not_ok_email = []
+        for e in the_emails:
+            if e:
+                if goemail.validate_email(e):
+                    ok_email.append(e)
+                else:
+                    not_ok_email.append(e)
+                
+        template_args = {
+            'the_band_keyurl' : the_band_keyurl,
+            'the_ok' : ok_email,
+            'the_not_ok' : not_ok_email
+        }
+        self.render_template('band_invite_result.html', template_args)

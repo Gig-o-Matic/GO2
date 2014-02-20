@@ -124,6 +124,20 @@ class Member(webapp2_extras.appengine.auth.models.User):
     def delete_email_token(cls, user_id, token):
         cls.token_model.get_key(user_id, 'email', token).delete()
         
+        
+def create_new_member(email, name, password):
+
+    if name=='':
+        name=email
+
+    unique_properties = ['email_address']
+    user_data = Member.create_user(email,
+        unique_properties,
+        email_address=email, name=name, password_raw=password,
+        verified=False, preferences=MemberPreferences())
+    return user_data
+        
+        
 def get_all_members(order=True, keys_only=False, verified_only=False):
     """ Return all member objects """
 

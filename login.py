@@ -76,14 +76,18 @@ class SignupPage(BaseHandler):
         name = self.request.get('name')
         password = self.request.get('password')
 
-        if name=='':
-            name=email
-
-        unique_properties = ['email_address']
-        user_data = self.user_model.create_user(email,
-            unique_properties,
-            email_address=email, name=name, password_raw=password,
-            verified=False, preferences=member.MemberPreferences())
+#         if name=='':
+#             name=email
+# 
+#         unique_properties = ['email_address']
+#         user_data = self.user_model.create_user(email,
+#             unique_properties,
+#             email_address=email, name=name, password_raw=password,
+#             verified=False, preferences=member.MemberPreferences())
+#         if not user_data[0]: #user_data is a tuple
+#             self._serve_page(self,failed=True)
+#             return
+        user_data = member.create_new_member(email=email, name=name, password=password)
         if not user_data[0]: #user_data is a tuple
             self._serve_page(self,failed=True)
             return

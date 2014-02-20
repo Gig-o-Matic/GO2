@@ -6,12 +6,17 @@ import gig
 import member
 import assoc
 import logging
+import re
 
 from webapp2_extras import i18n
 from webapp2_extras import jinja2
 from webapp2_extras.i18n import gettext as _
 
 SENDER_EMAIL = 'gigomatic.superuser@gmail.com'
+
+def validate_email(the_string):
+    if re.match(r"^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$",the_string):
+        return True
 
 def set_locale_for_user(the_req, the_locale_override=None):
     if the_locale_override:
