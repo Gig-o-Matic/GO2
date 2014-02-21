@@ -240,26 +240,45 @@ class InviteVerificationHandler(BaseHandler):
                 user_id, signup_token)
             self.abort(404)
         
-        # store user data in the session
-        self.auth.set_session(self.auth.store.user_to_dict(user), remember=True)
-
         if verification_type == 'i':
             # ok, this is a user who has one or more invites pending. They have a user but
             # not a password. We need to do this:
-            #
-            #   - invalidate the invite link so they can't use it again
-            self.user_model.delete_invite_token(user.get_id(), signup_token)
-
-            #   - turn their 'invite' assocs into real assocs
-            assoc.confirm_invites_for_member_key(user.key)
-
             #   - direct them to a welcome page where they can enter a password
             template_args = {
+                'mk': user.key.urlsafe(),
+                'st': signup_token
             }
             self.render_template('invite_welcome.html', params=template_args)            
         else:
             logging.info('verification type not supported')
             self.abort(404)
+            
+    def post(self):
+        mk = self.request.get('mk', None)
+        st = self.request.get('st', None)
+        password = self.request.get('password')
+        
+        if mk is None or st is None:
+            self.abort(404)
+            
+        the_member = ndb.Key(urlsafe = mk).get()
+
+        # store user data in the session
+        self.auth.set_session(self.auth.store.user_to_dict(the_member), remember=True)
+
+        #   - invalidate the invite link so they can't use it again
+        self.user_model.delete_invite_token(the_member.get_id(), st)
+
+        #   - turn their 'invite' assocs into real assocs
+        assoc.confirm_invites_for_member_key(the_member.key)
+
+        the_member.set_password(password)
+        the_member.put()
+
+        self.redirect(self.uri_for('home'))
+
+
+        
 ##########
 #
 # SetPasswordHandler

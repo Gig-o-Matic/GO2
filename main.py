@@ -48,6 +48,7 @@ else:
                       handler=login.InviteVerificationHandler, name='inviteverification'),
         webapp2.Route('/forgot', login.ForgotPasswordHandler, name='forgot'),                  
         webapp2.Route('/password', login.SetPasswordHandler),
+        webapp2.Route('/invitepassword', login.InviteVerificationHandler),
         webapp2.Route('/login_auto_old_token', login.AutoDeleteSignupTokenHandler),
         webapp2.Route('/help', help.HelpHandler),
         webapp2.Route('/help_band_request.html', help.SignUpBandHandler),
