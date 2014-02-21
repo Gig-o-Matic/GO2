@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-02-19 21:29-0500\n"
+"POT-Creation-Date: 2014-02-20 21:10-0500\n"
 "PO-Revision-Date: 2014-02-01 18:13-0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: it <LL@li.org>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Generated-By: Babel 1.3\n"
 
 #: goemail.py:45
-msgid "Welcome to Gig-O-Matic"
+msgid "Welcome to Gig-o-Matic"
 msgstr ""
 
 #: goemail.py:56
@@ -109,11 +109,19 @@ msgstr ""
 msgid "new_band_via_invite_email"
 msgstr ""
 
+#: goemail.py:246
+msgid "Invitation to Join Gig-o-Matic"
+msgstr ""
+
 #: goemail.py:247
+msgid "gigo_invite_email"
+msgstr ""
+
+#: goemail.py:263
 msgid "Gig-o-Matic Confirm Email Address"
 msgstr "Gig-o-Matic: conferma indirizzo e-mail"
 
-#: goemail.py:259
+#: goemail.py:275
 msgid "confirm_email_address_email"
 msgstr ""
 "Ehilà! Qualcuno ha richiesto di cambiare la sua ID sul Gig-o-Matic con "
@@ -231,19 +239,19 @@ msgid "Let non-members see upcoming gigs"
 msgstr "Permetti ai non-membri di vedere suonate"
 
 #: templates/band_edit.html:66 templates/band_edit.html:68
-#: templates/band_info.html:187 templates/band_invite.html:29
+#: templates/band_info.html:206 templates/band_invite.html:29
 #: templates/forgot.html:49 templates/gig_edit.html:148
 #: templates/gig_edit.html:150 templates/member_edit.html:98
 #: templates/signup.html:58
 msgid "Cancel"
 msgstr "Annulla"
 
-#: templates/band_edit.html:70 templates/band_info.html:188
+#: templates/band_edit.html:70 templates/band_info.html:207
 #: templates/gig_edit.html:152 templates/member_edit.html:99
 msgid "Save"
 msgstr "Salva"
 
-#: templates/band_edit.html:94 templates/band_info.html:339
+#: templates/band_edit.html:94 templates/band_info.html:358
 #: templates/gig_edit.html:256 templates/gig_edit.html:259
 #: templates/gig_edit.html:262 templates/member_edit.html:156
 msgid "This field is required!"
@@ -294,32 +302,36 @@ msgstr "sì, conferma membro"
 msgid "no, reject!"
 msgstr "no, rifiuta!"
 
-#: templates/band_info.html:98 templates/band_info.html:105
+#: templates/band_info.html:95
+msgid "Invited Members"
+msgstr ""
+
+#: templates/band_info.html:117 templates/band_info.html:124
 msgid "Members"
 msgstr "Membri"
 
-#: templates/band_info.html:102
+#: templates/band_info.html:121
 msgid "Sections"
 msgstr "Sezioni"
 
-#: templates/band_info.html:110
+#: templates/band_info.html:129
 msgid "Order"
 msgstr "Ordina"
 
-#: templates/band_info.html:125 templates/band_info.html:177
+#: templates/band_info.html:144 templates/band_info.html:196
 msgid "Add a Section"
 msgstr "Aggiungi sezione"
 
-#: templates/band_info.html:141 templates/member_admin.html:3
+#: templates/band_info.html:160 templates/member_admin.html:3
 #: templates/member_admin.html:7 templates/navbar.html:33
 msgid "Member Admin"
 msgstr "Membro admin"
 
-#: templates/band_info.html:149 templates/band_invite.html:3
+#: templates/band_info.html:168 templates/band_invite.html:3
 msgid "Invite Members"
 msgstr ""
 
-#: templates/band_info.html:181
+#: templates/band_info.html:200
 msgid "New Section"
 msgstr "Nuova sezione"
 
@@ -746,6 +758,22 @@ msgstr "<a href=\"mailto:gigomatic.superuser@gmail.com\">Email Here!</a>"
 msgid "New Band!"
 msgstr "Nuova banda!"
 
+#: templates/invite_welcome.html:3
+msgid "Setup Password"
+msgstr ""
+
+#: templates/invite_welcome.html:22
+msgid "Welcome To Gig-o-Matic"
+msgstr ""
+
+#: templates/invite_welcome.html:36
+msgid "Enter Password"
+msgstr ""
+
+#: templates/invite_welcome.html:44 templates/resetpassword.html:38
+msgid "And Again"
+msgstr ""
+
 #: templates/login.html:3 templates/login.html:51
 msgid "Login"
 msgstr "Login"
@@ -1031,6 +1059,14 @@ msgstr "Non posso"
 msgid "Not Interested"
 msgstr "Mi dissocio!"
 
+#: templates/resetpassword.html:23
+msgid "Forgot your password? No problem - enter a new one here."
+msgstr ""
+
+#: templates/resetpassword.html:30
+msgid "New Password"
+msgstr ""
+
 #: templates/signup.html:3
 msgid "Register!"
 msgstr "Registrati!"
@@ -1108,5 +1144,8 @@ msgstr "Che cos’è?"
 #~ msgstr "Credits Gig-o-Matic"
 
 #~ msgid "Gig-o-Matic, version 2!"
+#~ msgstr ""
+
+#~ msgid "Welcome to Gig-O-Matic"
 #~ msgstr ""
 
