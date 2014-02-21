@@ -21,6 +21,7 @@
             <div class="col-md-5 col-sm-5 col-xs-5">
             </div>        
         {% endif %}
+        {% if the_sections | length > 0 %}
             <div class="col-md-2 col-sm-2 col-xs-2">
                     <div class="dropdown">
                         <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
@@ -44,5 +45,6 @@
                 {% endif %}
                 > +{% trans %}others{% endtrans %}
             </div>
+        {% endif %}
     </div>
 {% endfor %}
