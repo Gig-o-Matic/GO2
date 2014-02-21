@@ -21,6 +21,19 @@ indexes:
   properties:
   - name: band
   - name: is_confirmed
+  - name: is_invited
+  - name: member_name
+
+- kind: Assoc
+  properties:
+  - name: band
+  - name: is_confirmed
+  - name: member_name
+
+- kind: Assoc
+  properties:
+  - name: band
+  - name: is_invited
   - name: member_name
 
 - kind: Assoc
