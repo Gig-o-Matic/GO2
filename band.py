@@ -701,7 +701,6 @@ class SendInvites(BaseHandler):
                 token = self.user_model.create_invite_token(the_user.get_id())
                 verification_url = self.uri_for('inviteverification', type='i', user_id=the_user.get_id(),
                     signup_token=token, _full=True)                
-                print '\n\ninvite email: {0}\n\n'.format(verification_url)
                 goemail.send_gigo_invite_email(self, the_band, the_user, verification_url)                
                 
         template_args = {
