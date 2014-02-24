@@ -15,6 +15,7 @@ import credits
 import maintenance
 import stats
 import jinja2ext
+import os 
 
 config = {
   'webapp2_extras.auth': {
@@ -25,9 +26,12 @@ config = {
     'secret_key': 'GABBAGABBAHEY'
   },
   'webapp2_extras.jinja2': {
-             'template_path': 'templates',
+             'template_path': os.path.join(os.path.dirname(__file__), 'templates'),
              'environment_args': { 'extensions': ['jinja2.ext.i18n'] },
              'filters': {'html_content': jinja2ext.html_content}
+  },
+  'webapp2_extras.i18n': {
+             'translations_path': os.path.join(os.path.dirname(__file__), 'locale')
   }
 }
 
