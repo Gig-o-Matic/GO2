@@ -87,6 +87,25 @@
                         </div>
                     </div> <!-- panel -->        
                 {% endif %}
+                
+                {% if the_invited_members %}
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <strong>
+                                {% trans %}Invited Members{% endtrans %} <span class="badge">{{the_invited_members|length}}</span>
+                            </strong>
+                        </div>        
+                        <div class="panel-body">
+                            {% for m in the_invited_members %}
+                            <div class="row">
+                                <div class="col-md-3 col-sm-3 col-xs-4">
+                                    {{ m.name|e }}
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div> <!-- panel -->        
+                {% endif %}
 
                 <div class="row">
                     <div class="col-md-12 col-md-offset-0">
@@ -144,6 +163,13 @@
                         </div>
                         <div id="collapseOne" class="panel-collapse collapse">
                             <div class="panel-body">
+                                {% if the_user_is_superuser %}
+                                    <div class="row">
+                                        <div class="col-md-12 col-md-offset-0">
+                                            <a class="btn btn-primary btn-sm" href="band_invite.html?bk={{ the_band.key.urlsafe() }}">{% trans %}Invite Members{% endtrans %}</a>
+                                        </div>
+                                    </div>
+                                {% endif %}
                                 <div class="row">
                                     <div class="col-md-12 col-md-offset-0" id="memberlist">
                                         <i class="fa fa-spinner fa-spin fa-lg"></i>

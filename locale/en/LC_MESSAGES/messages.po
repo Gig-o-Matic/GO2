@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-02-18 12:49-0500\n"
+"POT-Creation-Date: 2014-02-23 19:52-0500\n"
 "PO-Revision-Date: 2014-02-01 18:13-0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: en <LL@li.org>\n"
@@ -18,60 +18,60 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 1.3\n"
 
-#: goemail.py:40
-msgid "Welcome to Gig-O-Matic"
+#: goemail.py:45
+msgid "Welcome to Gig-o-Matic"
 msgstr ""
 
-#: goemail.py:51
+#: goemail.py:56
 #, fuzzy
 msgid "welcome_msg_email"
 msgstr ""
-"Hello! You have registered to join Gig-O-Matic - click the link below to "
+"Hello! You have registered to join Gig-o-Matic - click the link below to "
 "log in and you're good to go. (The linkis good for 48 hours - after that "
 "you can just register again to get a new one if you need it.)\n"
 "\n"
 "{0}\n"
 "\n"
 "Thanks,\n"
-"The Gig-O-Matic Team"
+"The Gig-o-Matic Team"
 
-#: goemail.py:70
-msgid "Gig-O-Matic: Confirmed!"
+#: goemail.py:75
+msgid "Gig-o-Matic: Confirmed!"
 msgstr ""
 
-#: goemail.py:80
+#: goemail.py:85
 #, fuzzy
 msgid "member_confirmed_email"
 msgstr ""
 "Hello! You have been confirmed as a member of {0} and can now start using"
-" Gig-O-Matic to manage your band life.\n"
+" Gig-o-Matic to manage your band life.\n"
 "\n"
-"http://gig-o-matic.appspot.com/band_info.html?bk={1}\n"
+"http://Gig-o-Matic.appspot.com/band_info.html?bk={1}\n"
 "\n"
 "Thanks,\n"
-"The Gig-O-Matic Team"
+"The Gig-o-Matic Team"
 
-#: goemail.py:100
-msgid "Gig-O-Matic Password Reset"
+#: goemail.py:105
+msgid "Gig-o-Matic Password Reset"
 msgstr ""
 
-#: goemail.py:111
+#: goemail.py:116
 msgid "forgot_password_email"
 msgstr ""
-"Hello! To reset your Gig-O-Matic password, click the link below.\n"
+"Hello! To reset your Gig-o-Matic password, click the link below.\n"
 "\n"
 "{0}\n"
 "Thanks,\n"
 "The Gig-O-Matic Team"
 
-#: goemail.py:144
-msgid "Gig-O-Matic New Gig"
+#: goemail.py:149
+msgid "Gig-o-Matic New Gig"
 msgstr ""
 
-#: goemail.py:162
+#: goemail.py:167
 msgid "new_gig_email"
 msgstr ""
-"Hello! A new gig has been added to the Gig-O-Matic for your band {0}:\n"
+"Hello! A new gig has been added to the Gig-o-Matic for your band {0}:\n"
 "\n"
 "{1}\n"
 "Date: {2}\n"
@@ -83,32 +83,54 @@ msgstr ""
 "Can you make it? You can (and should!) weigh in here: {6}\n"
 "\n"
 "Thanks,\n"
-"The Gig-O-Matic Team"
+"The Gig-o-Matic Team"
 
-#: goemail.py:198
-msgid "Gig-O-Matic New Member for band {0})"
+#: goemail.py:203
+msgid "Gig-o-Matic New Member for band {0})"
 msgstr ""
 
-#: goemail.py:209
+#: goemail.py:214
 msgid "new_member_email"
 msgstr ""
 "Hello! A new member {0} has signed up for your band {1}. Please log in "
 "and\n"
 "confirm the membership.\n"
 "\n"
-"http://gig-o-matic.appspot.com/band_info.html?bk={2}\n"
+"http://Gig-o-Matic.appspot.com/band_info.html?bk={2}\n"
 "\n"
 "Thanks,\n"
-"The Gig-O-Matic Team"
+"The Gig-o-Matic Team"
 
-#: goemail.py:227
-msgid "Gig-O-Matic Confirm Email Address"
+#: goemail.py:229
+msgid "Gig-o-Matic New Band Invite"
 msgstr ""
 
-#: goemail.py:239
+#: goemail.py:230
+msgid "new_band_via_invite_email"
+msgstr ""
+"Hello! You have been invited to join the band {0}. You'll see the band on"
+" your profile page, and new gigs will show up on your agenda page. "
+"Welcome aboard!\n"
+"\n"
+"Yours,\n"
+"Team Gig-o-Matic"
+
+#: goemail.py:246
+msgid "Invitation to Join Gig-o-Matic"
+msgstr ""
+
+#: goemail.py:247
+msgid "gigo_invite_email"
+msgstr ""
+
+#: goemail.py:263
+msgid "Gig-o-Matic Confirm Email Address"
+msgstr ""
+
+#: goemail.py:275
 msgid "confirm_email_address_email"
 msgstr ""
-"Hi there! Someone has requested to change their Gig-O-Matic ID to this "
+"Hi there! Someone has requested to change their Gig-o-Matic ID to this "
 "email address.\n"
 "If it's you, please click the link to confirm. If not, just ignore this "
 "and it will\n"
@@ -117,7 +139,7 @@ msgstr ""
 "{0}\n"
 "\n"
 "Thanks,\n"
-"Team Gig-O-Matic"
+"Team Gig-o-Matic"
 
 #: templates/agenda.html:4 templates/agenda.html:9 templates/navbar.html:17
 msgid "Schedule"
@@ -147,7 +169,7 @@ msgstr ""
 msgid "Nothing coming up!"
 msgstr ""
 
-#: templates/agenda_plan_edit.html:109 templates/band_members.html:28
+#: templates/agenda_plan_edit.html:109 templates/band_members.html:29
 #: templates/member_band_assocs.html:24
 msgid "section"
 msgstr ""
@@ -223,18 +245,19 @@ msgid "Let non-members see upcoming gigs"
 msgstr ""
 
 #: templates/band_edit.html:66 templates/band_edit.html:68
-#: templates/band_info.html:182 templates/forgot.html:49
-#: templates/gig_edit.html:148 templates/gig_edit.html:150
-#: templates/member_edit.html:98 templates/signup.html:58
+#: templates/band_info.html:208 templates/band_invite.html:29
+#: templates/forgot.html:49 templates/gig_edit.html:148
+#: templates/gig_edit.html:150 templates/member_edit.html:98
+#: templates/signup.html:58
 msgid "Cancel"
 msgstr ""
 
-#: templates/band_edit.html:70 templates/band_info.html:183
+#: templates/band_edit.html:70 templates/band_info.html:209
 #: templates/gig_edit.html:152 templates/member_edit.html:99
 msgid "Save"
 msgstr ""
 
-#: templates/band_edit.html:94 templates/band_info.html:334
+#: templates/band_edit.html:94 templates/band_info.html:360
 #: templates/gig_edit.html:256 templates/gig_edit.html:259
 #: templates/gig_edit.html:262 templates/member_edit.html:156
 msgid "This field is required!"
@@ -282,29 +305,73 @@ msgstr ""
 msgid "no, reject!"
 msgstr ""
 
-#: templates/band_info.html:98 templates/band_info.html:105
+#: templates/band_info.html:95
+msgid "Invited Members"
+msgstr ""
+
+#: templates/band_info.html:117 templates/band_info.html:124
 msgid "Members"
 msgstr ""
 
-#: templates/band_info.html:102
+#: templates/band_info.html:121
 msgid "Sections"
 msgstr ""
 
-#: templates/band_info.html:110
+#: templates/band_info.html:129
 msgid "Order"
 msgstr ""
 
-#: templates/band_info.html:125 templates/band_info.html:172
+#: templates/band_info.html:144 templates/band_info.html:198
 msgid "Add a Section"
 msgstr ""
 
-#: templates/band_info.html:141 templates/member_admin.html:3
+#: templates/band_info.html:160 templates/member_admin.html:3
 #: templates/member_admin.html:7 templates/navbar.html:33
 msgid "Member Admin"
 msgstr ""
 
-#: templates/band_info.html:176
+#: templates/band_info.html:169 templates/band_invite.html:3
+msgid "Invite Members"
+msgstr ""
+
+#: templates/band_info.html:202
 msgid "New Section"
+msgstr ""
+
+#: templates/band_invite.html:23
+msgid "Emails:"
+msgstr ""
+
+#: templates/band_invite.html:24
+msgid "foo@bar.org"
+msgstr ""
+
+#: templates/band_invite.html:30
+msgid "Send Invites"
+msgstr ""
+
+#: templates/band_invite_result.html:3
+msgid "Band Invites"
+msgstr ""
+
+#: templates/band_invite_result.html:9
+msgid "Email invitations successfully sent to..."
+msgstr ""
+
+#: templates/band_invite_result.html:21
+msgid "Some addresses aren't proper email addresses:"
+msgstr ""
+
+#: templates/band_invite_result.html:31
+msgid "Please enter some email addresses to send invitations."
+msgstr ""
+
+#: templates/band_invite_result.html:36 templates/band_invite_result.html:39
+msgid "Done!"
+msgstr ""
+
+#: templates/band_invite_result.html:40 templates/band_invite_result.html:42
+msgid "Try Again"
 msgstr ""
 
 #: templates/band_members.html:6
@@ -323,7 +390,7 @@ msgstr ""
 msgid "remove from band"
 msgstr ""
 
-#: templates/band_members.html:45
+#: templates/band_members.html:46
 msgid "others"
 msgstr ""
 
@@ -617,6 +684,14 @@ msgstr ""
 msgid "Grid o'Gigs"
 msgstr ""
 
+#: templates/grid.html:55
+msgid "archived"
+msgstr ""
+
+#: templates/grid.html:101
+msgid "No Gigs!"
+msgstr ""
+
 #: templates/help.html:3 templates/help.html:7
 msgid "Help!"
 msgstr ""
@@ -669,6 +744,26 @@ msgstr "<a href=\"mailto:gigomatic.superuser@gmail.com\">Email Here!</a>"
 
 #: templates/help_band_request.html:3
 msgid "New Band!"
+msgstr ""
+
+#: templates/invite_welcome.html:3
+msgid "Setup Password"
+msgstr ""
+
+#: templates/invite_welcome.html:22
+msgid "Welcome To Gig-o-Matic"
+msgstr ""
+
+#: templates/invite_welcome.html:36
+msgid "Enter Password"
+msgstr ""
+
+#: templates/invite_welcome.html:44 templates/resetpassword.html:38
+msgid "And Again"
+msgstr ""
+
+#: templates/invite_welcome.html:53
+msgid "Set Password"
 msgstr ""
 
 #: templates/login.html:3 templates/login.html:51
@@ -945,6 +1040,18 @@ msgstr ""
 msgid "Not Interested"
 msgstr ""
 
+#: templates/resetpassword.html:23
+msgid "Forgot your password? No problem - enter a new one here."
+msgstr ""
+
+#: templates/resetpassword.html:30
+msgid "New Password"
+msgstr ""
+
+#: templates/resetpassword.html:47
+msgid "Update Password"
+msgstr ""
+
 #: templates/signup.html:3
 msgid "Register!"
 msgstr ""
@@ -976,7 +1083,7 @@ msgstr ""
 #: templates/welcome.html:3
 msgid "welcome_message"
 msgstr ""
-"Welcome to Gig-O-Matic!<br><br>First things first: Be sure to edit your "
+"Welcome to Gig-o-Matic!<br><br>First things first: Be sure to edit your "
 "profile with info about yourself.<br><br>Second things second: Add a band"
 " or two by clicking on the \"add band\" link below. The band's "
 "administrator will confirm that you're for real, and you'll get an email "
@@ -984,7 +1091,7 @@ msgstr ""
 "href=\"/help\" class=\"alert-link\">here</a> and hopefully you'll get "
 "what you need.<br><br>Need even more help? Contact the <a "
 "href=\"mailto:gigomatic.superuser@gmail.com\" class=\"alert-"
-"link\">Gig-O-Matic Overlords</a>."
+"link\">Gig-o-Matic Overlords</a>."
 
 #: templates/welcome.html:12
 msgid "dismiss"
@@ -997,7 +1104,7 @@ msgstr ""
 #~ msgid "Locale"
 #~ msgstr ""
 
-#~ msgid "What is the Gig-O-Matic, anyway?"
+#~ msgid "What is the Gig-o-Matic, anyway?"
 #~ msgstr ""
 
 #~ msgid "Profile Info"
@@ -1005,4 +1112,16 @@ msgstr ""
 
 #~ msgid "Display Name"
 #~ msgstr "Name"
+
+#~ msgid "Welcome to Gig-o-Matic"
+#~ msgstr ""
+
+#~ msgid "Gig-o-Matic Credits"
+#~ msgstr ""
+
+#~ msgid "Gig-o-Matic, version 2!"
+#~ msgstr ""
+
+#~ msgid "Welcome to Gig-O-Matic"
+#~ msgstr ""
 

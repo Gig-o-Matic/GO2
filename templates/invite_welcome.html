@@ -1,10 +1,15 @@
 {% extends 'go2base.html' %}
 
-{% block title %}{% trans %}Reset Password{% endtrans %}{% endblock title %}
+{% block title %}{% trans %}Setup Password{% endtrans %}{% endblock title %}
 
 {% block navbar %}
     <!-- no navbar -->
 {% endblock navbar %}
+
+{% block welcome %}
+{% endblock welcome %}
+{% block motd %}
+{% endblock motd %}
 
 {% block wrapclass %}
 class="landingwrap"
@@ -14,20 +19,21 @@ class="landingwrap"
     <div id="landingpage_content">
         <div class="row">
             <div class="page-header col-md-5 col-md-offset-2">
-                <h3>{% trans %}Reset Password{% endtrans %}</h3>
+                <h3>{% trans %}Welcome To Gig-o-Matic{% endtrans %}</h3>
             </div>
         </div> 
 
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
-                {% trans %}Forgot your password? No problem - enter a new one here.{% endtrans %}<br><br>
+                Welcome to the Gig-o-Matic! Your account has been set up - all you need to do is
+                set up a password and you're in business.<br><br>
             </div>
         </div>
 
-        <form class="form form-horizontal" id="infoform" role="form" action= "/password" method="POST">
+        <form class="form form-horizontal" id="infoform" role="form" action= "/invitepassword" method="POST">
             <div class="row">
                 <div class="form-group">
-                    <label for="password" class="control-label col-md-2 col-md-offset-2">{% trans %}New Password{% endtrans %}</label>
+                    <label for="password" class="control-label col-md-2 col-md-offset-2">{% trans %}Enter Password{% endtrans %}</label>
                     <div class="col-md-3">
                         <input type="password" class="form-control" id="password" name="password" />
                     </div>
@@ -44,9 +50,11 @@ class="landingwrap"
             <input type="hidden" name="t" value="{{ token }}" />
             <div class="row">
                 <div class="col-md-3 col-md-offset-4 text-right">
-                    <input type="submit" class="btn btn-primary" value="{% trans %}Update Password{% endtrans %}"/>
+                    <input type="submit" class="btn btn-primary" value="{% trans %}Set Password{% endtrans %}"/>
                 </div>
             </div>
+            <input type='hidden' name='mk' value='{{mk}}'>
+            <input type='hidden' name='st' value='{{st}}'>
         </form>
     </div>
 {% endblock content %}

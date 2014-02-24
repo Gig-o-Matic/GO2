@@ -52,7 +52,7 @@
                 {% for gig in the_gigs %}
                     <td align="middle"><a href="/gig_info.html?gk={{gig.key.urlsafe()}}">{{ gig.title }}</a>
                     {% if gig.is_archived %}
-                        (archived)
+                        ({% trans %}archived{% endtrans %})
                     {% else %}
                         {% if gig.status==1 %}
                             <i class="fa fa-check-circle" style="color:green"></i>
@@ -98,7 +98,7 @@
 {% else %}
 <div class="row">
     <div class="page-header col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0">
-        No Gigs!
+        {% trans %}No Gigs!{% endtrans %}
     </div>
 </div>
 {% endif %}

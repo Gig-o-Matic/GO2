@@ -40,13 +40,27 @@
         <div class="panel-heading">
           <h4 class="panel-title">
             <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
-              Special Controls
+              Pending Invites
             </a>
           </h4>
         </div>
         <div id="collapseThree" class="panel-collapse collapse">
+          <div class="panel-body" id="invitelist">
+                <i class="fa fa-spinner fa-spin fa-lg"></i>
+          </div>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour">
+              Special Controls
+            </a>
+          </h4>
+        </div>
+        <div id="collapseFour" class="panel-collapse collapse">
           <div class="panel-body">
-                Rewrite all member objects to update structure
+                Rewrite all member and assoc objects to update structure
                 <a class="btn btn-primary" href="/member_rewrite">Do it!</a>
           </div>
         </div>
@@ -83,9 +97,23 @@ function updateSignups() {
     }
 }
 
+function updateInvites() {
+    if (document.getElementById('invitelist')) {
+        $.post('/member_admin_get_invite_members',
+                {},
+                function(responseTxt,statusTxt,xhr){
+                    if(statusTxt=="success")
+                        document.getElementById('invitelist').innerHTML=responseTxt;
+                    if(statusTxt=="error")
+                        alert("Error: "+xhr.status+": "+xhr.statusText);
+                });
+    }
+}
+
 $(document).ready(function() {
     updateMembers();
     updateSignups();
+    updateInvites();
 });
 </script>
 {% endblock localscripts %}

@@ -21,6 +21,7 @@ class Assoc(ndb.Model):
     band = ndb.KeyProperty()
     member = ndb.KeyProperty()
     is_confirmed = ndb.BooleanProperty( default=False )
+    is_invited = ndb.BooleanProperty( default=False )
     is_band_admin = ndb.BooleanProperty( default = False )
     default_section = ndb.KeyProperty( default=None )
     is_multisectional = ndb.BooleanProperty( default = False )
@@ -33,13 +34,11 @@ def get_member_keys_of_band_key(the_band_key):
     members = [a.member for a in assocs]
     return members
 
-
 def get_confirmed_assocs_of_band_key(the_band_key):
     """ return all assoc keys for a band """
-    assoc_query = Assoc.query( ndb.AND(Assoc.band==the_band_key, Assoc.is_confirmed==True ) ).order(Assoc.member_name)
+    assoc_query = Assoc.query( Assoc.band==the_band_key, Assoc.is_confirmed==True, Assoc.is_invited==False ).order(Assoc.member_name)
     assocs = assoc_query.fetch()
     return assocs
-
 
 def get_pending_members_from_band_key(the_band_key):
     """ Get all the members who are pending """
@@ -49,10 +48,24 @@ def get_pending_members_from_band_key(the_band_key):
     members = ndb.get_multi(member_keys)
     return members
 
-def get_admin_members_from_band_key(the_band_key):
+def get_invited_members_from_band_key(the_band_key):
+    """ Get all the members who are pending """
+    assoc_query = Assoc.query( Assoc.band==the_band_key, Assoc.is_invited==True ).order(Assoc.member_name)
+    assocs = assoc_query.fetch()
+    member_keys = [a.member for a in assocs]
+    members = ndb.get_multi(member_keys)
+    return members
+
+def get_inviting_assoc_keys_from_member_key(the_member_key):
+    """ Get all the band invites for a member """
+    assoc_query = Assoc.query( Assoc.member==the_member_key, Assoc.is_invited==True )
+    assocs = assoc_query.fetch(keys_only=True)
+    return assocs
+
+def get_admin_members_from_band_key(the_band_key, keys_only=False):
     """ Get all the members who are admins """
     assoc_query = Assoc.query( ndb.AND(Assoc.band==the_band_key, Assoc.is_band_admin==True) )
-    assocs = assoc_query.fetch()
+    assocs = assoc_query.fetch(keys_only=keys_only)
     member_keys = [a.member for a in assocs]
     members = ndb.get_multi(member_keys)
     return members
@@ -125,15 +138,14 @@ def set_admin_for_member_key_and_band_key(the_member_key, the_band_key, the_do):
         a.is_band_admin = True if (the_do==1) else False
         a.put()
 
-def new_association(member, band):
+def new_association(member, band, confirm=False, invited=False):
     """ associate a band and a member """
-    assoc=Assoc(band=band.key, member=member.key, member_name=member.name)
+    assoc=Assoc(band=band.key, member=member.key, member_name=member.name, is_confirmed=confirm, is_invited=invited)
     assoc.put()
-    goemail.send_new_member_email(band,member)
     
-def delete_association(the_assoc):
+def delete_association_from_key(the_assoc_key):
     """ delete association between member and band """
-    the_assoc.key.delete()
+    the_assoc_key.delete()
 
 def set_default_section(the_member_key, the_band_key, the_section_key):
     """ find the band in a member's list of assocs, and set default section """
@@ -152,7 +164,7 @@ def set_multi(the_member_key, the_band_key, the_do):
 def get_assocs_of_band_key(the_band_key, confirmed_only=False, keys_only=False):
     """ go get all the assocs for a band """
     if confirmed_only:
-        assoc_query = Assoc.query( ndb.AND(Assoc.band==the_band_key, Assoc.is_confirmed==True ) ).order(Assoc.member_name)
+        assoc_query = Assoc.query( Assoc.band==the_band_key, Assoc.is_confirmed==True, Assoc.is_invited==False ).order(Assoc.member_name)
     else:
         assoc_query = Assoc.query( Assoc.band==the_band_key ).order(Assoc.member_name)
     assocs = assoc_query.fetch(keys_only=keys_only)
@@ -160,7 +172,7 @@ def get_assocs_of_band_key(the_band_key, confirmed_only=False, keys_only=False):
 
 def get_assocs_of_member_key(the_member_key, confirmed_only=False, keys_only=False):
     if confirmed_only:
-        assoc_query = Assoc.query( ndb.AND(Assoc.member==the_member_key, Assoc.is_confirmed==True ) )
+        assoc_query = Assoc.query( Assoc.member==the_member_key, Assoc.is_confirmed==True )
     else:
         assoc_query = Assoc.query( Assoc.member==the_member_key )
     assocs = assoc_query.fetch(keys_only=keys_only)
@@ -187,6 +199,14 @@ def get_confirmed_assocs_of_member(the_member):
     """ Return assocs objects by member"""
     assocs = get_assocs_of_member_key(the_member.key, True)
     return assocs
+
+def confirm_invites_for_member_key(the_member_key):
+    """ find invites for this member and make them real assocs """
+    assoc_query = Assoc.query( Assoc.member==the_member_key, Assoc.is_invited==True )
+    assocs = assoc_query.fetch()
+    for a in assocs:
+        a.is_invited=False
+    ndb.put_multi(assocs)
     
 def default_section_for_band_key(the_member, the_band_key):
     """ find the default section for a member within a given band """
@@ -202,4 +222,15 @@ def change_member_name(the_member_key, member_name):
     for a in the_assocs:
         a.member_name = member_name
     ndb.put_multi(the_assocs)
-    
+
+def get_all_assocs():
+    """ return every assoc """
+    assoc_query = Assoc.query()
+    assocs = assoc_query.fetch()
+    return assocs
+
+def get_all_invites():
+    """ return all invited assoc keys """
+    assoc_query = Assoc.query( Assoc.is_invited==True )
+    assocs = assoc_query.fetch()
+    return assocs

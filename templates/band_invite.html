@@ -1,0 +1,65 @@
+{% extends 'go2base.html' %}
+
+{% block title %}{% trans %}Invite Members{% endtrans %}{% endblock title %}
+
+{% block content %}
+    <div class="row">
+        <div class="page-header col-md-8 col-md-offset-2">
+            <h2>{{ the_band.name }}</h2>
+        </div> 
+    </div>
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            Inviting new members to join your band is easy as pie. Just enter a list of email 
+            addresses separated by commas or newlines, and invitations will go out. Members will
+            automatically be confirmed as members of your band.
+        </div> 
+    </div>
+    <div class="row">
+        <br><br>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-8 col-md-offset-2">
+            <label for="banddescriptioninput" class="control-label">{% trans %}Emails:{% endtrans %}</label>
+            <textarea class="form-control" rows="10" id="inviteinput" placeholder="{% trans %}foo@bar.org{% endtrans %}" name="invite_input"></textarea>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-8 col-md-offset-2 text-right">
+            <a class="btn btn-default" href="band_info.html?bk={{the_band.key.urlsafe()}}">{% trans %}Cancel{% endtrans %}</a>
+            <a class="btn btn-primary" onclick="do_invite('{{the_band.key.urlsafe()}}');">{% trans %}Send Invites{% endtrans %}</a>
+        </div>
+    </div>
+    
+{% endblock content %}
+
+
+{% block modal %}
+    <div class="modal fade" id="inviteModal" tabindex="-1" role="dialog" aria-labelledby="inviteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content" id="modal-content">
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+{% endblock modal %}
+
+{% block localscripts %}
+<script>
+function do_invite(bk) {
+    $.post("/band_send_invites",
+                {
+                    bk: bk,
+                    e: $('#inviteinput').val()
+                },
+                function(responseTxt,statusTxt,xhr){
+                    if(statusTxt=="success")
+                        $('#modal-content').html(responseTxt)
+                        $('#inviteModal').modal('show');
+                    if(statusTxt=="error")
+                        alert("Error: "+xhr.status+": "+xhr.statusText);
+                });
+    
+}
+</script>
+
+{% endblock localscripts %}

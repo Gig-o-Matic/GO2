@@ -123,6 +123,27 @@ class Member(webapp2_extras.appengine.auth.models.User):
     @classmethod
     def delete_email_token(cls, user_id, token):
         cls.token_model.get_key(user_id, 'email', token).delete()
+
+    @classmethod
+    def create_invite_token(cls, user_id):
+        entity = cls.token_model.create(user_id, 'invite')
+        return entity.token
+
+    @classmethod
+    def delete_invite_token(cls, user_id, token):
+        cls.token_model.get_key(user_id, 'invite', token).delete()
+        
+        
+def create_new_member(email, name, password):
+    if name=='':
+        name=email
+    unique_properties = ['email_address']
+    user_data = Member.create_user(email,
+        unique_properties,
+        email_address=email, name=name, password_raw=password,
+        verified=False, preferences=MemberPreferences())
+    return user_data
+        
         
 def get_all_members(order=True, keys_only=False, verified_only=False):
     """ Return all member objects """
@@ -176,6 +197,11 @@ def get_member_from_urlsafe_key(urlsafe):
 def get_member_from_key(key):
     """ Return member objects by key"""
     return key.get()
+
+def get_member_from_email(the_email, keys_only=False):
+    """ Return member object from email address """
+    member = Member.get_by_auth_id(the_email)
+    return member
 
 def member_count_bands(the_member_key):
     return len(assoc.get_assocs_of_member_key(the_member_key, confirmed_only=True, keys_only=True))
@@ -456,7 +482,8 @@ class ManageBandsNewAssoc(BaseHandler):
         
         if assoc.get_assoc_for_band_key_and_member_key(the_band_key = the_band.key, the_member_key = the_member.key) is None:
             assoc.new_association(the_member, the_band)        
-        
+            goemail.send_new_member_email(the_band,the_member)
+ 
 
 class ManageBandsDeleteAssoc(BaseHandler):
     """ deletes an assoc for a member """                   
@@ -476,7 +503,7 @@ class ManageBandsDeleteAssoc(BaseHandler):
         the_member_key=the_assoc.member
         the_band_key=the_assoc.band
 
-        assoc.delete_association(the_assoc)
+        assoc.delete_association_from_key(the_assoc.key)
         plan.delete_plans_for_member_key_for_band_key(the_member_key, the_band_key)
         gig.reset_gigs_for_contact_key(the_member_key, the_band_key)
         
@@ -551,8 +578,6 @@ class AdminPageAllMembers(BaseHandler):
             
     def _make_page(self,the_user):
     
-        # todo make sure the user is a superuser
-        
         the_members = get_all_members(verified_only=True)
 
         member_band_info={}
@@ -565,7 +590,28 @@ class AdminPageAllMembers(BaseHandler):
             'the_band_info' : member_band_info
         }
         self.render_template('member_admin_memberlist.html', template_args)
+
+
+class AdminPageInviteMembers(BaseHandler):
+    """ Page for member administration """
+    
+    @user_required
+    def post(self):
+        if member_is_superuser(self.user):
+            self._make_page(the_user=self.user)
+        else:
+            return;
+
+    def _make_page(self,the_user):
+    
+        the_invite_assocs = assoc.get_all_invites()
         
+        template_args = {
+            'the_assocs' : the_invite_assocs
+        }
+        self.render_template('member_admin_invitelist.html', template_args)
+
+
 class AdminPageSignupMembers(BaseHandler):
     """ Page for member administration """
 
@@ -678,7 +724,33 @@ class RewriteAll(BaseHandler):
     @user_required
     def get(self):
         the_members = get_all_members(order=False)
-
         ndb.put_multi(the_members)
 
+        the_assocs = assoc.get_all_assocs()
+        ndb.put_multi(the_assocs)
+
         self.redirect(self.uri_for('memberadmin'))
+        
+        
+class DeleteInvite(BaseHandler):
+    """ remove association with band """
+    
+    @user_required
+    def get(self):
+        """ post handler - wants an ak """
+        
+        the_assoc_keyurl=self.request.get('ak','0')
+
+        if the_assoc_keyurl=='0':
+            return # todo figure out what to do
+
+        the_assoc_key=ndb.Key(urlsafe=the_assoc_keyurl)
+        the_member_key = the_assoc_key.get().member
+        assoc.delete_association_from_key(the_assoc_key) 
+
+        invites = assoc.get_inviting_assoc_keys_from_member_key(the_member_key)
+        if invites is None or (len(invites)==1 and invites[0]==the_assoc_key):
+            logging.error('removed last invite from member; deleteing')
+            forget_member_from_key(the_member_key)            
+                    
+        return self.redirect('/member_admin.html')        
