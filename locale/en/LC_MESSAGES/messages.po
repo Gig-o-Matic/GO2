@@ -121,7 +121,16 @@ msgstr ""
 
 #: goemail.py:247
 msgid "gigo_invite_email"
-msgstr ""
+msgstr "Hello,\n"
+"\n"
+"As a member of {0}, you have been invited to join the Gig-o-Matic to help manage your gigs. To sign up, you "
+"only need to create a password. Then you'll be able to visit http://gig-o-matic.appspot.com to log in.\n"
+"\n"
+"The URL to create your password is:\n"
+"{1}\n"
+"\n"
+"Thanks,\n"
+"The Gig-o-Matic Administration Council"
 
 #: goemail.py:263
 msgid "Gig-o-Matic Confirm Email Address"
