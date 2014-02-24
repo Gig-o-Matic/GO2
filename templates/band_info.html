@@ -163,14 +163,12 @@
                         </div>
                         <div id="collapseOne" class="panel-collapse collapse">
                             <div class="panel-body">
-                                {% if the_user_is_superuser %}
-                                    <div class="row">
-                                        <div class="col-md-12 col-md-offset-0">
-                                            <a class="btn btn-primary btn-sm" href="band_invite.html?bk={{ the_band.key.urlsafe() }}">{% trans %}Invite Members{% endtrans %}</a>
-                                        </div>
-                                        <hr>
+                                <div class="row">
+                                    <div class="col-md-12 col-md-offset-0">
+                                        <a class="btn btn-primary btn-sm" href="band_invite.html?bk={{ the_band.key.urlsafe() }}">{% trans %}Invite Members{% endtrans %}</a>
                                     </div>
-                                {% endif %}
+                                    <hr>
+                                </div>
                                 <div class="row">
                                     <div class="col-md-12 col-md-offset-0" id="memberlist">
                                         <i class="fa fa-spinner fa-spin fa-lg"></i>
