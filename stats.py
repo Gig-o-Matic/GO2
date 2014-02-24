@@ -54,6 +54,11 @@ def make_band_stats(the_band_key):
     
     the_stats.put()
 
+def delete_band_stats(the_band_key):
+    """ delete all stats for a band """
+    stats_query = BandStats.query( BandStats.band==the_band_key)
+    the_stats = stats_query.fetch(keys_only=True)
+    ndb.delete_multi(the_stats)
 
 #####
 #

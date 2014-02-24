@@ -20,6 +20,7 @@ import plan
 import json
 import logging
 import datetime
+import stats
 
 def band_key(band_name='band_key'):
     """Constructs a Datastore key for a Guestbook entity with guestbook_name."""
@@ -66,6 +67,8 @@ def forget_band_from_key(the_band_key):
         ndb.delete_multi(plan_keys)
     
     ndb.delete_multi(the_gig_keys)
+    
+    stats.delete_band_stats(the_band_key)
     
     # delete the band
     the_band_key.delete()
