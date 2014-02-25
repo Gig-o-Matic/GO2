@@ -164,8 +164,19 @@ def send_newgig_email(the_member, the_gig, the_band, the_gig_url):
 # 
 #     """.format(the_band.name, the_gig.title, the_gig.date, the_gig.settime, contact_name, the_gig.details, the_gig_url)
     the_date_string = member.format_date_for_member(the_member, the_gig.date)
-    message.body=_('new_gig_email').format(the_band.name, the_gig.title, the_date_string, the_gig.settime, contact_name, the_gig.details, the_gig_url)
-
+    the_time_string = ""
+    if the_gig.calltime:
+        the_time_string = u'{0} ({1})'.format(the_gig.calltime, _('Call Time'))
+    if the_gig.settime:
+        if the_time_string:
+            the_time_string = u'{0}, '.format(the_time_string)
+        the_time_string = u'{0}{1} ({2})'.format(the_time_string,the_gig.settime, _('Set Time'))
+    if the_gig.endtime:
+        if the_time_string:
+            the_time_string = u'{0}, '.format(the_time_string)
+        the_time_string = u'{0}{1} ({2})'.format(the_time_string,the_gig.endtime, _('End Time'))
+    message.body=_('new_gig_email').format(the_band.name, the_gig.title, the_date_string, the_time_string, contact_name, the_gig.details, the_gig_url)
+    
     try:
         message.send()
     except:
