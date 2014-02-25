@@ -291,8 +291,12 @@ function(value, element, params) {
 
 jQuery.validator.addMethod("inFuture", 
 function(value, element, params) {
-
-    return new Date(value) > new Date();
+    today = new Date();
+    today.setHours(0);
+    today.setMinutes(0);
+    today.setSeconds(0);
+    today.setMilliseconds(0);
+    return new Date(value) >= today;
 },'{% trans %}Must be in the future!{% endtrans %}');
 
 function updateContactList(bk) {
