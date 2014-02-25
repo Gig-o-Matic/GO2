@@ -24,8 +24,11 @@ class MainPage(BaseHandler):
         """ construct page for grid view """
         
         # find the bands this member is associated with
-        the_assocs = assoc.get_confirmed_assocs_of_member(the_user)
-        the_band_keys = [a.band for a in the_assocs]
+        if not the_user.is_superuser:
+            the_assocs = assoc.get_confirmed_assocs_of_member(the_user)
+            the_band_keys = [a.band for a in the_assocs]
+        else:
+            the_band_keys = band.get_all_bands(keys_only=True)
         
         if the_band_keys is None or len(the_band_keys)==0:
             return self.redirect('/member_info.html?mk={0}'.format(the_user.key.urlsafe()))
