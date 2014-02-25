@@ -51,16 +51,18 @@ class Gig(ndb.Model):
     is_archived = ndb.ComputedProperty(lambda self: self.archive_id is not None)
     is_canceled = ndb.ComputedProperty(lambda self: self.status == 2)
     comment_id = ndb.TextProperty( default = None)
+    creator = ndb.KeyProperty()
 #
 # Functions to make and find gigs
 #
 
-def new_gig(the_band, title, date=None, contact=None, details="", setlist="", call=None):
+def new_gig(the_band, title, creator, date=None, contact=None, details="", setlist="", call=None):
     """ Make and return a new gig """
     if date is None:
         date = datetime.datetime.now()
     the_gig = Gig(parent=the_band.key, title=title, contact=contact, \
-                    details=details, setlist=setlist, date=date, calltime=call)
+                    details=details, setlist=setlist, date=date, calltime=call, \
+                    creator=creator)
     the_gig.put()
     return the_gig
                 
@@ -399,7 +401,7 @@ class EditPage(BaseHandler):
         if gig_band_key is not None and gig_band_key != '':
             the_band = ndb.Key(urlsafe=gig_band_key).get()
             if the_gig is None:
-                the_gig = new_gig(title="tmp", the_band=the_band)
+                the_gig = new_gig(title="tmp", the_band=the_band, creator=self.user.key)
                 gig_is_new = True
 
         # now get the info
