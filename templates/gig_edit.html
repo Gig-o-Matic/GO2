@@ -244,7 +244,8 @@ $(document).ready(function () {
             },
             gig_date: {
                 required: true,
-                gigoDate: true
+                gigoDate: true,
+                inFuture: true
             },
             gig_enddate: {
                 gigoDate: true,
@@ -287,6 +288,12 @@ function(value, element, params) {
     return isNaN(value) && isNaN($(params).val()) 
         || (Number(value) > Number($(params).val())); 
 },'{% trans %}Must be later than start date!{% endtrans %}');
+
+jQuery.validator.addMethod("inFuture", 
+function(value, element, params) {
+
+    return new Date(value) > new Date();
+},'{% trans %}Must be in the future!{% endtrans %}');
 
 function updateContactList(bk) {
     $.post("/band_get_member_list",
