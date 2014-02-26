@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-02-23 19:52-0500\n"
+"POT-Creation-Date: 2014-02-26 11:29-0500\n"
 "PO-Revision-Date: 2014-02-01 18:13-0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: en <LL@li.org>\n"
@@ -68,7 +68,19 @@ msgstr ""
 msgid "Gig-o-Matic New Gig"
 msgstr ""
 
-#: goemail.py:167
+#: goemail.py:169 templates/gig_edit.html:83 templates/gig_info.html:61
+msgid "Call Time"
+msgstr ""
+
+#: goemail.py:173 templates/gig_edit.html:87 templates/gig_info.html:69
+msgid "Set Time"
+msgstr ""
+
+#: goemail.py:177 templates/gig_edit.html:91 templates/gig_info.html:72
+msgid "End Time"
+msgstr ""
+
+#: goemail.py:178
 msgid "new_gig_email"
 msgstr ""
 "Hello! A new gig has been added to the Gig-o-Matic for your band {0}:\n"
@@ -85,11 +97,11 @@ msgstr ""
 "Thanks,\n"
 "The Gig-o-Matic Team"
 
-#: goemail.py:203
+#: goemail.py:214
 msgid "Gig-o-Matic New Member for band {0})"
 msgstr ""
 
-#: goemail.py:214
+#: goemail.py:225
 msgid "new_member_email"
 msgstr ""
 "Hello! A new member {0} has signed up for your band {1}. Please log in "
@@ -101,11 +113,11 @@ msgstr ""
 "Thanks,\n"
 "The Gig-o-Matic Team"
 
-#: goemail.py:229
+#: goemail.py:240
 msgid "Gig-o-Matic New Band Invite"
 msgstr ""
 
-#: goemail.py:230
+#: goemail.py:241
 msgid "new_band_via_invite_email"
 msgstr ""
 "Hello! You have been invited to join the band {0}. You'll see the band on"
@@ -115,16 +127,18 @@ msgstr ""
 "Yours,\n"
 "Team Gig-o-Matic"
 
-#: goemail.py:246
+#: goemail.py:257
 msgid "Invitation to Join Gig-o-Matic"
 msgstr ""
 
-#: goemail.py:247
+#: goemail.py:258
 msgid "gigo_invite_email"
-msgstr "Hello,\n"
+msgstr ""
+"Hello,\n"
 "\n"
-"As a member of {0}, you have been invited to join the Gig-o-Matic to help manage your gigs. To sign up, you "
-"only need to create a password. Then you'll be able to visit http://gig-o-matic.appspot.com to log in.\n"
+"As a member of {0}, you have been invited to join the Gig-o-Matic to help"
+" manage your gigs. To sign up, you only need to create a password. Then "
+"you'll be able to visit http://gig-o-matic.appspot.com to log in.\n"
 "\n"
 "The URL to create your password is:\n"
 "{1}\n"
@@ -132,11 +146,11 @@ msgstr "Hello,\n"
 "Thanks,\n"
 "The Gig-o-Matic Administration Council"
 
-#: goemail.py:263
+#: goemail.py:274
 msgid "Gig-o-Matic Confirm Email Address"
 msgstr ""
 
-#: goemail.py:275
+#: goemail.py:286
 msgid "confirm_email_address_email"
 msgstr ""
 "Hi there! Someone has requested to change their Gig-o-Matic ID to this "
@@ -254,21 +268,21 @@ msgid "Let non-members see upcoming gigs"
 msgstr ""
 
 #: templates/band_edit.html:66 templates/band_edit.html:68
-#: templates/band_info.html:208 templates/band_invite.html:29
+#: templates/band_info.html:207 templates/band_invite.html:29
 #: templates/forgot.html:49 templates/gig_edit.html:148
 #: templates/gig_edit.html:150 templates/member_edit.html:98
 #: templates/signup.html:58
 msgid "Cancel"
 msgstr ""
 
-#: templates/band_edit.html:70 templates/band_info.html:209
+#: templates/band_edit.html:70 templates/band_info.html:208
 #: templates/gig_edit.html:152 templates/member_edit.html:99
 msgid "Save"
 msgstr ""
 
-#: templates/band_edit.html:94 templates/band_info.html:360
-#: templates/gig_edit.html:256 templates/gig_edit.html:259
-#: templates/gig_edit.html:262 templates/member_edit.html:156
+#: templates/band_edit.html:94 templates/band_info.html:359
+#: templates/gig_edit.html:257 templates/gig_edit.html:260
+#: templates/gig_edit.html:263 templates/member_edit.html:156
 msgid "This field is required!"
 msgstr ""
 
@@ -330,7 +344,7 @@ msgstr ""
 msgid "Order"
 msgstr ""
 
-#: templates/band_info.html:144 templates/band_info.html:198
+#: templates/band_info.html:144 templates/band_info.html:197
 msgid "Add a Section"
 msgstr ""
 
@@ -339,11 +353,11 @@ msgstr ""
 msgid "Member Admin"
 msgstr ""
 
-#: templates/band_info.html:169 templates/band_invite.html:3
+#: templates/band_info.html:168 templates/band_invite.html:3
 msgid "Invite Members"
 msgstr ""
 
-#: templates/band_info.html:202
+#: templates/band_info.html:201
 msgid "New Section"
 msgstr ""
 
@@ -421,6 +435,14 @@ msgstr ""
 msgid "Calendar"
 msgstr ""
 
+#: templates/changelog.html:3 templates/help.html:3 templates/help.html:7
+msgid "Help!"
+msgstr ""
+
+#: templates/changelog.html:7
+msgid "Change Log"
+msgstr ""
+
 #: templates/confirm_band_request.html:3
 msgid "Request Received!"
 msgstr ""
@@ -469,6 +491,10 @@ msgstr ""
 "The project is on <a "
 "href=\"https://github.com/SecondLiners/GO2.git\">github</a> - feel free "
 "to fork and/or contribute!"
+
+#: templates/credits.html:55
+msgid "Look <a href=\"/changelog\">here</a> for the change log."
+msgstr ""
 
 #: templates/forgot.html:3 templates/forgot.html:17
 #: templates/resetpassword.html:3 templates/resetpassword.html:17
@@ -555,18 +581,6 @@ msgstr ""
 msgid "if multi-day"
 msgstr ""
 
-#: templates/gig_edit.html:83 templates/gig_info.html:61
-msgid "Call Time"
-msgstr ""
-
-#: templates/gig_edit.html:87 templates/gig_info.html:69
-msgid "Set Time"
-msgstr ""
-
-#: templates/gig_edit.html:91 templates/gig_info.html:72
-msgid "End Time"
-msgstr ""
-
 #: templates/gig_edit.html:97 templates/gig_info.html:78
 msgid "Address"
 msgstr ""
@@ -649,11 +663,15 @@ msgstr ""
 msgid "Please enter a date in the format mm/dd/yyyy."
 msgstr ""
 
-#: templates/gig_edit.html:289
+#: templates/gig_edit.html:290
 msgid "Must be later than start date!"
 msgstr ""
 
-#: templates/gig_edit.html:318
+#: templates/gig_edit.html:300
+msgid "Must be in the future!"
+msgstr ""
+
+#: templates/gig_edit.html:329
 msgid "Error"
 msgstr ""
 
@@ -699,10 +717,6 @@ msgstr ""
 
 #: templates/grid.html:101
 msgid "No Gigs!"
-msgstr ""
-
-#: templates/help.html:3 templates/help.html:7
-msgid "Help!"
 msgstr ""
 
 #: templates/help.html:16
@@ -814,7 +828,7 @@ msgid "Sign Up!"
 msgstr ""
 
 #: templates/login.html:71
-msgid "Switch to"
+msgid "switch_to_text"
 msgstr "Passa a"
 
 #: templates/login.html:82
@@ -1133,4 +1147,7 @@ msgstr ""
 
 #~ msgid "Welcome to Gig-O-Matic"
 #~ msgstr ""
+
+#~ msgid "Switch to"
+#~ msgstr "Passa a"
 
