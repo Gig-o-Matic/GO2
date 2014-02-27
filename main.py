@@ -81,6 +81,7 @@ else:
         webapp2.Route('/member_set_section', member.SetSection),
         webapp2.Route('/member_set_multi',member.SetMulti),
         webapp2.Route('/member_get_bands',member.GetBandList),
+        webapp2.Route('/member_get_add_gig_bands',member.GetAddGigBandList),
         webapp2.Route('/member_rewrite',member.RewriteAll),
         webapp2.Route('/gig_info.html', gig.InfoPage, name="gig_info"),
         webapp2.Route('/gig_edit.html', gig.EditPage),

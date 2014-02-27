@@ -310,6 +310,12 @@ class InfoPage(BaseHandler):
             # is the current user a band admin?
             user_is_band_admin = assoc.get_admin_status_for_member_for_band_key(the_user, the_band_key)
 
+            user_can_edit = False
+            if user_is_band_admin or the_user.is_superuser:
+                user_can_edit = True
+            elif the_band_key.get().anyone_can_manage_gigs:
+                user_can_edit = True
+
             datestr = member.format_date_for_member(the_user, the_gig.date, format="long")
             if the_gig.enddate:
                 enddatestr = u' - {0}'.format(member.format_date_for_member(the_user, the_gig.enddate, format="long"))
@@ -324,7 +330,8 @@ class InfoPage(BaseHandler):
                 'the_sections' : the_sections,
                 'comment_text' : the_comment_text,
                 'band_has_sections' : band_has_sections,
-                'user_is_band_admin' : user_is_band_admin
+                'user_is_band_admin' : user_is_band_admin,
+                'user_can_edit' : user_can_edit
             }
             self.render_template('gig_info.html', template_args)
 
@@ -352,6 +359,12 @@ class EditPage(BaseHandler):
         if self.request.get("new", None) is not None:
             the_gig = None
             is_new = True
+            
+            the_band_keyurl = self.request.get("bk", None)
+            if the_band_keyurl is None:
+                return # figure out what to do
+            else:
+                the_band = ndb.Key(urlsafe = the_band_keyurl).get()
         else:
             the_gig_key = self.request.get("gk", None)
             if (the_gig_key is None):
@@ -362,25 +375,21 @@ class EditPage(BaseHandler):
                 self.response.write('did not find a band or gig!')
                 return # todo figure out what to do if we didn't find it
             is_new = False
+            the_band = the_gig.key.parent().get()
 
         if is_new:
             user_is_band_admin = False
         else:
             user_is_band_admin = assoc.get_admin_status_for_member_for_band_key(the_user, the_gig.key.parent())
             
-        all_bands = assoc.get_confirmed_bands_of_member(the_user)
-        if not all_bands:
-            template_args = {}
-            self.render_template('no_band_gig.html', template_args)
-        else:
-            template_args = {
-                'gig' : the_gig,
-                'all_bands' : all_bands,
-                'user_is_band_admin': user_is_band_admin,
-                'newgig_is_active' : is_new,
-                'the_date_formatter' : member.format_date_for_member
-            }
-            self.render_template('gig_edit.html', template_args)
+        template_args = {
+            'gig' : the_gig,
+            'the_band' : the_band,
+            'user_is_band_admin': user_is_band_admin,
+            'newgig_is_active' : is_new,
+            'the_date_formatter' : member.format_date_for_member
+        }
+        self.render_template('gig_edit.html', template_args)
         
     @user_required        
     def post(self):

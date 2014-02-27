@@ -6,33 +6,14 @@
     <div class="row">
         <div class="page-header col-md-5 col-md-offset-2">
         {% if newgig_is_active %}
-            <h2>{% trans %}New Gig{% endtrans %}</h1>
+            <h2>{% trans %}New Gig for {% endtrans %}{{ the_band.name }}</h1>
         {% else %}
             <h2>{% trans %}Gig Edit{% endtrans %}</h1>
         {% endif %}
         </div>
     </div>
     <form class="form" id="infoform" role="form" method="post" action="gig_edit.html">
-        {% if all_bands|length > 1 %}
-            <div class="row">
-                <div class="form-group col-md-3 col-md-offset-2">
-                    {% if newgig_is_active %}
-                        <label for="gigband" class="control-label">{% trans %}Band{% endtrans %}</label>
-                        <select id="gigband" class="form-control" name="gig_band" onChange="handleBandChange(this)">
-                            {% for a_band in all_bands %}
-                                <option value="{{a_band.key.urlsafe()}}"
-                                {% if (gig and a_band.key.urlsafe() == gig.key.parent().urlsafe()) or (gig==None and loop.first) %}
-                                    SELECTED
-                                {% endif %}
-                                >{{a_band.name}}</option>
-                            {% endfor %}
-                        </select>
-                    {% endif %}
-                </div>
-            </div>
-        {% else %}
-            <input type="hidden" name="gig_band" value="{{all_bands[0].key.urlsafe()}}">
-        {% endif %}
+        <input type="hidden" name="gig_band" value="{{the_band.key.urlsafe()}}">
         <div class="row">
             <div class="form-group col-md-8 col-md-offset-2">
                 <label for="gigtitleinput" class="control-label">{% trans %}Gig Title{% endtrans %}</label>
@@ -267,11 +248,7 @@ $(document).ready(function () {
 
 
       
-    {% if newgig_is_active %}
-        updateContactList('{{all_bands[0].key.urlsafe()}}');
-    {% else %}
-        updateContactList('{{gig.key.parent().urlsafe()}}');
-    {% endif %}
+    updateContactList('{{the_band.key.urlsafe()}}');
 });
 
 jQuery.validator.addMethod("greaterThan", 

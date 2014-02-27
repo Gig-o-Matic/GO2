@@ -110,12 +110,14 @@
                         <div class="col-md-2 col-sm-2 col-xs-3">{% trans %}Setlist{% endtrans %}{% if gig.setlist %} <a href="print_setlist?gk={{gig.key.urlsafe()}}" target="new"><i class="fa fa-print"></i></a>{% endif %}</div>
                         <div class="col-md-10 col-sm-10 col-xs-9">{{ gig.setlist  | html_content | safe }}</div>
                     </div>
-                    <div class="row">
-                        <br>
-                        <div class="col-md-12">
-                            <a class="btn btn-primary btn-sm" href="gig_edit.html?gk={{ gig.key.urlsafe() }}">{% trans %}Edit{% endtrans %}</a>
+                    {% if user_can_edit %}
+                        <div class="row">
+                            <br>
+                            <div class="col-md-12">
+                                <a class="btn btn-primary btn-sm" href="gig_edit.html?gk={{ gig.key.urlsafe() }}">{% trans %}Edit{% endtrans %}</a>
+                            </div>
                         </div>
-                    </div>
+                    {% endif %}
                 </div>  <!-- panel body -->
             </div> <!-- panel -->
             <div class="row">&nbsp;</div>

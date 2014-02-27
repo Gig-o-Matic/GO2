@@ -108,6 +108,21 @@
                             alert("Error: "+xhr.status+": "+xhr.statusText);
                     });
                 }
+                function updateNavbarAddGig() {
+                    $.post('/member_get_add_gig_bands',
+                    {
+                        mk: '{{the_user.key.urlsafe()}}'
+                    },
+                    function(responseTxt,statusTxt,xhr){
+                        if(statusTxt=="success")
+                            tmp=document.getElementById('addgigbandlinks')
+                            if (tmp) {
+                                tmp.innerHTML=responseTxt;
+                            }
+                        if(statusTxt=="error")
+                            alert("Error: "+xhr.status+": "+xhr.statusText);
+                    });
+                }
         
                 $(document).ready(function() {
                     $('#motd-alert').bind('closed.bs.alert', function () {
@@ -117,6 +132,7 @@
                         $.post("/seen_welcome",{ mk:"{{the_user.key.urlsafe()}}" })
                     });
                     updateNavbarBands();
+                    updateNavbarAddGig();
                 });
             </script>
         {% endif %}

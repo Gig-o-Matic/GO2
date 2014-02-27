@@ -717,6 +717,31 @@ class GetBandList(BaseHandler):
         }
         self.render_template('navbar_bandlist.html', template_args)            
 
+class GetAddGigBandList(BaseHandler):
+    """ return a list of bands """
+    
+    @user_required
+    def post(self):
+        """ post handler - wants a mk """
+        
+        the_member_keyurl=self.request.get('mk','0')
+        if the_member_keyurl=='0':
+            return # todo figure out what to do
+        the_member_key=ndb.Key(urlsafe=the_member_keyurl)
+        band_keys=assoc.get_band_keys_of_member_key(the_member_key, confirmed_only=True)
+        the_bands = ndb.get_multi(band_keys)
+        the_manage_bands = []
+        for b in the_bands:
+            if b.anyone_can_manage_gigs or \
+                self.user.is_superuser or \
+                assoc.get_admin_status_for_member_for_band_key(self.user, b.key):
+                the_manage_bands.append(b)
+            
+        template_args = {
+            'the_bands' : the_manage_bands
+        }
+        self.render_template('navbar_addgigbandlist.html', template_args)
+                    
 class RewriteAll(BaseHandler):
     """ get all member objects from the database, and write them back. this will force """
     """ an update to the structure, useful when adding properties. But ugly. """
