@@ -51,6 +51,15 @@
         <div class="row">
             <div class="form-group col-md-5 col-md-offset-2">
                 <label class="checkbox">  
+                    <input type="checkbox" id="bandanyonecanmanagegigs" name="band_anyonecanmanagegigs"
+                    {% if the_band.anyone_can_manage_gigs %}
+                        checked
+                    {% endif %}
+                    >{% trans %}Let any member manage gigs{% endtrans %}   
+                </label>  
+            </div>
+            <div class="form-group col-md-5 col-md-offset-2">
+                <label class="checkbox">  
                     <input type="checkbox" id="bandsharegigs" name="band_sharegigs"
                     {% if the_band.share_gigs %}
                         checked

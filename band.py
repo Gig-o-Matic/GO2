@@ -41,6 +41,7 @@ class Band(ndb.Model):
     time_zone_correction = ndb.IntegerProperty(default=0)
     thumbnail_img = ndb.TextProperty(default=None)
     share_gigs = ndb.BooleanProperty(default=True)
+    anyone_can_manage_gigs = ndb.BooleanProperty(default=True)
 
 def new_band(name):
     """ Make and return a new band """
@@ -286,6 +287,12 @@ class EditPage(BaseHandler):
 
         the_band.description=self.request.get("band_description",None)
             
+        manage_gigs=self.request.get("band_anyonecanmanagegigs",None)
+        if (manage_gigs):
+            the_band.anyone_can_manage_gigs = True
+        else:
+            the_band.anyone_can_manage_gigs = False
+
         share_gigs=self.request.get("band_sharegigs",None)
         if (share_gigs):
             the_band.share_gigs = True
