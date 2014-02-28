@@ -23,7 +23,7 @@ class AdminPage(BaseHandler):
         if member.member_is_superuser(self.user):
             self._make_page(the_user=self.user)
         else:
-            return;
+            return self.redirect('/agenda.html')            
             
     def _make_page(self,the_user):
     

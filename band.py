@@ -596,8 +596,11 @@ class AdminPage(BaseHandler):
 
     @user_required
     def get(self):    
-        self._make_page(the_user=self.user)
-            
+        if member.member_is_superuser(self.user):
+            self._make_page(the_user=self.user)
+        else:
+            return self.redirect('/agenda.html')            
+                
     def _make_page(self,the_user):
     
         # todo make sure the user is a superuser
