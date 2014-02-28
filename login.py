@@ -58,6 +58,8 @@ class LoginPage(BaseHandler):
 
 class LogoutHandler(BaseHandler):
     def get(self):
+        # if you actually log out, we'll clear the session to reset band lists and stuff
+        self.session.clear()
         self.auth.unset_session()
         self.redirect(self.uri_for('home'))
 

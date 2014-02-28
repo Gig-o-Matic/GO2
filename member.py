@@ -132,6 +132,31 @@ class Member(webapp2_extras.appengine.auth.models.User):
     @classmethod
     def delete_invite_token(cls, user_id, token):
         cls.token_model.get_key(user_id, 'invite', token).delete()
+
+    @classmethod
+    def get_add_gig_band_list(cls, req, the_member_key):
+        """ check to see if this is in the session - if so, just use it """
+        if 'member_addgigbandlist' in req.session.keys():
+            the_manage_bands = req.session['member_addgigbandlist']
+            print '\n\ngot band list from cache\n\n'
+        else:
+            band_keys=assoc.get_band_keys_of_member_key(the_member_key, confirmed_only=True)
+            the_bands = ndb.get_multi(band_keys)
+            the_manage_bands = []
+            for b in the_bands:
+                if b.anyone_can_manage_gigs or \
+                    req.user.is_superuser or \
+                    assoc.get_admin_status_for_member_for_band_key(req.user, b.key):
+                    the_manage_bands.append(b)
+            req.session['member_addgigbandlist'] = the_manage_bands
+            print '\n\nput band list into cache\n\n'
+        return the_manage_bands
+
+    @classmethod
+    def invalidate_session_bandlists(cls, req):
+        """ delete the bandlists from the session if they are changing """
+        print '\n\ncleared bandlist \n\n'
+        req.session.pop('member_addgigbandlist',None)
         
         
 def create_new_member(email, name, password):
@@ -237,7 +262,7 @@ def format_date_for_member(the_user, the_date, format="short"):
         tmpstr=format_date(the_date,locale=the_locale,format="short")[:-2]
         the_str=tmpstr+str(the_date.year)
     return the_str
-        
+                            
 #####
 #
 # Page Handlers
@@ -483,6 +508,9 @@ class ManageBandsNewAssoc(BaseHandler):
         if assoc.get_assoc_for_band_key_and_member_key(the_band_key = the_band.key, the_member_key = the_member.key) is None:
             assoc.new_association(the_member, the_band)        
             goemail.send_new_member_email(the_band,the_member)
+        
+        # since our bands are changing, invalidate the band list in our session
+        self.user.invalidate_session_bandlists(self)
  
 
 class ManageBandsDeleteAssoc(BaseHandler):
@@ -506,6 +534,9 @@ class ManageBandsDeleteAssoc(BaseHandler):
         assoc.delete_association_from_key(the_assoc.key)
         plan.delete_plans_for_member_key_for_band_key(the_member_key, the_band_key)
         gig.reset_gigs_for_contact_key(the_member_key, the_band_key)
+
+        # since our bands are changing, invalidate the band list in our session
+        self.user.invalidate_session_bandlists(self)
         
         return self.redirect('/member_info.html?mk={0}'.format(the_member_key.urlsafe()))
         
@@ -728,20 +759,13 @@ class GetAddGigBandList(BaseHandler):
         if the_member_keyurl=='0':
             return # todo figure out what to do
         the_member_key=ndb.Key(urlsafe=the_member_keyurl)
-        band_keys=assoc.get_band_keys_of_member_key(the_member_key, confirmed_only=True)
-        the_bands = ndb.get_multi(band_keys)
-        the_manage_bands = []
-        for b in the_bands:
-            if b.anyone_can_manage_gigs or \
-                self.user.is_superuser or \
-                assoc.get_admin_status_for_member_for_band_key(self.user, b.key):
-                the_manage_bands.append(b)
+        the_manage_bands = self.user.get_add_gig_band_list(self, the_member_key)
             
         template_args = {
             'the_bands' : the_manage_bands
         }
         self.render_template('navbar_addgigbandlist.html', template_args)
-                    
+        
 class RewriteAll(BaseHandler):
     """ get all member objects from the database, and write them back. this will force """
     """ an update to the structure, useful when adding properties. But ugly. """
