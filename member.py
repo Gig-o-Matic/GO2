@@ -785,14 +785,22 @@ class DeleteInvite(BaseHandler):
     @user_required
     def get(self):
         """ post handler - wants an ak """
-        
+
         the_assoc_keyurl=self.request.get('ak','0')
 
         if the_assoc_keyurl=='0':
             return # todo figure out what to do
 
-        the_assoc_key=ndb.Key(urlsafe=the_assoc_keyurl)
-        the_member_key = the_assoc_key.get().member
+        the_assoc_key = ndb.Key(urlsafe=the_assoc_keyurl)
+        the_assoc = the_assoc_key.get()
+        
+        # make sure we're a band admin or a superuser
+        if not (self.user.is_superuser or assoc.get_admin_status_for_member_for_band_key(self.user, the_assoc.band)):
+            return self.redirect('/agenda.html')
+
+        the_band_key = the_assoc.band
+
+        the_member_key = the_assoc.member
         assoc.delete_association_from_key(the_assoc_key) 
 
         invites = assoc.get_inviting_assoc_keys_from_member_key(the_member_key)
@@ -800,4 +808,4 @@ class DeleteInvite(BaseHandler):
             logging.error('removed last invite from member; deleteing')
             forget_member_from_key(the_member_key)            
                     
-        return self.redirect('/member_admin.html')        
+        return self.redirect('/band_info.html?bk={0}'.format(the_band_key.urlsafe()))

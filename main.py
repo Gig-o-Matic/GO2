@@ -75,7 +75,7 @@ else:
         webapp2.Route('/member_admin_get_all_members', member.AdminPageAllMembers),
         webapp2.Route('/member_admin_get_signup_members', member.AdminPageSignupMembers),
         webapp2.Route('/member_admin_get_invite_members', member.AdminPageInviteMembers),
-        webapp2.Route('/member_admin_delete_invite', member.DeleteInvite),
+        webapp2.Route('/member_delete_invite', member.DeleteInvite),
         webapp2.Route('/member_makeadmin', member.AdminMember),
         webapp2.Route('/member_delete', member.DeleteMember),
         webapp2.Route('/member_set_section', member.SetSection),

@@ -48,13 +48,11 @@ def get_pending_members_from_band_key(the_band_key):
     members = ndb.get_multi(member_keys)
     return members
 
-def get_invited_members_from_band_key(the_band_key):
+def get_invited_member_assocs_from_band_key(the_band_key):
     """ Get all the members who are pending """
     assoc_query = Assoc.query( Assoc.band==the_band_key, Assoc.is_invited==True ).order(Assoc.member_name)
     assocs = assoc_query.fetch()
-    member_keys = [a.member for a in assocs]
-    members = ndb.get_multi(member_keys)
-    return members
+    return assocs
 
 def get_inviting_assoc_keys_from_member_key(the_member_key):
     """ Get all the band invites for a member """

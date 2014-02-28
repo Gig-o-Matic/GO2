@@ -99,7 +99,10 @@
                             {% for m in the_invited_members %}
                             <div class="row">
                                 <div class="col-md-3 col-sm-3 col-xs-4">
-                                    {{ m.name|e }}
+                                    {{ m[1] }}
+                                </div>
+                                <div class="col-md-3 col-sm-3 col-xs-4">
+                                    <a href="/member_delete_invite?ak={{m[0].urlsafe()}}">forget the invite</a>
                                 </div>
                             </div>
                             {% endfor %}

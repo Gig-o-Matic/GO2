@@ -207,7 +207,8 @@ class InfoPage(BaseHandler):
             the_pending = []
 
         if the_user_admin_status or member.member_is_superuser(the_user):
-            the_invited = assoc.get_invited_members_from_band_key(the_band_key)
+            the_invited_assocs = assoc.get_invited_member_assocs_from_band_key(the_band_key)
+            the_invited=[(x.key, x.member.get().name) for x in the_invited_assocs]
         else:
             the_invited = []
 
