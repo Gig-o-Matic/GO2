@@ -138,7 +138,6 @@ class Member(webapp2_extras.appengine.auth.models.User):
         """ check to see if this is in the session - if so, just use it """
         if 'member_addgigbandlist' in req.session.keys():
             the_manage_bands = req.session['member_addgigbandlist']
-            print '\n\ngot band list from cache\n\n'
         else:
             band_keys=assoc.get_band_keys_of_member_key(the_member_key, confirmed_only=True)
             the_bands = ndb.get_multi(band_keys)
@@ -149,7 +148,6 @@ class Member(webapp2_extras.appengine.auth.models.User):
                     assoc.get_admin_status_for_member_for_band_key(req.user, b.key):
                     the_manage_bands.append(b)
             req.session['member_addgigbandlist'] = the_manage_bands
-            print '\n\nput band list into cache\n\n'
         return the_manage_bands
 
     @classmethod
