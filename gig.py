@@ -377,6 +377,12 @@ class EditPage(BaseHandler):
             is_new = False
             the_band = the_gig.key.parent().get()
 
+        # are we authorized to edit a gig for this band?
+        ok_band_list = self.user.get_add_gig_band_list(self, self.user.key)
+        if not the_band.key in [x.key for x in ok_band_list]:
+            logging.error(u'user {0} trying to edit a gig for band {1}'.format(self.user.key.urlsafe(),the_band.key.urlsafe()))
+            return self.redirect('/agenda.html')            
+
         if is_new:
             user_is_band_admin = False
         else:
@@ -406,12 +412,18 @@ class EditPage(BaseHandler):
 
         # first, get the band
         gig_is_new = False
-        gig_band_key = self.request.get("gig_band", None)
-        if gig_band_key is not None and gig_band_key != '':
-            the_band = ndb.Key(urlsafe=gig_band_key).get()
+        gig_band_keyurl = self.request.get("gig_band", None)
+        if gig_band_keyurl is not None and gig_band_keyurl != '':
+            the_band = ndb.Key(urlsafe=gig_band_keyurl).get()
             if the_gig is None:
                 the_gig = new_gig(title="tmp", the_band=the_band, creator=self.user.key)
                 gig_is_new = True
+
+        # are we authorized to edit a gig for this band?
+        ok_band_list = self.user.get_add_gig_band_list(self, self.user.key)
+        if not the_band.key in [x.key for x in ok_band_list]:
+            logging.error(u'user {0} trying to edit a gig for band {1}'.format(self.user.key.urlsafe(),the_band.key.urlsafe()))
+            return self.redirect('/agenda.html')            
 
         # now get the info
         gig_title = self.request.get("gig_title", None)
