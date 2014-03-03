@@ -1,3 +1,4 @@
+﻿
 
 #, fuzzy
 msgid ""
@@ -69,15 +70,15 @@ msgstr "Gig-o-Matic: Nuova Suonata"
 #: goemail.py:169 templates/gig_edit.html:64 templates/gig_info.html:61
 #, fuzzy
 msgid "Call Time"
-msgstr "Appuntamento alle"
+msgstr "Appuntamento"
 
 #: goemail.py:173 templates/gig_edit.html:68 templates/gig_info.html:69
 msgid "Set Time"
-msgstr "Si attacca a suonare alle"
+msgstr "Inizio suonata"
 
 #: goemail.py:177 templates/gig_edit.html:72 templates/gig_info.html:72
 msgid "End Time"
-msgstr "Si finisce alle"
+msgstr "Fine suonata"
 
 #: goemail.py:178
 msgid "new_gig_email"
@@ -86,12 +87,12 @@ msgstr ""
 "\n"
 "{1}\n"
 "Data: {2}\n"
-"Si attacca a suonare alle: {3}\n"
+"Orario: {3}\n"
 "Contatto: {4}\n"
 "\n"
 "{5}\n"
 "\n"
-"Ci sarai? Clicca qui sotto per segnalare la tua partecipazione (o meno). "
+"Ci sarai? Non rispondere a questa e-mail: Per segnalare la tua partecipazione (o meno) clicca qui sotto. "
 "È decisivo! {6}\n"
 "\n"
 "Grazie,\n"
@@ -192,7 +193,7 @@ msgstr "mostra tutte"
 
 #: templates/agenda.html:65
 msgid "Nothing coming up!"
-msgstr "Niente in vista!"
+msgstr "Nessun'altra suonata!"
 
 #: templates/agenda_plan_edit.html:109 templates/band_members.html:29
 #: templates/member_band_assocs.html:24
@@ -268,11 +269,11 @@ msgstr "Differenza da GMT"
 
 #: templates/band_edit.html:58
 msgid "Let any member create, edit, and delete gigs"
-msgstr ""
+msgstr "Permetti a ogni membro di creare, modificare e cancellare le suonate"
 
 #: templates/band_edit.html:67
 msgid "Let non-members see upcoming gigs"
-msgstr "Permetti ai non-membri di vedere suonate"
+msgstr "Permetti ai non-membri di vedere le suonate in programma"
 
 #: templates/band_edit.html:75 templates/band_edit.html:77
 #: templates/band_info.html:207 templates/band_invite.html:29
@@ -377,7 +378,7 @@ msgstr "E-mail"
 
 #: templates/band_invite.html:24
 msgid "foo@bar.org"
-msgstr "cucù@pastis.com"
+msgstr "pinco@pallino.com"
 
 #: templates/band_invite.html:30
 msgid "Send Invites"
@@ -456,7 +457,7 @@ msgstr "Help"
 
 #: templates/changelog.html:7
 msgid "Change Log"
-msgstr ""
+msgstr "Registro modifiche"
 
 #: templates/confirm_band_request.html:3
 msgid "Request Received!"
@@ -561,7 +562,7 @@ msgstr "Modifica suonata"
 
 #: templates/gig_edit.html:9
 msgid "New Gig for "
-msgstr ""
+msgstr "Nuova suonata della"
 
 #: templates/gig_edit.html:19
 msgid "Gig Title"
@@ -695,7 +696,7 @@ msgstr "Deve essere dopo la data di inizio!"
 
 #: templates/gig_edit.html:277
 msgid "Must be in the future!"
-msgstr ""
+msgstr "Deve essere una data futura!"
 
 #: templates/gig_edit.html:306
 msgid "Error"
@@ -802,7 +803,7 @@ msgstr "Nuova banda!"
 
 #: templates/invite_welcome.html:3
 msgid "Setup Password"
-msgstr "Scegli password"
+msgstr "Scelta password"
 
 #: templates/invite_welcome.html:22
 msgid "Welcome To Gig-o-Matic"
@@ -913,7 +914,7 @@ msgstr "Modifica profilo"
 
 #: templates/member_edit.html:14
 msgid "Full Name"
-msgstr "Nome e Cognome completo"
+msgstr "Nome e Cognome"
 
 #: templates/member_edit.html:15 templates/member_edit.html:39
 msgid "(required)"
@@ -933,7 +934,7 @@ msgstr "Password (ripeti!)"
 
 #: templates/member_edit.html:38 templates/member_info.html:28
 msgid "Email"
-msgstr "Email"
+msgstr "E-mail"
 
 #: templates/member_edit.html:44 templates/member_info.html:34
 msgid "Phone"
@@ -1067,12 +1068,12 @@ msgstr "Oh-oh!"
 
 #: templates/no_band_gig.html:8
 msgid "Adding a Gig"
-msgstr "Per aggiungere una suonata"
+msgstr "Aggiunta di una suonata"
 
 #: templates/no_band_gig.html:13
 msgid "no_band_gig_message"
 msgstr ""
-"Non sei ancora membro confermato di nessuna banda. Appena avrai scelto "
+"Non sei ancora tra i membri confermati di nessuna banda. Appena avrai scelto "
 "una banda, un membro admin di quella banda convaliderà la tua richiesta e"
 " riceverai un’e-mail di conferma della tua iscrizione. A quel punto, "
 "potrai creare e modificare tutte le suonate che vuoi per quella banda. "
@@ -1152,7 +1153,7 @@ msgid "welcome_message"
 msgstr ""
 "Un benvenuto sul Gig-O-Matic!<br><br>Primo passo: innanzitutto compila il"
 " tuo profilo con le tue info personali.<br><br>Secondo passo: Aggiungiti "
-"a una banda (o anche a più d’una) cliccando sul link \"aggiungi banda\" "
+"a una banda (o anche a più d’una) cliccando sulla casella \"aggiungi banda\" "
 "in basso. L’amministratore della banda verificherà che sei proprio tu, "
 "dopodiché ti verrà inviata un’e-mail di conferma. Più semplice di "
 "così!<br><br>Serve aiuto? Clicca <a href=\"/help\" class=\"alert-"
