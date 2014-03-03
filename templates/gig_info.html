@@ -58,7 +58,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-2"><i class="fa fa-clock-o"></i></div>
-                        <div class="col-md-2 col-sm-2 col-xs-3">{% trans %}Call Time{% endtrans %}: 
+                        <div class="col-md-3 col-sm-3 col-xs-3">{% trans %}Call Time{% endtrans %}: 
                         {% if gig.calltime %}
                             {{ gig.calltime }}
                         {% else %}
@@ -66,10 +66,10 @@
                         {% endif %}
                         </div>
                         {% if gig.settime %}
-                            <div class="col-md-offset-2 col-md-2 col-sm-2 col-xs-3">{% trans %}Set Time{% endtrans %}: {{ gig.settime }}</div>
+                            <div class="col-md-3 col-sm-3 col-xs-3">{% trans %}Set Time{% endtrans %}: {{ gig.settime }}</div>
                         {% endif %}
                         {% if gig.endtime %}
-                            <div class="col-md-offset-2 col-md-2 col-sm-2 col-xs-3">{% trans %}End Time{% endtrans %}: {{ gig.endtime }}</div>
+                            <div class="col-md-3 col-sm-3 col-xs-3">{% trans %}End Time{% endtrans %}: {{ gig.endtime }}</div>
                         {% endif %}
                     </div>
                     <div class="row">&nbsp;</div>
