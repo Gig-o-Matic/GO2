@@ -41,6 +41,19 @@
                             </div>
                         </div>
                     {% endif %}
+                    {% if the_user_is_associated %}
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                &nbsp;
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 col-sm-2 col-xs-3">{% trans %}Public Profile{% endtrans %}</div>
+                            <div class="col-md-10 col-sm-10 col-xs-9">
+                                    <a href="http://gig-o-matic.appspot.com/band/{{the_band.condensed_name}}" target="new">http://gig-o-matic.appspot.com/band/{{ the_band.condensed_name }}</a>
+                            </div>
+                        </div>
+                    {% endif %}
                     {% if the_user_is_band_admin or the_user_is_superuser %}
                         <div class="row">
                             <br>
@@ -52,16 +65,18 @@
                 </div>
             </div> <!-- panel -->
             {% if the_user_is_associated == False and ( the_user_is_superuser == False ) %}
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <strong>
-                            {% trans %}Upcoming Gigs{% endtrans %}
-                        </strong>
+                {% if the_band.share_gigs %}
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <strong>
+                                {% trans %}Upcoming Gigs{% endtrans %}
+                            </strong>
+                        </div>
+                        <div class="panel-body" id="upcoming-gigs">
+                            <i class="fa fa-spinner fa-spin fa-lg"></i>
+                        </div>
                     </div>
-                    <div class="panel-body" id="upcoming-gigs">
-                        <i class="fa fa-spinner fa-spin fa-lg"></i>
-                    </div>
-                </div>
+                {% endif %}
             {% elif the_user_is_confirmed == False and ( the_user_is_superuser == False ) %}
                 {% trans %}Your membership is pending - ask a band member to confirm you!{% endtrans %}
             {% else %}
