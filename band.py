@@ -42,7 +42,7 @@ class Band(ndb.Model):
     thumbnail_img = ndb.TextProperty(default=None)
     share_gigs = ndb.BooleanProperty(default=True)
     anyone_can_manage_gigs = ndb.BooleanProperty(default=True)
-    condensed_name = ndb.ComputedProperty(lambda self: self.name.replace(" ", ""))
+    condensed_name = ndb.ComputedProperty(lambda self: self.name.replace(" ", "").lower())
 
 def new_band(name):
     """ Make and return a new band """
@@ -88,7 +88,7 @@ def get_band_from_name(band_name):
         
 def get_band_from_condensed_name(band_name):
     """ Return a Band object by name"""
-    bands_query = Band.query(Band.condensed_name==band_name, ancestor=band_key())
+    bands_query = Band.query(Band.condensed_name==band_name.lower(), ancestor=band_key())
     band = bands_query.fetch(1)
 
     if len(band)==1:
