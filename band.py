@@ -42,7 +42,7 @@ class Band(ndb.Model):
     thumbnail_img = ndb.TextProperty(default=None)
     share_gigs = ndb.BooleanProperty(default=True)
     anyone_can_manage_gigs = ndb.BooleanProperty(default=True)
-    condensed_name = ndb.ComputedProperty(lambda self: self.name.replace(" ", "").lower())
+    condensed_name = ndb.ComputedProperty(lambda self: ''.join(ch for ch in self.name if ch.isalnum()).lower())
 
 def new_band(name):
     """ Make and return a new band """
