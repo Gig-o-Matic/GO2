@@ -42,6 +42,7 @@ class Band(ndb.Model):
     thumbnail_img = ndb.TextProperty(default=None)
     share_gigs = ndb.BooleanProperty(default=True)
     anyone_can_manage_gigs = ndb.BooleanProperty(default=True)
+    condensed_name = ndb.ComputedProperty(lambda self: self.name.replace(" ", ""))
 
 def new_band(name):
     """ Make and return a new band """
@@ -85,6 +86,16 @@ def get_band_from_name(band_name):
     else:
         return None
         
+def get_band_from_condensed_name(band_name):
+    """ Return a Band object by name"""
+    bands_query = Band.query(Band.condensed_name==band_name, ancestor=band_key())
+    band = bands_query.fetch(1)
+
+    if len(band)==1:
+        return band[0]
+    else:
+        return None
+
 def get_band_from_key(key):
     """ Return band objects by key"""
     return key.get()
@@ -176,40 +187,56 @@ class Section(ndb.Model):
 class InfoPage(BaseHandler):
     """ class to produce the band info page """
 
-    @user_required
-    def get(self):    
+#     @user_required
+    def get(self, *args, **kwargs):    
         """ make the band info page """
-        self._make_page(the_user=self.user)
+        
+        if 'band_name' in kwargs:
+            band_name = kwargs['band_name']
+            the_band = get_band_from_condensed_name(band_name)
+            if the_band:
+                self._make_page(None, the_band)
+            else:
+                return self.redirect('/')            
+        else:
+            if self.user:
+                self._make_page(the_user=self.user)
+            else:
+                return self.redirect('/')            
 
-    def _make_page(self,the_user):
+    def _make_page(self,the_user,the_band=None):
         """ produce the info page """
         
         # find the band we're interested in
-        band_key_str=self.request.get("bk", None)
-        if band_key_str is None:
-            self.response.write('no band key passed in!')
-            return # todo figure out what to do if there's no ID passed in
-
-        the_band_key=ndb.Key(urlsafe=band_key_str)
-        the_band=the_band_key.get()
+        if the_band is None:
+            band_key_str=self.request.get("bk", None)
+            if band_key_str is None:
+                self.response.write('no band key passed in!')
+                return # todo figure out what to do if there's no ID passed in
+            the_band_key=ndb.Key(urlsafe=band_key_str)
+            the_band=the_band_key.get()
 
         if the_band is None:
             self.response.write('did not find a band!')
             return # todo figure out what to do if we didn't find it
             
-        the_user_is_associated = assoc.get_associated_status_for_member_for_band_key(the_user, the_band_key)
-        the_user_is_confirmed = assoc.get_confirmed_status_for_member_for_band_key(the_user, the_band_key)
-        the_user_admin_status = assoc.get_admin_status_for_member_for_band_key(the_user, the_band_key)   
-
-        if the_user_admin_status or member.member_is_superuser(the_user):
-            the_pending = assoc.get_pending_members_from_band_key(the_band_key)
+        if the_user is None:
+            the_user_is_associated = False
+            the_user_is_confirmed = False
+            the_user_admin_status = False
+            the_user_is_superuser = False
         else:
-            the_pending = []
+            the_user_is_associated = assoc.get_associated_status_for_member_for_band_key(the_user, the_band_key)
+            the_user_is_confirmed = assoc.get_confirmed_status_for_member_for_band_key(the_user, the_band_key)
+            the_user_admin_status = assoc.get_admin_status_for_member_for_band_key(the_user, the_band_key)   
+            the_user_is_superuser = member.member_is_superuser(the_user)
 
-        if the_user_admin_status or member.member_is_superuser(the_user):
+        if the_user_admin_status or the_user_is_superuser:
+            the_pending = assoc.get_pending_members_from_band_key(the_band_key)
             the_invited_assocs = assoc.get_invited_member_assocs_from_band_key(the_band_key)
             the_invited=[(x.key, x.member.get().name) for x in the_invited_assocs]
         else:
+            the_pending = []
             the_invited = []
 
         template_args = {

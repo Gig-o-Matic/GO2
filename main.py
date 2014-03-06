@@ -40,6 +40,7 @@ if False: # maintenance mode?
 else:
     application = webapp2.WSGIApplication([
         webapp2.Route('/', agenda.MainPage, name='home'),
+        webapp2.Route('/band/<band_name:.+>', band.InfoPage),
         webapp2.Route('/login', login.LoginPage, name='login'),
         webapp2.Route('/logout', login.LogoutHandler, name='logout'),
         webapp2.Route('/signup', login.SignupPage, name='signup'),

@@ -54,7 +54,7 @@
             {% endblock wrapclass %}        
         >
             {% block navbar %}
-                    {% include 'navbar.html' %}
+                {% include 'navbar.html' %}
             {% endblock navbar %}
 
             <div class="container">
@@ -73,11 +73,13 @@
             </div><!-- /.container -->
         </div> <!-- /.wrap -->
         {% block footer %}
-            <div id="footer">
-                <div class="container text-right">
-                    <a href="/credits"><p class="text-muted credit">{% trans %}Who made this thing?{% endtrans %}</p></a>
+            {% if the_user %}
+                <div id="footer">
+                    <div class="container text-right">
+                        <a href="/credits"><p class="text-muted credit">{% trans %}Who made this thing?{% endtrans %}</p></a>
+                    </div>
                 </div>
-            </div>
+            {% endif %}
         {% endblock footer %}
         {% block modal %}
         {% endblock modal %}
