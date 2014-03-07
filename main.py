@@ -28,7 +28,7 @@ config = {
   'webapp2_extras.jinja2': {
              'template_path': os.path.join(os.path.dirname(__file__), 'templates'),
              'environment_args': { 'extensions': ['jinja2.ext.i18n'] },
-             'filters': {'html_content': jinja2ext.html_content}
+             'filters': {'html_content': jinja2ext.html_content, 'safe_name': jinja2ext.safe_name}
   },
   'webapp2_extras.i18n': {
              'translations_path': os.path.join(os.path.dirname(__file__), 'locale')

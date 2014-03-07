@@ -9,7 +9,15 @@ def html_content(value):
         return unicode(jinja2.escape(s))
     return jinja2.Markup(escape(value).replace('\n', '<br>'))
 
+def safe_name(value):
+    # Replace single quote with something
+    ret=""
+    for c in value:
+        if c == "'":
+            ret = ret + "\\'"
+        else: 
+            ret = ret + c
+    return ret
 
-# jinja_environment.filters['html_content'] = html_content
 
 

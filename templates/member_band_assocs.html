@@ -43,7 +43,7 @@
                 </td>
             {% endif %}
             <td style="border-top:none;">    
-                <button class="btn btn-default btn-sm" onclick="leave_band('{{the_info.assoc.key.urlsafe()}}','{{the_info.assoc.band.get().name}}')"><i class="fa fa-minus-square"></i> {% trans %}Leave Band{% endtrans %}</button>
+                <button class="btn btn-default btn-sm" onclick="leave_band('{{the_info.assoc.key.urlsafe()}}','{{the_info.assoc.band.get().name|safe_name}}')"><i class="fa fa-minus-square"></i> {% trans %}Leave Band{% endtrans %}</button>
             </td>
         </tr>
     {% endfor %}
