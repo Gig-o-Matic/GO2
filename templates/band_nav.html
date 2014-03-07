@@ -13,7 +13,7 @@
     <div class="col-md-8 col-md-offset-2">
         <div class="row">
             {% for b in the_bands %}
-                <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="col-lg-3 col-md-4 col-sm-6 thumbnails">
                     <div class="thumbnail">
                         <a href="/band_info.html?bk={{b.key.urlsafe()}}">
                             {% if b.thumbnail_img %}
@@ -33,3 +33,40 @@
 </div>
 {% endblock content %}
 
+{% block localscripts %}
+<script>
+
+{#
+    http://stackoverflow.com/questions/9278569/equals-heights-of-thumbnails
+#}
+(function ($) {
+    $.fn.uniformHeight = function () {
+        var maxHeight = 0,
+            wrapper,
+            wrapperHeight;
+
+        return this.each(function () {
+
+            // Applying a wrapper to the contents of the current element to get reliable height
+            wrapper = $(this).wrapInner('<div class="wrapper" />').children('.wrapper');
+            wrapperHeight = wrapper.outerHeight();
+
+            maxHeight = Math.max(maxHeight, wrapperHeight);
+
+            // Remove the wrapper
+            wrapper.children().unwrap();
+
+        }).height(maxHeight);
+    }
+})(jQuery);
+
+$(document).ready(function() {
+    $('.thumbnails').find('.thumbnail').uniformHeight();
+});
+
+$(window).resize(function () {
+    $('.thumbnails').find('.thumbnail').uniformHeight();
+});
+
+</script>
+{% endblock localscripts %}
