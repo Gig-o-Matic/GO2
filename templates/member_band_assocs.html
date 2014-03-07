@@ -5,9 +5,10 @@
         <table class="table">
     {% endif %}
     {% for the_info in the_assoc_info %}
+        {% set the_band_name = the_info.assoc.band.get().name %}
         <tr>
             <td style="border-top:none;">
-                <a href="/band_info.html?bk={{the_info.assoc.band.urlsafe()}}">{{the_info.assoc.band.get().name}}</a>
+                <a href="/band_info.html?bk={{the_info.assoc.band.urlsafe()}}">{{the_band_name}}</a>
             </td>
             {% if the_info.assoc.is_confirmed == 0 %}
                 <td colspan=2 style="border-top:none;">
@@ -41,9 +42,8 @@
                     > {% trans %}other sections, too{% endtrans %}
                 </td>
             {% endif %}
-            <td style="border-top:none;">            
-<!--                 <a class="btn btn-default btn-sm" href="/member_delete_assoc.html?bk={{the_info.assoc.band.urlsafe()}}&mk={{the_member.key.urlsafe()}}"><i class="fa fa-minus-square"></i> Leave Band</a> -->
-                <button class="btn btn-default btn-sm" onclick="leave_band('{{the_info.assoc.key.urlsafe()}}','{{the_info.assoc.band.get().name}}')""><i class="fa fa-minus-square"></i> {% trans %}Leave Band{% endtrans %}</button>
+            <td style="border-top:none;">    
+                <button class="btn btn-default btn-sm" onclick="leave_band('{{the_info.assoc.key.urlsafe()}}','{{the_info.assoc.band.get().name}}')"><i class="fa fa-minus-square"></i> {% trans %}Leave Band{% endtrans %}</button>
             </td>
         </tr>
     {% endfor %}
