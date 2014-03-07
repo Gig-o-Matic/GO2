@@ -11,34 +11,24 @@
 </div>
 <div class="row">
     <div class="col-md-8 col-md-offset-2">
-        <table>
-            {% set tmp = 0 %}
+        <div class="row">
             {% for b in the_bands %}
-                {{ loop.cycle('<tr>'|safe,'','') }}
-                <td valign="top" width="33%">
+                <div class="col-lg-3 col-md-4 col-sm-6">
                     <div class="thumbnail">
                         <a href="/band_info.html?bk={{b.key.urlsafe()}}">
-                        {% if b.thumbnail_img %}
-                            <img width="100%" src="{{b.thumbnail_img}}" alt="...">
-                        {% else %}
-                            <img width="100%" src="/images/band_thumbnail.png" style="border:1px solid gray" alt="...">
-                        {% endif %}
+                            {% if b.thumbnail_img %}
+                                <img width="100%" src="{{b.thumbnail_img}}" alt="...">
+                            {% else %}
+                                <img width="100%" src="/images/band_thumbnail.png" style="border:1px solid gray" alt="...">
+                            {% endif %}
                         </a>
                         <div class="caption">
                             <a href="/band_info.html?bk={{b.key.urlsafe()}}"><h3>{{ b.name }}</h3></a>
                         </div>
                     </div>
-                </td>
-                {{ loop.cycle('','','</tr>'|safe) }}
-                {% set tmp = tmp + 1 %}
-                {% if tmp == 3 %}
-                    {% set tmp = 0 %}
-                {% endif %}
-                {% if loop.last and tmp > 0 %}
-                    </tr>
-                {% endif %}
+                </div>
             {% endfor %}
-        </table>
+        </div>
     </div>
 </div>
 {% endblock content %}
