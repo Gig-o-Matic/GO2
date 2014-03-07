@@ -138,11 +138,9 @@ class Member(webapp2_extras.appengine.auth.models.User):
         """ check to see if this is in the session - if so, just use it """
         if 'member_bandlist' in req.session.keys():
             the_bands = req.session['member_bandlist']
-            print '\n\ngot from session\n\n'
         else:
             band_keys=assoc.get_band_keys_of_member_key(the_member_key, confirmed_only=True)
             the_bands = [bandkey.get() for bandkey in band_keys]
-            print '\n\nwrote to session\n\n'
 
             req.session['member_bandlist'] = the_bands
         return the_bands
