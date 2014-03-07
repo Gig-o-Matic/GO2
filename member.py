@@ -134,6 +134,20 @@ class Member(webapp2_extras.appengine.auth.models.User):
         cls.token_model.get_key(user_id, 'invite', token).delete()
 
     @classmethod
+    def get_band_list(cls, req, the_member_key):
+        """ check to see if this is in the session - if so, just use it """
+        if 'member_bandlist' in req.session.keys():
+            the_bands = req.session['member_bandlist']
+            print '\n\ngot from session\n\n'
+        else:
+            band_keys=assoc.get_band_keys_of_member_key(the_member_key, confirmed_only=True)
+            the_bands = [bandkey.get() for bandkey in band_keys]
+            print '\n\nwrote to session\n\n'
+
+            req.session['member_bandlist'] = the_bands
+        return the_bands
+
+    @classmethod
     def get_add_gig_band_list(cls, req, the_member_key):
         """ check to see if this is in the session - if so, just use it """
         if 'member_addgigbandlist' in req.session.keys():
@@ -154,6 +168,7 @@ class Member(webapp2_extras.appengine.auth.models.User):
     def invalidate_session_bandlists(cls, req):
         """ delete the bandlists from the session if they are changing """
         print '\n\ncleared bandlist \n\n'
+        req.session.pop('member_bandlist',None)
         req.session.pop('member_addgigbandlist',None)
         
         
@@ -740,9 +755,10 @@ class GetBandList(BaseHandler):
         if the_member_keyurl=='0':
             return # todo figure out what to do
         the_member_key=ndb.Key(urlsafe=the_member_keyurl)
-        band_keys=assoc.get_band_keys_of_member_key(the_member_key, confirmed_only=True)
+        the_bands = self.user.get_band_list(self, the_member_key)
+
         template_args = {
-            'the_bands' : [bandkey.get() for bandkey in band_keys]
+            'the_bands' : the_bands
         }
         self.render_template('navbar_bandlist.html', template_args)            
 
