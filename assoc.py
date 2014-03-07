@@ -71,9 +71,9 @@ def get_admin_members_from_band_key(the_band_key, keys_only=False):
 def get_assoc_for_band_key_and_member_key(the_member_key, the_band_key, confirmed_only=False):
     """ find the association with a band and return it """
     if confirmed_only:
-        assoc_query = Assoc.query( ndb.AND(Assoc.band==the_band_key, Assoc.member==the_member_key, Assoc.is_confirmed==True) )
+        assoc_query = Assoc.query( Assoc.band==the_band_key, Assoc.member==the_member_key, Assoc.is_confirmed==True )
     else:
-        assoc_query = Assoc.query( ndb.AND(Assoc.band==the_band_key, Assoc.member==the_member_key) )
+        assoc_query = Assoc.query( Assoc.band==the_band_key, Assoc.member==the_member_key )
     assocs = assoc_query.fetch()
     if len(assocs) >= 1:
         return assocs[0]
