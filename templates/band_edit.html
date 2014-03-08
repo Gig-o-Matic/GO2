@@ -40,6 +40,8 @@
             <div class="form-group col-md-5 col-md-offset-2">
                 <label for="bandwebsiteinput" class="control-label">{% trans %}Thumbnail Image{% endtrans %}</label>
                 <input type="text" class="form-control" id="bandwebsiteinput" placeholder="{% trans %}url of 200x300 picture for band navigtor page{% endtrans %}" value="{% if the_band.thumbnail_img %}{{the_band.thumbnail_img}}{% endif %}" name="band_thumbnail">
+                (Needs to be a link to an image. To use an image on facebook, right-click on the image and copy the image URL, then
+                paste it here. For now, works better with images that are taller than they are wide.)
             </div>
         </div>
         <div class="row">
