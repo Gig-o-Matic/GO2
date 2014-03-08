@@ -6,22 +6,39 @@
     <div class="row">
         <div class="col-md-5 col-md-offset-2"><h2>Band Admin</h1></div>
     </div> 
-    {% for band in the_bands %}
-        <div class="row">
-            <div class="col-md-2 col-md-offset-2">
-                <a href="/band_info.html?bk={{band.key.urlsafe()}}">{{ band.name|e }}</a>
-            </div>
-            <div class="col-md-2">
-                <a href="/band_delete.html?bk={{band.key.urlsafe()}}">delete</a>
+    <div class="row">
+        <div class="panel-group col-md-8 col-md-offset-2" id="accordion">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                          All Bands
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseOne" class="panel-collapse collapse in">
+                    <div class="panel-body" id="memberlist">    
+                        {% for band in the_bands %}
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <a href="/band_info.html?bk={{band.key.urlsafe()}}">{{ band.name|e }}</a>
+                                </div>
+                                <div class="col-md-2">
+                                    <a href="/band_delete.html?bk={{band.key.urlsafe()}}">delete</a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        <br>
+                        <div class="row">
+                            {% if the_user_is_superuser %}
+                                <div class="col-md-4">
+                                    <a class="btn btn-primary btn-sm" href="/band_edit.html?new=1">Add a Band</a>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    {% endfor %}
-    <br>
-    <div class="row">
-        {% if the_user_is_superuser %}
-            <div class="col-md-4 col-md-offset-2">
-                <a class="btn btn-primary btn-sm" href="/band_edit.html?new=1">Add a Band</a>
-            </div>
-        {% endif %}
     </div>
 {% endblock content %}
