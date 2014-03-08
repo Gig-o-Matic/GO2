@@ -361,6 +361,19 @@ function multi_select(mk) {
             });
 }
 
+function admin_select(ak) {
+    elem=document.getElementById("aak-"+ak)
+    $.post('/band_makeadmin',
+            {
+                ak: ak,
+                do: elem.checked
+            },
+            function(responseTxt,statusTxt,xhr){
+                if(statusTxt=="error")
+                    alert("Error: "+xhr.status+": "+xhr.statusText);
+            });
+}
+
 
 $(document).ready(function() {
     updateMembers();

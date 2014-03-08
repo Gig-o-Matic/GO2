@@ -430,7 +430,7 @@ class BandGetMembers(BaseHandler):
             else:
                 s = None
 
-            assoc_info.append( {'name':(m.nickname if m.nickname else m.name), 'is_confirmed':a.is_confirmed, 'is_band_admin':a.is_band_admin, 'member_key':a.member, 'section':s, 'is_multisectional':a.is_multisectional} )
+            assoc_info.append( {'name':(m.nickname if m.nickname else m.name), 'is_confirmed':a.is_confirmed, 'is_band_admin':a.is_band_admin, 'member_key':a.member, 'section':s, 'is_multisectional':a.is_multisectional, 'assoc':a} )
             if a.member == the_user.key:
                 the_user_is_band_admin = a.is_band_admin
                         
@@ -573,27 +573,23 @@ class AdminMember(BaseHandler):
     """ grant or revoke admin rights """
     
     @user_required
-    def get(self):
+    def post(self):
         """ post handler - wants a member key and a band key, and a flag """
         
         # todo - make sure the user is a superuser or already an admin of this band
 
-        the_member_keyurl=self.request.get('mk','0')
-        the_band_keyurl=self.request.get('bk','0')
-        the_do=self.request.get('do','')
+        the_assoc_keyurl=self.request.get('ak','0')
+        the_do=self.request.get('do',None)
 
-        if the_member_keyurl=='0' or the_band_keyurl=='0':
+        if the_assoc_keyurl=='0' or the_do is None:
             return # todo figure out what to do
 
-        if the_do=='':
-            return # todo figure out what to do
+        print '\n\n do = {0} \n\n'.format(the_do)
 
-        the_member_key = ndb.Key(urlsafe=the_member_keyurl)
-        the_band_key = ndb.Key(urlsafe=the_band_keyurl)
-        assoc.set_admin_for_member_key_and_band_key(the_member_key, the_band_key, int(the_do))
-
-        return self.redirect('/band_info.html?bk={0}'.format(the_band_keyurl))
-
+        the_assoc = ndb.Key(urlsafe=the_assoc_keyurl).get()
+        the_assoc.is_band_admin = (the_do=='true')
+        the_assoc.put()
+        
 class RemoveMember(BaseHandler):
     """ user quits band """
     
