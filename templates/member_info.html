@@ -35,10 +35,12 @@
                         {% if email_change_msg %}<br>{{ email_change_msg }}{% endif %}
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-3 col-sm-3 col-xs-3">{% trans %}Phone{% endtrans %}</div>
-                        <div class="col-md-9 col-sm-9 col-xs-9">{{ the_member.phone|e }}</div>
-                    </div>
+                    {% if the_member.phone %}
+                        <div class="row">
+                            <div class="col-md-3 col-sm-3 col-xs-3">{% trans %}Phone{% endtrans %}</div>
+                            <div class="col-md-9 col-sm-9 col-xs-9">{{ the_member.phone|e }}</div>
+                        </div>
+                    {% endif %}
                     <div class="row"><br></div>
                     {% if the_member.statement %}
                         <div class="row">
