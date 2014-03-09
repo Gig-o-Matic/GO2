@@ -40,6 +40,7 @@ class Band(ndb.Model):
     created = ndb.DateTimeProperty(auto_now_add=True)
     time_zone_correction = ndb.IntegerProperty(default=0)
     thumbnail_img = ndb.TextProperty(default=None)
+    images = ndb.TextProperty(repeated=True)
     share_gigs = ndb.BooleanProperty(default=True)
     anyone_can_manage_gigs = ndb.BooleanProperty(default=True)
     condensed_name = ndb.ComputedProperty(lambda self: ''.join(ch for ch in self.name if ch.isalnum()).lower())
@@ -312,6 +313,16 @@ class EditPage(BaseHandler):
         the_band.website=self.request.get("band_website",None)
 
         the_band.thumbnail_img=self.request.get("band_thumbnail",None)
+        
+        image_blob = self.request.get("band_images",None)
+        print "\n\n{0}\n\n".format(image_blob)
+        image_split = image_blob.split("\n")
+        image_urls=[]
+        for iu in image_split:
+            the_iu=iu.strip()
+            if the_iu:
+                image_urls.append(the_iu)
+        the_band.images=image_urls
 
         the_band.description=self.request.get("band_description",None)
             

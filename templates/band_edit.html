@@ -5,53 +5,63 @@
 {% block content %}
     <div class="row">
         {% if newband_is_active %}
-            <div class="page-header col-md-5 col-md-offset-2"><h2>{% trans %}New Band{% endtrans %}</h2></div>
+            <div class="page-header col-md-8 col-md-offset-2"><h2>{% trans %}New Band{% endtrans %}</h2></div>
         {% else %}
-            <div class="page-header col-md-5 col-md-offset-2"><h2>{% trans %}Edit Band{% endtrans %}</h2></div>
+            <div class="page-header col-md-8 col-md-offset-2"><h2>{% trans %}Edit Band{% endtrans %}</h2></div>
         {% endif %}
     </div>
     <form id="infoform" class="form" role="form" method="post" action="band_edit.html">
         <div class="row">
-            <div class="form-group col-md-5 col-md-offset-2">
+            <div class="form-group col-md-8 col-md-offset-2">
                 <label for="bandnameinput" class="control-label">{% trans %}Name{% endtrans %}</label>
                 <input type="text" class="form-control" id="bandnameinput" placeholder="{% trans %}what's it called?{% endtrans %}" value="{{the_band.name}}" name="band_name">
             </div>
         </div>
         <div class="row">
-            <div class="form-group col-md-5 col-md-offset-2">
+            <div class="form-group col-md-8 col-md-offset-2">
                 <label for="bandshortnameinput" class="control-label">{% trans %}Short Name{% endtrans %}</label>
                 <input type="text" class="form-control" id="bandshortnameinput" placeholder="{% trans %}whts it clld?{% endtrans %}" value="{{the_band.shortname}}" name="band_shortname">
             </div>
         </div>
         <div class="row">
-            <div class="form-group col-md-5 col-md-offset-2">
+            <div class="form-group col-md-8 col-md-offset-2">
                 <label for="banddescriptioninput" class="control-label">{% trans %}Description{% endtrans %}</label>
-<!--                 <input type="text" class="form-control" id="memeberdescriptioninput" placeholder="tell us a little about the band" value="{% if the_band.description %}{{the_band.description}}{% endif %}" name="band_description"> -->
                 <textarea class="form-control" rows="10" id="banddescriptioninput" placeholder="{% trans %}tell us a little about the band{% endtrans %}" name="band_description">{% if the_band.description %}{{the_band.description}}{% endif %}</textarea>
             </div>
         </div>
         <div class="row">
-            <div class="form-group col-md-5 col-md-offset-2">
-                <label for="bandthumbnailinput" class="control-label">{% trans %}Website{% endtrans %}</label>
-                <input type="text" class="form-control" id="bandthumbnailinput" placeholder="www.yourband.org" value="{% if the_band.website %}{{the_band.website}}{% endif %}" name="band_website">
+            <div class="form-group col-md-8 col-md-offset-2">
+                <label for="bandwebsiteinput" class="control-label">{% trans %}Website{% endtrans %}</label>
+                <input type="text" class="form-control" id="bandwebsiteinput" placeholder="www.yourband.org" value="{% if the_band.website %}{{the_band.website}}{% endif %}" name="band_website">
             </div>
         </div>
         <div class="row">
-            <div class="form-group col-md-5 col-md-offset-2">
-                <label for="bandwebsiteinput" class="control-label">{% trans %}Thumbnail Image{% endtrans %}</label>
-                <input type="text" class="form-control" id="bandwebsiteinput" placeholder="{% trans %}url of 200x300 picture for band navigtor page{% endtrans %}" value="{% if the_band.thumbnail_img %}{{the_band.thumbnail_img}}{% endif %}" name="band_thumbnail">
-                (Needs to be a link to an image. To use an image on facebook, right-click on the image and copy the image URL, then
+            <div class="form-group col-md-8 col-md-offset-2">
+                <label for="bandthumbnailinput" class="control-label">{% trans %}Thumbnail Image for Band Navigator Page{% endtrans %}</label>
+                <input type="text" class="form-control" id="bandthumbnailinput" placeholder="{% trans %}url of 200x300 picture for band navigtor page{% endtrans %}" value="{% if the_band.thumbnail_img %}{{the_band.thumbnail_img}}{% endif %}" name="band_thumbnail">
+                (Needs to be a link to an image. To use an image from facebook, right-click on the image and copy the image URL, then
                 paste it here. For now, works better with images that are taller than they are wide.)
             </div>
         </div>
         <div class="row">
-            <div class="form-group col-md-5 col-md-offset-2">
+            <div class="form-group col-md-8 col-md-offset-2">
+                <label for="bandimageinput" class="control-label">{% trans %}Public Page Images{% endtrans %}</label>
+                <textarea class="form-control" rows="10" id="bandimageinput" placeholder="{% trans %}put urls to images on their own lines...{% endtrans %}" name="band_images">{% if the_band.images %}
+{% for i in the_band.images %}{{i}}
+{% endfor %}
+                {% endif %}</textarea>
+                (Needs to be links to images. To use an image from facebook, right-click on the image and copy the image URL, then
+                paste it here.)
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-8 col-md-offset-2">
                 <label for="bandtzinput" class="control-label">{% trans %}Time Zone{% endtrans %}</label>
                 <input type="text" class="form-control" id="bandtzinput" placeholder="{% trans %}UTC offset{% endtrans %}" value="{{the_band.time_zone_correction}}" name="band_tz">
             </div>
         </div>
         <div class="row">
-            <div class="form-group col-md-5 col-md-offset-2">
+            <div class="form-group col-md-8 col-md-offset-2">
                 <label class="checkbox">  
                     <input type="checkbox" id="bandanyonecanmanagegigs" name="band_anyonecanmanagegigs"
                     {% if the_band.anyone_can_manage_gigs %}
@@ -60,7 +70,7 @@
                     >{% trans %}Let any member create, edit, and delete gigs{% endtrans %}   
                 </label>  
             </div>
-            <div class="form-group col-md-5 col-md-offset-2">
+            <div class="form-group col-md-8 col-md-offset-2">
                 <label class="checkbox">  
                     <input type="checkbox" id="bandsharegigs" name="band_sharegigs"
                     {% if the_band.share_gigs %}
@@ -71,7 +81,7 @@
             </div>
         </div>        
         <div class="row">
-            <div class="form-group col-md-5 col-md-offset-2">
+            <div class="form-group col-md-8 col-md-offset-2">
                 <div class="text-right">
                     {% if the_member==None or is_new %}
                         <a class="btn btn-default" href="agenda.html">{% trans %}Cancel{% endtrans %}</a>
