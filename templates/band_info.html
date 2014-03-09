@@ -99,16 +99,18 @@
                         </div>
                     </div>
                 {% endif %}
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <strong>
-                            {% trans %}Members With Public Profiles{% endtrans %}
-                        </strong>
+                {% if the_user %}
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <strong>
+                                {% trans %}Members With Public Profiles{% endtrans %}
+                            </strong>
+                        </div>
+                        <div class="panel-body" id="public-members">
+                            <i class="fa fa-spinner fa-spin fa-lg"></i>
+                        </div>
                     </div>
-                    <div class="panel-body" id="public-members">
-                        <i class="fa fa-spinner fa-spin fa-lg"></i>
-                    </div>
-                </div>
+                {% endif %}
             {% elif the_user_is_confirmed == False and ( the_user_is_superuser == False ) %}
                 {% trans %}Your membership is pending - ask a band member to confirm you!{% endtrans %}
             {% else %}
