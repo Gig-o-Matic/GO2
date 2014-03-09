@@ -38,6 +38,8 @@ class MemberPreferences(ndb.Model):
     email_new_gig = ndb.BooleanProperty(default=True)
     hide_canceled_gigs = ndb.BooleanProperty(default=False)
     locale = ndb.TextProperty(default='en')
+    share_profile = ndb.BooleanProperty(default=True)
+    share_email = ndb.BooleanProperty(default=False)
 
 #
 # class for member
@@ -302,27 +304,62 @@ class InfoPage(BaseHandler):
         if the_member is None:
             self.response.write('did not find a member!')
             return # todo figure out what to do if we didn't find it
-        
+
+        ok_to_show = False
+        same_band = False
         if the_member.key == the_user.key:
             is_me = True
+            ok_to_show = True
         else:
             is_me = False
             
         # find the bands this member is associated with
         the_band_keys=assoc.get_band_keys_of_member_key(the_member_key=the_member.key, confirmed_only=True)
         
+        if is_me == False:
+            # are we at least in the same band, or superuser?
+            if the_user.is_superuser:
+                ok_to_show = True
+            the_other_band_keys = assoc.get_band_keys_of_member_key(the_member_key=the_user.key, confirmed_only=True)
+            for b in the_other_band_keys:
+                if b in the_band_keys:
+                    ok_to_show = True
+                    same_band = True
+                    break
+            if ok_to_show == False:
+                # check to see if we're sharing our profile - if not, bail!
+                if (the_member.preferences and the_member.preferences.share_profile == False) and the_user.is_superuser == False:
+                    return self.redirect('/')            
+
         email_change = self.request.get('e',False)
         if email_change:
             email_change_msg='You have selected a new email address - check your inbox to verify!'
         else:
             email_change_msg = None
-            
-                                    
+
+        # if I'm not sharing my email, don't share my email
+        show_email = False
+        if the_member.key == the_user.key or the_user.is_superuser:
+            show_email = True
+        elif the_member.preferences and the_member.preferences.share_profile and the_member.preferences.share_email:
+            show_email = True
+
+        show_phone = False
+        if the_member.key == the_user.key or the_user.is_superuser:
+            show_phone = True
+        else:
+            # are we in the same band? If so, always show email and phone
+            if same_band:
+                show_phone = True
+                show_email = True
+
         template_args = {
             'the_member' : the_member,
             'the_band_keys' : the_band_keys,
             'member_is_me' : the_user == the_member,
-            'email_change_msg' : email_change_msg
+            'email_change_msg' : email_change_msg,
+            'show_email' : show_email,
+            'show_phone' : show_phone
         }
         self.render_template('member_info.html', template_args)
 
@@ -438,6 +475,18 @@ class EditPage(BaseHandler):
             the_member.preferences.hide_canceled_gigs = True
         else:
             the_member.preferences.hide_canceled_gigs = False
+
+        member_prefshareprofile=self.request.get("member_prefshareprofile", None)
+        if (member_prefshareprofile):
+            the_member.preferences.share_profile = True
+        else:
+            the_member.preferences.share_profile = False
+
+        member_prefshareemail=self.request.get("member_prefshareemail", None)
+        if (member_prefshareemail):
+            the_member.preferences.share_email = True
+        else:
+            the_member.preferences.share_email = False
 
         member_preflocale=self.request.get("member_preflocale",None)
         if (member_preflocale):

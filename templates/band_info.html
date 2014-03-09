@@ -99,6 +99,16 @@
                         </div>
                     </div>
                 {% endif %}
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <strong>
+                            {% trans %}Members With Public Profiles{% endtrans %}
+                        </strong>
+                    </div>
+                    <div class="panel-body" id="public-members">
+                        <i class="fa fa-spinner fa-spin fa-lg"></i>
+                    </div>
+                </div>
             {% elif the_user_is_confirmed == False and ( the_user_is_superuser == False ) %}
                 {% trans %}Your membership is pending - ask a band member to confirm you!{% endtrans %}
             {% else %}
@@ -274,6 +284,21 @@ function updateUpcoming() {
     }
 }
 
+function updatePublic() {
+    if (document.getElementById('public-members')) {
+        $.post('/band_get_public_members',
+            {
+                bk: '{{ the_band.key.urlsafe() }}'
+            },
+            function(responseTxt,statusTxt,xhr){
+                if(statusTxt=="success")
+                    document.getElementById('public-members').innerHTML=responseTxt;
+                if(statusTxt=="error")
+                    alert("Error: "+xhr.status+": "+xhr.statusText);
+            });
+    }
+}
+
 function updateMembers() {
     if (document.getElementById('memberlist')) {
         $.post('/band_get_members',
@@ -403,6 +428,7 @@ $(document).ready(function() {
     updateMembers();
     updateSections();
     updateUpcoming();
+    updatePublic();
     $("#modal-form").validate({
         rules: {
             new_section: {

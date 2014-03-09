@@ -1,0 +1,11 @@
+{% if the_members | length == 0 %}
+    {% trans %}None!{% endtrans %}
+{% else %}
+    <div class="row">
+    {% for the_member in the_members %}
+        <div class="col-md-3">
+            <a href="/member_info.html?mk='{{the_member.key.urlsafe()}}'">{% if the_member.nickname %}{{ the_member.nickname }}{% else %}{{ the_member.name }}{% endif %}</a>
+        </div>
+    {% endfor %}
+    </div>
+{% endif %}

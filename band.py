@@ -695,6 +695,25 @@ class GetUpcoming(BaseHandler):
         }
         self.render_template('band_upcoming.html', template_args)
 
+class GetPublicMembers(BaseHandler):
+
+    def post(self):
+        the_band_keyurl=self.request.get('bk','0')
+
+        if the_band_keyurl=='0':
+            return # todo figure out what to do
+
+        the_band_key = ndb.Key(urlsafe=the_band_keyurl)
+
+        the_member_keys = assoc.get_member_keys_of_band_key(the_band_key)
+        the_members = ndb.get_multi(the_member_keys)
+        the_public_members = [x for x in the_members if x.preferences and x.preferences.share_profile]        
+        
+        template_args = {
+            'the_members' : the_public_members
+        }
+        self.render_template('band_public_members.html', template_args)
+
 
 class SendInvites(BaseHandler):
 
