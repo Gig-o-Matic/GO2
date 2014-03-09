@@ -76,7 +76,7 @@
         <div class="row">
             <div class="form-group col-md-offset-2 col-md-4 col-sm-4 col-xs-4">
                 <label for="gigaddressinput" class="control-label">{% trans %}Address{% endtrans %}</label>
-                <input type="text" class="form-control" id="gigaddressinput" placeholder="Cloudcuckooland" value="{{gig.address}}" name="gig_address">
+                <input type="text" class="form-control" id="gigaddressinput" placeholder="{% trans %}location_placeholder{% endtrans %}" value="{{gig.address}}" name="gig_address">
             </div>
             <div class="form-group col-md-2 col-sm-4 col-xs-4">
                 <label for="gigdressinput" class="control-label">{% trans %}What To Wear{% endtrans %}</label>
@@ -90,7 +90,7 @@
         <div class="row">
             <div class="form-group col-md-offset-2 col-md-4 col-sm-4 col-xs-4">
                 <label for="gigleaderinput" class="control-label">{% trans %}Leader{% endtrans %}</label>
-                <input type="text" class="form-control" id="gigleaderinput" placeholder="Arthur Fiedler" value="{{gig.leader}}" name="gig_leader">
+                <input type="text" class="form-control" id="gigleaderinput" placeholder="{% trans %}leader_placeholder{% endtrans %}" value="{{gig.leader}}" name="gig_leader">
             </div>
         </div>
         <div class="row">

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-03-08 23:41-0500\n"
+"POT-Creation-Date: 2014-03-09 16:23-0400\n"
 "PO-Revision-Date: 2014-02-01 18:13-0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: en <LL@li.org>\n"
@@ -282,19 +282,19 @@ msgstr ""
 #: templates/band_edit.html:87 templates/band_edit.html:89
 #: templates/band_info.html:259 templates/band_invite.html:29
 #: templates/forgot.html:49 templates/gig_edit.html:129
-#: templates/gig_edit.html:131 templates/member_edit.html:124
+#: templates/gig_edit.html:131 templates/member_edit.html:127
 #: templates/signup.html:58
 msgid "Cancel"
 msgstr ""
 
 #: templates/band_edit.html:91 templates/band_info.html:260
-#: templates/gig_edit.html:133 templates/member_edit.html:125
+#: templates/gig_edit.html:133 templates/member_edit.html:128
 msgid "Save"
 msgstr ""
 
 #: templates/band_edit.html:115 templates/band_info.html:442
 #: templates/gig_edit.html:238 templates/gig_edit.html:241
-#: templates/gig_edit.html:244 templates/member_edit.html:182
+#: templates/gig_edit.html:244 templates/member_edit.html:185
 msgid "This field is required!"
 msgstr ""
 
@@ -604,6 +604,10 @@ msgstr ""
 msgid "Address"
 msgstr ""
 
+#: templates/gig_edit.html:79
+msgid "location_placeholder"
+msgstr "Cloudcuckooland"
+
 #: templates/gig_edit.html:82
 msgid "What To Wear"
 msgstr ""
@@ -623,6 +627,10 @@ msgstr ""
 #: templates/gig_edit.html:92 templates/gig_info.html:99
 msgid "Leader"
 msgstr ""
+
+#: templates/gig_edit.html:93
+msgid "leader_placeholder"
+msgstr "Leonard Bernstein"
 
 #: templates/gig_edit.html:98 templates/gig_info.html:105
 msgid "More Details"
@@ -645,7 +653,7 @@ msgid "Email members about this new gig"
 msgstr ""
 
 #: templates/gig_edit.html:123 templates/gig_edit.html:158
-#: templates/member_edit.html:118 templates/member_edit.html:151
+#: templates/member_edit.html:121 templates/member_edit.html:154
 msgid "Delete"
 msgstr ""
 
@@ -653,7 +661,7 @@ msgstr ""
 msgid "Archive"
 msgstr ""
 
-#: templates/gig_edit.html:150 templates/member_edit.html:143
+#: templates/gig_edit.html:150 templates/member_edit.html:146
 #: templates/member_info.html:137
 msgid "Confirm Delete"
 msgstr ""
@@ -662,7 +670,7 @@ msgstr ""
 msgid "Do you really want to delete this gig?"
 msgstr ""
 
-#: templates/gig_edit.html:156 templates/member_edit.html:149
+#: templates/gig_edit.html:156 templates/member_edit.html:152
 msgid "Don't Delete"
 msgstr ""
 
@@ -938,39 +946,43 @@ msgstr ""
 msgid "Images Of Me"
 msgstr ""
 
-#: templates/member_edit.html:70
+#: templates/member_edit.html:61
+msgid "images_instructions"
+msgstr "Needs to be links to images. To use an image from facebook, right-click on the image and select \"Copy Image URL\", then paste it here."
+
+#: templates/member_edit.html:73
 msgid "Preferences"
 msgstr ""
 
-#: templates/member_edit.html:78
+#: templates/member_edit.html:81
 msgid "Email me every time a gig is added"
 msgstr ""
 
-#: templates/member_edit.html:85
+#: templates/member_edit.html:88
 msgid "Hide canceled gigs on my agenda page"
 msgstr ""
 
-#: templates/member_edit.html:92
+#: templates/member_edit.html:95
 msgid "Share my profile outside of my bands"
 msgstr ""
 
-#: templates/member_edit.html:99
+#: templates/member_edit.html:102
 msgid "Share my email outside of my bands"
 msgstr ""
 
-#: templates/member_edit.html:102
+#: templates/member_edit.html:105
 msgid "Language"
 msgstr ""
 
-#: templates/member_edit.html:146
+#: templates/member_edit.html:149
 msgid "Do you really want to delete this member?"
 msgstr ""
 
-#: templates/member_edit.html:181
+#: templates/member_edit.html:184
 msgid "email already in use"
 msgstr ""
 
-#: templates/member_edit.html:183
+#: templates/member_edit.html:186
 msgid "Please enter a valid email address!"
 msgstr ""
 

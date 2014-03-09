@@ -1,10 +1,10 @@
-﻿
+
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-03-08 23:41-0500\n"
+"POT-Creation-Date: 2014-03-09 16:23-0400\n"
 "PO-Revision-Date: 2014-02-01 18:13-0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: it <LL@li.org>\n"
@@ -285,19 +285,19 @@ msgstr "Permetti ai non-membri di vedere le suonate in programma"
 #: templates/band_edit.html:87 templates/band_edit.html:89
 #: templates/band_info.html:259 templates/band_invite.html:29
 #: templates/forgot.html:49 templates/gig_edit.html:129
-#: templates/gig_edit.html:131 templates/member_edit.html:124
+#: templates/gig_edit.html:131 templates/member_edit.html:127
 #: templates/signup.html:58
 msgid "Cancel"
 msgstr "Annulla"
 
 #: templates/band_edit.html:91 templates/band_info.html:260
-#: templates/gig_edit.html:133 templates/member_edit.html:125
+#: templates/gig_edit.html:133 templates/member_edit.html:128
 msgid "Save"
 msgstr "Salva"
 
 #: templates/band_edit.html:115 templates/band_info.html:442
 #: templates/gig_edit.html:238 templates/gig_edit.html:241
-#: templates/gig_edit.html:244 templates/member_edit.html:182
+#: templates/gig_edit.html:244 templates/member_edit.html:185
 msgid "This field is required!"
 msgstr "Questo campo è obbligatorio!"
 
@@ -618,6 +618,10 @@ msgstr "se di più giorni"
 msgid "Address"
 msgstr "Indirizzo"
 
+#: templates/gig_edit.html:79
+msgid "location_placeholder"
+msgstr ""
+
 #: templates/gig_edit.html:82
 #, fuzzy
 msgid "What To Wear"
@@ -638,6 +642,10 @@ msgstr "Sì, magari"
 #: templates/gig_edit.html:92 templates/gig_info.html:99
 msgid "Leader"
 msgstr "Responsabile"
+
+#: templates/gig_edit.html:93
+msgid "leader_placeholder"
+msgstr ""
 
 #: templates/gig_edit.html:98 templates/gig_info.html:105
 msgid "More Details"
@@ -662,7 +670,7 @@ msgid "Email members about this new gig"
 msgstr "segnala suonata ai membri via e-mail"
 
 #: templates/gig_edit.html:123 templates/gig_edit.html:158
-#: templates/member_edit.html:118 templates/member_edit.html:151
+#: templates/member_edit.html:121 templates/member_edit.html:154
 msgid "Delete"
 msgstr "Cancella"
 
@@ -670,7 +678,7 @@ msgstr "Cancella"
 msgid "Archive"
 msgstr "Archivia"
 
-#: templates/gig_edit.html:150 templates/member_edit.html:143
+#: templates/gig_edit.html:150 templates/member_edit.html:146
 #: templates/member_info.html:137
 msgid "Confirm Delete"
 msgstr "Conferma cancella"
@@ -680,7 +688,7 @@ msgstr "Conferma cancella"
 msgid "Do you really want to delete this gig?"
 msgstr "Vuoi davvero cancellare questa suonata?"
 
-#: templates/gig_edit.html:156 templates/member_edit.html:149
+#: templates/gig_edit.html:156 templates/member_edit.html:152
 #, fuzzy
 msgid "Don't Delete"
 msgstr "Non cancellare"
@@ -970,41 +978,45 @@ msgstr "Bevo poco, non fumo e adoro il cool jazz"
 msgid "Images Of Me"
 msgstr "Le mie foto"
 
-#: templates/member_edit.html:70
+#: templates/member_edit.html:61
+msgid "images_instructions"
+msgstr "Needs to be links to images. To use an image from facebook, right-click on the image and select \"Copy Image URL\", then paste it here."
+
+#: templates/member_edit.html:73
 msgid "Preferences"
 msgstr "Preferenze"
 
-#: templates/member_edit.html:78
+#: templates/member_edit.html:81
 msgid "Email me every time a gig is added"
 msgstr "Segnalami via e-mail ogni nuova suonata aggiunta"
 
-#: templates/member_edit.html:85
+#: templates/member_edit.html:88
 #, fuzzy
 msgid "Hide canceled gigs on my agenda page"
 msgstr "Nascondi suonate annullate dalla mia agenda"
 
-#: templates/member_edit.html:92
+#: templates/member_edit.html:95
 msgid "Share my profile outside of my bands"
 msgstr "Condividi il mio profilo con tutte le bande"
 
-#: templates/member_edit.html:99
+#: templates/member_edit.html:102
 msgid "Share my email outside of my bands"
 msgstr "Condividi la mia e-mail con tutte le bande"
 
-#: templates/member_edit.html:102
+#: templates/member_edit.html:105
 msgid "Language"
 msgstr "Lingua"
 
-#: templates/member_edit.html:146
+#: templates/member_edit.html:149
 #, fuzzy
 msgid "Do you really want to delete this member?"
 msgstr "Vuoi veramente cancellare questo membro?"
 
-#: templates/member_edit.html:181
+#: templates/member_edit.html:184
 msgid "email already in use"
 msgstr "e-mail già in uso"
 
-#: templates/member_edit.html:183
+#: templates/member_edit.html:186
 msgid "Please enter a valid email address!"
 msgstr "Inserire un indirizzo e-mail valido!"
 
