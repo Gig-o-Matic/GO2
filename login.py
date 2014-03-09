@@ -275,6 +275,7 @@ class InviteVerificationHandler(BaseHandler):
         assoc.confirm_invites_for_member_key(the_member.key)
 
         the_member.set_password(password)
+        the_member.verified = True
         the_member.put()
 
         self.redirect(self.uri_for('home'))
