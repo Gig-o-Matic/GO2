@@ -3,6 +3,11 @@
 
 {% block title %}{% trans %}Profile{% endtrans %}{% endblock title %}
 
+{% block headcontent %}
+<!-- bxSlider CSS file -->
+<link href="/css/jquery.bxslider.css" rel="stylesheet" />
+{% endblock headcontent %}
+
 {% block content %}
     <div class="row">
         <div class="page-header col-md-8 col-md-offset-2">
@@ -71,6 +76,22 @@
                     {% endif %}
                 </div>
             </div>
+            {% if the_member.images %}
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <strong>
+                                {% trans %}Pictures Of Me{% endtrans %}
+                            </strong>
+                        </div>
+                        <div class="panel-body" id="pictures">
+                            <ul class="bxslider">
+                                {% for i in the_member.images %}
+                                      <li><img src="{{i}}" /></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+            {% endif %}            
             {% if member_is_me or the_user_is_superuser %}
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -113,6 +134,8 @@
 {% endblock modal %}
 
 {% block localscripts %}
+<!-- bxSlider Javascript file -->
+<script src="/js/jquery.bxslider.min.js"></script>
 <script>
 function updateBands() {
     $.post('/member_get_assocs',
@@ -205,6 +228,12 @@ function setupClick() {
 $(document).ready(function() {
     updateBands();
     setupClick();
+    $('.bxslider').bxSlider({
+        auto: true,
+        controls: true,
+        pager: false
+    });
+    
 });
 </script>
 {% endblock localscripts %}

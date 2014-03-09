@@ -315,7 +315,6 @@ class EditPage(BaseHandler):
         the_band.thumbnail_img=self.request.get("band_thumbnail",None)
         
         image_blob = self.request.get("band_images",None)
-        print "\n\n{0}\n\n".format(image_blob)
         image_split = image_blob.split("\n")
         image_urls=[]
         for iu in image_split:

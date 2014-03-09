@@ -52,6 +52,18 @@
             </div>
         </div>
         <div class="row">
+            <div class="form-group col-md-8 col-md-offset-2">
+                <label for="memberimageinput" class="control-label">{% trans %}Images Of Me{% endtrans %}</label>
+                <textarea class="form-control" rows="10" id="memberimageinput" placeholder="{% trans %}put urls to images on their own lines...{% endtrans %}" name="member_images">{% if the_member.images %}
+{% for i in the_member.images %}{{i}}
+{% endfor %}
+                {% endif %}</textarea>
+                (Needs to be links to images. To use an image from facebook, right-click on the image and copy the image URL, then
+                paste it here.)
+            </div>
+        </div>
+        
+        <div class="row">
             <div class="form-group col-md-5 col-md-offset-2">
                 <div class="panel panel-default">
                     <div class="panel-heading">

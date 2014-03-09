@@ -57,6 +57,7 @@ class Member(webapp2_extras.appengine.auth.models.User):
     seen_welcome = ndb.BooleanProperty(default=False)
     show_long_agenda = ndb.BooleanProperty(default=True)
     pending_change_email = ndb.TextProperty(default='', indexed=False)
+    images = ndb.TextProperty(repeated=True)
 
     def set_password(self, raw_password):
         """Sets the password for the current user
@@ -401,6 +402,16 @@ class EditPage(BaseHandler):
         member_statement=self.request.get("member_statement", None)
         if member_statement is not None:
             the_member.statement=member_statement
+
+        image_blob = self.request.get("member_images",None)
+        image_split = image_blob.split("\n")
+        image_urls=[]
+        for iu in image_split:
+            the_iu=iu.strip()
+            if the_iu:
+                image_urls.append(the_iu)
+        the_member.images=image_urls
+
 
         member_password1=self.request.get("member_password1", None)
         if member_password1 is not None and member_password1 != '':
