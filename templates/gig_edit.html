@@ -186,6 +186,11 @@
 <script src="/datepicker/js/bootstrap-datepicker.js"></script>
 <script src="/datepicker/js/locales/bootstrap-datepicker.{{ the_user.preferences.locale }}.js"></script>
 <script src="/js/jquery.validate.js"></script>
+{% if the_user.preferences.locale == 'en' %}
+<script src='/js/moment.min.js'></script>
+{% else %}
+<script src='/js/moment-with-langs.min.js'></script>
+{% endif %}
 <script>
 $(document).ready(function () {
     $('#gigdateinput').datepicker({
@@ -258,22 +263,27 @@ function(value, element, params) {
         return true;
     }
 
-    if (!/Invalid|NaN/.test(new Date(value))) {
-        return new Date(value) > new Date($(params).val());
-    }
+    {% if the_user.preferences.locale != 'en' %} 
+        moment.lang('{{the_user.preferences.locale}}');
+    {% endif %}
+    d1 = moment(value,moment.langData('{{ the_user.preferences.locale }}').longDateFormat("L"));
+    d2 = moment($(params).val(),moment.langData('{{ the_user.preferences.locale }}').longDateFormat("L"));
 
-    return isNaN(value) && isNaN($(params).val()) 
-        || (Number(value) > Number($(params).val())); 
+    return d1 > d2;
 },'{% trans %}Must be later than start date!{% endtrans %}');
 
 jQuery.validator.addMethod("inFuture", 
 function(value, element, params) {
-    today = new Date();
-    today.setHours(0);
-    today.setMinutes(0);
-    today.setSeconds(0);
-    today.setMilliseconds(0);
-    return new Date(value) >= today;
+    today = moment();
+    today.hour(0);
+    today.minute(0);
+    today.second(0);
+    today.millisecond(0);
+    {% if the_user.preferences.locale != 'en' %} 
+        moment.lang('{{the_user.preferences.locale}}');
+    {% endif %}
+    d1 = moment(value,moment.langData('{{ the_user.preferences.locale }}').longDateFormat("L"));
+    return d1 >= today;
 },'{% trans %}Must be in the future!{% endtrans %}');
 
 function updateContactList(bk) {
