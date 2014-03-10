@@ -168,7 +168,6 @@ class Member(webapp2_extras.appengine.auth.models.User):
     @classmethod
     def invalidate_session_bandlists(cls, req):
         """ delete the bandlists from the session if they are changing """
-        print '\n\ncleared bandlist \n\n'
         req.session.pop('member_bandlist',None)
         req.session.pop('member_addgigbandlist',None)
         

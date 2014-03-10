@@ -594,8 +594,6 @@ class AdminMember(BaseHandler):
         if the_assoc_keyurl=='0' or the_do is None:
             return # todo figure out what to do
 
-        print '\n\n do = {0} \n\n'.format(the_do)
-
         the_assoc = ndb.Key(urlsafe=the_assoc_keyurl).get()
         the_assoc.is_band_admin = (the_do=='true')
         the_assoc.put()
