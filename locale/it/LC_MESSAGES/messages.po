@@ -1,4 +1,4 @@
-
+﻿
 #, fuzzy
 msgid ""
 msgstr ""
@@ -252,7 +252,7 @@ msgstr "Sito web"
 
 #: templates/band_edit.html:40
 msgid "Thumbnail Image for Band Navigator Page"
-msgstr "Immagine miniatura per pagina Navigabande"
+msgstr "Immagine per pagina Navigabande"
 
 #: templates/band_edit.html:41
 msgid "url of 200x300 picture for band navigtor page"
@@ -397,7 +397,7 @@ msgstr "Nuova sezione"
 
 #: templates/band_invite.html:23
 msgid "Emails:"
-msgstr "E-mail"
+msgstr "E-mail:"
 
 #: templates/band_invite.html:24
 msgid "foo@bar.org"
@@ -620,12 +620,12 @@ msgstr "Indirizzo"
 
 #: templates/gig_edit.html:79
 msgid "location_placeholder"
-msgstr ""
+msgstr "specificare via e città"
 
 #: templates/gig_edit.html:82
 #, fuzzy
 msgid "What To Wear"
-msgstr "Come vestirsi?"
+msgstr "Costumi?"
 
 #: templates/gig_edit.html:83
 msgid "Pants Optional"
@@ -645,7 +645,7 @@ msgstr "Responsabile"
 
 #: templates/gig_edit.html:93
 msgid "leader_placeholder"
-msgstr ""
+msgstr "chi se ne occupa"
 
 #: templates/gig_edit.html:98 templates/gig_info.html:105
 msgid "More Details"
@@ -729,7 +729,7 @@ msgstr "Info suonata"
 
 #: templates/gig_info.html:85
 msgid "What to Wear"
-msgstr "Come vestirsi?"
+msgstr "Costumi?"
 
 #: templates/gig_info.html:127
 #, fuzzy
@@ -943,11 +943,11 @@ msgstr "(obbligatorio)"
 
 #: templates/member_edit.html:20
 msgid "Nickname"
-msgstr "Nome abbreviato"
+msgstr "Nome sul Gig-O"
 
 #: templates/member_edit.html:21
 msgid "call me..."
-msgstr "chiamatemi..."
+msgstr "chiamatemi semplicemente..."
 
 #: templates/member_edit.html:32
 msgid "Password (again!)"
@@ -980,7 +980,7 @@ msgstr "Le mie foto"
 
 #: templates/member_edit.html:61
 msgid "images_instructions"
-msgstr "Needs to be links to images. To use an image from facebook, right-click on the image and select \"Copy Image URL\", then paste it here."
+msgstr "Inserire la URL di ogni immagine. Per inserire una foto da facebook, cliccare sull’immagine con il pulsante destro e selezionare \"Copia URL immagine\", poi incollarla qui sopra."
 
 #: templates/member_edit.html:73
 msgid "Preferences"
@@ -997,11 +997,11 @@ msgstr "Nascondi suonate annullate dalla mia agenda"
 
 #: templates/member_edit.html:95
 msgid "Share my profile outside of my bands"
-msgstr "Condividi il mio profilo con tutte le bande"
+msgstr "Condividi il mio profilo con tutte le altre bande"
 
 #: templates/member_edit.html:102
 msgid "Share my email outside of my bands"
-msgstr "Condividi la mia e-mail con tutte le bande"
+msgstr "Condividi la mia e-mail con tutte le altre bande"
 
 #: templates/member_edit.html:105
 msgid "Language"
