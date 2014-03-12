@@ -43,6 +43,15 @@
                         >{% trans %}Opinion?{% endtrans %}</option>
                     </select>
             </div>
+            <div class="form-group col-md-2">
+                <label class="checkbox">  
+                    <input type="checkbox" id="gig_private" name="gig_private"
+                    {% if gig.is_private %}
+                    checked
+                    {% endif %}
+                    >{% trans %}Hide From Public Page{% endtrans %}  
+                </label>  
+            </div>
              
         </div>
         <div class="row">

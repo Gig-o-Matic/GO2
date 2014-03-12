@@ -37,6 +37,9 @@
                             {% elif gig.status==3 %}
                                 <i class="fa fa-question-circle" style="color:orange"></i> <strong>{% trans %}Opinion?{% endtrans %}</strong>
                             {% endif %}
+                            {% if gig.is_private %}
+                                ({% trans %}Hidden From Public Page{% endtrans %})
+                            {% endif %}
                         </div>
                     </div>
                     <div class="row">

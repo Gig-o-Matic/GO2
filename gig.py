@@ -494,6 +494,12 @@ class EditPage(BaseHandler):
         gig_status = self.request.get("gig_status", '0')
         the_gig.status = int(gig_status)
 
+        gig_private=self.request.get("gig_private",None)
+        if (gig_private):
+            the_gig.is_private = True
+        else:
+            the_gig.is_private = False
+
         the_gig.put()            
 
         gig_notify = self.request.get("gig_notifymembers", None)
