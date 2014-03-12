@@ -688,6 +688,8 @@ class GetUpcoming(BaseHandler):
         today_date = datetime.datetime.now()
         the_gigs = gig.get_gigs_for_band_keys(the_band_key, start_date=today_date)
         
+        the_gigs = [g for g in the_gigs if g.is_confirmed]
+        
         template_args = {
             'the_gigs' : the_gigs,
         }

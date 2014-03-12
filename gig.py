@@ -48,8 +48,10 @@ class Gig(ndb.Model):
     leader = ndb.TextProperty( default=None )
     status = ndb.IntegerProperty( default=0 ) # 1=confirmed, 2=cancelled, 3=asking
     archive_id = ndb.TextProperty( default=None )
+    is_private = ndb.BooleanProperty(default=False )    
     is_archived = ndb.ComputedProperty(lambda self: self.archive_id is not None)
     is_canceled = ndb.ComputedProperty(lambda self: self.status == 2)
+    is_confirmed = ndb.ComputedProperty(lambda self: self.status == 1)
     comment_id = ndb.TextProperty( default = None)
     creator = ndb.KeyProperty()
 #
