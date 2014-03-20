@@ -65,6 +65,22 @@
           </div>
         </div>
       </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseFive">
+              Admin Emails
+            </a>
+          </h4>
+        </div>
+        <div id="collapseFive" class="panel-collapse collapse">
+          <div class="panel-body">
+            {% for a in all_admin_emails %}
+                {{a}}{% if not loop.last %}, {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+      </div>
     </div>    
 </div>    
 {% endblock content %}

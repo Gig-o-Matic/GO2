@@ -663,8 +663,21 @@ class AdminPage(BaseHandler):
             
     def _make_page(self,the_user):
     
-        # todo make sure the user is a superuser        
-        template_args = {}
+        # get all the admin members
+        all_band_keys = band.get_all_bands(keys_only=True)
+        all_admin_keys = []
+        for bk in all_band_keys:
+            admin_member_keys = assoc.get_admin_members_from_band_key(bk, keys_only=True)
+            for amk in admin_member_keys:
+                if not amk in all_admin_keys:
+                    all_admin_keys.append(amk)
+                    
+        all_admin_members = ndb.get_multi(all_admin_keys)
+        all_admin_emails = [a.email_address for a in all_admin_members]
+        
+        template_args = {
+            'all_admin_emails' : all_admin_emails
+        }
         self.render_template('member_admin.html', template_args)
 
 class AdminPageAllMembers(BaseHandler):

@@ -63,10 +63,13 @@ def get_inviting_assoc_keys_from_member_key(the_member_key):
 def get_admin_members_from_band_key(the_band_key, keys_only=False):
     """ Get all the members who are admins """
     assoc_query = Assoc.query( Assoc.band==the_band_key, Assoc.is_band_admin==True )
-    assocs = assoc_query.fetch(keys_only=keys_only)
+    assocs = assoc_query.fetch()
     member_keys = [a.member for a in assocs]
-    members = ndb.get_multi(member_keys)
-    return members
+    if keys_only:
+        return member_keys
+    else:
+        members = ndb.get_multi(member_keys)
+        return members
 
 def get_assoc_for_band_key_and_member_key(the_member_key, the_band_key, confirmed_only=False):
     """ find the association with a band and return it """
