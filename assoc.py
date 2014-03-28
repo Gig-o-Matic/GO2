@@ -25,6 +25,7 @@ class Assoc(ndb.Model):
     is_band_admin = ndb.BooleanProperty( default = False )
     default_section = ndb.KeyProperty( default=None )
     is_multisectional = ndb.BooleanProperty( default = False )
+    is_occasional = ndb.BooleanProperty( default = False )
     member_name = ndb.StringProperty() # need this for ordering
     
 def get_member_keys_of_band_key(the_band_key):

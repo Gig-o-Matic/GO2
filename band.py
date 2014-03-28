@@ -440,7 +440,14 @@ class BandGetMembers(BaseHandler):
             else:
                 s = None
 
-            assoc_info.append( {'name':(m.nickname if m.nickname else m.name), 'is_confirmed':a.is_confirmed, 'is_band_admin':a.is_band_admin, 'member_key':a.member, 'section':s, 'is_multisectional':a.is_multisectional, 'assoc':a} )
+            assoc_info.append( {'name':(m.nickname if m.nickname else m.name), 
+                                'is_confirmed':a.is_confirmed, 
+                                'is_band_admin':a.is_band_admin, 
+                                'is_occasional':a.is_occasional,
+                                'member_key':a.member, 
+                                'section':s, 
+                                'is_multisectional':a.is_multisectional, 
+                                'assoc':a} )
             if a.member == the_user.key:
                 the_user_is_band_admin = a.is_band_admin
                         
@@ -598,6 +605,25 @@ class AdminMember(BaseHandler):
         the_assoc.is_band_admin = (the_do=='true')
         the_assoc.put()
         
+class MakeOccasionalMember(BaseHandler):
+    """ grant or revoke occasional status """
+    
+    @user_required
+    def post(self):
+        """ post handler - wants a member key and a band key, and a flag """
+        
+        # todo - make sure the user is a superuser or already an admin of this band
+
+        the_assoc_keyurl=self.request.get('ak','0')
+        the_do=self.request.get('do',None)
+
+        if the_assoc_keyurl=='0' or the_do is None:
+            return # todo figure out what to do
+
+        the_assoc = ndb.Key(urlsafe=the_assoc_keyurl).get()
+        the_assoc.is_occasional = (the_do=='true')
+        the_assoc.put()
+
 class RemoveMember(BaseHandler):
     """ user quits band """
     

@@ -285,19 +285,23 @@ class InfoPage(BaseHandler):
             for the_assoc in the_assocs:
                 a_member_key = the_assoc.member
                 the_plan = plan.get_plan_for_member_key_for_gig_key(a_member_key, gig_key)
-                if the_plan.section==None and the_assoc.default_section==None:
-                    need_empty_section = True
-                info_block={}
-                info_block['the_gig_key'] = the_gig.key
-                info_block['the_plan_key'] = the_plan.key
-                info_block['the_member_key'] = a_member_key
-                info_block['the_band_key'] = the_band_key
-                info_block['the_assoc'] = the_assoc
-                if the_plan.section is not None:
-                    info_block['the_section'] = the_plan.section
-                else:
-                    info_block['the_section'] = the_assoc.default_section            
-                the_plans.append(info_block)          
+                if (not the_assoc.is_occasional) or \
+                   (the_assoc.is_occasional and the_plan.value != 0) or \
+                   (a_member_key == the_user.key) or \
+                   the_user.is_superuser:
+                    if the_plan.section==None and the_assoc.default_section==None:
+                        need_empty_section = True
+                    info_block={}
+                    info_block['the_gig_key'] = the_gig.key
+                    info_block['the_plan_key'] = the_plan.key
+                    info_block['the_member_key'] = a_member_key
+                    info_block['the_band_key'] = the_band_key
+                    info_block['the_assoc'] = the_assoc
+                    if the_plan.section is not None:
+                        info_block['the_section'] = the_plan.section
+                    else:
+                        info_block['the_section'] = the_assoc.default_section            
+                    the_plans.append(info_block)          
         
             the_section_keys = band.get_section_keys_of_band_key(the_band_key)
             the_sections = ndb.get_multi(the_section_keys)

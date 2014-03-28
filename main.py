@@ -103,6 +103,7 @@ else:
         webapp2.Route('/band_move_section',band.MoveSection),
         webapp2.Route('/band_confirm_member',band.ConfirmMember),
         webapp2.Route('/band_makeadmin', band.AdminMember),
+        webapp2.Route('/band_makeoccasional', band.MakeOccasionalMember),
         webapp2.Route('/band_removemember', band.RemoveMember),
         webapp2.Route('/band_admin.html', band.AdminPage),   
         webapp2.Route('/band_get_member_list',band.GetMemberList),
