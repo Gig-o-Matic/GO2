@@ -12,6 +12,7 @@ import webapp2
 import logging
 
 import gig
+import datetime
 
 def make_cal_header():
     header="""BEGIN:VCALENDAR
@@ -48,7 +49,17 @@ def make_event(the_gig):
 
     summary = the_gig.title
     dtstart = the_gig.date.strftime("%Y%m%d")
-    dtend = dtstart
+    if the_gig.calltime:
+        try:
+            print '\n\n{0}\n\n'.format(the_gig.calltime)
+            ct = datetime.datetime.strptime(the_gig.calltime,"%H:%M")
+            hour = ct.hour
+            if hour<8:
+                hour = hour + 12 # for now, assume no gig before 8am!
+            min = ct.minute
+            dtstart = '{0}T{1:02d}{2:02d}00'.format(dtstart,hour,min)
+        except:
+            pass # TODO convert to real time objects; for now punt
 
     event="""BEGIN:VEVENT
 DTSTART:{1}
@@ -61,7 +72,7 @@ SUMMARY:{0}
 TRANSP:OPAQUE
 END:VEVENT
 """
-    event=event.format(summary, dtstart, dtend)
+    event=event.format(summary, dtstart, dtstart)
     return event
 
 #####
