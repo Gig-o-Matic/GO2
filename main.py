@@ -121,5 +121,5 @@ else:
         webapp2.Route('/whatis.html', login.WhatisPageHandler),
         webapp2.Route('/stats.html', stats.StatsPage),
         webapp2.Route('/generate_stats', stats.AutoGenerateStats),
-        webapp2.Route('/cal', caldav.RequestHandler)
+        webapp2.Route('/cal/b/<bk:.+>', caldav.RequestHandler)
     ], config=config, debug=True)
