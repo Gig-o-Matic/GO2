@@ -48,18 +48,54 @@ def make_event(the_gig):
 # """
 
     summary = the_gig.title
+
     dtstart = the_gig.date.strftime("%Y%m%d")
+
+    if the_gig.enddate:
+        dtend = the_gig.enddate.strftime("%Y%m%d")
+    else:
+        dtend = the_gig.date.strftime("%Y%m%d")
+    
+    starthour = -1
+    endhour = -1
+    
     if the_gig.calltime:
         try:
-            print '\n\n{0}\n\n'.format(the_gig.calltime)
             ct = datetime.datetime.strptime(the_gig.calltime,"%H:%M")
-            hour = ct.hour
-            if hour<8:
-                hour = hour + 12 # for now, assume no gig before 8am!
-            min = ct.minute
-            dtstart = '{0}T{1:02d}{2:02d}00'.format(dtstart,hour,min)
+            starthour = ct.hour
+            if starthour<8:
+                starthour = starthour + 12 # for now, assume no gig before 8am!
+            startmin = ct.minute
         except:
             pass # TODO convert to real time objects; for now punt
+    elif the_gig.settime:
+        try:
+            st = datetime.datetime.strptime(the_gig.settime,"%H:%M")
+            starthour = st.hour
+            if starthour<8:
+                starthour = starthour + 12 # for now, assume no gig before 8am!
+            startmin = st.minute
+        except:
+            pass # TODO convert to real time objects; for now punt
+
+    if the_gig.endtime:
+        try:
+            et = datetime.datetime.strptime(the_gig.endtime,"%H:%M")
+            endhour = et.hour
+            if endhour<8:
+                endhour = endhour + 12 # for now, assume no gig before 8am!
+            endmin = et.minute
+        except:
+            pass # TODO convert to real time objects; for now punt
+    elif starthour >= 0:
+            endhour = starthour + 1
+            endmin = startmin
+
+    if starthour >= 0:
+        dtstart = '{0}T{1:02d}{2:02d}00'.format(dtstart,starthour,startmin)
+    if endhour >= 0:
+        dtend = '{0}T{1:02d}{2:02d}00'.format(dtend,endhour,endmin)
+
 
     event="""BEGIN:VEVENT
 DTSTART:{1}
@@ -72,7 +108,7 @@ SUMMARY:{0}
 TRANSP:OPAQUE
 END:VEVENT
 """
-    event=event.format(summary, dtstart, dtstart)
+    event=event.format(summary, dtstart, dtend)
     return event
 
 #####
