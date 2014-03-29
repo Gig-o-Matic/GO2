@@ -35,9 +35,19 @@ def get_member_keys_of_band_key(the_band_key):
     members = [a.member for a in assocs]
     return members
 
-def get_confirmed_assocs_of_band_key(the_band_key):
+def get_confirmed_assocs_of_band_key(the_band_key, include_occasional=True):
     """ return all assoc keys for a band """
-    assoc_query = Assoc.query( Assoc.band==the_band_key, Assoc.is_confirmed==True, Assoc.is_invited==False ).order(Assoc.member_name)
+    
+    args=[
+            Assoc.band==the_band_key,
+            Assoc.is_confirmed==True,
+            Assoc.is_invited==False
+        ]
+    if not include_occasional:
+        args.append( Assoc.is_occasional==False )
+    assoc_query = Assoc.query( *args ).order(Assoc.member_name)
+    
+#     assoc_query = Assoc.query( Assoc.band==the_band_key, Assoc.is_confirmed==True, Assoc.is_invited==False ).order(Assoc.member_name)
     assocs = assoc_query.fetch()
     return assocs
 

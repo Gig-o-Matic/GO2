@@ -115,8 +115,8 @@ def get_all_bands(keys_only=False):
 def get_section_keys_of_band_key(the_band_key):
     return the_band_key.get().sections
 
-def get_member_keys_of_band_key_by_section_key(the_band_key):
-    the_assocs = assoc.get_confirmed_assocs_of_band_key(the_band_key)
+def get_member_keys_of_band_key_by_section_key(the_band_key, include_occasional=True):
+    the_assocs = assoc.get_confirmed_assocs_of_band_key(the_band_key, include_occasional=include_occasional)
     the_section_keys = get_section_keys_of_band_key(the_band_key)
     
     the_info=[]

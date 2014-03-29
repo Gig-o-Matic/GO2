@@ -71,7 +71,7 @@ class MainPage(BaseHandler):
             show_canceled=False
 
         the_gigs = gig.get_gigs_for_band_key_for_dates(the_band_key, start_date, end_date, get_canceled=show_canceled)
-        the_member_keys = band.get_member_keys_of_band_key_by_section_key(the_band_key)
+        the_member_keys = band.get_member_keys_of_band_key_by_section_key(the_band_key, include_occasional=False)
 
         the_plans = {}
         for section in the_member_keys:
