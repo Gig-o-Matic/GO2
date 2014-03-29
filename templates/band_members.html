@@ -1,33 +1,17 @@
 {% for the_assoc in the_assocs %}
     <div class="row" style="padding-top: 5px; padding-bottom: 5px; {{ loop.cycle('', 'background:#f5f5f5;') }}">
-        <div class="col-md-3 col-sm-3 col-xs-3">
+        <div class="col-md-12">
             <a href='/member_info.html?mk={{the_assoc['member_key'].urlsafe()}}'>{{ the_assoc['name'] }}</a>
         </div>
-        <div class="col-md-2 col-sm-2 col-xs-2">
+        <div class="col-md-2 col-md-offset-1">
             <input type="checkbox" id='oak-{{ the_assoc['assoc'].key.urlsafe()}}' onclick="occasional_select('{{ the_assoc['assoc'].key.urlsafe()}}')"
             {% if the_assoc['is_occasional'] %}
                 checked
             {% endif %}
             > {% trans %}occasional{% endtrans %}
         </div>
-        {% if the_assoc['member_key']!=the_user.key %}
-            <div class="col-md-2 col-sm-2 col-xs-2">
-
-                <input type="checkbox" id='aak-{{ the_assoc['assoc'].key.urlsafe()}}' onclick="admin_select('{{ the_assoc['assoc'].key.urlsafe()}}')"
-                {% if the_assoc['is_band_admin'] %}
-                    checked
-                {% endif %}
-                > {% trans %}admin{% endtrans %}
-            </div>
-            <div class="col-md-3">
-                <a class="btn btn-default btn-sm" href="/band_removemember?mk={{the_assoc['member_key'].urlsafe()}}&bk={{the_band_key.urlsafe()}}">{% trans %}remove from band{% endtrans %}</a>
-            </div>
-        {% else %}
-            <div class="col-md-5 col-sm-5 col-xs-5">
-            </div>        
-        {% endif %}
         {% if the_sections | length > 0 %}
-            <div class="col-md-2 col-sm-2 col-xs-2">
+            <div class="col-md-2">
                     <div class="dropdown">
                         <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
                             {% if the_assoc['section'] == None %}
@@ -43,12 +27,25 @@
                         </ul>
                     </div>
             </div>
-            <div class="col-md-2 col-sm-2 col-xs-2">
+            <div class="col-md-2">
                 <input type="checkbox" id='msbk-{{ the_assoc['member_key'].urlsafe()}}' onclick="multi_select('{{ the_assoc['member_key'].urlsafe()}}')"
                 {% if the_assoc['is_multisectional'] %}
                     checked
                 {% endif %}
                 > +{% trans %}others{% endtrans %}
+            </div>
+        {% endif %}
+        {% if the_assoc['member_key']!=the_user.key %}
+            <div class="col-md-2">
+
+                <input type="checkbox" id='aak-{{ the_assoc['assoc'].key.urlsafe()}}' onclick="admin_select('{{ the_assoc['assoc'].key.urlsafe()}}')"
+                {% if the_assoc['is_band_admin'] %}
+                    checked
+                {% endif %}
+                > {% trans %}admin{% endtrans %}
+            </div>
+            <div class="col-md-2">
+                <a class="btn btn-default btn-sm" href="/band_removemember?mk={{the_assoc['member_key'].urlsafe()}}&bk={{the_band_key.urlsafe()}}">{% trans %}remove from band{% endtrans %}</a>
             </div>
         {% endif %}
     </div>
