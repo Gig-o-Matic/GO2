@@ -14,6 +14,7 @@ import motd
 import credits
 import maintenance
 import stats
+import caldav
 import jinja2ext
 import os 
 
@@ -119,5 +120,6 @@ else:
         webapp2.Route('/motd_admin.html', motd.AdminPage),
         webapp2.Route('/whatis.html', login.WhatisPageHandler),
         webapp2.Route('/stats.html', stats.StatsPage),
-        webapp2.Route('/generate_stats', stats.AutoGenerateStats)
+        webapp2.Route('/generate_stats', stats.AutoGenerateStats),
+        webapp2.Route('/cal', caldav.RequestHandler)
     ], config=config, debug=True)
