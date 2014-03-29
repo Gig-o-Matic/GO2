@@ -60,36 +60,51 @@ def make_event(the_gig):
     endhour = -1
     
     if the_gig.calltime:
+        ct = None
         try:
-            ct = datetime.datetime.strptime(the_gig.calltime,"%H:%M")
+            ct = datetime.datetime.strptime(the_gig.calltime,"%I:%M%p")
+        except:
+            try:
+                ct = datetime.datetime.strptime(the_gig.calltime,"%H:%M")
+            except:
+                pass # TODO convert to real time objects; for now punt
+
+        if ct:
             starthour = ct.hour
             if starthour<8:
                 starthour = starthour + 12 # for now, assume no gig before 8am!
             startmin = ct.minute
-        except:
-            pass # TODO convert to real time objects; for now punt
+
     elif the_gig.settime:
+        st = None
         try:
-            st = datetime.datetime.strptime(the_gig.settime,"%H:%M")
-            starthour = st.hour
-            if starthour<8:
-                starthour = starthour + 12 # for now, assume no gig before 8am!
-            startmin = st.minute
+            st = datetime.datetime.strptime(the_gig.settime,"%I:%M%p")
         except:
-            pass # TODO convert to real time objects; for now punt
+            try:
+                st = datetime.datetime.strptime(the_gig.calltime,"%H:%M")
+            except: 
+                pass # TODO convert to real time objects; for now punt
+
+        if st:
+            starthour = st.hour
+            startmin = st.minute
 
     if the_gig.endtime:
+        et = None
         try:
-            et = datetime.datetime.strptime(the_gig.endtime,"%H:%M")
-            endhour = et.hour
-            if endhour<8:
-                endhour = endhour + 12 # for now, assume no gig before 8am!
-            endmin = et.minute
+            et = datetime.datetime.strptime(the_gig.endtime,"%I:%M%p")
         except:
-            pass # TODO convert to real time objects; for now punt
-    elif starthour >= 0:
-            endhour = starthour + 1
-            endmin = startmin
+            try:
+                et = datetime.datetime.strptime(the_gig.endtime,"%H:%M")
+            except:
+                pass
+
+        if et:
+            endhour = et.hour
+            endmin = et.minute
+        elif starthour >= 0:
+                endhour = starthour + 1
+                endmin = startmin
 
     if starthour >= 0:
         dtstart = '{0}T{1:02d}{2:02d}00'.format(dtstart,starthour,startmin)

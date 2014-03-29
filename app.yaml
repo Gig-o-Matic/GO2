@@ -12,6 +12,9 @@ handlers:
 - url: /datepicker
   static_dir: datepicker
 
+- url: /timepicker
+  static_dir: timepicker
+
 - url: /fullcalendar
   static_dir: fullcalendar
 

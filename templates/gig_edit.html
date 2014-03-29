@@ -2,6 +2,10 @@
 
 {% block title %}{% trans %}Gig Edit{% endtrans %}{% endblock title %}
 
+{% block headcontent %}
+<link href="/timepicker/jquery.timepicker.css" rel="stylesheet" />
+{% endblock headcontent %}
+
 {% block content %}
     <div class="row">
         <div class="page-header col-md-8 col-md-offset-2">
@@ -195,6 +199,7 @@
 <script src="/datepicker/js/bootstrap-datepicker.js"></script>
 <script src="/datepicker/js/locales/bootstrap-datepicker.{{ the_user.preferences.locale }}.js"></script>
 <script src="/js/jquery.validate.js"></script>
+<script src="/timepicker/jquery.timepicker.min.js"></script>
 {% if the_user.preferences.locale == 'en' %}
 <script src='/js/moment.min.js'></script>
 {% else %}
@@ -260,7 +265,9 @@ $(document).ready(function () {
         }
     });
 
-
+    $('#gigcallinput').timepicker({'timeFormat':'{% trans %}g:ia{% endtrans %}'});
+    $('#gigsetinput').timepicker({'timeFormat':'{% trans %}g:ia{% endtrans %}'});
+    $('#gigendinput').timepicker({'timeFormat':'{% trans %}g:ia{% endtrans %}'});
       
     updateContactList('{{the_band.key.urlsafe()}}');
 });
