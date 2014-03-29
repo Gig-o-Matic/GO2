@@ -36,9 +36,7 @@
 
 <div class="row">
     <div class="col-lg-{{grp1_lg}} col-md-{{grp1_lg}} col-sm-{{grp1_sm}} col-xs-{{grp1_sm}}">
-        <div class="row">
-             <a href='/member_info.html?mk={{the_member_key.urlsafe()}}'>{% if the_member.nickname %}{{ the_member.nickname }}{% else %}{{ the_member.name }}{% endif %}</a>
-        </div>
+         <a href='/member_info.html?mk={{the_member_key.urlsafe()}}'>{% if the_member.nickname %}{{ the_member.nickname }}{% else %}{{ the_member.name }}{% endif %}</a>
     </div>
     <div class="col-lg-{{grp2_lg}} col-md-{{grp2_lg}} col-sm-{{grp2_sm}} col-xs-{{grp2_sm}}">
         <div class="row">
