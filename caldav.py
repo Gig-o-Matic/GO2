@@ -14,7 +14,7 @@ import logging
 import gig
 import datetime
 
-def make_cal_header():
+def make_cal_header(the_band):
     header="""BEGIN:VCALENDAR
 PRODID:-//Gig-o-Matic//Gig-o-Matic 2//EN
 VERSION:2.0
@@ -24,7 +24,7 @@ X-WR-CALNAME:{0}
 X-WR-TIMEZONE:{1}
 X-WR-CALDESC:{2}
 """
-    return header.format("testband","-5","Calendar for testband")
+    return header.format(the_band.name,the_band.time_zone_correction,"Gig-o-Matic calendar for {0}".format(the_band.name))
 
 def make_cal_footer():
     return "END:VCALENDAR\n"
@@ -139,11 +139,12 @@ class RequestHandler(BaseHandler):
 
         bk = kwargs['bk']
             
-        print '\n\n{0}\n\n'.format(bk)
+        the_band_key = ndb.Key(urlsafe=bk);
+        the_band = the_band_key.get()
 
-        info = '{0}'.format(make_cal_header())
+        info = '{0}'.format(make_cal_header(the_band))
 
-        all_gigs = gig.get_gigs_for_band_keys(ndb.Key(urlsafe=bk))
+        all_gigs = gig.get_gigs_for_band_keys(the_band_key)
         for a_gig in all_gigs:
             info = '{0}{1}'.format(info, make_event(a_gig))
 
