@@ -146,7 +146,8 @@ class RequestHandler(BaseHandler):
 
         all_gigs = gig.get_gigs_for_band_keys(the_band_key)
         for a_gig in all_gigs:
-            info = '{0}{1}'.format(info, make_event(a_gig))
+            if a_gig.is_confirmed:
+                info = '{0}{1}'.format(info, make_event(a_gig))
 
         info = '{0}{1}'.format(info, make_cal_footer())
         self.response.write(info)
