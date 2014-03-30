@@ -265,9 +265,9 @@ $(document).ready(function () {
         }
     });
 
-    $('#gigcallinput').timepicker({'timeFormat':'{% trans %}g:ia{% endtrans %}'});
-    $('#gigsetinput').timepicker({'timeFormat':'{% trans %}g:ia{% endtrans %}'});
-    $('#gigendinput').timepicker({'timeFormat':'{% trans %}g:ia{% endtrans %}'});
+    $('#gigcallinput').timepicker({'timeFormat':'{% trans %}time_format{% endtrans %}'});
+    $('#gigsetinput').timepicker({'timeFormat':'{% trans %}time_format{% endtrans %}'});
+    $('#gigendinput').timepicker({'timeFormat':'{% trans %}time_format{% endtrans %}'});
       
     updateContactList('{{the_band.key.urlsafe()}}');
 });
