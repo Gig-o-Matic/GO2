@@ -47,7 +47,7 @@
                             </div>
                         </div>
                     {% endif %}
-                    {% if the_user_is_associated %}
+                    {% if the_user_is_associated or the_user_is_superuser %}
                         <div class="row">
                             <div class="col-md-12 col-sm-12 col-xs-12">
                                 &nbsp;
@@ -59,17 +59,19 @@
                                     <a href="http://gig-o-matic.appspot.com/band/{{the_band.condensed_name}}" target="new">http://gig-o-matic.appspot.com/band/{{ the_band.condensed_name }}</a>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-12 col-sm-12 col-xs-12">
-                                &nbsp;
+                        {% if the_user_is_superuser %}
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    &nbsp;
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-2 col-sm-2 col-xs-3">{% trans %}Calendar URL for Members{% endtrans %}</div>
-                            <div class="col-md-10 col-sm-10 col-xs-9">
-                                    <a href="http://gig-o-matic.appspot.com/cal/b/{{the_band.key.urlsafe()}}" onclick="return false;">{% trans %}Copy this link's URL and use it to subscribe in google or iCal or whatever{% endtrans %}</a>
+                            <div class="row">
+                                <div class="col-md-2 col-sm-2 col-xs-3">{% trans %}Calendar URL for Members{% endtrans %}</div>
+                                <div class="col-md-10 col-sm-10 col-xs-9">
+                                        <a href="http://gig-o-matic.appspot.com/cal/b/{{the_band.key.urlsafe()}}" onclick="return false;">{% trans %}Copy this link's URL and use it to subscribe in google or iCal or whatever{% endtrans %}</a>
+                                </div>
                             </div>
-                        </div>
+                        {% endif %}
                     {% endif %}
                     {% if the_user_is_band_admin or the_user_is_superuser %}
                         <div class="row">

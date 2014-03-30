@@ -21,15 +21,17 @@ VERSION:2.0
 CALSCALE:GREGORIAN
 METHOD:PUBLISH
 X-WR-CALNAME:{0}
-X-WR-TIMEZONE:{1}
 X-WR-CALDESC:{2}
 """
-    return header.format(the_band.name,the_band.time_zone_correction,"Gig-o-Matic calendar for {0}".format(the_band.name))
+
+# X-WR-TIMEZONE:{1}
+
+    return header.format(the_band.name,'',"Gig-o-Matic calendar for {0}".format(the_band.name))
 
 def make_cal_footer():
     return "END:VCALENDAR\n"
 
-def make_event(the_gig):
+def make_event(the_gig, the_band):
 # 
 #     event="""BEGIN:VEVENT
 # DTSTART:{1}
@@ -106,9 +108,11 @@ def make_event(the_gig):
 
 
     if starthour >= 0:
-        dtstart = '{0}T{1:02d}{2:02d}00'.format(dtstart,starthour,startmin)
+        starthour = starthour - the_band.time_zone_correction
+        dtstart = '{0}T{1:02d}{2:02d}00Z'.format(dtstart,starthour,startmin)
     if endhour >= 0:
-        dtend = '{0}T{1:02d}{2:02d}00'.format(dtend,endhour,endmin)
+        endhour = endhour - the_band.time_zone_correction
+        dtend = '{0}T{1:02d}{2:02d}00Z'.format(dtend,endhour,endmin)
 
     the_url = 'http://gig-o-matic.appspot.com/gig_info.html?gk={0}'.format(the_gig.key.urlsafe())
 
@@ -149,7 +153,7 @@ class RequestHandler(BaseHandler):
         all_gigs = gig.get_gigs_for_band_keys(the_band_key)
         for a_gig in all_gigs:
             if a_gig.is_confirmed:
-                info = '{0}{1}'.format(info, make_event(a_gig))
+                info = '{0}{1}'.format(info, make_event(a_gig, the_band))
 
         info = '{0}{1}'.format(info, make_cal_footer())
         self.response.write(info)
