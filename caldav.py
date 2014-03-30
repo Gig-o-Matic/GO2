@@ -110,19 +110,18 @@ def make_event(the_gig):
     if endhour >= 0:
         dtend = '{0}T{1:02d}{2:02d}00'.format(dtend,endhour,endmin)
 
-
     event="""BEGIN:VEVENT
 DTSTART:{1}
 DTEND:{2}
-DESCRIPTION:
-LOCATION:
+DESCRIPTION:{3}
+LOCATION: {4}
 SEQUENCE:0
 STATUS:CONFIRMED
 SUMMARY:{0}
 TRANSP:OPAQUE
 END:VEVENT
 """
-    event=event.format(summary, dtstart, dtend)
+    event=event.format(summary, dtstart, dtend, the_gig.details, the_gig.address)
     return event
 
 #####
