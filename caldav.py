@@ -71,17 +71,15 @@ def make_event(the_gig):
 
         if ct:
             starthour = ct.hour
-            if starthour<8:
-                starthour = starthour + 12 # for now, assume no gig before 8am!
             startmin = ct.minute
 
-    elif the_gig.settime:
+    elif the_gig.settime: # only use the set time if there's no call time
         st = None
         try:
             st = datetime.datetime.strptime(the_gig.settime,"%I:%M%p")
         except:
             try:
-                st = datetime.datetime.strptime(the_gig.calltime,"%H:%M")
+                st = datetime.datetime.strptime(the_gig.settime,"%H:%M")
             except: 
                 pass # TODO convert to real time objects; for now punt
 
@@ -89,8 +87,8 @@ def make_event(the_gig):
             starthour = st.hour
             startmin = st.minute
 
+    et = None
     if the_gig.endtime:
-        et = None
         try:
             et = datetime.datetime.strptime(the_gig.endtime,"%I:%M%p")
         except:
@@ -99,12 +97,13 @@ def make_event(the_gig):
             except:
                 pass
 
-        if et:
-            endhour = et.hour
-            endmin = et.minute
-        elif starthour >= 0:
-                endhour = starthour + 1
-                endmin = startmin
+    if et:
+        endhour = et.hour
+        endmin = et.minute
+    elif starthour >= 0:
+            endhour = starthour + 1
+            endmin = startmin
+
 
     if starthour >= 0:
         dtstart = '{0}T{1:02d}{2:02d}00'.format(dtstart,starthour,startmin)
