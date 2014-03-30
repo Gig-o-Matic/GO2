@@ -110,6 +110,8 @@ def make_event(the_gig):
     if endhour >= 0:
         dtend = '{0}T{1:02d}{2:02d}00'.format(dtend,endhour,endmin)
 
+    the_url = 'http://gig-o-matic.appspot.com/gig_info.html?gk={0}'.format(the_gig.key.urlsafe())
+
     event="""BEGIN:VEVENT
 DTSTART:{1}
 DTEND:{2}
@@ -119,9 +121,10 @@ SEQUENCE:0
 STATUS:CONFIRMED
 SUMMARY:{0}
 TRANSP:OPAQUE
+URL:{5}
 END:VEVENT
 """
-    event=event.format(summary, dtstart, dtend, the_gig.details, the_gig.address)
+    event=event.format(summary, dtstart, dtend, the_gig.details, the_gig.address, the_url)
     return event
 
 #####
