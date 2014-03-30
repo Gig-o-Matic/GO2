@@ -67,7 +67,7 @@
                         <div class="row">
                             <div class="col-md-2 col-sm-2 col-xs-3">{% trans %}Calendar URL for Members{% endtrans %}</div>
                             <div class="col-md-10 col-sm-10 col-xs-9">
-                                    <a href="http://gig-o-matic.appspot.com/cal/b/{{the_band.key.urlsafe()}}" target="new">{% trans %}Copy this link's URL and use it to subscribe in google or iCal or whatever{% endtrans %}</a>
+                                    <a href="http://gig-o-matic.appspot.com/cal/b/{{the_band.key.urlsafe()}}" onclick="return false;">{% trans %}Copy this link's URL and use it to subscribe in google or iCal or whatever{% endtrans %}</a>
                             </div>
                         </div>
                     {% endif %}
