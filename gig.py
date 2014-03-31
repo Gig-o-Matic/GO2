@@ -37,7 +37,7 @@ class Gig(ndb.Model):
     details = ndb.TextProperty()
     setlist = ndb.TextProperty()
     created_date = ndb.DateProperty( auto_now_add=True )
-    date = ndb.DateProperty( default=True)
+    date = ndb.DateTimeProperty( default=True)
     enddate = ndb.DateTimeProperty( default=None )
     calltime = ndb.TextProperty( default=None )
     settime = ndb.TextProperty( default=None )
@@ -453,16 +453,12 @@ class EditPage(BaseHandler):
 
         gig_date = self.request.get("gig_date", None)
         if gig_date is not None and gig_date != '':
-#             the_gig.date = datetime.datetime.strptime(gig_date, \
-#                                                       '%m/%d/%Y').date()
-            the_gig.date = babel.dates.parse_date(gig_date,locale=self.user.preferences.locale)
+            the_gig.date = datetime.datetime.combine(babel.dates.parse_date(gig_date,locale=self.user.preferences.locale),datetime.time(0,0,0))
         # todo validate form entry so date isn't bogus
        
         gig_enddate = self.request.get("gig_enddate", None)
         if gig_enddate is not None and gig_enddate != '':
-#             the_gig.enddate = datetime.datetime.strptime(gig_enddate, \
-#                                                       '%m/%d/%Y').date()
-            the_gig.enddate = babel.dates.parse_date(gig_enddate,locale=self.user.preferences.locale)
+            the_gig.enddate = datetime.datetime.combine(babel.dates.parse_date(gig_enddate,locale=self.user.preferences.locale),datetime.time(0,0,0))
         else:
             the_gig.enddate = None
 

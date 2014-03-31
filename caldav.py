@@ -69,7 +69,8 @@ def make_event(the_gig, the_band):
                 starttime_dt = datetime.datetime.strptime(the_gig.calltime,"%H:%M")
             except:
                 pass # TODO convert to real time objects; for now punt
-    elif the_gig.settime: # only use the set time if there's no call time
+
+    if starttime_dt is None and the_gig.settime: # only use the set time if there's no call time
         try:
             starttime_dt = datetime.datetime.strptime(the_gig.settime,"%I:%M%p")
         except:
@@ -86,9 +87,11 @@ def make_event(the_gig, the_band):
                 endtime_dt = datetime.datetime.strptime(the_gig.endtime,"%H:%M")
             except:
                 pass # TODO convert to real time objects; for now punt
+    elif starttime_dt:
+        # no end time - use the start time if there is one, plus 1 hour
+        if starttime_dt:
+            endtime_dt = starttime_dt + datetime.timedelta(hours=1)
 
-    else:
-        endtime_dt = starttime_dt + datetime.timedelta(hours=1)
 
     if starttime_dt:
         start_dt = datetime.datetime.combine(start_dt, starttime_dt.time())
@@ -96,24 +99,22 @@ def make_event(the_gig, the_band):
     if endtime_dt and end_dt:
         end_dt = datetime.datetime.combine(end_dt, endtime_dt.time())
 
-
     # do the setup so we can do timezone math
     if the_band.timezone:
         start_dt = start_dt.replace(tzinfo = pytz.timezone(the_band.timezone))
         end_dt = end_dt.replace(tzinfo = pytz.timezone(the_band.timezone))
+        if starttime_dt:
+            tzcorr = datetime.datetime.now(pytz.timezone(the_band.timezone)).dst()
+        else:
+            tzcorr = datetime.timedelta(0)
+        start_dt = start_dt.astimezone(pytz.utc) - tzcorr
+        end_dt = end_dt.astimezone(pytz.utc) - tzcorr
     else:
         start_dt = start_dt.replace(tzinfo = pytz.utc)
         end_dt = end_dt.replace(tzinfo = pytz.utc)
-
-    # finally, deal with daylight savings time
-    if the_band.timezone:
-        tzcorr = datetime.datetime.now(pytz.timezone(the_band.timezone)).dst()
-    else:
-        tzcorr = datetime.timedelta(0)
-
-    start_dt = start_dt - tzcorr
-    end_dt = end_dt - tzcorr
             
+    print '\n\n4.{0}\n\n'.format(start_dt)
+
     start_string = start_dt.strftime('%Y%m%d')
     end_string = end_dt.strftime('%Y%m%d')
     
