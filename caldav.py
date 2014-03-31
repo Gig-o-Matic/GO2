@@ -111,9 +111,9 @@ def make_event(the_gig, the_band):
     else:
         tzcorr = datetime.timedelta(0)
 
-     start_dt = start_dt - tzcorr
-     end_dt = end_dt - tzcorr
-
+    start_dt = start_dt - tzcorr
+    end_dt = end_dt - tzcorr
+            
     start_string = start_dt.strftime('%Y%m%d')
     end_string = end_dt.strftime('%Y%m%d')
     
