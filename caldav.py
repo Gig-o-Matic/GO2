@@ -13,6 +13,7 @@ import logging
 
 import gig
 import datetime
+from pytz.gae import pytz
 
 def make_cal_header(the_band):
     header="""BEGIN:VCALENDAR
@@ -51,69 +52,78 @@ def make_event(the_gig, the_band):
 
     summary = the_gig.title
 
-    dtstart = the_gig.date.strftime("%Y%m%d")
-
+    # make real gig start time, assuming everything is in local time
+    start_dt = the_gig.date
     if the_gig.enddate:
-        dtend = the_gig.enddate.strftime("%Y%m%d")
+        end_dt = the_gig.enddate
     else:
-        dtend = the_gig.date.strftime("%Y%m%d")
+        end_dt = start_dt
     
-    starthour = -1
-    endhour = -1
-    
+    starttime_dt = None
+    endtime_dt = None
     if the_gig.calltime:
-        ct = None
         try:
-            ct = datetime.datetime.strptime(the_gig.calltime,"%I:%M%p")
+            starttime_dt = datetime.datetime.strptime(the_gig.calltime,"%I:%M%p")
         except:
             try:
-                ct = datetime.datetime.strptime(the_gig.calltime,"%H:%M")
+                starttime_dt = datetime.datetime.strptime(the_gig.calltime,"%H:%M")
             except:
                 pass # TODO convert to real time objects; for now punt
-
-        if ct:
-            starthour = ct.hour
-            startmin = ct.minute
-
     elif the_gig.settime: # only use the set time if there's no call time
-        st = None
         try:
-            st = datetime.datetime.strptime(the_gig.settime,"%I:%M%p")
+            starttime_dt = datetime.datetime.strptime(the_gig.settime,"%I:%M%p")
         except:
             try:
-                st = datetime.datetime.strptime(the_gig.settime,"%H:%M")
+                starttime_dt = datetime.datetime.strptime(the_gig.settime,"%H:%M")
             except: 
                 pass # TODO convert to real time objects; for now punt
 
-        if st:
-            starthour = st.hour
-            startmin = st.minute
-
-    et = None
     if the_gig.endtime:
         try:
-            et = datetime.datetime.strptime(the_gig.endtime,"%I:%M%p")
+            endtime_dt = datetime.datetime.strptime(the_gig.endtime,"%I:%M%p")
         except:
             try:
-                et = datetime.datetime.strptime(the_gig.endtime,"%H:%M")
+                endtime_dt = datetime.datetime.strptime(the_gig.endtime,"%H:%M")
             except:
-                pass
+                pass # TODO convert to real time objects; for now punt
 
-    if et:
-        endhour = et.hour
-        endmin = et.minute
-    elif starthour >= 0:
-            endhour = starthour + 1
-            endmin = startmin
+    else:
+        endtime_dt = starttime_dt + datetime.timedelta(hours=1)
+
+    if starttime_dt:
+        start_dt = datetime.datetime.combine(start_dt, starttime_dt.time())
+    
+    if endtime_dt and end_dt:
+        end_dt = datetime.datetime.combine(end_dt, endtime_dt.time())
 
 
-    if starthour >= 0:
-        starthour = starthour - the_band.time_zone_correction
-        dtstart = '{0}T{1:02d}{2:02d}00Z'.format(dtstart,starthour,startmin)
-    if endhour >= 0:
-        endhour = endhour - the_band.time_zone_correction
-        dtend = '{0}T{1:02d}{2:02d}00Z'.format(dtend,endhour,endmin)
+    # do the setup so we can do timezone math
+    if the_band.timezone:
+        start_dt = start_dt.replace(tzinfo = pytz.timezone(the_band.timezone))
+        end_dt = end_dt.replace(tzinfo = pytz.timezone(the_band.timezone))
+    else:
+        start_dt = start_dt.replace(tzinfo = pytz.utc)
+        end_dt = end_dt.replace(tzinfo = pytz.utc)
 
+    # finally, deal with daylight savings time
+    if the_band.timezone:
+        tzcorr = datetime.datetime.now(pytz.timezone(the_band.timezone)).dst()
+    else:
+        tzcorr = datetime.timedelta(0)
+
+     start_dt = start_dt - tzcorr
+     end_dt = end_dt - tzcorr
+
+    start_string = start_dt.strftime('%Y%m%d')
+    end_string = end_dt.strftime('%Y%m%d')
+    
+    # now, if we have a start time, append it
+    if starttime_dt:
+        start_string = '{0}T{1}'.format(start_string,start_dt.astimezone(pytz.utc).strftime("%H%M00Z"))
+
+    if endtime_dt:
+        end_string = '{0}T{1}'.format(end_string,end_dt.astimezone(pytz.utc).strftime("%H%M00Z"))
+    
     the_url = 'http://gig-o-matic.appspot.com/gig_info.html?gk={0}'.format(the_gig.key.urlsafe())
 
     event="""BEGIN:VEVENT
@@ -128,7 +138,7 @@ TRANSP:OPAQUE
 URL:{5}
 END:VEVENT
 """
-    event=event.format(summary, dtstart, dtend, the_gig.details, the_gig.address, the_url)
+    event=event.format(summary, start_string, end_string, the_gig.details, the_gig.address, the_url)
     return event
 
 #####

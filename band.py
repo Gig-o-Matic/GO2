@@ -21,6 +21,7 @@ import json
 import logging
 import datetime
 import stats
+from pytz.gae import pytz
 
 def band_key(band_name='band_key'):
     """Constructs a Datastore key for a Guestbook entity with guestbook_name."""
@@ -38,7 +39,9 @@ class Band(ndb.Model):
     description = ndb.TextProperty()
     sections = ndb.KeyProperty( repeated=True ) # instrumental sections
     created = ndb.DateTimeProperty(auto_now_add=True)
-    time_zone_correction = ndb.IntegerProperty(default=0)
+#     time_zone_correction = ndb.IntegerProperty(default=0) # NO LONGER IN USE
+    # new, real timezone stuff
+    timezone = ndb.StringProperty()
     thumbnail_img = ndb.TextProperty(default=None)
     images = ndb.TextProperty(repeated=True)
     share_gigs = ndb.BooleanProperty(default=True)
@@ -280,6 +283,7 @@ class EditPage(BaseHandler):
 
         template_args = {
             'the_band' : the_band,
+            'timezones' : pytz.common_timezones,
             'newmember_is_active' : is_new,
             'is_new' : is_new
         }
@@ -337,9 +341,9 @@ class EditPage(BaseHandler):
         else:
             the_band.share_gigs = False
             
-        band_tz=self.request.get("band_tz",None)
-        if band_tz is not None and band_tz != '':
-            the_band.time_zone_correction=int(band_tz)
+        band_timezone=self.request.get("band_timezone",None)
+        if band_timezone is not None and band_timezone != '':
+            the_band.timezone=band_timezone
 
         the_band.put()            
 

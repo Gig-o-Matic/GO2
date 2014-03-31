@@ -38,7 +38,7 @@ class Gig(ndb.Model):
     setlist = ndb.TextProperty()
     created_date = ndb.DateProperty( auto_now_add=True )
     date = ndb.DateProperty( default=True)
-    enddate = ndb.DateProperty( default=None )
+    enddate = ndb.DateTimeProperty( default=None )
     calltime = ndb.TextProperty( default=None )
     settime = ndb.TextProperty( default=None )
     endtime = ndb.TextProperty( default=None )
@@ -73,10 +73,13 @@ def get_gig_from_key(key):
     return key.get()
         
 def adjust_date_for_band(the_band, the_date):
-    if the_band.time_zone_correction:
-        # this band is in a non-UTC time zone!
-        the_date=the_date+datetime.timedelta(hours=the_band.time_zone_correction)
-    the_date = the_date.replace(hour=0, minute=0, second=0, microsecond=0)
+
+# DON'T THINK WE NEED THIS ANYMORE
+
+#     if the_band.time_zone_correction:
+#         # this band is in a non-UTC time zone!
+#         the_date=the_date+datetime.timedelta(hours=the_band.time_zone_correction)
+#     the_date = the_date.replace(hour=0, minute=0, second=0, microsecond=0)
     return the_date
     
 def get_gigs_for_band_keys(the_band_key_list, num=None, start_date=None, show_canceled=True, keys_only=False):
