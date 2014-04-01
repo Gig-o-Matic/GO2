@@ -12,27 +12,31 @@ import webapp2
 import logging
 
 import gig
+import assoc
+import band
+import plan
+
 import datetime
 from pytz.gae import pytz
 
-def make_cal_header(the_band):
+def make_cal_header(the_title):
     header="""BEGIN:VCALENDAR
 PRODID:-//Gig-o-Matic//Gig-o-Matic 2//EN
 VERSION:2.0
 CALSCALE:GREGORIAN
 METHOD:PUBLISH
 X-WR-CALNAME:{0}
-X-WR-CALDESC:{2}
+X-WR-CALDESC:{1}
 """
 
 # X-WR-TIMEZONE:{1}
 
-    return header.format(the_band.name,'',"Gig-o-Matic calendar for {0}".format(the_band.name))
+    return header.format(the_title,"Gig-o-Matic calendar for {0}".format(the_title))
 
 def make_cal_footer():
     return "END:VCALENDAR\n"
 
-def make_event(the_gig, the_band):
+def make_event(the_gig, the_band, title_format='{0}', details_format='{0}'):
 # 
 #     event="""BEGIN:VEVENT
 # DTSTART:{1}
@@ -139,7 +143,7 @@ TRANSP:OPAQUE
 URL:{5}
 END:VEVENT
 """
-    event=event.format(summary, start_string, end_string, the_gig.details, the_gig.address, the_url)
+    event=event.format(title_format.format(summary), start_string, end_string, details_format.format(the_gig.details), the_gig.address, the_url)
     return event
 
 #####
@@ -148,7 +152,7 @@ END:VEVENT
 #
 #####
 
-class RequestHandler(BaseHandler):
+class BandRequestHandler(BaseHandler):
     """Handle a CalDav request"""
 
     def get(self, *args, **kwargs):
@@ -159,12 +163,50 @@ class RequestHandler(BaseHandler):
         the_band_key = ndb.Key(urlsafe=bk);
         the_band = the_band_key.get()
 
-        info = '{0}'.format(make_cal_header(the_band))
+        info = '{0}'.format(make_cal_header(the_band.name))
 
         all_gigs = gig.get_gigs_for_band_keys(the_band_key)
         for a_gig in all_gigs:
             if a_gig.is_confirmed:
                 info = '{0}{1}'.format(info, make_event(a_gig, the_band))
+
+        info = '{0}{1}'.format(info, make_cal_footer())
+        self.response.write(info)
+            
+    def post(self):    
+        print 'got post request'
+
+
+class MemberRequestHandler(BaseHandler):
+    """Handle a CalDav request"""
+
+    def get(self, *args, **kwargs):
+        print 'got get request'
+
+        mk = kwargs['mk']
+            
+        the_member_key = ndb.Key(urlsafe=mk)
+        the_member = the_member_key.get()
+        
+        info = '{0}'.format(make_cal_header(the_member.name))
+
+        the_bands = assoc.get_confirmed_bands_of_member(the_member)
+
+        for a_band in the_bands:
+            a_band_name = a_band.shortname if a_band.shortname else a_band.name
+            all_gigs = gig.get_gigs_for_band_keys(a_band.key)
+            for a_gig in all_gigs:
+                if not a_gig.is_canceled and not a_gig.is_archived:
+                    the_plan = plan.get_plan_for_member_key_for_gig_key(the_member_key, a_gig.key)
+                    if the_plan:
+                        if the_plan.value > 0 and the_plan.value <= 3:
+                            if a_gig.is_confirmed:
+                                confstr="CONFIRMED!"
+                            else:
+                                confstr="(not confirmed)"
+                            info = '{0}{1}'.format(info, make_event(a_gig, 
+                                                                    a_band,
+                                                                    title_format='{0}:{{0}} {1}'.format(a_band_name, confstr)))
 
         info = '{0}{1}'.format(info, make_cal_footer())
         self.response.write(info)
