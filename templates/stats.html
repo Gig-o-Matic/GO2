@@ -45,6 +45,13 @@ function makememberchart(which,counts) {
         title: {
             text: 'Number of Members'
         },
+        plotOptions: {
+            line: {
+                marker: {
+                    enabled: false
+                }
+            }
+        },
         xAxis: {
             type: 'datetime'
         },
@@ -75,6 +82,13 @@ function makegigchart(which,counts) {
         },
         title: {
             text: 'Number of Upcoming Gigs'
+        },
+        plotOptions: {
+            line: {
+                marker: {
+                    enabled: false
+                }
+            }
         },
         xAxis: {
             type: 'datetime'
