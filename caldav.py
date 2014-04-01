@@ -36,7 +36,7 @@ X-WR-CALDESC:{1}
 def make_cal_footer():
     return "END:VCALENDAR\n"
 
-def make_event(the_gig, the_band, title_format='{0}', details_format='{0}'):
+def make_event(the_gig, the_band, title_format=u'{0}', details_format=u'{0}'):
 # 
 #     event="""BEGIN:VEVENT
 # DTSTART:{1}
@@ -131,7 +131,7 @@ def make_event(the_gig, the_band, title_format='{0}', details_format='{0}'):
     
     the_url = 'http://gig-o-matic.appspot.com/gig_info.html?gk={0}'.format(the_gig.key.urlsafe())
 
-    event="""BEGIN:VEVENT
+    event=u"""BEGIN:VEVENT
 DTSTART:{1}
 DTEND:{2}
 DESCRIPTION:{3}
@@ -188,7 +188,7 @@ class MemberRequestHandler(BaseHandler):
         the_member_key = ndb.Key(urlsafe=mk)
         the_member = the_member_key.get()
         
-        info = '{0}'.format(make_cal_header(the_member.name))
+        info = u'{0}'.format(make_cal_header(the_member.name))
 
         the_bands = assoc.get_confirmed_bands_of_member(the_member)
 
@@ -201,14 +201,14 @@ class MemberRequestHandler(BaseHandler):
                     if the_plan:
                         if the_plan.value > 0 and the_plan.value <= 3:
                             if a_gig.is_confirmed:
-                                confstr="CONFIRMED!"
+                                confstr=u'CONFIRMED!'
                             else:
-                                confstr="(not confirmed)"
-                            info = '{0}{1}'.format(info, make_event(a_gig, 
+                                confstr=u'(not confirmed)'
+                            info = u'{0}{1}'.format(info, make_event(a_gig, 
                                                                     a_band,
-                                                                    title_format='{0}:{{0}} {1}'.format(a_band_name, confstr)))
+                                                                    title_format=u'{0}:{{0}} {1}'.format(a_band_name, confstr)))
 
-        info = '{0}{1}'.format(info, make_cal_footer())
+        info = u'{0}{1}'.format(info, make_cal_footer())
         self.response.write(info)
             
     def post(self):    
