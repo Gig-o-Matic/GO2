@@ -34,8 +34,8 @@
                                 <i class="fa fa-check-circle" style="color:green"></i> {% trans %}Confirmed!{% endtrans %}
                             {% elif gig.status==2 %}
                                 <i class="fa fa-times-circle" style="color:red"></i> <strong>{% trans %}Cancelled!{% endtrans %}</strong>
-                            {% elif gig.status==3 %}
-                                <i class="fa fa-question-circle" style="color:orange"></i> <strong>{% trans %}Opinion?{% endtrans %}</strong>
+                            {% else %}
+                                <i class="fa fa-question-circle" style="color:orange"></i> <strong>{% trans %}Unconfirmed{% endtrans %}</strong>
                             {% endif %}
                             {% if gig.is_private %}
                                 ({% trans %}Hidden From Public Page{% endtrans %})
