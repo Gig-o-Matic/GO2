@@ -815,6 +815,37 @@ class AdminMember(BaseHandler):
 
         return self.redirect('/member_admin.html')        
         
+class BetaMember(BaseHandler):
+    """ grant or revoke betatester rights """
+    
+    @user_required
+    def get(self):
+        """ post handler - wants a mk """
+        
+        the_member_keyurl=self.request.get('mk','0')
+        the_do=self.request.get('do','')
+
+        if the_member_keyurl=='0':
+            return # todo figure out what to do
+
+        if the_do=='':
+            return # todo figure out what to do
+
+        the_member_key=ndb.Key(urlsafe=the_member_keyurl)
+        the_member=the_member_key.get()
+        
+        # todo - make sure the user is a superuser
+        if (the_do=='0'):
+            the_member.is_betatester=False
+        elif (the_do=='1'):
+            the_member.is_betatester=True
+        else:
+            return # todo figure out what to do
+
+        the_member.put()
+
+        return self.redirect('/member_admin.html')        
+        
 class GetBandList(BaseHandler):
     """ return a list of bands """
     

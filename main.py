@@ -79,6 +79,7 @@ else:
         webapp2.Route('/member_admin_get_invite_members', member.AdminPageInviteMembers),
         webapp2.Route('/member_delete_invite', member.DeleteInvite),
         webapp2.Route('/member_makeadmin', member.AdminMember),
+        webapp2.Route('/member_makebeta', member.BetaMember),
         webapp2.Route('/member_delete', member.DeleteMember),
         webapp2.Route('/member_set_section', member.SetSection),
         webapp2.Route('/member_set_multi',member.SetMulti),
