@@ -156,7 +156,6 @@ class BandRequestHandler(BaseHandler):
     """Handle a CalDav request"""
 
     def get(self, *args, **kwargs):
-        print 'got get request'
 
         bk = kwargs['bk']
             
@@ -181,7 +180,6 @@ class MemberRequestHandler(BaseHandler):
     """Handle a CalDav request"""
 
     def get(self, *args, **kwargs):
-        print 'got get request'
 
         mk = kwargs['mk']
             
@@ -214,3 +212,21 @@ class MemberRequestHandler(BaseHandler):
     def post(self):    
         print 'got post request'
             
+
+class HelpHandler(BaseHandler):
+    """Handle a request for help"""
+
+    @user_required
+    def get(self):    
+        """ get handler for help page """
+        self._make_page(the_user=self.user)
+            
+    def _make_page(self,the_user):
+        """ construct page for help """
+
+        template_args = {
+            'member' : the_user
+        }
+        self.render_template('calhelp.html', template_args)
+
+

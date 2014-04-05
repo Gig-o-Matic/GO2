@@ -122,5 +122,6 @@ else:
         webapp2.Route('/stats.html', stats.StatsPage),
         webapp2.Route('/generate_stats', stats.AutoGenerateStats),
         webapp2.Route('/cal/b/<bk:.+>', caldav.BandRequestHandler),
-        webapp2.Route('/cal/m/<mk:.+>', caldav.MemberRequestHandler)
+        webapp2.Route('/cal/m/<mk:.+>', caldav.MemberRequestHandler),
+        webapp2.Route('/calhelp', caldav.HelpHandler)
     ], config=config, debug=True)
