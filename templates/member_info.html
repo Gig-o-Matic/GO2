@@ -83,7 +83,7 @@
                             <div class="col-md-9 col-sm-9 col-xs-9">{{ truefalse(the_member.preferences.share_email) }}</div>
                         </div>
                         <br>
-                        {% if the_user_is_superuser %}
+                        {% if the_user_is_betatester or the_user_is_superuser %}
                             <div class="row">
                                 <div class="col-md-3 col-sm-3 col-xs-3">{% trans %}Calendar URL for My Bands{% endtrans %}</div>
                                 <div class="col-md-9 col-sm-9 col-xs-9">
