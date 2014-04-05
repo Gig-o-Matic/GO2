@@ -111,8 +111,13 @@ class BaseHandler(webapp2.RequestHandler):
         if self.user:
             is_superuser = self.user.is_superuser
 
+        is_betatester = False
+        if self.user:
+            is_betatester = self.user.is_betatester
+
         params['the_user'] = self.user
         params['the_user_is_superuser'] = is_superuser
+        params['the_user_is_betatester'] = is_betatester
         if self.user:
             params['the_user_addgigbandlist'] = self.user.get_add_gig_band_list(self, self.user.key)
         params['logout_link'] = self.uri_for('logout')
@@ -128,6 +133,7 @@ class BaseHandler(webapp2.RequestHandler):
 
         params['the_user'] = None
         params['the_user_is_superuser'] = False
+        params['the_user_is_betatester'] = False
         self.render_response(filename, params)
 
     def display_message(self, message):
