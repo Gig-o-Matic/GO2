@@ -40,6 +40,8 @@ class MemberPreferences(ndb.Model):
     locale = ndb.TextProperty(default='en')
     share_profile = ndb.BooleanProperty(default=True)
     share_email = ndb.BooleanProperty(default=False)
+    calendar_show_only_confirmed = ndb.BooleanProperty(default=True)
+    calendar_show_only_committed = ndb.BooleanProperty(default=True)
 
 #
 # class for member
@@ -487,6 +489,18 @@ class EditPage(BaseHandler):
             the_member.preferences.share_email = True
         else:
             the_member.preferences.share_email = False
+
+        member_prefcalconfirmedonly=self.request.get("member_prefcalconfirmedonly", None)
+        if (member_prefcalconfirmedonly):
+            the_member.preferences.calendar_show_only_confirmed = True
+        else:
+            the_member.preferences.calendar_show_only_confirmed = False
+
+        member_prefcalcommittedonly=self.request.get("member_prefcalcommittedonly", None)
+        if (member_prefcalcommittedonly):
+            the_member.preferences.calendar_show_only_committed = True
+        else:
+            the_member.preferences.calendar_show_only_committed = False
 
         member_preflocale=self.request.get("member_preflocale",None)
         if (member_preflocale):
