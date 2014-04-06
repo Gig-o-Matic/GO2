@@ -197,14 +197,19 @@ class MemberRequestHandler(BaseHandler):
                 if not a_gig.is_canceled and not a_gig.is_archived:
                     the_plan = plan.get_plan_for_member_key_for_gig_key(the_member_key, a_gig.key)
                     if the_plan:
-                        if the_plan.value > 0 and the_plan.value <= 3:
-                            if a_gig.is_confirmed:
-                                confstr=u'CONFIRMED!'
-                            else:
-                                confstr=u'(not confirmed)'
-                            info = u'{0}{1}'.format(info, make_event(a_gig, 
-                                                                    a_band,
-                                                                    title_format=u'{0}:{{0}} {1}'.format(a_band_name, confstr)))
+                        # check member preferences
+                        # include gig if member wants to see all, or if gig is confirmed
+                        if a_gig.is_confirmed or the_member.preferences.calendar_show_only_confirmed == False:
+                            # incude gig if member wants to see all, or if has registered as maybe or definitely:
+                            if (the_plan.value > 0 and the_plan.value <= 3) or \
+                                (the_member.preferences.calendar_show_only_committed == False):
+                                    if a_gig.is_confirmed:
+                                        confstr=u'CONFIRMED!'
+                                    else:
+                                        confstr=u'(not confirmed)'
+                                    info = u'{0}{1}'.format(info, make_event(a_gig, 
+                                                                            a_band,
+                                                                            title_format=u'{0}:{{0}} {1}'.format(a_band_name, confstr)))
 
         info = u'{0}{1}'.format(info, make_cal_footer())
         self.response.write(info)
