@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-04-06 22:27-0400\n"
+"POT-Creation-Date: 2014-04-07 15:52-0400\n"
 "PO-Revision-Date: 2014-02-01 18:13-0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: it <LL@li.org>\n"
@@ -92,7 +92,7 @@ msgstr ""
 "{5}\n"
 "\n"
 "Ci sarai? Non rispondere a questa e-mail: per segnalare la tua "
-"partecipazione (o meno) clicca qui sotto. È decisivo! {6}\n"
+"partecipazione (o meno) usa il link qui sotto. È decisivo! {6}\n"
 "\n"
 "Grazie,\n"
 "Il Team Gig-o-Matic"
@@ -166,31 +166,31 @@ msgstr ""
 "Grazie,\n"
 "Il Team Gig-o-Matic"
 
-#: templates/agenda.html:4 templates/agenda.html:9 templates/navbar.html:17
+#: templates/agenda.html:4 templates/agenda.html:10 templates/navbar.html:17
 msgid "Schedule"
 msgstr "Agenda"
 
-#: templates/agenda.html:17
+#: templates/agenda.html:19
 msgid "Future Gigs: Weigh In!"
 msgstr "Suonate in programma: Ci stai?!?"
 
-#: templates/agenda.html:37
+#: templates/agenda.html:39
 msgid "All Upcoming Gigs"
 msgstr "Suonate in programma - hai già risposto:"
 
-#: templates/agenda.html:39
+#: templates/agenda.html:41
 msgid "My Next Few Gigs"
 msgstr "Prossime suonate - hai già risposto:"
 
-#: templates/agenda.html:47
+#: templates/agenda.html:49
 msgid "show brief"
 msgstr "mostra meno"
 
-#: templates/agenda.html:49
+#: templates/agenda.html:51
 msgid "show all"
 msgstr "mostra tutte"
 
-#: templates/agenda.html:65
+#: templates/agenda.html:67
 msgid "Nothing coming up!"
 msgstr "Nessun'altra suonata!"
 
@@ -246,7 +246,7 @@ msgstr "Descrizione"
 msgid "tell us a little about the band"
 msgstr "parlaci un po’ della banda"
 
-#: templates/band_edit.html:34 templates/band_info.html:44
+#: templates/band_edit.html:34 templates/band_info.html:45
 msgid "Website"
 msgstr "Sito web"
 
@@ -283,19 +283,19 @@ msgid "Let non-members see upcoming gigs"
 msgstr "Permetti ai non-membri di vedere le suonate in programma"
 
 #: templates/band_edit.html:97 templates/band_edit.html:99
-#: templates/band_info.html:272 templates/band_invite.html:29
+#: templates/band_info.html:273 templates/band_invite.html:29
 #: templates/forgot.html:49 templates/gig_edit.html:139
 #: templates/gig_edit.html:141 templates/member_edit.html:140
 #: templates/signup.html:58
 msgid "Cancel"
 msgstr "Annulla"
 
-#: templates/band_edit.html:101 templates/band_info.html:273
+#: templates/band_edit.html:101 templates/band_info.html:274
 #: templates/gig_edit.html:143 templates/member_edit.html:141
 msgid "Save"
 msgstr "Salva"
 
-#: templates/band_edit.html:125 templates/band_info.html:468
+#: templates/band_edit.html:125 templates/band_info.html:469
 #: templates/gig_edit.html:254 templates/gig_edit.html:257
 #: templates/gig_edit.html:260 templates/member_edit.html:198
 msgid "This field is required!"
@@ -306,100 +306,102 @@ msgstr "Questo campo è obbligatorio!"
 msgid "Band Info"
 msgstr "Info banda"
 
-#: templates/band_info.html:16
+#: templates/band_info.html:17
 msgid "a.k.a."
 msgstr "anche detta"
 
-#: templates/band_info.html:25 templates/gig_info.html:24
+#: templates/band_info.html:26 templates/gig_info.html:24
 #: templates/member_info.html:21
 msgid "Info"
 msgstr "Info"
 
-#: templates/band_info.html:33
+#: templates/band_info.html:34
 msgid "A Band of Mystery..."
 msgstr "Una banda ancora da scoprire..."
 
-#: templates/band_info.html:57
+#: templates/band_info.html:58
 msgid "Public Profile"
 msgstr "Profilo pubblico"
 
-#: templates/band_info.html:69
+#: templates/band_info.html:70
 msgid "Calendar URL for Members"
-msgstr ""
+msgstr "URL del Calendario per i membri"
 
-#: templates/band_info.html:71
+#: templates/band_info.html:72
 msgid "Copy this link's URL and use it to subscribe in google or iCal or whatever"
 msgstr ""
+"Copia il link a questa URL e usalo per registrarti con Google o iCal o "
+"altro"
 
-#: templates/band_info.html:80 templates/gig_info.html:120
+#: templates/band_info.html:81 templates/gig_info.html:124
 #: templates/member_info.html:104
 msgid "Edit"
 msgstr "Modifica"
 
-#: templates/band_info.html:90
+#: templates/band_info.html:91
 msgid "Pictures Of Us"
-msgstr "Le nostre foto"
+msgstr "Nostre foto"
 
-#: templates/band_info.html:107
+#: templates/band_info.html:108
 msgid "Upcoming Gigs"
 msgstr "Suonate in programma"
 
-#: templates/band_info.html:119
+#: templates/band_info.html:120
 msgid "Members With Public Profiles"
 msgstr "Membri con profilo pubblico"
 
-#: templates/band_info.html:128
+#: templates/band_info.html:129
 msgid "Your membership is pending - ask a band member to confirm you!"
 msgstr ""
 "La tua iscrizione è in attesa di conferma - chiedi a un membro admin di "
 "confermarti!"
 
-#: templates/band_info.html:134
+#: templates/band_info.html:135
 msgid "Pending Members"
 msgstr "In attesa di conferma"
 
-#: templates/band_info.html:144
+#: templates/band_info.html:145
 msgid "yes, confirm member!"
 msgstr "sì, conferma membro"
 
-#: templates/band_info.html:145
+#: templates/band_info.html:146
 msgid "no, reject!"
 msgstr "no, rifiuta!"
 
-#: templates/band_info.html:157
+#: templates/band_info.html:158
 msgid "Invited Members"
 msgstr "Membri invitati"
 
-#: templates/band_info.html:167
+#: templates/band_info.html:168
 msgid "forget the invite"
 msgstr "rimuovi invito"
 
-#: templates/band_info.html:182 templates/band_info.html:189
+#: templates/band_info.html:183 templates/band_info.html:190
 msgid "Members"
 msgstr "Membri"
 
-#: templates/band_info.html:186
+#: templates/band_info.html:187
 msgid "Sections"
 msgstr "Sezioni"
 
-#: templates/band_info.html:194
+#: templates/band_info.html:195
 msgid "Order"
 msgstr "Ordina"
 
-#: templates/band_info.html:209 templates/band_info.html:262
+#: templates/band_info.html:210 templates/band_info.html:263
 msgid "Add a Section"
 msgstr "Aggiungi sezione"
 
-#: templates/band_info.html:225 templates/member_admin.html:3
+#: templates/band_info.html:226 templates/member_admin.html:3
 #: templates/member_admin.html:7 templates/navbar.html:44
 msgid "Member Admin"
 msgstr "Membro admin"
 
-#: templates/band_info.html:233 templates/band_invite.html:3
+#: templates/band_info.html:234 templates/band_invite.html:3
 msgid "Invite Members"
 msgstr "Invita membri"
 
-#: templates/band_info.html:266
+#: templates/band_info.html:267
 msgid "New Section"
 msgstr "Nuova sezione"
 
@@ -441,7 +443,7 @@ msgstr "Riprova"
 
 #: templates/band_members.html:11
 msgid "occasional"
-msgstr ""
+msgstr "saltuario"
 
 #: templates/band_members.html:35
 msgid "others"
@@ -449,7 +451,7 @@ msgstr "altro"
 
 #: templates/band_members.html:45
 msgid "admin"
-msgstr ""
+msgstr "admin"
 
 #: templates/band_members.html:48
 msgid "remove from band"
@@ -464,8 +466,8 @@ msgstr "Navigabande"
 msgid "None!"
 msgstr "Nessuno!"
 
-#: templates/band_sections.html:9 templates/gig_info.html:141
-#: templates/grid.html:73
+#: templates/band_sections.html:9 templates/gig_info.html:145
+#: templates/grid.html:75
 #, fuzzy
 msgid "No Section"
 msgstr "Nessuna sezione"
@@ -477,37 +479,48 @@ msgstr "Cancella sezione"
 
 #: templates/calhelp.html:3 templates/calhelp.html:7
 msgid "Calendar Help!"
-msgstr ""
+msgstr "Help Calendario"
 
 #: templates/calhelp.html:16
 msgid "calhelp_1"
-msgstr "The Gig-o-Matic can provide calendar information to Google Calendar, Apple Calendar, and other calendar tools that work with the \"CalDav\" protocol. Here's how to do it!"
+msgstr ""
+"Il Gig-o-Matic può fornire informazioni dal proprio Calendario a Google "
+"Calendar, Apple Calendar, e altri strumenti calendario che funzionano con"
+" il protocollo \"CalDav\". Ecco come procedere:"
 
 #: templates/calhelp.html:18
 msgid "calhelp_2"
-msgstr "First, copy the subscription address. Your personalized address is:"
+msgstr ""
+"Primo, copiare l’indirizzo di registrazione. Il tuo indirizzo "
+"personalizzato è:"
 
-#: templates/calhelp.html:20
+#: templates/calhelp.html:22
 msgid "Subscribing in Google Calendar"
-msgstr ""
+msgstr "Registrarsi su Google Calendar"
 
-#: templates/calhelp.html:20
+#: templates/calhelp.html:22
 msgid "calhelp_3"
-msgstr "In the \"Other Calendars\" menu select \"Add by URL\" - paste the calendar address into the dialog, and the gig-o calendar will appear in your calendar list."
-
-#: templates/calhelp.html:22
-msgid "Subscribing in Apple Calendar"
 msgstr ""
-
-#: templates/calhelp.html:22
-msgid "calhelp_4"
-msgstr "Select \"New Calendar Subscription\" from the \"File\" menu - paste the calendar address into the dialog, and a new dialog will open where you can give the calendar a useful name, etc."
+"Nel menu \"Other Calendars\" seleziona \"Add by URL\" – incolla "
+"l’indirizzo del calendario nella finestra di dialogo, e il calendario del"
+" Gig-o apparirà nella tua lista in calendario."
 
 #: templates/calhelp.html:24
-msgid "Return to profile"
-msgstr ""
+msgid "Subscribing in Apple Calendar"
+msgstr "Registrarsi su Apple Calendar"
 
-#: templates/calview.html:3 templates/calview.html:7 templates/navbar.html:18
+#: templates/calhelp.html:24
+msgid "calhelp_4"
+msgstr ""
+"Seleziona \"New Calendar Subscription\" nel menu \"File\" – incolla "
+"l’indirizzo del calendario nella finestra di dialogo, si aprirà una nuova"
+" finestra di dialogo dove potrai dare un nome utile al calendario, ecc."
+
+#: templates/calhelp.html:26
+msgid "Return to profile"
+msgstr "Ritorna al profilo"
+
+#: templates/calview.html:3 templates/calview.html:8 templates/navbar.html:18
 msgid "Calendar"
 msgstr "Calendario"
 
@@ -636,7 +649,7 @@ msgstr "obbligatorio"
 
 #: templates/gig_edit.html:29 templates/gig_info.html:50
 msgid "Contact"
-msgstr "Contatto"
+msgstr "Inserita da"
 
 #: templates/gig_edit.html:34
 msgid "Status"
@@ -644,7 +657,7 @@ msgstr "Stato"
 
 #: templates/gig_edit.html:38 templates/gig_info.html:38
 msgid "Unconfirmed"
-msgstr ""
+msgstr "Da confermare"
 
 #: templates/gig_edit.html:41 templates/gig_info.html:34
 msgid "Confirmed!"
@@ -652,7 +665,7 @@ msgstr "Confermata!"
 
 #: templates/gig_edit.html:53
 msgid "Hide From Public Page"
-msgstr ""
+msgstr "Non mostrare sulla pagina pubblica"
 
 #: templates/gig_edit.html:60
 msgid "Date"
@@ -699,7 +712,7 @@ msgstr "Responsabile"
 msgid "leader_placeholder"
 msgstr "chi se ne occupa"
 
-#: templates/gig_edit.html:108 templates/gig_info.html:108
+#: templates/gig_edit.html:108 templates/gig_info.html:109
 msgid "More Details"
 msgstr "Ulteriori dettagli"
 
@@ -707,7 +720,7 @@ msgstr "Ulteriori dettagli"
 msgid "who? what? where? when? why?"
 msgstr "chi? cosa? dove? quando? perché?"
 
-#: templates/gig_edit.html:114 templates/gig_info.html:113
+#: templates/gig_edit.html:114 templates/gig_info.html:116
 msgid "Setlist"
 msgstr "Scaletta"
 
@@ -786,30 +799,30 @@ msgstr "Info suonata"
 
 #: templates/gig_info.html:41
 msgid "Hidden From Public Page"
-msgstr ""
+msgstr "Non appare sulla pagina pubblica"
 
 #: templates/gig_info.html:88
 msgid "What to Wear"
 msgstr "Costumi?"
 
-#: templates/gig_info.html:130
+#: templates/gig_info.html:134
 #, fuzzy
 msgid "Member Plans"
 msgstr "Presenze"
 
-#: templates/gig_info.html:161
+#: templates/gig_info.html:165
 msgid "Comments"
 msgstr "Commenti"
 
-#: templates/gig_info.html:169
+#: templates/gig_info.html:173
 msgid "No Comments (yet...)"
 msgstr "Nessun commento (per ora)"
 
-#: templates/gig_info.html:176
+#: templates/gig_info.html:180
 msgid "say your piece!"
 msgstr "Di’ la tua!"
 
-#: templates/gig_info.html:179
+#: templates/gig_info.html:183
 msgid "Say it!"
 msgstr "Pubblica"
 
@@ -817,15 +830,15 @@ msgstr "Pubblica"
 msgid "Who made this thing?"
 msgstr "Credits"
 
-#: templates/grid.html:4 templates/grid.html:8
+#: templates/grid.html:4 templates/grid.html:9
 msgid "Grid o'Gigs"
 msgstr "Griglia"
 
-#: templates/grid.html:55
+#: templates/grid.html:57
 msgid "archived"
 msgstr "archiviata"
 
-#: templates/grid.html:101
+#: templates/grid.html:103
 msgid "No Gigs!"
 msgstr "Niente in programma!"
 
@@ -835,7 +848,7 @@ msgstr "Come faccio a..."
 
 #: templates/help.html:18
 msgid "help_question_1"
-msgstr "...entrare in una banda?"
+msgstr "...iscrivermi a una banda?"
 
 #: templates/help.html:18
 msgid "help_answer_1"
@@ -950,7 +963,7 @@ msgstr "Switch to"
 
 #: templates/login.html:82
 msgid "Want your band on the Gig-o?"
-msgstr "Vorresti la tua banda sul Gig-o?"
+msgstr "Vuoi fare inserire la tua banda sul Gig-o?"
 
 #: templates/login.html:82 templates/login.html:83
 msgid "Click"
@@ -963,7 +976,7 @@ msgstr "qui"
 
 #: templates/login.html:83
 msgid "What is the Gig-o-Matic, anyway?"
-msgstr "Ma cos’è il Gig-o-Matic?"
+msgstr "Ma cos’è questo Gig-o-Matic?"
 
 #: templates/maintenance.html:3
 msgid "Maintenance!"
@@ -1069,11 +1082,11 @@ msgstr "Condividi la mia e-mail con tutte le altre bande"
 
 #: templates/member_edit.html:109
 msgid "Show only confirmed gigs on calendar view"
-msgstr ""
+msgstr "Mostra sul Calendario solo le suonate confermate"
 
 #: templates/member_edit.html:116
 msgid "Show only gigs I can do (or maybe can do) on calendar view"
-msgstr ""
+msgstr "Mostra sul Calendario solo le suonate cui parteciperò"
 
 #: templates/member_edit.html:118
 msgid "Language"
@@ -1124,19 +1137,23 @@ msgstr "Condividi la mia e-mail"
 
 #: templates/member_info.html:87
 msgid "Calendar URL for My Bands"
-msgstr ""
+msgstr "URL del Calendario per le mie bande"
 
 #: templates/member_info.html:89
 msgid "Subscribe using this link's URL"
-msgstr ""
+msgstr "Registrati con il link di questa URL"
+
+#: templates/member_info.html:89
+msgid "click here for help"
+msgstr "Clicca qui per l’help"
 
 #: templates/member_info.html:94
 msgid "Calendar shows only confirmed gigs"
-msgstr ""
+msgstr "Sul Calendario solo suonate confermate"
 
 #: templates/member_info.html:98
 msgid "Calendar shows only gigs I can do (or maybe can do)"
-msgstr ""
+msgstr "Sul Calendario solo suonate cui parteciperò"
 
 #: templates/member_info.html:114
 msgid "Pictures Of Me"
@@ -1318,7 +1335,7 @@ msgstr "Che cos’è?"
 #~ msgstr ""
 
 #~ msgid "What is the Gig-o-Matic, anyway?"
-#~ msgstr "Ma cos’è il Gig-o-Matic?"
+#~ msgstr "Ma cos’è questo Gig-o-Matic?"
 
 #~ msgid "Profile Info"
 #~ msgstr "Info profilo"
