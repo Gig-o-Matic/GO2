@@ -101,22 +101,20 @@
                             {% endif %}
                             >{% trans %}Share my email outside of my bands{% endtrans %}  
                         </label>  
-                        {% if the_user_is_betatester or the_user_is_superuser %}
-                            <label class="checkbox">  
-                                <input type="checkbox" id="memberprefcalconfirmedonly" name="member_prefcalconfirmedonly"
-                                {% if the_member.preferences.calendar_show_only_confirmed %}
-                                    checked
-                                {% endif %}
-                                >{% trans %}Show only confirmed gigs on calendar view{% endtrans %}  
-                            </label>  
-                            <label class="checkbox">  
-                                <input type="checkbox" id="memberprefcalcommittedonly" name="member_prefcalcommittedonly"
-                                {% if the_member.preferences.calendar_show_only_committed %}
-                                    checked
-                                {% endif %}
-                                >{% trans %}Show only gigs I can do (or maybe can do) on calendar view{% endtrans %}  
-                            </label>  
-                        {% endif %}
+                        <label class="checkbox">  
+                            <input type="checkbox" id="memberprefcalconfirmedonly" name="member_prefcalconfirmedonly"
+                            {% if the_member.preferences.calendar_show_only_confirmed %}
+                                checked
+                            {% endif %}
+                            >{% trans %}Show only confirmed gigs on calendar view{% endtrans %}  
+                        </label>  
+                        <label class="checkbox">  
+                            <input type="checkbox" id="memberprefcalcommittedonly" name="member_prefcalcommittedonly"
+                            {% if the_member.preferences.calendar_show_only_committed %}
+                                checked
+                            {% endif %}
+                            >{% trans %}Show only gigs I can do (or maybe can do) on calendar view{% endtrans %}  
+                        </label>  
                         <label for="memberpreflocale" class="control-label">{% trans %}Language{% endtrans %}</label>
                             <select class="form-control" id="memberpreflocale" name="member_preflocale">
                                 {% for locale in lang.LOCALES %}

@@ -83,24 +83,22 @@
                             <div class="col-md-6">{{ truefalse(the_member.preferences.share_email) }}</div>
                         </div>
                         <br>
-                        {% if the_user_is_betatester or the_user_is_superuser %}
-                            <div class="row">
-                                <div class="col-md-6">{% trans %}Calendar URL for My Bands{% endtrans %}</div>
-                                <div class="col-md-6">
-                                        <a href="http://gig-o-matic.appspot.com/cal/m/{{the_member.key.urlsafe()}}" onclick="return false;">{% trans %}Subscribe using this link's URL{% endtrans %}</a> [<a href="/calhelp">click here for help</a>]
-                                </div>
+                        <div class="row">
+                            <div class="col-md-6">{% trans %}Calendar URL for My Bands{% endtrans %}</div>
+                            <div class="col-md-6">
+                                    <a href="http://gig-o-matic.appspot.com/cal/m/{{the_member.key.urlsafe()}}" onclick="return false;">{% trans %}Subscribe using this link's URL{% endtrans %}</a> [<a href="/calhelp">click here for help</a>]
                             </div>
-                            <br>
-                            <div class="row">
-                                <div class="col-md-6">{% trans %}Calendar shows only confirmed gigs{% endtrans %}:</div>
-                                <div class="col-md-6">{{ truefalse(the_member.preferences.calendar_show_only_confirmed) }}</div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">{% trans %}Calendar shows only gigs I can do (or maybe can do){% endtrans %}:</div>
-                                <div class="col-md-6">{{ truefalse(the_member.preferences.calendar_show_only_committed) }}</div>
-                            </div>
-                            <br>
-                        {% endif %}
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-6">{% trans %}Calendar shows only confirmed gigs{% endtrans %}:</div>
+                            <div class="col-md-6">{{ truefalse(the_member.preferences.calendar_show_only_confirmed) }}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">{% trans %}Calendar shows only gigs I can do (or maybe can do){% endtrans %}:</div>
+                            <div class="col-md-6">{{ truefalse(the_member.preferences.calendar_show_only_committed) }}</div>
+                        </div>
+                        <br>
                         <div class="row">
                             <div class="col-md-12">
                                 <a class="btn btn-primary btn-sm" href="member_edit.html?mk={{ the_member.key.urlsafe() }}">{% trans %}Edit{% endtrans %}</a>
