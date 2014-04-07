@@ -183,15 +183,15 @@
                                     <div class="panel-title">{% trans %}Members{% endtrans %}</div>
                                 </div>
                             {% else %}
-                                <div class="col-md-2 col-sm-2 col-xs-3">
-                                    <div class="panel-title">{% trans %}Sections{% endtrans %}</div>
+                                <div class="col-md-2 col-sm-2 col-xs-3 panel-title">
+                                    {% trans %}Sections{% endtrans %}
                                 </div>
-                                <div class="col-md-8 col-sm-8 col-xs-7">
+                                <div class="col-md-8 col-sm-8 col-xs-7 panel-title">
                                     {% trans %}Members{% endtrans %}
                                 </div>
                             {% endif %}
                             {% if num_sections > 1 and (the_user_is_superuser or the_user_is_band_admin) %}
-                                <div class="col-md-2 col-sm-2 col-xs-2">
+                                <div class="col-md-2 col-sm-2 col-xs-2 panel-title">
                                     {% trans %}Order{% endtrans %}
                                 </div>
                             {% endif %}
