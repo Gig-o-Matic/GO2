@@ -14,7 +14,7 @@
     {% set the_band_key = gig.key.parent() %}
     <div class="row">
         <div class="page-header col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0">
-            <h2>{% trans %}Gig Info{% endtrans %}</h1>
+            {% trans %}Gig Info{% endtrans %}
         </div>
     </div>
     <div class="row">
@@ -104,15 +104,19 @@
                         </div>                    
                         <div class="row">&nbsp;</div>
                     {% endif %}
-                    <div class="row">
-                        <div class="col-md-2 col-sm-2 col-xs-3">{% trans %}More Details{% endtrans %}</div>
-                        <div class="col-md-10 col-sm-10 col-xs-9 trunc">{{ gig.details  | html_content | safe  }}</div>
-                    </div>
-                    <div class="row">&nbsp;</div>
-                    <div class="row">
-                        <div class="col-md-2 col-sm-2 col-xs-3">{% trans %}Setlist{% endtrans %}{% if gig.setlist %} <a href="print_setlist?gk={{gig.key.urlsafe()}}" target="new"><i class="fa fa-print"></i></a>{% endif %}</div>
-                        <div class="col-md-10 col-sm-10 col-xs-9">{{ gig.setlist  | html_content | safe }}</div>
-                    </div>
+                    {% if gig.details %}
+                        <div class="row">
+                            <div class="col-md-2 col-sm-2 col-xs-3">{% trans %}More Details{% endtrans %}</div>
+                            <div class="col-md-10 col-sm-10 col-xs-9 trunc">{{ gig.details  | html_content | safe  }}</div>
+                        </div>
+                        <div class="row">&nbsp;</div>
+                    {% endif %}
+                    {% if gig.setlist %}
+                        <div class="row">
+                            <div class="col-md-2 col-sm-2 col-xs-3">{% trans %}Setlist{% endtrans %}{% if gig.setlist %} <a href="print_setlist?gk={{gig.key.urlsafe()}}" target="new"><i class="fa fa-print"></i></a>{% endif %}</div>
+                            <div class="col-md-10 col-sm-10 col-xs-9">{{ gig.setlist  | html_content | safe }}</div>
+                        </div>
+                    {% endif %}
                     {% if user_can_edit %}
                         <div class="row">
                             <br>

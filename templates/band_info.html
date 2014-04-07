@@ -11,7 +11,7 @@
 {% block content %}
     <div class="row">
         <div class="page-header col-md-8 col-md-offset-2">
-            <h2>{{ the_band.name }}</h2>
+            {{ the_band.name }}
             {% if the_band.shortname %}
                 ( {% trans %}a.k.a.{% endtrans %} {{ the_band.shortname }} )
             {% endif %}

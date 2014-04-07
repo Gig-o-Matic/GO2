@@ -75,3 +75,11 @@ code {
     background-color: white;
     opacity: .95;
 }
+
+/* Custom page CSS
+-------------------------------------------------- */
+
+.page-header {
+    font-size: 200%;
+    border-bottom: none;
+}
