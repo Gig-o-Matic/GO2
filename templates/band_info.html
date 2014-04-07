@@ -22,7 +22,7 @@
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <strong>{% trans %}Info{% endtrans %}</strong>
+                    <div class="panel-title">{% trans %}Info{% endtrans %}</div>
                 </div>
                 <div class="panel-body">
                     <div class="row">
@@ -86,9 +86,9 @@
             {% if the_band.images %}
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <strong>
+                            <div class="panel-title">
                                 {% trans %}Pictures Of Us{% endtrans %}
-                            </strong>
+                            </div>
                         </div>
                         <div class="panel-body" id="pictures">
                             <ul class="bxslider">
@@ -103,9 +103,9 @@
                 {% if the_band.share_gigs %}
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <strong>
+                            <div class="panel-title">
                                 {% trans %}Upcoming Gigs{% endtrans %}
-                            </strong>
+                            </div>
                         </div>
                         <div class="panel-body" id="upcoming-gigs">
                             <i class="fa fa-spinner fa-spin fa-lg"></i>
@@ -115,9 +115,9 @@
                 {% if the_user %}
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <strong>
+                            <div class="panel-title">
                                 {% trans %}Members With Public Profiles{% endtrans %}
-                            </strong>
+                            </div>
                         </div>
                         <div class="panel-body" id="public-members">
                             <i class="fa fa-spinner fa-spin fa-lg"></i>
@@ -130,9 +130,9 @@
                 {% if the_pending_members %}
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <strong>
+                            <div class="panel-title">
                                 {% trans %}Pending Members{% endtrans %} <span class="badge">{{the_pending_members|length}}</span>
-                            </strong>
+                            </div>
                         </div>        
                         <div class="panel-body">
                             {% for m in the_pending_members %}
@@ -153,9 +153,9 @@
                 {% if the_invited_members %}
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <strong>
+                            <div class="panel-title">
                                 {% trans %}Invited Members{% endtrans %} <span class="badge">{{the_invited_members|length}}</span>
-                            </strong>
+                            </div>
                         </div>        
                         <div class="panel-body">
                             {% for m in the_invited_members %}
@@ -179,11 +179,11 @@
                         <div class="row">
                             {% if num_sections == 0 %}
                                 <div class="col-md-10 col-sm-10 col-xs-10">
-                                    <strong>{% trans %}Members{% endtrans %}</strong>
+                                    <div class="panel-title">{% trans %}Members{% endtrans %}</div>
                                 </div>
                             {% else %}
                                 <div class="col-md-2 col-sm-2 col-xs-3">
-                                    <strong>{% trans %}Sections{% endtrans %}</strong>
+                                    <div class="panel-title">{% trans %}Sections{% endtrans %}</div>
                                 </div>
                                 <div class="col-md-8 col-sm-8 col-xs-7">
                                     {% trans %}Members{% endtrans %}
@@ -221,9 +221,9 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-                                <strong>
+                                <div class="panel-title">
                                     {% trans %}Member Admin{% endtrans %}
-                                </strong>
+                                </div>
                             </a>
                         </div>
                         <div id="collapseOne" class="panel-collapse collapse">

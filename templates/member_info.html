@@ -18,7 +18,7 @@
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <strong>{% trans %}Info{% endtrans %}</strong>
+                    <div class="panel-title">{% trans %}Info{% endtrans %}</div>
                 </div>
                 <div class="panel-body">
                     <div class="row">
@@ -110,9 +110,9 @@
             {% if the_member.images %}
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <strong>
+                            <div class="panel-title">
                                 {% trans %}Pictures Of Me{% endtrans %}
-                            </strong>
+                            </div>
                         </div>
                         <div class="panel-body" id="pictures">
                             <ul class="bxslider">
@@ -126,9 +126,9 @@
             {% if member_is_me or the_user_is_superuser %}
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <strong>                    
+                        <div class="panel-title">                    
                               {% trans %}Bands{% endtrans %}
-                        </strong>
+                        </div>
                     </div>
                     <div class="panel-body">        
                         <div id="bandlist">

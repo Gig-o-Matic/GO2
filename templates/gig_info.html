@@ -21,7 +21,7 @@
         <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <strong>{% trans %}Info{% endtrans %}</strong>
+                    <div class="panel-title">{% trans %}Info{% endtrans %}</div>
                 </div>
                 <div class="panel-body">
                     <div class="row">
@@ -127,7 +127,7 @@
             {% if gig.status != 2 %}
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <strong>{% trans %}Member Plans{% endtrans %} <a href="print_planlist?gk={{gig.key.urlsafe()}}" target="new"><i class="fa fa-print"></i></a></strong>
+                    <div class="panel-title">{% trans %}Member Plans{% endtrans %} <a href="print_planlist?gk={{gig.key.urlsafe()}}" target="new"><i class="fa fa-print"></i></a></div>
                 </div>
                 <div class="panel-body">
                     {% import 'gig_plan_edit.html' as plan_edit with context %}                
@@ -158,7 +158,7 @@
             {% endif %}
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <strong>{% trans %}Comments{% endtrans %}</strong>
+                    <div class="panel-title">{% trans %}Comments{% endtrans %}</div>
                 </div>
                 <div class="panel-body">
                     <div class="row">
