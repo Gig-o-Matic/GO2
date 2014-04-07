@@ -10,6 +10,7 @@ import datetime
 import band
 import json
 import assoc
+import plan 
 
 from debug import debug_print
 
@@ -33,32 +34,45 @@ class CalEvents(BaseHandler):
     def post(self):    
         the_user = self.user
         
-#         start_date=datetime.datetime.fromtimestamp(int(self.request.get('start')))
-#         end_date=datetime.datetime.fromtimestamp(int(self.request.get('end')))
-
         start_date=datetime.datetime.strptime( self.request.get('start'), "%Y-%m-%d" )
         end_date=datetime.datetime.strptime( self.request.get('end'), "%Y-%m-%d" )+datetime.timedelta(days=1)
 
-        the_member_key=self.request.get('mk',0)
+        the_member_keyurl=self.request.get('mk',0)
         
-        if the_member_key==0:
+        if the_member_keyurl==0:
             return # todo figure out what to do
             
-        the_member=ndb.Key(urlsafe=the_member_key).get()
+        the_member_key=ndb.Key(urlsafe=the_member_keyurl)
+        the_member = the_member_key.get()
         
-        
-        the_bands = assoc.get_band_keys_of_member_key(the_member.key, confirmed_only=True)
-        num_bands = len(the_bands)
-        
-        gigs=gig.get_gigs_for_member_for_dates(the_member=the_member, start_date=start_date, end_date=end_date, get_canceled=False)
+        the_bands = assoc.get_confirmed_bands_of_member(the_member)
+
+        gigs = []
+
+        for a_band in the_bands:
+            a_band_name = a_band.shortname if a_band.shortname else a_band.name
+            all_gigs = gig.get_gigs_for_band_keys(a_band.key)
+            for a_gig in all_gigs:
+                if not a_gig.is_canceled and not a_gig.is_archived:
+                    the_plan = plan.get_plan_for_member_key_for_gig_key(the_member_key, a_gig.key)
+                    if the_plan:
+                        # check member preferences
+                        # include gig if member wants to see all, or if gig is confirmed
+                        if a_gig.is_confirmed or the_member.preferences.calendar_show_only_confirmed == False:
+                            # incude gig if member wants to see all, or if has registered as maybe or definitely:
+                            if (the_plan.value > 0 and the_plan.value <= 3) or \
+                                (the_member.preferences.calendar_show_only_committed == False):
+                                    gigs.append(a_gig)
         
         events=[]
         colors=['#FF9F80','#D1F2A5','#EFFAB4','#FFC48C','#F56991']
-
+        the_band_keys = [b.key for b in the_bands]
+        num_bands = len(the_band_keys)
+        
         for a_gig in gigs:
             band_key=a_gig.key.parent()
 
-            cindex = the_bands.index(band_key) % len(colors)            
+            cindex = the_band_keys.index(band_key) % len(colors)            
 
             the_title = a_gig.title
             if num_bands > 1:

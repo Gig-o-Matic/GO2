@@ -85,28 +85,28 @@ def adjust_date_for_band(the_band, the_date):
     
     return the_date
     
-def get_gigs_for_band_keys(the_band_key_list, num=None, start_date=None, show_canceled=True, keys_only=False):
+def get_gigs_for_band_keys(the_band_key_list, num=None, start_date=None, end_date=None, show_canceled=True, keys_only=False):
     """ Return gig objects by band, ignoring past gigs """
         
     if (type(the_band_key_list) is not list):
         the_band_key_list = [the_band_key_list]
 
+    params = [ Gig.is_archived == False ]
+
     if start_date:
         start_date = adjust_date_for_band(the_band_key_list[0].get(), start_date)
+        params.append( Gig.date >= start_date )
+        
+    if end_date:
+        end_Date = adjust_date_for_band(the_band_key_list[0].get(), end_date)
+        params.append( Gig.date <= end_date )
+    
+    if not show_canceled:
+        params.append( Gig.is_canceled == False )
     
     all_gigs = []
     for a_band_key in the_band_key_list:
-        if start_date is None:
-            gig_query = Gig.query(Gig.is_archived==False, ancestor=a_band_key).order(Gig.date)
-        else:
-            if show_canceled:
-                gig_query = Gig.query(Gig.date >= start_date, Gig.is_archived==False, \
-                                      ancestor=a_band_key).order(Gig.date)
-            else:
-                gig_query = Gig.query(Gig.date >= start_date, Gig.is_archived==False, \
-                                      Gig.is_canceled==False, \
-                                      ancestor=a_band_key).order(Gig.date)
-
+        gig_query = Gig.query(*params, ancestor=a_band_key).order(Gig.date)
         the_gigs = gig_query.fetch()
         all_gigs.append(the_gigs)
         
