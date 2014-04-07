@@ -13,6 +13,16 @@
 
 <div class="row">
     <div class="col-md-8 col-md-offset-2">
+        {% trans %}calhelp_1{% endtrans %}
+        <br><br>
+        {% trans %}calhelp_2{% endtrans %}
+        <br><br>
+        <strong>{% trans %}Subscribing in Google Calendar{% endtrans %}</strong>: {% trans %}calhelp_3{% endtrans %}
+        <br><br>
+        <strong>{% trans %}Subscribing in Apple Calendar{% endtrans %}</strong>: {% trans %}calhelp_4{% endtrans %}
+        <br><br>
+        <a href="/member_info.html?mk={{member.key.urlsafe()}}">{% trans %}Return to profile{% endtrans %}</a>        
+{#
         The Gig-o-Matic can provide calendar information to Google Calendar, Apple Calendar, and other calendar tools that work with the "CalDav" protocol. Here's how to do it!
         <br><br>
         First, copy the subscription address. Your personalized address is:<br><br>
@@ -24,6 +34,7 @@
         <strong>Subscribing in Apple Calendar</strong>: Select "New Calendar Subscription" from the "File" menu - paste the calendar address into the dialog, and a new dialog will open where you can give the calendar a useful name, etc.
         <br><br>
         <a href="/member_info.html?mk={{member.key.urlsafe()}}">Return to profile</a>
+#}
     </div>
 </div>
 
