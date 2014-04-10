@@ -117,8 +117,6 @@ def make_event(the_gig, the_band, title_format=u'{0}', details_format=u'{0}'):
         start_dt = start_dt.replace(tzinfo = pytz.utc)
         end_dt = end_dt.replace(tzinfo = pytz.utc)
             
-    print '\n\n4.{0}\n\n'.format(start_dt)
-
     start_string = start_dt.strftime('%Y%m%d')
     end_string = end_dt.strftime('%Y%m%d')
     
