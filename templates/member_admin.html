@@ -3,86 +3,88 @@
 {% block title %}{% trans %}Member Admin{% endtrans %}{% endblock title %}
 
 {% block content %}
-<div class="row">
-    <div class="col-md-8 col-md-offset-2"><h2>{% trans %}Member Admin{% endtrans %}</h1></div>
-</div> 
-<div class="row">
-    <div class="panel-group col-md-8 col-md-offset-2" id="accordion">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h4 class="panel-title">
-            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-              All Members
-            </a>
-          </h4>
+    <div class="row">
+        <div class="page-header col-md-8 col-md-offset-2">
+            {% trans %}Member Admin{% endtrans %}
         </div>
-        <div id="collapseOne" class="panel-collapse collapse in">
-            <div class="panel-body" id="memberlist">
-                <i class="fa fa-spinner fa-spin fa-lg"></i>
+    </div>
+    <div class="row">
+        <div class="panel-group col-md-8 col-md-offset-2" id="accordion">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                  All Members
+                </a>
+              </h4>
             </div>
-        </div>
-      </div>
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h4 class="panel-title">
-            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
-              Pending Signups
-            </a>
-          </h4>
-        </div>
-        <div id="collapseTwo" class="panel-collapse collapse">
-          <div class="panel-body" id="signuplist">
-                <i class="fa fa-spinner fa-spin fa-lg"></i>
+            <div id="collapseOne" class="panel-collapse collapse in">
+                <div class="panel-body" id="memberlist">
+                    <i class="fa fa-spinner fa-spin fa-lg"></i>
+                </div>
+            </div>
           </div>
-        </div>
-      </div>
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h4 class="panel-title">
-            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
-              Pending Invites
-            </a>
-          </h4>
-        </div>
-        <div id="collapseThree" class="panel-collapse collapse">
-          <div class="panel-body" id="invitelist">
-                <i class="fa fa-spinner fa-spin fa-lg"></i>
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                  Pending Signups
+                </a>
+              </h4>
+            </div>
+            <div id="collapseTwo" class="panel-collapse collapse">
+              <div class="panel-body" id="signuplist">
+                    <i class="fa fa-spinner fa-spin fa-lg"></i>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h4 class="panel-title">
-            <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour">
-              Special Controls
-            </a>
-          </h4>
-        </div>
-        <div id="collapseFour" class="panel-collapse collapse">
-          <div class="panel-body">
-                Rewrite all member and assoc objects to update structure
-                <a class="btn btn-primary" href="/member_rewrite">Do it!</a>
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+                  Pending Invites
+                </a>
+              </h4>
+            </div>
+            <div id="collapseThree" class="panel-collapse collapse">
+              <div class="panel-body" id="invitelist">
+                    <i class="fa fa-spinner fa-spin fa-lg"></i>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h4 class="panel-title">
-            <a data-toggle="collapse" data-parent="#accordion" href="#collapseFive">
-              Admin Emails
-            </a>
-          </h4>
-        </div>
-        <div id="collapseFive" class="panel-collapse collapse">
-          <div class="panel-body">
-            {% for a in all_admin_emails %}
-                {{a}}{% if not loop.last %}, {% endif %}
-            {% endfor %}
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour">
+                  Special Controls
+                </a>
+              </h4>
+            </div>
+            <div id="collapseFour" class="panel-collapse collapse">
+              <div class="panel-body">
+                    Rewrite all member and assoc objects to update structure
+                    <a class="btn btn-primary" href="/member_rewrite">Do it!</a>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapseFive">
+                  Admin Emails
+                </a>
+              </h4>
+            </div>
+            <div id="collapseFive" class="panel-collapse collapse">
+              <div class="panel-body">
+                {% for a in all_admin_emails %}
+                    {{a}}{% if not loop.last %}, {% endif %}
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>    
     </div>    
-</div>    
 {% endblock content %}
 
 {% block localscripts %}
