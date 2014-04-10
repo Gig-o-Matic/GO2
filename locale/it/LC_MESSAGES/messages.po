@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-04-07 15:52-0400\n"
+"POT-Creation-Date: 2014-04-09 20:54-0400\n"
 "PO-Revision-Date: 2014-02-01 18:13-0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: it <LL@li.org>\n"
@@ -63,8 +63,8 @@ msgstr ""
 "Il Team Gig-o-Matic"
 
 #: goemail.py:149
-msgid "Gig-o-Matic New Gig"
-msgstr "Gig-o-Matic: Nuova Suonata"
+msgid "New Gig:"
+msgstr ""
 
 #: goemail.py:169 templates/gig_edit.html:74 templates/gig_info.html:64
 #, fuzzy
@@ -517,6 +517,14 @@ msgstr ""
 " finestra di dialogo dove potrai dare un nome utile al calendario, ecc."
 
 #: templates/calhelp.html:26
+msgid "Subscribing in Outlook"
+msgstr ""
+
+#: templates/calhelp.html:26
+msgid "calhelp_5"
+msgstr ""
+
+#: templates/calhelp.html:28
 msgid "Return to profile"
 msgstr "Ritorna al profilo"
 
@@ -1381,4 +1389,7 @@ msgstr "Che cos’è?"
 
 #~ msgid "Opinion?"
 #~ msgstr "Opinione?"
+
+#~ msgid "Gig-o-Matic New Gig"
+#~ msgstr "Gig-o-Matic: Nuova Suonata"
 

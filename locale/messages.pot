@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-04-07 15:52-0400\n"
+"POT-Creation-Date: 2014-04-09 20:54-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -42,7 +42,7 @@ msgid "forgot_password_email"
 msgstr ""
 
 #: goemail.py:149
-msgid "Gig-o-Matic New Gig"
+msgid "New Gig:"
 msgstr ""
 
 #: goemail.py:169 templates/gig_edit.html:74 templates/gig_info.html:64
@@ -425,6 +425,14 @@ msgid "calhelp_4"
 msgstr ""
 
 #: templates/calhelp.html:26
+msgid "Subscribing in Outlook"
+msgstr ""
+
+#: templates/calhelp.html:26
+msgid "calhelp_5"
+msgstr ""
+
+#: templates/calhelp.html:28
 msgid "Return to profile"
 msgstr ""
 

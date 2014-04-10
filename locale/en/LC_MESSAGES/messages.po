@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-04-07 15:52-0400\n"
+"POT-Creation-Date: 2014-04-09 20:54-0400\n"
 "PO-Revision-Date: 2014-02-01 18:13-0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: en <LL@li.org>\n"
@@ -65,7 +65,7 @@ msgstr ""
 "The Gig-O-Matic Team"
 
 #: goemail.py:149
-msgid "Gig-o-Matic New Gig"
+msgid "New Gig:"
 msgstr ""
 
 #: goemail.py:169 templates/gig_edit.html:74 templates/gig_info.html:64
@@ -490,8 +490,9 @@ msgstr ""
 msgid "calhelp_3"
 msgstr ""
 "In the \"Other Calendars\" menu select \"Add by URL\" - paste the "
-"calendar address into the dialog, and the gig-o calendar will appear in "
-"your calendar list."
+"calendar address into the dialog, and the Gig-o calendar will appear in "
+"your calendar list. Note that Google Calendar updates subscriptions every "
+"few hours, so changes you make in the Gig-o will take a while to be reflected there."
 
 #: templates/calhelp.html:24
 msgid "Subscribing in Apple Calendar"
@@ -505,6 +506,22 @@ msgstr ""
 "can give the calendar a useful name, etc."
 
 #: templates/calhelp.html:26
+msgid "Subscribing in Outlook"
+msgstr ""
+
+#: templates/calhelp.html:26
+msgid "calhelp_5"
+msgstr "<br>"
+"1) Go to Tools - Account Settings...<br>"
+"2) Select the Internet Calendars tab<br>"
+"3) Click New...<br>"
+"4) Paste in the subscription address from above<br>"
+"5) Click Add<br>"
+"6) Change the Folder Name to 'Gig-o-Matic'<br>"
+"7) Click OK<br>"
+"The Gig-o calendar will show up under 'Other Calendars.'"
+
+#: templates/calhelp.html:28
 msgid "Return to profile"
 msgstr ""
 
@@ -1327,5 +1344,8 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Opinion?"
+#~ msgstr ""
+
+#~ msgid "Gig-o-Matic New Gig"
 #~ msgstr ""
 
