@@ -5,9 +5,9 @@
 {% block content %}
     <div class="row">
         {% if newband_is_active %}
-            <div class="page-header col-md-8 col-md-offset-2"><h2>{% trans %}New Band{% endtrans %}</h2></div>
+            <div class="page-header col-md-8 col-md-offset-2">{% trans %}New Band{% endtrans %}</div>
         {% else %}
-            <div class="page-header col-md-8 col-md-offset-2"><h2>{% trans %}Edit Band{% endtrans %}</h2></div>
+            <div class="page-header col-md-8 col-md-offset-2">{% trans %}Edit Band{% endtrans %}</div>
         {% endif %}
     </div>
     <form id="infoform" class="form" role="form" method="post" action="band_edit.html">
