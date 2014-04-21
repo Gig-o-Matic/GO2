@@ -34,6 +34,7 @@ function init_plan_buttons() {
 }    
 
 function update_plan(pk, val) {
+    document.getElementById(pk).innerHTML='<i class="fa fa-spinner fa-spin fa-lg"></i>';
     $.post("/updateplan",
                 {
                     val: val,
