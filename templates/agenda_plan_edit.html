@@ -42,12 +42,12 @@
 
 {% if show_section %}
     {% set plan_lg = 8 %}
-    {% set plan_sm = 12 %}
+    {% set plan_sm = 11 %}
     {% set section_lg = 4 %}
-    {% set section_sm = 12 %}
+    {% set section_sm = 11 %}
 {% else %}
     {% set plan_lg = 12 %}
-    {% set plan_sm = 12 %}
+    {% set plan_sm = 11 %}
 {% endif %}
 
 
@@ -86,7 +86,7 @@
         {% if the_gig.status != 2 %}
         <div class="col-lg-{{grp2_lg}} col-md-{{grp2_lg}} col-sm-{{grp2_sm}} col-xs-{{grp2_sm}}">
             <div class="row">
-                <div class="col-lg-{{plan_lg}} col-md-{{plan_lg}} col-md-offset-0 col-sm-{{plan_sm}} col-sm-offset-{{plan_sm_offset}} col-xs-{{plan_sm}} col-xs-offset-{{plan_sm_offset}} ">
+                <div class="col-lg-{{plan_lg}} col-md-{{plan_lg}} col-md-offset-0 col-sm-{{plan_sm}} col-sm-offset-1 col-xs-{{plan_sm}} col-xs-offset-1 ">
                     {% if the_member_key == the_user.key or the_user_is_superuser %}
                         {{ plan_icon.icon_button(the_plan) }}
                     {% else %}
@@ -99,7 +99,7 @@
                     {% endif %}
                 </div>
                 {% if show_section %}
-                    <div class="col-md-{{section_lg}} col-sm-{{section_sm}} col-xs-{{section_sm}}">
+                    <div class="col-md-{{section_lg}} col-md-offset-0 col-sm-{{section_sm}} col-sm-offset-1 col-xs-{{section_sm}} col-xs-offset-1">
                         {% if get_the_section_keys %}
                             {% set the_section_keys = get_the_section_keys(the_band.key) %}
                         {% endif %}

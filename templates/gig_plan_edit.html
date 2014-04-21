@@ -19,9 +19,9 @@
 {% set date_lg = 6 %}
 {% set date_sm = 6 %}
 {% set grp1_lg = 4 %}
-{% set grp1_sm = 12 %}
+{% set grp1_sm = 2 %}
 {% set grp2_lg = 8 %}
-{% set grp2_sm = 12 %}
+{% set grp2_sm = 9 %}
 
 {% if show_section %}
     {% set section_lg = 4 %}
@@ -38,7 +38,7 @@
     <div class="col-lg-{{grp1_lg}} col-md-{{grp1_lg}} col-sm-{{grp1_sm}} col-xs-{{grp1_sm}}">
          <a href='/member_info.html?mk={{the_member_key.urlsafe()}}'>{% if the_member.nickname %}{{ the_member.nickname }}{% else %}{{ the_member.name }}{% endif %}</a>
     </div>
-    <div class="col-lg-{{grp2_lg}} col-md-{{grp2_lg}} col-sm-{{grp2_sm}} col-xs-{{grp2_sm}}">
+    <div class="col-lg-{{grp2_lg}} col-md-{{grp2_lg}} col-md-offset-0 col-sm-{{grp2_sm}} col-sm-offset-0 col-xs-{{grp2_sm}} col-xs-offset-0">
         <div class="row">
             <div class="col-lg-{{plan_lg}} col-md-{{plan_lg}} col-md-offset-0 col-sm-{{plan_sm}} col-sm-offset-{{plan_sm_offset}} col-xs-{{plan_sm}} col-xs-offset-{{plan_sm_offset}} ">
                 {% if the_member_key == the_user.key or the_user_is_superuser %}

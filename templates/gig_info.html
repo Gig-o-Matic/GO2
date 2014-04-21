@@ -4,7 +4,7 @@
 
 {% if band_has_sections %}
     {% set plan_size_lg=10 %}
-    {% set plan_size_sm=8 %}
+    {% set plan_size_sm=12 %}
 {% else %}
     {% set plan_size_lg=12 %}
     {% set plan_size_sm=12 %}
@@ -139,7 +139,7 @@
                     {% for the_section in the_sections %}
                         <div class="row" style="padding-top: 5px; padding-bottom: 5px; {{ loop.cycle('', 'background:#f5f5f5;') }}">
                             {% if band_has_sections %}
-                                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4">
+                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
                                     {% if the_section %}
                                         {{the_section.name}}
                                     {% elif the_sections | length > 1 %}
