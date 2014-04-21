@@ -395,15 +395,19 @@ class EditPage(BaseHandler):
             logging.error(u'user {0} trying to edit a gig for band {1}'.format(self.user.key.urlsafe(),the_band.key.urlsafe()))
             return self.redirect('/agenda.html')            
 
-        if is_new:
-            user_is_band_admin = False
-        else:
-            user_is_band_admin = assoc.get_admin_status_for_member_for_band_key(the_user, the_gig.key.parent())
+        the_dupe = self.request.get("dupe", 0)
+
+#   don't think we need this...
+#         if is_new:
+#             user_is_band_admin = False
+#         else:
+#             user_is_band_admin = assoc.get_admin_status_for_member_for_band_key(the_user, the_gig.key.parent())
             
         template_args = {
             'gig' : the_gig,
             'the_band' : the_band,
-            'user_is_band_admin': user_is_band_admin,
+#             'user_is_band_admin': user_is_band_admin,
+            'is_dupe' : the_dupe,
             'newgig_is_active' : is_new,
             'the_date_formatter' : member.format_date_for_member
         }
