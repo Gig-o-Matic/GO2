@@ -49,7 +49,9 @@
                 {% if the_member_key == the_user.key or the_user_is_superuser %}
                     <a href="#" class="comment-thing" id="username" data-type="text" data-pk="{{the_plan_key.urlsafe()}}" data-url="/updateplancomment" data-title="">{{the_plan.comment}}</a>
                 {% else %}
-                    {{the_plan.comment}}
+                    {% if the_plan.comment %}
+                        <span class="popcomment" data-toggle="tooltip" data-placement="top" title="{{the_plan.comment}}"><i class="fa fa-comment"></i></span>
+                    {% endif %}
                 {% endif %}
             </div>
             {% if show_section %}
