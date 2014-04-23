@@ -50,8 +50,8 @@
                     <a href="#" class="comment-thing" id="username" data-type="text" data-pk="{{the_plan_key.urlsafe()}}" data-url="/updateplancomment" data-title="">{{the_plan.comment}}</a>
                 {% else %}
                     {% if the_plan.comment %}
-                        {% if the_plan.comment | length > 20 %}
-                            <span class="popcomment" data-toggle="tooltip" data-placement="top" title="{{the_plan.comment}}">{{ the_plan.comment | truncate(20) }}<i class="fa fa-comment"></i></span>
+                        {% if the_plan.comment | length > 25 %}
+                            <span class="popcomment" data-toggle="tooltip" data-placement="top" title="{{the_plan.comment}}">{{ the_plan.comment | truncate(25) }}<i class="fa fa-comment"></i></span>
                         {% else %}
                             {{ the_plan.comment }}
                         {% endif %}
