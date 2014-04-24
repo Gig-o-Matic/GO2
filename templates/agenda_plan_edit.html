@@ -21,8 +21,8 @@
 {% set title_lg = 11 %}
 {% set title_sm = 11 %}
 {% set grp1_lg = 6 %}
-{% set grp1_sm = 12 %}
-{% set grp2_lg = 6 %}
+{% set grp1_sm = 11 %}
+{% set grp2_lg = 5 %}
 {% set grp2_sm = 12 %}
 
 {% if show_section %}
@@ -41,7 +41,7 @@
     </div>
     <div class="col-md-10 col-sm-10 col-xs-10">
         <div class="row">
-            <div class="col-lg-{{grp1_lg}} col-md-{{grp1_lg}} col-sm-{{grp1_sm}} col-xs-{{grp1_sm}}">
+            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
                 {% if the_gig.status==1 %}
                     <i class="fa fa-check-circle" style="color:green"></i>
                 {% elif the_gig.status==2 %}
@@ -49,6 +49,8 @@
                 {% else %}
                     <i class="fa fa-question-circle" style="color:orange"></i>
                 {% endif %}
+            </div>
+            <div class="col-lg-{{grp1_lg}} col-md-{{grp1_lg}} col-sm-{{grp1_sm}} col-xs-{{grp1_sm}}">
                 <a href="gig_info.html?gk={{ the_gig_key.urlsafe() }}" ><strong>{{ the_gig.title|e }}</strong></a>
                 {% if show_band==True %}
                     <a href="band_info.html?bk={{ the_band.key.urlsafe()}}">
