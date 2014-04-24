@@ -22,8 +22,8 @@
                 </div>
                 <div class="panel-body">
                     <div class="row">
-                        <div class="col-md-6">{% trans %}Name{% endtrans %}</div>
-                        <div class="col-md-6">{{ the_member.name|e }}
+                        <div class="col-md-6 col-sm-6 col-xs-6">{% trans %}Name{% endtrans %}</div>
+                        <div class="col-md-6 col-sm-6 col-xs-6">{{ the_member.name|e }}
                             {% if the_member.nickname %}
                                 ({{ the_member.nickname | e }})
                             {% endif %}
@@ -31,8 +31,8 @@
                     </div>
                     {% if show_email %}
                         <div class="row">
-                            <div class="col-md-6">{% trans %}Email{% endtrans %}</div>
-                            <div class="col-md-6"><a href="mailto:{{the_member.email_address}}">{{ the_member.email_address }}</a>
+                            <div class="col-md-6 col-sm-6 col-xs-6">{% trans %}Email{% endtrans %}</div>
+                            <div class="col-md-6 col-sm-6 col-xs-6"><a href="mailto:{{the_member.email_address}}">{{ the_member.email_address }}</a>
                             {% if email_change_msg %}<br>{{ email_change_msg }}{% endif %}
                             </div>
                         </div>
@@ -40,22 +40,22 @@
                     {% if show_phone %}
                         {% if the_member.phone %}
                             <div class="row">
-                                <div class="col-md-6">{% trans %}Phone{% endtrans %}</div>
-                                <div class="col-md-6">{{ the_member.phone|e }}</div>
+                                <div class="col-md-6 col-sm-6 col-xs-6">{% trans %}Phone{% endtrans %}</div>
+                                <div class="col-md-6 col-sm-6 col-xs-6">{{ the_member.phone|e }}</div>
                             </div>
                         {% endif %}
                     {% endif %}
                     <div class="row"><br></div>
                     {% if the_member.statement %}
                         <div class="row">
-                            <div class="col-md-6">{% trans %}Personal Statement{% endtrans %}</div>
-                            <div class="col-md-6">{{ the_member.statement|e }}</div>
+                            <div class="col-md-6 col-sm-6 col-xs-6">{% trans %}Personal Statement{% endtrans %}</div>
+                            <div class="col-md-6 col-sm-6 col-xs-6">{{ the_member.statement|e }}</div>
                         </div>
                         <div class="row"><br></div>
                     {% endif %}
                     <div class="row">
-                        <div class="col-md-6">{% trans %}My Bands{% endtrans %}</div>
-                        <div class="col-md-6">
+                        <div class="col-md-6 col-sm-6 col-xs-6">{% trans %}My Bands{% endtrans %}</div>
+                        <div class="col-md-6 col-sm-6 col-xs-6">
                             {% for band_key in the_band_keys %}
                                 {% set the_band = band_key.get() %}
                                 <a href="/band_info.html?bk={{ the_band.key.urlsafe() }}">{{ the_band.name }}</a>{% if loop.last == False %}, {% endif %}
@@ -65,38 +65,38 @@
                     {% if member_is_me or the_user_is_superuser %}
                         <br>
                         <div class="row">
-                            <div class="col-md-6">{% trans %}Email me for new gigs{% endtrans %}:</div>
-                            <div class="col-md-6">{{ truefalse(the_member.preferences.email_new_gig) }}</div>
+                            <div class="col-md-6 col-sm-6 col-xs-6">{% trans %}Email me for new gigs{% endtrans %}:</div>
+                            <div class="col-md-6 col-sm-6 col-xs-6">{{ truefalse(the_member.preferences.email_new_gig) }}</div>
                         </div>
                         <br>
                         <div class="row">
-                            <div class="col-md-6">{% trans %}Hide canceled gigs{% endtrans %}:</div>
-                            <div class="col-md-6">{{ truefalse(the_member.preferences.hide_canceled_gigs) }}</div>
+                            <div class="col-md-6 col-sm-6 col-xs-6">{% trans %}Hide canceled gigs{% endtrans %}:</div>
+                            <div class="col-md-6 col-sm-6 col-xs-6">{{ truefalse(the_member.preferences.hide_canceled_gigs) }}</div>
                         </div>
                         <br>
                         <div class="row">
-                            <div class="col-md-6">{% trans %}Share my profile{% endtrans %}:</div>
-                            <div class="col-md-6">{{ truefalse(the_member.preferences.share_profile) }}</div>
+                            <div class="col-md-6 col-sm-6 col-xs-6">{% trans %}Share my profile{% endtrans %}:</div>
+                            <div class="col-md-6 col-sm-6 col-xs-6">{{ truefalse(the_member.preferences.share_profile) }}</div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6">{% trans %}Share my email{% endtrans %}:</div>
-                            <div class="col-md-6">{{ truefalse(the_member.preferences.share_email) }}</div>
+                            <div class="col-md-6 col-sm-6 col-xs-6">{% trans %}Share my email{% endtrans %}:</div>
+                            <div class="col-md-6 col-sm-6 col-xs-6">{{ truefalse(the_member.preferences.share_email) }}</div>
                         </div>
                         <br>
                         <div class="row">
-                            <div class="col-md-6">{% trans %}Calendar URL for My Bands{% endtrans %}</div>
-                            <div class="col-md-6">
+                            <div class="col-md-6 col-sm-6 col-xs-6">{% trans %}Calendar URL for My Bands{% endtrans %}</div>
+                            <div class="col-md-6 col-sm-6 col-xs-6">
                                     <a href="http://gig-o-matic.appspot.com/cal/m/{{the_member.key.urlsafe()}}" onclick="return false;">{% trans %}Subscribe using this link's URL{% endtrans %}</a> [<a href="/calhelp">{% trans %}click here for help{% endtrans %}</a>]
                             </div>
                         </div>
                         <br>
                         <div class="row">
-                            <div class="col-md-6">{% trans %}Calendar shows only confirmed gigs{% endtrans %}:</div>
-                            <div class="col-md-6">{{ truefalse(the_member.preferences.calendar_show_only_confirmed) }}</div>
+                            <div class="col-md-6 col-sm-6 col-xs-6">{% trans %}Calendar shows only confirmed gigs{% endtrans %}:</div>
+                            <div class="col-md-6 col-sm-6 col-xs-6">{{ truefalse(the_member.preferences.calendar_show_only_confirmed) }}</div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6">{% trans %}Calendar shows only gigs I can do (or maybe can do){% endtrans %}:</div>
-                            <div class="col-md-6">{{ truefalse(the_member.preferences.calendar_show_only_committed) }}</div>
+                            <div class="col-md-6 col-sm-6 col-xs-6">{% trans %}Calendar shows only gigs I can do (or maybe can do){% endtrans %}:</div>
+                            <div class="col-md-6 col-sm-6 col-xs-6">{{ truefalse(the_member.preferences.calendar_show_only_committed) }}</div>
                         </div>
                         <br>
                         <div class="row">
