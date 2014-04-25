@@ -8,10 +8,12 @@
 {% set the_member = the_member_key.get() %}
 {% set the_band_key = plan_info['the_band_key'] %}
 {% set the_assoc = plan_info['the_assoc'] %}
+
+{% set show_section = False %}
 {% if the_assoc and the_assoc.is_multisectional %}
-    {% set show_section = True %}
-{% else %}
-    {% set show_section = False %}
+    {% if the_member_key == the_user.key or the_user_is_superuser %}
+        {% set show_section = True %}
+    {% endif %}
 {% endif %}
 
 {% set title_lg = 6 %}
@@ -24,14 +26,13 @@
 {% set grp2_sm = 8 %}
 
 {% if show_section %}
-    {% set section_lg = 4 %}
-    {% set section_sm = 12 %}
-
-    {% set plan_lg = 8 %}
-    {% set plan_sm = 12 %}
+    {% set comment_lg = 7 %}
+    {% set comment_sm = 7 %}
+    {% set section_lg = 2 %}
+    {% set section_sm = 2 %}
 {% else %}
-    {% set plan_lg = 12 %}
-    {% set plan_sm = 12 %}
+    {% set comment_lg = 9 %}
+    {% set comment_sm = 9 %}
 {% endif %}
 
 <div class="row">
@@ -40,53 +41,53 @@
     </div>
     <div class="col-lg-{{grp2_lg}} col-md-{{grp2_lg}} col-md-offset-0 col-sm-{{grp2_sm}} col-sm-offset-0 col-xs-{{grp2_sm}} col-xs-offset-0">
         <div class="row">
-            <div class="col-lg-{{plan_lg}} col-md-{{plan_lg}} col-md-offset-0 col-sm-{{plan_sm}} col-sm-offset-{{plan_sm_offset}} col-xs-{{plan_sm}} col-xs-offset-{{plan_sm_offset}} ">
-                {% if the_member_key == the_user.key or the_user_is_superuser %}
-                    <div class="row">
-                        <div class="col-md-2 col-sm-2 col-xs-3">
-                            {{ plan_icon.icon_button(the_plan) }}
-                        </div>
-                        <div class="col-md-10 col-sm-10 col-xs-9">
-                            <a href="#" class="comment-thing" id="username" data-type="text" data-pk="{{the_plan_key.urlsafe()}}" data-url="/updateplancomment" data-title="">{{the_plan.comment}}</a>
-                        </div>
-                    </div>
-                {% else %}
-                    <div class="row">
-                        <div class="col-md-2 col-sm-2 col-xs-3">
-                            {{ plan_icon.icon_display(the_plan.value) }}
-                        </div>
-                        <div class="col-md-10 col-sm-10 col-xs-9">
-                            {% if the_plan.comment %}
-                                {{ the_plan.comment }}
-                            {% endif %}
-                        </div>
-                    </div>
-                {% endif %}
-            </div>
+            {% if the_member_key == the_user.key or the_user_is_superuser %}
+                <div class="col-md-2 col-sm-2 col-xs-3">
+                    {{ plan_icon.icon_button(the_plan) }}
+                </div>
+            {% else %}
+                <div class="col-md-2 col-sm-2 col-xs-3">
+                    {{ plan_icon.icon_display(the_plan.value) }}
+                </div>
+            {% endif %}
+            
+            {% if the_member_key == the_user.key or the_user_is_superuser %}
+                <div class="col-md-{{comment_md}} col-sm-{{comment_sm}} col-xs-{{comment_sm}}">
+                    <a href="#" class="comment-thing" id="username" data-type="text" data-pk="{{the_plan_key.urlsafe()}}" data-url="/updateplancomment" data-title="">{{the_plan.comment}}</a>
+                </div>
+            {% else %}
+                <div class="col-md-{{comment_md}} col-sm-{{comment_sm}} col-xs-{{comment_sm}}">
+                    {% if the_plan.comment %}
+                        {{ the_plan.comment }}
+                    {% endif %}
+                </div>
+            {% endif %}
             {% if show_section %}
                 <div class="col-md-{{section_lg}} col-sm-{{section_sm}} col-xs-{{section_sm}}">
-                    {% if get_the_section_keys %}
-                        {% set the_section_keys = get_the_section_keys(the_band_key) %}
-                    {% endif %}
-                    {% set the_section_keys = the_band_key.get().sections %}
-                    {% if the_sections and the_sections|length > 1 and (the_plan.member == the_user.key or the_user_is_superuser or user_is_band_admin)%}
+                    {% if the_plan.member == the_user.key or the_user_is_superuser or user_is_band_admin %}
+                        {% if get_the_section_keys %}
+                            {% set the_section_keys = get_the_section_keys(the_band_key) %}
+                        {% endif %}
+                        {% set the_section_keys = the_band_key.get().sections %}
+                        {% if the_sections and the_sections|length > 1 %}
 
-                    <div class="dropdown">
-                        <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" id='sel-{{the_plan_key.urlsafe()}}'>
-                            {% if the_plan.section == None %}
-                                section...  <span class="caret"></span>
-                            {% else %}
-                                {{the_plan.section.get().name}} <span class="caret"></span>
-                            {% endif %}
-                        </button>
-                        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                            {% for a_section in the_sections %}
-                                {% if a_section %}
-                                    <li><a onclick="section_select('{{the_plan_key.urlsafe()}}','{{a_section.key.urlsafe()}}','{{a_section.name}}')">{{ a_section.name }}</a></li>
+                        <div class="dropdown">
+                            <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" id='sel-{{the_plan_key.urlsafe()}}'>
+                                {% if the_plan.section == None %}
+                                    section...  <span class="caret"></span>
+                                {% else %}
+                                    {{the_plan.section.get().name}} <span class="caret"></span>
                                 {% endif %}
-                            {% endfor %}
-                        </ul>
-                    </div>
+                            </button>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                                {% for a_section in the_sections %}
+                                    {% if a_section %}
+                                        <li><a onclick="section_select('{{the_plan_key.urlsafe()}}','{{a_section.key.urlsafe()}}','{{a_section.name}}')">{{ a_section.name }}</a></li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% endif %}
                     {% endif %}
                 </div>
             {% endif %}
