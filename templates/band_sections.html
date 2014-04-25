@@ -2,7 +2,7 @@
 {% for the_section in the_members_by_section %}
     <div class="row" style="padding-top: 5px; padding-bottom: 5px; {{ loop.cycle('', 'background:#f5f5f5;') }}">
         {% if num_sections > 0 %}
-            <div class="col-md-2 col-sm-2 col-xs-3">
+            <div class="col-md-2 col-sm-2 col-xs-3 gomlabel">
                 {% if the_section[0] %}
                     {{the_section[0].get().name}}
                 {% else %}

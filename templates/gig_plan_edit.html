@@ -19,9 +19,9 @@
 {% set date_lg = 6 %}
 {% set date_sm = 6 %}
 {% set grp1_lg = 4 %}
-{% set grp1_sm = 2 %}
+{% set grp1_sm = 4 %}
 {% set grp2_lg = 8 %}
-{% set grp2_sm = 9 %}
+{% set grp2_sm = 8 %}
 
 {% if show_section %}
     {% set section_lg = 4 %}
@@ -42,13 +42,16 @@
         <div class="row">
             <div class="col-lg-{{plan_lg}} col-md-{{plan_lg}} col-md-offset-0 col-sm-{{plan_sm}} col-sm-offset-{{plan_sm_offset}} col-xs-{{plan_sm}} col-xs-offset-{{plan_sm_offset}} ">
                 {% if the_member_key == the_user.key or the_user_is_superuser %}
-                    {{ plan_icon.icon_button(the_plan) }}
+                    <div class="row">
+                        <div class="col-md-2 col-sm-2 col-xs-3">
+                            {{ plan_icon.icon_button(the_plan) }}
+                        </div>
+                        <div class="col-md-10 col-sm-10 col-xs-9">
+                            <a href="#" class="comment-thing" id="username" data-type="text" data-pk="{{the_plan_key.urlsafe()}}" data-url="/updateplancomment" data-title="">{{the_plan.comment}}</a>
+                        </div>
+                    </div>
                 {% else %}
                     {{ plan_icon.icon_display(the_plan.value) }}
-                {% endif %}
-                {% if the_member_key == the_user.key or the_user_is_superuser %}
-                    <a href="#" class="comment-thing" id="username" data-type="text" data-pk="{{the_plan_key.urlsafe()}}" data-url="/updateplancomment" data-title="">{{the_plan.comment}}</a>
-                {% else %}
                     {% if the_plan.comment %}
                         {#
                         {% if the_plan.comment | length > 25 %}

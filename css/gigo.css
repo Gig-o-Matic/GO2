@@ -83,3 +83,7 @@ code {
     font-size: 200%;
     border-bottom: none;
 }
+
+.gomlabel {
+    font-weight:bold;
+}

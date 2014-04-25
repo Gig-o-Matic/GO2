@@ -139,7 +139,7 @@
                     {% for the_section in the_sections %}
                         <div class="row" style="padding-top: 5px; padding-bottom: 5px; {{ loop.cycle('', 'background:#f5f5f5;') }}">
                             {% if band_has_sections %}
-                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 gomlabel">
                                     {% if the_section %}
                                         {{the_section.name}}
                                     {% elif the_sections | length > 1 %}
