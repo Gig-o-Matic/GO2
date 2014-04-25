@@ -51,18 +51,16 @@
                         </div>
                     </div>
                 {% else %}
-                    {{ plan_icon.icon_display(the_plan.value) }}
-                    {% if the_plan.comment %}
-                        {#
-                        {% if the_plan.comment | length > 25 %}
-                            <span class="popcomment" data-toggle="tooltip" data-placement="top" title="{{the_plan.comment}}">{{ the_plan.comment | truncate(25) }}<i class="fa fa-comment"></i></span>
-                        {% else %}
-                        #}
-                            {{ the_plan.comment }}
-                        {#
-                        {% endif %}
-                        #}
-                    {% endif %}
+                    <div class="row">
+                        <div class="col-md-2 col-sm-2 col-xs-3">
+                            {{ plan_icon.icon_display(the_plan.value) }}
+                        </div>
+                        <div class="col-md-10 col-sm-10 col-xs-9">
+                            {% if the_plan.comment %}
+                                {{ the_plan.comment }}
+                            {% endif %}
+                        </div>
+                    </div>
                 {% endif %}
             </div>
             {% if show_section %}
