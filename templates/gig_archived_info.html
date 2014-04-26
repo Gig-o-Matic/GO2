@@ -47,11 +47,7 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-lg-12 col-md-12" id="gig_comment">
-                            {% if comment_text %}
-                                {{ comment_text | html_content | safe }}
-                            {% else %}
-                                No Comments (yet...)
-                            {% endif %}
+                            <i class="fa fa-spinner fa-spin fa-lg"></i>                            
                         </div>
                     </div>
                     <div class="row">&nbsp;</div>
@@ -71,5 +67,10 @@
 
 {% block localscripts %}
 <script src="/js/comments.js"></script>
+<script>
+$(document).ready(function() {
+    update_comment('{{gig.key.urlsafe()}}');
+});
+</script>
 {% endblock localscripts %}
 

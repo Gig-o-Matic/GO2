@@ -87,3 +87,10 @@ code {
 .gomlabel {
     font-weight:bold;
 }
+
+.comment-intro {
+    font-style:italic;
+}
+
+.comment-comment {
+}

@@ -708,7 +708,8 @@ class GetCommentHandler(BaseHandler):
         
         template_args = {
             'the_old_comments' : the_old_comment,
-            'the_comments' : new_comments
+            'the_comments' : new_comments,
+            'the_date_formatter' : member.format_date_for_member            
         }
         
         self.render_template('comments.html', template_args)
