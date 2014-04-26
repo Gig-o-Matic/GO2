@@ -168,11 +168,15 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-lg-12 col-md-12" id="gig_comment">
+{#
                             {% if comment_text %}
                                 {{ comment_text | html_content | safe }}
                             {% else %}
                                 {% trans %}No Comments (yet...){% endtrans %}
                             {% endif %}
+#}
+                                <i class="fa fa-spinner fa-spin fa-lg"></i>
+
                         </div>
                     </div>
                     <div class="row">&nbsp;</div>
@@ -198,6 +202,7 @@
 $(document).ready(function() {
     $('.trunc').truncate({max_length: 500});
     $('.popcomment').tooltip({ 'trigger':'hover click' });    
+    update_comment('{{gig.key.urlsafe()}}');
 });
 </script>
 {% endblock localscripts %}

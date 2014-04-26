@@ -22,8 +22,9 @@ function add_comment(gk) {
                 },
                 function(responseTxt,statusTxt,xhr){
                     if(statusTxt=="success")
-                        $('#commentinput').val('')
-                        $('#gig_comment').html(responseTxt)
+                        $('#commentinput').val('');
+//                         $('#gig_comment').html(responseTxt)
+                        update_comment(gk);
                     if(statusTxt=="error")
                         alert("Error: "+xhr.status+": "+xhr.statusText);
                 });
