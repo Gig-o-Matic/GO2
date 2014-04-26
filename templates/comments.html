@@ -1,0 +1,7 @@
+{% if the_old_comments %}
+    {{ the_old_comments  | html_content | safe}}
+{% endif %}
+<br>
+{% for the_comment in the_comments %}
+    {{ the_comment.member.get().name }} said at {{ the_comment.created_date }}: {{ the_comment.comment }}<br>
+{% endfor %}
