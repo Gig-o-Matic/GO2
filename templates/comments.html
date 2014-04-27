@@ -1,6 +1,6 @@
 {% if the_old_comments %}
     {{ the_old_comments  | html_content | safe}}
-    <br>
+    <br><br>
 {% endif %}
 {% for the_comment in the_comments %}
     <div class='comment-intro'>
