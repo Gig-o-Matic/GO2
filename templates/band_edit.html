@@ -94,7 +94,7 @@
             <div class="form-group col-md-8 col-md-offset-2">
                 <div class="text-right">
                     {% if the_member==None or is_new %}
-                        <a class="btn btn-default" href="agenda.html">{% trans %}Cancel{% endtrans %}</a>
+                        <a class="btn btn-default" href="/">{% trans %}Cancel{% endtrans %}</a>
                     {% else %}
                         <a class="btn btn-default" href="band_info.html?bk={{the_band.key.urlsafe()}}">{% trans %}Cancel{% endtrans %}</a>
                     {% endif %}

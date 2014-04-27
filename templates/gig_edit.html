@@ -136,7 +136,7 @@
             </div>
             <div class="form-group col-md-4 text-right">                
                     {% if gig==None %}
-                        <a class="btn btn-default" href="agenda.html">{% trans %}Cancel{% endtrans %}</a>
+                        <a class="btn btn-default" href="/">{% trans %}Cancel{% endtrans %}</a>
                     {% else %}
                         <a class="btn btn-default" href="gig_info.html?gk={{ gig.key.urlsafe() }}">{% trans %}Cancel{% endtrans %}</a>
                     {% endif %}

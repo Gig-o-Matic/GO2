@@ -393,7 +393,7 @@ class EditPage(BaseHandler):
         ok_band_list = self.user.get_add_gig_band_list(self, self.user.key)
         if not the_band.key in [x.key for x in ok_band_list]:
             logging.error(u'user {0} trying to edit a gig for band {1}'.format(self.user.key.urlsafe(),the_band.key.urlsafe()))
-            return self.redirect('/agenda.html')            
+            return self.redirect('/')            
 
         the_dupe = self.request.get("dupe", 0)
 
@@ -439,7 +439,7 @@ class EditPage(BaseHandler):
         ok_band_list = self.user.get_add_gig_band_list(self, self.user.key)
         if not the_band.key in [x.key for x in ok_band_list]:
             logging.error(u'user {0} trying to edit a gig for band {1}'.format(self.user.key.urlsafe(),the_band.key.urlsafe()))
-            return self.redirect('/agenda.html')            
+            return self.redirect('/')            
 
         # now get the info
         gig_title = self.request.get("gig_title", None)
@@ -540,7 +540,7 @@ class DeleteHandler(BaseHandler):
                     gigcomment.delete_comment(the_gig.comment_id)
                 plan.delete_plans_for_gig_key(the_gig.key)
                 the_gig.key.delete()
-            return self.redirect('/agenda.html')
+            return self.redirect('/')
             
 class PrintSetlist(BaseHandler):
     """ print-friendly setlist view """

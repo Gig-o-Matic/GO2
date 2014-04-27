@@ -87,3 +87,8 @@ code {
 .gomlabel {
     font-weight:bold;
 }
+
+.page-header small {
+    font-size: 16px;
+}
+

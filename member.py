@@ -42,6 +42,7 @@ class MemberPreferences(ndb.Model):
     share_email = ndb.BooleanProperty(default=False)
     calendar_show_only_confirmed = ndb.BooleanProperty(default=True)
     calendar_show_only_committed = ndb.BooleanProperty(default=True)
+    default_view = ndb.IntegerProperty(default=0) # 0 = agenda, 1 = calendar, 2 = grid
 
 #
 # class for member
@@ -284,6 +285,25 @@ def format_date_for_member(the_user, the_date, format="short"):
 # Page Handlers
 #
 #####
+
+class DefaultPage(BaseHandler):
+    """ redirects member to default home view """
+    @user_required
+    def get(self):
+    
+        the_new_default=self.request.get("default",None)
+
+        if the_new_default is not None:
+            self.user.preferences.default_view = int(the_new_default)
+            self.user.put()
+    
+        view=   {
+            0 : '/agenda.html',
+            1 : '/calview.html',
+            2 : '/grid.html'
+            }
+                
+        return self.redirect(view[self.user.preferences.default_view])
 
 class InfoPage(BaseHandler):
     """Page for showing information about a member"""
@@ -674,7 +694,7 @@ class AdminPage(BaseHandler):
         if member_is_superuser(self.user):
             self._make_page(the_user=self.user)
         else:
-            return self.redirect('/agenda.html')            
+            return self.redirect('/')            
             
     def _make_page(self,the_user):
     
@@ -928,7 +948,7 @@ class DeleteInvite(BaseHandler):
         
         # make sure we're a band admin or a superuser
         if not (self.user.is_superuser or assoc.get_admin_status_for_member_for_band_key(self.user, the_assoc.band)):
-            return self.redirect('/agenda.html')
+            return self.redirect('/')
 
         the_band_key = the_assoc.band
 
