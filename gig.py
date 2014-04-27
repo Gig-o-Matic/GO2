@@ -20,6 +20,7 @@ import goemail
 import gigarchive
 import gigcomment
 import assoc
+import comment
 # import jinja2env
 import jinja2ext
 import logging
@@ -538,6 +539,7 @@ class DeleteHandler(BaseHandler):
                     gigarchive.delete_archive(the_gig.archive_id)
                 if the_gig.comment_id:
                     gigcomment.delete_comment(the_gig.comment_id)
+                comment.delete_comments_for_gig_key(the_gig.key)
                 plan.delete_plans_for_gig_key(the_gig.key)
                 the_gig.key.delete()
             return self.redirect('/')
@@ -656,29 +658,33 @@ class CommentHandler(BaseHandler):
             return # todo figure out what to do if there's no ID passed in
 
         the_gig_key = ndb.Key(urlsafe=gig_key_str)
-        the_gig = the_gig_key.get()
+#         the_gig = the_gig_key.get()
 
         comment_str = self.request.get("c", None)
         if comment_str is None or comment_str=='':
             return
-        
-        dt=datetime.datetime.now()
 
-        offset_str = self.request.get("o", None)
-        if comment_str is not None:
-            offset=int(offset_str)
-            dt = dt - datetime.timedelta(hours=offset)
+#   OLD COMMENT HANDLING        
+#         dt=datetime.datetime.now()
+# 
+#         offset_str = self.request.get("o", None)
+#         if comment_str is not None:
+#             offset=int(offset_str)
+#             dt = dt - datetime.timedelta(hours=offset)
+# 
+#         user=self.user
+#         timestr=dt.strftime('%-m/%-d/%Y %I:%M%p')
+#         new_comment = u'{0} ({1}) said at {2}:\n{3}'.format(user.name, user.email_address, timestr, comment_str)
+# 
+#         new_id, the_comment_text = gigcomment.add_comment_for_gig(new_comment, the_gig.comment_id)
+#         if new_id != the_gig.comment_id:
+#             the_gig.comment_id = new_id
+#             the_gig.put()
+# 
+#         self.response.write(jinja2ext.html_content(the_comment_text))
 
-        user=self.user
-        timestr=dt.strftime('%-m/%-d/%Y %I:%M%p')
-        new_comment = u'{0} ({1}) said at {2}:\n{3}'.format(user.name, user.email_address, timestr, comment_str)
-
-        new_id, the_comment_text = gigcomment.add_comment_for_gig(new_comment, the_gig.comment_id)
-        if new_id != the_gig.comment_id:
-            the_gig.comment_id = new_id
-            the_gig.put()
-
-        self.response.write(jinja2ext.html_content(the_comment_text))
+        comment.new_comment(the_gig_key, self.user.key, comment_str)
+        self.response.write('')        
 
 class GetCommentHandler(BaseHandler):
     """ returns the comment for a gig if there is one """
@@ -691,8 +697,20 @@ class GetCommentHandler(BaseHandler):
             return # todo figure out what to do if there's no ID passed in
         the_gig = ndb.Key(urlsafe=gig_key_str).get()
 
+        # first, get the old comment text if there is any
         if the_gig.comment_id:
-            the_comment = gigcomment.get_comment(the_gig.comment_id)
-            self.response.write(jinja2ext.html_content(the_comment))
+            the_old_comment = gigcomment.get_comment(the_gig.comment_id)
         else:
-            self.response.write('')
+            the_old_comment = None
+
+        new_comments = comment.get_comments_from_gig_key(the_gig.key)
+        print '>{0}<'.format(new_comments)
+        
+        template_args = {
+            'the_old_comments' : the_old_comment,
+            'the_comments' : new_comments,
+            'the_date_formatter' : member.format_date_for_member            
+        }
+        
+        self.render_template('comments.html', template_args)
+        

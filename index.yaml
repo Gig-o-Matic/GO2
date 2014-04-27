@@ -70,6 +70,11 @@ indexes:
   - name: band
   - name: date
 
+- kind: Comment
+  ancestor: yes
+  properties:
+  - name: created_date
+
 - kind: Gig
   properties:
   - name: is_archived

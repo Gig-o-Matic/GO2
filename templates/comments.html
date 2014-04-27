@@ -1,0 +1,15 @@
+{% if the_old_comments %}
+    {{ the_old_comments  | html_content | safe}}
+    <br>
+{% endif %}
+{% for the_comment in the_comments %}
+    <div class='comment-intro'>
+        <a href="/member_info.html?mk={{the_comment.member.urlsafe()}}">{{ the_comment.member.get().name }}</a> {% trans %}said on{% endtrans %} {{ the_date_formatter(the_user, the_comment.created_date, 'long')}}:
+    </div>
+    <div class='comment-comment'>
+        {{ the_comment.comment }}<br>
+    </div>
+    {% if not loop.last %}
+        <br>
+    {% endif %}
+{% endfor %}

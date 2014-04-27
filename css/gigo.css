@@ -92,3 +92,9 @@ code {
     font-size: 16px;
 }
 
+.comment-intro {
+    font-style:italic;
+}
+
+.comment-comment {
+}
