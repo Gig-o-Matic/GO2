@@ -9,7 +9,7 @@
     <div class="page-header col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0">
         {% trans %}Schedule{% endtrans %}: {% if the_user.nickname %}{{the_user.nickname}}{%else%}{{the_user.name}}{% endif %}
         {% if the_user.preferences.default_view != 0 %}
-            <small>(<a href="/?default=0">{% trans %}Make this my default view{% endtrans %}</a>)</small>
+            <small>(<a href="/?default=0">{% trans %}Make this my default view!{% endtrans %}</a>)</small>
         {% endif %}
     </div>
 </div>
