@@ -62,7 +62,7 @@ else:
         webapp2.Route('/credits', credits.CreditsHandler),
         webapp2.Route('/seen_welcome', motd.SeenWelcomeHandler),
         webapp2.Route('/seen_motd', motd.SeenHandler),
-        webapp2.Route('/agenda.html', agenda.MainPage, name='home'),
+        webapp2.Route('/agenda.html', agenda.MainPage),
         webapp2.Route('/agenda.html', agenda.MainPage, name='agenda'),
         webapp2.Route('/agenda_switch', agenda.SwitchView),
         webapp2.Route('/grid.html', grid.MainPage),
