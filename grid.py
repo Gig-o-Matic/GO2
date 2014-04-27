@@ -43,7 +43,7 @@ class MainPage(BaseHandler):
         month_str=self.request.get("m",None)
         year_str=self.request.get("y",None)
         if month_str==None or year_str==None:
-            start_date = datetime.datetime.now()
+            start_date = datetime.datetime.now().replace(day=1)
         else:
             delta=0
             delta_str=self.request.get("d",None)
