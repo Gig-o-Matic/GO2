@@ -4,7 +4,13 @@
 {% endif %}
 {% for the_comment in the_comments %}
     <div class='comment-intro'>
-        <a href="/member_info.html?mk={{the_comment.member.urlsafe()}}">{{ the_comment.member.get().name }}</a> {% trans %}said on{% endtrans %} {{ the_date_formatter(the_user, the_comment.created_date, 'long')}}:
+        {% set the_member = the_comment.member.get() %}
+        {% if the_member %}
+            <a href="/member_info.html?mk={{the_comment.member.urlsafe()}}">{{ the_member.name }}</a>
+        {% else %}
+            {% trans %}Somebody{% endtrans %}
+        {% endif %}
+        {% trans %}said on{% endtrans %} {{ the_date_formatter(the_user, the_comment.created_date, 'long')}}:
     </div>
     <div class='comment-comment'>
         {{ the_comment.comment }}<br>
