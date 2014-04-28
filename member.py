@@ -179,7 +179,7 @@ class Member(webapp2_extras.appengine.auth.models.User):
         
 def create_new_member(email, name, password):
     if name=='':
-        name=email
+        name=email.split('@')[0]
     unique_properties = ['email_address']
     user_data = Member.create_user(email,
         unique_properties,
