@@ -737,7 +737,7 @@ class GetPublicMembers(BaseHandler):
 
         the_member_keys = assoc.get_member_keys_of_band_key(the_band_key)
         the_members = ndb.get_multi(the_member_keys)
-        the_public_members = [x for x in the_members if x.preferences and x.preferences.share_profile]        
+        the_public_members = [x for x in the_members if x.preferences and x.preferences.share_profile and x.verified]        
         
         template_args = {
             'the_members' : the_public_members
