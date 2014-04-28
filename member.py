@@ -64,7 +64,8 @@ class Member(webapp2_extras.appengine.auth.models.User):
     show_long_agenda = ndb.BooleanProperty(default=True)
     pending_change_email = ndb.TextProperty(default='', indexed=False)
     images = ndb.TextProperty(repeated=True)
-
+    display_name = ndb.ComputedProperty(lambda self: self.nickname if self.nickname else self.name)
+      
     def set_password(self, raw_password):
         """Sets the password for the current user
 

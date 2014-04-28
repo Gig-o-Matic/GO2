@@ -50,7 +50,7 @@
                         <div class="col-md-2 col-sm-2 col-xs-3">{% trans %}Contact{% endtrans %}</div>
                         <div class="col-md-10 col-sm-10 col-xs-9">
                             {% if gig.contact %}
-                                <a href="/member_info.html?mk='{{gig.contact.urlsafe()}}'">{{ gig.contact.get().name }}</a>
+                                <a href="/member_info.html?mk='{{gig.contact.urlsafe()}}'">{{ gig.contact.get().display_name }}</a>
                             {% endif %}
                         </div>
                     </div>                    

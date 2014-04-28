@@ -6,7 +6,7 @@
     <div class='comment-intro'>
         {% set the_member = the_comment.member.get() %}
         {% if the_member %}
-            <a href="/member_info.html?mk={{the_comment.member.urlsafe()}}">{{ the_member.name }}</a>
+            <a href="/member_info.html?mk={{the_comment.member.urlsafe()}}">{{ the_member.display_name }}</a>
         {% else %}
             {% trans %}Somebody{% endtrans %}
         {% endif %}
