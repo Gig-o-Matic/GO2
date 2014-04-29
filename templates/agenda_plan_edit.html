@@ -22,6 +22,7 @@
 {% set title_sm = 11 %}
 {% set name_lg = 6 %}
 {% set name_sm = 11 %}
+{% set name_xs = 12 %}
 {% set grp2_lg = 5 %}
 {% set grp2_sm = 12 %}
 
@@ -38,10 +39,19 @@
 <div class="row">
     <div class="col-md-2 col-sm-2 col-xs-2">
         {{ the_date_formatter(the_user, the_gig.date, 'short') }} {{ the_date_formatter(the_user, the_gig.date, 'day') }}
+        <div class='visible-xs'>
+            {% if the_gig.status==1 %}
+                <i class="fa fa-check-circle" style="color:green"></i>
+            {% elif the_gig.status==2 %}
+                <i class="fa fa-times-circle" style="color:red"></i>
+            {% else %}
+                <i class="fa fa-question-circle" style="color:orange"></i>
+            {% endif %}
+        </div>
     </div>
     <div class="col-md-10 col-sm-10 col-xs-10">
         <div class="row">
-            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 hidden-xs">
                 {% if the_gig.status==1 %}
                     <i class="fa fa-check-circle" style="color:green"></i>
                 {% elif the_gig.status==2 %}
@@ -50,7 +60,7 @@
                     <i class="fa fa-question-circle" style="color:orange"></i>
                 {% endif %}
             </div>
-            <div class="col-lg-{{name_lg}} col-md-{{name_lg}} col-sm-{{name_sm}} col-xs-{{name_sm}}">
+            <div class="col-lg-{{name_lg}} col-md-{{name_lg}} col-sm-{{name_sm}} col-xs-{{name_xs}}">
                 <a href="gig_info.html?gk={{ the_gig_key.urlsafe() }}" ><strong>{{ the_gig.title|e }}</strong></a>
                 {% if show_band==True %}
                     <a href="band_info.html?bk={{ the_band.key.urlsafe()}}">
@@ -65,7 +75,7 @@
             {% if the_gig.status != 2 %}
             <div class="col-lg-{{grp2_lg}} col-md-{{grp2_lg}} col-sm-{{grp2_sm}} col-xs-{{grp2_sm}}">
                 <div class="row">
-                    <div class="col-lg-{{plan_lg}} col-md-{{plan_lg}} col-md-offset-0 col-sm-{{plan_sm}} col-sm-offset-1 col-xs-{{plan_sm}} col-xs-offset-1 ">
+                    <div class="col-lg-{{plan_lg}} col-md-{{plan_lg}} col-md-offset-0 col-sm-{{plan_sm}} col-sm-offset-0 col-xs-{{plan_sm}} col-xs-offset-0 ">
                         {% if the_member_key == the_user.key or the_user_is_superuser %}
                             <div class="row">
                                 <div class="col-md-3 col-sm-3 col-xs-3">
@@ -81,7 +91,7 @@
                         {% endif %}
                     </div>
                     {% if show_section %}
-                        <div class="col-md-{{section_lg}} col-md-offset-0 col-sm-{{section_sm}} col-sm-offset-1 col-xs-{{section_sm}} col-xs-offset-1">
+                        <div class="col-md-{{section_lg}} col-md-offset-0 col-sm-{{section_sm}} col-sm-offset-0 col-xs-{{section_sm}} col-xs-offset-0">
                             {% if get_the_section_keys %}
                                 {% set the_section_keys = get_the_section_keys(the_band.key) %}
                             {% endif %}
