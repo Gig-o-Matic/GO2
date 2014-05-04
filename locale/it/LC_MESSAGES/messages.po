@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-04-09 20:54-0400\n"
+"POT-Creation-Date: 2014-05-03 21:05-0400\n"
 "PO-Revision-Date: 2014-02-01 18:13-0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: it <LL@li.org>\n"
@@ -170,6 +170,10 @@ msgstr ""
 msgid "Schedule"
 msgstr "Agenda"
 
+#: templates/agenda.html:12 templates/calview.html:10 templates/grid.html:11
+msgid "Make this my default view!"
+msgstr "Adotta come visualizzazione predefinita"
+
 #: templates/agenda.html:19
 msgid "Future Gigs: Weigh In!"
 msgstr "Suonate in programma: Ci stai?!?"
@@ -194,17 +198,18 @@ msgstr "mostra tutte"
 msgid "Nothing coming up!"
 msgstr "Nessun'altra suonata!"
 
-#: templates/agenda_plan_edit.html:109 templates/band_members.html:18
+#: templates/agenda_plan_edit.html:103 templates/band_members.html:18
 #: templates/member_band_assocs.html:25
 msgid "section"
 msgstr "sezione"
 
-#: templates/agenda_plan_edit.html:130 templates/gig_edit.html:44
+#: templates/agenda_plan_edit.html:124 templates/gig_edit.html:44
 #: templates/gig_info.html:36
 msgid "Cancelled!"
 msgstr "Annullata!"
 
-#: templates/band_admin.html:3 templates/navbar.html:45
+#: templates/band_admin.html:3 templates/band_admin.html:8
+#: templates/navbar.html:45
 msgid "Band Admin"
 msgstr "Admin banda"
 
@@ -393,7 +398,7 @@ msgid "Add a Section"
 msgstr "Aggiungi sezione"
 
 #: templates/band_info.html:226 templates/member_admin.html:3
-#: templates/member_admin.html:7 templates/navbar.html:44
+#: templates/member_admin.html:8 templates/navbar.html:44
 msgid "Member Admin"
 msgstr "Membro admin"
 
@@ -457,7 +462,7 @@ msgstr "admin"
 msgid "remove from band"
 msgstr "elimina dalla banda"
 
-#: templates/band_nav.html:4 templates/band_nav.html:9
+#: templates/band_nav.html:4 templates/band_nav.html:10
 #: templates/navbar_bandlist.html:6
 msgid "Band Navigator"
 msgstr "Navigabande"
@@ -466,8 +471,8 @@ msgstr "Navigabande"
 msgid "None!"
 msgstr "Nessuno!"
 
-#: templates/band_sections.html:9 templates/gig_info.html:145
-#: templates/grid.html:75
+#: templates/band_sections.html:9 templates/gig_info.html:146
+#: templates/grid.html:78
 #, fuzzy
 msgid "No Section"
 msgstr "Nessuna sezione"
@@ -477,54 +482,54 @@ msgstr "Nessuna sezione"
 msgid "Delete Section"
 msgstr "Cancella sezione"
 
-#: templates/calhelp.html:3 templates/calhelp.html:7
+#: templates/calhelp.html:3 templates/calhelp.html:8
 msgid "Calendar Help!"
 msgstr "Help Calendario"
 
-#: templates/calhelp.html:16
+#: templates/calhelp.html:13
 msgid "calhelp_1"
 msgstr ""
 "Il Gig-o-Matic può fornire informazioni dal proprio Calendario a Google "
 "Calendar, Apple Calendar, e altri strumenti calendario che funzionano con"
 " il protocollo \"CalDav\". Ecco come procedere:"
 
-#: templates/calhelp.html:18
+#: templates/calhelp.html:15
 msgid "calhelp_2"
 msgstr ""
 "Primo, copiare l’indirizzo di registrazione. Il tuo indirizzo "
 "personalizzato è:"
 
-#: templates/calhelp.html:22
+#: templates/calhelp.html:19
 msgid "Subscribing in Google Calendar"
 msgstr "Registrarsi su Google Calendar"
 
-#: templates/calhelp.html:22
+#: templates/calhelp.html:19
 msgid "calhelp_3"
 msgstr ""
 "Nel menu \"Other Calendars\" seleziona \"Add by URL\" – incolla "
 "l’indirizzo del calendario nella finestra di dialogo, e il calendario del"
 " Gig-o apparirà nella tua lista in calendario."
 
-#: templates/calhelp.html:24
+#: templates/calhelp.html:21
 msgid "Subscribing in Apple Calendar"
 msgstr "Registrarsi su Apple Calendar"
 
-#: templates/calhelp.html:24
+#: templates/calhelp.html:21
 msgid "calhelp_4"
 msgstr ""
 "Seleziona \"New Calendar Subscription\" nel menu \"File\" – incolla "
 "l’indirizzo del calendario nella finestra di dialogo, si aprirà una nuova"
 " finestra di dialogo dove potrai dare un nome utile al calendario, ecc."
 
-#: templates/calhelp.html:26
+#: templates/calhelp.html:23
 msgid "Subscribing in Outlook"
 msgstr ""
 
-#: templates/calhelp.html:26
+#: templates/calhelp.html:23
 msgid "calhelp_5"
 msgstr ""
 
-#: templates/calhelp.html:28
+#: templates/calhelp.html:25
 msgid "Return to profile"
 msgstr "Ritorna al profilo"
 
@@ -532,7 +537,7 @@ msgstr "Ritorna al profilo"
 msgid "Calendar"
 msgstr "Calendario"
 
-#: templates/changelog.html:3 templates/help.html:3 templates/help.html:7
+#: templates/changelog.html:3 templates/help.html:3 templates/help.html:8
 #, fuzzy
 msgid "Help!"
 msgstr "Help"
@@ -540,6 +545,14 @@ msgstr "Help"
 #: templates/changelog.html:7
 msgid "Change Log"
 msgstr "Registro modifiche"
+
+#: templates/comments.html:11
+msgid "Somebody"
+msgstr ""
+
+#: templates/comments.html:13
+msgid "said on"
+msgstr ""
 
 #: templates/confirm_band_request.html:3
 msgid "Request Received!"
@@ -654,6 +667,10 @@ msgstr "Titolo evento"
 #, fuzzy
 msgid "required"
 msgstr "obbligatorio"
+
+#: templates/gig_edit.html:24
+msgid "Copy of"
+msgstr ""
 
 #: templates/gig_edit.html:29 templates/gig_info.html:50
 msgid "Contact"
@@ -813,24 +830,24 @@ msgstr "Non appare sulla pagina pubblica"
 msgid "What to Wear"
 msgstr "Costumi?"
 
-#: templates/gig_info.html:134
+#: templates/gig_info.html:125
+msgid "Duplicate"
+msgstr ""
+
+#: templates/gig_info.html:135
 #, fuzzy
 msgid "Member Plans"
 msgstr "Presenze"
 
-#: templates/gig_info.html:165
+#: templates/gig_info.html:166
 msgid "Comments"
 msgstr "Commenti"
 
-#: templates/gig_info.html:173
-msgid "No Comments (yet...)"
-msgstr "Nessun commento (per ora)"
-
-#: templates/gig_info.html:180
+#: templates/gig_info.html:177
 msgid "say your piece!"
 msgstr "Di’ la tua!"
 
-#: templates/gig_info.html:183
+#: templates/gig_info.html:180
 msgid "Say it!"
 msgstr "Pubblica"
 
@@ -842,23 +859,23 @@ msgstr "Credits"
 msgid "Grid o'Gigs"
 msgstr "Griglia"
 
-#: templates/grid.html:57
+#: templates/grid.html:60
 msgid "archived"
 msgstr "archiviata"
 
-#: templates/grid.html:103
+#: templates/grid.html:106
 msgid "No Gigs!"
 msgstr "Niente in programma!"
 
-#: templates/help.html:16
+#: templates/help.html:14
 msgid "How do I..."
 msgstr "Come faccio a..."
 
-#: templates/help.html:18
+#: templates/help.html:16
 msgid "help_question_1"
 msgstr "...iscrivermi a una banda?"
 
-#: templates/help.html:18
+#: templates/help.html:16
 msgid "help_answer_1"
 msgstr ""
 "Clicca sul tuo nome nella barra in alto a destra di questa finestra e "
@@ -867,11 +884,11 @@ msgstr ""
 "iscrizione rimarrà in attesa finché l’amministratore della banda ti "
 "confermerà tra i membri. A iscrizione completata riceverai un’e-mail."
 
-#: templates/help.html:19
+#: templates/help.html:17
 msgid "help_question_2"
 msgstr "...scegliere/cambiare sezione?"
 
-#: templates/help.html:19
+#: templates/help.html:17
 msgid "help_answer_2"
 msgstr ""
 "Clicca sul tuo nome nella barra in alto a destra di questa finestra e "
@@ -881,21 +898,21 @@ msgstr ""
 "alcune bande non sono organizzate per sezioni, perciò potrebbe non "
 "esserci nulla da selezionare. Quindi rilassati e goditi l’anarchia."
 
-#: templates/help.html:20
+#: templates/help.html:18
 msgid "help_question_3"
 msgstr "...dare un suggerimento?"
 
-#: templates/help.html:20
+#: templates/help.html:18
 msgid "help_answer_3"
 msgstr ""
 "I want to <a href=\"mailto:gigomatic.superuser@gmail.com\">hear about "
 "it</a>."
 
-#: templates/help.html:21
+#: templates/help.html:19
 msgid "help_question_4"
 msgstr "...contattare l’amministratore?"
 
-#: templates/help.html:21
+#: templates/help.html:19
 msgid "help_answer_4"
 msgstr "<a href=\"mailto:gigomatic.superuser@gmail.com\">Email Here!</a>"
 
@@ -1187,6 +1204,10 @@ msgstr "Sì, uscire"
 msgid "MOTD Admin"
 msgstr "Admin MOTD"
 
+#: templates/motd_admin.html:8
+msgid "Message of the Day"
+msgstr ""
+
 #: templates/navbar.html:15
 msgid "Gigs"
 msgstr "Suonate"
@@ -1297,7 +1318,7 @@ msgstr "Questo indirizzo e-mail è già usato da qualcun altro"
 msgid "Sign me up!"
 msgstr "Iscrivetemi!"
 
-#: templates/stats.html:3 templates/stats.html:7
+#: templates/stats.html:3 templates/stats.html:8
 #, fuzzy
 msgid "Stats!"
 msgstr "Statistiche"
@@ -1392,4 +1413,7 @@ msgstr "Che cos’è?"
 
 #~ msgid "Gig-o-Matic New Gig"
 #~ msgstr "Gig-o-Matic: Nuova Suonata"
+
+#~ msgid "No Comments (yet...)"
+#~ msgstr "Nessun commento (per ora)"
 
