@@ -181,7 +181,7 @@ def create_new_member(email, name, password):
     if name=='':
         name=email.split('@')[0]
     unique_properties = ['email_address']
-    user_data = Member.create_user(email,
+    user_data = Member.create_user(email.lower(),
         unique_properties,
         email_address=email, name=name, password_raw=password,
         verified=False, preferences=MemberPreferences())
