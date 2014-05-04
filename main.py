@@ -52,6 +52,7 @@ else:
                       handler=login.EmailVerificationHandler, name='emailverification'),
         webapp2.Route('/<type:i>/<user_id:\d+>-<signup_token:.+>',
                       handler=login.InviteVerificationHandler, name='inviteverification'),
+        webapp2.Route('/link_error', login.LinkErrorHandler, name='linkerror'),
         webapp2.Route('/forgot', login.ForgotPasswordHandler, name='forgot'),                  
         webapp2.Route('/password', login.SetPasswordHandler),
         webapp2.Route('/invitepassword', login.InviteVerificationHandler),

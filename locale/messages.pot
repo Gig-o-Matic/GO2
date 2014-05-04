@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-05-03 21:05-0400\n"
+"POT-Creation-Date: 2014-05-03 21:32-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -807,6 +807,14 @@ msgstr ""
 
 #: templates/invite_welcome.html:53
 msgid "Set Password"
+msgstr ""
+
+#: templates/link_error.html:3 templates/link_error.html:15
+msgid "Link Error!"
+msgstr ""
+
+#: templates/link_error.html:17
+msgid "link_error_message"
 msgstr ""
 
 #: templates/login.html:3 templates/login.html:51

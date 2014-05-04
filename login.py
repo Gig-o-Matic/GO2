@@ -144,7 +144,8 @@ class VerificationHandler(BaseHandler):
             logging.error( \
                 'Could not find any user with id "%s" signup token "%s"',
                 user_id, signup_token)
-            self.abort(404)
+            self.redirect(self.uri_for('linkerror'))
+            return
         
         # store user data in the session
         self.auth.set_session(self.auth.store.user_to_dict(user), remember=True)
@@ -318,6 +319,15 @@ class AuthenticatedHandler(BaseHandler):
     @user_required
     def get(self):
         self.render_template('authenticated.html', params=None)
+
+##########
+#
+# LinkErrorHandler
+#
+##########
+class LinkErrorHandler(BaseHandler):
+    def get(self):
+        self.render_template('link_error.html', params=None)
 
 ##########
 #
