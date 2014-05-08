@@ -16,7 +16,7 @@
                         {% set the_member = the_assoc.member.get() %}
                         <a href='/member_info.html?mk={{the_member.key.urlsafe()}}'>{% if the_member.nickname %}{{the_member.nickname}}{% else %}{{ the_member.name }}{% endif %}</a>
                         {% if the_assoc.is_occasional %}
-                            {% trans %}(occasional){% endtrans %}
+                            ({% trans %}occasional{% endtrans %})
                         {% endif %}
                         <br>
                 {% endfor %}
