@@ -75,8 +75,8 @@ class MainPage(BaseHandler):
 
         the_plans = {}
         for section in the_member_assocs:
-            for assoc in section[1]:
-                member_key=assoc.member
+            for an_assoc in section[1]:
+                member_key=an_assoc.member
                 member_plans = {}
                 for a_gig in the_gigs:
                     the_plan = plan.get_plan_for_member_key_for_gig_key(the_member_key=member_key, the_gig_key=a_gig.key)
