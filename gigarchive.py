@@ -27,8 +27,6 @@ def make_archive_for_gig_key(the_gig_key):
         the_assocs = assoc.get_confirmed_assocs_of_band_key(the_band.key)
         the_sections = the_band.sections
         the_sections.append(None)
-
-        the_members_by_section = band.get_member_keys_of_band_key_by_section_key(the_gig_key.parent())
     
         the_plans=[]
         for the_section in the_sections:

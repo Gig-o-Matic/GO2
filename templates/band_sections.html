@@ -12,8 +12,13 @@
         {% endif %}
         <div class="col-md-6 col-sm-6 col-xs-9">
             {% if the_section[1] %}
-                {% for the_member in the_section[1] %}
-                        <a href='/member_info.html?mk={{the_member.key.urlsafe()}}'>{% if the_member.nickname %}{{the_member.nickname}}{% else %}{{ the_member.name }}{% endif %}</a><br>
+                {% for the_assoc in the_section[1] %}
+                        {% set the_member = the_assoc.member.get() %}
+                        <a href='/member_info.html?mk={{the_member.key.urlsafe()}}'>{% if the_member.nickname %}{{the_member.nickname}}{% else %}{{ the_member.name }}{% endif %}</a>
+                        {% if the_assoc.is_occasional %}
+                            {% trans %}(occasional){% endtrans %}
+                        {% endif %}
+                        <br>
                 {% endfor %}
             {% else %}
                 &nbsp;

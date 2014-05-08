@@ -71,11 +71,12 @@ class MainPage(BaseHandler):
             show_canceled=False
 
         the_gigs = gig.get_gigs_for_band_key_for_dates(the_band_key, start_date, end_date, get_canceled=show_canceled)
-        the_member_keys = band.get_member_keys_of_band_key_by_section_key(the_band_key, include_occasional=False)
+        the_member_assocs = band.get_assocs_of_band_key_by_section_key(the_band_key, include_occasional=False)
 
         the_plans = {}
-        for section in the_member_keys:
-            for member_key in section[1]:
+        for section in the_member_assocs:
+            for assoc in section[1]:
+                member_key=assoc.member
                 member_plans = {}
                 for a_gig in the_gigs:
                     the_plan = plan.get_plan_for_member_key_for_gig_key(the_member_key=member_key, the_gig_key=a_gig.key)
@@ -86,7 +87,7 @@ class MainPage(BaseHandler):
         template_args = {
             'all_band_keys' : the_band_keys,
             'the_band_key' : the_band_key,
-            'the_member_keys_by_section' : the_member_keys,
+            'the_member_assocs_by_section' : the_member_assocs,
             'the_month_string' : member.format_date_for_member(the_user, start_date, 'month'),
             'the_month' : start_date.month,
             'the_year' : start_date.year,

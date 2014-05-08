@@ -67,8 +67,9 @@
                     {% endif %}</td>
                 {% endfor %}
             </tr>
-            {% for section in the_member_keys_by_section %}
-                {% for member in section[1] %}
+            {% for section in the_member_assocs_by_section %}
+                {% for assoc in section[1] %}
+                    {% set member = assoc.member %}
                     <tr>
                         {% if loop.first %}
                             <td rowspan="{{section[1]|length}}">

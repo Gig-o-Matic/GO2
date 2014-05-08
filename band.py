@@ -118,7 +118,7 @@ def get_all_bands(keys_only=False):
 def get_section_keys_of_band_key(the_band_key):
     return the_band_key.get().sections
 
-def get_member_keys_of_band_key_by_section_key(the_band_key, include_occasional=True):
+def get_assocs_of_band_key_by_section_key(the_band_key, include_occasional=True):
     the_assocs = assoc.get_confirmed_assocs_of_band_key(the_band_key, include_occasional=include_occasional)
     the_section_keys = get_section_keys_of_band_key(the_band_key)
     
@@ -127,7 +127,7 @@ def get_member_keys_of_band_key_by_section_key(the_band_key, include_occasional=
         the_section_info=[]
         for an_assoc in the_assocs:
             if an_assoc.default_section == a_section_key:
-                the_section_info.append(an_assoc.member)
+                the_section_info.append(an_assoc)
 # *** 
 # we always want to get the section, even if it's empty.
 #         if the_section_info: 
@@ -138,7 +138,7 @@ def get_member_keys_of_band_key_by_section_key(the_band_key, include_occasional=
     the_section_info=[]
     for an_assoc in the_assocs:
         if an_assoc.default_section == None:
-            the_section_info.append(an_assoc.member)
+            the_section_info.append(an_assoc)
     if the_section_info:
         the_info.append( [None, the_section_info] )
 
@@ -480,10 +480,10 @@ class BandGetSections(BaseHandler):
             
         the_band_key = ndb.Key(urlsafe=the_band_key_str)
         the_band = the_band_key.get()
-        the_members_by_section = get_member_keys_of_band_key_by_section_key(the_band_key)
-        for a_section in the_members_by_section:
-            if a_section[1]:
-                a_section[1] = ndb.get_multi(a_section[1])
+        the_members_by_section = get_assocs_of_band_key_by_section_key(the_band_key)
+#         for a_section in the_members_by_section:
+#             if a_section[1]:
+#                 a_section[1] = ndb.get_multi(a_section[1])
 
         the_user_is_band_admin = assoc.get_admin_status_for_member_for_band_key(the_user, the_band_key)
 
