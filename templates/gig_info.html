@@ -129,7 +129,9 @@
                 </div>  <!-- panel body -->
             </div> <!-- panel -->
             <div class="row">&nbsp;</div>
+{#
             {% if gig.status != 2 %}
+#}
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div class="panel-title">{% trans %}Member Plans{% endtrans %} <a href="print_planlist?gk={{gig.key.urlsafe()}}" target="new"><i class="fa fa-print"></i></a></div>
@@ -160,7 +162,9 @@
                 </div> <!-- panel body -->
             </div> <!-- panel -->
             <div class="row">&nbsp;</div>
+{#            
             {% endif %}
+#}
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div class="panel-title">{% trans %}Comments{% endtrans %}</div>
