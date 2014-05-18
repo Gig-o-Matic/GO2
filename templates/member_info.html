@@ -18,7 +18,16 @@
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <div class="panel-title">{% trans %}Info{% endtrans %}</div>
+                    <div class="panel-title">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                {% trans %}Info{% endtrans %}
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-right">
+                                <a class="btn btn-primary btn-xs" href="member_edit.html?mk={{ the_member.key.urlsafe() }}">{% trans %}Edit{% endtrans %}</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="panel-body">
                     <div class="row">
@@ -97,12 +106,6 @@
                         <div class="row">
                             <div class="col-md-6 col-sm-6 col-xs-6">{% trans %}Calendar shows only gigs I can do (or maybe can do){% endtrans %}:</div>
                             <div class="col-md-6 col-sm-6 col-xs-6">{{ truefalse(the_member.preferences.calendar_show_only_committed) }}</div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <a class="btn btn-primary btn-sm" href="member_edit.html?mk={{ the_member.key.urlsafe() }}">{% trans %}Edit{% endtrans %}</a>
-                            </div>
                         </div>
                     {% endif %}
                 </div>

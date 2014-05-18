@@ -21,7 +21,19 @@
         <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <div class="panel-title">{% trans %}Info{% endtrans %}</div>
+                    <div class="panel-title">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                {% trans %}Info{% endtrans %}
+                            </div>
+                            {% if user_can_edit %}
+                                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-right">
+                                        <a class="btn btn-primary btn-xs" href="gig_edit.html?gk={{ gig.key.urlsafe() }}">{% trans %}Edit{% endtrans %}</a>
+                                        <a class="btn btn-primary btn-xs" href="gig_edit.html?gk={{ gig.key.urlsafe() }}&dupe=1">{% trans %}Duplicate{% endtrans %}</a>
+                                    </div>
+                            {% endif %}
+                        </div>
+                    </div>
                 </div>
                 <div class="panel-body">
                     <div class="row">
@@ -111,38 +123,48 @@
                         </div>
                         <div class="row">&nbsp;</div>
                     {% endif %}
-                    {% if gig.setlist %}
-                        <div class="row">
-                            <div class="col-md-2 col-sm-2 col-xs-3">{% trans %}Setlist{% endtrans %}{% if gig.setlist %} <a href="print_setlist?gk={{gig.key.urlsafe()}}" target="new"><i class="fa fa-print"></i></a>{% endif %}</div>
-                            <div class="col-md-10 col-sm-10 col-xs-9">{{ gig.setlist  | html_content | safe }}</div>
-                        </div>
-                    {% endif %}
-                    {% if user_can_edit %}
-                        <div class="row">
-                            <br>
-                            <div class="col-md-12">
-                                <a class="btn btn-primary btn-sm" href="gig_edit.html?gk={{ gig.key.urlsafe() }}">{% trans %}Edit{% endtrans %}</a>
-                                <a class="btn btn-primary btn-sm" href="gig_edit.html?gk={{ gig.key.urlsafe() }}&dupe=1">{% trans %}Duplicate{% endtrans %}</a>
-                            </div>
-                        </div>
-                    {% endif %}
                 </div>  <!-- panel body -->
             </div> <!-- panel -->
+            {% if gig.setlist %}
+                <div class="row">&nbsp;</div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            <div class="row">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    {% trans %}Setlist{% endtrans %}
+                                </div>
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-right">
+                                    <a class="btn btn-default btn-xs" href="print_setlist?gk={{gig.key.urlsafe()}}" target="new"><i class="fa fa-print"></i>
+                                    {% trans %}Print{% endtrans %}</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">                        
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                {{ gig.setlist  | html_content | safe }}
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- panel -->
+            {% endif %}
             <div class="row">&nbsp;</div>
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div class="panel-title">
                         <div class="row">
                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                {% trans %}Member Plans{% endtrans %}&nbsp;&nbsp;
+                                {% trans %}Member Plans{% endtrans %}
                             </div>
                             <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-right">
                                 <a href="print_planlist?gk={{gig.key.urlsafe()}}" target="new" class="btn btn-xs btn-default"><i class="fa fa-print"></i>
-                                {% trans %}print{% endtrans %}
+                                {% trans %}Print{% endtrans %}
                                 </a>
                                 <a href="#" onclick="simpleswitch(); return false;" class="btn btn-xs btn-default"><i class="fa fa-refresh fs-lg"></i>
-                                <span id="simpleoff">{% trans %}show all{% endtrans %}</span>
-                                <span id="simpleon">{% trans %}show committed{% endtrans %}</span>
+                                <span id="simpleoff">{% trans %}Show All{% endtrans %}</span>
+                                <span id="simpleon">{% trans %}Show Committed{% endtrans %}</span>
                                 </a>
                             </div>
                         </div>
