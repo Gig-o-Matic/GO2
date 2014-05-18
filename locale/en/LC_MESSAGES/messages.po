@@ -818,7 +818,7 @@ msgstr ""
 
 #: templates/gig_info.html:135
 msgid "Member Plans"
-msgstr ""
+msgstr "Plans"
 
 #: templates/gig_info.html:166
 msgid "Comments"
@@ -924,8 +924,9 @@ msgstr ""
 
 #: templates/link_error.html:17
 msgid "link_error_message"
-msgstr "You have clicked on a link that no longer works - you have already verified your identity. "
-"Now you can just log in at"
+msgstr ""
+"You have clicked on a link that no longer works - you have already "
+"verified your identity. Now you can just log in at"
 
 #: templates/login.html:3 templates/login.html:51
 msgid "Login"

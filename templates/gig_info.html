@@ -129,21 +129,23 @@
                 </div>  <!-- panel body -->
             </div> <!-- panel -->
             <div class="row">&nbsp;</div>
-{#
-            {% if gig.status != 2 %}
-#}
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <div class="panel-title">{% trans %}Member Plans{% endtrans %}&nbsp;&nbsp;
-                        <a href="print_planlist?gk={{gig.key.urlsafe()}}" target="new" class="btn btn-sm btn-default"><i class="fa fa-print"></i>
-                        {% trans %}print{% endtrans %}
-                        </a>&nbsp;&nbsp;
-                        {% if the_user_is_betatester or the_user_is_superuser %}
-                            <a href="#" onclick="simpleswitch(); return false;" class="btn btn-sm btn-default"><i class="fa fa-refresh fs-lg"></i>
-                            <span id="simpleoff">{% trans %}show all{% endtrans %}</span>
-                            <span id="simpleon">{% trans %}show committed{% endtrans %}</span>
-                            </a>
-                        {% endif %}
+                    <div class="panel-title">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                {% trans %}Member Plans{% endtrans %}&nbsp;&nbsp;
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-right">
+                                <a href="print_planlist?gk={{gig.key.urlsafe()}}" target="new" class="btn btn-xs btn-default"><i class="fa fa-print"></i>
+                                {% trans %}print{% endtrans %}
+                                </a>
+                                <a href="#" onclick="simpleswitch(); return false;" class="btn btn-xs btn-default"><i class="fa fa-refresh fs-lg"></i>
+                                <span id="simpleoff">{% trans %}show all{% endtrans %}</span>
+                                <span id="simpleon">{% trans %}show committed{% endtrans %}</span>
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="panel-body">
@@ -172,9 +174,6 @@
                 </div> <!-- panel body -->
             </div> <!-- panel -->
             <div class="row">&nbsp;</div>
-{#            
-            {% endif %}
-#}
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div class="panel-title">{% trans %}Comments{% endtrans %}</div>
