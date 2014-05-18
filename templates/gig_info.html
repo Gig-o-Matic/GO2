@@ -135,11 +135,11 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div class="panel-title">{% trans %}Member Plans{% endtrans %}&nbsp;&nbsp;
-                        <a href="print_planlist?gk={{gig.key.urlsafe()}}" target="new"><i class="fa fa-print"></i>
+                        <a href="print_planlist?gk={{gig.key.urlsafe()}}" target="new" class="btn btn-sm btn-default"><i class="fa fa-print"></i>
                         {% trans %}print{% endtrans %}
                         </a>&nbsp;&nbsp;
                         {% if the_user_is_betatester or the_user_is_superuser %}
-                            <a href="#" onclick="simpleswitch(); return false;"><i class="fa fa-refresh fs-lg"></i>
+                            <a href="#" onclick="simpleswitch(); return false;" class="btn btn-sm btn-default"><i class="fa fa-refresh fs-lg"></i>
                             <span id="simpleoff">{% trans %}show all{% endtrans %}</span>
                             <span id="simpleon">{% trans %}show brief{% endtrans %}</span>
                             </a>
