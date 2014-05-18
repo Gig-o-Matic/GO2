@@ -134,7 +134,17 @@
 #}
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <div class="panel-title">{% trans %}Member Plans{% endtrans %} <a href="print_planlist?gk={{gig.key.urlsafe()}}" target="new"><i class="fa fa-print"></i></a></div>
+                    <div class="panel-title">{% trans %}Member Plans{% endtrans %}&nbsp;&nbsp;
+                        <a href="print_planlist?gk={{gig.key.urlsafe()}}" target="new"><i class="fa fa-print"></i>
+                        {% trans %}print{% endtrans %}
+                        </a>&nbsp;&nbsp;
+                        {% if the_user_is_betatester or the_user_is_superuser %}
+                            <a href="#" onclick="simpleswitch(); return false;"><i class="fa fa-refresh fs-lg"></i>
+                            <span id="simpleoff">{% trans %}show all{% endtrans %}</span>
+                            <span id="simpleon">{% trans %}show brief{% endtrans %}</span>
+                            </a>
+                        {% endif %}
+                    </div>
                 </div>
                 <div class="panel-body">
                     {% import 'gig_plan_edit.html' as plan_edit with context %}                
@@ -195,7 +205,33 @@
 <script src="/js/comments.js"></script>
 <script src="/js/jquery.truncator.js"></script>
 <script>
+var simple=false;
+
+function setsimple() {
+    if (simple) {
+        $('#simpleon').hide();
+        $('#simpleoff').show();
+        $('.plannotattending').hide();
+        $('.plancomment').hide();
+    } else {
+        $('#simpleon').show();
+        $('#simpleoff').hide();
+        $('.plannotattending').show();
+        $('.plancomment').show();
+    }
+}
+
+function simpleswitch() {
+    if (simple) {
+        simple = false;
+    } else {
+        simple = true;
+    }
+    setsimple()
+}
+
 $(document).ready(function() {
+    setsimple();
     $('.trunc').truncate({max_length: 500});
     $('.popcomment').tooltip({ 'trigger':'hover click' });    
     update_comment('{{gig.key.urlsafe()}}');

@@ -35,7 +35,7 @@
     {% set comment_sm = 9 %}
 {% endif %}
 
-<div class="row">
+<div class="row {% if (the_plan.value and the_plan.value < 3) or the_member_key == the_user.key %}planattending{% else %}plannotattending{% endif %}">
     <div class="col-lg-{{grp1_lg}} col-md-{{grp1_lg}} col-sm-{{grp1_sm}} col-xs-{{grp1_sm}}">
          <a href='/member_info.html?mk={{the_member_key.urlsafe()}}'>{{ the_member.display_name }}</a>
     </div>
@@ -56,7 +56,7 @@
                     <a href="#" class="comment-thing" id="username" data-type="text" data-pk="{{the_plan_key.urlsafe()}}" data-url="/updateplancomment" data-title="">{{the_plan.comment}}</a>
                 </div>
             {% else %}
-                <div class="col-md-{{comment_md}} col-sm-{{comment_sm}} col-xs-{{comment_sm}}">
+                <div class="col-md-{{comment_md}} col-sm-{{comment_sm}} col-xs-{{comment_sm}} plancomment">
                     {% if the_plan.comment %}
                         {{ the_plan.comment }}
                     {% endif %}
