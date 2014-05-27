@@ -91,6 +91,15 @@
                     >{% trans %}Let non-members see upcoming gigs{% endtrans %}   
                 </label>  
             </div>
+            <div class="form-group col-md-8 col-md-offset-2">
+                <label class="checkbox">  
+                    <input type="checkbox" id="bandsimpleplan" name="band_simpleplan"
+                    {% if the_band.simple_planning %}
+                        checked
+                    {% endif %}
+                    >{% trans %}Use simple planning pop-up (yes/maybe/no){% endtrans %}   
+                </label>  
+            </div>
         </div>        
         <div class="row">
             <div class="form-group col-md-8 col-md-offset-2">

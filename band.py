@@ -47,7 +47,8 @@ class Band(ndb.Model):
     share_gigs = ndb.BooleanProperty(default=True)
     anyone_can_manage_gigs = ndb.BooleanProperty(default=True)
     condensed_name = ndb.ComputedProperty(lambda self: ''.join(ch for ch in self.name if ch.isalnum()).lower())
-
+    simple_planning = ndb.BooleanProperty(default=False)
+    
 def new_band(name):
     """ Make and return a new band """
     the_band = Band(parent=band_key(), name=name)
@@ -341,6 +342,12 @@ class EditPage(BaseHandler):
         else:
             the_band.share_gigs = False
             
+        simple_plan=self.request.get("band_simpleplan",None)
+        if (simple_plan):
+            the_band.simple_planning = True
+        else:
+            the_band.simple_planning = False
+
         band_timezone=self.request.get("band_timezone",None)
         if band_timezone is not None and band_timezone != '':
             the_band.timezone=band_timezone

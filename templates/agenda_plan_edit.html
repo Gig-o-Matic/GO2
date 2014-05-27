@@ -79,7 +79,7 @@
                         {% if the_member_key == the_user.key or the_user_is_superuser %}
                             <div class="row">
                                 <div class="col-md-3 col-sm-3 col-xs-3">
-                                    {{ plan_icon.icon_button(the_plan) }}
+                                    {{ plan_icon.icon_button(the_plan, the_band.simple_planning ) }}
                                 </div>
                                 <div class="col-md-9 col-sm-9 col-xs-9">
                                     <a href="#" class="comment-thing" id="username" data-type="text" data-pk="{{the_plan_key.urlsafe()}}" data-url="/updateplancomment" data-title="">{{the_plan.comment}}</a>
