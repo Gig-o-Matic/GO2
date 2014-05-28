@@ -1,3 +1,4 @@
+// CODE FOR PLAN BUTTONS
 function set_plan_button(the_id, the_value) {
 
     var the_result='<i class="fa fa-minus fa-sm" style="color:black"></i>'
@@ -48,6 +49,42 @@ function update_plan(pk, val) {
                 });
 }
 
+// CODE FOR FEEDBACK BUTTONS
+function init_feedback_buttons() {
+    plan_buttons=document.getElementsByClassName('feedback-button');  
+    for (var i=0; i < plan_buttons.length; i++) {
+        val = plan_buttons[i].getAttribute("data-init")
+        set_feedback_button(plan_buttons[i].id, val);
+    }
+}    
+
+function set_feedback_button(the_id, the_value) {
+    if (the_value=='') {
+        val = '<i class="fa fa-minus fa-sm" style="color:black"></i>'
+    } else {
+        val = the_value
+    }
+    document.getElementById(the_id).innerHTML=val;
+}
+
+function update_feedback(pk, val) {
+    document.getElementById('ef-'+pk).innerHTML='<i class="fa fa-spinner fa-spin fa-lg"></i>';
+    $.post("/updateplanfeedback",
+                {
+                    val: val,
+                    pk: pk
+                },
+                function(responseTxt,statusTxt,xhr){
+                    if(statusTxt=="success")
+                        set_feedback_button("ef-"+pk, responseTxt)
+                    if(statusTxt=="error")
+                      alert("Error: "+xhr.status+": "+xhr.statusText);
+                });
+}
+
+
+
+// CODE FOR SELECTING SECTIONS
 function section_select(pk, sk, name) {
     $.post("/updateplansection",
                 {
@@ -64,6 +101,7 @@ function section_select(pk, sk, name) {
 
 $(document).ready(function() {
     init_plan_buttons();
+    init_feedback_buttons();
     $('.comment-thing').editable({
         emptytext: '<i class="fa fa-comment-o"></i>',
         emptyclass: 'empty-comment',

@@ -117,6 +117,7 @@ else:
         webapp2.Route('/band_send_invites',band.SendInvites),
         webapp2.Route('/calevents', calview.CalEvents),
         webapp2.Route('/updateplan', plan.UpdatePlan),
+        webapp2.Route('/updateplanfeedback', plan.UpdatePlanFeedback),
         webapp2.Route('/updateplancomment', plan.UpdatePlanComment),
         webapp2.Route('/updateplansection', plan.UpdatePlanSection),
         webapp2.Route('/motd_admin.html', motd.AdminPage),

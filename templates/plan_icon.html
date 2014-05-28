@@ -43,11 +43,17 @@
 </div>
 {%- endmacro %}
 
-{% macro setup_plan_buttons(member_plans) -%}
-<script>
-{% for p in member_plans %}
-    add_plan_button("{{p.key.urlsafe()}}", "{{p.value}}");
-{% endfor %}
-
-</script>
+{% macro feedback_button(plan, feedback_strings) -%}
+<div class="btn-group">
+    <button type="button" class="btn btn-default btn-sm dropdown-toggle text-center feedback-button" data-toggle="dropdown" id="ef-{{plan.key.urlsafe()}}" data-init="{% if plan.feedback_value %}{{feedback_strings[plan.feedback_value-1]}}{%endif%}">
+        <i class="fa fa-spinner fa-spin fa-lg"></i>
+    </button>
+    <ul class="dropdown-menu" role="menu">
+        <li role="presentation"><a onclick="update_feedback('{{plan.key.urlsafe()}}','0')">-</a></li>
+        {% for string in feedback_strings %}
+            <li role="presentation"><a onclick="update_feedback('{{plan.key.urlsafe()}}','{{ loop.index }}')">{{string}}</a></li>
+        {% endfor %}
+    </ul>
+</div>
 {%- endmacro %}
+

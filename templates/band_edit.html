@@ -100,6 +100,13 @@
                     >{% trans %}Use simple planning pop-up (yes/maybe/no){% endtrans %}   
                 </label>  
             </div>
+            <div class="row">
+                <div class="form-group col-md-8 col-md-offset-2">
+                    <label for="bandfeedback" class="control-label">{% trans %}Extra Feedback{% endtrans %}</label>
+                    <textarea class="form-control" rows="10" id="bandfeedback" placeholder="{% trans %}items for second planning popup{% endtrans %}" name="band_feedback">{% if the_band.plan_feedback %}{{the_band.plan_feedback }}{% endif %}</textarea>
+                </div>
+            </div>
+            
         </div>        
         <div class="row">
             <div class="form-group col-md-8 col-md-offset-2">

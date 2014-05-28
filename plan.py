@@ -24,6 +24,7 @@ class Plan(ndb.Model):
     """ Models a gig-o-matic plan """
     member = ndb.KeyProperty()
     value = ndb.IntegerProperty()
+    feedback_value = ndb.IntegerProperty()
     comment = ndb.StringProperty(indexed=False)
     section = ndb.KeyProperty()
 
@@ -63,6 +64,10 @@ def get_plan_for_member_for_gig(the_member, the_gig):
 
 def update_plan(the_plan, the_value):
     the_plan.value=the_value
+    the_plan.put()
+
+def update_plan_feedback(the_plan, the_value):
+    the_plan.feedback_value=the_value
     the_plan.put()
 
 def update_plan_comment(the_plan, the_value):
@@ -109,6 +114,30 @@ class UpdatePlan(webapp2.RequestHandler):
         else:
             pass # todo figure out why there was no plan
         
+class UpdatePlanFeedback(webapp2.RequestHandler):
+    def post(self):
+        """post handler - if we are edited by the template, handle it here and redirect back to info page"""
+        the_value=int(self.request.get("val", 0))
+        the_plan_key=self.request.get("pk",'0')
+        
+        if (the_plan_key=='0'):
+            return #todo figure out what to do if no plan passed in
+            
+        the_plan=ndb.Key(urlsafe=the_plan_key).get()
+        
+        if (the_plan is not None):
+            update_plan_feedback(the_plan, the_value)
+        else:
+            pass # todo figure out why there was no plan
+
+        strings = band.get_feedback_strings(the_plan.key.parent().parent().get())
+
+        if the_value == 0:
+            resp = ''            
+        elif the_value <= len(strings):
+            resp = strings[the_value-1]
+        self.response.write(resp)
+
 class UpdatePlanComment(webapp2.RequestHandler):
     def post(self):
         """post handler - if a comment is edited, update the database"""

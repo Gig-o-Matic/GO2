@@ -48,6 +48,7 @@ class Band(ndb.Model):
     anyone_can_manage_gigs = ndb.BooleanProperty(default=True)
     condensed_name = ndb.ComputedProperty(lambda self: ''.join(ch for ch in self.name if ch.isalnum()).lower())
     simple_planning = ndb.BooleanProperty(default=False)
+    plan_feedback = ndb.TextProperty()
     
 def new_band(name):
     """ Make and return a new band """
@@ -175,6 +176,9 @@ def delete_section_key(the_section_key):
     # section to be deleted. So, find plans with the section set, and reset the section
     # for that plan back to None to use the default.
     plan.remove_section_from_plans(the_section_key)
+
+def get_feedback_strings(the_band):
+    return the_band.plan_feedback.split('\n')
 
 #
 # class for section
@@ -347,6 +351,10 @@ class EditPage(BaseHandler):
             the_band.simple_planning = True
         else:
             the_band.simple_planning = False
+
+        plan_feedback=self.request.get("band_feedback",None)
+        if (plan_feedback is not None):
+            the_band.plan_feedback=plan_feedback
 
         band_timezone=self.request.get("band_timezone",None)
         if band_timezone is not None and band_timezone != '':
