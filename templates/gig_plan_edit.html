@@ -7,6 +7,7 @@
 {% set the_member_key = plan_info['the_member_key'] %}
 {% set the_member = the_member_key.get() %}
 {% set the_band_key = plan_info['the_band_key'] %}
+{% set the_band = the_band_key.get() %}
 {% set the_assoc = plan_info['the_assoc'] %}
 
 {% set show_section = False %}
@@ -28,9 +29,13 @@
 {% if show_section %}
     {% set comment_lg = 7 %}
     {% set comment_sm = 7 %}
+    {% set comment_2_lg = 4 %}
+    {% set comment_2_sm = 4 %}
     {% set section_lg = 2 %}
     {% set section_sm = 2 %}
 {% else %}
+    {% set comment_2_lg = 6 %}
+    {% set comment_2_sm = 6 %}
     {% set comment_lg = 9 %}
     {% set comment_sm = 9 %}
 {% endif %}
@@ -45,18 +50,28 @@
                 <div class="col-md-2 col-sm-2 col-xs-3">
                     {{ plan_icon.icon_button(the_plan) }}
                 </div>
+                    {% if the_band.plan_feedback %}
+                        <div class="col-md-3 col-sm-3 col-xs-3">
+                                {{ plan_icon.feedback_button(the_plan, the_band.plan_feedback.split('\n') ) }}
+                        </div>
+                        <div class="col-md-{{comment_2_md}} col-sm-{{comment_2_sm}} col-xs-{{comment_2_sm}}">
+                    {% else %}
+                        <div class="col-md-{{comment_md}} col-sm-{{comment_sm}} col-xs-{{comment_sm}}">
+                    {% endif %}
+                            <a href="#" class="comment-thing" id="username" data-type="text" data-pk="{{the_plan_key.urlsafe()}}" data-url="/updateplancomment" data-title="">{{the_plan.comment}}</a>
+                        </div>
             {% else %}
                 <div class="col-md-2 col-sm-2 col-xs-3">
                     {{ plan_icon.icon_display(the_plan.value) }}
                 </div>
-            {% endif %}
-            
-            {% if the_member_key == the_user.key or the_user_is_superuser %}
-                <div class="col-md-{{comment_md}} col-sm-{{comment_sm}} col-xs-{{comment_sm}}">
-                    <a href="#" class="comment-thing" id="username" data-type="text" data-pk="{{the_plan_key.urlsafe()}}" data-url="/updateplancomment" data-title="">{{the_plan.comment}}</a>
-                </div>
-            {% else %}
-                <div class="col-md-{{comment_md}} col-sm-{{comment_sm}} col-xs-{{comment_sm}} plancomment">
+                    {% if the_band.plan_feedback and the_plan.feedback_value %}
+                        <div class="col-md-3 col-sm-3 col-xs-3">
+                            {{ the_band.plan_feedback.split('\n')[the_plan.feedback_value-1] }}
+                        </div>
+                        <div class="col-md-{{comment_2_md}} col-sm-{{comment_2_sm}} col-xs-{{comment_2_sm}}">
+                    {% else %}
+                        <div class="col-md-{{comment_md}} col-sm-{{comment_sm}} col-xs-{{comment_sm}}">
+                    {% endif %}
                     {% if the_plan.comment %}
                         {{ the_plan.comment }}
                     {% endif %}

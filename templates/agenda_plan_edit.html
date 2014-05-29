@@ -94,6 +94,9 @@
                             </div>
                         {% else %}
                             {{ plan_icon.icon_display(the_plan.value) }}
+                            {% if the_band.plan_feedback and the_plan.feedback_value %}
+                                the_band.plan_feedback.split('\n')[the_plan.feedback_value-1]
+                            {% endif %}
                             {{the_plan.comment}}
                         {% endif %}
                     </div>
