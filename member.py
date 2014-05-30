@@ -57,6 +57,7 @@ class Member(webapp2_extras.appengine.auth.models.User):
     statement = ndb.TextProperty(default='')
     is_superuser = ndb.BooleanProperty(default=False)
     is_betatester = ndb.BooleanProperty(default=False)
+    is_band_editor = ndb.BooleanProperty(default=False)
     created = ndb.DateTimeProperty(auto_now_add=True)
     preferences = ndb.StructuredProperty(MemberPreferences)
     seen_motd = ndb.BooleanProperty(default=False)
