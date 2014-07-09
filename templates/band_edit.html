@@ -31,6 +31,12 @@
         </div>
         <div class="row">
             <div class="form-group col-md-8 col-md-offset-2">
+                <label for="bandmemberlinksinput" class="control-label">{% trans %}Member Links{% endtrans %}</label>
+                <textarea class="form-control" rows="10" id="bandmemberlinksinput" placeholder="{% trans %}Links to member resources, one per line, like this -> label: http://link_to_thing"{% endtrans %}" name="band_member_links">{% if the_band.member_links %}{{the_band.member_links}}{% endif %}</textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-8 col-md-offset-2">
                 <label for="bandwebsiteinput" class="control-label">{% trans %}Website{% endtrans %}</label>
                 <input type="text" class="form-control" id="bandwebsiteinput" placeholder="www.yourband.org" value="{% if the_band.website %}{{the_band.website}}{% endif %}" name="band_website">
             </div>

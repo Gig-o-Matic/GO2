@@ -44,6 +44,7 @@ class Band(ndb.Model):
     timezone = ndb.StringProperty()
     thumbnail_img = ndb.TextProperty(default=None)
     images = ndb.TextProperty(repeated=True)
+    member_links = ndb.TextProperty(default=None)
     share_gigs = ndb.BooleanProperty(default=True)
     anyone_can_manage_gigs = ndb.BooleanProperty(default=True)
     condensed_name = ndb.ComputedProperty(lambda self: ''.join(ch for ch in self.name if ch.isalnum()).lower())
@@ -248,6 +249,15 @@ class InfoPage(BaseHandler):
             the_pending = []
             the_invited = []
 
+        member_links=None
+        if the_band.member_links:
+            member_links=[]
+            link_list = the_band.member_links.split('\n')
+            for l in link_list:
+                link_info = l.split(':',1)
+                if len(link_info)==2:
+                    member_links.append([link_info[0].strip(), link_info[1].strip()])
+
         template_args = {
             'the_band' : the_band,
             'the_user_is_associated' : the_user_is_associated,
@@ -255,6 +265,7 @@ class InfoPage(BaseHandler):
             'the_user_is_band_admin' : the_user_admin_status,
             'the_pending_members' : the_pending,
             'the_invited_members' : the_invited,
+            'the_member_links' : member_links,
             'num_sections' : len(the_band.sections)
 
         }
@@ -331,6 +342,10 @@ class EditPage(BaseHandler):
             if the_iu:
                 image_urls.append(the_iu)
         the_band.images=image_urls
+        
+        member_links_blob = self.request.get("band_member_links",None)
+        if member_links_blob is not None:
+            the_band.member_links=member_links_blob
 
         the_band.description=self.request.get("band_description",None)
             

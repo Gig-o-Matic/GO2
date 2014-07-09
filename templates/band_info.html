@@ -60,6 +60,21 @@
                         </div>
                     {% endif %}
                     {% if the_user_is_associated or the_user_is_superuser %}
+                        {% if the_member_links %}
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    &nbsp;
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2 col-sm-2 col-xs-3">{% trans %}Resources{% endtrans %}</div>
+                                <div class="col-md-10 col-sm-10 col-xs-9">
+                                        {% for l in the_member_links %}
+                                            <a href="{{l[1]}}" target="_new">{{ l[0] }}</a><br>
+                                        {% endfor %}
+                                </div>
+                            </div>
+                        {% endif %}
                         <div class="row">
                             <div class="col-md-12 col-sm-12 col-xs-12">
                                 &nbsp;
