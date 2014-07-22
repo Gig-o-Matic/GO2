@@ -427,6 +427,8 @@ class EditPage(BaseHandler):
         else:
             the_gig = ndb.Key(urlsafe=the_gig_key).get()
 
+        edit_change = False
+
         # first, get the band
         gig_is_new = False
         gig_band_keyurl = self.request.get("gig_band", None)
@@ -461,30 +463,42 @@ class EditPage(BaseHandler):
 
         gig_date = self.request.get("gig_date", None)
         if gig_date is not None and gig_date != '':
+            old_date = the_gig.date
             the_gig.date = datetime.datetime.combine(babel.dates.parse_date(gig_date,locale=self.user.preferences.locale),datetime.time(0,0,0))
+            if old_date != the_gig.date:
+                edit_change = True
+                
         # todo validate form entry so date isn't bogus
        
         gig_enddate = self.request.get("gig_enddate", None)
+        old_enddate = the_gig.enddate
         if gig_enddate is not None and gig_enddate != '':
             the_gig.enddate = datetime.datetime.combine(babel.dates.parse_date(gig_enddate,locale=self.user.preferences.locale),datetime.time(0,0,0))
         else:
             the_gig.enddate = None
+        if old_enddate != the_gig.enddate:
+            edit_change = True
 
         gig_call = self.request.get("gig_call", '')
         if gig_call is not None:
+            old_calltime = the_gig.calltime
             the_gig.calltime = gig_call
+            if old_calltime != the_gig.calltime:
+                edit_change = True
 
         gig_set = self.request.get("gig_set", '')
         if gig_set is not None:
+            old_settime = the_gig.settime
             the_gig.settime = gig_set
+            if old_settime != the_gig.settime:
+                edit_change = True
 
         gig_end = self.request.get("gig_end", '')
         if gig_end is not None:
+            old_endtime = the_gig.endtime
             the_gig.endtime = gig_end
-
-        gig_end = self.request.get("gig_end", '')
-        if gig_end is not None:
-            the_gig.endtime = gig_end
+            if old_endtime != the_gig.endtime:
+                edit_change = True
 
         gig_address = self.request.get("gig_address", '')
         if gig_address is not None:
@@ -503,7 +517,10 @@ class EditPage(BaseHandler):
             the_gig.leader = gig_leader
         
         gig_status = self.request.get("gig_status", '0')
+        old_status = the_gig.status
         the_gig.status = int(gig_status)
+        if old_status != the_gig.status:
+            edit_change = True
 
         gig_private=self.request.get("gig_private",None)
         if (gig_private):
@@ -519,7 +536,8 @@ class EditPage(BaseHandler):
             if gig_is_new:
                 goemail.announce_new_gig(the_gig, self.uri_for('gig_info', _full=True, gk=the_gig.key.urlsafe()), is_edit=False)
             else:
-                goemail.announce_new_gig(the_gig, self.uri_for('gig_info', _full=True, gk=the_gig.key.urlsafe()), is_edit=True)
+                if edit_change:
+                    goemail.announce_new_gig(the_gig, self.uri_for('gig_info', _full=True, gk=the_gig.key.urlsafe()), is_edit=True)
 
         return self.redirect(\
             '/gig_info.html?&gk={0}'.format(the_gig.key.urlsafe()))
