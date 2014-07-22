@@ -127,7 +127,7 @@ def send_forgot_email(the_req, the_email, the_url):
 # send an email announcing a new gig
 #
 ##########    
-def send_newgig_email(the_member, the_gig, the_band, the_gig_url):
+def send_newgig_email(the_member, the_gig, the_band, the_gig_url, is_edit=False):
  
     the_locale=the_member.preferences.locale
     the_email_address = the_member.email_address
@@ -146,7 +146,11 @@ def send_newgig_email(the_member, the_gig, the_band, the_gig_url):
     message = mail.EmailMessage()
     message.sender = SENDER_EMAIL
     message.to = the_email_address
-    message.subject = '{0} {1}'.format(_('New Gig:'), the_gig.title)
+    if is_edit:
+        title_string=_('Edited Gig:')
+    else:
+        title_string=_('New Gig:')
+    message.subject = '{0} {1}'.format(title_string, the_gig.title)
 #     message.body = u"""
 # Hello! A new gig has been added to the Gig-o-Matic for your band {0}:
 # 
@@ -175,7 +179,10 @@ def send_newgig_email(the_member, the_gig, the_band, the_gig_url):
         if the_time_string:
             the_time_string = u'{0}, '.format(the_time_string)
         the_time_string = u'{0}{1} ({2})'.format(the_time_string,the_gig.endtime, _('End Time'))
-    message.body=_('new_gig_email').format(the_band.name, the_gig.title, the_date_string, the_time_string, contact_name, the_gig.details, the_gig_url)
+    if is_edit is False:
+        message.body=_('new_gig_email').format(the_band.name, the_gig.title, the_date_string, the_time_string, contact_name, the_gig.details, the_gig_url)
+    else:
+        message.body=_('edited_gig_email').format(the_band.name, the_gig.title, the_date_string, the_time_string, contact_name, the_gig.details, the_gig_url)
     
     try:
         message.send()
@@ -184,7 +191,7 @@ def send_newgig_email(the_member, the_gig, the_band, the_gig_url):
         
     return True
 
-def announce_new_gig(the_gig, the_gig_url):
+def announce_new_gig(the_gig, the_gig_url, is_edit=False):
     the_band_key = the_gig.key.parent()
     the_band=the_band_key.get()
     the_members = assoc.get_member_keys_of_band_key(the_band_key)
@@ -192,7 +199,7 @@ def announce_new_gig(the_gig, the_gig_url):
         the_member = the_member_key.get()
         if the_member.preferences:
             if the_member.preferences.email_new_gig:
-                send_newgig_email(the_member, the_gig, the_band, the_gig_url)
+                send_newgig_email(the_member, the_gig, the_band, the_gig_url, is_edit)
         
 
 def send_new_member_email(band,new_member):

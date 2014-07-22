@@ -115,18 +115,19 @@
                 <textarea class="form-control" rows="10" id="gigsetlistinput" placeholder="{% trans %}setlist here{% endtrans %}" name="gig_setlist">{{gig.setlist}}</textarea>
             </div>
         </div>
-        
-        {% if newgig_is_active or is_dupe %}
-            <div class="row">
-                <div class="form-group col-md-8 col-md-offset-2">
-                    <label class="checkbox">  
+        <div class="row">
+            <div class="form-group col-md-8 col-md-offset-2">
+                <label class="checkbox">  
+                    {% if newgig_is_active or is_dupe %}
                         <input type="checkbox" id="newgig_notifymembers" name="gig_notifymembers" checked
                         >{% trans %}Email members about this new gig{% endtrans %}  
-                    </label>  
-                </div>
+                    {% else %}
+                        <input type="checkbox" id="newgig_notifymembers" name="gig_notifymembers" checked
+                        >{% trans %}Email members about this change{% endtrans %}  
+                    {% endif %}
+                </label>  
             </div>
-        {% endif %}
-        
+        </div>
         <div class="row">
             <div class="form-group col-md-4 col-md-offset-2 col-sm-6 col-sm-offset-0 col-xs-6 col-xs-offset-0">
                 {% if gig!=None and not is_dupe%}
