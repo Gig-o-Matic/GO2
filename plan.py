@@ -27,6 +27,7 @@ class Plan(ndb.Model):
     feedback_value = ndb.IntegerProperty()
     comment = ndb.StringProperty(indexed=False)
     section = ndb.KeyProperty()
+    last_update = ndb.DateTimeProperty(auto_now=True)
 
     def set_comment(self, the_comment):
         self.comment=the_comment;
