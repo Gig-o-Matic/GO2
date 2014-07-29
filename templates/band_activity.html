@@ -1,0 +1,30 @@
+{% extends 'go2base.html' %}
+
+{% block title %}{% trans %}Recent Activity{% endtrans %}{% endblock title %}
+
+{% block content %}
+    <div class="row">
+        <div class="page-header col-md-8 col-md-offset-2">
+            {% trans %}Recent Activity{% endtrans %}: {{ the_band.name }}
+        </div> 
+    </div>
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            {% for change_gig in change_gigs.keys() %}
+                <div class="row">
+                    <div class="col-md-12">
+                        Gig: {{ change_gig.get().title }}
+                    </div>
+                </div>
+                <div class="row">
+                    {% for plan in change_gigs[change_gig] %}
+                        <div class="col-md-10 col-md-offset-2">
+                            {{ plan.member.get().name }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock content %}
+

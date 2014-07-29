@@ -63,6 +63,12 @@ def get_plan_for_member_key_for_gig_key(the_member_key, the_gig_key):
 def get_plan_for_member_for_gig(the_member, the_gig):
     return get_plan_for_member_key_for_gig_key(the_member_key=the_member.key, the_gig_key=the_gig.key)
 
+def get_recent_changes_for_band_key(the_band_key, the_time_delta_days=1, keys_only=False):
+    "find plans for gigs belonging to a band key that have changed lately"
+    plan_query = Plan.query(Plan.last_update>(datetime.datetime.now() - datetime.timedelta(days=the_time_delta_days)), ancestor=the_band_key)
+    plans = plan_query.fetch(keys_only=keys_only)
+    return plans
+    
 def update_plan(the_plan, the_value):
     the_plan.value=the_value
     the_plan.put()

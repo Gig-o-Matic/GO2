@@ -15,6 +15,7 @@ import credits
 import maintenance
 import stats
 import caldav
+import activity
 import jinja2ext
 import os 
 
@@ -115,6 +116,7 @@ else:
         webapp2.Route('/band_get_public_members', band.GetPublicMembers),
         webapp2.Route('/band_invite.html',band.InvitePage),
         webapp2.Route('/band_send_invites',band.SendInvites),
+        webapp2.Route('/band_activity',activity.MainPage),
         webapp2.Route('/calevents', calview.CalEvents),
         webapp2.Route('/updateplan', plan.UpdatePlan),
         webapp2.Route('/updateplanfeedback', plan.UpdatePlanFeedback),

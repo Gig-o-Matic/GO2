@@ -152,6 +152,11 @@ indexes:
   - name: verified
   - name: lower_name
 
+- kind: Plan
+  ancestor: yes
+  properties:
+  - name: last_update
+
 - kind: UserToken
   properties:
   - name: subject
