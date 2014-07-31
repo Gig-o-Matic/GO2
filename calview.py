@@ -78,9 +78,9 @@ class CalEvents(BaseHandler):
             if num_bands > 1:
                 the_band = band_key.get()
                 if the_band.shortname:
-                    the_title = '{0}:\n{1}'.format(the_band.shortname, the_title)
+                    the_title = u'{0}:\n{1}'.format(the_band.shortname, the_title)
                 else:
-                    the_title = '{0}:\n{1}'.format(the_band.name, the_title)
+                    the_title = u'{0}:\n{1}'.format(the_band.name, the_title)
             
 
             events.append({
