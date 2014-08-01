@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-07-22 17:31-0400\n"
+"POT-Creation-Date: 2014-08-01 12:31-0400\n"
 "PO-Revision-Date: 2014-02-01 18:13-0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: it <LL@li.org>\n"
@@ -13,6 +13,18 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 1.3\n"
+
+#: gig.py:545
+msgid "Time"
+msgstr ""
+
+#: gig.py:547 templates/gig_edit.html:60
+msgid "Date"
+msgstr "Data"
+
+#: gig.py:549 templates/gig_edit.html:34
+msgid "Status"
+msgstr "Stato"
 
 #: goemail.py:45
 msgid "Welcome to Gig-o-Matic"
@@ -62,9 +74,9 @@ msgstr ""
 "Grazie,\n"
 "Il Team Gig-o-Matic"
 
-#: goemail.py:150
-msgid "Edited Gig:"
-msgstr ""
+#: goemail.py:150 templates/gig_edit.html:3 templates/gig_edit.html:15
+msgid "Gig Edit"
+msgstr "Modifica suonata"
 
 #: goemail.py:152
 msgid "New Gig:"
@@ -117,6 +129,22 @@ msgstr ""
 #: goemail.py:190
 msgid "edited_gig_email"
 msgstr ""
+"Hello! A gig has been edited in the Gig-o-Matic for your band {0}:\n"
+"\n"
+"EDITED: {8}\n"
+"\n"
+"{1}\n"
+"Date: {2}\n"
+"Time: {3}\n"
+"Contact: {4}\n"
+"Status: {5}\n"
+"\n"
+"{6}\n"
+"\n"
+"Do you need to change your availability? Weigh in here: {7}\n"
+"\n"
+"Thanks,\n"
+"The Gig-o-Matic Team"
 
 #: goemail.py:226
 #, fuzzy
@@ -223,6 +251,10 @@ msgstr "Nessun'altra suonata!"
 #: templates/member_band_assocs.html:25
 msgid "section"
 msgstr "sezione"
+
+#: templates/band_activity.html:3 templates/band_activity.html:8
+msgid "Recent Activity"
+msgstr ""
 
 #: templates/band_admin.html:3 templates/band_admin.html:8
 #: templates/navbar.html:45
@@ -689,10 +721,6 @@ msgstr "Suonata"
 msgid "Band"
 msgstr "Banda"
 
-#: templates/gig_edit.html:3 templates/gig_edit.html:15
-msgid "Gig Edit"
-msgstr "Modifica suonata"
-
 #: templates/gig_edit.html:13
 msgid "New Gig for "
 msgstr "Nuova suonata della"
@@ -714,17 +742,9 @@ msgstr ""
 msgid "Contact"
 msgstr "Inserita da"
 
-#: templates/gig_edit.html:34
-msgid "Status"
-msgstr "Stato"
-
 #: templates/gig_edit.html:53
 msgid "Hide From Public Page"
 msgstr "Non mostrare sulla pagina pubblica"
-
-#: templates/gig_edit.html:60
-msgid "Date"
-msgstr "Data"
 
 #: templates/gig_edit.html:66
 msgid "End Date"
@@ -1473,4 +1493,7 @@ msgstr "Che cos’è?"
 
 #~ msgid "UTC offset"
 #~ msgstr "Differenza da GMT"
+
+#~ msgid "Edited Gig:"
+#~ msgstr ""
 

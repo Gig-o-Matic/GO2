@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-07-22 17:31-0400\n"
+"POT-Creation-Date: 2014-08-01 12:31-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,18 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 1.3\n"
+
+#: gig.py:545
+msgid "Time"
+msgstr ""
+
+#: gig.py:547 templates/gig_edit.html:60
+msgid "Date"
+msgstr ""
+
+#: gig.py:549 templates/gig_edit.html:34
+msgid "Status"
+msgstr ""
 
 #: goemail.py:45
 msgid "Welcome to Gig-o-Matic"
@@ -41,8 +53,8 @@ msgstr ""
 msgid "forgot_password_email"
 msgstr ""
 
-#: goemail.py:150
-msgid "Edited Gig:"
+#: goemail.py:150 templates/gig_edit.html:3 templates/gig_edit.html:15
+msgid "Gig Edit"
 msgstr ""
 
 #: goemail.py:152
@@ -149,6 +161,10 @@ msgstr ""
 #: templates/agenda_plan_edit.html:113 templates/band_members.html:18
 #: templates/member_band_assocs.html:25
 msgid "section"
+msgstr ""
+
+#: templates/band_activity.html:3 templates/band_activity.html:8
+msgid "Recent Activity"
 msgstr ""
 
 #: templates/band_admin.html:3 templates/band_admin.html:8
@@ -580,10 +596,6 @@ msgstr ""
 msgid "Band"
 msgstr ""
 
-#: templates/gig_edit.html:3 templates/gig_edit.html:15
-msgid "Gig Edit"
-msgstr ""
-
 #: templates/gig_edit.html:13
 msgid "New Gig for "
 msgstr ""
@@ -604,16 +616,8 @@ msgstr ""
 msgid "Contact"
 msgstr ""
 
-#: templates/gig_edit.html:34
-msgid "Status"
-msgstr ""
-
 #: templates/gig_edit.html:53
 msgid "Hide From Public Page"
-msgstr ""
-
-#: templates/gig_edit.html:60
-msgid "Date"
 msgstr ""
 
 #: templates/gig_edit.html:66
