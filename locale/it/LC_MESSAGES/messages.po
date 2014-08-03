@@ -80,7 +80,7 @@ msgstr "Modifica suonata"
 
 #: goemail.py:152
 msgid "New Gig:"
-msgstr ""
+msgstr "Nuova Suonata:"
 
 #: goemail.py:173 templates/gig_edit.html:74 templates/gig_info.html:76
 #, fuzzy
@@ -129,22 +129,22 @@ msgstr ""
 #: goemail.py:190
 msgid "edited_gig_email"
 msgstr ""
-"Hello! A gig has been edited in the Gig-o-Matic for your band {0}:\n"
+"Ciao! Sul Gig-O-Matic è stata modificata una suonata della {0}:\n"
 "\n"
-"EDITED: {8}\n"
+"MODIFICATA: {8}\n"
 "\n"
 "{1}\n"
-"Date: {2}\n"
-"Time: {3}\n"
-"Contact: {4}\n"
-"Status: {5}\n"
+"Data: {2}\n"
+"Orario: {3}\n"
+"Contatto: {4}\n"
+"Stato: {5}\n"
 "\n"
 "{6}\n"
 "\n"
-"Do you need to change your availability? Weigh in here: {7}\n"
+"In questo caso, ci sarai? Segnalalo qui: {7}\n"
 "\n"
-"Thanks,\n"
-"The Gig-o-Matic Team"
+"Grazie,\n"
+"Il Team Gig-O-Matic"
 
 #: goemail.py:226
 #, fuzzy
@@ -618,11 +618,11 @@ msgstr "Registro modifiche"
 
 #: templates/comments.html:11
 msgid "Somebody"
-msgstr ""
+msgstr "Qualcuno"
 
 #: templates/comments.html:13
 msgid "said on"
-msgstr ""
+msgstr "ha detto"
 
 #: templates/confirm_band_request.html:3
 msgid "Request Received!"
@@ -736,7 +736,7 @@ msgstr "obbligatorio"
 
 #: templates/gig_edit.html:24
 msgid "Copy of"
-msgstr ""
+msgstr "Copia di"
 
 #: templates/gig_edit.html:29 templates/gig_info.html:62
 msgid "Contact"
@@ -811,7 +811,7 @@ msgstr "segnala suonata ai membri via e-mail"
 
 #: templates/gig_edit.html:126
 msgid "Email members about changed time or status"
-msgstr ""
+msgstr "Segnala i cambiamenti ai membri via e-mail"
 
 #: templates/gig_edit.html:134 templates/gig_edit.html:169
 #: templates/member_edit.html:134 templates/member_edit.html:167
@@ -878,7 +878,7 @@ msgstr "Info suonata"
 
 #: templates/gig_info.html:32
 msgid "Duplicate"
-msgstr ""
+msgstr "Duplica"
 
 #: templates/gig_info.html:53
 msgid "Hidden From Public Page"
@@ -890,7 +890,7 @@ msgstr "Costumi?"
 
 #: templates/gig_info.html:139 templates/gig_info.html:163
 msgid "Print"
-msgstr ""
+msgstr "Stampa"
 
 #: templates/gig_info.html:159
 #, fuzzy
@@ -899,11 +899,11 @@ msgstr "Presenze"
 
 #: templates/gig_info.html:166
 msgid "Show All"
-msgstr ""
+msgstr "Mostra tutti"
 
 #: templates/gig_info.html:167
 msgid "Show Committed"
-msgstr ""
+msgstr "Mostra chi viene"
 
 #: templates/gig_info.html:201
 msgid "Comments"
