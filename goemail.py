@@ -139,12 +139,16 @@ def send_newgig_email(the_member, the_gig, the_band, the_gig_url, is_edit=False,
         
     contact_key=the_gig.contact
     if contact_key:
-        contact_name=contact_key.get().name
+        contact = contact_key.get()
+        contact_name=contact.name
     else:
+        contact = None
         contact_name="??"        
         
     message = mail.EmailMessage()
     message.sender = SENDER_EMAIL
+    if contact is not None:
+        message.reply_to = contact.email_address
     message.to = the_email_address
     if is_edit:
         title_string='{0} ({1})'.format(_('Gig Edit'),change_string)
