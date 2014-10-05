@@ -28,6 +28,8 @@ import logging
 from pytz.gae import pytz
 from webapp2_extras.i18n import gettext as _
 
+from clone import clone_entity
+
 import datetime
 import babel
 
@@ -532,6 +534,24 @@ class EditPage(BaseHandler):
             the_gig.is_private = False
 
         the_gig.put()            
+
+        # Is this a series?
+        is_series = self.request.get("newgig_isseries", False)
+        if is_series:
+            number_to_copy = int(self.request.get("newgig_seriescount",1)) - 1
+            period = self.request.get("newgig_seriesperiod",None)
+            
+            last_date = the_gig.date
+            if period == 'day':
+                delta = datetime.timedelta(days=1)
+            else:
+                delta = datetime.timedelta(weeks=1)
+                
+            for i in range(0,number_to_copy):
+                copy_gig = clone_entity(the_gig,Gig)
+                copy_gig.date = last_date + delta
+                last_date = copy_gig.date
+                copy_gig.put()
 
         gig_notify = self.request.get("gig_notifymembers", None)
 

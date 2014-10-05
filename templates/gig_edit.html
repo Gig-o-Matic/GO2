@@ -69,6 +69,35 @@
                 name="gig_enddate">
             </div>
         </div>
+        {% if newgig_is_active %}
+            <div class="row">
+                <div class="form-group col-md-8 col-md-offset-2">
+                    <label for="gignumberinseriesinput" class="checkbox">  
+                        <input type="checkbox" id="newgig-isseries" name="newgig_isseries" onClick="setSeries();">{% trans %}Add A Series Of Gigs{% endtrans %}</label>
+                    <div id="gignumberseriesinput" hidden="true">
+                        <div class="row">
+                            <div class="col-md-4 col-md-offset-2">
+                                <label for="newgig_seriescount" class="control-label">{% trans %}Number of Gigs{% endtrans %}</label>
+                                <select class="form-control" id="newgigseriescount" name="newgig_seriescount">
+                                    <option value="2" selected>2</option>
+                                    {% for num in range(3,11) %}
+                                        <option value="{{ num }}">{{ num }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-4 col-md-offset-1">
+                                <label for="newgig_seriesperiod" class="control-label">{% trans %}Repeat Every{% endtrans %}</label>
+                                <select class="form-control" id="newgigseriesperiod" name="newgig_seriesperiod">
+                                    <option value="day">{% trans %}day{% endtrans %}</option>
+                                    <option value="week" selected>{% trans %}week{% endtrans %}</option>
+                                    <option value="month">{% trans %}month{% endtrans %}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}        
         <div class="row">
             <div class="form-group col-md-2 col-md-offset-2 col-sm-4 col-xs-4">
                 <label for="gigcallinput" class="control-label">{% trans %}Call Time{% endtrans %}</label>
@@ -334,6 +363,13 @@ function updateContactList(bk) {
 function handleBandChange(sel) {
     var bk=sel.value;
     updateContactList(bk);
+};
+
+function setSeries() {
+    if($('#newgig-isseries').prop('checked'))
+       $('#gignumberseriesinput').show();
+    else
+        $('#gignumberseriesinput').hide();
 };
 
 </script>
