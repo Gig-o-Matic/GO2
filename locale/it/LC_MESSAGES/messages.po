@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-08-01 12:31-0400\n"
+"POT-Creation-Date: 2014-10-07 13:32-0400\n"
 "PO-Revision-Date: 2014-02-01 18:13-0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: it <LL@li.org>\n"
@@ -14,15 +14,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 1.3\n"
 
-#: gig.py:545
+#: gig.py:598
 msgid "Time"
 msgstr ""
 
-#: gig.py:547 templates/gig_edit.html:60
+#: gig.py:600 templates/gig_edit.html:60
 msgid "Date"
 msgstr "Data"
 
-#: gig.py:549 templates/gig_edit.html:34
+#: gig.py:602 templates/gig_edit.html:34
 msgid "Status"
 msgstr "Stato"
 
@@ -74,41 +74,41 @@ msgstr ""
 "Grazie,\n"
 "Il Team Gig-o-Matic"
 
-#: goemail.py:150 templates/gig_edit.html:3 templates/gig_edit.html:15
+#: goemail.py:154 templates/gig_edit.html:3 templates/gig_edit.html:15
 msgid "Gig Edit"
 msgstr "Modifica suonata"
 
-#: goemail.py:152
+#: goemail.py:156
 msgid "New Gig:"
 msgstr "Nuova Suonata:"
 
-#: goemail.py:173 templates/gig_edit.html:74 templates/gig_info.html:76
+#: goemail.py:177 templates/gig_edit.html:103 templates/gig_info.html:76
 #, fuzzy
 msgid "Call Time"
 msgstr "Appuntamento"
 
-#: goemail.py:177 templates/gig_edit.html:78 templates/gig_info.html:84
+#: goemail.py:181 templates/gig_edit.html:107 templates/gig_info.html:84
 msgid "Set Time"
 msgstr "Inizio suonata"
 
-#: goemail.py:181 templates/gig_edit.html:82 templates/gig_info.html:87
+#: goemail.py:185 templates/gig_edit.html:111 templates/gig_info.html:87
 msgid "End Time"
 msgstr "Fine suonata"
 
-#: goemail.py:183 templates/gig_edit.html:38 templates/gig_info.html:50
+#: goemail.py:187 templates/gig_edit.html:38 templates/gig_info.html:50
 msgid "Unconfirmed"
 msgstr "Da confermare"
 
-#: goemail.py:183 templates/gig_edit.html:41 templates/gig_info.html:46
+#: goemail.py:187 templates/gig_edit.html:41 templates/gig_info.html:46
 msgid "Confirmed!"
 msgstr "Confermata!"
 
-#: goemail.py:183 templates/agenda_plan_edit.html:134
+#: goemail.py:187 templates/agenda_plan_edit.html:134
 #: templates/gig_edit.html:44 templates/gig_info.html:48
 msgid "Cancelled!"
 msgstr "Annullata!"
 
-#: goemail.py:188
+#: goemail.py:192
 msgid "new_gig_email"
 msgstr ""
 "Ciao! Sul Gig-o-Matic è stata aggiunta una nuova suonata della {0}:\n"
@@ -127,7 +127,7 @@ msgstr ""
 "Grazie,\n"
 "Il Team Gig-o-Matic"
 
-#: goemail.py:190
+#: goemail.py:194
 msgid "edited_gig_email"
 msgstr ""
 "Ciao! Sul Gig-O-Matic è stata modificata una suonata della {0}:\n"
@@ -147,12 +147,12 @@ msgstr ""
 "Grazie,\n"
 "Il Team Gig-O-Matic"
 
-#: goemail.py:226
+#: goemail.py:230
 #, fuzzy
 msgid "Gig-o-Matic New Member for band {0})"
 msgstr "Gig-o-Matic: Nuovo membro per la {0}"
 
-#: goemail.py:237
+#: goemail.py:241
 msgid "new_member_email"
 msgstr ""
 "Ciao! Un nuovo membro, {0}, ha chiesto di iscriversi alla {1}. Accedi al "
@@ -164,11 +164,11 @@ msgstr ""
 "Grazie,\n"
 "Il Team Gig-o-Matic"
 
-#: goemail.py:252
+#: goemail.py:256
 msgid "Gig-o-Matic New Band Invite"
 msgstr "Gig-o-Matic – Invito in banda"
 
-#: goemail.py:253
+#: goemail.py:257
 msgid "new_band_via_invite_email"
 msgstr ""
 "Ciao! Ti invitiamo a entrare nella {0}. Troverai la banda sulla tua "
@@ -178,11 +178,11 @@ msgstr ""
 "Saluti dal\n"
 "Team Gig-o-Matic"
 
-#: goemail.py:269
+#: goemail.py:273
 msgid "Invitation to Join Gig-o-Matic"
 msgstr "Invito a entrare nel Gig-o-Matic"
 
-#: goemail.py:270
+#: goemail.py:274
 msgid "gigo_invite_email"
 msgstr ""
 "Ciao,\n"
@@ -198,11 +198,11 @@ msgstr ""
 "Grazie,\n"
 "Gli amministratori del Gig-o-Matic "
 
-#: goemail.py:286
+#: goemail.py:290
 msgid "Gig-o-Matic Confirm Email Address"
 msgstr "Gig-o-Matic: conferma indirizzo e-mail"
 
-#: goemail.py:298
+#: goemail.py:302
 msgid "confirm_email_address_email"
 msgstr ""
 "Ehilà! Qualcuno ha richiesto di cambiare la sua ID sul Gig-o-Matic con "
@@ -356,20 +356,20 @@ msgstr ""
 
 #: templates/band_edit.html:121 templates/band_edit.html:123
 #: templates/band_info.html:291 templates/band_invite.html:29
-#: templates/forgot.html:49 templates/gig_edit.html:140
-#: templates/gig_edit.html:142 templates/member_edit.html:140
+#: templates/forgot.html:49 templates/gig_edit.html:169
+#: templates/gig_edit.html:171 templates/member_edit.html:140
 #: templates/signup.html:58
 msgid "Cancel"
 msgstr "Annulla"
 
 #: templates/band_edit.html:125 templates/band_info.html:292
-#: templates/gig_edit.html:144 templates/member_edit.html:141
+#: templates/gig_edit.html:173 templates/member_edit.html:141
 msgid "Save"
 msgstr "Salva"
 
 #: templates/band_edit.html:149 templates/band_info.html:487
-#: templates/gig_edit.html:255 templates/gig_edit.html:258
-#: templates/gig_edit.html:261 templates/member_edit.html:198
+#: templates/gig_edit.html:284 templates/gig_edit.html:287
+#: templates/gig_edit.html:290 templates/member_edit.html:198
 msgid "This field is required!"
 msgstr "Questo campo è obbligatorio!"
 
@@ -755,121 +755,145 @@ msgstr "Data fine"
 msgid "if multi-day"
 msgstr "se di più giorni"
 
-#: templates/gig_edit.html:88 templates/gig_info.html:93
+#: templates/gig_edit.html:76
+msgid "Add A Series Of Copies"
+msgstr ""
+
+#: templates/gig_edit.html:80
+msgid "Total Number Of Gigs"
+msgstr ""
+
+#: templates/gig_edit.html:89
+msgid "Repeat Every"
+msgstr ""
+
+#: templates/gig_edit.html:91
+msgid "day"
+msgstr ""
+
+#: templates/gig_edit.html:92
+msgid "week"
+msgstr ""
+
+#: templates/gig_edit.html:93
+msgid "month (on same day of month)"
+msgstr ""
+
+#: templates/gig_edit.html:117 templates/gig_info.html:93
 msgid "Address"
 msgstr "Indirizzo"
 
-#: templates/gig_edit.html:89
+#: templates/gig_edit.html:118
 msgid "location_placeholder"
 msgstr "specificare via e città"
 
-#: templates/gig_edit.html:92
+#: templates/gig_edit.html:121
 #, fuzzy
 msgid "What To Wear"
 msgstr "Costumi?"
 
-#: templates/gig_edit.html:93
+#: templates/gig_edit.html:122
 msgid "Pants Optional"
 msgstr "Mutande opzionali"
 
-#: templates/gig_edit.html:96 templates/gig_info.html:107
+#: templates/gig_edit.html:125 templates/gig_info.html:107
 msgid "Pay Deal"
 msgstr "Quanto ci danno?"
 
-#: templates/gig_edit.html:97
+#: templates/gig_edit.html:126
 msgid "As If"
 msgstr "Sì, magari"
 
-#: templates/gig_edit.html:102 templates/gig_info.html:114
+#: templates/gig_edit.html:131 templates/gig_info.html:114
 msgid "Leader"
 msgstr "Responsabile"
 
-#: templates/gig_edit.html:103
+#: templates/gig_edit.html:132
 msgid "leader_placeholder"
 msgstr "chi se ne occupa"
 
-#: templates/gig_edit.html:108 templates/gig_info.html:121
+#: templates/gig_edit.html:137 templates/gig_info.html:121
 msgid "More Details"
 msgstr "Ulteriori dettagli"
 
-#: templates/gig_edit.html:109
+#: templates/gig_edit.html:138
 msgid "who? what? where? when? why?"
 msgstr "chi? cosa? dove? quando? perché?"
 
-#: templates/gig_edit.html:114 templates/gig_info.html:135
+#: templates/gig_edit.html:143 templates/gig_info.html:135
 msgid "Setlist"
 msgstr "Scaletta"
 
-#: templates/gig_edit.html:115
+#: templates/gig_edit.html:144
 #, fuzzy
 msgid "setlist here"
 msgstr "i pezzi in scaletta"
 
-#: templates/gig_edit.html:123
+#: templates/gig_edit.html:152
 #, fuzzy
 msgid "Email members about this new gig"
 msgstr "segnala suonata ai membri via e-mail"
 
-#: templates/gig_edit.html:126
+#: templates/gig_edit.html:155
 msgid "Email members about changed time or status"
 msgstr "Segnala i cambiamenti ai membri via e-mail"
 
-#: templates/gig_edit.html:134 templates/gig_edit.html:169
+#: templates/gig_edit.html:163 templates/gig_edit.html:198
 #: templates/member_edit.html:134 templates/member_edit.html:167
 msgid "Delete"
 msgstr "Cancella"
 
-#: templates/gig_edit.html:135 templates/gig_edit.html:189
+#: templates/gig_edit.html:164 templates/gig_edit.html:218
 msgid "Archive"
 msgstr "Archivia"
 
-#: templates/gig_edit.html:161 templates/member_edit.html:159
+#: templates/gig_edit.html:190 templates/member_edit.html:159
 #: templates/member_info.html:158
 msgid "Confirm Delete"
 msgstr "Conferma cancella"
 
-#: templates/gig_edit.html:164
+#: templates/gig_edit.html:193
 #, fuzzy
 msgid "Do you really want to delete this gig?"
 msgstr "Vuoi davvero cancellare questa suonata?"
 
-#: templates/gig_edit.html:167 templates/member_edit.html:165
+#: templates/gig_edit.html:196 templates/member_edit.html:165
 #, fuzzy
 msgid "Don't Delete"
 msgstr "Non cancellare"
 
-#: templates/gig_edit.html:181
+#: templates/gig_edit.html:210
 msgid "Confirm archive"
 msgstr "Conferma archivia"
 
-#: templates/gig_edit.html:184
+#: templates/gig_edit.html:213
 #, fuzzy
 msgid "Do you really want to archive this gig?"
 msgstr "Vuoi davvero archiviare questa suonata?"
 
-#: templates/gig_edit.html:187
+#: templates/gig_edit.html:216
 #, fuzzy
 msgid "Don't Archive"
 msgstr "Non archiviare"
 
-#: templates/gig_edit.html:235
+#: templates/gig_edit.html:264
 msgid "Please enter a date in the format mm/dd/yyyy."
 msgstr "Inserisci data in formato gg/mm/aaaa"
 
-#: templates/gig_edit.html:266 templates/gig_edit.html:267
-#: templates/gig_edit.html:268
+#: templates/gig_edit.html:295 templates/gig_edit.html:296
+#: templates/gig_edit.html:297
 msgid "time_format"
 msgstr "G:i"
 
-#: templates/gig_edit.html:287
+#: templates/gig_edit.html:316
 msgid "Must be later than start date!"
 msgstr "Deve essere dopo la data di inizio!"
 
-#: templates/gig_edit.html:301
+#: templates/gig_edit.html:330
 msgid "Must be in the future!"
 msgstr "Deve essere una data futura!"
 
-#: templates/gig_edit.html:330
+#: templates/gig_edit.html:359
 msgid "Error"
 msgstr "Errore"
 
