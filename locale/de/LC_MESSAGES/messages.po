@@ -679,7 +679,7 @@ msgstr ""
 "Society Brass Band. Getestet von mehreren unerschrockenenMitgliedern der "
 "Band. Im Selbstversuch weiterentwickelt von dergesamten Band. "
 "WOO!<br><br>Italienische Übersetzung von MarcelloJatosti. "
-"Meraviglioso!<br>Deutsche Übersetzung von Christian Neumayer."
+"Meraviglioso!<br>Deutsche Übersetzung von Christian Neumayer. Ausgezeichnet!"
 
 #: templates/credits.html:33
 msgid "credits_text2"

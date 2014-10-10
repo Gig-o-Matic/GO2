@@ -676,7 +676,7 @@ msgstr ""
 "Realizzato da Aaron Oppenheimer, Second Line Social Aid & Pleasure "
 "Society Brass Band. Collaudato prima da alcuni intrepidi pionieri, e poi "
 "sperimentato da tutta quanta la banda. Alé!<br><br>Traduzione italiana di"
-" Marcello Jatosti, Titubanda."
+" Marcello Jatosti, Titubanda.<br>Traduzione tedesca di Christian Neumayer."
 
 #: templates/credits.html:33
 msgid "credits_text2"

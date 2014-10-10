@@ -667,7 +667,7 @@ msgstr ""
 "Written by Aaron Oppenheimer, Second Line Social Aid & Pleasure Society "
 "Brass Band. Beta-tested by several intrepid members of the band. Guinea-"
 "pigged by the whole band. WOO!<br><br>Italian translation by Marcello "
-"Jatosti. Meraviglioso!"
+"Jatosti. Meraviglioso!<br>German translation by Christian Neumayer. Ausgezeichnet!"
 
 #: templates/credits.html:33
 msgid "credits_text2"

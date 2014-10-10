@@ -68,7 +68,6 @@ class="landingwrap"
                 <a class="btn btn-default" href="/signup{% if locale %}?locale={{ locale }}{% endif %}">{% trans %}Sign Up!{% endtrans %}</a>
             </div>
             <div class="col-md-4">
-                {% trans %}switch_to_text{% endtrans %}
                 {% for lang in languages %}
                     {% if lang[0] != locale %}
                         <a href='/login?locale={{lang[0]}}'>{{ lang[1] }}</a>
