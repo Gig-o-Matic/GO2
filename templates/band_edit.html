@@ -45,8 +45,7 @@
             <div class="form-group col-md-8 col-md-offset-2">
                 <label for="bandthumbnailinput" class="control-label">{% trans %}Thumbnail Image for Band Navigator Page{% endtrans %}</label>
                 <input type="text" class="form-control" id="bandthumbnailinput" placeholder="{% trans %}url of 200x300 picture for band navigtor page{% endtrans %}" value="{% if the_band.thumbnail_img %}{{the_band.thumbnail_img}}{% endif %}" name="band_thumbnail">
-                (Needs to be a link to an image. To use an image from facebook, right-click on the image and copy the image URL, then
-                paste it here. For now, works better with images that are taller than they are wide.)
+                ({% trans %}thumbnail_instructions{% endtrans %})
             </div>
         </div>
         <div class="row">
@@ -56,8 +55,7 @@
 {% for i in the_band.images %}{{i}}
 {% endfor %}
                 {% endif %}</textarea>
-                (Needs to be links to images. To use an image from facebook, right-click on the image and copy the image URL, then
-                paste it here.)
+                ({% trans %}imagelink_instructions{% endtrans %})
             </div>
         </div>
 {##        
