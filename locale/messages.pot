@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-10-07 13:32-0400\n"
+"POT-Creation-Date: 2014-10-10 16:41-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -86,43 +86,43 @@ msgstr ""
 msgid "Cancelled!"
 msgstr ""
 
-#: goemail.py:192
+#: goemail.py:190
 msgid "new_gig_email"
 msgstr ""
 
-#: goemail.py:194
+#: goemail.py:192
 msgid "edited_gig_email"
 msgstr ""
 
-#: goemail.py:230
+#: goemail.py:228
 msgid "Gig-o-Matic New Member for band {0})"
 msgstr ""
 
-#: goemail.py:241
+#: goemail.py:239
 msgid "new_member_email"
 msgstr ""
 
-#: goemail.py:256
+#: goemail.py:254
 msgid "Gig-o-Matic New Band Invite"
 msgstr ""
 
-#: goemail.py:257
+#: goemail.py:255
 msgid "new_band_via_invite_email"
 msgstr ""
 
-#: goemail.py:273
+#: goemail.py:271
 msgid "Invitation to Join Gig-o-Matic"
 msgstr ""
 
-#: goemail.py:274
+#: goemail.py:272
 msgid "gigo_invite_email"
 msgstr ""
 
-#: goemail.py:290
+#: goemail.py:288
 msgid "Gig-o-Matic Confirm Email Address"
 msgstr ""
 
-#: goemail.py:302
+#: goemail.py:300
 msgid "confirm_email_address_email"
 msgstr ""
 
@@ -231,39 +231,47 @@ msgstr ""
 msgid "url of 200x300 picture for band navigtor page"
 msgstr ""
 
-#: templates/band_edit.html:54
+#: templates/band_edit.html:48
+msgid "thumbnail_instructions"
+msgstr ""
+
+#: templates/band_edit.html:55
 msgid "Public Page Images"
 msgstr ""
 
-#: templates/band_edit.html:55 templates/member_edit.html:57
+#: templates/band_edit.html:56 templates/member_edit.html:57
 msgid "put urls to images on their own lines..."
 msgstr ""
 
-#: templates/band_edit.html:73
+#: templates/band_edit.html:60
+msgid "imagelink_instructions"
+msgstr ""
+
+#: templates/band_edit.html:75
 msgid "Time Zone"
 msgstr ""
 
-#: templates/band_edit.html:88
+#: templates/band_edit.html:90
 msgid "Let any member create, edit, and delete gigs"
 msgstr ""
 
-#: templates/band_edit.html:97
+#: templates/band_edit.html:99
 msgid "Let non-members see upcoming gigs"
 msgstr ""
 
-#: templates/band_edit.html:106
+#: templates/band_edit.html:108
 msgid "Use simple planning pop-up (yes/maybe/no)"
 msgstr ""
 
-#: templates/band_edit.html:111
+#: templates/band_edit.html:113
 msgid "Extra Feedback"
 msgstr ""
 
-#: templates/band_edit.html:112
+#: templates/band_edit.html:114
 msgid "items for second planning popup (BETA!)"
 msgstr ""
 
-#: templates/band_edit.html:121 templates/band_edit.html:123
+#: templates/band_edit.html:123 templates/band_edit.html:125
 #: templates/band_info.html:291 templates/band_invite.html:29
 #: templates/forgot.html:49 templates/gig_edit.html:169
 #: templates/gig_edit.html:171 templates/member_edit.html:140
@@ -271,12 +279,12 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: templates/band_edit.html:125 templates/band_info.html:292
+#: templates/band_edit.html:127 templates/band_info.html:292
 #: templates/gig_edit.html:173 templates/member_edit.html:141
 msgid "Save"
 msgstr ""
 
-#: templates/band_edit.html:149 templates/band_info.html:487
+#: templates/band_edit.html:151 templates/band_info.html:487
 #: templates/gig_edit.html:284 templates/gig_edit.html:287
 #: templates/gig_edit.html:290 templates/member_edit.html:198
 msgid "This field is required!"
