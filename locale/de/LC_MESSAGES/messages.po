@@ -328,6 +328,9 @@ msgstr "url zu 200x300 Bild für die Bandübersicht"
 #: templates/band_edit.html:48
 msgid "thumbnail_instructions"
 msgstr ""
+"Benötigt eine Bild-URL. Um ein Bild von Facebook zu verwenden kannst du via Rechtsklick "
+"die Bild-URL kopieren und hier einfügen. Funktioniert momentan noch besser mit Bildern, "
+"die höher als breit sind."
 
 #: templates/band_edit.html:55
 msgid "Public Page Images"
@@ -340,6 +343,8 @@ msgstr "Jede Zeile nur eine URL, nicht drängeln..."
 #: templates/band_edit.html:60
 msgid "imagelink_instructions"
 msgstr ""
+"Benötigt Bild-URLs. Um ein Bild von Facebook zu verwenden kannst du via Rechtsklick "
+"die Bild-URL kopieren und hier einfügen."
 
 #: templates/band_edit.html:75
 msgid "Time Zone"
@@ -771,27 +776,27 @@ msgstr "falls mehrtägig"
 
 #: templates/gig_edit.html:76
 msgid "Add A Series Of Copies"
-msgstr ""
+msgstr "Beginne eine Terminserie"
 
 #: templates/gig_edit.html:80
 msgid "Total Number Of Gigs"
-msgstr ""
+msgstr "Gesamtanzahl"
 
 #: templates/gig_edit.html:89
 msgid "Repeat Every"
-msgstr ""
+msgstr "Wiederhole"
 
 #: templates/gig_edit.html:91
 msgid "day"
-msgstr ""
+msgstr "täglich"
 
 #: templates/gig_edit.html:92
 msgid "week"
-msgstr ""
+msgstr "wöchentlich"
 
 #: templates/gig_edit.html:93
 msgid "month (on same day of month)"
-msgstr ""
+msgstr "monatlich (am selben Tag)"
 
 #: templates/gig_edit.html:117 templates/gig_info.html:93
 msgid "Address"
