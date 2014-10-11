@@ -4,4 +4,4 @@
 # ao 1 feb 14
 #
 
-LOCALES = [ ['en','English'], ['it','Italiano'] ]
+LOCALES = [ ['de','Deutsch'], ['en','English'], ['it','Italiano'] ]
