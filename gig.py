@@ -790,7 +790,6 @@ class GetCommentHandler(BaseHandler):
             the_old_comment = None
 
         new_comments = comment.get_comments_from_gig_key(the_gig.key)
-        print '>{0}<'.format(new_comments)
         
         template_args = {
             'the_old_comments' : the_old_comment,
