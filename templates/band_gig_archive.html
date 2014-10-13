@@ -1,0 +1,17 @@
+{% extends 'go2base.html' %}
+
+{% block title %}{% trans %}Band Archive{% endtrans %}{% endblock title %}
+
+{% block headcontent %}
+<!-- bxSlider CSS file -->
+<link href="/css/jquery.bxslider.css" rel="stylesheet" />
+
+{% endblock headcontent %}
+
+{% block content %}
+    <div class="row">
+        <div class="page-header col-md-8 col-md-offset-2">
+            {% trans %}The history of{% endtrans %} {{ the_band.name }}
+        </div> 
+    </div>
+{% endblock content %}
