@@ -704,6 +704,31 @@ class AdminPage(BaseHandler):
         }
         self.render_template('band_admin.html', template_args)
 
+class GigArchivePage(BaseHandler):
+    """ Show complete gig archives """
+
+    @user_required
+    def get(self):
+        self.make_page(the_user=self.user)
+
+    def make_page(self, the_user):
+
+        the_band_key_url=self.request.get("bk",None)
+        if the_band_key_url is None:
+            return
+        else:
+            the_band_key = ndb.Key(urlsafe=the_band_key_url)
+            the_band = the_band_key.get()
+            if the_band is None:
+                self.response.write('did not find a band!')
+                return # todo figure out what to do if we didn't find it
+
+        template_args = {
+            'the_band' : the_band
+        }
+        self.render_template('band_gig_archive.html', template_args)
+        
+
 class GetMemberList(BaseHandler):
     """ service function to return a list of member names """
 
