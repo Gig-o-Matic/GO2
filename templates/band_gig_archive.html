@@ -12,6 +12,14 @@
     <div class="row">
         <div class="page-header col-md-8 col-md-offset-2">
             {% trans %}The history of{% endtrans %} {{ the_band.name }}
-        </div> 
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            {% for gig in the_gigs %}
+                {{ the_date_formatter(the_user, gig.date, 'short') }}
+                <a href="/gig_info.html?gk={{ gig.key.urlsafe() }}">{{ gig.title }}</a><br>
+            {% endfor %}
+        </div>
     </div>
 {% endblock content %}

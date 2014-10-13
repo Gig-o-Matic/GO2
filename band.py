@@ -723,8 +723,13 @@ class GigArchivePage(BaseHandler):
                 self.response.write('did not find a band!')
                 return # todo figure out what to do if we didn't find it
 
+        the_gigs = gig.get_gigs_for_band_keys(the_band_key, show_past=True)
+        
         template_args = {
-            'the_band' : the_band
+            'the_user' : the_user,
+            'the_band' : the_band,
+            'the_gigs' : the_gigs,
+            'the_date_formatter' : member.format_date_for_member
         }
         self.render_template('band_gig_archive.html', template_args)
         
