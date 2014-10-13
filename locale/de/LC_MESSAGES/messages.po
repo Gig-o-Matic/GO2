@@ -57,9 +57,9 @@ msgstr "Gig-o-Matic: Fixiert!"
 #, fuzzy
 msgid "member_confirmed_email"
 msgstr ""
-"Hallo! Du wurdest als Mitglied von {0} bestätigt und kannst nun anfangen,"
+"Hallo! Du wurdest als Mitglied von {0} bestätigt und kannst nun anfangen, "
 " Gig-o-Matic für dein Bandmanagement zu nutzen.\n"
-"\n"
+"\n" 
 "http://Gig-o-Matic.appspot.com/band_info.html?bk={1}\n"
 "\n"
 "Danke,\n"
@@ -81,19 +81,19 @@ msgstr ""
 
 #: goemail.py:154 templates/gig_edit.html:3 templates/gig_edit.html:15
 msgid "Gig Edit"
-msgstr "Ausrückung bearbeiten"
+msgstr "Termin bearbeiten"
 
 #: goemail.py:156
 msgid "New Gig:"
-msgstr "Neue Ausrückung:"
+msgstr "Neue Termin:"
 
 #: goemail.py:177 templates/gig_edit.html:103 templates/gig_info.html:76
 msgid "Call Time"
-msgstr "Treffpunkt"
+msgstr "Beginn"
 
 #: goemail.py:181 templates/gig_edit.html:107 templates/gig_info.html:84
 msgid "Set Time"
-msgstr "Auftritt"
+msgstr "Termin"
 
 #: goemail.py:185 templates/gig_edit.html:111 templates/gig_info.html:87
 msgid "End Time"
@@ -115,7 +115,7 @@ msgstr "Abgesagt!"
 #: goemail.py:190
 msgid "new_gig_email"
 msgstr ""
-"Hallo! Für deine Band {0} wurde ein neuer Auftritt in Gig-o-Matic "
+"Hallo! Für deine Band {0} wurde ein neuer Termin in Gig-o-Matic "
 "eingetragen:\n"
 "\n"
 "{1}\n"
@@ -134,7 +134,7 @@ msgstr ""
 #: goemail.py:192
 msgid "edited_gig_email"
 msgstr ""
-"Hallo! Für deine Band {0} wurde ein Auftritt bearbeitet:\n"
+"Hallo! Für deine Band {0} wurde ein Termin bearbeitet:\n"
 "\n"
 "GEÄNDERT: {8}\n"
 "\n"
@@ -175,7 +175,7 @@ msgstr "Gig-o-Matic Neue Band Einladung"
 msgid "new_band_via_invite_email"
 msgstr ""
 "Hallo! Du wurdest eingeladen, der Band {0} beizutreten. Du wirst die "
-"Bandauf deiner Profilseite sehen können und neue Auftritte werden in "
+"Bandauf deiner Profilseite sehen können und neue Termine werden in "
 "deinerAgenda eingetragen. Willkommen bei Gig-o-Matic!\n"
 "\n"
 "Freundliche Grüße,\n"
@@ -190,9 +190,9 @@ msgid "gigo_invite_email"
 msgstr ""
 "Hallo,\n"
 "\n"
-"Als ein Mitglied von {0} wurdest du eingeladen, Gig-o-Matic beizutretenum"
-" das Organisieren von euren Auftritten zu vereinfachen. Du musst nur noch"
-" ein Passwort erstellen, um dich anmelden zu können. Dannkannst du dich "
+"Als ein Mitglied von {0} wurdest du eingeladen, Gig-o-Matic beizutreten um "
+"das Organisieren von euren Terminen zu vereinfachen. Du musst nur noch "
+"ein Passwort erstellen, um dich anmelden zu können. Dann kannst du dich "
 "auf http://gig-o-matic.appspot.com einloggen.\n"
 "\n"
 "Die URL zum Passwort erstellen ist:\n"
@@ -210,8 +210,8 @@ msgid "confirm_email_address_email"
 msgstr ""
 "Hallo! Jemand möchte seine Gig-o-Matic ID zu dieser Email-Adresseändern.\n"
 "Wenn du dieser Jemand warst, klick bitte einfach auf the Link um "
-"dieÄnderung zu bestätigen. Wenn nicht, kannst du diese Nachricht "
-"ignorierenund sie wird verfallen.\n"
+"die Änderung zu bestätigen. Wenn nicht, kannst du diese Nachricht "
+"ignorieren und sie wird verfallen.\n"
 "\n"
 "{0}\n"
 "\n"
@@ -220,23 +220,23 @@ msgstr ""
 
 #: templates/agenda.html:4 templates/agenda.html:10 templates/navbar.html:17
 msgid "Schedule"
-msgstr "Zeitplan"
+msgstr "Agenda"
 
 #: templates/agenda.html:12 templates/calview.html:10 templates/grid.html:11
 msgid "Make this my default view!"
-msgstr "Mach diese zu meiner Standartansicht!"
+msgstr "Mach dies zu meiner Standartansicht!"
 
 #: templates/agenda.html:19
 msgid "Future Gigs: Weigh In!"
-msgstr "Zukünftige Auftritte: Sag Bescheid!"
+msgstr "Zukünftige Termine: Sag Bescheid!"
 
 #: templates/agenda.html:39
 msgid "All Upcoming Gigs"
-msgstr "Alle kommenden Auftritte"
+msgstr "Alle kommenden Termine"
 
 #: templates/agenda.html:41
 msgid "My Next Few Gigs"
-msgstr "Meine nächsten paar Auftritte"
+msgstr "Meine nächsten Termine"
 
 #: templates/agenda.html:49
 msgid "show brief"
@@ -352,11 +352,11 @@ msgstr "Zeitzone"
 
 #: templates/band_edit.html:90
 msgid "Let any member create, edit, and delete gigs"
-msgstr "Erlaube allen Mitgliedern, Auftritte zu erstellen, bearbeiten und löschen"
+msgstr "Erlaube allen Mitgliedern, Termine zu erstellen, bearbeiten und löschen"
 
 #: templates/band_edit.html:99
 msgid "Let non-members see upcoming gigs"
-msgstr "Auch Nicht-Mitglieder können kommende Auftritte sehen"
+msgstr "Auch Nicht-Mitglieder können kommende Termine sehen"
 
 #: templates/band_edit.html:108
 msgid "Use simple planning pop-up (yes/maybe/no)"
@@ -426,8 +426,8 @@ msgstr "Kalender URL für Mitglieder"
 #: templates/band_info.html:98
 msgid "Copy this link's URL and use it to subscribe in google or iCal or whatever"
 msgstr ""
-"Kopiere diese URL und folge dem Kalender mit Google oder iCal oder etwas "
-"anderem"
+"Kopiere diese URL und abonniere diesen Kalender mit Google oder iCal oder einem "
+"anderen Programm"
 
 #: templates/band_info.html:109
 msgid "Pictures Of Us"
@@ -435,7 +435,7 @@ msgstr "Unsere Bilder"
 
 #: templates/band_info.html:126
 msgid "Upcoming Gigs"
-msgstr "Kommende Auftritte"
+msgstr "Kommende Termine"
 
 #: templates/band_info.html:138
 msgid "Members With Public Profiles"
@@ -444,7 +444,7 @@ msgstr "Mitglieder mit öffentlichen Profilen"
 #: templates/band_info.html:147
 msgid "Your membership is pending - ask a band member to confirm you!"
 msgstr ""
-"Deine Mitgliedschaft muss noch bestätigt werden - bitte einMitglied "
+"Deine Mitgliedschaft muss noch bestätigt werden - bitte ein Mitglied "
 "darum, dich freizuschalten!"
 
 #: templates/band_info.html:153
@@ -465,7 +465,7 @@ msgstr "Eingeladene Mitglieder"
 
 #: templates/band_info.html:186
 msgid "forget the invite"
-msgstr "Einladung vergessen"
+msgstr "Einladung zurücknehmen"
 
 #: templates/band_info.html:201 templates/band_info.html:208
 msgid "Members"
@@ -573,8 +573,8 @@ msgstr "Kalender - Hilfe!"
 #: templates/calhelp.html:13
 msgid "calhelp_1"
 msgstr ""
-"Gig-o-Matic kann Kalenderdaten für Google Kalender, Apple Kalenderund "
-"andere Kalenderprogramme, die mit dem \"CalDav\" Protokoll arbeiten,zur "
+"Gig-o-Matic kann Kalenderdaten für Google Kalender, Apple Kalender und "
+"andere Kalenderprogramme, die mit dem \"CalDav\" Protokoll arbeiten, zur "
 "Verfügung stellen. Und zwar so:"
 
 #: templates/calhelp.html:15
@@ -593,10 +593,10 @@ msgstr ""
 "Unter Kalender-Einstellungen die Schaltfläche\"In interessanten Kalendern"
 " suchen »\" auswählen. Dort auf der rechten Seite \"Über URL hinzufügen\""
 " klicken - in dem erscheinendenDialog die Adresse einfügen und geschafft!"
-" Der Gig-o Kalender wirdzu deiner Kalenderliste hinzugefügt. Bitte "
-"beachte, dass Google Kalender abonnierte Kalender nur alle paar Stunden "
-"aktualisiert,Änderungen in Gig-o werden also ein Weilchen brauchen, bis "
-"sieübernommen werden."
+"Der Gig-o Kalender wird zu deiner Kalenderliste hinzugefügt. Bitte "
+"beachte, dass Google Kalender die abonnierten Kalender nur alle paar Stunden "
+"aktualisiert. Änderungen in Gig-o werden also erst nach einer Weile "
+"übernommen."
 
 #: templates/calhelp.html:21
 msgid "Subscribing in Apple Calendar"
@@ -606,7 +606,7 @@ msgstr "Mit Apple Kalender folgen"
 msgid "calhelp_4"
 msgstr ""
 "Im \"Datei\" Menü den Punkt \"Neuen Kalender abonnieren\" auswählen - die"
-" Kalenderadresse in den Dialog einfügen und ein neuer Dialog erscheint,in"
+" Kalenderadresse in den Dialog einfügen und ein neuer Dialog erscheint, in"
 " dem man dem Kalender einen passenden Namen geben kann, usw."
 
 #: templates/calhelp.html:23
@@ -616,8 +616,8 @@ msgstr "Mit Outlook folgen"
 #: templates/calhelp.html:23
 msgid "calhelp_5"
 msgstr ""
-"<br>1) Unter Werkzeuge - Kontoeinstellungen...<br>2) Den InternetKalender"
-" Reiter auswählen<br>3) Auf Neu klicken...<br>4) Die Kalenderadresse "
+"<br>1) Unter Werkzeuge - Kontoeinstellungen...<br>2) Den Reiter Internetkalender"
+" auswählen<br>3) Auf Neu klicken...<br>4) Die Kalenderadresse "
 "einfügen<br>5) Klicke Hinzufügen<br>6) Den Ordnernamen zu 'Gig-o-Matic' "
 "ändern<br>7) Klicke OK<br>8) Der Gig-o-Matic Kalender erscheint unter "
 "'Andere Kalender'."
@@ -662,8 +662,8 @@ msgstr "Angemeldet!"
 msgid "signup_confirm_message"
 msgstr ""
 "Tolle Sache - du hast dich angemeldet. Halte in deinem "
-"PosteingangAusschau nach einer Bestätigungsnachricht und folge den "
-"Anweisungen,um den Vorgang weiterzuführen."
+"Posteingang Ausschau nach einer Bestätigungsnachricht und folge den "
+"Anweisungen, um den Vorgang weiterzuführen."
 
 #: templates/credits.html:3
 msgid "Credits"
@@ -681,9 +681,9 @@ msgstr "Gig-O-Matic, Version 2!"
 msgid "credits_text"
 msgstr ""
 "Erstellt von Aaron Oppenheimer von der Second Line Social Aid& Pleasure "
-"Society Brass Band. Getestet von mehreren unerschrockenenMitgliedern der "
-"Band. Im Selbstversuch weiterentwickelt von dergesamten Band. "
-"WOO!<br><br>Italienische Übersetzung von MarcelloJatosti. "
+"Society Brass Band. Getestet von mehreren unerschrockenen Mitgliedern der "
+"selben Band. Im Selbstversuch weiterentwickelt von der gesamten Band. "
+"WOO!<br><br>Italienische Übersetzung von Marcello Jatosti. "
 "Meraviglioso!<br>Deutsche Übersetzung von Christian Neumayer. Ausgezeichnet!"
 
 #: templates/credits.html:33
@@ -695,7 +695,7 @@ msgid "credits_text3"
 msgstr ""
 "Diese Projekt ist auf <a "
 "href=\"https://github.com/SecondLiners/GO2.git\">github</a> - "
-"Forksund/oder Weiterentwicklungen sind gerne gesehen!"
+"Forks und/oder Weiterentwicklungen sind gerne gesehen!"
 
 #: templates/credits.html:59
 msgid "Look <a href=\"/changelog\">here</a> for the change log."
@@ -709,9 +709,9 @@ msgstr "Passwort zurücksetzen"
 #: templates/forgot.html:23
 msgid "forgot_message"
 msgstr ""
-"Passwort vergessen? Kein Problem! Gib deine Emailadresse an, um einenLink"
+"Passwort vergessen? Kein Problem! Gib deine Emailadresse an, um einen Link"
 " zu erhalten, mit dem du dir ein neues, besseres und leichter-zu-"
-"merkendeserstellen kannst."
+"merkendes erstellen kannst."
 
 #: templates/forgot.html:33
 msgid "Not found!"
@@ -732,11 +732,11 @@ msgstr "Sende Link zum Passwort zurücksetzen"
 
 #: templates/gig_archived_info.html:3 templates/gig_archived_info.html:8
 msgid "Archived Gig Info"
-msgstr "Archivierte Auftritte Info"
+msgstr "Archivierte Termine Info"
 
 #: templates/gig_archived_info.html:14 templates/gig_info.html:40
 msgid "Gig"
-msgstr "Auftritt"
+msgstr "Termin"
 
 #: templates/gig_archived_info.html:19 templates/gig_info.html:58
 msgid "Band"
@@ -744,11 +744,11 @@ msgstr "Band"
 
 #: templates/gig_edit.html:13
 msgid "New Gig for "
-msgstr "Neuer Auftritt für"
+msgstr "Neuer Termin für"
 
 #: templates/gig_edit.html:23
 msgid "Gig Title"
-msgstr "Auftrittsname"
+msgstr "Terminname"
 
 #: templates/gig_edit.html:24 templates/gig_edit.html:61
 msgid "required"
@@ -848,7 +848,7 @@ msgstr "Änderungen vorbehalten"
 
 #: templates/gig_edit.html:152
 msgid "Email members about this new gig"
-msgstr "Sende Mitgliedern eine Email über diesen neuen Auftritt"
+msgstr "Sende Mitgliedern eine Email über diesen neuen Termin"
 
 #: templates/gig_edit.html:155
 msgid "Email members about changed time or status"
@@ -870,7 +870,7 @@ msgstr "Löschen bestätigen"
 
 #: templates/gig_edit.html:193
 msgid "Do you really want to delete this gig?"
-msgstr "Willst du diesen Auftritt wirklich löschen?"
+msgstr "Willst du diesen Termin wirklich löschen?"
 
 #: templates/gig_edit.html:196 templates/member_edit.html:165
 msgid "Don't Delete"
@@ -882,7 +882,7 @@ msgstr "Archivieren bestätigen"
 
 #: templates/gig_edit.html:213
 msgid "Do you really want to archive this gig?"
-msgstr "Willst du diesen Auftritt wirklich archivieren?"
+msgstr "Willst du diesen Termin wirklich archivieren?"
 
 #: templates/gig_edit.html:216
 msgid "Don't Archive"
@@ -911,7 +911,7 @@ msgstr "Fehler"
 
 #: templates/gig_info.html:3 templates/gig_info.html:17
 msgid "Gig Info"
-msgstr "Auftrittsinfo"
+msgstr "Termininfo"
 
 #: templates/gig_info.html:32
 msgid "Duplicate"
@@ -931,7 +931,7 @@ msgstr "Drucken"
 
 #: templates/gig_info.html:159
 msgid "Member Plans"
-msgstr "Pläne"
+msgstr "Zu- und Absagen"
 
 #: templates/gig_info.html:166
 msgid "Show All"
@@ -959,7 +959,7 @@ msgstr "Wer hat das alles hier erstellt?"
 
 #: templates/grid.html:4 templates/grid.html:9
 msgid "Grid o'Gigs"
-msgstr "Auftrittsraster"
+msgstr "Terminraster"
 
 #: templates/grid.html:60
 msgid "archived"
@@ -967,7 +967,7 @@ msgstr "archiviert"
 
 #: templates/grid.html:107
 msgid "No Gigs!"
-msgstr "Keine Auftritte!"
+msgstr "Keine Termine!"
 
 #: templates/help.html:14
 msgid "How do I..."
@@ -980,10 +980,10 @@ msgstr "...einer Band beitreten?"
 #: templates/help.html:16
 msgid "help_answer_1"
 msgstr ""
-"Klicke auf deinen Namen in der oberen rechten Ecke in diesem Fensterund "
+"Klicke auf deinen Namen in der oberen rechten Ecke in diesem Fenster und "
 "wähle \"Mein Profil\". In dem \"Bands\" Abschnitt klicke auf\"Band "
-"hinzufügen\" und wähle die gewünschte Band! Du wirst zu einemvorläufigen "
-"Mitglied, bis dich der Administrator der Band bestätigt.Daraufhin wirst "
+"hinzufügen\" und wähle die gewünschte Band! Du wirst zu einem vorläufigen "
+"Mitglied, bis dich der Administrator der Band bestätigt. Daraufhin wirst "
 "du eine Email erhalten."
 
 #: templates/help.html:17
@@ -993,12 +993,11 @@ msgstr "...mein Register wechseln?"
 #: templates/help.html:17
 msgid "help_answer_2"
 msgstr ""
-"Klicke auf deinen Namen in der oberen rechten Ecke in diesem Fensterund "
-"wähle \"Mein Profil\". In dem \"Bands\" Abschnitt kannst du deinRegister "
-"über das Pop-Up neben dem Bandnamen auswählen. Bitte beachtedass es Bands"
-" gibt die sich nicht in Register organisieren, es kannalso sein, dass es "
-"keine Auswahlmöglichkeiten gibt. Lehn' dich zurückund genieße die "
-"Anarchie."
+"Klicke auf deinen Namen in der oberen rechten Ecke in diesem Fenster und "
+"wähle \"Mein Profil\". In dem \"Bands\" Abschnitt kannst du dein Register "
+"über das Pop-Up neben dem Bandnamen auswählen. Bitte beachte, dass es Bands"
+" gibt, die sich nicht in Register organisieren, es kann also sein, dass es "
+"hier keine Auswahlmöglichkeiten gibt. In dem Fall: Lehn' dich " "zurück und genieße die Anarchie."
 
 #: templates/help.html:18
 msgid "help_question_3"
@@ -1047,7 +1046,7 @@ msgstr "Fehlerhafter Link!"
 #: templates/link_error.html:17
 msgid "link_error_message"
 msgstr ""
-"Du hast einen Link geklickt, der nicht mehr aktiv ist - deineIdentität "
+"Du hast einen Link geklickt, der nicht mehr aktiv ist - deine Identität "
 "hast du bereits bestätigt. Einloggen kannst du dich unter"
 
 #: templates/login.html:3 templates/login.html:51
@@ -1175,7 +1174,7 @@ msgstr "Aussage"
 #: templates/member_edit.html:51
 msgid "I have naturally curly hair and enjoy long walks on the beach."
 msgstr ""
-"Mein Haar ist von Natur aus blond und ich genieße lange Abendeauf der "
+"Mein Haar ist von Natur aus blond und ich genieße lange Abende auf der "
 "Veranda."
 
 #: templates/member_edit.html:56
@@ -1185,7 +1184,7 @@ msgstr "Bilder von mir"
 #: templates/member_edit.html:61
 msgid "images_instructions"
 msgstr ""
-"Es muss sich um Links zu Bildern handeln, einen pro Zeile. Um ein Bildvon"
+"Es muss sich um Links zu Bildern handeln, einen pro Zeile. Um ein Bild von"
 " Facebook zu verwenden, kannst du mit einem Rechtsklick den "
 "Punkt\"Adresse kopieren\" auswählen und den Link dann hier einfügen."
 
@@ -1195,11 +1194,11 @@ msgstr "Einstellungen"
 
 #: templates/member_edit.html:81
 msgid "Email me every time a gig is added"
-msgstr "Sende mir eine Email, wenn ein Auftritt hinzugefügt wird"
+msgstr "Sende mir eine Email, wenn ein Termin hinzugefügt wird"
 
 #: templates/member_edit.html:88
 msgid "Hide canceled gigs on my agenda page"
-msgstr "Verberge abgesagte Auftritte auf meiner Agenda"
+msgstr "Verberge abgesagte Termine auf meiner Agenda"
 
 #: templates/member_edit.html:95
 msgid "Share my profile outside of my bands"
@@ -1211,13 +1210,13 @@ msgstr "Teile meine Emailadresse außerhalb meiner Bands"
 
 #: templates/member_edit.html:109
 msgid "Show only confirmed gigs on calendar view"
-msgstr "Zeige nur bestätigte Auftritte in der Kalenderansicht"
+msgstr "Zeige nur bestätigte Termine in der Kalenderansicht"
 
 #: templates/member_edit.html:116
 msgid "Show only gigs I can do (or maybe can do) on calendar view"
 msgstr ""
-"Zeige nur Auftritte, bei denen ich (auch vielleicht) dabei binin der "
-"Kalenderansicht"
+"Zeige nur Termine in der Kalenderansicht, bei denen ich (auch "
+"vielleicht) dabei bin"
 
 #: templates/member_edit.html:118
 msgid "Language"
@@ -1249,11 +1248,11 @@ msgstr "Meine Bands"
 
 #: templates/member_info.html:79
 msgid "Email me for new gigs"
-msgstr "Sende mir eine Email über neue Auftritte"
+msgstr "Sende mir eine Email über neue Termine"
 
 #: templates/member_info.html:84
 msgid "Hide canceled gigs"
-msgstr "Verberge abgesagte Auftritte"
+msgstr "Verberge abgesagte Termine"
 
 #: templates/member_info.html:89
 msgid "Share my profile"
@@ -1269,19 +1268,19 @@ msgstr "Kalender-URL für meine Bands"
 
 #: templates/member_info.html:100
 msgid "Subscribe using this link's URL"
-msgstr "Folgen mit Hilfe dieses Links"
+msgstr "Mit diesem Link abonnieren"
 
 #: templates/member_info.html:100
 msgid "click here for help"
-msgstr "klicke hier, um geholfen zu werden"
+msgstr "hier erhältst du Hilfe"
 
 #: templates/member_info.html:105
 msgid "Calendar shows only confirmed gigs"
-msgstr "Es werden nur bestätigte Auftritte angezeigt"
+msgstr "Zeige nur bestätigte Termine"
 
 #: templates/member_info.html:109
 msgid "Calendar shows only gigs I can do (or maybe can do)"
-msgstr "Es werden nur Auftritte angezeigt, bei denen ich (auch vielleicht) kann"
+msgstr "Zeige nur Termine, bei denen ich (auch vielleicht) kann"
 
 #: templates/member_info.html:119
 msgid "Pictures Of Me"
@@ -1313,7 +1312,7 @@ msgstr "Message of the Day"
 
 #: templates/navbar.html:15
 msgid "Gigs"
-msgstr "Auftritte"
+msgstr "Termine"
 
 #: templates/navbar.html:19
 msgid "Grid"
@@ -1326,7 +1325,7 @@ msgstr "Noch keine Bands!"
 
 #: templates/navbar.html:30 templates/navbar.html:33
 msgid "Add Gig"
-msgstr "Auftritt hinzufügen"
+msgstr "Termin hinzufügen"
 
 #: templates/navbar.html:42
 msgid "Admin"
@@ -1354,7 +1353,7 @@ msgstr "Ohje!"
 
 #: templates/no_band_gig.html:8
 msgid "Adding a Gig"
-msgstr "Einen Auftritt hinzufügen"
+msgstr "Einen Termin hinzufügen"
 
 #: templates/no_band_gig.html:13
 msgid "no_band_gig_message"
@@ -1362,13 +1361,13 @@ msgstr ""
 "Du bist noch kein bestätigtes Mitglied einer Band. Sobald du einer "
 "Bandbeigetreten bist, wird dich ein bestehendes Mitglied der Band "
 "alslegitim bestätigen und du erhältst eine Email, die deine "
-"Mitgliedschaftbestätigt. Ab dann kannst du für diese Band Auftritte "
+"Mitgliedschaftbestätigt. Ab dann kannst du für diese Band Termine "
 "erstellen und bearbeiten. Also, keinen Stress und behalte deinen "
 "Posteingang im Auge!"
 
 #: templates/no_gig_found.html:7
 msgid "No Gig Found!"
-msgstr "Kein Auftritt gefunden!"
+msgstr "Kein Termin gefunden!"
 
 #: templates/plan_icon.html:29
 msgid "Definitely"
@@ -1428,21 +1427,21 @@ msgstr "Statistiken!"
 
 #: templates/tf.html:3
 msgid "True"
-msgstr "Wahr"
+msgstr "Ja"
 
 #: templates/tf.html:5
 msgid "False"
-msgstr "Falsch"
+msgstr "Nein"
 
 #: templates/welcome.html:3
 msgid "welcome_message"
 msgstr ""
-"Willkommen zu Gig-o-Matic!<br><br>Zuallererst: Vergiss nicht, deinProfil "
-"mit Infos über dich zu füllen.<br><br>Zuallerzweitens: Tritteiner (oder "
-"zwei) Bands bei, indem du den \"Band beitreten\" Link untenklickst. Ein "
+"Willkommen zu Gig-o-Matic!<br><br>Zuallererstens: Vergiss nicht, dein Profil "
+"mit Infos über dich zu füllen.<br><br>Zuallerzweitens: Tritt einer (oder "
+"zwei) Bands bei, indem du den \"Band beitreten\" Link unten klickst. Ein "
 "Bandadministrator wird dich legitimieren und du erhältst "
-"eineBestätigungsmail. Groovy.<br><br>Brauchst du Hilfe? <a href=\"/help\""
-" class=\"alert-link\">Hier</a> werden hoffentlich alle deineFragen "
+"eine Bestätigungsmail. Groovy.<br><br>Brauchst du Hilfe? <a href=\"/help\""
+" class=\"alert-link\">Hier</a> werden hoffentlich alle deine Fragen "
 "beantwortet.<br><br>Das hat nicht geholfen? Kontaktiere die <a "
 "href=\"mailto:gigomatic.superuser@gmail.com\" class=\"alert-"
 "link\">Gig-o-Matic Overlords</a>."
@@ -1483,7 +1482,7 @@ msgstr "Was ist das?"
 #~ msgstr "Wechsle zu"
 
 #~ msgid "New Gig"
-#~ msgstr "Neuer Auftritt"
+#~ msgstr "Neuer Termin"
 
 #~ msgid "Thumbnail Image"
 #~ msgstr "Vorschaubild"
@@ -1504,7 +1503,7 @@ msgstr "Was ist das?"
 #~ msgstr "Meinung?"
 
 #~ msgid "Gig-o-Matic New Gig"
-#~ msgstr "Gig-o-Matic Neuer Auftritt"
+#~ msgstr "Gig-o-Matic Neuer Termin"
 
 #~ msgid "No Comments (yet...)"
 #~ msgstr "(Noch) Keine Kommentare..."
@@ -1513,5 +1512,5 @@ msgstr "Was ist das?"
 #~ msgstr "UTC Verschiebung"
 
 #~ msgid "Edited Gig:"
-#~ msgstr "Bearbeiteter Auftritt:"
+#~ msgstr "Bearbeiteter Termin:"
 
