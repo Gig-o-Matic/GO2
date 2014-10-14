@@ -267,7 +267,8 @@ $(document).ready(function() {
     $('.bxslider').bxSlider({
         auto: true,
         controls: true,
-        pager: false
+        pager: false,
+        autoStart: ($(".bxslider>li").length > 1) ? true: false,        
     });
     
 });
