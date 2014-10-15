@@ -98,3 +98,7 @@ code {
 
 .comment-comment {
 }
+
+.panel-group .panel-overflowable {
+    overflow:visible;
+}
