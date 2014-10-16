@@ -246,3 +246,10 @@ def get_all_invites():
     assoc_query = Assoc.query( Assoc.is_invited==True )
     assocs = assoc_query.fetch()
     return assocs
+
+def confirm_user_is_member(the_user_key, the_band_key):
+    """ is this member in this band? """
+    a_key = get_assoc_for_band_key_and_member_key(the_user_key, the_band_key, confirmed_only = True)
+    print '\n\n{0}\n\n'.format(a_key)
+    return a_key
+    

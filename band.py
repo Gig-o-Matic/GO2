@@ -718,10 +718,15 @@ class GigArchivePage(BaseHandler):
             return
         else:
             the_band_key = ndb.Key(urlsafe=the_band_key_url)
-            the_band = the_band_key.get()
-            if the_band is None:
-                self.response.write('did not find a band!')
-                return # todo figure out what to do if we didn't find it
+
+        # make sure this member is actually in the band
+        if assoc.confirm_user_is_member(the_user.key, the_band_key) is None:
+            return
+        
+        the_band = the_band_key.get()
+        if the_band is None:
+            self.response.write('did not find a band!')
+            return # todo figure out what to do if we didn't find it
 
         the_gigs = gig.get_gigs_for_band_keys(the_band_key, show_past=True)
         
