@@ -65,17 +65,19 @@
                                 &nbsp;
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-2 col-sm-2 col-xs-3">{% trans %}Resources{% endtrans %}</div>
-                            <div class="col-md-10 col-sm-10 col-xs-9">
-                                    {% if the_member_links %}
-                                        {% for l in the_member_links %}
-                                            <a href="{{l[1]}}" target="_new">{{ l[0] }}</a><br>
-                                        {% endfor %}
-                                    {% endif %}
-                                    <a href="/band_gig_archive?bk={{ the_band.key.urlsafe() }}">Gig Archive</a><br>
+                        {% if the_user.is_betatester or the_member_links or the_user_is_superuser %}
+                            <div class="row">
+                                <div class="col-md-2 col-sm-2 col-xs-3">{% trans %}Resources{% endtrans %}</div>
+                                <div class="col-md-10 col-sm-10 col-xs-9">
+                                        {% if the_member_links %}
+                                            {% for l in the_member_links %}
+                                                <a href="{{l[1]}}" target="_new">{{ l[0] }}</a><br>
+                                            {% endfor %}
+                                        {% endif %}
+                                        <a href="/band_gig_archive?bk={{ the_band.key.urlsafe() }}">Gig Archive</a><br>
+                                </div>
                             </div>
-                        </div>
+                        {% endif %}
                         <div class="row">
                             <div class="col-md-12 col-sm-12 col-xs-12">
                                 &nbsp;
