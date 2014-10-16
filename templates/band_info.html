@@ -74,7 +74,9 @@
                                                 <a href="{{l[1]}}" target="_new">{{ l[0] }}</a><br>
                                             {% endfor %}
                                         {% endif %}
-                                        <a href="/band_gig_archive?bk={{ the_band.key.urlsafe() }}">Gig Archive</a><br>
+                                        {% if the_user.is_betatester or the_user_is_superuser %}
+                                            <a href="/band_gig_archive?bk={{ the_band.key.urlsafe() }}">Gig Archive</a><br>
+                                        {% endif %}
                                 </div>
                             </div>
                         {% endif %}
