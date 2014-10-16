@@ -17,8 +17,12 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             {% for gig in the_gigs %}
-                {{ the_date_formatter(the_user, gig.date, 'short') }}
-                <a href="/gig_info.html?gk={{ gig.key.urlsafe() }}">{{ gig.title }}</a><br>
+                <div class="col-md-2 col-md-offset-2">
+                    {{ the_date_formatter(the_user, gig.date, 'short') }}
+                </div>
+                <div class="col-md-6">
+                    <a href="/gig_info.html?gk={{ gig.key.urlsafe() }}">{{ gig.title }}</a><br>
+                </div>
             {% endfor %}
         </div>
     </div>
