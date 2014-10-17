@@ -11,26 +11,31 @@
         </div>
     </div>
 </div>
+{% for b in the_bands %}
 <div class="row">
     <div class="col-md-8 col-md-offset-2">
-        <div class="row thumbnails">
-            {% for b in the_bands %}
-                <div class="col-lg-3 col-md-4 col-sm-6 thumbnail">
-                    <a href="/band_info.html?bk={{b.key.urlsafe()}}">
-                        {% if b.thumbnail_img %}
-                            <img width="100%" src="{{b.thumbnail_img}}" alt="...">
-                        {% else %}
-                            <img width="100%" src="/images/band_thumbnail.png" style="border:1px solid gray" alt="...">
-                        {% endif %}
-                    </a>
-                    <div class="caption">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <a href="/band_info.html?bk={{b.key.urlsafe()}}">
+                            {% if b.thumbnail_img %}
+                                <img width="100%" src="{{b.thumbnail_img}}" alt="...">
+                            {% else %}
+                                <img width="100%" src="/images/band_thumbnail.png" style="border:1px solid gray" alt="...">
+                            {% endif %}
+                        </a>
+                    </div>
+                    <div class="col-md-8">
                         <a href="/band_info.html?bk={{b.key.urlsafe()}}"><h3>{{ b.name }}</h3></a>
                     </div>
                 </div>
-            {% endfor %}
+            </div>
         </div>
     </div>
 </div>
+
+{% endfor %}
 {% endblock content %}
 
 {% block localscripts %}
