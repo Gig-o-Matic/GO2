@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-10-17 14:00-0400\n"
+"POT-Creation-Date: 2014-10-17 17:21-0400\n"
 "PO-Revision-Date: 2014-02-01 18:13-0500\n"
 "Last-Translator: Christian Neumayer <christian.m.neumayer@gmail.com>\n"
 "Language-Team: en <LL@li.org>\n"
@@ -293,19 +293,27 @@ msgstr "Abkürzung"
 msgid "whts it clld?"
 msgstr "Wie heißt sie?"
 
-#: templates/band_edit.html:28
+#: templates/band_edit.html:28 templates/band_info.html:56
+msgid "Hometown"
+msgstr ""
+
+#: templates/band_edit.html:29
+msgid "where are you?"
+msgstr ""
+
+#: templates/band_edit.html:34
 msgid "Description"
 msgstr "Beschreibung"
 
-#: templates/band_edit.html:29
+#: templates/band_edit.html:35
 msgid "tell us a little about the band"
 msgstr "Erzähl ein wenig von deiner Band"
 
-#: templates/band_edit.html:34
+#: templates/band_edit.html:40
 msgid "Member Links"
 msgstr "Mitglieder Links"
 
-#: templates/band_edit.html:35
+#: templates/band_edit.html:41
 msgid ""
 "Links to member resources, one per line, like this -> label: "
 "http://link_to_thing\""
@@ -313,77 +321,77 @@ msgstr ""
 "Links zu Ressourcen für Mitglieder, einen pro Zeile, in dieser Art -> "
 "label: http://link_to_thing\""
 
-#: templates/band_edit.html:40 templates/band_info.html:56
+#: templates/band_edit.html:46 templates/band_info.html:69
 msgid "Website"
 msgstr "Webseite"
 
-#: templates/band_edit.html:46
+#: templates/band_edit.html:52
 msgid "Thumbnail Image for Band Navigator Page"
 msgstr "Vorschaubild für die Bandübersicht"
 
-#: templates/band_edit.html:47
+#: templates/band_edit.html:53
 msgid "url of 200x300 picture for band navigtor page"
 msgstr "url zu 200x300 Bild für die Bandübersicht"
 
-#: templates/band_edit.html:48
+#: templates/band_edit.html:54
 msgid "thumbnail_instructions"
 msgstr ""
 "Benötigt eine Bild-URL. Um ein Bild von Facebook zu verwenden kannst du "
 "via Rechtsklick die Bild-URL kopieren und hier einfügen. Funktioniert "
 "momentan noch besser mit Bildern, die höher als breit sind."
 
-#: templates/band_edit.html:53
+#: templates/band_edit.html:59
 msgid "Public Page Images"
 msgstr "Bilder für das öffentlichen Profil"
 
-#: templates/band_edit.html:54 templates/member_edit.html:57
+#: templates/band_edit.html:60 templates/member_edit.html:57
 msgid "put urls to images on their own lines..."
 msgstr "Jede Zeile nur eine URL, nicht drängeln..."
 
-#: templates/band_edit.html:58
+#: templates/band_edit.html:64
 msgid "imagelink_instructions"
 msgstr ""
 "Benötigt Bild-URLs. Um ein Bild von Facebook zu verwenden kannst du via "
 "Rechtsklick die Bild-URL kopieren und hier einfügen."
 
-#: templates/band_edit.html:71
+#: templates/band_edit.html:77
 msgid "Time Zone"
 msgstr "Zeitzone"
 
-#: templates/band_edit.html:86
+#: templates/band_edit.html:92
 msgid "Let any member create, edit, and delete gigs"
 msgstr "Erlaube allen Mitgliedern, Termine zu erstellen, bearbeiten und löschen"
 
-#: templates/band_edit.html:95
+#: templates/band_edit.html:101
 msgid "Let non-members see upcoming gigs"
 msgstr "Auch Nicht-Mitglieder können kommende Termine sehen"
 
-#: templates/band_edit.html:104
+#: templates/band_edit.html:110
 msgid "Use simple planning pop-up (yes/maybe/no)"
 msgstr "Verwende einfachen Planung (ja/nein/vielleicht)"
 
-#: templates/band_edit.html:109
+#: templates/band_edit.html:115
 msgid "Extra Feedback"
 msgstr "Zusätzliches Feedback"
 
-#: templates/band_edit.html:110
+#: templates/band_edit.html:116
 msgid "items for second planning popup (BETA!)"
 msgstr "Einträge für zweite Planungsebene (BETA!)"
 
-#: templates/band_edit.html:119 templates/band_edit.html:121
-#: templates/band_info.html:292 templates/band_invite.html:29
+#: templates/band_edit.html:125 templates/band_edit.html:127
+#: templates/band_info.html:305 templates/band_invite.html:29
 #: templates/forgot.html:49 templates/gig_edit.html:169
 #: templates/gig_edit.html:171 templates/member_edit.html:140
 #: templates/signup.html:58
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: templates/band_edit.html:123 templates/band_info.html:293
+#: templates/band_edit.html:129 templates/band_info.html:306
 #: templates/gig_edit.html:173 templates/member_edit.html:141
 msgid "Save"
 msgstr "Speichern"
 
-#: templates/band_edit.html:147 templates/band_info.html:488
+#: templates/band_edit.html:153 templates/band_info.html:501
 #: templates/gig_edit.html:284 templates/gig_edit.html:287
 #: templates/gig_edit.html:290 templates/member_edit.html:198
 msgid "This field is required!"
@@ -423,92 +431,92 @@ msgstr "Bearbeiten"
 msgid "A Band of Mystery..."
 msgstr "Eine unerforschte Band..."
 
-#: templates/band_info.html:69
+#: templates/band_info.html:82
 msgid "Resources"
 msgstr "Ressourcen"
 
-#: templates/band_info.html:76
+#: templates/band_info.html:89
 msgid "Gig Archive"
 msgstr ""
 
-#: templates/band_info.html:85
+#: templates/band_info.html:98
 msgid "Public Profile"
 msgstr "Öffentliches Profil"
 
-#: templates/band_info.html:97
+#: templates/band_info.html:110
 msgid "Calendar URL for Members"
 msgstr "Kalender URL für Mitglieder"
 
-#: templates/band_info.html:99
+#: templates/band_info.html:112
 msgid "Copy this link's URL and use it to subscribe in google or iCal or whatever"
 msgstr ""
 "Kopiere diese URL und abonniere diesen Kalender mit Google oder iCal oder"
 " einem anderen Programm"
 
-#: templates/band_info.html:110
+#: templates/band_info.html:123
 msgid "Pictures Of Us"
 msgstr "Unsere Bilder"
 
-#: templates/band_info.html:127
+#: templates/band_info.html:140
 msgid "Upcoming Gigs"
 msgstr "Kommende Termine"
 
-#: templates/band_info.html:139
+#: templates/band_info.html:152
 msgid "Members With Public Profiles"
 msgstr "Mitglieder mit öffentlichen Profilen"
 
-#: templates/band_info.html:148
+#: templates/band_info.html:161
 msgid "Your membership is pending - ask a band member to confirm you!"
 msgstr ""
 "Deine Mitgliedschaft muss noch bestätigt werden - bitte ein Mitglied "
 "darum, dich freizuschalten!"
 
-#: templates/band_info.html:154
+#: templates/band_info.html:167
 msgid "Pending Members"
 msgstr "Noch nicht bestätigte Mitglieder"
 
-#: templates/band_info.html:164
+#: templates/band_info.html:177
 msgid "yes, confirm member!"
 msgstr "Ja, bestätigen!"
 
-#: templates/band_info.html:165
+#: templates/band_info.html:178
 msgid "no, reject!"
 msgstr "Nein, ablehnen!"
 
-#: templates/band_info.html:177
+#: templates/band_info.html:190
 msgid "Invited Members"
 msgstr "Eingeladene Mitglieder"
 
-#: templates/band_info.html:187
+#: templates/band_info.html:200
 msgid "forget the invite"
 msgstr "Einladung zurücknehmen"
 
-#: templates/band_info.html:202 templates/band_info.html:209
+#: templates/band_info.html:215 templates/band_info.html:222
 msgid "Members"
 msgstr "Mitglieder"
 
-#: templates/band_info.html:206
+#: templates/band_info.html:219
 msgid "Sections"
 msgstr "Register"
 
-#: templates/band_info.html:214
+#: templates/band_info.html:227
 msgid "Order"
 msgstr "Reihenfolge"
 
-#: templates/band_info.html:229 templates/band_info.html:282
+#: templates/band_info.html:242 templates/band_info.html:295
 msgid "Add a Section"
 msgstr "Register hinzufügen"
 
-#: templates/band_info.html:245 templates/member_admin.html:3
+#: templates/band_info.html:258 templates/member_admin.html:3
 #: templates/member_admin.html:8 templates/navbar.html:44
 msgid "Member Admin"
 msgstr "Mitglieder Administration"
 
-#: templates/band_info.html:253 templates/band_invite.html:3
+#: templates/band_info.html:266 templates/band_invite.html:3
 msgid "Invite Members"
 msgstr "Mitglieder einladen"
 
-#: templates/band_info.html:286
+#: templates/band_info.html:299
 msgid "New Section"
 msgstr "Neues Register"
 
@@ -568,6 +576,14 @@ msgstr "Aus Band entfernen"
 #: templates/navbar_bandlist.html:6
 msgid "Band Navigator"
 msgstr "Band Navigator"
+
+#: templates/band_nav.html:72
+msgid "more"
+msgstr "mehr"
+
+#: templates/band_nav.html:72
+msgid "less"
+msgstr "weniger"
 
 #: templates/band_public_members.html:2
 msgid "None!"

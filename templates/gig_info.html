@@ -253,7 +253,7 @@ function simpleswitch() {
 
 $(document).ready(function() {
     setsimple();
-    $('.trunc').truncate({max_length: 500});
+    $('.trunc').truncate({max_length: 500, more:"...{% trans %}more{% endtrans %}", less:"{% trans %}less{% endtrans %}"});
     $('.popcomment').tooltip({ 'trigger':'hover click' });    
     update_comment('{{gig.key.urlsafe()}}');
 });
