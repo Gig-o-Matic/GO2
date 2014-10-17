@@ -28,6 +28,8 @@
                     </div>
                     <div class="col-md-8">
                         <a href="/band_info.html?bk={{b.key.urlsafe()}}"><h3>{{ b.name }}</h3></a>
+                        {% if b.hometown %}{{ b.hometown }}{% endif %}<br><br>
+                        {% if b.description %}{{ b.description }}{% endif %}
                     </div>
                 </div>
             </div>
