@@ -25,6 +25,12 @@
         </div>
         <div class="row">
             <div class="form-group col-md-8 col-md-offset-2">
+                <label for="bandhometowninput" class="control-label">{% trans %}Hometown{% endtrans %}</label>
+                <input type="text" class="form-control" id="bandhometowninput" placeholder="{% trans %}where are you?{% endtrans %}" name="band_hometown" value="{{the_band.hometown}}">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-8 col-md-offset-2">
                 <label for="banddescriptioninput" class="control-label">{% trans %}Description{% endtrans %}</label>
                 <textarea class="form-control" rows="10" id="banddescriptioninput" placeholder="{% trans %}tell us a little about the band{% endtrans %}" name="band_description">{% if the_band.description %}{{the_band.description}}{% endif %}</textarea>
             </div>

@@ -46,6 +46,19 @@
                             {% endif %}
                         </div>
                     </div>
+                    {% if the_band.hometown %}
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                &nbsp;
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 col-sm-2 col-xs-3">{% trans %}Hometown{% endtrans %}</div>
+                            <div class="col-md-10 col-sm-10 col-xs-9">
+                                <a href="http://maps.google.com?q={{the_band.hometown | replace(' ','+')}}" target="new">{{ the_band.hometown }}</a>
+                            </div>
+                        </div>
+                    {% endif %}
                     {% if the_band.website %}
                         <div class="row">
                             <div class="col-md-12 col-sm-12 col-xs-12">

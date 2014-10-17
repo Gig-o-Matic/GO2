@@ -37,6 +37,7 @@ class Band(ndb.Model):
     shortname = ndb.StringProperty()
     website = ndb.TextProperty()
     description = ndb.TextProperty()
+    hometown = ndb.TextProperty()
     sections = ndb.KeyProperty( repeated=True ) # instrumental sections
     created = ndb.DateTimeProperty(auto_now_add=True)
 #     time_zone_correction = ndb.IntegerProperty(default=0) # NO LONGER IN USE
@@ -346,6 +347,8 @@ class EditPage(BaseHandler):
         member_links_blob = self.request.get("band_member_links",None)
         if member_links_blob is not None:
             the_band.member_links=member_links_blob
+
+        the_band.hometown=self.request.get("band_hometown",None)
 
         the_band.description=self.request.get("band_description",None)
             
