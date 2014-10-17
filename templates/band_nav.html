@@ -22,14 +22,14 @@
                             {% if b.thumbnail_img %}
                                 <img height="100%" src="{{b.thumbnail_img}}" alt="...">
                             {% else %}
-                                <img style="max-height:500px; max-width:200;" src="/images/band_thumbnail.png" style="border:1px solid gray" alt="...">
+                                <img style="max-height:200px; max-width:200;" src="/images/band_thumbnail.png" style="border:1px solid gray" alt="...">
                             {% endif %}
                         </a>
                     </div>
                     <div class="col-md-8">
                         <a href="/band_info.html?bk={{b.key.urlsafe()}}"><h3>{{ b.name }}</h3></a>
-                        {% if b.hometown %}{{ b.hometown }}{% endif %}<br><br>
-                        {% if b.description %}{{ b.description }}{% endif %}
+                        {% if b.hometown %}{{ b.hometown }}<br><br>{% endif %}
+                        {% if b.description %}<span class="trunc">{{ b.description }}</span>{% endif %}
                     </div>
                 </div>
             </div>
@@ -41,6 +41,7 @@
 {% endblock content %}
 
 {% block localscripts %}
+<script src="/js/jquery.truncator.js"></script>
 <script>
 
 {#
@@ -68,6 +69,7 @@
 })(jQuery);
 
 $(document).ready(function() {
+    $('.trunc').truncate({max_length: 100});
     setTimeout(function()
                 {  $('.thumbnails').find('.thumbnail').uniformHeight(); }
             , 100);
