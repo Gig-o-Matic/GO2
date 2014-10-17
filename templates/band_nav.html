@@ -20,9 +20,9 @@
                     <div class="col-md-4">
                         <a href="/band_info.html?bk={{b.key.urlsafe()}}">
                             {% if b.thumbnail_img %}
-                                <img width="100%" src="{{b.thumbnail_img}}" alt="...">
+                                <img height="100%" src="{{b.thumbnail_img}}" alt="...">
                             {% else %}
-                                <img width="100%" src="/images/band_thumbnail.png" style="border:1px solid gray" alt="...">
+                                <img style="max-height:500px; max-width:200;" src="/images/band_thumbnail.png" style="border:1px solid gray" alt="...">
                             {% endif %}
                         </a>
                     </div>
