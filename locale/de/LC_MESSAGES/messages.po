@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-10-18 20:24-0400\n"
+"POT-Creation-Date: 2014-10-19 10:31-0400\n"
 "PO-Revision-Date: 2014-02-01 18:13-0500\n"
 "Last-Translator: Christian Neumayer <christian.m.neumayer@gmail.com>\n"
 "Language-Team: en <LL@li.org>\n"
@@ -379,7 +379,7 @@ msgid "items for second planning popup (BETA!)"
 msgstr "Einträge für zweite Planungsebene (BETA!)"
 
 #: templates/band_edit.html:125 templates/band_edit.html:127
-#: templates/band_info.html:305 templates/band_invite.html:29
+#: templates/band_info.html:305 templates/band_invite.html:30
 #: templates/forgot.html:49 templates/gig_edit.html:169
 #: templates/gig_edit.html:171 templates/member_edit.html:140
 #: templates/signup.html:58
@@ -520,15 +520,22 @@ msgstr "Mitglieder einladen"
 msgid "New Section"
 msgstr "Neues Register"
 
-#: templates/band_invite.html:23
+#: templates/band_invite.html:13
+msgid "invite_instructions"
+msgstr ""
+"Inviting new members to join your band is easy as pie. Just enter a list of email "
+"addresses separated by commas or newlines, and invitations will go out. Members will "
+"automatically be confirmed as members of your band."
+
+#: templates/band_invite.html:24
 msgid "Emails:"
 msgstr "Emails:"
 
-#: templates/band_invite.html:24
+#: templates/band_invite.html:25
 msgid "foo@bar.org"
 msgstr "foo@bar.org"
 
-#: templates/band_invite.html:30
+#: templates/band_invite.html:31
 msgid "Send Invites"
 msgstr "Sende Einladungen"
 
@@ -577,11 +584,11 @@ msgstr "Aus Band entfernen"
 msgid "Band Navigator"
 msgstr "Band Navigator"
 
-#: templates/band_nav.html:72 templates/gig_info.html:256
+#: templates/band_nav.html:73 templates/gig_info.html:256
 msgid "more"
 msgstr "mehr"
 
-#: templates/band_nav.html:72 templates/gig_info.html:256
+#: templates/band_nav.html:73 templates/gig_info.html:256
 msgid "less"
 msgstr "weniger"
 
@@ -662,9 +669,9 @@ msgstr "Zurück zu Profil"
 msgid "Calendar"
 msgstr "Kalender"
 
-#: templates/changelog.html:3 templates/help.html:3 templates/help.html:8
-msgid "Help!"
-msgstr "Hilfe!"
+#: templates/changelog.html:3
+msgid "Changelog!"
+msgstr ""
 
 #: templates/changelog.html:7
 msgid "Change Log"
@@ -775,6 +782,24 @@ msgstr "Termin"
 msgid "Band"
 msgstr "Band"
 
+#: templates/gig_archived_info.html:29 templates/gig_edit.html:137
+#: templates/gig_info.html:121
+msgid "More Details"
+msgstr "Mehr Details"
+
+#: templates/gig_archived_info.html:34 templates/gig_edit.html:143
+#: templates/gig_info.html:135
+msgid "Setlist"
+msgstr "Programm"
+
+#: templates/gig_archived_info.html:39 templates/gig_info.html:159
+msgid "Member Plans"
+msgstr "Zu- und Absagen"
+
+#: templates/gig_archived_info.html:45 templates/gig_info.html:201
+msgid "Comments"
+msgstr "Kommentare"
+
 #: templates/gig_edit.html:13
 msgid "New Gig for "
 msgstr "Neuer Termin für"
@@ -863,17 +888,9 @@ msgstr "Dirigent"
 msgid "leader_placeholder"
 msgstr "Herbert von Karajan"
 
-#: templates/gig_edit.html:137 templates/gig_info.html:121
-msgid "More Details"
-msgstr "Mehr Details"
-
 #: templates/gig_edit.html:138
 msgid "who? what? where? when? why?"
 msgstr "Wer? Wo? Was? Wann? Wieso?"
-
-#: templates/gig_edit.html:143 templates/gig_info.html:135
-msgid "Setlist"
-msgstr "Programm"
 
 #: templates/gig_edit.html:144
 msgid "setlist here"
@@ -897,7 +914,7 @@ msgid "Archive"
 msgstr "Archivieren"
 
 #: templates/gig_edit.html:190 templates/member_edit.html:159
-#: templates/member_info.html:158
+#: templates/member_info.html:171
 msgid "Confirm Delete"
 msgstr "Löschen bestätigen"
 
@@ -962,10 +979,6 @@ msgstr "Adjustierung"
 msgid "Print"
 msgstr "Drucken"
 
-#: templates/gig_info.html:159
-msgid "Member Plans"
-msgstr "Zu- und Absagen"
-
 #: templates/gig_info.html:166
 msgid "Show All"
 msgstr "Zeige alle"
@@ -973,10 +986,6 @@ msgstr "Zeige alle"
 #: templates/gig_info.html:167
 msgid "Show Committed"
 msgstr "Zeige fixe Zusagen"
-
-#: templates/gig_info.html:201
-msgid "Comments"
-msgstr "Kommentare"
 
 #: templates/gig_info.html:212
 msgid "say your piece!"
@@ -1001,6 +1010,10 @@ msgstr "archiviert"
 #: templates/grid.html:107
 msgid "No Gigs!"
 msgstr "Keine Termine!"
+
+#: templates/help.html:3 templates/help.html:8
+msgid "Help!"
+msgstr "Hilfe!"
 
 #: templates/help.html:14
 msgid "How do I..."
@@ -1312,23 +1325,23 @@ msgstr "Zeige nur bestätigte Termine"
 msgid "Calendar shows only gigs I can do (or maybe can do)"
 msgstr "Zeige nur Termine, bei denen ich (auch vielleicht) kann"
 
-#: templates/member_info.html:119
+#: templates/member_info.html:132
 msgid "Pictures Of Me"
 msgstr "Bilder von mir"
 
-#: templates/member_info.html:135 templates/navbar.html:22
+#: templates/member_info.html:148 templates/navbar.html:22
 msgid "Bands"
 msgstr "Bands"
 
-#: templates/member_info.html:161
+#: templates/member_info.html:174
 msgid "Do you really want to leave"
 msgstr "Willst du wirklich weg"
 
-#: templates/member_info.html:164
+#: templates/member_info.html:177
 msgid "Don't Leave"
 msgstr "Nicht verlassen"
 
-#: templates/member_info.html:165
+#: templates/member_info.html:178
 msgid "Yes, Leave"
 msgstr "Ja, tschüss"
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-10-18 20:24-0400\n"
+"POT-Creation-Date: 2014-10-19 10:31-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -280,7 +280,7 @@ msgid "items for second planning popup (BETA!)"
 msgstr ""
 
 #: templates/band_edit.html:125 templates/band_edit.html:127
-#: templates/band_info.html:305 templates/band_invite.html:29
+#: templates/band_info.html:305 templates/band_invite.html:30
 #: templates/forgot.html:49 templates/gig_edit.html:169
 #: templates/gig_edit.html:171 templates/member_edit.html:140
 #: templates/signup.html:58
@@ -417,15 +417,19 @@ msgstr ""
 msgid "New Section"
 msgstr ""
 
-#: templates/band_invite.html:23
-msgid "Emails:"
+#: templates/band_invite.html:13
+msgid "invite_instructions"
 msgstr ""
 
 #: templates/band_invite.html:24
+msgid "Emails:"
+msgstr ""
+
+#: templates/band_invite.html:25
 msgid "foo@bar.org"
 msgstr ""
 
-#: templates/band_invite.html:30
+#: templates/band_invite.html:31
 msgid "Send Invites"
 msgstr ""
 
@@ -474,11 +478,11 @@ msgstr ""
 msgid "Band Navigator"
 msgstr ""
 
-#: templates/band_nav.html:72 templates/gig_info.html:256
+#: templates/band_nav.html:73 templates/gig_info.html:256
 msgid "more"
 msgstr ""
 
-#: templates/band_nav.html:72 templates/gig_info.html:256
+#: templates/band_nav.html:73 templates/gig_info.html:256
 msgid "less"
 msgstr ""
 
@@ -539,8 +543,8 @@ msgstr ""
 msgid "Calendar"
 msgstr ""
 
-#: templates/changelog.html:3 templates/help.html:3 templates/help.html:8
-msgid "Help!"
+#: templates/changelog.html:3
+msgid "Changelog!"
 msgstr ""
 
 #: templates/changelog.html:7
@@ -636,6 +640,24 @@ msgstr ""
 msgid "Band"
 msgstr ""
 
+#: templates/gig_archived_info.html:29 templates/gig_edit.html:137
+#: templates/gig_info.html:121
+msgid "More Details"
+msgstr ""
+
+#: templates/gig_archived_info.html:34 templates/gig_edit.html:143
+#: templates/gig_info.html:135
+msgid "Setlist"
+msgstr ""
+
+#: templates/gig_archived_info.html:39 templates/gig_info.html:159
+msgid "Member Plans"
+msgstr ""
+
+#: templates/gig_archived_info.html:45 templates/gig_info.html:201
+msgid "Comments"
+msgstr ""
+
 #: templates/gig_edit.html:13
 msgid "New Gig for "
 msgstr ""
@@ -724,16 +746,8 @@ msgstr ""
 msgid "leader_placeholder"
 msgstr ""
 
-#: templates/gig_edit.html:137 templates/gig_info.html:121
-msgid "More Details"
-msgstr ""
-
 #: templates/gig_edit.html:138
 msgid "who? what? where? when? why?"
-msgstr ""
-
-#: templates/gig_edit.html:143 templates/gig_info.html:135
-msgid "Setlist"
 msgstr ""
 
 #: templates/gig_edit.html:144
@@ -758,7 +772,7 @@ msgid "Archive"
 msgstr ""
 
 #: templates/gig_edit.html:190 templates/member_edit.html:159
-#: templates/member_info.html:158
+#: templates/member_info.html:171
 msgid "Confirm Delete"
 msgstr ""
 
@@ -823,20 +837,12 @@ msgstr ""
 msgid "Print"
 msgstr ""
 
-#: templates/gig_info.html:159
-msgid "Member Plans"
-msgstr ""
-
 #: templates/gig_info.html:166
 msgid "Show All"
 msgstr ""
 
 #: templates/gig_info.html:167
 msgid "Show Committed"
-msgstr ""
-
-#: templates/gig_info.html:201
-msgid "Comments"
 msgstr ""
 
 #: templates/gig_info.html:212
@@ -861,6 +867,10 @@ msgstr ""
 
 #: templates/grid.html:107
 msgid "No Gigs!"
+msgstr ""
+
+#: templates/help.html:3 templates/help.html:8
+msgid "Help!"
 msgstr ""
 
 #: templates/help.html:14
@@ -1152,23 +1162,23 @@ msgstr ""
 msgid "Calendar shows only gigs I can do (or maybe can do)"
 msgstr ""
 
-#: templates/member_info.html:119
+#: templates/member_info.html:132
 msgid "Pictures Of Me"
 msgstr ""
 
-#: templates/member_info.html:135 templates/navbar.html:22
+#: templates/member_info.html:148 templates/navbar.html:22
 msgid "Bands"
 msgstr ""
 
-#: templates/member_info.html:161
+#: templates/member_info.html:174
 msgid "Do you really want to leave"
 msgstr ""
 
-#: templates/member_info.html:164
+#: templates/member_info.html:177
 msgid "Don't Leave"
 msgstr ""
 
-#: templates/member_info.html:165
+#: templates/member_info.html:178
 msgid "Yes, Leave"
 msgstr ""
 
