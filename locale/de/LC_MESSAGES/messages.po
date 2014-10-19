@@ -523,9 +523,9 @@ msgstr "Neues Register"
 #: templates/band_invite.html:13
 msgid "invite_instructions"
 msgstr ""
-"Inviting new members to join your band is easy as pie. Just enter a list of email "
-"addresses separated by commas or newlines, and invitations will go out. Members will "
-"automatically be confirmed as members of your band."
+"Es ist kinderleicht, neue Mitglieder zu deiner Band einzuladen. Gib einfach eine Liste an "
+"Email-Adressen ein, getrennt durch Beistriche oder Zeilenumbrüche, um Einladungen zu versenden. "
+"Auf diese Art beigetretene Nutzer werden automatisch zu Mitgliedern deiner Band."
 
 #: templates/band_invite.html:24
 msgid "Emails:"
