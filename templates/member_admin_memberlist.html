@@ -10,7 +10,9 @@
             {% endfor %}
         </div>
         <div class="col-md-2">
-            {{ member.updated.strftime('%Y-%m-%d') }}
+            {% if member.last_activity %}
+                {{ member.last_activity.strftime('%Y-%m-%d') }}
+            {% endif %}
         </div>
         {% if member!=the_user %}
             <div class="col-md-2">

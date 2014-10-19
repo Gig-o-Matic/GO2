@@ -109,6 +109,19 @@
                             <div class="col-md-6 col-sm-6 col-xs-6">{% trans %}Calendar shows only gigs I can do (or maybe can do){% endtrans %}:</div>
                             <div class="col-md-6 col-sm-6 col-xs-6">{{ truefalse(the_member.preferences.calendar_show_only_committed) }}</div>
                         </div>
+                        {% if the_user_is_superuser %}
+                        <br>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-6">Last Activity:</div>
+                            <div class="col-md-6 col-sm-6 col-xs-6">
+                                {% if the_member.last_activity %}
+                                    {{ the_member.last_activity.strftime('%Y-%m-%d') }}
+                                {% else %}
+                                    None since 2014-10-18
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endif %}
                     {% endif %}
                 </div>
             </div>
