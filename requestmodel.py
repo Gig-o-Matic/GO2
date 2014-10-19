@@ -34,6 +34,9 @@ def user_required(handler):
             else:
                 self.redirect(self.uri_for('login',originalurl=self.request.url),abort=True)            
         else:
+            u = self.user_info
+            user = self.user_model.get_by_id(u['user_id'])
+            user.put()
             return handler(self, *args, **kwargs)
 
     return check_login
