@@ -436,7 +436,7 @@ msgstr "Risorse"
 
 #: templates/band_info.html:89
 msgid "Gig Archive"
-msgstr "Archivio della suonata"
+msgstr "Archivio delle suonata"
 
 #: templates/band_info.html:98
 msgid "Public Profile"
