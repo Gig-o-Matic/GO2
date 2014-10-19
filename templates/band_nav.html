@@ -12,31 +12,32 @@
     </div>
 </div>
 {% for b in the_bands %}
-<div class="row">
-    <div class="col-md-8 col-md-offset-2">
-        <div class="panel panel-default">
-            <div class="panel-body">
-                <div class="row">
-                    <div class="col-md-4">
-                        <a href="/band_info.html?bk={{b.key.urlsafe()}}">
-                            {% if b.thumbnail_img %}
-                                <img style="max-height:100%; max-width:100%;" src="{{b.thumbnail_img}}" alt="...">
-                            {% else %}
-                                <img style="max-height:100%; max-width:100%;" src="/images/band_thumbnail.png" style="border:1px solid gray" alt="...">
-                            {% endif %}
-                        </a>
-                    </div>
-                    <div class="col-md-8">
-                        <a href="/band_info.html?bk={{b.key.urlsafe()}}"><h3>{{ b.name }}</h3></a>
-                        {% if b.hometown %}{{ b.hometown }}<br><br>{% endif %}
-                        {% if b.description %}<span class="trunc">{{ b.description }}</span>{% endif %}
+    {% if b.show_in_nav %}
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <a href="/band_info.html?bk={{b.key.urlsafe()}}">
+                                    {% if b.thumbnail_img %}
+                                        <img style="max-height:100%; max-width:100%;" src="{{b.thumbnail_img}}" alt="...">
+                                    {% else %}
+                                        <img style="max-height:100%; max-width:100%;" src="/images/band_thumbnail.png" style="border:1px solid gray" alt="...">
+                                    {% endif %}
+                                </a>
+                            </div>
+                            <div class="col-md-8">
+                                <a href="/band_info.html?bk={{b.key.urlsafe()}}"><h3>{{ b.name }}</h3></a>
+                                {% if b.hometown %}{{ b.hometown }}<br><br>{% endif %}
+                                {% if b.description %}<span class="trunc">{{ b.description }}</span>{% endif %}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
-
+    {% endif %}
 {% endfor %}
 {% endblock content %}
 

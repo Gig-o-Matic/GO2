@@ -51,6 +51,7 @@ class Band(ndb.Model):
     condensed_name = ndb.ComputedProperty(lambda self: ''.join(ch for ch in self.name if ch.isalnum()).lower())
     simple_planning = ndb.BooleanProperty(default=False)
     plan_feedback = ndb.TextProperty()
+    show_in_nav = ndb.BooleanProperty(default=True)
     
 def new_band(name):
     """ Make and return a new band """
