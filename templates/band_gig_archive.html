@@ -11,7 +11,7 @@
 {% block content %}
     <div class="row">
         <div class="page-header col-md-8 col-md-offset-2">
-            {% trans %}The history of{% endtrans %} <a href="/band_info.html?bk={{the_band.key.urlsafe()}}">{{ the_band.name }}</a>
+            {{ _('history_title') | replace('BandName','<a href=/band_info.html?bk='+the_band.key.urlsafe()+'>'+the_band.name+'</a>') }}
         </div>
     </div>
     <div class="row">

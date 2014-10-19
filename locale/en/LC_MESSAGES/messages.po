@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-10-17 17:21-0400\n"
+"POT-Creation-Date: 2014-10-18 20:24-0400\n"
 "PO-Revision-Date: 2014-02-01 18:13-0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: en <LL@li.org>\n"
@@ -396,8 +396,8 @@ msgid "Band Archive"
 msgstr ""
 
 #: templates/band_gig_archive.html:14
-msgid "The history of"
-msgstr ""
+msgid "history_title"
+msgstr "The History of BandName"
 
 #: templates/band_gig_archive.html:29
 msgid "There are no gigs in the archive!"
@@ -567,11 +567,11 @@ msgstr ""
 msgid "Band Navigator"
 msgstr ""
 
-#: templates/band_nav.html:72
+#: templates/band_nav.html:72 templates/gig_info.html:256
 msgid "more"
 msgstr ""
 
-#: templates/band_nav.html:72
+#: templates/band_nav.html:72 templates/gig_info.html:256
 msgid "less"
 msgstr ""
 
@@ -1522,4 +1522,13 @@ msgstr ""
 
 #~ msgid "switch_to_text"
 #~ msgstr "Passa a"
+
+#~ msgid "Band Archive"
+#~ msgstr ""
+
+#~ msgid "history_title"
+#~ msgstr "The history of %S"
+
+#~ msgid "There are no gigs in the archive!"
+#~ msgstr ""
 

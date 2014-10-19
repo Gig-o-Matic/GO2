@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-10-17 17:21-0400\n"
+"POT-Creation-Date: 2014-10-18 20:24-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -303,7 +303,7 @@ msgid "Band Archive"
 msgstr ""
 
 #: templates/band_gig_archive.html:14
-msgid "The history of"
+msgid "history_title"
 msgstr ""
 
 #: templates/band_gig_archive.html:29
@@ -474,11 +474,11 @@ msgstr ""
 msgid "Band Navigator"
 msgstr ""
 
-#: templates/band_nav.html:72
+#: templates/band_nav.html:72 templates/gig_info.html:256
 msgid "more"
 msgstr ""
 
-#: templates/band_nav.html:72
+#: templates/band_nav.html:72 templates/gig_info.html:256
 msgid "less"
 msgstr ""
 

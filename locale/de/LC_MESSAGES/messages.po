@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-10-17 17:21-0400\n"
+"POT-Creation-Date: 2014-10-18 20:24-0400\n"
 "PO-Revision-Date: 2014-02-01 18:13-0500\n"
 "Last-Translator: Christian Neumayer <christian.m.neumayer@gmail.com>\n"
 "Language-Team: en <LL@li.org>\n"
@@ -399,15 +399,15 @@ msgstr "Dieses Feld wird benötigt!"
 
 #: templates/band_gig_archive.html:3
 msgid "Band Archive"
-msgstr ""
+msgstr "Archiv"
 
 #: templates/band_gig_archive.html:14
-msgid "The history of"
-msgstr ""
+msgid "history_title"
+msgstr "BandName in der Vergangenheit"
 
 #: templates/band_gig_archive.html:29
 msgid "There are no gigs in the archive!"
-msgstr ""
+msgstr "Es befinden sich keine Auftritte im Archiv!"
 
 #: templates/band_info.html:3
 msgid "Band Info"
@@ -577,11 +577,11 @@ msgstr "Aus Band entfernen"
 msgid "Band Navigator"
 msgstr "Band Navigator"
 
-#: templates/band_nav.html:72
+#: templates/band_nav.html:72 templates/gig_info.html:256
 msgid "more"
 msgstr "mehr"
 
-#: templates/band_nav.html:72
+#: templates/band_nav.html:72 templates/gig_info.html:256
 msgid "less"
 msgstr "weniger"
 
@@ -1546,4 +1546,13 @@ msgstr "Was ist das?"
 
 #~ msgid "switch_to_text"
 #~ msgstr "Wechsle zu"
+
+#~ msgid "Band Archive"
+#~ msgstr "Archiv"
+
+#~ msgid "history_title"
+#~ msgstr "%s in der Vergangenheit"
+
+#~ msgid "There are no gigs in the archive!"
+#~ msgstr "Es befinden sich keine Auftritte im Archiv!"
 

@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-10-17 17:21-0400\n"
+"POT-Creation-Date: 2014-10-18 20:24-0400\n"
 "PO-Revision-Date: 2014-02-01 18:13-0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: it <LL@li.org>\n"
@@ -397,15 +397,15 @@ msgstr "Questo campo è obbligatorio!"
 
 #: templates/band_gig_archive.html:3
 msgid "Band Archive"
-msgstr ""
+msgstr "Archivio della banda"
 
 #: templates/band_gig_archive.html:14
-msgid "The history of"
-msgstr ""
+msgid "history_title"
+msgstr "Archivio della BandName"
 
 #: templates/band_gig_archive.html:29
 msgid "There are no gigs in the archive!"
-msgstr ""
+msgstr "Nessuna suonata in archivio!"
 
 #: templates/band_info.html:3
 #, fuzzy
@@ -432,11 +432,11 @@ msgstr "Una banda ancora da scoprire..."
 
 #: templates/band_info.html:82
 msgid "Resources"
-msgstr ""
+msgstr "Risorse"
 
 #: templates/band_info.html:89
 msgid "Gig Archive"
-msgstr ""
+msgstr "Archivio della suonata"
 
 #: templates/band_info.html:98
 msgid "Public Profile"
@@ -576,11 +576,11 @@ msgstr "elimina dalla banda"
 msgid "Band Navigator"
 msgstr "Navigabande"
 
-#: templates/band_nav.html:72
+#: templates/band_nav.html:72 templates/gig_info.html:256
 msgid "more"
 msgstr "più"
 
-#: templates/band_nav.html:72
+#: templates/band_nav.html:72 templates/gig_info.html:256
 msgid "less"
 msgstr "meno"
 
@@ -1567,4 +1567,13 @@ msgstr "Che cos’è?"
 
 #~ msgid "switch_to_text"
 #~ msgstr "Switch to"
+
+#~ msgid "Band Archive"
+#~ msgstr ""
+
+#~ msgid "history_title"
+#~ msgstr "Cronologia della %s"
+
+#~ msgid "There are no gigs in the archive!"
+#~ msgstr "Nessuna suonata in archivio!"
 
