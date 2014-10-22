@@ -16,7 +16,7 @@ class="landingwrap"
 {% endblock wrapclass %}
 
 {% block content %}
-    <div id="landingpage_content">
+    <div id="landingpage_bigcontent">
         <div class="row">
             <div class="page-header col-md-5 col-md-offset-2">
                 <h3>{% trans %}Welcome To Gig-o-Matic{% endtrans %}</h3>
@@ -31,6 +31,22 @@ class="landingwrap"
         </div>
 
         <form class="form form-horizontal" id="infoform" role="form" action= "/invitepassword" method="POST">
+            <div class="row">
+                <div class="form-group">
+                    <label for="membernameinput" class="control-label col-md-2 col-md-offset-2">{% trans %}Full Name{% endtrans %}</label>
+                    <div class="col-md-3">
+                        <input type="text" class="form-control" id="membernameinput" name="member_name">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <label for="membernicknameinput" class="control-label col-md-2 col-md-offset-2">{% trans %}Nickname{% endtrans %}</label>
+                    <div class="col-md-3">                     
+                        <input type="text" class="form-control" id="membernicknameinput" name="member_nickname">
+                    </div>
+                </div>
+            </div>
             <div class="row">
                 <div class="form-group">
                     <label for="password" class="control-label col-md-2 col-md-offset-2">{% trans %}Enter Password{% endtrans %}</label>
@@ -74,6 +90,14 @@ $(document).ready(function() {
             },
             confirm_password: {
                 equalTo: "#password"
+            },
+            member_name: {
+                required: true
+            }
+        },
+        messages: {
+            member_name: {
+                required: "{% trans %}This field is required!{% endtrans %}"
             }
         }
     });

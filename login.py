@@ -249,7 +249,8 @@ class InviteVerificationHandler(BaseHandler):
             #   - direct them to a welcome page where they can enter a password
             template_args = {
                 'mk': user.key.urlsafe(),
-                'st': signup_token
+                'st': signup_token,
+                'locale': user.preferences.locale
             }
             self.render_template('invite_welcome.html', params=template_args)            
         else:
@@ -277,6 +278,15 @@ class InviteVerificationHandler(BaseHandler):
 
         the_member.set_password(password)
         the_member.verified = True
+
+        name = self.request.get('member_name', '')
+        nickname = self.request.get('member_nickname', '')
+
+        if name != '':
+            the_member.name=name
+        if nickname  != '':
+            the_member.nickname=nickname
+        
         the_member.put()
 
         self.redirect(self.uri_for('home'))

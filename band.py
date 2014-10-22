@@ -865,8 +865,16 @@ class SendInvites(BaseHandler):
                 # send email inviting them to the gig-o
                 token = self.user_model.create_invite_token(the_user.get_id())
                 verification_url = self.uri_for('inviteverification', type='i', user_id=the_user.get_id(),
-                    signup_token=token, _full=True)                
+                    signup_token=token, _full=True)  
+                    
+                print '\n\n{0}\n\n'.format(verification_url)
+                                  
                 goemail.send_gigo_invite_email(self, the_band, the_user, verification_url)                
+
+                # set the new users's local to be the same as mine by default.
+                if the_user.preferences.locale != self.user.preferences.locale:
+                    the_user.preferences.locale = self.user.preferences.locale
+                    the_user.put()
                 
         template_args = {
             'the_band_keyurl' : the_band_keyurl,
