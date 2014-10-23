@@ -1110,7 +1110,7 @@ msgstr "Conferma"
 
 #: templates/invite_welcome.html:104
 msgid "Passwords must match!"
-msgstr ""
+msgstr "La password va ripetuta esattamente!"
 
 #: templates/link_error.html:3 templates/link_error.html:15
 msgid "Link Error!"

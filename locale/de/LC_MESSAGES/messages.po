@@ -1079,8 +1079,8 @@ msgstr "Willkommen zu Gig-o-Matic"
 #: templates/invite_welcome.html:28
 msgid "invite_welcome_text"
 msgstr ""
-"Welcome to the Gig-o-Matic! Your account has been set up - all you need "
-"to do is set up a password and you're in business."
+"Willkommen zu Gig-o-Matic! Wir haben dein Konto eingerichtet - du musst "
+"nur noch ein Passwort einrichten, dann kannst du loslegen."
 
 #: templates/invite_welcome.html:37 templates/member_edit.html:14
 msgid "Full Name"
@@ -1104,7 +1104,7 @@ msgstr "Passwort setzen"
 
 #: templates/invite_welcome.html:104
 msgid "Passwords must match!"
-msgstr ""
+msgstr "Die Passwörter müssen übereinstimmen!"
 
 #: templates/link_error.html:3 templates/link_error.html:15
 msgid "Link Error!"
