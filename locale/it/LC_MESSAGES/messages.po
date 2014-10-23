@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-10-19 10:31-0400\n"
+"POT-Creation-Date: 2014-10-22 20:26-0400\n"
 "PO-Revision-Date: 2014-02-01 18:13-0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: it <LL@li.org>\n"
@@ -293,7 +293,7 @@ msgstr "cm s kiama?"
 
 #: templates/band_edit.html:28 templates/band_info.html:56
 msgid "Hometown"
-msgstr ""
+msgstr "Città"
 
 #: templates/band_edit.html:29
 msgid "where are you?"
@@ -377,7 +377,7 @@ msgid "items for second planning popup (BETA!)"
 msgstr ""
 
 #: templates/band_edit.html:125 templates/band_edit.html:127
-#: templates/band_info.html:305 templates/band_invite.html:30
+#: templates/band_info.html:305 templates/band_invite.html:27
 #: templates/forgot.html:49 templates/gig_edit.html:169
 #: templates/gig_edit.html:171 templates/member_edit.html:140
 #: templates/signup.html:58
@@ -391,7 +391,8 @@ msgstr "Salva"
 
 #: templates/band_edit.html:153 templates/band_info.html:501
 #: templates/gig_edit.html:284 templates/gig_edit.html:287
-#: templates/gig_edit.html:290 templates/member_edit.html:198
+#: templates/gig_edit.html:290 templates/invite_welcome.html:101
+#: templates/member_edit.html:198
 msgid "This field is required!"
 msgstr "Questo campo è obbligatorio!"
 
@@ -436,7 +437,7 @@ msgstr "Risorse"
 
 #: templates/band_info.html:89
 msgid "Gig Archive"
-msgstr "Archivio delle suonata"
+msgstr "Archivio delle suonate"
 
 #: templates/band_info.html:98
 msgid "Public Profile"
@@ -523,18 +524,19 @@ msgstr "Nuova sezione"
 msgid "invite_instructions"
 msgstr ""
 "Invitare nuovi membri nella tua banda è facilissimo. Basta inserire una "
-"lista di indirizzi e-mail separati da virgole o andando a capo a ogni indirizzo, "
-"e gli inviti partiranno. Gli invitati saranno confermati automaticamente come membri della tua banda."
+"lista di indirizzi e-mail separati da virgole o andando a capo a ogni "
+"indirizzo, e gli inviti partiranno. Gli invitati saranno confermati "
+"automaticamente come membri della tua banda."
 
-#: templates/band_invite.html:24
+#: templates/band_invite.html:21
 msgid "Emails:"
 msgstr "E-mail:"
 
-#: templates/band_invite.html:25
+#: templates/band_invite.html:22
 msgid "foo@bar.org"
 msgstr "pinco@pallino.com"
 
-#: templates/band_invite.html:31
+#: templates/band_invite.html:28
 msgid "Send Invites"
 msgstr "Manda inviti"
 
@@ -1080,15 +1082,29 @@ msgstr "Scelta password"
 msgid "Welcome To Gig-o-Matic"
 msgstr "Un benvenuto sul Gig-o-Matic"
 
-#: templates/invite_welcome.html:36
+#: templates/invite_welcome.html:28
+msgid "invite_welcome_text"
+msgstr ""
+"Un benvenuto sul Gig-o-Matic! La tua iscrizione è praticamente fatta: devi "
+"soltanto sceglierti una password e sei a bordo."
+
+#: templates/invite_welcome.html:37 templates/member_edit.html:14
+msgid "Full Name"
+msgstr "Nome e Cognome"
+
+#: templates/invite_welcome.html:45 templates/member_edit.html:20
+msgid "Nickname"
+msgstr "Nome sul Gig-O"
+
+#: templates/invite_welcome.html:53
 msgid "Enter Password"
 msgstr "Inserisci password"
 
-#: templates/invite_welcome.html:44 templates/resetpassword.html:38
+#: templates/invite_welcome.html:61 templates/resetpassword.html:38
 msgid "And Again"
 msgstr "Ripeti password"
 
-#: templates/invite_welcome.html:53
+#: templates/invite_welcome.html:70
 msgid "Set Password"
 msgstr "Conferma"
 
@@ -1187,17 +1203,9 @@ msgstr "Aggiungi banda"
 msgid "Edit Profile"
 msgstr "Modifica profilo"
 
-#: templates/member_edit.html:14
-msgid "Full Name"
-msgstr "Nome e Cognome"
-
 #: templates/member_edit.html:15 templates/member_edit.html:39
 msgid "(required)"
 msgstr "(obbligatorio)"
-
-#: templates/member_edit.html:20
-msgid "Nickname"
-msgstr "Nome sul Gig-O"
 
 #: templates/member_edit.html:21
 msgid "call me..."
