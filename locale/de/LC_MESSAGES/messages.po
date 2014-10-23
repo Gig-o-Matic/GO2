@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-10-22 20:26-0400\n"
+"POT-Creation-Date: 2014-10-22 20:36-0400\n"
 "PO-Revision-Date: 2014-02-01 18:13-0500\n"
 "Last-Translator: Christian Neumayer <christian.m.neumayer@gmail.com>\n"
 "Language-Team: en <LL@li.org>\n"
@@ -394,7 +394,7 @@ msgstr "Speichern"
 #: templates/band_edit.html:153 templates/band_info.html:501
 #: templates/gig_edit.html:284 templates/gig_edit.html:287
 #: templates/gig_edit.html:290 templates/invite_welcome.html:101
-#: templates/member_edit.html:198
+#: templates/invite_welcome.html:106 templates/member_edit.html:198
 msgid "This field is required!"
 msgstr "Dieses Feld wird benötigt!"
 
@@ -1079,8 +1079,8 @@ msgstr "Willkommen zu Gig-o-Matic"
 #: templates/invite_welcome.html:28
 msgid "invite_welcome_text"
 msgstr ""
-"Welcome to the Gig-o-Matic! Your account has been set up - all you need to do is "
-"set up a password and you're in business."
+"Welcome to the Gig-o-Matic! Your account has been set up - all you need "
+"to do is set up a password and you're in business."
 
 #: templates/invite_welcome.html:37 templates/member_edit.html:14
 msgid "Full Name"
@@ -1101,6 +1101,10 @@ msgstr "und noch einmal"
 #: templates/invite_welcome.html:70
 msgid "Set Password"
 msgstr "Passwort setzen"
+
+#: templates/invite_welcome.html:104
+msgid "Passwords must match!"
+msgstr ""
 
 #: templates/link_error.html:3 templates/link_error.html:15
 msgid "Link Error!"

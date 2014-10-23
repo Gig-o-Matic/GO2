@@ -99,7 +99,10 @@ $(document).ready(function() {
         messages: {
             password: {
                 required: "{% trans %}This field is required!{% endtrans %}"
-            }
+            },
+            confirm_password: {
+                equalTo: "{% trans %}Passwords must match!{% endtrans %}"
+            },
             member_name: {
                 required: "{% trans %}This field is required!{% endtrans %}"
             }
