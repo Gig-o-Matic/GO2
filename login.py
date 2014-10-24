@@ -144,7 +144,11 @@ class VerificationHandler(BaseHandler):
             logging.error( \
                 'Could not find any user with id "%s" signup token "%s"',
                 user_id, signup_token)
-            self.redirect(self.uri_for('linkerror'))
+            locale=self.request.get('locale',None)
+            if locale:
+                self.redirect('{0}?locale={1}'.format(self.uri_for('linkerror'),locale))
+            else:
+                self.redirect(self.uri_for('linkerror'))
             return
         
         # store user data in the session
@@ -241,7 +245,12 @@ class InviteVerificationHandler(BaseHandler):
             logging.error( \
                 'Could not find any user with id "%s" invite token "%s"',
                 user_id, signup_token)
-            self.abort(404)
+            locale=self.request.get('locale',None)
+            if locale:
+                self.redirect('{0}?locale={1}'.format(self.uri_for('linkerror'),locale))
+            else:
+                self.redirect(self.uri_for('linkerror'))
+            return
         
         if verification_type == 'i':
             # ok, this is a user who has one or more invites pending. They have a user but
@@ -337,7 +346,14 @@ class AuthenticatedHandler(BaseHandler):
 ##########
 class LinkErrorHandler(BaseHandler):
     def get(self):
-        self.render_template('link_error.html', params=None)
+        locale=self.request.get('locale',None)
+        if locale:
+            args={
+                'locale': locale
+            }
+        else:
+            args = None
+        self.render_template('link_error.html', params=args)
 
 ##########
 #
