@@ -1119,6 +1119,8 @@ msgstr ""
 #: templates/link_error.html:17
 msgid "link_error_message"
 msgstr ""
+"Hai cliccato su un link che non esiste più – la tua identità è già verificata. Ora puoi "
+"accedere direttamente al Gig-o da qui:"
 
 #: templates/login.html:3 templates/login.html:51
 msgid "Login"
