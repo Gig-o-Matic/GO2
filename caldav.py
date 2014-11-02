@@ -190,7 +190,7 @@ class MemberRequestHandler(BaseHandler):
 
         for a_band in the_bands:
             a_band_name = a_band.shortname if a_band.shortname else a_band.name
-            all_gigs = gig.get_gigs_for_band_keys(a_band.key)
+            all_gigs = gig.get_gigs_for_band_keys(a_band.key, show_past=True)
             for a_gig in all_gigs:
                 if not a_gig.is_canceled: # and not a_gig.is_archived:
                     the_plan = plan.get_plan_for_member_key_for_gig_key(the_member_key, a_gig.key)
