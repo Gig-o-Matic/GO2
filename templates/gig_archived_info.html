@@ -25,6 +25,35 @@
                 <div class="col-md-8">{{ gig.date.strftime('%-m/%-d/%Y')|e }}</div>
             </div>
             <div class="row">&nbsp;</div>
+            {% if gig.address %}
+                <div class="row">
+                    <div class="col-md-2 col-sm-2 col-xs-3">{% trans %}Address{% endtrans %}</div>
+                    <div class="col-md-10 col-sm-10 col-xs-9"><a href="http://maps.google.com?q={{gig.address | replace(' ','+')}}" target="new">{{ gig.address }}</a></div>
+                </div>
+                <div class="row">&nbsp;</div>
+            {% endif %}
+            {% if gig.dress %}
+                <div class="row">
+                    <div class="col-md-2 col-sm-2 col-xs-3">{% trans %}What to Wear{% endtrans %}</div>
+                    <div class="col-md-10 col-sm-10 col-xs-9">{{ gig.dress }}</div>
+                </div>
+                <div class="row">&nbsp;</div>
+            {% endif %}
+            {% if gig.paid %}
+                <div class="row">
+                    <div class="col-md-2 col-sm-2 col-xs-3">{% trans %}Pay Deal{% endtrans %}</div>
+                    <div class="col-md-10 col-sm-10 col-xs-9">{{ gig.paid }}</div>
+                </div>
+                <div class="row">&nbsp;</div>
+            {% endif %}
+            {% if gig.leader %}
+                <div class="row">
+                    <div class="col-md-2 col-sm-2 col-xs-3">{% trans %}Leader{% endtrans %}</div>
+                    <div class="col-md-10 col-sm-10 col-xs-9">{{ gig.leader }}</div>
+                </div>                    
+                <div class="row">&nbsp;</div>
+            {% endif %}
+            <div class="row">&nbsp;</div>
             <div class="row">
                 <div class="col-md-2">{% trans %}More Details{% endtrans %}</div>
                 <div class="col-md-8">{{ gig.details  | html_content | safe  }}</div>
