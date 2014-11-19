@@ -49,6 +49,8 @@ class MainPage(BaseHandler):
             some_gigs = gig.get_gigs_for_band_keys(bk, show_canceled=show_canceled, start_date=today_date)
             all_gigs = all_gigs + some_gigs
 
+        all_gigs = sorted(all_gigs, key=lambda gig: gig.date)
+
         upcoming_plans = []
         weighin_plans = []        
 
