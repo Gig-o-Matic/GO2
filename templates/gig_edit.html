@@ -155,14 +155,15 @@
                         >{% trans %}Email members about changed time or status{% endtrans %}  
                     {% endif %}
                 </label>  
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-8 col-md-offset-2">
                 <label class="checkbox">  
                     {% if newgig_is_active or is_dupe %}
-                        <input type="checkbox" id="newgig_invite_occasionals" name="gig_invite_occasionals" checked
+                        <input type="checkbox" id="gig_invite_occasionals" name="gig_invite_occasionals"
+                        {% if gig.invite_occasionals %}checked{% endif %}
                         >{% trans %}Invite occasional members{% endtrans %}  
+                    {% else %}
+                        <input type="checkbox" id="gig_invite_occasionals" name="gig_invite_occasionals" 
+                        {% if gig.invite_occasionals %}checked{% endif %}
+                        >{% trans %}Also send update to occasional members{% endtrans %}  
                     {% endif %}
                 </label>  
             </div>
