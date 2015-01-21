@@ -60,6 +60,7 @@ class Gig(ndb.Model):
     is_confirmed = ndb.ComputedProperty(lambda self: self.status == 1)
     comment_id = ndb.TextProperty( default = None)
     creator = ndb.KeyProperty()
+    invite_occasionals = ndb.BooleanProperty(default=True)
 #
 # Functions to make and find gigs
 #
@@ -532,6 +533,12 @@ class EditPage(BaseHandler):
         the_gig.status = int(gig_status)
         if old_status != the_gig.status:
             edit_status_change = True
+
+        gig_invite_occasionals=self.request.get("gig_invite_occasionals",None)
+        if (gig_invite_occasionals):
+            the_gig.invite_occasionals = True
+        else:
+            the_gig.invite_occasionals = False
 
         gig_private=self.request.get("gig_private",None)
         if (gig_private):

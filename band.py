@@ -332,7 +332,11 @@ class EditPage(BaseHandler):
         if band_shortname is not None:
             the_band.shortname=band_shortname
                 
-        the_band.website=self.request.get("band_website",None)
+        website=self.request.get("band_website",None)
+        if website[0:7]=='http://':
+            the_band.website = website[7:]
+        else:
+            the_band.website = website
 
         the_band.thumbnail_img=self.request.get("band_thumbnail",None)
         

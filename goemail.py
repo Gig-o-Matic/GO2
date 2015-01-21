@@ -201,11 +201,13 @@ def send_newgig_email(the_member, the_gig, the_band, the_gig_url, is_edit=False,
 def announce_new_gig(the_gig, the_gig_url, is_edit=False, change_string=""):
     the_band_key = the_gig.key.parent()
     the_band=the_band_key.get()
-    the_members = assoc.get_member_keys_of_band_key(the_band_key)
+    the_assocs = assoc.get_confirmed_assocs_of_band_key(the_band_key, include_occasional=the_gig.invite_occasionals)
+    the_members = [a.member for a in the_assocs]
     for the_member_key in the_members:
         the_member = the_member_key.get()
         if the_member.preferences:
             if the_member.preferences.email_new_gig:
+                print 'emailing member {0}'.format(the_member.display_name)
                 send_newgig_email(the_member, the_gig, the_band, the_gig_url, is_edit, change_string)
         
 

@@ -123,6 +123,12 @@
                         </div>
                         <div class="row">&nbsp;</div>
                     {% endif %}
+                    {% if not gig.invite_occasionals %}
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12 col-xs-12">{% trans %}Occasional members were not invited.{% endtrans %}</div>
+                        </div>
+                        <div class="row">&nbsp;</div>
+                    {% endif %}
                 </div>  <!-- panel body -->
             </div> <!-- panel -->
             {% if gig.setlist %}
