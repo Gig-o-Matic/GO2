@@ -157,8 +157,7 @@
                 </label>  
                 <label class="checkbox">  
                     {% if newgig_is_active or is_dupe %}
-                        <input type="checkbox" id="gig_invite_occasionals" name="gig_invite_occasionals"
-                        {% if gig.invite_occasionals %}checked{% endif %}
+                        <input type="checkbox" id="gig_invite_occasionals" name="gig_invite_occasionals" checked
                         >{% trans %}Invite occasional members{% endtrans %}  
                     {% else %}
                         <input type="checkbox" id="gig_invite_occasionals" name="gig_invite_occasionals" 
