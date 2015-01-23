@@ -207,7 +207,6 @@ def announce_new_gig(the_gig, the_gig_url, is_edit=False, change_string=""):
         the_member = the_member_key.get()
         if the_member.preferences:
             if the_member.preferences.email_new_gig:
-                print 'emailing member {0}'.format(the_member.display_name)
                 send_newgig_email(the_member, the_gig, the_band, the_gig_url, is_edit, change_string)
         
 
