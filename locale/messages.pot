@@ -1,14 +1,14 @@
 # Translations template for PROJECT.
-# Copyright (C) 2014 ORGANIZATION
+# Copyright (C) 2015 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2015.
 #
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-10-22 20:36-0400\n"
+"POT-Creation-Date: 2015-01-25 07:53-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,15 +17,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 1.3\n"
 
-#: gig.py:602
+#: gig.py:612
 msgid "Time"
 msgstr ""
 
-#: gig.py:604 templates/gig_edit.html:60
+#: gig.py:614 templates/gig_edit.html:60
 msgid "Date"
 msgstr ""
 
-#: gig.py:606 templates/gig_edit.html:34
+#: gig.py:616 templates/gig_edit.html:34
 msgid "Status"
 msgstr ""
 
@@ -94,35 +94,35 @@ msgstr ""
 msgid "edited_gig_email"
 msgstr ""
 
-#: goemail.py:228
+#: goemail.py:229
 msgid "Gig-o-Matic New Member for band {0})"
 msgstr ""
 
-#: goemail.py:239
+#: goemail.py:240
 msgid "new_member_email"
 msgstr ""
 
-#: goemail.py:254
+#: goemail.py:255
 msgid "Gig-o-Matic New Band Invite"
 msgstr ""
 
-#: goemail.py:255
+#: goemail.py:256
 msgid "new_band_via_invite_email"
 msgstr ""
 
-#: goemail.py:271
+#: goemail.py:272
 msgid "Invitation to Join Gig-o-Matic"
 msgstr ""
 
-#: goemail.py:272
+#: goemail.py:273
 msgid "gigo_invite_email"
 msgstr ""
 
-#: goemail.py:288
+#: goemail.py:289
 msgid "Gig-o-Matic Confirm Email Address"
 msgstr ""
 
-#: goemail.py:300
+#: goemail.py:301
 msgid "confirm_email_address_email"
 msgstr ""
 
@@ -281,21 +281,21 @@ msgstr ""
 
 #: templates/band_edit.html:125 templates/band_edit.html:127
 #: templates/band_info.html:305 templates/band_invite.html:27
-#: templates/forgot.html:49 templates/gig_edit.html:169
-#: templates/gig_edit.html:171 templates/member_edit.html:140
+#: templates/forgot.html:49 templates/gig_edit.html:179
+#: templates/gig_edit.html:181 templates/member_edit.html:140
 #: templates/signup.html:58
 msgid "Cancel"
 msgstr ""
 
 #: templates/band_edit.html:129 templates/band_info.html:306
-#: templates/gig_edit.html:173 templates/member_edit.html:141
+#: templates/gig_edit.html:183 templates/member_edit.html:141
 msgid "Save"
 msgstr ""
 
 #: templates/band_edit.html:153 templates/band_info.html:501
-#: templates/gig_edit.html:284 templates/gig_edit.html:287
-#: templates/gig_edit.html:290 templates/invite_welcome.html:101
-#: templates/invite_welcome.html:106 templates/member_edit.html:198
+#: templates/gig_edit.html:299 templates/gig_edit.html:302
+#: templates/gig_edit.html:305 templates/invite_welcome.html:101
+#: templates/invite_welcome.html:107 templates/member_edit.html:198
 msgid "This field is required!"
 msgstr ""
 
@@ -479,11 +479,11 @@ msgstr ""
 msgid "Band Navigator"
 msgstr ""
 
-#: templates/band_nav.html:73 templates/gig_info.html:256
+#: templates/band_nav.html:73 templates/gig_info.html:262
 msgid "more"
 msgstr ""
 
-#: templates/band_nav.html:73 templates/gig_info.html:256
+#: templates/band_nav.html:73 templates/gig_info.html:262
 msgid "less"
 msgstr ""
 
@@ -491,7 +491,7 @@ msgstr ""
 msgid "None!"
 msgstr ""
 
-#: templates/band_sections.html:9 templates/gig_info.html:182
+#: templates/band_sections.html:9 templates/gig_info.html:188
 #: templates/grid.html:79
 msgid "No Section"
 msgstr ""
@@ -641,21 +641,40 @@ msgstr ""
 msgid "Band"
 msgstr ""
 
-#: templates/gig_archived_info.html:29 templates/gig_edit.html:137
+#: templates/gig_archived_info.html:30 templates/gig_edit.html:117
+#: templates/gig_info.html:93
+msgid "Address"
+msgstr ""
+
+#: templates/gig_archived_info.html:37 templates/gig_info.html:100
+msgid "What to Wear"
+msgstr ""
+
+#: templates/gig_archived_info.html:44 templates/gig_edit.html:125
+#: templates/gig_info.html:107
+msgid "Pay Deal"
+msgstr ""
+
+#: templates/gig_archived_info.html:51 templates/gig_edit.html:131
+#: templates/gig_info.html:114
+msgid "Leader"
+msgstr ""
+
+#: templates/gig_archived_info.html:58 templates/gig_edit.html:137
 #: templates/gig_info.html:121
 msgid "More Details"
 msgstr ""
 
-#: templates/gig_archived_info.html:34 templates/gig_edit.html:143
-#: templates/gig_info.html:135
+#: templates/gig_archived_info.html:63 templates/gig_edit.html:143
+#: templates/gig_info.html:141
 msgid "Setlist"
 msgstr ""
 
-#: templates/gig_archived_info.html:39 templates/gig_info.html:159
+#: templates/gig_archived_info.html:68 templates/gig_info.html:165
 msgid "Member Plans"
 msgstr ""
 
-#: templates/gig_archived_info.html:45 templates/gig_info.html:201
+#: templates/gig_archived_info.html:74 templates/gig_info.html:207
 msgid "Comments"
 msgstr ""
 
@@ -715,10 +734,6 @@ msgstr ""
 msgid "month (on same day of month)"
 msgstr ""
 
-#: templates/gig_edit.html:117 templates/gig_info.html:93
-msgid "Address"
-msgstr ""
-
 #: templates/gig_edit.html:118
 msgid "location_placeholder"
 msgstr ""
@@ -731,16 +746,8 @@ msgstr ""
 msgid "Pants Optional"
 msgstr ""
 
-#: templates/gig_edit.html:125 templates/gig_info.html:107
-msgid "Pay Deal"
-msgstr ""
-
 #: templates/gig_edit.html:126
 msgid "As If"
-msgstr ""
-
-#: templates/gig_edit.html:131 templates/gig_info.html:114
-msgid "Leader"
 msgstr ""
 
 #: templates/gig_edit.html:132
@@ -763,58 +770,70 @@ msgstr ""
 msgid "Email members about changed time or status"
 msgstr ""
 
-#: templates/gig_edit.html:163 templates/gig_edit.html:198
+#: templates/gig_edit.html:161
+msgid "Invite occasional members"
+msgstr ""
+
+#: templates/gig_edit.html:165
+msgid "Also send update to occasional members"
+msgstr ""
+
+#: templates/gig_edit.html:173 templates/gig_edit.html:208
 #: templates/member_edit.html:134 templates/member_edit.html:167
 msgid "Delete"
 msgstr ""
 
-#: templates/gig_edit.html:164 templates/gig_edit.html:218
+#: templates/gig_edit.html:174 templates/gig_edit.html:228
 msgid "Archive"
 msgstr ""
 
-#: templates/gig_edit.html:190 templates/member_edit.html:159
+#: templates/gig_edit.html:200 templates/member_edit.html:159
 #: templates/member_info.html:171
 msgid "Confirm Delete"
 msgstr ""
 
-#: templates/gig_edit.html:193
+#: templates/gig_edit.html:203
 msgid "Do you really want to delete this gig?"
 msgstr ""
 
-#: templates/gig_edit.html:196 templates/member_edit.html:165
+#: templates/gig_edit.html:206 templates/member_edit.html:165
 msgid "Don't Delete"
 msgstr ""
 
-#: templates/gig_edit.html:210
+#: templates/gig_edit.html:220
 msgid "Confirm archive"
 msgstr ""
 
-#: templates/gig_edit.html:213
+#: templates/gig_edit.html:223
 msgid "Do you really want to archive this gig?"
 msgstr ""
 
-#: templates/gig_edit.html:216
+#: templates/gig_edit.html:226
 msgid "Don't Archive"
 msgstr ""
 
-#: templates/gig_edit.html:264
+#: templates/gig_edit.html:272 templates/gig_edit.html:274
+msgid "date_separator"
+msgstr ""
+
+#: templates/gig_edit.html:279
 msgid "Please enter a date in the format mm/dd/yyyy."
 msgstr ""
 
-#: templates/gig_edit.html:295 templates/gig_edit.html:296
-#: templates/gig_edit.html:297
+#: templates/gig_edit.html:310 templates/gig_edit.html:311
+#: templates/gig_edit.html:312
 msgid "time_format"
 msgstr ""
 
-#: templates/gig_edit.html:316
+#: templates/gig_edit.html:331
 msgid "Must be later than start date!"
 msgstr ""
 
-#: templates/gig_edit.html:330
+#: templates/gig_edit.html:345
 msgid "Must be in the future!"
 msgstr ""
 
-#: templates/gig_edit.html:359
+#: templates/gig_edit.html:374
 msgid "Error"
 msgstr ""
 
@@ -830,27 +849,27 @@ msgstr ""
 msgid "Hidden From Public Page"
 msgstr ""
 
-#: templates/gig_info.html:100
-msgid "What to Wear"
+#: templates/gig_info.html:128
+msgid "Occasional members were not invited."
 msgstr ""
 
-#: templates/gig_info.html:139 templates/gig_info.html:163
+#: templates/gig_info.html:145 templates/gig_info.html:169
 msgid "Print"
 msgstr ""
 
-#: templates/gig_info.html:166
+#: templates/gig_info.html:172
 msgid "Show All"
 msgstr ""
 
-#: templates/gig_info.html:167
+#: templates/gig_info.html:173
 msgid "Show Committed"
 msgstr ""
 
-#: templates/gig_info.html:212
+#: templates/gig_info.html:218
 msgid "say your piece!"
 msgstr ""
 
-#: templates/gig_info.html:215
+#: templates/gig_info.html:221
 msgid "Say it!"
 msgstr ""
 
