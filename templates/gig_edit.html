@@ -268,7 +268,12 @@ $(document).ready(function () {
                 return true;
             } else {
                 // put your own logic here, this is just a (crappy) example
-                return value.match(/^\d\d?\/\d\d?\/\d\d\d\d$/);
+                var q = new RegExp("^\\d\\d?\\"+
+                                   "{% trans %}date_separator{% endtrans %}"+
+                                   "\\d\\d?\\"+
+                                   "{% trans %}date_separator{% endtrans %}"+
+                                   "\\d\\d\\d\\d$");
+                return value.match(q);
             }
         },
         "{% trans %}Please enter a date in the format mm/dd/yyyy.{% endtrans %}"
