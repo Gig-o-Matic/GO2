@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-01-25 07:53-0500\n"
+"POT-Creation-Date: 2015-02-01 16:53-0500\n"
 "PO-Revision-Date: 2014-02-01 18:13-0500\n"
 "Last-Translator: Christian Neumayer <christian.m.neumayer@gmail.com>\n"
 "Language-Team: en <LL@li.org>\n"
@@ -29,6 +29,10 @@ msgstr "Datum"
 #: gig.py:616 templates/gig_edit.html:34
 msgid "Status"
 msgstr "Status"
+
+#: gig.py:619
+msgid "Details"
+msgstr ""
 
 #: goemail.py:45
 msgid "Welcome to Gig-o-Matic"
@@ -910,8 +914,8 @@ msgid "Email members about this new gig"
 msgstr "Sende Mitgliedern eine Email über diesen neuen Termin"
 
 #: templates/gig_edit.html:155
-msgid "Email members about changed time or status"
-msgstr "Sende Mitgliedern eine Email über geänderte Zeiten oder Status"
+msgid "Email members about change"
+msgstr "Sende Mitgliedern eine Email"
 
 #: templates/gig_edit.html:161
 msgid "Invite occasional members"

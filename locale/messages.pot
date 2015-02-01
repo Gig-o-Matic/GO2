@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-01-25 07:53-0500\n"
+"POT-Creation-Date: 2015-02-01 16:53-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,6 +27,10 @@ msgstr ""
 
 #: gig.py:616 templates/gig_edit.html:34
 msgid "Status"
+msgstr ""
+
+#: gig.py:619
+msgid "Details"
 msgstr ""
 
 #: goemail.py:45
@@ -767,7 +771,7 @@ msgid "Email members about this new gig"
 msgstr ""
 
 #: templates/gig_edit.html:155
-msgid "Email members about changed time or status"
+msgid "Email members about change"
 msgstr ""
 
 #: templates/gig_edit.html:161

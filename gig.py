@@ -440,6 +440,7 @@ class EditPage(BaseHandler):
         edit_date_change = False
         edit_time_change = False
         edit_status_change = False
+        edit_detail_change = False
 
         # first, get the band
         gig_is_new = False
@@ -615,7 +616,9 @@ class EditPage(BaseHandler):
                     if edit_status_change:
                         change_strings.append(_('Status'))
                     change_str = ', '.join(change_strings)
-                    goemail.announce_new_gig(the_gig, self.uri_for('gig_info', _full=True, gk=the_gig.key.urlsafe()), is_edit=True, change_string=change_str)
+                else:
+                    change_str = _('Details')
+                goemail.announce_new_gig(the_gig, self.uri_for('gig_info', _full=True, gk=the_gig.key.urlsafe()), is_edit=True, change_string=change_str)
 
         return self.redirect(\
             '/gig_info.html?&gk={0}'.format(the_gig.key.urlsafe()))
