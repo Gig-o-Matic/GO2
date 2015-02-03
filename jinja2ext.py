@@ -19,5 +19,8 @@ def safe_name(value):
             ret = ret + c
     return ret
 
-
+def good_breaks(value):
+    # convert newlines to br tags, then wrap with Markup object
+    # so that the <br> tags don't get escaped.
+    return jinja2.Markup(value.replace('\n', '<br>'))
 

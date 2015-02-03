@@ -119,7 +119,7 @@
                     {% if gig.details %}
                         <div class="row">
                             <div class="col-md-2 col-sm-2 col-xs-3">{% trans %}More Details{% endtrans %}</div>
-                            <div class="col-md-10 col-sm-10 col-xs-9 trunc">{{ gig.details  | html_content | safe  }}</div>
+                            <div class="col-md-10 col-sm-10 col-xs-9 trunc">{{ gig.details | urlize(20, true) | good_breaks | safe }}</div>
                         </div>
                         <div class="row">&nbsp;</div>
                     {% endif %}
@@ -150,7 +150,7 @@
                     <div class="panel-body">
                         <div class="row">                        
                             <div class="col-md-12 col-sm-12 col-xs-12">
-                                {{ gig.setlist  | html_content | safe }}
+                                {{ gig.setlist | urlize(20, true) | good_breaks | safe }}
                             </div>
                         </div>
                     </div>
