@@ -622,6 +622,9 @@ class ConfirmMember(BaseHandler):
                     
         the_member = the_member_key.get()
         assoc.confirm_member_for_band_key(the_member, the_band_key)
+        # if the user happens to be logged in, invalidate his cached list of bands and
+        # bands for which he can edit gigs
+        the_member.invalidate_member_bandlists(self, the_member_key)
 
         the_band = the_band_key.get()
         goemail.send_band_accepted_email(self, the_member.email_address, the_band)
@@ -646,6 +649,10 @@ class AdminMember(BaseHandler):
         the_assoc = ndb.Key(urlsafe=the_assoc_keyurl).get()
         the_assoc.is_band_admin = (the_do=='true')
         the_assoc.put()
+        
+        # if the user happens to be logged in, invalidate his cached list of bands and
+        # bands for which he can edit gigs
+        the_assoc.member.get().invalidate_member_bandlists(self, the_assoc.member)
         
 class MakeOccasionalMember(BaseHandler):
     """ grant or revoke occasional status """

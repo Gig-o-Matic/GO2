@@ -146,19 +146,21 @@ class Member(webapp2_extras.appengine.auth.models.User):
     @classmethod
     def get_band_list(cls, req, the_member_key):
         """ check to see if this is in the session - if so, just use it """
-        if 'member_bandlist' in req.session.keys():
+        if 'member_bandlist' in req.session.keys() and not req.member_cache_is_dirty(the_member_key):
             the_bands = req.session['member_bandlist']
+            print('\n\nreturning cached band list: {0}'.format(the_bands))
         else:
             band_keys=assoc.get_band_keys_of_member_key(the_member_key, confirmed_only=True)
             the_bands = [bandkey.get() for bandkey in band_keys]
 
             req.session['member_bandlist'] = the_bands
+            print('\n\caching band list: {0}'.format(the_bands))
         return the_bands
 
     @classmethod
     def get_add_gig_band_list(cls, req, the_member_key):
         """ check to see if this is in the session - if so, just use it """
-        if 'member_addgigbandlist' in req.session.keys():
+        if 'member_addgigbandlist' in req.session.keys() and not req.member_cache_is_dirty(the_member_key):
             the_manage_bands = req.session['member_addgigbandlist']
         else:
             band_keys=assoc.get_band_keys_of_member_key(the_member_key, confirmed_only=True)
@@ -173,10 +175,13 @@ class Member(webapp2_extras.appengine.auth.models.User):
         return the_manage_bands
 
     @classmethod
-    def invalidate_session_bandlists(cls, req):
+    def invalidate_member_bandlists(cls, req, member_key):
         """ delete the bandlists from the session if they are changing """
-        req.session.pop('member_bandlist',None)
-        req.session.pop('member_addgigbandlist',None)
+#         req.session.pop('member_bandlist',None)
+#         req.session.pop('member_addgigbandlist',None)
+        print("\n\nINVALIDATING CACHE\n\n")
+#         print("bandlist is {0}".format(req.session))
+        req.set_member_cache_dirty(member_key)
         
         
 def create_new_member(email, name, password):
@@ -618,7 +623,7 @@ class ManageBandsNewAssoc(BaseHandler):
             goemail.send_new_member_email(the_band,the_member)
         
         # since our bands are changing, invalidate the band list in our session
-        self.user.invalidate_session_bandlists(self)
+        self.user.invalidate_member_bandlists(self, the_member_key)
  
 
 class ManageBandsDeleteAssoc(BaseHandler):
@@ -644,7 +649,7 @@ class ManageBandsDeleteAssoc(BaseHandler):
         gig.reset_gigs_for_contact_key(the_member_key, the_band_key)
 
         # since our bands are changing, invalidate the band list in our session
-        self.user.invalidate_session_bandlists(self)
+        self.user.invalidate_member_bandlists(self, the_member_key)
         
         return self.redirect('/member_info.html?mk={0}'.format(the_member_key.urlsafe()))
         

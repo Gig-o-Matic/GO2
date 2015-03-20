@@ -148,12 +148,41 @@ class BaseHandler(webapp2.RequestHandler):
 
     # this is needed for webapp2 sessions to work
     def dispatch(self):
-            # Get a session store for this request.
-            self.session_store = sessions.get_store(request=self.request)
+		# Get a session store for this request.
+		self.session_store = sessions.get_store(request=self.request)
 
-            try:
-                    # Dispatch the request.
-                    webapp2.RequestHandler.dispatch(self)
-            finally:
-                    # Save all sessions.
-                    self.session_store.save_sessions(self.response)
+		try:
+				# Dispatch the request.
+				webapp2.RequestHandler.dispatch(self)
+		finally:
+				# Save all sessions.
+				self.session_store.save_sessions(self.response)
+
+    # create a way for one member to invalidate another's bandlist cache
+    def set_member_cache_dirty(self,member_key):
+        app = webapp2.get_app()
+        dirty_list = app.registry.get('member_dirty_cache_list')
+        if not dirty_list:
+            dirty_list = []
+        if not member_key in dirty_list:
+            dirty_list.append(member_key)
+        app.registry['member_dirty_cache_list'] = dirty_list
+        
+    # see if a member key is dirty
+    def member_cache_is_dirty(self, member_key):
+        app = webapp2.get_app()
+        dirty_list = app.registry.get('member_dirty_cache_list')
+        if not dirty_list or member_key not in dirty_list:
+            return False
+        else:
+            return True
+            
+    # remove member from dirty_list
+    def member_cache_set_clean(self, member_key):   
+        app = webapp2.get_app()
+        dirty_list = app.registry.get('member_dirty_cache_list')
+        if not dirty_list or member_key not in dirty_list:
+            return
+        else:
+            dirty_list.remove(member_key)
+            app.registry['member_dirty_cache_list'] = dirty_list
