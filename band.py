@@ -283,18 +283,29 @@ class EditPage(BaseHandler):
 
     def make_page(self, the_user):
 
+        # make sure I'm an admin or a superuser
+        the_user_is_superuser = member.member_is_superuser(the_user)
+
         if self.request.get("new",None) is not None:
             #  creating a new band
-            # todo MAKE SURE I'M AN ADMIN
+            if not the_user_is_superuser:
+                return self.redirect('/')
             the_band=None
             is_new=True
         else:
             is_new=False
-            the_band_key=self.request.get("bk",'0')
-            if the_band_key=='0':
+            the_band_key_str=self.request.get("bk",'0')
+
+            if the_band_key_str=='0':
                 return
             else:
-                the_band=ndb.Key(urlsafe=the_band_key).get()
+                the_band_key=ndb.Key(urlsafe=the_band_key_str)
+            
+                the_user_admin_status = assoc.get_admin_status_for_member_for_band_key(the_user, the_band_key)   
+                if not the_user_admin_status and not the_user_is_superuser:
+                    return self.redirect('/')
+
+                the_band = the_band_key.get()
                 if the_band is None:
                     self.response.write('did not find a band!')
                     return # todo figure out what to do if we didn't find it
@@ -446,8 +457,8 @@ class DeleteBand(BaseHandler):
         the_band_key=ndb.Key(urlsafe=the_band_keyurl)
         
         the_user = self.user # todo - make sure the user is a superuser
-        
-        forget_band_from_key(the_band_key)
+        if (the_user.is_superuser):
+            forget_band_from_key(the_band_key)
 
         return self.redirect('/band_admin.html')
         
