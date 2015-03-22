@@ -288,7 +288,7 @@
 	<!-- Modal -->
     <div class="modal fade" id="newsectionmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <form id="modal-form" accept-charset="UTF-8" data-remote="true">
+            <form id="newsection-modal-form" accept-charset="UTF-8" data-remote="true">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -309,6 +309,51 @@
             </form>
         </div><!-- /.modal-dialog -->
 	</div><!-- /.modal -->
+
+	<!-- Modal -->
+    <div class="modal fade" id="delsectionmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">{% trans %}Delete Section{% endtrans %}</h4>
+                </div>
+                <div class="modal-body">
+                    {% trans %}Really delete section{% endtrans %} "<span id='deletesectionname'></span>"?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{% trans %}Cancel{% endtrans %}</button>
+                    <button type="button" class="btn btn-primary" id="deletesection" onclick='do_delete()'>{% trans %}Delete{% endtrans %}</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+
+	<!-- Modal -->
+    <div class="modal fade" id="renamesectionmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <form id="rename-modal-form" accept-charset="UTF-8" data-remote="true">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">{% trans %}Rename Section{% endtrans %}</h4>
+                    </div>
+                    <div class="modal-body">
+                            <div class="form-group">
+                                <label for="newsectioninput" class="control-label">{% trans %}Rename Section{% endtrans %}</label>
+                                <input type="text form-control" id="renamesectioninput" placeholder="Section Name" name="new_section_name">
+                            </div>
+                        </form>                    
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">{% trans %}Cancel{% endtrans %}</button>
+                        <input type="submit" class="btn btn-primary" value="{% trans %}Save{% endtrans %}">
+                    </div>
+                </div><!-- /.modal-content -->
+            </form>
+        </div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+
 	{% endif %}					
 {% endblock modal %}
 
@@ -412,7 +457,16 @@ function move(dir,sk) {
     return false;
 }
 
-function delete_section(sk) {
+function delete_section(name, sk) {
+    $('#deletesectionname').html(name);
+    $('#delsectionmodal').data('sectionkey',sk);
+    $('#delsectionmodal').modal('show');    
+}
+
+function do_delete() {
+    $('#delsectionmodal').modal('hide');    
+    sk=$('#delsectionmodal').data('sectionkey');
+
     $.post("/band_delete_section",
             {
                 sk: sk
@@ -426,6 +480,33 @@ function delete_section(sk) {
 
     return false;
 }
+
+function rename_section(name, sk) {
+    $('#renamesectioninput').attr('value',name);
+    $('#renamesectionmodal').data('sectionkey',sk);
+    $('#renamesectionmodal').modal('show');    
+}
+
+function handle_rename_section() {
+    $('#renamesectionmodal').modal('hide');    
+    sk=$('#renamesectionmodal').data('sectionkey');
+    newname=$('#renamesectioninput').val();
+    
+    $.post("/band_rename_section",
+            {
+                sk: sk,
+                newname: newname
+            },
+            function(responseTxt,statusTxt,xhr){
+                if(statusTxt=="success")
+                    updateSections();
+                if(statusTxt=="error")
+                  alert("Error: "+xhr.status+": "+xhr.statusText);
+            });
+
+    return false;
+}
+
 
 function member_section(mk, sk) {
     var bk='{{the_band.key.urlsafe()}}';
@@ -490,7 +571,8 @@ $(document).ready(function() {
     updateSections();
     updateUpcoming();
     updatePublic();
-    $("#modal-form").validate({
+    
+    $("#newsection-modal-form").validate({
         rules: {
             new_section: {
                 required: true
@@ -503,6 +585,22 @@ $(document).ready(function() {
         },        
         submitHandler: handle_new_section
     });
+
+    $("#rename-modal-form").validate({
+        rules: {
+            new_section_name: {
+                required: true
+            }
+        },
+        messages: {
+            new_section_name: {
+                required: "{% trans %}This field is required!{% endtrans %}"                
+            }            
+        },        
+        submitHandler: handle_rename_section
+    });
+
+
     $('.bxslider').bxSlider({
         auto: true,
         controls: true,

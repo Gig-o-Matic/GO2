@@ -554,14 +554,19 @@ class NewSection(BaseHandler):
         """ makes a new assoc for a member """
         
         the_user = self.user
-        
+
         the_section_name=self.request.get('section_name','0')
-        the_band_key=self.request.get('bk','0')
-        
-        if the_section_name=='0' or the_band_key=='0':
+        the_band_key_str=self.request.get('bk','0')
+
+        if the_section_name=='0' or the_band_key_str=='0':
             return # todo figure out what to do
             
-        the_band=ndb.Key(urlsafe=the_band_key).get()
+        the_band_key = ndb.Key(urlsafe=the_band_key_str)
+        
+        if not is_authorized_to_edit_band(the_band_key,the_user):
+            return
+
+        the_band=the_band_key.get()
         
         new_section_for_band(the_band, the_section_name)
 
@@ -572,6 +577,7 @@ class DeleteSection(BaseHandler):
         """ makes a new assoc for a member """
                 
         the_user = self.user
+        #todo - make sure it's a band admin or superuser    
         
         the_section_key_url=self.request.get('sk','0')
         
@@ -579,6 +585,10 @@ class DeleteSection(BaseHandler):
             return # todo figure out what to do
 
         the_section_key=ndb.Key(urlsafe=the_section_key_url)
+
+        the_band_key=the_section_key.parent()
+        if not is_authorized_to_edit_band(the_band_key,the_user):
+            return        
         
         delete_section_key(the_section_key)
 
@@ -590,12 +600,18 @@ class MoveSection(BaseHandler):
         """ moves a section """
         
         the_user = self.user
+        #todo - make sure it's a band admin or superuser    
         
         the_direction=self.request.get('dir','0')
-        the_section_key=self.request.get('sk','0')
+        the_section_key_str=self.request.get('sk','0')
         
-        the_section_key=ndb.Key(urlsafe=the_section_key)
+        the_section_key=ndb.Key(urlsafe=the_section_key_str)
         the_section=the_section_key.get()
+
+        the_band_key = the_section_key.parent()
+        if not is_authorized_to_edit_band(the_band_key,the_user):
+            return
+
         the_band=the_section_key.parent().get()
         
         band_sections = the_band.sections
@@ -612,6 +628,35 @@ class MoveSection(BaseHandler):
         else:
             print 'not in band'
         
+class RenameSection(BaseHandler):
+    """ rename a section """
+    
+    @user_required
+    def post(self):
+        """ moves a section """
+                
+        the_user = self.user
+
+        the_section_key_url=self.request.get('sk','0')
+        
+        if the_section_key_url=='0':
+            return # todo figure out what to do
+
+        the_section_key=ndb.Key(urlsafe=the_section_key_url)
+        
+        the_band_key=the_section_key.parent()
+        if not is_authorized_to_edit_band(the_band_key,the_user):
+            return                
+        
+        the_newname=self.request.get('newname','')
+
+        if not the_newname:
+            return # todo figure out what to do
+            
+        the_section = the_section_key.get()
+        the_section.name = the_newname
+        the_section.put()
+    
 class ConfirmMember(BaseHandler):
     """ move a member from pending to 'real' member """
     
@@ -621,7 +666,6 @@ class ConfirmMember(BaseHandler):
         
         the_user = self.user
 
-        # todo make sure we are a band admin        
         the_member_keyurl=self.request.get('mk','0')
         the_band_keyurl=self.request.get('bk','0')
         
@@ -630,6 +674,9 @@ class ConfirmMember(BaseHandler):
             
         the_member_key=ndb.Key(urlsafe=the_member_keyurl)
         the_band_key=ndb.Key(urlsafe=the_band_keyurl)
+
+        if not is_authorized_to_edit_band(the_band_key,the_user):
+            return                
                     
         the_member = the_member_key.get()
         assoc.confirm_member_for_band_key(the_member, the_band_key)
@@ -649,7 +696,7 @@ class AdminMember(BaseHandler):
     def post(self):
         """ post handler - wants a member key and a band key, and a flag """
         
-        # todo - make sure the user is a superuser or already an admin of this band
+        the_user = self.user
 
         the_assoc_keyurl=self.request.get('ak','0')
         the_do=self.request.get('do',None)
@@ -658,6 +705,10 @@ class AdminMember(BaseHandler):
             return # todo figure out what to do
 
         the_assoc = ndb.Key(urlsafe=the_assoc_keyurl).get()
+
+        if not is_authorized_to_edit_band(the_assoc.band,the_user):
+            return                
+
         the_assoc.is_band_admin = (the_do=='true')
         the_assoc.put()
         
@@ -672,7 +723,7 @@ class MakeOccasionalMember(BaseHandler):
     def post(self):
         """ post handler - wants a member key and a band key, and a flag """
         
-        # todo - make sure the user is a superuser or already an admin of this band
+        the_user = self.user
 
         the_assoc_keyurl=self.request.get('ak','0')
         the_do=self.request.get('do',None)
@@ -681,6 +732,10 @@ class MakeOccasionalMember(BaseHandler):
             return # todo figure out what to do
 
         the_assoc = ndb.Key(urlsafe=the_assoc_keyurl).get()
+        
+        if not is_authorized_to_edit_band(the_assoc.band,the_user):
+            return                
+        
         the_assoc.is_occasional = (the_do=='true')
         the_assoc.put()
 
@@ -691,7 +746,7 @@ class RemoveMember(BaseHandler):
     def get(self):
         """ post handler - wants an ak """
         
-        # todo - make sure the user is a superuser or already an admin of this band
+        the_user = self.user
 
         the_member_keyurl=self.request.get('mk','0')
         the_band_keyurl=self.request.get('bk','0')
@@ -701,6 +756,9 @@ class RemoveMember(BaseHandler):
 
         the_member_key = ndb.Key(urlsafe=the_member_keyurl)
         the_band_key = ndb.Key(urlsafe=the_band_keyurl)
+        
+        if not is_authorized_to_edit_band(the_band_key,the_user):
+            return                
         
         # find the association between band and member
         the_assoc=assoc.get_assoc_for_band_key_and_member_key(the_member_key, the_band_key)
@@ -904,3 +962,10 @@ class SendInvites(BaseHandler):
             'the_not_ok' : not_ok_email
         }
         self.render_template('band_invite_result.html', template_args)
+
+def is_authorized_to_edit_band(the_band_key, the_user):
+    if assoc.get_admin_status_for_member_for_band_key(the_user, the_band_key) or the_user.is_superuser:
+        return True
+    else:
+        logging.error("Non-authorized user tried to access admin function - user key {0}".format(the_user.key.urlsafe()))
+        return False

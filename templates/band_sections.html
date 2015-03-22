@@ -1,10 +1,13 @@
 
 {% for the_section in the_members_by_section %}
+    {% if the_section[0] %}
+        {% set the_section_obj = the_section[0].get() %}
+    {% endif %}
     <div class="row" style="padding-top: 5px; padding-bottom: 5px; {{ loop.cycle('', 'background:#f5f5f5;') }}">
         {% if num_sections > 0 %}
             <div class="col-md-2 col-sm-2 col-xs-3 gomlabel">
                 {% if the_section[0] %}
-                    {{the_section[0].get().name}}
+                    {{the_section_obj.name}}
                 {% else %}
                     {% trans %}No Section{% endtrans %}
                 {% endif %}
@@ -26,8 +29,11 @@
         </div>
         {% if (the_user_is_superuser or the_user_is_band_admin) %}
             <div class="col-md-2 col-sm-2 col-xs-8">
+                    {% if the_section[0] %}
+                        <a class="btn btn-default btn-sm" onclick="rename_section('{{the_section_obj.name}}','{{the_section[0].urlsafe()}}'); return false;" href="#"><i class="fa fa-tag fa-lg"></i></a>
+                    {% endif %}
                     {% if the_section[0] and not the_section[1] %} 
-                        <a class="btn btn-default btn-sm" onclick="delete_section('{{the_section[0].urlsafe()}}'); return false;" href="#">{% trans %}Delete Section{% endtrans %}</a>
+                        <a class="btn btn-default btn-sm" onclick="delete_section('{{the_section_obj.name}}','{{the_section[0].urlsafe()}}'); return false;" href="#"><i class="fa fa-times-circle fa-lg"></i></a>
                     {% endif %}
             </div>
             {% if num_sections > 1 and the_section[0] %}

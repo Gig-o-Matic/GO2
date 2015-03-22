@@ -106,6 +106,7 @@ else:
         webapp2.Route('/band_get_sections',band.BandGetSections, name='getsections'),
         webapp2.Route('/band_new_section',band.NewSection),
         webapp2.Route('/band_delete_section',band.DeleteSection),
+        webapp2.Route('/band_rename_section',band.RenameSection),
         webapp2.Route('/band_move_section',band.MoveSection),
         webapp2.Route('/band_confirm_member',band.ConfirmMember),
         webapp2.Route('/band_makeadmin', band.AdminMember),
