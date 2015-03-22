@@ -46,7 +46,7 @@
     </div>
     <div class="col-lg-{{grp2_lg}} col-md-{{grp2_lg}} col-md-offset-0 col-sm-{{grp2_sm}} col-sm-offset-0 col-xs-{{grp2_sm}} col-xs-offset-0">
         <div class="row">
-            {% if the_member_key == the_user.key or the_user_is_superuser or the_user.is_band_editor %}
+            {% if the_member_key == the_user.key or the_user_is_superuser or user_is_band_admin %}
                 <div class="col-md-2 col-sm-2 col-xs-3">
                     {{ plan_icon.icon_button(the_plan, the_band.simple_planning) }}
                 </div>
