@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-02-01 16:53-0500\n"
+"POT-Creation-Date: 2015-03-23 15:09-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,19 +17,19 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 1.3\n"
 
-#: gig.py:612
+#: gig.py:613
 msgid "Time"
 msgstr ""
 
-#: gig.py:614 templates/gig_edit.html:60
+#: gig.py:615 templates/gig_edit.html:60
 msgid "Date"
 msgstr ""
 
-#: gig.py:616 templates/gig_edit.html:34
+#: gig.py:617 templates/gig_edit.html:34
 msgid "Status"
 msgstr ""
 
-#: gig.py:619
+#: gig.py:620
 msgid "Details"
 msgstr ""
 
@@ -284,7 +284,8 @@ msgid "items for second planning popup (BETA!)"
 msgstr ""
 
 #: templates/band_edit.html:125 templates/band_edit.html:127
-#: templates/band_info.html:305 templates/band_invite.html:27
+#: templates/band_info.html:305 templates/band_info.html:325
+#: templates/band_info.html:349 templates/band_invite.html:27
 #: templates/forgot.html:49 templates/gig_edit.html:179
 #: templates/gig_edit.html:181 templates/member_edit.html:140
 #: templates/signup.html:58
@@ -292,14 +293,16 @@ msgid "Cancel"
 msgstr ""
 
 #: templates/band_edit.html:129 templates/band_info.html:306
-#: templates/gig_edit.html:183 templates/member_edit.html:141
+#: templates/band_info.html:350 templates/gig_edit.html:183
+#: templates/member_edit.html:141
 msgid "Save"
 msgstr ""
 
-#: templates/band_edit.html:153 templates/band_info.html:501
-#: templates/gig_edit.html:299 templates/gig_edit.html:302
-#: templates/gig_edit.html:305 templates/invite_welcome.html:101
-#: templates/invite_welcome.html:107 templates/member_edit.html:198
+#: templates/band_edit.html:153 templates/band_info.html:583
+#: templates/band_info.html:597 templates/gig_edit.html:299
+#: templates/gig_edit.html:302 templates/gig_edit.html:305
+#: templates/invite_welcome.html:101 templates/invite_welcome.html:107
+#: templates/member_edit.html:198
 msgid "This field is required!"
 msgstr ""
 
@@ -422,6 +425,28 @@ msgstr ""
 msgid "New Section"
 msgstr ""
 
+#: templates/band_info.html:319
+msgid "Delete Section"
+msgstr ""
+
+#: templates/band_info.html:322
+msgid "delete-part-1"
+msgstr ""
+
+#: templates/band_info.html:322
+msgid "delete-part-2"
+msgstr ""
+
+#: templates/band_info.html:326 templates/gig_edit.html:173
+#: templates/gig_edit.html:208 templates/member_edit.html:134
+#: templates/member_edit.html:167
+msgid "Delete"
+msgstr ""
+
+#: templates/band_info.html:339 templates/band_info.html:343
+msgid "Rename Section"
+msgstr ""
+
 #: templates/band_invite.html:13
 msgid "invite_instructions"
 msgstr ""
@@ -462,7 +487,7 @@ msgstr ""
 msgid "Try Again"
 msgstr ""
 
-#: templates/band_members.html:11 templates/band_sections.html:19
+#: templates/band_members.html:11 templates/band_sections.html:22
 msgid "occasional"
 msgstr ""
 
@@ -495,13 +520,9 @@ msgstr ""
 msgid "None!"
 msgstr ""
 
-#: templates/band_sections.html:9 templates/gig_info.html:188
+#: templates/band_sections.html:12 templates/gig_info.html:188
 #: templates/grid.html:79
 msgid "No Section"
-msgstr ""
-
-#: templates/band_sections.html:30
-msgid "Delete Section"
 msgstr ""
 
 #: templates/calhelp.html:3 templates/calhelp.html:8
@@ -780,11 +801,6 @@ msgstr ""
 
 #: templates/gig_edit.html:165
 msgid "Also send update to occasional members"
-msgstr ""
-
-#: templates/gig_edit.html:173 templates/gig_edit.html:208
-#: templates/member_edit.html:134 templates/member_edit.html:167
-msgid "Delete"
 msgstr ""
 
 #: templates/gig_edit.html:174 templates/gig_edit.html:228
