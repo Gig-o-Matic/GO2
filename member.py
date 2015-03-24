@@ -43,6 +43,7 @@ class MemberPreferences(ndb.Model):
     calendar_show_only_confirmed = ndb.BooleanProperty(default=True)
     calendar_show_only_committed = ndb.BooleanProperty(default=True)
     default_view = ndb.IntegerProperty(default=0) # 0 = agenda, 1 = calendar, 2 = grid
+    agenda_show_time = ndb.BooleanProperty(default=False)
 
 #
 # class for member
@@ -533,6 +534,11 @@ class EditPage(BaseHandler):
         else:
             the_member.preferences.locale = "en"
         
+        member_prefagendashowtime=self.request.get("member_prefagendashowtime", None)
+        if (member_prefagendashowtime):
+            the_member.preferences.agenda_show_time = True
+        else:
+            the_member.preferences.agenda_show_time = False
 
         the_member.put()                    
 

@@ -88,6 +88,13 @@
                             >{% trans %}Hide canceled gigs on my agenda page{% endtrans %}  
                         </label>  
                         <label class="checkbox">  
+                            <input type="checkbox" id="memberprefagendashowtime" name="member_prefagendashowtime"
+                            {% if the_member.preferences.agenda_show_time %}
+                                checked
+                            {% endif %}
+                            >{% trans %}Show gig time my agenda page{% endtrans %}  
+                        </label>  
+                        <label class="checkbox">  
                             <input type="checkbox" id="memberprefshareprofile" name="member_prefshareprofile"
                             {% if the_member.preferences.share_profile %}
                                 checked

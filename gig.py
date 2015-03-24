@@ -61,6 +61,14 @@ class Gig(ndb.Model):
     comment_id = ndb.TextProperty( default = None)
     creator = ndb.KeyProperty()
     invite_occasionals = ndb.BooleanProperty(default=True)
+    
+    def gigtime(self):
+        if self.calltime:
+            return self.calltime
+        elif self.settime:
+            return self.settime
+        else:
+            return None
 #
 # Functions to make and find gigs
 #
