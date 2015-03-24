@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-03-23 15:09-0400\n"
+"POT-Creation-Date: 2015-03-24 15:54-0400\n"
 "PO-Revision-Date: 2014-02-01 18:13-0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: it <LL@li.org>\n"
@@ -14,19 +14,19 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 1.3\n"
 
-#: gig.py:613
+#: gig.py:621
 msgid "Time"
 msgstr "Orario"
 
-#: gig.py:615 templates/gig_edit.html:60
+#: gig.py:623 templates/gig_edit.html:60
 msgid "Date"
 msgstr "Data"
 
-#: gig.py:617 templates/gig_edit.html:34
+#: gig.py:625 templates/gig_edit.html:34
 msgid "Status"
 msgstr "Stato"
 
-#: gig.py:620
+#: gig.py:628
 msgid "Details"
 msgstr ""
 
@@ -107,7 +107,7 @@ msgstr "Da confermare"
 msgid "Confirmed!"
 msgstr "Confermata!"
 
-#: goemail.py:187 templates/agenda_plan_edit.html:134
+#: goemail.py:187 templates/agenda_plan_edit.html:137
 #: templates/gig_edit.html:44 templates/gig_info.html:48
 msgid "Cancelled!"
 msgstr "Annullata!"
@@ -252,7 +252,7 @@ msgstr "mostra tutte"
 msgid "Nothing coming up!"
 msgstr "Nessun'altra suonata!"
 
-#: templates/agenda_plan_edit.html:113 templates/band_members.html:18
+#: templates/agenda_plan_edit.html:116 templates/band_members.html:18
 #: templates/member_band_assocs.html:25
 msgid "section"
 msgstr "sezione"
@@ -386,14 +386,14 @@ msgstr "voci per il secondo menu adesioni/opinioni (elencare una per riga"
 #: templates/band_info.html:305 templates/band_info.html:325
 #: templates/band_info.html:349 templates/band_invite.html:27
 #: templates/forgot.html:49 templates/gig_edit.html:179
-#: templates/gig_edit.html:181 templates/member_edit.html:140
+#: templates/gig_edit.html:181 templates/member_edit.html:147
 #: templates/signup.html:58
 msgid "Cancel"
 msgstr "Annulla"
 
 #: templates/band_edit.html:129 templates/band_info.html:306
 #: templates/band_info.html:350 templates/gig_edit.html:183
-#: templates/member_edit.html:141
+#: templates/member_edit.html:148
 msgid "Save"
 msgstr "Salva"
 
@@ -401,7 +401,7 @@ msgstr "Salva"
 #: templates/band_info.html:597 templates/gig_edit.html:299
 #: templates/gig_edit.html:302 templates/gig_edit.html:305
 #: templates/invite_welcome.html:101 templates/invite_welcome.html:107
-#: templates/member_edit.html:198
+#: templates/member_edit.html:205
 msgid "This field is required!"
 msgstr "Questo campo è obbligatorio!"
 
@@ -543,8 +543,8 @@ msgid "delete-part-2"
 msgstr "?"
 
 #: templates/band_info.html:326 templates/gig_edit.html:173
-#: templates/gig_edit.html:208 templates/member_edit.html:134
-#: templates/member_edit.html:167
+#: templates/gig_edit.html:208 templates/member_edit.html:141
+#: templates/member_edit.html:174
 msgid "Delete"
 msgstr "Cancella"
 
@@ -950,7 +950,7 @@ msgstr "Invia aggiornamento anche ai membri saltuari"
 msgid "Archive"
 msgstr "Archivia"
 
-#: templates/gig_edit.html:200 templates/member_edit.html:159
+#: templates/gig_edit.html:200 templates/member_edit.html:166
 #: templates/member_info.html:171
 msgid "Confirm Delete"
 msgstr "Conferma cancella"
@@ -960,7 +960,7 @@ msgstr "Conferma cancella"
 msgid "Do you really want to delete this gig?"
 msgstr "Vuoi davvero cancellare questa suonata?"
 
-#: templates/gig_edit.html:206 templates/member_edit.html:165
+#: templates/gig_edit.html:206 templates/member_edit.html:172
 #, fuzzy
 msgid "Don't Delete"
 msgstr "Non cancellare"
@@ -1308,35 +1308,39 @@ msgid "Hide canceled gigs on my agenda page"
 msgstr "Nascondi suonate annullate dalla mia agenda"
 
 #: templates/member_edit.html:95
+msgid "Show gig time my agenda page"
+msgstr "Mostra orario suonata sulla mia agenda"
+
+#: templates/member_edit.html:102
 msgid "Share my profile outside of my bands"
 msgstr "Condividi il mio profilo con tutte le altre bande"
 
-#: templates/member_edit.html:102
+#: templates/member_edit.html:109
 msgid "Share my email outside of my bands"
 msgstr "Condividi la mia e-mail con tutte le altre bande"
 
-#: templates/member_edit.html:109
+#: templates/member_edit.html:116
 msgid "Show only confirmed gigs on calendar view"
 msgstr "Mostra sul Calendario solo le suonate confermate"
 
-#: templates/member_edit.html:116
+#: templates/member_edit.html:123
 msgid "Show only gigs I can do (or maybe can do) on calendar view"
 msgstr "Mostra sul Calendario solo le suonate cui parteciperò"
 
-#: templates/member_edit.html:118
+#: templates/member_edit.html:125
 msgid "Language"
 msgstr "Lingua"
 
-#: templates/member_edit.html:162
+#: templates/member_edit.html:169
 #, fuzzy
 msgid "Do you really want to delete this member?"
 msgstr "Vuoi veramente cancellare questo membro?"
 
-#: templates/member_edit.html:197
+#: templates/member_edit.html:204
 msgid "email already in use"
 msgstr "e-mail già in uso"
 
-#: templates/member_edit.html:199
+#: templates/member_edit.html:206
 msgid "Please enter a valid email address!"
 msgstr "Inserire un indirizzo e-mail valido!"
 
