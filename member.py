@@ -5,6 +5,7 @@
 # 24 August 2013
 #
 
+import debug
 from google.appengine.ext import ndb
 from requestmodel import *
 import webapp2_extras.appengine.auth.models
@@ -69,6 +70,12 @@ class Member(webapp2_extras.appengine.auth.models.User):
     display_name = ndb.ComputedProperty(lambda self: self.nickname if self.nickname else self.name)
     last_activity = ndb.DateTimeProperty(auto_now=True)
       
+    @classmethod
+    def lquery(cls, *args, **kwargs):
+        if debug.DEBUG:
+            print('{0} query'.format(cls.__name__))
+        return cls.query(*args, **kwargs)
+
     def set_password(self, raw_password):
         """Sets the password for the current user
 
@@ -201,9 +208,9 @@ def get_all_members(order=True, keys_only=False, verified_only=False):
         args=[ndb.GenericProperty('verified')==True]
 
     if order:
-        member_query = Member.query(*args).order(Member.lower_name)
+        member_query = Member.lquery(*args).order(Member.lower_name)
     else:
-        member_query = Member.query(*args)
+        member_query = Member.lquery(*args)
     
     members = member_query.fetch(keys_only=keys_only)
     return members

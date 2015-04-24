@@ -7,6 +7,7 @@
 
 from google.appengine.ext import ndb
 
+import debug
 import band
 import member
 import goemail
@@ -27,17 +28,23 @@ class Assoc(ndb.Model):
     is_multisectional = ndb.BooleanProperty( default = False )
     is_occasional = ndb.BooleanProperty( default = False )
     member_name = ndb.StringProperty() # need this for ordering
-    
+
+    @classmethod
+    def lquery(cls, *args, **kwargs):
+        if debug.DEBUG:
+            print('{0} query: {1}'.format(cls.__name__,args))
+        return cls.query(*args, **kwargs)
+
 def get_member_keys_of_band_key(the_band_key):
     """ Return member objects by band"""        
-    assoc_query = Assoc.query( Assoc.band==the_band_key, Assoc.is_confirmed==True ).order(Assoc.member_name)
+    assoc_query = Assoc.lquery( Assoc.band==the_band_key, Assoc.is_confirmed==True ).order(Assoc.member_name)
     assocs = assoc_query.fetch()
     members = [a.member for a in assocs]
     return members
 
 def get_confirmed_assocs_of_band_key(the_band_key, include_occasional=True):
     """ return all assoc keys for a band """
-    
+
     args=[
             Assoc.band==the_band_key,
             Assoc.is_confirmed==True,
@@ -45,15 +52,15 @@ def get_confirmed_assocs_of_band_key(the_band_key, include_occasional=True):
         ]
     if not include_occasional:
         args.append( Assoc.is_occasional==False )
-    assoc_query = Assoc.query( *args ).order(Assoc.member_name)
-    
-#     assoc_query = Assoc.query( Assoc.band==the_band_key, Assoc.is_confirmed==True, Assoc.is_invited==False ).order(Assoc.member_name)
+    assoc_query = Assoc.lquery( *args ).order(Assoc.member_name)
+
+#     assoc_query = Assoc.lquery( Assoc.band==the_band_key, Assoc.is_confirmed==True, Assoc.is_invited==False ).order(Assoc.member_name)
     assocs = assoc_query.fetch()
     return assocs
 
 def get_pending_members_from_band_key(the_band_key):
     """ Get all the members who are pending """
-    assoc_query = Assoc.query( Assoc.band==the_band_key, Assoc.is_confirmed==False ).order(Assoc.member_name)
+    assoc_query = Assoc.lquery( Assoc.band==the_band_key, Assoc.is_confirmed==False ).order(Assoc.member_name)
     assocs = assoc_query.fetch()
     member_keys = [a.member for a in assocs]
     members = ndb.get_multi(member_keys)
@@ -61,19 +68,19 @@ def get_pending_members_from_band_key(the_band_key):
 
 def get_invited_member_assocs_from_band_key(the_band_key):
     """ Get all the members who are pending """
-    assoc_query = Assoc.query( Assoc.band==the_band_key, Assoc.is_invited==True ).order(Assoc.member_name)
+    assoc_query = Assoc.lquery( Assoc.band==the_band_key, Assoc.is_invited==True ).order(Assoc.member_name)
     assocs = assoc_query.fetch()
     return assocs
 
 def get_inviting_assoc_keys_from_member_key(the_member_key):
     """ Get all the band invites for a member """
-    assoc_query = Assoc.query( Assoc.member==the_member_key, Assoc.is_invited==True )
+    assoc_query = Assoc.lquery( Assoc.member==the_member_key, Assoc.is_invited==True )
     assocs = assoc_query.fetch(keys_only=True)
     return assocs
 
 def get_admin_members_from_band_key(the_band_key, keys_only=False):
     """ Get all the members who are admins """
-    assoc_query = Assoc.query( Assoc.band==the_band_key, Assoc.is_band_admin==True )
+    assoc_query = Assoc.lquery( Assoc.band==the_band_key, Assoc.is_band_admin==True )
     assocs = assoc_query.fetch()
     member_keys = [a.member for a in assocs]
     if keys_only:
@@ -85,9 +92,9 @@ def get_admin_members_from_band_key(the_band_key, keys_only=False):
 def get_assoc_for_band_key_and_member_key(the_member_key, the_band_key, confirmed_only=False):
     """ find the association with a band and return it """
     if confirmed_only:
-        assoc_query = Assoc.query( Assoc.band==the_band_key, Assoc.member==the_member_key, Assoc.is_confirmed==True )
+        assoc_query = Assoc.lquery( Assoc.band==the_band_key, Assoc.member==the_member_key, Assoc.is_confirmed==True )
     else:
-        assoc_query = Assoc.query( Assoc.band==the_band_key, Assoc.member==the_member_key )
+        assoc_query = Assoc.lquery( Assoc.band==the_band_key, Assoc.member==the_member_key )
     assocs = assoc_query.fetch()
     if len(assocs) >= 1:
         return assocs[0]
@@ -96,16 +103,16 @@ def get_assoc_for_band_key_and_member_key(the_member_key, the_band_key, confirme
 
 def get_member_keys_for_band_key_for_section_key(the_band_key, the_section_key):
     """ Return member objects by band with specified default section"""
-    assoc_query = Assoc.query(Assoc.band==the_band_key,
+    assoc_query = Assoc.lquery(Assoc.band==the_band_key,
                               Assoc.default_section==the_section_key,
                               Assoc.is_confirmed==True ).order(Assoc.member_name)
     assocs = assoc_query.fetch()
     members = [a.member for a in assocs]
     return members
-    
-def get_member_keys_of_band_key_no_section(the_band_key):    
+
+def get_member_keys_of_band_key_no_section(the_band_key):
     """ Return member objects by band with no default section"""
-    assoc_query = Assoc.query( Assoc.band==the_band_key, 
+    assoc_query = Assoc.lquery( Assoc.band==the_band_key,
                                Assoc.default_section==None,
                                Assoc.is_confirmed==True).order(Assoc.member_name)
     assocs = assoc_query.fetch()
@@ -135,7 +142,7 @@ def get_admin_status_for_member_for_band_key(the_member, the_band_key):
         return a.is_band_admin
     else:
         return False
-    
+
 def confirm_member_for_band_key(the_member, the_band_key):
     """ assuming this member is pending, confirm them """
     a = get_assoc_for_band_key_and_member_key(the_member_key=the_member.key, the_band_key=the_band_key)
@@ -154,7 +161,7 @@ def new_association(member, band, confirm=False, invited=False):
     """ associate a band and a member """
     assoc=Assoc(band=band.key, member=member.key, member_name=member.name, is_confirmed=confirm, is_invited=invited)
     assoc.put()
-    
+
 def delete_association_from_key(the_assoc_key):
     """ delete association between member and band """
     the_assoc_key.delete()
@@ -176,20 +183,20 @@ def set_multi(the_member_key, the_band_key, the_do):
 def get_assocs_of_band_key(the_band_key, confirmed_only=False, keys_only=False):
     """ go get all the assocs for a band """
     if confirmed_only:
-        assoc_query = Assoc.query( Assoc.band==the_band_key, Assoc.is_confirmed==True, Assoc.is_invited==False ).order(Assoc.member_name)
+        assoc_query = Assoc.lquery( Assoc.band==the_band_key, Assoc.is_confirmed==True, Assoc.is_invited==False ).order(Assoc.member_name)
     else:
-        assoc_query = Assoc.query( Assoc.band==the_band_key ).order(Assoc.member_name)
+        assoc_query = Assoc.lquery( Assoc.band==the_band_key ).order(Assoc.member_name)
     assocs = assoc_query.fetch(keys_only=keys_only)
     return assocs
 
 def get_assocs_of_member_key(the_member_key, confirmed_only=False, keys_only=False):
     if confirmed_only:
-        assoc_query = Assoc.query( Assoc.member==the_member_key, Assoc.is_confirmed==True )
+        assoc_query = Assoc.lquery( Assoc.member==the_member_key, Assoc.is_confirmed==True )
     else:
-        assoc_query = Assoc.query( Assoc.member==the_member_key )
+        assoc_query = Assoc.lquery( Assoc.member==the_member_key )
     assocs = assoc_query.fetch(keys_only=keys_only)
     return assocs
-    
+
 def get_band_keys_of_member_key(the_member_key, confirmed_only=False):
     assocs = get_assocs_of_member_key(the_member_key, confirmed_only)
     band_keys = [a.band for a in assocs]
@@ -214,12 +221,12 @@ def get_confirmed_assocs_of_member(the_member):
 
 def confirm_invites_for_member_key(the_member_key):
     """ find invites for this member and make them real assocs """
-    assoc_query = Assoc.query( Assoc.member==the_member_key, Assoc.is_invited==True )
+    assoc_query = Assoc.lquery( Assoc.member==the_member_key, Assoc.is_invited==True )
     assocs = assoc_query.fetch()
     for a in assocs:
         a.is_invited=False
     ndb.put_multi(assocs)
-    
+
 def default_section_for_band_key(the_member, the_band_key):
     """ find the default section for a member within a given band """
     a = get_assoc_for_band_key_and_member_key(the_member.key, the_band_key)
@@ -237,13 +244,13 @@ def change_member_name(the_member_key, member_name):
 
 def get_all_assocs():
     """ return every assoc """
-    assoc_query = Assoc.query()
+    assoc_query = Assoc.lquery()
     assocs = assoc_query.fetch()
     return assocs
 
 def get_all_invites():
     """ return all invited assoc keys """
-    assoc_query = Assoc.query( Assoc.is_invited==True )
+    assoc_query = Assoc.lquery( Assoc.is_invited==True )
     assocs = assoc_query.fetch()
     return assocs
 

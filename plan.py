@@ -5,6 +5,7 @@
 # 24 August 2013
 #
 
+import debug
 from google.appengine.ext import ndb
 from debug import debug_print
 import webapp2
@@ -29,6 +30,12 @@ class Plan(ndb.Model):
     section = ndb.KeyProperty()
     last_update = ndb.DateTimeProperty(auto_now=True)
 
+    @classmethod
+    def lquery(cls, *args, **kwargs):
+        if debug.DEBUG:
+            print('{0} query'.format(cls.__name__))
+        return cls.query(*args, **kwargs)
+
     def set_comment(self, the_comment):
         self.comment=the_comment;
         self.put()
@@ -45,12 +52,12 @@ def get_plan_from_id(the_gig, id):
 
 def get_plan_keys_for_gig_key(the_gig_key):
     """ Return plan objects by gig"""
-    plan_query = Plan.query(ancestor=the_gig_key)
+    plan_query = Plan.lquery(ancestor=the_gig_key)
     plan_keys = plan_query.fetch(keys_only=True)
     return plan_keys
 
 def get_plan_for_member_key_for_gig_key(the_member_key, the_gig_key):
-    plan_query = Plan.query(Plan.member==the_member_key, ancestor=the_gig_key)
+    plan_query = Plan.lquery(Plan.member==the_member_key, ancestor=the_gig_key)
     plans = plan_query.fetch()
     if len(plans)>1:
         return None #todo what to do if there's more than one plan        
@@ -65,7 +72,7 @@ def get_plan_for_member_for_gig(the_member, the_gig):
 
 def get_recent_changes_for_band_key(the_band_key, the_time_delta_days=1, keys_only=False):
     "find plans for gigs belonging to a band key that have changed lately"
-    plan_query = Plan.query(Plan.last_update>(datetime.datetime.now() - datetime.timedelta(days=the_time_delta_days)), ancestor=the_band_key)
+    plan_query = Plan.lquery(Plan.last_update>(datetime.datetime.now() - datetime.timedelta(days=the_time_delta_days)), ancestor=the_band_key)
     plans = plan_query.fetch(keys_only=keys_only)
     return plans
     
@@ -87,7 +94,7 @@ def update_plan_section_key(the_plan, the_section_key):
 
 def remove_section_from_plans(the_section_key):
     """ if any plans have this section key, set the section to None """
-    plan_query = Plan.query(Plan.section==the_section_key)
+    plan_query = Plan.lquery(Plan.section==the_section_key)
     the_plans = plan_query.fetch()
     for the_plan in the_plans:
         the_plan.section=None
@@ -95,13 +102,13 @@ def remove_section_from_plans(the_section_key):
 
 def delete_plans_for_gig_key(the_gig_key):
     """ A gig is being deleted, so forget everyone's plans about it """
-    plan_query = Plan.query(ancestor=the_gig_key)
+    plan_query = Plan.lquery(ancestor=the_gig_key)
     the_plan_keys = plan_query.fetch(keys_only=True)
     ndb.delete_multi(the_plan_keys)
         
 def delete_plans_for_member_key_for_band_key(the_member_key, the_band_key):
     """ A gig is being deleted, so forget everyone's plans about it """
-    plan_query = Plan.query(Plan.member==the_member_key, ancestor=the_band_key)
+    plan_query = Plan.lquery(Plan.member==the_member_key, ancestor=the_band_key)
     plans = plan_query.fetch(keys_only=True)
     ndb.delete_multi(plans)
         

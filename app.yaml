@@ -69,5 +69,5 @@ libraries:
 - name: jinja2
   version: latest
   
-# builtins:
-# - appstats: on
+builtins:
+- appstats: on

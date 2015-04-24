@@ -5,7 +5,7 @@
 # 24 August 2013
 #
 
-DEBUG = True
+DEBUG = False
 
 def debug_print(string):
     if (DEBUG):

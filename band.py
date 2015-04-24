@@ -12,6 +12,7 @@ import webapp2_extras.appengine.auth.models
 import webapp2
 from debug import *
 
+import debug
 import member
 import goemail
 import assoc
@@ -52,7 +53,13 @@ class Band(ndb.Model):
     simple_planning = ndb.BooleanProperty(default=False)
     plan_feedback = ndb.TextProperty()
     show_in_nav = ndb.BooleanProperty(default=True)
-    
+
+    @classmethod
+    def lquery(cls, *args, **kwargs):
+        if debug.DEBUG:
+            print('{0} query'.format(cls.__name__))
+        return cls.query(*args, **kwargs)
+
 def new_band(name):
     """ Make and return a new band """
     the_band = Band(parent=band_key(), name=name)
@@ -87,7 +94,7 @@ def forget_band_from_key(the_band_key):
         
 def get_band_from_name(band_name):
     """ Return a Band object by name"""
-    bands_query = Band.query(Band.name==band_name, ancestor=band_key())
+    bands_query = Band.lquery(Band.name==band_name, ancestor=band_key())
     band = bands_query.fetch(1)
 
     if len(band)==1:
@@ -97,7 +104,7 @@ def get_band_from_name(band_name):
         
 def get_band_from_condensed_name(band_name):
     """ Return a Band object by name"""
-    bands_query = Band.query(Band.condensed_name==band_name.lower(), ancestor=band_key())
+    bands_query = Band.lquery(Band.condensed_name==band_name.lower(), ancestor=band_key())
     band = bands_query.fetch(1)
 
     if len(band)==1:
@@ -116,7 +123,7 @@ def get_band_from_id(id):
     
 def get_all_bands(keys_only=False):
     """ Return all objects"""
-    bands_query = Band.query(ancestor=band_key()).order(Band.lower_name)
+    bands_query = Band.lquery(ancestor=band_key()).order(Band.lower_name)
     all_bands = bands_query.fetch(keys_only=keys_only)
     return all_bands
 
