@@ -52,6 +52,7 @@ class Gig(ndb.Model):
     dress = ndb.TextProperty( default=None )
     paid = ndb.TextProperty( default=None )
     leader = ndb.TextProperty( default=None )
+    postgig = ndb.TextProperty( default=None )
     status = ndb.IntegerProperty( default=0 ) # 1=confirmed, 2=cancelled, 3=asking
     archive_id = ndb.TextProperty( default=None )
     is_private = ndb.BooleanProperty(default=False )    
@@ -537,6 +538,10 @@ class EditPage(BaseHandler):
         if gig_leader is not None:
             the_gig.leader = gig_leader
         
+        gig_postgig = self.request.get("gig_postgig", '')
+        if gig_postgig is not None:
+            the_gig.postgig = gig_postgig
+
         gig_status = self.request.get("gig_status", '0')
         old_status = the_gig.status
         the_gig.status = int(gig_status)

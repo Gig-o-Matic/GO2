@@ -116,6 +116,13 @@
                         </div>                    
                         <div class="row">&nbsp;</div>
                     {% endif %}
+                    {% if gig.postgig %}
+                        <div class="row">
+                            <div class="col-md-2 col-sm-2 col-xs-3">{% trans %}Post-gig Plans{% endtrans %}</div>
+                            <div class="col-md-10 col-sm-10 col-xs-9 trunc">{{ gig.postgig }}</div>
+                        </div>
+                        <div class="row">&nbsp;</div>
+                    {% endif %}
                     {% if gig.details %}
                         <div class="row">
                             <div class="col-md-2 col-sm-2 col-xs-3">{% trans %}More Details{% endtrans %}</div>

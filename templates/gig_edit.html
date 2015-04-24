@@ -131,6 +131,10 @@
                 <label for="gigleaderinput" class="control-label">{% trans %}Leader{% endtrans %}</label>
                 <input type="text" class="form-control" id="gigleaderinput" placeholder="{% trans %}leader_placeholder{% endtrans %}" value="{{gig.leader}}" name="gig_leader">
             </div>
+            <div class="form-group col-md-4 col-sm-4 col-xs-4">
+                <label for="gigpostgiginput" class="control-label">{% trans %}Post-gig Plans{% endtrans %}</label>
+                <input type="text" class="form-control" id="gigpostgiginput" placeholder="{% trans %}postgig_placeholder{% endtrans %}" value="{{gig.postgig}}" name="gig_postgig">
+            </div>
         </div>
         <div class="row">
             <div class="form-group col-md-8 col-md-offset-2">
