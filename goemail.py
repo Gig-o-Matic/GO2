@@ -171,7 +171,7 @@ def send_newgig_email(the_member, the_gig, the_band, the_gig_url, is_edit=False,
 # The Gig-o-Matic Team
 # 
 #     """.format(the_band.name, the_gig.title, the_gig.date, the_gig.settime, contact_name, the_gig.details, the_gig_url)
-    the_date_string = "{0} {1}".format(member.format_date_for_member(the_member, the_gig.date),
+    the_date_string = "{0} ({1})".format(member.format_date_for_member(the_member, the_gig.date),
                                        member.format_date_for_member(the_member, the_gig.date, "day"))
 
     the_time_string = ""
