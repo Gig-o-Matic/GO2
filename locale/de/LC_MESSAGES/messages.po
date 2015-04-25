@@ -924,11 +924,11 @@ msgstr "Herbert von Karajan"
 
 #: templates/gig_edit.html:135 templates/gig_info.html:121
 msgid "Post-gig Plans"
-msgstr ""
+msgstr "Nach dem Auftritt"
 
 #: templates/gig_edit.html:136
 msgid "postgig_placeholder"
-msgstr ""
+msgstr "Gemütliches Beisammensein"
 
 #: templates/gig_edit.html:142
 msgid "who? what? where? when? why?"

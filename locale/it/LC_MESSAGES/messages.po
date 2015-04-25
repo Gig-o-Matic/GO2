@@ -922,11 +922,11 @@ msgstr "chi se ne occupa"
 
 #: templates/gig_edit.html:135 templates/gig_info.html:121
 msgid "Post-gig Plans"
-msgstr ""
+msgstr "Progetti per dopo la suonata"
 
 #: templates/gig_edit.html:136
 msgid "postgig_placeholder"
-msgstr ""
+msgstr "Aperitivino?"
 
 #: templates/gig_edit.html:142
 msgid "who? what? where? when? why?"
