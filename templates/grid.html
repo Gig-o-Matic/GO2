@@ -37,10 +37,8 @@
     <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-0" style="white-space: nowrap;">
         <a class="btn btn-default btn-sm" href="/grid.html?bk={{the_band_key.urlsafe()}}&m={{the_month}}&y={{the_year}}&d=-1"><i class="fa fa-arrow-left"></i></a>
         {{ the_month_string }}
-
-        <i class="fa fa-calendar datepicker" id="grid_date"></i>
-
         <a class="btn btn-default btn-sm" href="/grid.html?bk={{the_band_key.urlsafe()}}&m={{the_month}}&y={{the_year}}&d=1"><i class="fa fa-arrow-right"></i></a>
+        <i class="fa fa-calendar datepicker" id="grid_date"></i>
     </div>
 </div>
 {% if the_gigs %}
@@ -124,6 +122,8 @@
 
 <script>
 $('#grid_date').datepicker({
+                                todayBtn: 'linked',
+                                todayHighlight: true,
                                 language: '{{ the_user.preferences.locale }}',
                                 viewMode: 'months',
                                 minViewMode: 'months'
@@ -131,7 +131,7 @@ $('#grid_date').datepicker({
                                                                 window.location.assign("/grid.html?bk={{the_band_key.urlsafe()}}&m="+(ev.date.getMonth()+1)+"&y="+(ev.date.getFullYear()))
                                                             });
 d=new Date({{the_year}},{{the_month-1}});
-$('#grid_date').datepicker('setValue', d);
+$('#grid_date').datepicker('update', d);
 
 </script>
 {% endblock localscripts %}
