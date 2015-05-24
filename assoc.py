@@ -28,6 +28,8 @@ class Assoc(ndb.Model):
     is_multisectional = ndb.BooleanProperty( default = False )
     is_occasional = ndb.BooleanProperty( default = False )
     member_name = ndb.StringProperty() # need this for ordering
+    commitment_number = ndb.IntegerProperty(default=0)
+    commitment_total = ndb.IntegerProperty(default=0)
 
     @classmethod
     def lquery(cls, *args, **kwargs):

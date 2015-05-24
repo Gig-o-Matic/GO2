@@ -42,9 +42,19 @@ def make_archive_for_gig_key(the_gig_key):
                 
                     if test_section == the_section:
                         section_plans.append( [an_assoc.member, the_plan] )
-            the_plans.append( (the_section, section_plans) )
 
-        all_members=[]
+                    # when we file this away, update the member's gig-commitment stats
+                    if the_plan.value in [1, 5, 6]:
+                        an_assoc.commitment_number = an_assoc.commitment_number + 1
+
+                # whether or not there's a plan, up the number of gigs we should have committed to
+                an_assoc.commitment_total = an_assoc.commitment_total + 1
+
+
+            the_plans.append( (the_section, section_plans) )
+        ndb.put_multi(the_assocs)
+
+
         for a_section in the_plans:
             if a_section[1]:
                 the_section_key = a_section[0]
@@ -68,17 +78,7 @@ def make_archive_for_gig_key(the_gig_key):
                                                                    plan.plan_text[the_plan.value],
                                                                    the_comment)
 
-                    # when we file this away, update the member's gig-commitment stats
-                    the_member.commitment_total = the_member.commitment_total + 1
-                    if the_plan.value in [1, 5, 6]:
-                        the_member.commitment_number = the_member.commitment_number + 1
-                    all_members.append(the_member)
-                    print '\n\narchived {2}! {0} out of {1}\n\n'.format(the_member.commitment_number, the_member.commitment_total, the_gig.title)
-
                 the_archive_text = u'{0}\n'.format(the_archive_text)
-
-        if all_members:
-            ndb.put_multi(all_members)
 
     # create a document
     my_document = search.Document(
