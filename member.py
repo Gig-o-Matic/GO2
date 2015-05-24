@@ -69,6 +69,8 @@ class Member(webapp2_extras.appengine.auth.models.User):
     images = ndb.TextProperty(repeated=True)
     display_name = ndb.ComputedProperty(lambda self: self.nickname if self.nickname else self.name)
     last_activity = ndb.DateTimeProperty(auto_now=True)
+    commitment_number = ndb.IntegerProperty(default=0)
+    commitment_total = ndb.IntegerProperty(default=0)
       
     @classmethod
     def lquery(cls, *args, **kwargs):

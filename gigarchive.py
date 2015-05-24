@@ -7,6 +7,7 @@
 
 """
 
+from google.appengine.ext import ndb
 import band
 import plan
 import gig
@@ -25,9 +26,9 @@ def make_archive_for_gig_key(the_gig_key):
     else:    
         the_band = the_gig_key.parent().get()
         the_assocs = assoc.get_confirmed_assocs_of_band_key(the_band.key)
-        the_sections = the_band.sections
+        the_sections = list(the_band.sections)
         the_sections.append(None)
-    
+
         the_plans=[]
         for the_section in the_sections:
             section_plans=[]
@@ -42,7 +43,8 @@ def make_archive_for_gig_key(the_gig_key):
                     if test_section == the_section:
                         section_plans.append( [an_assoc.member, the_plan] )
             the_plans.append( (the_section, section_plans) )
-    
+
+        all_members=[]
         for a_section in the_plans:
             if a_section[1]:
                 the_section_key = a_section[0]
@@ -65,7 +67,18 @@ def make_archive_for_gig_key(the_gig_key):
                                                                    the_nickname,
                                                                    plan.plan_text[the_plan.value],
                                                                    the_comment)
+
+                    # when we file this away, update the member's gig-commitment stats
+                    the_member.commitment_total = the_member.commitment_total + 1
+                    if the_plan.value in [1, 5, 6]:
+                        the_member.commitment_number = the_member.commitment_number + 1
+                    all_members.append(the_member)
+                    print '\n\narchived {2}! {0} out of {1}\n\n'.format(the_member.commitment_number, the_member.commitment_total, the_gig.title)
+
                 the_archive_text = u'{0}\n'.format(the_archive_text)
+
+        if all_members:
+            ndb.put_multi(all_members)
 
     # create a document
     my_document = search.Document(
