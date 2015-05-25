@@ -43,12 +43,12 @@ def make_archive_for_gig_key(the_gig_key):
                     if test_section == the_section:
                         section_plans.append( [an_assoc.member, the_plan] )
 
-                    # when we file this away, update the member's gig-commitment stats
-                    if the_plan.value in [1, 5, 6]:
-                        an_assoc.commitment_number = an_assoc.commitment_number + 1
+                        # when we file this away, update the member's gig-commitment stats
+                        if the_plan.value in [1, 5, 6]:
+                            an_assoc.commitment_number = an_assoc.commitment_number + 1
 
-                # whether or not there's a plan, up the number of gigs we should have committed to
-                an_assoc.commitment_total = an_assoc.commitment_total + 1
+                        # whether or not there's a plan, up the number of gigs we should have committed to
+                        an_assoc.commitment_total = an_assoc.commitment_total + 1
 
 
             the_plans.append( (the_section, section_plans) )
