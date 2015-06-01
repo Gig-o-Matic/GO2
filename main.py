@@ -86,6 +86,7 @@ else:
         webapp2.Route('/member_makebeta', member.BetaMember),
         webapp2.Route('/member_delete', member.DeleteMember),
         webapp2.Route('/member_set_section', member.SetSection),
+        webapp2.Route('/member_set_color', member.SetColor),
         webapp2.Route('/member_set_multi',member.SetMulti),
         webapp2.Route('/member_get_bands',member.GetBandList),
         webapp2.Route('/member_get_add_gig_bands',member.GetAddGigBandList),

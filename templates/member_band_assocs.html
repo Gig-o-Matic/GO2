@@ -27,7 +27,7 @@
                                 {{the_info.assoc.default_section.get().name}} <span class="caret"></span>
                             {% endif %}
                         </button>
-                        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="sbk-{{the_info.assoc.band.urlsafe()}}">
                             {% for section_key in the_info.sections %}
                                 <li><a onclick="section_select('{{the_info.assoc.band.urlsafe()}}','{{section_key.urlsafe()}}','{{section_key.get().name}}')">{{ section_key.get().name }}</a></li>
                             {% endfor %}
@@ -42,7 +42,28 @@
                     > {% trans %}other sections, too{% endtrans %}
                 </td>
             {% endif %}
-            <td style="border-top:none;">    
+            <td style="border-top:none;">
+                <div class="dropdown">
+                    <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" id='cbk-{{the_info.assoc.key.urlsafe()}}'>
+                        {% if the_info.assoc.color == 0 %}
+                            <i class="fa fa-square-o"></i>
+                        {% else %}
+                            <i class="fa fa-square" style="color:{{the_colors[the_info.assoc.color]}};"></i>
+                        {% endif %}
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="cbk-{{the_info.assoc.band.urlsafe()}}" style="min-width:10px">
+                        {% for c in the_colors %}
+                            {% if c == '#ffffff' %}
+                                <li><a onclick="color_select('{{the_info.assoc.key.urlsafe()}}',{{loop.index0}})", id="color-{{loop.index0}}"><i class="fa fa-square-o"></i></a></li>
+                            {% else %}
+                                <li><a onclick="color_select('{{the_info.assoc.key.urlsafe()}}',{{loop.index0}})", id="color-{{loop.index0}}"><i class="fa fa-square" style="color:{{c}};"></i></a></li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            </td>
+            <td style="border-top:none;">
                 <button class="btn btn-default btn-sm" onclick="leave_band('{{the_info.assoc.key.urlsafe()}}','{{the_info.assoc.band.get().name|safe_name}}')"><i class="fa fa-minus-square"></i> {% trans %}Leave Band{% endtrans %}</button>
             </td>
         </tr>

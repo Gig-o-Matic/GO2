@@ -231,6 +231,21 @@ function section_select(bk, sk, name) {
             });
 }
 
+function color_select(ak, c) {
+    $.post('/member_set_color',
+            {
+                ak: ak,
+                c: c
+            },
+            function(responseTxt,statusTxt,xhr){
+                if(statusTxt=="success")
+                    test=$('#color-'+c).html();
+                    $('#cbk-'+ak).html(test + " <span class='caret'></span>")
+                if(statusTxt=="error")
+                    alert("Error: "+xhr.status+": "+xhr.statusText);
+            });
+}
+
 function multi_select(bk) {
     elem=document.getElementById("msbk-"+bk)
     var mk='{{the_member.key.urlsafe()}}';

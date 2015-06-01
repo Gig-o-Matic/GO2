@@ -23,6 +23,7 @@ import assoc
 import login
 import datetime
 import lang
+from colors import colors
 
 import logging
 from babel.dates import format_date, format_datetime, format_time
@@ -583,7 +584,8 @@ class ManageBandsGetAssocs(BaseHandler):
 
         template_args = {
             'the_member' : the_member,
-            'the_assoc_info' : the_assoc_info
+            'the_assoc_info' : the_assoc_info,
+            'the_colors' : colors
         }
         self.render_template('member_band_assocs.html', template_args)
 
@@ -669,6 +671,8 @@ class SetSection(BaseHandler):
     def post(self):
         """ post handler - wants an ak and sk """
 
+        the_user = self.user
+
         the_section_keyurl=self.request.get('sk','0')
         the_member_keyurl=self.request.get('mk','0')
         the_band_keyurl=self.request.get('bk','0')
@@ -679,8 +683,28 @@ class SetSection(BaseHandler):
         the_section_key=ndb.Key(urlsafe=the_section_keyurl)
         the_member_key=ndb.Key(urlsafe=the_member_keyurl)
         the_band_key=ndb.Key(urlsafe=the_band_keyurl)
-        
-        assoc.set_default_section(the_member_key, the_band_key, the_section_key)
+
+        if (the_user.key == the_member_key):
+            assoc.set_default_section(the_member_key, the_band_key, the_section_key)
+
+class SetColor(BaseHandler):
+    """ change the color for this assoc """
+
+    def post(self):
+
+        the_user = self.user
+
+        the_assoc_keyurl=self.request.get('ak','0')
+        the_color=int(self.request.get('c','0'))
+
+        the_assoc_key = ndb.Key(urlsafe=the_assoc_keyurl)
+        the_assoc = the_assoc_key.get()
+
+        if the_assoc.member == the_user.key:
+            the_assoc.color = the_color
+            the_assoc.put()
+
+
 
 class SetMulti(BaseHandler):
     """ change the default section for a member's band association """
