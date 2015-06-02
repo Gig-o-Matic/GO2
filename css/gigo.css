@@ -111,3 +111,9 @@ code {
 .panel-group .panel-overflowable {
     overflow:visible;
 }
+
+
+/* override calendar event border thickness */
+.fc-event { /* non-theme */
+	border: 2px solid;
+}
