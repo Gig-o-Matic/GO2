@@ -10,7 +10,8 @@ import datetime
 import band
 import json
 import assoc
-import plan 
+import plan
+from colors import colors
 
 from debug import debug_print
 
@@ -45,7 +46,13 @@ class CalEvents(BaseHandler):
         the_member_key=ndb.Key(urlsafe=the_member_keyurl)
         the_member = the_member_key.get()
         
-        the_bands = assoc.get_confirmed_bands_of_member(the_member)
+        the_assocs = assoc.get_confirmed_assocs_of_member(the_member)
+        the_band_keys = [a.band for a in the_assocs]
+        the_bands = ndb.get_multi(the_band_keys)
+
+        cindices={}
+        for a in the_assocs:
+            cindices[a.band]=a.color
 
         gigs = []
 
@@ -65,14 +72,14 @@ class CalEvents(BaseHandler):
                                     gigs.append(a_gig)
         
         events=[]
-        colors=['#FF9F80','#D1F2A5','#EFFAB4','#FFC48C','#F56991']
         the_band_keys = [b.key for b in the_bands]
         num_bands = len(the_band_keys)
         
         for a_gig in gigs:
             band_key=a_gig.key.parent()
 
-            cindex = the_band_keys.index(band_key) % len(colors)            
+#            cindex = the_band_keys.index(band_key) % len(colors)
+            cindex = cindices[band_key]
 
             the_title = a_gig.title
             if num_bands > 1:
@@ -88,7 +95,7 @@ class CalEvents(BaseHandler):
                             'start':str(a_gig.date.date()),
                             'end': str(a_gig.enddate+datetime.timedelta(days=1)) if a_gig.enddate else None,
                             'url':'/gig_info.html?gk={0}'.format(a_gig.key.urlsafe()),
-                            'color':colors[cindex]
+                            'borderColor':colors[cindex]
                             })
         
         testevent=json.dumps(events)

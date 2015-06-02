@@ -36,7 +36,7 @@
     {% set plan_sm = 11 %}
 {% endif %}
 
-<div class="row">
+<div class="row" style="border-left:solid {{ colors[the_assoc.color] }};">
     <div class="col-md-2 col-sm-2 col-xs-2">
         {{ the_date_formatter(the_user, the_gig.date, 'short') }} {{ the_date_formatter(the_user, the_gig.date, 'day') }}
         {% if the_user.preferences.agenda_show_time and the_gig.gigtime() %}

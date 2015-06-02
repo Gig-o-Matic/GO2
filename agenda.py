@@ -9,6 +9,7 @@ import plan
 import band
 import assoc
 import logging
+from colors import colors
 
 from debug import debug_print
     
@@ -93,7 +94,8 @@ class MainPage(BaseHandler):
             'show_band' : number_of_bands>1,
             'long_agenda' : the_user.show_long_agenda,
             'the_date_formatter' : member.format_date_for_member,
-            'agenda_is_active' : True
+            'agenda_is_active' : True,
+            'colors' : colors
         }
         self.render_template('agenda.html', template_args)
 
