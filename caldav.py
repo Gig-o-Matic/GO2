@@ -91,11 +91,12 @@ def make_event(the_gig, the_band, title_format=u'{0}', details_format=u'{0}'):
                 endtime_dt = datetime.datetime.strptime(the_gig.endtime,"%H:%M")
             except:
                 pass # TODO convert to real time objects; for now punt
-    elif starttime_dt:
+
+
+    if starttime_dt and endtime_dt is None:
         # no end time - use the start time if there is one, plus 1 hour
         if starttime_dt:
             endtime_dt = starttime_dt + datetime.timedelta(hours=1)
-
 
     if starttime_dt:
         start_dt = datetime.datetime.combine(start_dt, starttime_dt.time())
