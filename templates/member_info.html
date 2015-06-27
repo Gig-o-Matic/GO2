@@ -240,7 +240,27 @@ function color_select(ak, c) {
             function(responseTxt,statusTxt,xhr){
                 if(statusTxt=="success")
                     test=$('#color-'+c).html();
-                    $('#cbk-'+ak).html(test + " <span class='caret'></span>")
+                    $('#cbk-'+ak).html(test + " <span class='caret'></span>");
+                if(statusTxt=="error")
+                    alert("Error: "+xhr.status+": "+xhr.statusText);
+            });
+}
+
+function email_select(ak, em) {
+    $.post('/member_set_get_email',
+            {
+                ak: ak,
+                em: em
+            },
+            function(responseTxt,statusTxt,xhr){
+                if(statusTxt=="success") {
+                    if (em) {
+                        test=$('#mail_true').html();
+                    } else {
+                        test=$('#mail_false').html();
+                    }
+                    $('#mailbk-'+ak).html(test + " <span class='caret'></span>");
+                }
                 if(statusTxt=="error")
                     alert("Error: "+xhr.status+": "+xhr.statusText);
             });

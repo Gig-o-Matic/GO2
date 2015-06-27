@@ -704,6 +704,23 @@ class SetColor(BaseHandler):
             the_assoc.color = the_color
             the_assoc.put()
 
+class SetGetEmail(BaseHandler):
+    """ change the email reception for this assoc """
+
+    def post(self):
+
+        the_user = self.user
+
+        the_assoc_keyurl=self.request.get('ak','0')
+        the_get_email= True if (self.request.get('em','0') == 'true') else False
+
+        the_assoc_key = ndb.Key(urlsafe=the_assoc_keyurl)
+        the_assoc = the_assoc_key.get()
+
+        if the_assoc.member == the_user.key:
+            the_assoc.email_me= the_get_email
+            the_assoc.put()
+
 
 
 class SetMulti(BaseHandler):

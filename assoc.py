@@ -31,6 +31,7 @@ class Assoc(ndb.Model):
     commitment_number = ndb.IntegerProperty(default=0)
     commitment_total = ndb.IntegerProperty(default=0)
     color = ndb.IntegerProperty(default=0) # (1=red, 2=green, 3=blue, 4=orange, 5=yellow)
+    email_me = ndb.BooleanProperty (default=True)
 
     @classmethod
     def lquery(cls, *args, **kwargs):

@@ -44,6 +44,32 @@
             {% endif %}
             <td style="border-top:none;">
                 <div class="dropdown">
+                    <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" id='mailbk-{{the_info.assoc.key.urlsafe()}}'>
+                        {% if the_info.assoc.email_me == True %}
+                            <i class="fa fa-envelope-o"></i>
+                        {% else %}
+                            <span class="fa-stack">
+                                <i class="fa fa-envelope-o fa-stack-1x"></i>
+                                <i class="fa fa-times fa-stack-2x text-danger"></i>
+                            </span>
+                        {% endif %}
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="mailbk-{{the_info.assoc.band.urlsafe()}}" style="min-width:10px">
+                        <li><a onclick="email_select('{{the_info.assoc.key.urlsafe()}}',true)", id="mail_true">
+                            <i class="fa fa-envelope-o"></i></a>
+                        </li>
+                        <li><a onclick="email_select('{{the_info.assoc.key.urlsafe()}}',false)", id="mail_false">
+                            <span class="fa-stack">
+                                <i class="fa fa-envelope-o fa-stack-1x"></i>
+                                <i class="fa fa-times fa-stack-2x text-danger"></i>
+                            </span></a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+            <td style="border-top:none;">
+                <div class="dropdown">
                     <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" id='cbk-{{the_info.assoc.key.urlsafe()}}'>
                         {% if the_info.assoc.color == 0 %}
                             <i class="fa fa-square-o"></i>
