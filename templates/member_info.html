@@ -76,11 +76,6 @@
                     {% if member_is_me or the_user_is_superuser %}
                         <br>
                         <div class="row">
-                            <div class="col-md-6 col-sm-6 col-xs-6">{% trans %}Email me for new gigs{% endtrans %}:</div>
-                            <div class="col-md-6 col-sm-6 col-xs-6">{{ truefalse(the_member.preferences.email_new_gig) }}</div>
-                        </div>
-                        <br>
-                        <div class="row">
                             <div class="col-md-6 col-sm-6 col-xs-6">{% trans %}Hide canceled gigs{% endtrans %}:</div>
                             <div class="col-md-6 col-sm-6 col-xs-6">{{ truefalse(the_member.preferences.hide_canceled_gigs) }}</div>
                         </div>

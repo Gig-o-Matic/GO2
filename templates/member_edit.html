@@ -74,13 +74,6 @@
                     </div>
                     <div class="panel-body">
                         <label class="checkbox">  
-                            <input type="checkbox" id="memberprefemailnewgig" name="member_prefemailnewgig"
-                            {% if the_member.preferences.email_new_gig %}
-                                checked
-                            {% endif %}
-                            >{% trans %}Email me every time a gig is added{% endtrans %}  
-                        </label>  
-                        <label class="checkbox">  
                             <input type="checkbox" id="memberprefhidecanceledgigs" name="member_prefhidecanceledgigs"
                             {% if the_member.preferences.hide_canceled_gigs %}
                                 checked
