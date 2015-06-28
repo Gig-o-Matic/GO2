@@ -981,10 +981,15 @@ class RewriteAll(BaseHandler):
     
     @user_required
     def get(self):
-        the_members = get_all_members(order=False)
-        ndb.put_multi(the_members)
+#         the_members = get_all_members(order=False)
+#         ndb.put_multi(the_members)
 
         the_assocs = assoc.get_all_assocs()
+
+        for a in the_assocs:
+            m = a.member.get()
+            a.email_me = m.preferences.email_new_gig
+
         ndb.put_multi(the_assocs)
 
         self.redirect(self.uri_for('memberadmin'))
