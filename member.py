@@ -684,7 +684,15 @@ class SetSection(BaseHandler):
         the_member_key=ndb.Key(urlsafe=the_member_keyurl)
         the_band_key=ndb.Key(urlsafe=the_band_keyurl)
 
-        if (the_user.key == the_member_key):
+        oktochange=False
+        if (the_user.key == the_member_key or the_user.is_superuser):
+            oktochange=True
+        else:
+            the_assoc = assoc.get_assoc_for_band_key_and_member_key(the_member_key, the_band_key)
+            if the_assoc is not None and the_assoc.is_band_admin:
+                oktochange=True
+
+        if (oktochange):
             assoc.set_default_section(the_member_key, the_band_key, the_section_key)
 
 class SetColor(BaseHandler):
