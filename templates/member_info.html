@@ -242,6 +242,7 @@ function color_select(ak, c) {
 }
 
 function email_select(ak, em) {
+    $('#mailbk-'+ak).html("<i class=\"fa fa-spinner fa-spin fa-lg\"></i>");
     $.post('/member_set_get_email',
             {
                 ak: ak,

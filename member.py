@@ -717,7 +717,7 @@ class SetGetEmail(BaseHandler):
         the_assoc_key = ndb.Key(urlsafe=the_assoc_keyurl)
         the_assoc = the_assoc_key.get()
 
-        if the_assoc.member == the_user.key:
+        if the_assoc.member == the_user.key or the_user.is_superuser:
             the_assoc.email_me= the_get_email
             the_assoc.put()
 

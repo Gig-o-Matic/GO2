@@ -48,10 +48,7 @@
                         {% if the_info.assoc.email_me == True %}
                             <i class="fa fa-envelope-o"></i>
                         {% else %}
-                            <span class="fa-stack">
-                                <i class="fa fa-envelope-o fa-stack-1x"></i>
-                                <i class="fa fa-times fa-stack-2x text-danger"></i>
-                            </span>
+                            <i class="fa fa-ban text-danger"></i>
                         {% endif %}
                         <span class="caret"></span>
                     </button>
@@ -60,10 +57,7 @@
                             <i class="fa fa-envelope-o"></i></a>
                         </li>
                         <li><a onclick="email_select('{{the_info.assoc.key.urlsafe()}}',false)", id="mail_false">
-                            <span class="fa-stack">
-                                <i class="fa fa-envelope-o fa-stack-1x"></i>
-                                <i class="fa fa-times fa-stack-2x text-danger"></i>
-                            </span></a>
+                                <i class="fa fa-ban text-danger"></i></a>
                         </li>
                     </ul>
                 </div>
