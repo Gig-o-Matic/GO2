@@ -740,11 +740,9 @@ class MakeOccasionalMember(BaseHandler):
 
         the_assoc = ndb.Key(urlsafe=the_assoc_keyurl).get()
         
-        if not is_authorized_to_edit_band(the_assoc.band,the_user):
-            return                
-        
-        the_assoc.is_occasional = (the_do=='true')
-        the_assoc.put()
+        if is_authorized_to_edit_band(the_assoc.band,the_user) or the_user.key == the_assoc.member:
+            the_assoc.is_occasional = (the_do=='true')
+            the_assoc.put()
 
 class RemoveMember(BaseHandler):
     """ user quits band """
