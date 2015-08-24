@@ -15,7 +15,7 @@ from webapp2_extras.i18n import gettext as _
 SENDER_EMAIL = 'gigomatic.superuser@gmail.com'
 
 def validate_email(the_string):
-    if re.match(r"^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$",the_string):
+    if re.match(r"^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$",the_string.lower()):
         return True
 
 def set_locale_for_user(the_req, the_locale_override=None):
