@@ -15,6 +15,7 @@ import band
 import member
 import assoc
 import datetime
+import logging
 
 plan_text = ["No Plan", "Definitely", "Probably", "Don't Know", "Probably Not", "Can't Do It", "Not Interested"]
 
@@ -60,7 +61,9 @@ def get_plan_for_member_key_for_gig_key(the_member_key, the_gig_key):
     plan_query = Plan.lquery(Plan.member==the_member_key, ancestor=the_gig_key)
     plans = plan_query.fetch()
     if len(plans)>1:
-        return None #todo what to do if there's more than one plan        
+        logging.error("gig/member with multiple plans! gk={0} mk={1}".format(the_gig_key.urlsafe(),the_member_key.urlsafe()))
+#         return None #todo what to do if there's more than one plan        
+        return plans[0]
     if len(plans)>0:
         return plans[0]
     else:
