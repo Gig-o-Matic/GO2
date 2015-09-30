@@ -154,7 +154,7 @@ def send_newgig_email(the_member, the_gig, the_band, the_gig_url, is_edit=False,
         title_string='{0} ({1})'.format(_('Gig Edit'),change_string)
     else:
         title_string=_('New Gig:')
-    message.subject = '{0} {1}'.format(title_string, the_gig.title)
+    message.subject = u'{0} {1}'.format(title_string, the_gig.title)
 #     message.body = u"""
 # Hello! A new gig has been added to the Gig-o-Matic for your band {0}:
 # 
