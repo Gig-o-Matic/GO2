@@ -17,32 +17,33 @@ import stats
 import caldav
 import activity
 import jinja2ext
-import os 
+import os
 
-config = {
-  'webapp2_extras.auth': {
-    'user_model': 'member.Member',
-    'user_attributes': ['name', 'is_superuser']
-  },
-  'webapp2_extras.sessions': {
-    'secret_key': 'GABBAGABBAHEY'
-  },
-  'webapp2_extras.jinja2': {
-             'template_path': os.path.join(os.path.dirname(__file__), 'templates'),
-             'environment_args': { 'extensions': ['jinja2.ext.i18n'] },
-             'filters': {'html_content': jinja2ext.html_content,
-                         'safe_name': jinja2ext.safe_name,
-                         'good_breaks': jinja2ext.good_breaks}
-  },
-  'webapp2_extras.i18n': {
-             'translations_path': os.path.join(os.path.dirname(__file__), 'locale')
-  }
+CONFIG = {
+    'webapp2_extras.auth': {
+        'user_model': 'member.Member',
+        'user_attributes': ['name', 'is_superuser']
+    },
+    'webapp2_extras.sessions': {
+        'secret_key': 'GABBAGABBAHEY'
+    },
+    'webapp2_extras.jinja2': {
+        'template_path': os.path.join(os.path.dirname(__file__), 'templates'),
+        'environment_args': {'extensions': ['jinja2.ext.i18n']},
+        'filters': {
+            'html_content': jinja2ext.html_content,
+            'safe_name': jinja2ext.safe_name,
+            'good_breaks': jinja2ext.good_breaks}
+    },
+    'webapp2_extras.i18n': {
+        'translations_path': os.path.join(os.path.dirname(__file__), 'locale')
+    }
 }
 
 if False: # maintenance mode?
-    application = webapp2.WSGIApplication([(r'/.*', maintenance.MaintenancePage)])
+    APPLICATION = webapp2.WSGIApplication([(r'/.*', maintenance.MaintenancePage)])
 else:
-    application = webapp2.WSGIApplication([
+    APPLICATION = webapp2.WSGIApplication([
         webapp2.Route('/', member.DefaultPage, name='home'),
         webapp2.Route('/band/<band_name:.+>', band.InfoPage),
         webapp2.Route('/login', login.LoginPage, name='login'),
@@ -56,7 +57,7 @@ else:
         webapp2.Route('/<type:i>/<user_id:\d+>-<signup_token:.+>',
                       handler=login.InviteVerificationHandler, name='inviteverification'),
         webapp2.Route('/link_error', login.LinkErrorHandler, name='linkerror'),
-        webapp2.Route('/forgot', login.ForgotPasswordHandler, name='forgot'),                  
+        webapp2.Route('/forgot', login.ForgotPasswordHandler, name='forgot'),
         webapp2.Route('/password', login.SetPasswordHandler),
         webapp2.Route('/invitepassword', login.InviteVerificationHandler),
         webapp2.Route('/login_auto_old_token', login.AutoDeleteSignupTokenHandler),
@@ -74,9 +75,15 @@ else:
         webapp2.Route('/member_info.html', member.InfoPage, name='memberinfo'),
         webapp2.Route('/member_edit.html', member.EditPage),
         webapp2.Route('/member_get_assocs', member.ManageBandsGetAssocs, name='getassocs'),
-        webapp2.Route('/member_get_other_bands', member.ManageBandsGetOtherBands, name='getotherbands'),
+        webapp2.Route(
+            '/member_get_other_bands',
+            member.ManageBandsGetOtherBands,
+            name='getotherbands'),
         webapp2.Route('/member_new_assoc', member.ManageBandsNewAssoc, name='newassoc'),
-        webapp2.Route('/member_delete_assoc.html', member.ManageBandsDeleteAssoc, name='deleteassoc'),
+        webapp2.Route(
+            '/member_delete_assoc.html',
+            member.ManageBandsDeleteAssoc,
+            name='deleteassoc'),
         webapp2.Route('/member_admin.html', member.AdminPage, name="memberadmin"),
         webapp2.Route('/member_admin_get_all_members', member.AdminPageAllMembers),
         webapp2.Route('/member_admin_get_signup_members', member.AdminPageSignupMembers),
@@ -88,10 +95,10 @@ else:
         webapp2.Route('/member_set_section', member.SetSection),
         webapp2.Route('/member_set_color', member.SetColor),
         webapp2.Route('/member_set_get_email', member.SetGetEmail),
-        webapp2.Route('/member_set_multi',member.SetMulti),
-        webapp2.Route('/member_get_bands',member.GetBandList),
-        webapp2.Route('/member_get_add_gig_bands',member.GetAddGigBandList),
-        webapp2.Route('/member_rewrite',member.RewriteAll),
+        webapp2.Route('/member_set_multi', member.SetMulti),
+        webapp2.Route('/member_get_bands', member.GetBandList),
+        webapp2.Route('/member_get_add_gig_bands', member.GetAddGigBandList),
+        webapp2.Route('/member_rewrite', member.RewriteAll),
         webapp2.Route('/gig_info.html', gig.InfoPage, name="gig_info"),
         webapp2.Route('/gig_edit.html', gig.EditPage),
         webapp2.Route('/gig_archive', gig.ArchiveHandler),
@@ -101,28 +108,28 @@ else:
         webapp2.Route('/gig_get_comment', gig.GetCommentHandler),
         webapp2.Route('/print_setlist', gig.PrintSetlist),
         webapp2.Route('/print_planlist', gig.PrintPlanlist),
-        webapp2.Route('/band_info.html',band.InfoPage),
-        webapp2.Route('/band_edit.html',band.EditPage),
-        webapp2.Route('/band_delete.html',band.DeleteBand),
-        webapp2.Route('/band_get_members',band.BandGetMembers, name='getmembers'),
-        webapp2.Route('/band_get_sections',band.BandGetSections, name='getsections'),
-        webapp2.Route('/band_new_section',band.NewSection),
-        webapp2.Route('/band_delete_section',band.DeleteSection),
-        webapp2.Route('/band_rename_section',band.RenameSection),
-        webapp2.Route('/band_move_section',band.MoveSection),
-        webapp2.Route('/band_confirm_member',band.ConfirmMember),
+        webapp2.Route('/band_info.html', band.InfoPage),
+        webapp2.Route('/band_edit.html', band.EditPage),
+        webapp2.Route('/band_delete.html', band.DeleteBand),
+        webapp2.Route('/band_get_members', band.BandGetMembers, name='getmembers'),
+        webapp2.Route('/band_get_sections', band.BandGetSections, name='getsections'),
+        webapp2.Route('/band_new_section', band.NewSection),
+        webapp2.Route('/band_delete_section', band.DeleteSection),
+        webapp2.Route('/band_rename_section', band.RenameSection),
+        webapp2.Route('/band_move_section', band.MoveSection),
+        webapp2.Route('/band_confirm_member', band.ConfirmMember),
         webapp2.Route('/band_makeadmin', band.AdminMember),
         webapp2.Route('/band_makeoccasional', band.MakeOccasionalMember),
         webapp2.Route('/band_removemember', band.RemoveMember),
-        webapp2.Route('/band_admin.html', band.AdminPage),   
-        webapp2.Route('/band_get_member_list',band.GetMemberList),
-        webapp2.Route('/band_nav.html',band.BandNavPage),
+        webapp2.Route('/band_admin.html', band.AdminPage),
+        webapp2.Route('/band_get_member_list', band.GetMemberList),
+        webapp2.Route('/band_nav.html', band.BandNavPage),
         webapp2.Route('/band_get_upcoming', band.GetUpcoming),
         webapp2.Route('/band_get_public_members', band.GetPublicMembers),
-        webapp2.Route('/band_invite.html',band.InvitePage),
-        webapp2.Route('/band_send_invites',band.SendInvites),
-        webapp2.Route('/band_activity',activity.MainPage),
-        webapp2.Route('/band_gig_archive',band.GigArchivePage),
+        webapp2.Route('/band_invite.html', band.InvitePage),
+        webapp2.Route('/band_send_invites', band.SendInvites),
+        webapp2.Route('/band_activity', activity.MainPage),
+        webapp2.Route('/band_gig_archive', band.GigArchivePage),
         webapp2.Route('/calevents', calview.CalEvents),
         webapp2.Route('/updateplan', plan.UpdatePlan),
         webapp2.Route('/updateplanfeedback', plan.UpdatePlanFeedback),
@@ -135,4 +142,4 @@ else:
         webapp2.Route('/cal/b/<bk:.+>', caldav.BandRequestHandler),
         webapp2.Route('/cal/m/<mk:.+>', caldav.MemberRequestHandler),
         webapp2.Route('/calhelp', caldav.HelpHandler)
-    ], config=config, debug=True)
+    ], config=CONFIG, debug=True)

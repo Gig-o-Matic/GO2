@@ -37,31 +37,31 @@ handlers:
   static_dir: font-awesome
   
 - url: /signup
-  script: main.application
+  script: main.APPLICATION
   secure: always
  
 - url: /login
-  script: main.application
+  script: main.APPLICATION
   secure: always
  
 - url: /forgot
-  script: main.application
+  script: main.APPLICATION
   secure: always  
 
 - url: /gig_autoarchive
-  script: main.application
+  script: main.APPLICATION
   login: admin
   
 - url: /login_auto_old_token
-  script: main.application
+  script: main.APPLICATION
   login: admin
 
 - url: /generate_stats
-  script: main.application
+  script: main.APPLICATION
   login: admin
 
 - url: /.*
-  script: main.application
+  script: main.APPLICATION
   
 libraries:
 - name: webapp2
