@@ -238,7 +238,7 @@ def send_the_new_member_email(the_locale, the_email_address, new_member, the_ban
 # The Gig-o-Matic Team
 # 
 #     """.format(new_member.name, the_band.name, the_band.key.urlsafe())
-    message.body = _('new_member_email').format(new_member.name, the_band.name, the_band.key.urlsafe())
+    message.body = _('new_member_email').format( '{0} ({1})'.format(new_member.name, new_member.email_address), the_band.name, the_band.key.urlsafe())
 
     try:
         message.send()
