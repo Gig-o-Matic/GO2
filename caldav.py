@@ -112,12 +112,18 @@ def make_event(the_gig, the_band, title_format=u'{0}', details_format=u'{0}'):
     if the_band.timezone:
         start_dt = start_dt.replace(tzinfo=pytz.timezone(the_band.timezone))
         end_dt = end_dt.replace(tzinfo=pytz.timezone(the_band.timezone))
-        if starttime_dt:
-            tzcorr = datetime.datetime.now(pytz.timezone(the_band.timezone)).dst()
-        else:
-            tzcorr = datetime.timedelta(0)
-        start_dt = start_dt.astimezone(pytz.utc) - tzcorr
-        end_dt = end_dt.astimezone(pytz.utc) - tzcorr
+#         if starttime_dt:
+#             tzcorr = datetime.datetime.now(pytz.timezone(the_band.timezone)).dst()
+#         else:
+#             tzcorr = datetime.timedelta(0)
+
+#         start_dt = start_dt.astimezone(pytz.utc) - tzcorr
+#         end_dt = end_dt.astimezone(pytz.utc) - tzcorr
+
+        zone=pytz.timezone(the_band.timezone)
+        start_dt=zone.normalize(start_dt)
+        end_dt=zone.normalize(end_dt)
+
     else:
         start_dt = start_dt.replace(tzinfo=pytz.utc)
         end_dt = end_dt.replace(tzinfo=pytz.utc)
