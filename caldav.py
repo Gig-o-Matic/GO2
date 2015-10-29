@@ -9,7 +9,6 @@ from requestmodel import *
 import webapp2_extras.appengine.auth.models
 
 import webapp2
-import logging
 
 import gig
 import assoc
@@ -108,9 +107,6 @@ def make_event(the_gig, the_band, title_format=u'{0}', details_format=u'{0}'):
     if end_dt < start_dt:
         end_dt = end_dt+ datetime.timedelta(days=1)
 
-    logging.info('start_dt = {0}'.format(start_dt))
-
-
     # do the setup so we can do timezone math
     if the_band.timezone:
 
@@ -129,8 +125,6 @@ def make_event(the_gig, the_band, title_format=u'{0}', details_format=u'{0}'):
         zone=pytz.timezone(the_band.timezone)
         start_dt=zone.localize(start_dt)
         end_dt=zone.localize(end_dt)
-
-        logging.info('normalized = {0}'.format(start_dt))
 
     else:
         start_dt = start_dt.replace(tzinfo=pytz.utc)
