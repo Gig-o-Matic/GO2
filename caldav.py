@@ -108,21 +108,29 @@ def make_event(the_gig, the_band, title_format=u'{0}', details_format=u'{0}'):
     if end_dt < start_dt:
         end_dt = end_dt+ datetime.timedelta(days=1)
 
+    logging.info('start_dt = {0}'.format(start_dt))
+
+
     # do the setup so we can do timezone math
     if the_band.timezone:
-        start_dt = start_dt.replace(tzinfo=pytz.timezone(the_band.timezone))
-        end_dt = end_dt.replace(tzinfo=pytz.timezone(the_band.timezone))
+
+## this hopefully fixes the timezone bug!
+#         start_dt = start_dt.replace(tzinfo=pytz.timezone(the_band.timezone))
+#         end_dt = end_dt.replace(tzinfo=pytz.timezone(the_band.timezone))
+
 #         if starttime_dt:
 #             tzcorr = datetime.datetime.now(pytz.timezone(the_band.timezone)).dst()
 #         else:
 #             tzcorr = datetime.timedelta(0)
-
+# 
 #         start_dt = start_dt.astimezone(pytz.utc) - tzcorr
 #         end_dt = end_dt.astimezone(pytz.utc) - tzcorr
 
         zone=pytz.timezone(the_band.timezone)
-        start_dt=zone.normalize(start_dt)
-        end_dt=zone.normalize(end_dt)
+        start_dt=zone.localize(start_dt)
+        end_dt=zone.localize(end_dt)
+
+        logging.info('normalized = {0}'.format(start_dt))
 
     else:
         start_dt = start_dt.replace(tzinfo=pytz.utc)
