@@ -104,9 +104,6 @@ def make_event(the_gig, the_band, title_format=u'{0}', details_format=u'{0}'):
         end_dt = datetime.datetime.combine(end_dt, endtime_dt.time())
 
 
-    if end_dt < start_dt:
-        end_dt = end_dt+ datetime.timedelta(days=1)
-
     # do the setup so we can do timezone math
     if the_band.timezone:
 
@@ -130,8 +127,11 @@ def make_event(the_gig, the_band, title_format=u'{0}', details_format=u'{0}'):
         start_dt = start_dt.replace(tzinfo=pytz.utc)
         end_dt = end_dt.replace(tzinfo=pytz.utc)
 
-    start_string = start_dt.strftime('%Y%m%d')
-    end_string = end_dt.strftime('%Y%m%d')
+    if end_dt < start_dt:
+        end_dt = end_dt+ datetime.timedelta(days=1)
+
+    start_string = start_dt.astimezone(pytz.utc).strftime('%Y%m%d')
+    end_string = end_dt.astimezone(pytz.utc).strftime('%Y%m%d')
 
     # now, if we have a start time, append it
     if starttime_dt:
