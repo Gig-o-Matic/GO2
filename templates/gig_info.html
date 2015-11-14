@@ -172,9 +172,13 @@
                                 {% trans %}Member Plans{% endtrans %}
                             </div>
                             <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-right">
-                                <a href="print_planlist?gk={{gig.key.urlsafe()}}" target="new" class="btn btn-xs btn-default"><i class="fa fa-print"></i>
+                                <span id="printall"><a href="print_planlist?gk={{gig.key.urlsafe()}}&printall=1" target="new" class="btn btn-xs btn-default"><i class="fa fa-print"></i>
                                 {% trans %}Print{% endtrans %}
-                                </a>
+                                </a></span>
+                                <span id="printcomm">
+                                <a href="print_planlist?gk={{gig.key.urlsafe()}}&printall=0" target="new" class="btn btn-xs btn-default"><i class="fa fa-print"></i>
+                                {% trans %}Print{% endtrans %}
+                                </a></span>
                                 <a href="#" onclick="simpleswitch(); return false;" class="btn btn-xs btn-default"><i class="fa fa-refresh fs-lg"></i>
                                 <span id="simpleoff">{% trans %}Show All{% endtrans %}</span>
                                 <span id="simpleon">{% trans %}Show Committed{% endtrans %}</span>
@@ -245,11 +249,15 @@ function setsimple() {
     if (simple) {
         $('#simpleon').hide();
         $('#simpleoff').show();
+        $('#printcomm').show();
+        $('#printall').hide();
         $('.plannotattending').hide();
         $('.plancomment').hide();
     } else {
         $('#simpleon').show();
         $('#simpleoff').hide();
+        $('#printall').show();
+        $('#printcomm').hide();
         $('.plannotattending').show();
         $('.plancomment').show();
     }

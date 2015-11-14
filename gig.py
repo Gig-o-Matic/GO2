@@ -689,6 +689,7 @@ class PrintPlanlist(BaseHandler):
     
     def _make_page(self, the_user):
         the_gig_keyurl = self.request.get("gk", '0')
+        the_printall = self.request.get("printall", '1')
         
         if (the_gig_keyurl == '0'):
             return # todo what else to do?
@@ -702,6 +703,11 @@ class PrintPlanlist(BaseHandler):
 
         the_plans = []
     
+        if the_printall=='1':
+            printall = True
+        else:
+            printall = False
+
         need_empty_section = False
         for the_assoc in the_assocs:
             a_member_key = the_assoc.member
@@ -728,7 +734,8 @@ class PrintPlanlist(BaseHandler):
         template_args = {
             'the_gig' : the_gig,
             'the_plans' : the_plans,
-            'the_section_keys' : the_section_keys
+            'the_section_keys' : the_section_keys,
+            'printall' : printall
         }
         self.render_template('print_planlist.html', template_args)
         

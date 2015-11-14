@@ -20,7 +20,7 @@
             {% set section_title = False %}
             {% for member_plan in the_plans %}                    
                 {% set the_plan = member_plan['the_plan_key'].get() %}
-                {% if member_plan['the_section']  == the_section and the_plan.value and the_plan.value < 3 %}
+                {% if member_plan['the_section']  == the_section and (printall or (the_plan.value and the_plan.value < 3)) %}
                     {% set the_member = the_plan.member.get() %}
                     <tr>
                         <td width="20%">
@@ -33,17 +33,29 @@
                                 {% set section_title = True %}
                         {% endif %}
                         </td>
-                            <td width="50%">
-                                {{ the_member.name }}
-                                {% if the_plan.value == 2 %}
-                                    (probable)
-                                {% endif %}
-                            </td>
-                            <td width="30%">
-                                {% if the_member.phone %}
-                                    {{ the_member.phone }}
-                                {% endif %}
-                            </td> 
+                        <td width="50%">
+                            {{ the_member.name }}
+                            {% if the_plan.value == 0 %}
+                                (?)
+                            {% elif the_plan.value == 1 %}
+                                ({% trans %}Definitely{% endtrans %})
+                            {% elif the_plan.value == 2 %}
+                                ({% trans %}Probably{% endtrans %})
+                            {% elif the_plan.value == 3 %}
+                                ({% trans %}Don't Know{% endtrans %})
+                            {% elif the_plan.value == 4 %}
+                                ({% trans %}Probably Not{% endtrans %})
+                            {% elif the_plan.value == 5 %}
+                                ({% trans %}Can't Do It{% endtrans %})
+                            {% elif the_plan.value == 6 %}
+                                ({% trans %}Not Interested{% endtrans %})
+                            {% endif %}
+                        </td>
+                        <td width="30%">
+                            {% if the_member.phone %}
+                                {{ the_member.phone }}
+                            {% endif %}
+                        </td> 
                     </tr>
                 {% endif %}
             {% endfor %}
