@@ -30,3 +30,7 @@ function add_forumpost(gk) {
                 });
     
 }
+
+function open_post_reply(the_post) {
+    alert(the_post);
+}
