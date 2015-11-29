@@ -240,21 +240,12 @@
                 <div class="panel-heading">
                     <div class="panel-title">{% trans %}Forum{% endtrans %}</div>
                 </div>
-                <div class="panel-body">
+                <div class="panel-body" id="gig_forum">
                     <div class="row">
                         <div class="col-lg-12 col-md-12" id="gig_forum">
                             <i class="fa fa-spinner fa-spin fa-lg"></i>
                         </div>
                     </div>
-                    <div class="row">&nbsp;</div>
-                    <div class="row">
-                        <div class="col-lg-10 col-md-10">
-                            <textarea class="form-control" id="forumpostinput" placeholder="{% trans %}say your piece!{% endtrans %}" name="forum_input" rows="2"></textarea>
-                        </div>
-                        <div class="col-lg-2 col-md-2">
-                            <button type="button" class="btn btn-primary btn-sm" onclick="add_forumpost('{{gig.key.urlsafe()}}');">{% trans %}Say it!{% endtrans %}</button>
-                        </div>
-                    </div>                    
                 </div> <!-- panel body -->
             </div> <!-- panel -->
 

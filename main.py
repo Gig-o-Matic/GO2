@@ -143,7 +143,7 @@ else:
         webapp2.Route('/cal/b/<bk:.+>', caldav.BandRequestHandler),
         webapp2.Route('/cal/m/<mk:.+>', caldav.MemberRequestHandler),
         webapp2.Route('/calhelp', caldav.HelpHandler),
-        webapp2.Route('/gig_add_forumpost', forum.AddForumPostHandler),
-        webapp2.Route('/gig_get_forumpost', forum.GetForumPostHandler)
+        webapp2.Route('/gig_add_forumpost', forum.AddGigForumPostHandler),
+        webapp2.Route('/gig_get_forumpost', forum.GetGigForumPostHandler)
         
     ], config=CONFIG, debug=True)
