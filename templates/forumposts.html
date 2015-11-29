@@ -1,0 +1,17 @@
+{% for the_post in the_forum_posts %}
+    <div class='comment-intro'>
+        {% set the_member = the_post.member.get() %}
+        {% if the_member %}
+            <a href="/member_info.html?mk={{the_post.member.urlsafe()}}">{{ the_member.display_name }}</a>
+        {% else %}
+            {% trans %}Somebody{% endtrans %}
+        {% endif %}
+        {% trans %}said on{% endtrans %} {{ the_date_formatter(the_user, the_post.created_date, 'long')}}:
+    </div>
+    <div class='comment-comment'>
+        {{ the_forum_text[loop.index0] }}<br>
+    </div>
+    {% if not loop.last %}
+        <br>
+    {% endif %}
+{% endfor %}

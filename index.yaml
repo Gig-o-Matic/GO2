@@ -75,6 +75,11 @@ indexes:
   properties:
   - name: created_date
 
+- kind: ForumPost
+  ancestor: yes
+  properties:
+  - name: created_date
+
 - kind: Gig
   properties:
   - name: is_archived

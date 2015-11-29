@@ -234,6 +234,31 @@
                     </div>                    
                 </div> <!-- panel body -->
             </div> <!-- panel -->
+
+            <div class="row">&nbsp;</div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title">{% trans %}Forum{% endtrans %}</div>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12" id="gig_forum">
+                            <i class="fa fa-spinner fa-spin fa-lg"></i>
+                        </div>
+                    </div>
+                    <div class="row">&nbsp;</div>
+                    <div class="row">
+                        <div class="col-lg-10 col-md-10">
+                            <textarea class="form-control" id="forumpostinput" placeholder="{% trans %}say your piece!{% endtrans %}" name="forum_input" rows="2"></textarea>
+                        </div>
+                        <div class="col-lg-2 col-md-2">
+                            <button type="button" class="btn btn-primary btn-sm" onclick="add_forumpost('{{gig.key.urlsafe()}}');">{% trans %}Say it!{% endtrans %}</button>
+                        </div>
+                    </div>                    
+                </div> <!-- panel body -->
+            </div> <!-- panel -->
+
+
         </div>
     </div> <!-- row -->
 {% endblock content %}
@@ -241,6 +266,7 @@
 {% block localscripts %}
 <script src="/js/plan_buttons.js"></script>
 <script src="/js/comments.js"></script>
+<script src="/js/forum.js"></script>
 <script src="/js/jquery.truncator.js"></script>
 <script>
 var simple=false;
@@ -277,6 +303,7 @@ $(document).ready(function() {
     $('.trunc').truncate({max_length: 500, more:"...{% trans %}more{% endtrans %}", less:"{% trans %}less{% endtrans %}"});
     $('.popcomment').tooltip({ 'trigger':'hover click' });    
     update_comment('{{gig.key.urlsafe()}}');
+    update_forum('{{gig.key.urlsafe()}}');
 });
 </script>
 {% endblock localscripts %}

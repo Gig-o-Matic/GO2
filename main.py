@@ -16,6 +16,7 @@ import maintenance
 import stats
 import caldav
 import activity
+import forum
 import jinja2ext
 import os
 
@@ -141,5 +142,8 @@ else:
         webapp2.Route('/generate_stats', stats.AutoGenerateStats),
         webapp2.Route('/cal/b/<bk:.+>', caldav.BandRequestHandler),
         webapp2.Route('/cal/m/<mk:.+>', caldav.MemberRequestHandler),
-        webapp2.Route('/calhelp', caldav.HelpHandler)
+        webapp2.Route('/calhelp', caldav.HelpHandler),
+        webapp2.Route('/gig_add_forumpost', forum.AddForumPostHandler),
+        webapp2.Route('/gig_get_forumpost', forum.GetForumPostHandler)
+        
     ], config=CONFIG, debug=True)
