@@ -43,7 +43,7 @@ class ForumThread(ndb.Model):
     parent_gig = ndb.KeyProperty() # gig, if this is in reference to a gig
 
 class ForumPost(ndb.Model):
-    """ Models a gig-o-matic forum post - parent is a thread or another post """
+    """ Models a gig-o-matic forum post - parent is a thread """
     member = ndb.KeyProperty()
     text_id = ndb.TextProperty()
     created_date = ndb.DateTimeProperty(auto_now_add=True)
@@ -182,13 +182,9 @@ class AddGigForumPostHandler(BaseHandler):
         the_parent = ndb.Key(urlsafe=parent_key_str).get()
 
         if type(the_parent) is gig.Gig:
-        
-            logging.info('\n\nadding post to gig\n\n')
-        
             the_thread = get_forumthread_for_gig_key(ndb.Key(urlsafe=gig_key_str))
 
             if the_thread is None:
-                logging.info('\n\ndid not find thread\n\n')
                 the_parent = new_forumthread(get_forum_from_band_key(ndb.Key(urlsafe=gig_key_str).parent(), True), self.user.key, the_parent.title, the_parent_gig=the_parent.key)
             else:
                 the_parent = the_thread
@@ -216,7 +212,6 @@ class GetGigForumPostHandler(BaseHandler):
 
         if the_thread:
             forum_posts = get_forumposts_from_thread_key(the_thread.key)
-            logging.info('\n\nfound thread with {0} posts\n\n'.format(len(forum_posts)))
             post_text = [get_forumpost_text(p.text_id) for p in forum_posts]
         else:
             forum_posts = []

@@ -18,11 +18,8 @@
                     </div>
                 </div>
                 <div class="col-lg-2 col-md-2">
-                    <a onclick="open_post_reply('{{ the_post.key.urlsafe() }}', '{{the_gig.key.urlsafe()}}')">reply</a>, star
+                    star
                 </div>
-            </div>
-            <div id="pr-{{ the_post.key.urlsafe() }}">
-                replyhere
             </div>
             {% if not loop.last %}
                 <hr>
