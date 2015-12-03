@@ -1,0 +1,41 @@
+{% extends 'go2base.html' %}
+
+{% block title %}{% trans %}Band Forum{% endtrans %}{% endblock title %}
+
+{% block headcontent %}
+{% endblock headcontent %}
+
+{% block content %}
+    <div class="row">
+        <div class="page-header col-md-8 col-md-offset-2">
+            {% trans %}Forum for{% endtrans %} {{ the_band.name }}
+        </div> 
+    </div>
+
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                {% trans %}Discussions{% endtrans %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            This is where the threads come out
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- panel -->
+        </div>
+    </div>
+{% endblock content %}
+
+
+{% block localscripts %}
+{% endblock localscripts %}

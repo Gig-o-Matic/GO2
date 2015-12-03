@@ -91,6 +91,12 @@ def new_forumthread(the_forum_key, the_member_key, the_title, the_parent_gig=Non
         logging.error("failed to create new forum thread")
         return None
 
+def get_forumthreads_for_forum_key(the_forum_key, keys_only=False):
+    """ return all of the threads for a forum key """
+    
+    thread_query = ForumThread.query(ancestor=the_forum_key)
+    threads = thread_query.fetch(keys_only=keys_only)
+    return threads
 
 def get_forumthread_for_gig_key(the_gig_key):
     """ see if there's a forum for a gig """
@@ -251,4 +257,29 @@ class OpenPostReplyHandler(BaseHandler):
         }
     
         self.render_template('forumpostreply.html', template_args)
+        
+class BandForumHandler(BaseHandler):
+    """ shows the forum page for a band """
     
+    @user_required
+    def get(self):
+    
+        band_key_str = self.request.get("bk", None)
+        if band_key_str is None:
+            logging.error('no band key in BandForumHandler')
+            return # todo figure out what to do if there's no ID passed in
+        
+        the_band_key = ndb.Key(urlsafe=band_key_str)
+        the_forum_key = get_forum_from_band_key(the_band_key, True)
+
+        if the_forum_key is None:
+            return #
+            
+        the_threads = get_forumthreads_for_forum_key(the_forum_key, False)
+        
+        logging.info('\n\ngot {0} threads for this band\n\n'.format(len(the_threads)))
+        
+        template_args = {
+            'the_band' : the_band_key.get(),
+        }
+        self.render_template('band_forum.html', template_args)
