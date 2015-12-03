@@ -11,14 +11,13 @@ function update_forum(gk) {
                 });
 }
 
-function add_forumpost(gk) {
+function add_forumpost(pk, gk) {
     var d = new Date();
-    offset=d.getTimezoneOffset()/60;
     $.post("/gig_add_forumpost",
                 {
+                    pk: pk,
                     gk: gk,
-                    c: $('#forumpostinput').val(),
-                    o: offset
+                    c: $('#forumpostinput').val()
                 },
                 function(responseTxt,statusTxt,xhr){
                     if(statusTxt=="success")
@@ -31,6 +30,17 @@ function add_forumpost(gk) {
     
 }
 
-function open_post_reply(the_post) {
-    alert(the_post);
+function open_post_reply(pk, gk) {
+    $.post("/open_post_reply",
+                {
+                    pk: pk,
+                    gk: gk
+                },
+                function(responseTxt,statusTxt,xhr){
+                    if(statusTxt=="success")
+                        $('#pr-'+pk).html(responseTxt)
+                    if(statusTxt=="error")
+                        alert("Error: "+xhr.status+": "+xhr.statusText);
+                });
+    
 }

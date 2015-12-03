@@ -144,6 +144,7 @@ else:
         webapp2.Route('/cal/m/<mk:.+>', caldav.MemberRequestHandler),
         webapp2.Route('/calhelp', caldav.HelpHandler),
         webapp2.Route('/gig_add_forumpost', forum.AddGigForumPostHandler),
-        webapp2.Route('/gig_get_forumpost', forum.GetGigForumPostHandler)
+        webapp2.Route('/gig_get_forumpost', forum.GetGigForumPostHandler),
+        webapp2.Route('/open_post_reply', forum.OpenPostReplyHandler)
         
     ], config=CONFIG, debug=True)
