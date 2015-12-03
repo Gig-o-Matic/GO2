@@ -188,6 +188,9 @@ class AddGigForumPostHandler(BaseHandler):
                 the_parent = new_forumthread(get_forum_from_band_key(ndb.Key(urlsafe=gig_key_str).parent(), True), self.user.key, the_parent.title, the_parent_gig=the_parent.key)
             else:
                 the_parent = the_thread
+        elif type(the_parent) is ForumThread:
+            logging.error('post parent is not gig nor forum')
+            return # todo figure out what to do
 
         comment_str = self.request.get("c", None)
         if comment_str is None or comment_str == '':
