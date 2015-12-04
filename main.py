@@ -146,6 +146,7 @@ else:
         webapp2.Route('/gig_add_forumpost', forum.AddGigForumPostHandler),
         webapp2.Route('/gig_get_forumpost', forum.GetGigForumPostHandler),
         webapp2.Route('/open_post_reply', forum.OpenPostReplyHandler),
-        webapp2.Route('/band_forum', forum.BandForumHandler)
+        webapp2.Route('/band_forum', forum.BandForumHandler),
+        webapp2.Route('/forum_thread', forum.ForumThreadHandler)
         
     ], config=CONFIG, debug=True)

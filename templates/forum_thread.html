@@ -19,25 +19,12 @@
                     <div class="panel-title">
                         <div class="row">
                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                {% trans %}Discussions{% endtrans %}
+                                {{ the_thread_name }}
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="panel-body">
-                    {% for a_thread in the_threads %}
-                        <div class="row">
-                            <div class="col-md-6 col-sm-6 col-xs-6">
-                                    <a href='/forum_thread?tk={{a_thread.key.urlsafe()}}'>{{ the_thread_titles[loop.index0] }}</a>
-                            </div>
-                            <div class="col-md-6 col-sm-6 col-xs-6">
-                                    {% trans %}last update{% endtrans %} {{ the_date_formatter(the_user,a_thread.last_update,'long') }}
-                            </div>
-                        </div>
-                        {% if not loop.last %}
-                            <hr>
-                        {% endif %}                        
-                    {% endfor %}
                 </div>
             </div> <!-- panel -->
         </div>

@@ -288,6 +288,37 @@ class BandForumHandler(BaseHandler):
         template_args = {
             'the_band' : the_band_key.get(),
             'the_thread_titles' : the_thread_titles,
-            'the_threads' : the_threads
+            'the_threads' : the_threads,
+            'the_date_formatter' : member.format_date_for_member
         }
         self.render_template('band_forum.html', template_args)
+
+class ForumThreadHandler(BaseHandler):
+    """ shows the forum page for a band """
+    
+    @user_required
+    def get(self):
+    
+        thread_key_str = self.request.get("tk", None)
+        if thread_key_str is None:
+            logging.error('no thread key in ForumThreadHandler')
+            return # todo figure out what to do if there's no ID passed in
+        
+        the_thread_key = ndb.Key(urlsafe=thread_key_str)
+        the_band_key = the_thread_key.parent().parent()
+        the_band = the_band_key.get()
+        
+
+        forum_posts = get_forumposts_from_thread_key(the_thread_key)
+        post_text = [get_forumpost_text(p.text_id) for p in forum_posts]
+
+        template_args = {
+            'the_band' : the_band,
+            'the_thread_name' : get_forumpost_text(the_thread_key.get().text_id),
+            'the_forum_posts' : forum_posts,
+            'the_forum_text' : post_text,
+            'the_date_formatter' : member.format_date_for_member
+        }
+
+        self.render_template('forum_thread.html', template_args)
+
