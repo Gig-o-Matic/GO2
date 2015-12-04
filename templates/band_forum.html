@@ -25,11 +25,19 @@
                     </div>
                 </div>
                 <div class="panel-body">
-                    <div class="row">
-                        <div class="col-md-12 col-sm-12 col-xs-12">
-                            This is where the threads come out
+                    {% for a_thread in the_threads %}
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-6">
+                                    {{ the_thread_titles[loop.index0] }}
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-6">
+                                    {% trans %}last update{% endtrans %} {{a_thread.last_update}}
+                            </div>
                         </div>
-                    </div>
+                        {% if not loop.last %}
+                            <hr>
+                        {% endif %}                        
+                    {% endfor %}
                 </div>
             </div> <!-- panel -->
         </div>

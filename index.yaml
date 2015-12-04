@@ -80,6 +80,23 @@ indexes:
   properties:
   - name: created_date
 
+- kind: ForumThread
+  ancestor: yes
+  properties:
+  - name: created_date
+
+- kind: ForumThread
+  ancestor: yes
+  properties:
+  - name: created_date
+    direction: desc
+
+- kind: ForumThread
+  ancestor: yes
+  properties:
+  - name: last_update
+    direction: desc
+
 - kind: Gig
   properties:
   - name: is_archived

@@ -40,6 +40,7 @@ class ForumThread(ndb.Model):
     member = ndb.KeyProperty() # creator of thread
     text_id = ndb.TextProperty() # title of thread
     created_date = ndb.DateTimeProperty(auto_now_add=True) # creation date
+    last_update = ndb.DateTimeProperty(auto_now=True) # last update
     parent_gig = ndb.KeyProperty() # gig, if this is in reference to a gig
 
 class ForumPost(ndb.Model):
@@ -94,7 +95,7 @@ def new_forumthread(the_forum_key, the_member_key, the_title, the_parent_gig=Non
 def get_forumthreads_for_forum_key(the_forum_key, keys_only=False):
     """ return all of the threads for a forum key """
     
-    thread_query = ForumThread.query(ancestor=the_forum_key)
+    thread_query = ForumThread.query(ancestor=the_forum_key).order(-ForumThread.last_update)
     threads = thread_query.fetch(keys_only=keys_only)
     return threads
 
@@ -203,6 +204,9 @@ class AddGigForumPostHandler(BaseHandler):
             return
 
         new_forumpost(the_parent.key, self.user.key, comment_str)
+        
+        the_parent.put() # force an update
+        
         self.response.write('')
 
 
@@ -277,9 +281,13 @@ class BandForumHandler(BaseHandler):
             
         the_threads = get_forumthreads_for_forum_key(the_forum_key, False)
         
+        the_thread_titles = [get_forumpost_text(f.text_id) for f in the_threads]
+        
         logging.info('\n\ngot {0} threads for this band\n\n'.format(len(the_threads)))
         
         template_args = {
             'the_band' : the_band_key.get(),
+            'the_thread_titles' : the_thread_titles,
+            'the_threads' : the_threads
         }
         self.render_template('band_forum.html', template_args)
