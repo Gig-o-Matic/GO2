@@ -1,7 +1,8 @@
-function update_forum(gk) {
-    $.post("/gig_get_forumpost",
+
+function update_forum(tk) {
+    $.post("/thread_get_forumpost",
                 {
-                    gk: gk,
+                    tk: tk,
                 },
                 function(responseTxt,statusTxt,xhr){
                     if(statusTxt=="success")
@@ -11,19 +12,18 @@ function update_forum(gk) {
                 });
 }
 
-function add_forumpost(pk, gk) {
+function add_forumpost(tk) {
     var d = new Date();
-    $.post("/gig_add_forumpost",
+    $.post("/thread_add_forumpost",
                 {
-                    pk: pk,
-                    gk: gk,
+                    tk: tk,
                     c: $('#forumpostinput').val()
                 },
                 function(responseTxt,statusTxt,xhr){
                     if(statusTxt=="success")
                         $('#forumpostinput').val('');
 //                         $('#gig_forum').html(responseTxt)
-                        update_forum(gk);
+                        update_forum(tk);
                     if(statusTxt=="error")
                         alert("Error: "+xhr.status+": "+xhr.statusText);
                 });
@@ -44,3 +44,4 @@ function open_post_reply(pk, gk) {
                 });
     
 }
+

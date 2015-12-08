@@ -177,35 +177,26 @@ class AddGigForumPostHandler(BaseHandler):
     def post(self):
 
         gig_key_str = self.request.get("gk", None)
-        if gig_key_str is None:
-            logging.error('no gig key string in addgigforumposthandler')
-            return # todo figure out what to do if there's no ID passed in
+        thread_key_str = self.request.get("tk", None)
 
+        the_thread = None
+        if thread_key_str is not None:
+            the_thread = ndb.Key(urlsafe=thread_key_str).get()
+        elif gig_key_str is not None:
+            the_gig_key = ndb.Key(urlsafe=gig_key_str)
+            the_thread = get_forumthread_for_gig_key(the_gig_key)
 
-        parent_key_str = self.request.get("pk", None)
-        if parent_key_str is None:
-            return # todo figure out what to do if there's no ID passed in
-
-        the_parent = ndb.Key(urlsafe=parent_key_str).get()
-
-        if type(the_parent) is gig.Gig:
-            the_thread = get_forumthread_for_gig_key(ndb.Key(urlsafe=gig_key_str))
-
-            if the_thread is None:
-                the_parent = new_forumthread(get_forum_from_band_key(ndb.Key(urlsafe=gig_key_str).parent(), True), self.user.key, the_parent.title, the_parent_gig=the_parent.key)
-            else:
-                the_parent = the_thread
-        elif type(the_parent) is ForumThread:
-            logging.error('post parent is not gig nor forum')
+        if the_thread is None:
+            logging.error('no thread in AddGigForumPostHandler')
             return # todo figure out what to do
 
         comment_str = self.request.get("c", None)
         if comment_str is None or comment_str == '':
             return
 
-        new_forumpost(the_parent.key, self.user.key, comment_str)
+        new_forumpost(the_thread.key, self.user.key, comment_str)
         
-        the_parent.put() # force an update
+        the_thread.put() # force an update
         
         self.response.write('')
 
@@ -216,12 +207,18 @@ class GetGigForumPostHandler(BaseHandler):
     @user_required
     def post(self):
 
-        gig_key_str = self.request.get("gk", None)
-        if gig_key_str is None:
-            return # todo figure out what to do if there's no ID passed in
-        the_gig_key = ndb.Key(urlsafe=gig_key_str)
+        thread_key_str = self.request.get("tk", None)
 
-        the_thread = get_forumthread_for_gig_key(the_gig_key)
+        the_thread = None
+        if thread_key_str is not None:
+            the_thread = ndb.Key(urlsafe=thread_key_str).get()
+
+            if type(the_thread) is gig.Gig:
+                the_thread = get_forumthread_for_gig_key(the_thread.key)
+
+        if the_thread is None:
+            logging.error('no thread in AddGigForumPostHandler')
+            return # todo figure out what to do
 
         if the_thread:
             forum_posts = get_forumposts_from_thread_key(the_thread.key)
@@ -231,7 +228,7 @@ class GetGigForumPostHandler(BaseHandler):
             post_text = []
 
         template_args = {
-            'the_gig' : the_gig_key.get(),
+            'the_thread' : the_thread,
             'the_forum_posts' : forum_posts,
             'the_forum_text' : post_text,
             'the_date_formatter' : member.format_date_for_member
@@ -305,19 +302,14 @@ class ForumThreadHandler(BaseHandler):
             return # todo figure out what to do if there's no ID passed in
         
         the_thread_key = ndb.Key(urlsafe=thread_key_str)
+        the_thread = the_thread_key.get()
         the_band_key = the_thread_key.parent().parent()
         the_band = the_band_key.get()
         
-
-        forum_posts = get_forumposts_from_thread_key(the_thread_key)
-        post_text = [get_forumpost_text(p.text_id) for p in forum_posts]
-
         template_args = {
             'the_band' : the_band,
-            'the_thread_name' : get_forumpost_text(the_thread_key.get().text_id),
-            'the_forum_posts' : forum_posts,
-            'the_forum_text' : post_text,
-            'the_date_formatter' : member.format_date_for_member
+            'the_thread_name' : get_forumpost_text(the_thread.text_id),
+            'the_thread' : the_thread
         }
 
         self.render_template('forum_thread.html', template_args)

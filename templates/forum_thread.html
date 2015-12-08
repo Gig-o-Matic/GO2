@@ -2,35 +2,45 @@
 
 {% block title %}{% trans %}Band Forum{% endtrans %}{% endblock title %}
 
-{% block headcontent %}
-{% endblock headcontent %}
-
 {% block content %}
-    <div class="row">
-        <div class="page-header col-md-8 col-md-offset-2">
-            {% trans %}Forum for{% endtrans %} {{ the_band.name }}
-        </div> 
-    </div>
+<div class="row">
+    <div class="page-header col-md-8 col-md-offset-2">
+        {% trans %}Forum for{% endtrans %} {{ the_band.name }}
+    </div> 
+</div>
 
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <div class="panel-title">
-                        <div class="row">
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                {{ the_thread_name }}
-                            </div>
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                            {{ the_thread_name }}
                         </div>
                     </div>
                 </div>
-                <div class="panel-body">
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12" id="gig_forum">
+                        <i class="fa fa-spinner fa-spin fa-lg"></i>
+                    </div>
                 </div>
-            </div> <!-- panel -->
-        </div>
+            </div>
+        </div> <!-- panel -->
     </div>
+</div>
 {% endblock content %}
 
 
 {% block localscripts %}
+<script src="/js/forum.js"></script>
+<script>
+
+$(document).ready(function() {
+    update_forum('{{the_thread.key.urlsafe()}}');
+});
+
+</script>
 {% endblock localscripts %}

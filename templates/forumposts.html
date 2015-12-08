@@ -33,7 +33,7 @@
         <textarea class="form-control" id="forumpostinput" placeholder="{% trans %}say your piece!{% endtrans %}" name="forum_input" rows="2"></textarea>
     </div>
     <div class="col-lg-2 col-md-2">
-        <button type="button" class="btn btn-primary btn-sm" onclick="add_forumpost('{{the_gig.key.urlsafe()}}','{{the_gig.key.urlsafe()}}');">{% trans %}Say it!{% endtrans %}</button>
+        <button type="button" class="btn btn-primary btn-sm" onclick="add_forumpost('{{the_thread.key.urlsafe()}}');">{% trans %}Say it!{% endtrans %}</button>
     </div>
 </div>                    
 <div class="row"><hr></hr></div>
