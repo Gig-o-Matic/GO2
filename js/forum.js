@@ -1,6 +1,6 @@
 
 function update_forum(tk) {
-    $.post("/thread_get_forumpost",
+    $.post("/topic_get_forumpost",
                 {
                     tk: tk,
                 },
@@ -14,7 +14,7 @@ function update_forum(tk) {
 
 function add_forumpost(tk) {
     var d = new Date();
-    $.post("/thread_add_forumpost",
+    $.post("/topic_add_forumpost",
                 {
                     tk: tk,
                     c: $('#forumpostinput').val()

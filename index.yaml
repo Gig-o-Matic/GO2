@@ -97,6 +97,12 @@ indexes:
   - name: last_update
     direction: desc
 
+- kind: ForumTopic
+  ancestor: yes
+  properties:
+  - name: last_update
+    direction: desc
+
 - kind: Gig
   properties:
   - name: is_archived

@@ -16,7 +16,7 @@
                 <div class="panel-title">
                     <div class="row">
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                            {{ the_thread_name }}
+                            {{ the_topic_name }}
                         </div>
                     </div>
                 </div>
@@ -39,7 +39,7 @@
 <script>
 
 $(document).ready(function() {
-    update_forum('{{the_thread.key.urlsafe()}}');
+    update_forum('{{the_topic.key.urlsafe()}}');
 });
 
 </script>

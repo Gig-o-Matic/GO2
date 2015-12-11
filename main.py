@@ -143,10 +143,10 @@ else:
         webapp2.Route('/cal/b/<bk:.+>', caldav.BandRequestHandler),
         webapp2.Route('/cal/m/<mk:.+>', caldav.MemberRequestHandler),
         webapp2.Route('/calhelp', caldav.HelpHandler),
-        webapp2.Route('/thread_add_forumpost', forum.AddGigForumPostHandler),
-        webapp2.Route('/thread_get_forumpost', forum.GetGigForumPostHandler),
+        webapp2.Route('/topic_add_forumpost', forum.AddGigForumPostHandler),
+        webapp2.Route('/topic_get_forumpost', forum.GetGigForumPostHandler),
         webapp2.Route('/open_post_reply', forum.OpenPostReplyHandler),
         webapp2.Route('/band_forum', forum.BandForumHandler),
-        webapp2.Route('/forum_thread', forum.ForumThreadHandler)
+        webapp2.Route('/forum_topic', forum.ForumTopicHandler)
         
     ], config=CONFIG, debug=True)

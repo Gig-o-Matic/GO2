@@ -22,7 +22,7 @@ import logging
 """
 
 Forums have a band as a parent
-Threads have a forum as a parent and may have a gig as parent, or top-level thread as parent
+Topics have a forum as a parent and may have a gig as parent, or top-level topic as parent
 Posts have another post as parent, or top-level post
 
 """
@@ -35,16 +35,17 @@ class Forum(ndb.Model):
     """ Models a gig-o-matic forum """
     name = ndb.TextProperty(default = None) # empty field; there's no need for a real name
 
-class ForumThread(ndb.Model):
-    """ Models a gig-o-matic forum thread """
-    member = ndb.KeyProperty() # creator of thread
-    text_id = ndb.TextProperty() # title of thread
+class ForumTopic(ndb.Model):
+    """ Models a gig-o-matic forum topic """
+    member = ndb.KeyProperty() # creator of topic
+    text_id = ndb.TextProperty() # title of topic
     created_date = ndb.DateTimeProperty(auto_now_add=True) # creation date
     last_update = ndb.DateTimeProperty(auto_now=True) # last update
     parent_gig = ndb.KeyProperty() # gig, if this is in reference to a gig
+    open = ndb.BooleanProperty( default=True )
 
 class ForumPost(ndb.Model):
-    """ Models a gig-o-matic forum post - parent is a thread """
+    """ Models a gig-o-matic forum post - parent is a topic """
     member = ndb.KeyProperty()
     text_id = ndb.TextProperty()
     created_date = ndb.DateTimeProperty(auto_now_add=True)
@@ -61,7 +62,7 @@ def new_forum(the_band_key):
 
     return the_forum
 
-def get_forum_from_band_key(the_band_key, keys_only):
+def get_forum_from_band_key(the_band_key, keys_only=False):
     """ given a band key, find the associated forum or make a new one """
     
     forum_query = Forum.query(ancestor=the_band_key)
@@ -80,36 +81,36 @@ def get_forum_from_band_key(the_band_key, keys_only):
         return None
 
 
-def new_forumthread(the_forum_key, the_member_key, the_title, the_parent_gig=None):
-    """ create a brand new thread """
+def new_forumtopic(the_forum_key, the_member_key, the_title, the_parent_gig_key=None):
+    """ create a brand new topic """
 
     the_document_id = new_forumpost_text(the_title)
     if the_document_id:
-        the_thread = ForumThread(parent=the_forum_key, member=the_member_key, text_id=the_document_id, parent_gig=the_parent_gig)
-        the_thread.put()
-        return the_thread
+        the_topic = ForumTopic(parent=the_forum_key, member=the_member_key, text_id=the_document_id, parent_gig=the_parent_gig_key)
+        the_topic.put()
+        return the_topic
     else:
-        logging.error("failed to create new forum thread")
+        logging.error("failed to create new forum topic")
         return None
 
-def get_forumthreads_for_forum_key(the_forum_key, keys_only=False):
-    """ return all of the threads for a forum key """
+def get_forumtopics_for_forum_key(the_forum_key, keys_only=False):
+    """ return all of the topics for a forum key """
     
-    thread_query = ForumThread.query(ancestor=the_forum_key).order(-ForumThread.last_update)
-    threads = thread_query.fetch(keys_only=keys_only)
-    return threads
+    topic_query = ForumTopic.query(ancestor=the_forum_key).order(-ForumTopic.last_update)
+    topics = topic_query.fetch(keys_only=keys_only)
+    return topics
 
-def get_forumthread_for_gig_key(the_gig_key):
+def get_forumtopic_for_gig_key(the_gig_key):
     """ see if there's a forum for a gig """
 
-    forum_query = ForumThread.query(ForumThread.parent_gig == the_gig_key)
+    forum_query = ForumTopic.query(ForumTopic.parent_gig == the_gig_key)
     forums = forum_query.fetch()
     if len(forums) == 0:
         return None
     elif len(forums) == 1:
         return forums[0]
     else:
-        logging.error("found multiple forum threads for gig {0}".format(the_gig_key))
+        logging.error("found multiple forum topics for gig {0}".format(the_gig_key))
         return None
 
 def new_forumpost(the_parent_key, the_member_key, the_text):
@@ -125,14 +126,14 @@ def new_forumpost(the_parent_key, the_member_key, the_text):
         logging.error("failed to create new forum post")
         return None
 
-def get_forumposts_from_thread_key(the_thread_key, keys_only=False):
+def get_forumposts_from_topic_key(the_topic_key, keys_only=False):
     """ return comments for a gig key """
-    post_query = ForumPost.query(ancestor=the_thread_key).order(ForumPost.created_date)
+    post_query = ForumPost.query(ancestor=the_topic_key).order(ForumPost.created_date)
     posts = post_query.fetch(keys_only=keys_only)
     return posts
 
-def delete_forumposts_for_thread_key(the_thread_key):
-    forumpost_keys = get_forumposts_from_thread_key(the_thread_key, keys_only=True)
+def delete_forumposts_for_topic_key(the_topic_key):
+    forumpost_keys = get_forumposts_from_topic_key(the_topic_key, keys_only=True)
     ndb.delete_multi(forumpost_keys)
 
 
@@ -176,27 +177,35 @@ class AddGigForumPostHandler(BaseHandler):
     @user_required
     def post(self):
 
-        gig_key_str = self.request.get("gk", None)
-        thread_key_str = self.request.get("tk", None)
+        topic_key_str = self.request.get("tk", None)
 
-        the_thread = None
-        if thread_key_str is not None:
-            the_thread = ndb.Key(urlsafe=thread_key_str).get()
-        elif gig_key_str is not None:
-            the_gig_key = ndb.Key(urlsafe=gig_key_str)
-            the_thread = get_forumthread_for_gig_key(the_gig_key)
+        the_topic = None
+        if topic_key_str is not None:
+            the_topic = ndb.Key(urlsafe=topic_key_str).get()
+        else:
+            logging.error('no topic in AddGigForumPostHandler')
+            return # todo - what to do
 
-        if the_thread is None:
-            logging.error('no thread in AddGigForumPostHandler')
+        if the_topic is None:
+            logging.error('no topic in AddGigForumPostHandler')
             return # todo figure out what to do
 
         comment_str = self.request.get("c", None)
         if comment_str is None or comment_str == '':
             return
 
-        new_forumpost(the_thread.key, self.user.key, comment_str)
+        if type(the_topic) is gig.Gig:
+            # The topic is a gig, but what we want is a topic. So make a new topic, give it the gig's title,
+            # and link it back to the gig.
+            the_band_key = the_topic.key.parent()
+            the_gig = the_topic
+            the_topic = get_forumtopic_for_gig_key(the_topic.key)
+            if the_topic is None:
+                the_topic = new_forumtopic(get_forum_from_band_key(the_band_key, keys_only=True), self.user.key, the_gig.title, the_parent_gig_key=the_gig.key)
+
+        new_forumpost(the_topic.key, self.user.key, comment_str)
         
-        the_thread.put() # force an update
+        the_topic.put() # force an update
         
         self.response.write('')
 
@@ -207,34 +216,36 @@ class GetGigForumPostHandler(BaseHandler):
     @user_required
     def post(self):
 
-        thread_key_str = self.request.get("tk", None)
+        topic_key_str = self.request.get("tk", None)
 
-        the_thread = None
-        if thread_key_str is not None:
-            the_thread = ndb.Key(urlsafe=thread_key_str).get()
+        the_topic = None
+        if topic_key_str is None:
+            logging.error("no topic_key_str in GetGigForumPostHandler")
+            return # todo figure this out
 
-            if type(the_thread) is gig.Gig:
-                the_thread = get_forumthread_for_gig_key(the_thread.key)
-
-        if the_thread is None:
-            logging.error('no thread in AddGigForumPostHandler')
-            return # todo figure out what to do
-
-        if the_thread:
-            forum_posts = get_forumposts_from_thread_key(the_thread.key)
-            post_text = [get_forumpost_text(p.text_id) for p in forum_posts]
+        the_topic = ndb.Key(urlsafe=topic_key_str).get()
+        
+        if type(the_topic) is gig.Gig:
+            the_gig_topic = get_forumtopic_for_gig_key(the_topic.key)
+            if the_gig_topic is None:
+                # if there is no topic for a gig, just use the gig - if anyone posts, we'll
+                # convert it to a real topic object
+                forum_posts = []
+            else:
+                forum_posts = get_forumposts_from_topic_key(the_gig_topic.key)
         else:
-            forum_posts = []
-            post_text = []
+            forum_posts = get_forumposts_from_topic_key(the_topic.key)
+
+        post_text = [get_forumpost_text(p.text_id) for p in forum_posts]
 
         template_args = {
-            'the_thread' : the_thread,
+            'the_topic' : the_topic,
             'the_forum_posts' : forum_posts,
             'the_forum_text' : post_text,
             'the_date_formatter' : member.format_date_for_member
         }
 
-        self.render_template('forumposts.html', template_args)
+        self.render_template('forum_posts.html', template_args)
         
 class OpenPostReplyHandler(BaseHandler):
     """ returns the HTML required for text entry for a post reply """
@@ -276,41 +287,39 @@ class BandForumHandler(BaseHandler):
         if the_forum_key is None:
             return #
             
-        the_threads = get_forumthreads_for_forum_key(the_forum_key, False)
+        the_topics = get_forumtopics_for_forum_key(the_forum_key, False)
         
-        the_thread_titles = [get_forumpost_text(f.text_id) for f in the_threads]
-        
-        logging.info('\n\ngot {0} threads for this band\n\n'.format(len(the_threads)))
-        
+        the_topic_titles = [get_forumpost_text(f.text_id) for f in the_topics]
+                
         template_args = {
             'the_band' : the_band_key.get(),
-            'the_thread_titles' : the_thread_titles,
-            'the_threads' : the_threads,
+            'the_topic_titles' : the_topic_titles,
+            'the_topics' : the_topics,
             'the_date_formatter' : member.format_date_for_member
         }
         self.render_template('band_forum.html', template_args)
 
-class ForumThreadHandler(BaseHandler):
+class ForumTopicHandler(BaseHandler):
     """ shows the forum page for a band """
     
     @user_required
     def get(self):
     
-        thread_key_str = self.request.get("tk", None)
-        if thread_key_str is None:
-            logging.error('no thread key in ForumThreadHandler')
+        topic_key_str = self.request.get("tk", None)
+        if topic_key_str is None:
+            logging.error('no topic key in ForumTopicHandler')
             return # todo figure out what to do if there's no ID passed in
         
-        the_thread_key = ndb.Key(urlsafe=thread_key_str)
-        the_thread = the_thread_key.get()
-        the_band_key = the_thread_key.parent().parent()
+        the_topic_key = ndb.Key(urlsafe=topic_key_str)
+        the_topic = the_topic_key.get()
+        the_band_key = the_topic_key.parent().parent()
         the_band = the_band_key.get()
         
         template_args = {
             'the_band' : the_band,
-            'the_thread_name' : get_forumpost_text(the_thread.text_id),
-            'the_thread' : the_thread
+            'the_topic_name' : get_forumpost_text(the_topic.text_id),
+            'the_topic' : the_topic
         }
 
-        self.render_template('forum_thread.html', template_args)
+        self.render_template('forum_topic.html', template_args)
 
