@@ -292,6 +292,7 @@ class BandForumHandler(BaseHandler):
         the_topic_titles = [get_forumpost_text(f.text_id) for f in the_topics]
                 
         template_args = {
+            'the_forum_key' : the_forum_key,
             'the_band' : the_band_key.get(),
             'the_topic_titles' : the_topic_titles,
             'the_topics' : the_topics,
@@ -322,4 +323,25 @@ class ForumTopicHandler(BaseHandler):
         }
 
         self.render_template('forum_topic.html', template_args)
-
+        
+class NewTopicHandler(BaseHandler):
+    """ adds a new topic """
+    
+    @user_required
+    def post(self):
+    
+        forum_key_str = self.request.get("fk", None)
+        if forum_key_str is None:
+            logging.error('no forum_key_str in NewTopicHandler')
+            return # todo figure out what to do
+            
+        forum_key = ndb.Key(urlsafe=forum_key_str)
+            
+        topic_str = self.request.get("t", None)
+        if topic_str is None or topic_str=='':
+            logging.error('no topic_str in NewTopicHandler')
+            return # todo figure out what to do
+            
+        the_topic = new_forumtopic(forum_key, self.user.key, topic_str)
+        
+        return None

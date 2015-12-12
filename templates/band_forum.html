@@ -28,19 +28,23 @@
                     </div>
                 </div>
                 <div class="panel-body">
-                    {% for a_topic in the_topics %}
-                        <div class="row">
-                            <div class="col-md-6 col-sm-6 col-xs-6">
-                                    <a href='/forum_topic?tk={{a_topic.key.urlsafe()}}'>{{ the_topic_titles[loop.index0] }}</a>
+                    {% if the_topics %}
+                        {% for a_topic in the_topics %}
+                            <div class="row">
+                                <div class="col-md-6 col-sm-6 col-xs-6">
+                                        <a href='/forum_topic?tk={{a_topic.key.urlsafe()}}'>{{ the_topic_titles[loop.index0] }}</a>
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-6">
+                                        {% trans %}last update{% endtrans %} {{ the_date_formatter(the_user,a_topic.last_update,'long') }}
+                                </div>
                             </div>
-                            <div class="col-md-6 col-sm-6 col-xs-6">
-                                    {% trans %}last update{% endtrans %} {{ the_date_formatter(the_user,a_topic.last_update,'long') }}
-                            </div>
-                        </div>
-                        {% if not loop.last %}
-                            <hr>
-                        {% endif %}                        
-                    {% endfor %}
+                            {% if not loop.last %}
+                                <hr>
+                            {% endif %}                        
+                        {% endfor %}
+                    {% else %}
+                        {% trans %}Nothing to talk about!{% endtrans %}
+                    {% endif %}
                 </div>
             </div> <!-- panel -->
         </div>
@@ -67,7 +71,7 @@
                     </div>
                     <div class="modal-footer">                    
                         <button type="button" class="btn btn-default" data-dismiss="modal">{% trans %}Cancel{% endtrans %}</button>
-                        <input type="submit" class="btn btn-primary" id="savenewtopic" value="{% trans %}Create{% endtrans %}">
+                        <input type="submit" class="btn btn-primary" id="savenewtopic" onclick='handle_new_topic()' value="{% trans %}Create{% endtrans %}">
                     </div>
                 </div><!-- /.modal-content -->
             </form>
@@ -76,19 +80,21 @@
 {% endblock modal %}
 
 {% block localscripts %}
-
+<script src="/js/jquery.validate.js"></script>
+<script>
 function handle_new_topic() {
+
     $('#newtopicmodal').modal('hide');
     name=document.getElementById('newtopicinput').value;
     $('#newtopicinput').val(''); // reset the placeholder
     $.post("/forum_new_topic",
             {
-                bk: "{{the_band.key.urlsafe()}}",
-                section_name: name
+                fk: "{{the_forum_key.urlsafe()}}",
+                t: name,
             },
             function(responseTxt,statusTxt,xhr){
                 if(statusTxt=="success")
-                    updateSections();
+                    updateTopic();
                 if(statusTxt=="error")
                   alert("Error: "+xhr.status+": "+xhr.statusText);
             });
@@ -111,4 +117,5 @@ $(document).ready(function() {
         submitHandler: handle_new_topic
     });
 });
+</script>
 {% endblock localscripts %}
