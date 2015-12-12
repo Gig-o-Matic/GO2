@@ -148,6 +148,7 @@ else:
         webapp2.Route('/open_post_reply', forum.OpenPostReplyHandler),
         webapp2.Route('/band_forum', forum.BandForumHandler),
         webapp2.Route('/forum_topic', forum.ForumTopicHandler),
-        webapp2.Route('/forum_new_topic', forum.NewTopicHandler)
+        webapp2.Route('/forum_new_topic', forum.NewTopicHandler),
+        webapp2.Route('/forum_all_topics', forum.ForumAllTopicsHandler)
         
     ], config=CONFIG, debug=True)

@@ -1,0 +1,19 @@
+<div class="panel-body">
+    {% if the_topics %}
+        {% for a_topic in the_topics %}
+            <div class="row">
+                <div class="col-md-6 col-sm-6 col-xs-6">
+                        <a href='/forum_topic?tk={{a_topic.key.urlsafe()}}'>{{ the_topic_titles[loop.index0] }}</a>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-6">
+                        {% trans %}last update{% endtrans %} {{ the_date_formatter(the_user,a_topic.last_update,'long') }}
+                </div>
+            </div>
+            {% if not loop.last %}
+                <hr>
+            {% endif %}                        
+        {% endfor %}
+    {% else %}
+        {% trans %}Nothing to talk about!{% endtrans %}
+    {% endif %}
+</div>

@@ -1,5 +1,18 @@
 
-function update_forum(tk) {
+function update_forum_topics(fk) {
+    $.post("/forum_all_topics",
+                {
+                    fk: fk,
+                },
+                function(responseTxt,statusTxt,xhr){
+                    if(statusTxt=="success")
+                        $('#forum_topics').html(responseTxt)
+                    if(statusTxt=="error")
+                        alert("Error: "+xhr.status+": "+xhr.statusText);
+                });
+}
+
+function update_forum_posts(tk) {
     $.post("/topic_get_forumpost",
                 {
                     tk: tk,
@@ -23,7 +36,7 @@ function add_forumpost(tk) {
                     if(statusTxt=="success")
                         $('#forumpostinput').val('');
 //                         $('#gig_forum').html(responseTxt)
-                        update_forum(tk);
+                        update_forum_posts(tk);
                     if(statusTxt=="error")
                         alert("Error: "+xhr.status+": "+xhr.statusText);
                 });

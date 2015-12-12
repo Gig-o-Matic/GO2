@@ -18,6 +18,10 @@ import gig
 import member
 import datetime
 import logging
+import goemail
+
+from webapp2_extras.i18n import gettext as _
+
 
 """
 
@@ -345,3 +349,41 @@ class NewTopicHandler(BaseHandler):
         the_topic = new_forumtopic(forum_key, self.user.key, topic_str)
         
         return None
+
+class ForumAllTopicsHandler(BaseHandler):
+    """ returns all the topics in a forum """
+    
+    @user_required
+    def post(self):
+    
+        logging.info('\n\nwoo\n\n')
+    
+        forum_key_str = self.request.get("fk", None)
+        if forum_key_str is None:
+            logging.error('no forum key in ForumAllTopicsHandler')
+            return # todo figure out what to do if there's no ID passed in
+        
+        the_forum_key = ndb.Key(urlsafe=forum_key_str)
+
+        if the_forum_key is None:
+            return #
+            
+        the_topics = get_forumtopics_for_forum_key(the_forum_key, False)
+        
+        the_topic_titles = []
+        goemail.set_locale_for_user(self)
+        for a_topic in the_topics:
+            the_txt = get_forumpost_text(a_topic.text_id)
+            if a_topic.parent_gig is None:
+                the_topic_titles.append(the_txt)
+            else:
+                the_topic_titles.append('{0}: {1}'.format(_("Gig"),the_txt))
+            
+                
+        template_args = {
+            'the_topic_titles' : the_topic_titles,
+            'the_topics' : the_topics,
+            'the_date_formatter' : member.format_date_for_member
+        }
+        self.render_template('forum_topics.html', template_args)
+    
