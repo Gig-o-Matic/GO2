@@ -15,9 +15,18 @@
             <div class="panel-heading">
                 <div class="panel-title">
                     <div class="row">
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
                             {{ the_topic_name }}
                         </div>
+                        {% if the_user_is_superuser or the_user_is_band_admin %}
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-right">
+                                {% if the_topic.open %}
+                                    <a class="btn btn-primary btn-sm" href="/topic_toggle_open?tk={{the_topic.key.urlsafe()}}">{% trans %}Close Topic{% endtrans %}</a>
+                                {% else %}
+                                    <a class="btn btn-primary btn-sm" href="/topic_toggle_open?tk={{the_topic.key.urlsafe()}}">{% trans %}Reopen Topic{% endtrans %}</a>
+                                {% endif %}
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>

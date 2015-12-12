@@ -29,11 +29,17 @@
 </div>
 <div class="row">&nbsp;</div>
 <div class="row">
-    <div class="col-lg-10 col-md-10">
-        <textarea class="form-control" id="forumpostinput" placeholder="{% trans %}say your piece!{% endtrans %}" name="forum_input" rows="2"></textarea>
-    </div>
-    <div class="col-lg-2 col-md-2">
-        <button type="button" class="btn btn-primary btn-sm" onclick="add_forumpost('{{the_topic.key.urlsafe()}}');">{% trans %}Say it!{% endtrans %}</button>
-    </div>
+    {% if the_topic.open %}
+        <div class="col-lg-10 col-md-10">
+            <textarea class="form-control" id="forumpostinput" placeholder="{% trans %}say your piece!{% endtrans %}" name="forum_input" rows="2"></textarea>
+        </div>
+        <div class="col-lg-2 col-md-2">
+            <button type="button" class="btn btn-primary btn-sm" onclick="add_forumpost('{{the_topic.key.urlsafe()}}');">{% trans %}Say it!{% endtrans %}</button>
+        </div>
+    {% else %}
+        <div class="col-lg-12 col-md-12">
+            {% trans %}This topic is closed.{% endtrans %}
+        </div>
+    {% endif %}
 </div>                    
 <div class="row"><hr></hr></div>

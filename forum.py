@@ -19,6 +19,7 @@ import member
 import datetime
 import logging
 import goemail
+import assoc
 
 from webapp2_extras.i18n import gettext as _
 
@@ -47,6 +48,7 @@ class ForumTopic(ndb.Model):
     last_update = ndb.DateTimeProperty(auto_now=True) # last update
     parent_gig = ndb.KeyProperty() # gig, if this is in reference to a gig
     open = ndb.BooleanProperty( default=True )
+    approved = ndb.BooleanProperty( default=True )
 
 class ForumPost(ndb.Model):
     """ Models a gig-o-matic forum post - parent is a topic """
@@ -320,10 +322,15 @@ class ForumTopicHandler(BaseHandler):
         the_band_key = the_topic_key.parent().parent()
         the_band = the_band_key.get()
         
+        # is the current user a band admin?
+        user_is_band_admin = assoc.get_admin_status_for_member_for_band_key(self.user, the_band_key)
+
+        
         template_args = {
             'the_band' : the_band,
             'the_topic_name' : get_forumpost_text(the_topic.text_id),
-            'the_topic' : the_topic
+            'the_topic' : the_topic,
+            'the_user_is_band_admin' : user_is_band_admin
         }
 
         self.render_template('forum_topic.html', template_args)
@@ -356,8 +363,6 @@ class ForumAllTopicsHandler(BaseHandler):
     @user_required
     def post(self):
     
-        logging.info('\n\nwoo\n\n')
-    
         forum_key_str = self.request.get("fk", None)
         if forum_key_str is None:
             logging.error('no forum key in ForumAllTopicsHandler')
@@ -386,4 +391,31 @@ class ForumAllTopicsHandler(BaseHandler):
             'the_date_formatter' : member.format_date_for_member
         }
         self.render_template('forum_topics.html', template_args)
+        
+class TopicToggleOpenHandler(BaseHandler):
+    """ toggles the 'open' state of a topic """
     
+    @user_required
+    def get(self):
+    
+        topic_key_str = self.request.get("tk", None)
+        if topic_key_str is None:
+            logging.error('no topic key in ForumTopicHandler')
+            return # todo figure out what to do if there's no ID passed in
+        
+        the_topic_key = ndb.Key(urlsafe=topic_key_str)
+        the_topic = the_topic_key.get()
+        
+        the_band_key = the_topic_key.parent().parent()
+    
+        # is the current user a band admin?
+        user_is_band_admin = assoc.get_admin_status_for_member_for_band_key(self.user, the_band_key)
+            
+        if not (user_is_band_admin or member.member_is_superuser(self.user)):
+            logging.error("non-admin trying to toggle topic state in TopicToggleOpenHandler")
+            return # todo what to do?
+            
+        the_topic.open = not the_topic.open
+        the_topic.put()
+        
+        return self.redirect('/forum_topic?tk={0}'.format(topic_key_str))  
