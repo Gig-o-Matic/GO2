@@ -80,6 +80,12 @@ indexes:
   properties:
   - name: created_date
 
+- kind: ForumPost
+  ancestor: yes
+  properties:
+  - name: pinned
+  - name: created_date
+
 - kind: ForumThread
   ancestor: yes
   properties:
@@ -100,6 +106,13 @@ indexes:
 - kind: ForumTopic
   ancestor: yes
   properties:
+  - name: last_update
+    direction: desc
+
+- kind: ForumTopic
+  ancestor: yes
+  properties:
+  - name: pinned
   - name: last_update
     direction: desc
 

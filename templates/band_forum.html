@@ -13,16 +13,24 @@
     </div>
 
     <div class="row">
+        <div class="col-md-offset-2 col-lg-8 col-md-8 col-sm-8 col-xs-8">
+            <a data-toggle="modal" href="#newtopicmodal" class="btn btn-primary btn-sm" id="{{the_band.key.urlsafe()}}">{% trans %}Add A Topic{% endtrans %}</a>
+        </div>
+    </div>
+
+    <div class="row">&nbsp;</div>
+
+    <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div class="panel-title">
                         <div class="row">
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                {% trans %}Discussions{% endtrans %}
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                {% trans %}Topic{% endtrans %}
                             </div>
-                            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-right">
-                                <a data-toggle="modal" href="#newtopicmodal" class="btn btn-primary btn-sm" id="{{the_band.key.urlsafe()}}">{% trans %}Add A Topic{% endtrans %}</a>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                {% trans %}Last Update{% endtrans %}
                             </div>
                         </div>
                     </div>

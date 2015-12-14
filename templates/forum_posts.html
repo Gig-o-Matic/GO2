@@ -18,7 +18,9 @@
                     </div>
                 </div>
                 <div class="col-lg-2 col-md-2">
-                    star
+                    {% if the_post.pinned %}
+                        <i class="fa fa-thumb-tack fa-lg"></i>
+                    {% endif %}
                 </div>
             </div>
             {% if not loop.last %}

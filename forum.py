@@ -14,8 +14,9 @@ import webapp2
 from google.appengine.api import search
 from google.appengine.ext import ndb
 
-import gig
+from gig import Gig
 import member
+from band import Band
 import datetime
 import logging
 import goemail
@@ -49,12 +50,14 @@ class ForumTopic(ndb.Model):
     parent_gig = ndb.KeyProperty() # gig, if this is in reference to a gig
     open = ndb.BooleanProperty( default=True )
     approved = ndb.BooleanProperty( default=True )
+    pinned = ndb.BooleanProperty( default=False)
 
 class ForumPost(ndb.Model):
     """ Models a gig-o-matic forum post - parent is a topic """
     member = ndb.KeyProperty()
     text_id = ndb.TextProperty()
     created_date = ndb.DateTimeProperty(auto_now_add=True)
+    pinned = ndb.BooleanProperty(default=False)
 
 #
 # helper functions
@@ -102,9 +105,11 @@ def new_forumtopic(the_forum_key, the_member_key, the_title, the_parent_gig_key=
 def get_forumtopics_for_forum_key(the_forum_key, keys_only=False):
     """ return all of the topics for a forum key """
     
-    topic_query = ForumTopic.query(ancestor=the_forum_key).order(-ForumTopic.last_update)
-    topics = topic_query.fetch(keys_only=keys_only)
-    return topics
+    pinned_topic_query = ForumTopic.query(ForumTopic.pinned==True, ancestor=the_forum_key).order(-ForumTopic.last_update)
+    pinned_topics = pinned_topic_query.fetch(keys_only=keys_only)
+    unpinned_topic_query = ForumTopic.query(ForumTopic.pinned==False, ancestor=the_forum_key).order(-ForumTopic.last_update)
+    unpinned_topics = unpinned_topic_query.fetch(keys_only=keys_only)
+    return pinned_topics + unpinned_topics
 
 def get_forumtopic_for_gig_key(the_gig_key):
     """ see if there's a forum for a gig """
@@ -133,10 +138,12 @@ def new_forumpost(the_parent_key, the_member_key, the_text):
         return None
 
 def get_forumposts_from_topic_key(the_topic_key, keys_only=False):
-    """ return comments for a gig key """
-    post_query = ForumPost.query(ancestor=the_topic_key).order(ForumPost.created_date)
-    posts = post_query.fetch(keys_only=keys_only)
-    return posts
+    """ return all posts for a topic key """
+    pinned_post_query = ForumPost.query(ForumPost.pinned==True, ancestor=the_topic_key).order(ForumPost.created_date)
+    pinned_posts = pinned_post_query.fetch(keys_only=keys_only)
+    unpinned_post_query = ForumPost.query(ForumPost.pinned==False, ancestor=the_topic_key).order(ForumPost.created_date)
+    unpinned_posts = unpinned_post_query.fetch(keys_only=keys_only)
+    return pinned_posts + unpinned_posts
 
 def delete_forumposts_for_topic_key(the_topic_key):
     forumpost_keys = get_forumposts_from_topic_key(the_topic_key, keys_only=True)
@@ -200,7 +207,7 @@ class AddGigForumPostHandler(BaseHandler):
         if comment_str is None or comment_str == '':
             return
 
-        if type(the_topic) is gig.Gig:
+        if type(the_topic) is Gig:
             # The topic is a gig, but what we want is a topic. So make a new topic, give it the gig's title,
             # and link it back to the gig.
             the_band_key = the_topic.key.parent()
@@ -231,7 +238,7 @@ class GetGigForumPostHandler(BaseHandler):
 
         the_topic = ndb.Key(urlsafe=topic_key_str).get()
         
-        if type(the_topic) is gig.Gig:
+        if type(the_topic) is Gig:
             the_gig_topic = get_forumtopic_for_gig_key(the_topic.key)
             if the_gig_topic is None:
                 # if there is no topic for a gig, just use the gig - if anyone posts, we'll
@@ -384,8 +391,15 @@ class ForumAllTopicsHandler(BaseHandler):
             else:
                 the_topic_titles.append('{0}: {1}'.format(_("Gig"),the_txt))
             
+        # is the current user a band admin?
+        forum_parent = the_forum_key.parent().get()
+        if type(forum_parent) is Band:
+            user_is_band_admin = assoc.get_admin_status_for_member_for_band_key(self.user, forum_parent.key)
+        else:
+            user_is_band_admin = False
                 
         template_args = {
+            'the_user_is_band_admin' : user_is_band_admin,
             'the_topic_titles' : the_topic_titles,
             'the_topics' : the_topics,
             'the_date_formatter' : member.format_date_for_member

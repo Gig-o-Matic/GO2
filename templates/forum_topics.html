@@ -5,8 +5,21 @@
                 <div class="col-md-6 col-sm-6 col-xs-6">
                         <a href='/forum_topic?tk={{a_topic.key.urlsafe()}}'>{{ the_topic_titles[loop.index0] }}</a>
                 </div>
-                <div class="col-md-6 col-sm-6 col-xs-6">
-                        {% trans %}last update{% endtrans %} {{ the_date_formatter(the_user,a_topic.last_update,'long') }}
+                <div class="col-md-4 col-sm-4 col-xs-4">
+                        {{ the_date_formatter(the_user,a_topic.last_update,'long') }}
+                </div>
+                <div class="col-md-2 col-sm-2 col-xs-2">
+                    {% if the_user_is_band_admin or the_user_is_superuser %}
+                        {% if a_topic.pinned %}
+                            <i class="fa fa-thumb-tack"></i>
+                        {% else %}
+                            no <i class="fa fa-thumb-tack"></i>
+                        {% endif %}
+                    {% else %}
+                        {% if a_topic.pinned %}
+                            <i class="fa fa-thumb-tack"></i>
+                        {% endif %}
+                    {% endif %}                        
                 </div>
             </div>
             {% if not loop.last %}
