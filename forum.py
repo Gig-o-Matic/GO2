@@ -239,20 +239,25 @@ class GetGigForumPostHandler(BaseHandler):
         the_topic = ndb.Key(urlsafe=topic_key_str).get()
         
         if type(the_topic) is Gig:
+            topic_is_gig = True
             the_gig_topic = get_forumtopic_for_gig_key(the_topic.key)
             if the_gig_topic is None:
                 # if there is no topic for a gig, just use the gig - if anyone posts, we'll
                 # convert it to a real topic object
                 forum_posts = []
+                topic_is_open = True # if we're being asked for posts for a gig and there's no topic yet, it's open
             else:
                 forum_posts = get_forumposts_from_topic_key(the_gig_topic.key)
+                topic_is_open = the_gig_topic.open
         else:
             forum_posts = get_forumposts_from_topic_key(the_topic.key)
+            topic_is_open = the_topic.open
 
         post_text = [get_forumpost_text(p.text_id) for p in forum_posts]
 
         template_args = {
             'the_topic' : the_topic,
+            'the_topic_is_open' : topic_is_open,
             'the_forum_posts' : forum_posts,
             'the_forum_text' : post_text,
             'the_date_formatter' : member.format_date_for_member
