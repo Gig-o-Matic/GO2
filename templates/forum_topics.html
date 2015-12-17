@@ -12,8 +12,13 @@
                     {% if the_user_is_band_admin or the_user_is_superuser %}
                         {% if a_topic.pinned %}
                             <i class="fa fa-thumb-tack"></i>
+                            {% if the_user_is_superuser %}
+                                <a href="/forum_toggle_pin?p={{ a_topic.key.urlsafe() }}&t={{ the_forum_key_str}}">{% trans %}unpin{% endtrans %}</a>
+                            {% endif %}
                         {% else %}
-                            no <i class="fa fa-thumb-tack"></i>
+                            {% if the_user_is_superuser %}
+                                <a href="/forum_toggle_pin?p={{ a_topic.key.urlsafe() }}&t={{ the_forum_key_str}}">{% trans %}pin{% endtrans %}</a>
+                            {% endif %}
                         {% endif %}
                     {% else %}
                         {% if a_topic.pinned %}

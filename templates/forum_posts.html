@@ -20,6 +20,13 @@
                 <div class="col-lg-2 col-md-2">
                     {% if the_post.pinned %}
                         <i class="fa fa-thumb-tack fa-lg"></i>
+                        {% if the_user_is_superuser %}
+                            <a href="/forum_toggle_pin?p={{ the_post.key.urlsafe() }}&t={{ the_topic.key.urlsafe()}}">{% trans %}unpin{% endtrans %}</a>
+                        {% endif %}
+                    {% else %}
+                        {% if the_user_is_superuser %}
+                            <a href="/forum_toggle_pin?p={{ the_post.key.urlsafe() }}&t={{the_topic.key.urlsafe()}}">{% trans %}pin{% endtrans %}</a>
+                        {% endif %}
                     {% endif %}
                 </div>
             </div>

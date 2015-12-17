@@ -295,15 +295,22 @@ class BandForumHandler(BaseHandler):
     def get(self):
     
         band_key_str = self.request.get("bk", None)
-        if band_key_str is None:
-            logging.error('no band key in BandForumHandler')
-            return # todo figure out what to do if there's no ID passed in
-        
-        the_band_key = ndb.Key(urlsafe=band_key_str)
-        the_forum_key = get_forum_from_band_key(the_band_key, True)
+        if band_key_str is not None:
+            the_band_key = ndb.Key(urlsafe=band_key_str)
+            the_forum_key = get_forum_from_band_key(the_band_key, True)
+        else:
+            # not band key - did we get a forum key instead?
+            forum_key_str = self.request.get("fk", None)
+            if forum_key_str is None:
+                logging.error('no band key in BandForumHandler')
+                return self.redirect('/')
+            else:
+                the_forum_key = ndb.Key(urlsafe=forum_key_str)
+                the_band_key = the_forum_key.parent()
 
         if the_forum_key is None:
-            return #
+            logging.error('no forum_key in BandForumHandler')
+            return self.redirect('/')
             
         the_topics = get_forumtopics_for_forum_key(the_forum_key, False)
         
@@ -327,7 +334,7 @@ class ForumTopicHandler(BaseHandler):
         topic_key_str = self.request.get("tk", None)
         if topic_key_str is None:
             logging.error('no topic key in ForumTopicHandler')
-            return # todo figure out what to do if there's no ID passed in
+            return self.redirect('/')
         
         the_topic_key = ndb.Key(urlsafe=topic_key_str)
         the_topic = the_topic_key.get()
@@ -356,7 +363,7 @@ class NewTopicHandler(BaseHandler):
         forum_key_str = self.request.get("fk", None)
         if forum_key_str is None:
             logging.error('no forum_key_str in NewTopicHandler')
-            return # todo figure out what to do
+            return self.redirect('/')
             
         forum_key = ndb.Key(urlsafe=forum_key_str)
             
@@ -378,7 +385,7 @@ class ForumAllTopicsHandler(BaseHandler):
         forum_key_str = self.request.get("fk", None)
         if forum_key_str is None:
             logging.error('no forum key in ForumAllTopicsHandler')
-            return # todo figure out what to do if there's no ID passed in
+            return self.redirect('/')
         
         the_forum_key = ndb.Key(urlsafe=forum_key_str)
 
@@ -404,6 +411,7 @@ class ForumAllTopicsHandler(BaseHandler):
             user_is_band_admin = False
                 
         template_args = {
+            'the_forum_key_str' : forum_key_str,
             'the_user_is_band_admin' : user_is_band_admin,
             'the_topic_titles' : the_topic_titles,
             'the_topics' : the_topics,
@@ -420,7 +428,7 @@ class TopicToggleOpenHandler(BaseHandler):
         topic_key_str = self.request.get("tk", None)
         if topic_key_str is None:
             logging.error('no topic key in ForumTopicHandler')
-            return # todo figure out what to do if there's no ID passed in
+            return self.redirect('/')
         
         the_topic_key = ndb.Key(urlsafe=topic_key_str)
         the_topic = the_topic_key.get()
@@ -432,9 +440,51 @@ class TopicToggleOpenHandler(BaseHandler):
             
         if not (user_is_band_admin or member.member_is_superuser(self.user)):
             logging.error("non-admin trying to toggle topic state in TopicToggleOpenHandler")
-            return # todo what to do?
+            return self.redirect('/')
             
         the_topic.open = not the_topic.open
         the_topic.put()
         
         return self.redirect('/forum_topic?tk={0}'.format(topic_key_str))  
+        
+class TogglePinHandler(BaseHandler):
+    """ toggles the pin state of a forum topic or post """
+    
+    @user_required
+    def get(self):
+        item_key_str = self.request.get("p", None)
+        if item_key_str is None:
+            logging.error('no object passed to TogglePinHandler')
+            return self.redirect('/')
+            
+        parent_key_str = self.request.get("t", None)
+        if parent_key_str is None:
+            parent_key_str.error('no topic passed to TogglePinHandler')
+            return self.redirect('/')
+
+        logging.info("\n\nparent_key_str is \n\n".format(parent_key_str))
+
+        the_item = ndb.Key(urlsafe=item_key_str).get()
+        the_parent = ndb.Key(urlsafe=parent_key_str).get()
+        
+        if not member.member_is_superuser(self.user):
+            logging.error("non-admin trying to toggle pin state in TogglePinHandler")
+            return self.redirect('/')
+
+        if the_item is None:
+            logging.error("no item found in TogglePinHandler")
+            return self.redirect('/')
+            
+        if the_parent is None:
+            logging.error("no parent found in TogglePinHandler")
+            return self.redirect('/')
+
+        the_item.pinned = not the_item.pinned
+        the_item.put()
+        
+        if type(the_parent) is ForumTopic:
+            return self.redirect('/forum_topic?tk={0}'.format(parent_key_str))
+        else:
+            return self.redirect('/band_forum?fk={0}'.format(parent_key_str))
+        
+        
