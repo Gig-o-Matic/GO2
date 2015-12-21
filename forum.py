@@ -39,7 +39,8 @@ Posts have another post as parent, or top-level post
 #
 class Forum(ndb.Model):
     """ Models a gig-o-matic forum """
-    name = ndb.TextProperty(default = None) # empty field; there's no need for a real name
+    name = ndb.TextProperty(default=None) # if it's a band forum, we ignore the name
+    public = ndb.BooleanProperty(default=False) # if it's public, anyone can use it
 
 class ForumTopic(ndb.Model):
     """ Models a gig-o-matic forum topic """
@@ -63,10 +64,10 @@ class ForumPost(ndb.Model):
 # helper functions
 #
 
-def new_forum(the_band_key):
+def new_forum(the_band_key, the_name=None, is_public=False):
     """ create a new forum for a band """
     
-    the_forum = Forum(parent=the_band_key)
+    the_forum = Forum(parent=the_band_key, name=the_name, public=is_public)
     the_forum.put()
 
     return the_forum
@@ -487,4 +488,26 @@ class TogglePinHandler(BaseHandler):
         else:
             return self.redirect('/band_forum?fk={0}'.format(parent_key_str))
         
-        
+class ForumAdminHandler(BaseHandler):
+    """ handler for forum admin page """
+    
+    @user_required
+    def get(self):
+    
+        template_args = {
+        }
+        self.render_template('forum_admin.html', template_args)
+
+class AddForumHandler(BaseHandler):
+    """ handler for adding a new public forum """
+    
+    @user_required
+    def get(self):
+        return "hi"
+    
+class DeleteForumHandler(BaseHandler):
+    """ handler for deleting a public forum """
+    
+    @user_required
+    def get(self):
+        return "hi"

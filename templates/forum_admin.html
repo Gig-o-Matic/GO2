@@ -1,0 +1,44 @@
+{% extends 'go2base.html' %}
+
+{% block title %}{% trans %}Forum Admin{% endtrans %}{% endblock title %}
+
+{% block content %}
+    <div class="row">
+        <div class="page-header col-md-8 col-md-offset-2">
+            {% trans %}Forum Admin{% endtrans %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="panel-group col-md-8 col-md-offset-2" id="accordion">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                          Public Forums
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseOne" class="panel-collapse collapse in">
+                    <div class="panel-body" id="memberlist">    
+                        {% for forum in the_forums %}
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <a href="/band_forum?bk={{forum.key.urlsafe()}}">{{ forum.name|e }}</a>
+                                </div>
+                                <div class="col-md-2">
+                                    <a href="/forum_delete?fk={{forum.key.urlsafe()}}">delete</a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        <br>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <a class="btn btn-primary btn-sm" href="/forum_add?new=1">Add a Forum</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

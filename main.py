@@ -85,7 +85,7 @@ else:
             '/member_delete_assoc.html',
             member.ManageBandsDeleteAssoc,
             name='deleteassoc'),
-        webapp2.Route('/member_admin.html', member.AdminPage, name="memberadmin"),
+        webapp2.Route('/member_admin', member.AdminPage, name="memberadmin"),
         webapp2.Route('/member_admin_get_all_members', member.AdminPageAllMembers),
         webapp2.Route('/member_admin_get_signup_members', member.AdminPageSignupMembers),
         webapp2.Route('/member_admin_get_invite_members', member.AdminPageInviteMembers),
@@ -122,7 +122,7 @@ else:
         webapp2.Route('/band_makeadmin', band.AdminMember),
         webapp2.Route('/band_makeoccasional', band.MakeOccasionalMember),
         webapp2.Route('/band_removemember', band.RemoveMember),
-        webapp2.Route('/band_admin.html', band.AdminPage),
+        webapp2.Route('/band_admin', band.AdminPage),
         webapp2.Route('/band_get_member_list', band.GetMemberList),
         webapp2.Route('/band_nav.html', band.BandNavPage),
         webapp2.Route('/band_get_upcoming', band.GetUpcoming),
@@ -136,9 +136,9 @@ else:
         webapp2.Route('/updateplanfeedback', plan.UpdatePlanFeedback),
         webapp2.Route('/updateplancomment', plan.UpdatePlanComment),
         webapp2.Route('/updateplansection', plan.UpdatePlanSection),
-        webapp2.Route('/motd_admin.html', motd.AdminPage),
+        webapp2.Route('/motd_admin', motd.AdminPage),
         webapp2.Route('/whatis.html', login.WhatisPageHandler),
-        webapp2.Route('/stats.html', stats.StatsPage),
+        webapp2.Route('/stats', stats.StatsPage),
         webapp2.Route('/generate_stats', stats.AutoGenerateStats),
         webapp2.Route('/cal/b/<bk:.+>', caldav.BandRequestHandler),
         webapp2.Route('/cal/m/<mk:.+>', caldav.MemberRequestHandler),
@@ -151,6 +151,8 @@ else:
         webapp2.Route('/forum_new_topic', forum.NewTopicHandler),
         webapp2.Route('/forum_all_topics', forum.ForumAllTopicsHandler),
         webapp2.Route('/topic_toggle_open', forum.TopicToggleOpenHandler),
-        webapp2.Route('/forum_toggle_pin', forum.TogglePinHandler)
-        
+        webapp2.Route('/forum_toggle_pin', forum.TogglePinHandler),
+        webapp2.Route('/forum_admin', forum.ForumAdminHandler),
+        webapp2.Route('/forum_add', forum.AddForumHandler),
+        webapp2.Route('/forum_delete', forum.DeleteForumHandler)
     ], config=CONFIG, debug=True)
