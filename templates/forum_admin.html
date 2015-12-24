@@ -22,7 +22,7 @@
                     <div class="panel-body" id="memberlist">    
                         {% for forum in the_forums %}
                             <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-md-4 col-md-offset-2">
                                     <a href="/band_forum?bk={{forum.key.urlsafe()}}">{{ forum.name|e }}</a>
                                 </div>
                                 <div class="col-md-2">
@@ -31,11 +31,19 @@
                             </div>
                         {% endfor %}
                         <br>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <a class="btn btn-primary btn-sm" href="/forum_add?new=1">Add a Forum</a>
+                        
+                        <form class="form" role="form" method="post" action="/forum_add">    
+                            <div class="row">
+                                <div class="form-group col-md-8 col-md-offset-2">
+                                    <label for="forumnameinput" class="control-label">Add Public Forum</label>
+                                    <input class="form-control" id="forumnameinput" placeholder="new forum name" name="forum_name">
+                                </div>
+                            </div>        
+                            <div class="form-group col-md-8 col-md-offset-2 text-right">                
+                                    <button type="submit" class="btn btn-primary">Add</button>
                             </div>
-                        </div>
+                        </form>            
+                        
                     </div>
                 </div>
             </div>

@@ -75,6 +75,11 @@ indexes:
   properties:
   - name: created_date
 
+- kind: Forum
+  properties:
+  - name: public
+  - name: name
+
 - kind: ForumPost
   ancestor: yes
   properties:

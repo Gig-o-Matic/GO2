@@ -39,7 +39,7 @@ Posts have another post as parent, or top-level post
 #
 class Forum(ndb.Model):
     """ Models a gig-o-matic forum """
-    name = ndb.TextProperty(default=None) # if it's a band forum, we ignore the name
+    name = ndb.StringProperty(default=None) # if it's a band forum, we ignore the name
     public = ndb.BooleanProperty(default=False) # if it's public, anyone can use it
 
 class ForumTopic(ndb.Model):
@@ -72,6 +72,14 @@ def new_forum(the_band_key, the_name=None, is_public=False):
 
     return the_forum
 
+def get_public_forums(keys_only=False):
+    """ get all the forums marked as public """
+    
+    forum_query = Forum.query(Forum.public==True).order(Forum.name)
+    forums = forum_query.fetch(keys_only=keys_only)
+    return forums
+    
+
 def get_forum_from_band_key(the_band_key, keys_only=False):
     """ given a band key, find the associated forum or make a new one """
     
@@ -90,6 +98,15 @@ def get_forum_from_band_key(the_band_key, keys_only=False):
         logging.error("found multiple forums for band {0}".format(the_band_key))
         return None
 
+def delete_forum_key(the_forum_key):
+    """ take a forum key and delete the forum, and its posts and text """
+    
+    topic_keys = get_forumtopics_for_forum_key(the_forum_key, keys_only=True)
+    for tk in topic_keys:
+        delete_forumtopic(tk)
+    
+    the_forum_key.delete()
+    
 
 def new_forumtopic(the_forum_key, the_member_key, the_title, the_parent_gig_key=None):
     """ create a brand new topic """
@@ -125,6 +142,13 @@ def get_forumtopic_for_gig_key(the_gig_key):
         logging.error("found multiple forum topics for gig {0}".format(the_gig_key))
         return None
 
+def delete_forumtopic_key(the_topic_key):
+    """ take a topic key and delete it, and all its posts """
+    
+    delete_forumposts_for_topic_key(the_topic_key)
+    the_topic_key.delete()
+    
+
 def new_forumpost(the_parent_key, the_member_key, the_text):
     """ create a new post """
 
@@ -147,8 +171,10 @@ def get_forumposts_from_topic_key(the_topic_key, keys_only=False):
     return pinned_posts + unpinned_posts
 
 def delete_forumposts_for_topic_key(the_topic_key):
-    forumpost_keys = get_forumposts_from_topic_key(the_topic_key, keys_only=True)
-    ndb.delete_multi(forumpost_keys)
+    forumposts = get_forumposts_from_topic_key(the_topic_key)
+    for post in forumposts:
+        delete_comment(post.text_id)
+    ndb.delete_multi([post.key for post in forumposts])
 
 
 def new_forumpost_text(the_text):
@@ -491,23 +517,43 @@ class TogglePinHandler(BaseHandler):
 class ForumAdminHandler(BaseHandler):
     """ handler for forum admin page """
     
+    @superuser_required
     @user_required
     def get(self):
     
+        the_forums = get_public_forums()
+
         template_args = {
+            'the_forums' : the_forums
         }
         self.render_template('forum_admin.html', template_args)
 
 class AddForumHandler(BaseHandler):
     """ handler for adding a new public forum """
     
+    @superuser_required
     @user_required
-    def get(self):
-        return "hi"
+    def post(self):
+        new_forum_name = self.request.get("forum_name", None)
+
+        if new_forum_name:
+            the_new_forum = new_forum(None, the_name=new_forum_name, is_public=True)
+
+        return self.redirect('/forum_admin')
     
 class DeleteForumHandler(BaseHandler):
     """ handler for deleting a public forum """
     
+    @superuser_required
     @user_required
     def get(self):
-        return "hi"
+    
+        the_forum_key_str = self.request.get("fk",None)
+        if the_forum_key_str is None:
+            logging.error("no forum found in DeleteForumHandler")
+            return self.redirect('/')
+            
+        the_forum_key = ndb.Key(urlsafe=the_forum_key_str)
+    
+        delete_forum_key(the_forum_key)
+        return self.redirect('/forum_admin')
