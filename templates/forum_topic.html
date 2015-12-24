@@ -11,7 +11,7 @@
 
 <div class="row">
     <div class="col-md-offset-2 col-lg-8 col-md-8 col-sm-8 col-xs-8">
-        <a href="/band_forum?bk={{the_band.key.urlsafe()}}">{% trans %}Back to {% endtrans %} {{ the_band.name }} {% trans %} forum {% endtrans %}</a>
+        <a href="/band_forum?fk={{the_forum.key.urlsafe()}}">{% trans %}Back to {% endtrans %} {{ the_forum.name }}</a>
     </div>
 </div>
 
@@ -23,7 +23,7 @@
                     <div class="row">
                         <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
                         </div>
-                        {% if the_user_is_superuser or the_user_is_band_admin %}
+                        {% if the_user_is_forum_admin %}
                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-right">
                                 {% if the_topic.open %}
                                     <a class="btn btn-primary btn-sm" href="/topic_toggle_open?tk={{the_topic.key.urlsafe()}}">{% trans %}Close Topic{% endtrans %}</a>

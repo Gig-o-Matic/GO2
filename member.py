@@ -21,6 +21,7 @@ import plan
 import goemail
 import assoc
 import login
+import forum
 import datetime
 import lang
 from colors import colors
@@ -180,6 +181,22 @@ class Member(webapp2_extras.appengine.auth.models.User):
                     the_manage_bands.append(b)
             req.session['member_addgigbandlist'] = the_manage_bands
         return the_manage_bands
+
+    @classmethod
+    def get_forums(cls, req, the_member_key):
+        """ check to see if this is in the session - if so, just use it """
+        if 'member_forumlist' in req.session.keys() and not req.member_cache_is_dirty(the_member_key):
+            the_forums = req.session['member_forumlist']
+        else:
+            band_keys=assoc.get_band_keys_of_member_key(the_member_key, confirmed_only=True)
+            if band_keys:
+                public_forum_keys=forum.get_public_forums(keys_only=True)
+                the_forums=ndb.get_multi(band_keys+public_forum_keys)
+                req.session['member_forumlist'] = the_forums
+            else:
+                the_forums=[]
+        return the_forums
+
 
     @classmethod
     def invalidate_member_bandlists(cls, req, member_key):

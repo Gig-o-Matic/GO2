@@ -8,13 +8,13 @@
 {% block content %}
     <div class="row">
         <div class="page-header col-md-8 col-md-offset-2">
-            {% trans %}Forum for{% endtrans %} {{ the_band.name }}
+            {% trans %}Forum for{% endtrans %} {{ the_forum.name }}
         </div> 
     </div>
 
     <div class="row">
         <div class="col-md-offset-2 col-lg-8 col-md-8 col-sm-8 col-xs-8">
-            <a data-toggle="modal" href="#newtopicmodal" class="btn btn-primary btn-sm" id="{{the_band.key.urlsafe()}}">{% trans %}Add A Topic{% endtrans %}</a>
+            <a data-toggle="modal" href="#newtopicmodal" class="btn btn-primary btn-sm" id="{{the_forum.key.urlsafe()}}">{% trans %}Add A Topic{% endtrans %}</a>
         </div>
     </div>
 
@@ -86,12 +86,12 @@ function handle_new_topic() {
     $('#newtopicinput').val(''); // reset the placeholder
     $.post("/forum_new_topic",
             {
-                fk: "{{the_forum_key.urlsafe()}}",
+                fk: "{{the_forum.key.urlsafe()}}",
                 t: name,
             },
             function(responseTxt,statusTxt,xhr){
                 if(statusTxt=="success")
-                    update_forum_topics('{{the_forum_key.urlsafe()}}');
+                    update_forum_topics('{{the_forum.key.urlsafe()}}');
                 if(statusTxt=="error")
                   alert("Error: "+xhr.status+": "+xhr.statusText);
             });
@@ -113,7 +113,7 @@ $(document).ready(function() {
         },        
         submitHandler: handle_new_topic
     });
-    update_forum_topics('{{the_forum_key.urlsafe()}}');
+    update_forum_topics('{{the_forum.key.urlsafe()}}');
 });
 </script>
 {% endblock localscripts %}

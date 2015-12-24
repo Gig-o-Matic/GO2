@@ -9,16 +9,12 @@
                         {{ the_date_formatter(the_user,a_topic.last_update,'long') }}
                 </div>
                 <div class="col-md-2 col-sm-2 col-xs-2">
-                    {% if the_user_is_band_admin or the_user_is_superuser %}
+                    {% if the_user_is_forum_admin or the_user_is_superuser %}
                         {% if a_topic.pinned %}
                             <i class="fa fa-thumb-tack"></i>
-                            {% if the_user_is_superuser %}
-                                <a href="/forum_toggle_pin?p={{ a_topic.key.urlsafe() }}&t={{ the_forum_key_str}}">{% trans %}unpin{% endtrans %}</a>
-                            {% endif %}
+                            <a href="/forum_toggle_pin?p={{ a_topic.key.urlsafe() }}&t={{ the_forum_key_str}}">{% trans %}unpin{% endtrans %}</a>
                         {% else %}
-                            {% if the_user_is_superuser %}
-                                <a href="/forum_toggle_pin?p={{ a_topic.key.urlsafe() }}&t={{ the_forum_key_str}}">{% trans %}pin{% endtrans %}</a>
-                            {% endif %}
+                            <a href="/forum_toggle_pin?p={{ a_topic.key.urlsafe() }}&t={{ the_forum_key_str}}">{% trans %}pin{% endtrans %}</a>
                         {% endif %}
                     {% else %}
                         {% if a_topic.pinned %}

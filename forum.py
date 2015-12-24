@@ -339,13 +339,18 @@ class BandForumHandler(BaseHandler):
             logging.error('no forum_key in BandForumHandler')
             return self.redirect('/')
             
+        if the_band_key:
+            the_band = the_band_key.get()
+        else:
+            the_band = None
+            
         the_topics = get_forumtopics_for_forum_key(the_forum_key, False)
         
         the_topic_titles = [get_forumpost_text(f.text_id) for f in the_topics]
-                
+                    
         template_args = {
-            'the_forum_key' : the_forum_key,
-            'the_band' : the_band_key.get(),
+            'the_forum' : the_forum_key.get(),
+            'the_band_key' : the_band_key,
             'the_topic_titles' : the_topic_titles,
             'the_topics' : the_topics,
             'the_date_formatter' : member.format_date_for_member
@@ -365,18 +370,25 @@ class ForumTopicHandler(BaseHandler):
         
         the_topic_key = ndb.Key(urlsafe=topic_key_str)
         the_topic = the_topic_key.get()
-        the_band_key = the_topic_key.parent().parent()
-        the_band = the_band_key.get()
+        the_forum_key = the_topic_key.parent()
+        the_forum = the_forum_key.get()
+        the_band_key = the_forum_key.parent()
         
-        # is the current user a band admin?
-        user_is_band_admin = assoc.get_admin_status_for_member_for_band_key(self.user, the_band_key)
+        if the_band_key:
+            the_band = the_band_key.get()
+            # is the current user a band admin?
+            user_is_forum_admin = assoc.get_admin_status_for_member_for_band_key(self.user, the_band_key) or self.user.is_superuser
+        else:
+            the_band = None
+            user_is_forum_admin = self.user.is_superuser
+        
 
         
         template_args = {
-            'the_band' : the_band,
+            'the_forum' : the_forum,
             'the_topic_name' : get_forumpost_text(the_topic.text_id),
             'the_topic' : the_topic,
-            'the_user_is_band_admin' : user_is_band_admin
+            'user_is_forum_admin' : user_is_forum_admin
         }
 
         self.render_template('forum_topic.html', template_args)
@@ -430,16 +442,21 @@ class ForumAllTopicsHandler(BaseHandler):
             else:
                 the_topic_titles.append('{0}: {1}'.format(_("Gig"),the_txt))
             
-        # is the current user a band admin?
-        forum_parent = the_forum_key.parent().get()
-        if type(forum_parent) is Band:
-            user_is_band_admin = assoc.get_admin_status_for_member_for_band_key(self.user, forum_parent.key)
+        # is the current user a forum admin?
+        user_is_forum_admin = False
+        forum_parent_key = the_forum_key.parent()
+        if forum_parent_key:
+            forum_parent = forum_parent_key.get()
+            if type(forum_parent) is Band:
+                user_is_forum_admin = assoc.get_admin_status_for_member_for_band_key(self.user, forum_parent.key)
         else:
-            user_is_band_admin = False
+            # if there's no parent, this is a public forum and only superuser can edit
+            if self.user.is_superuser:
+                user_is_forum_admin = True
                 
         template_args = {
             'the_forum_key_str' : forum_key_str,
-            'the_user_is_band_admin' : user_is_band_admin,
+            'user_is_forum_admin' : user_is_forum_admin,
             'the_topic_titles' : the_topic_titles,
             'the_topics' : the_topics,
             'the_date_formatter' : member.format_date_for_member
