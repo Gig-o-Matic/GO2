@@ -51,11 +51,9 @@ def superuser_required(handler):
     
     def check_superuser(self, *args, **kwargs):
         user=self.user
-        if not user.is_superuser:
-            logging.info('\n\nNot Superuser\n\n')
+        if not user or not user.is_superuser:
             self.redirect(self.uri_for('login',originalurl=self.request.url),abort=True)            
         else:
-            logging.info('\n\nIs Superuser\n\n')
             return handler(self, *args, **kwargs)
         
     
