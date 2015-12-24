@@ -15,6 +15,7 @@ from webapp2_extras import sessions
 from webapp2_extras import i18n
 from webapp2_extras import jinja2
 
+import logging
 import motd_db
 
 def user_required(handler):
@@ -40,6 +41,26 @@ def user_required(handler):
             return handler(self, *args, **kwargs)
 
     return check_login
+
+
+def superuser_required(handler):
+    """
+        Decorator that makes sure there's a user logged in, then makes sure it's a
+        superuser.
+    """
+    
+    def check_superuser(self, *args, **kwargs):
+        user=self.user
+        if not user.is_superuser:
+            logging.info('\n\nNot Superuser\n\n')
+            self.redirect(self.uri_for('login',originalurl=self.request.url),abort=True)            
+        else:
+            logging.info('\n\nIs Superuser\n\n')
+            return handler(self, *args, **kwargs)
+        
+    
+    return check_superuser
+    
 
 class BaseHandler(webapp2.RequestHandler):
     @webapp2.cached_property
