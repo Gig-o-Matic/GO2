@@ -315,7 +315,7 @@ class OpenPostReplyHandler(BaseHandler):
     
         self.render_template('forumpostreply.html', template_args)
         
-class BandForumHandler(BaseHandler):
+class ForumHandler(BaseHandler):
     """ shows the forum page for a band """
     
     @user_required
@@ -329,14 +329,14 @@ class BandForumHandler(BaseHandler):
             # not band key - did we get a forum key instead?
             forum_key_str = self.request.get("fk", None)
             if forum_key_str is None:
-                logging.error('no band key in BandForumHandler')
+                logging.error('no band key in ForumHandler')
                 return self.redirect('/')
             else:
                 the_forum_key = ndb.Key(urlsafe=forum_key_str)
                 the_band_key = the_forum_key.parent()
 
         if the_forum_key is None:
-            logging.error('no forum_key in BandForumHandler')
+            logging.error('no forum_key in ForumHandler')
             return self.redirect('/')
             
         if the_band_key:
@@ -344,21 +344,23 @@ class BandForumHandler(BaseHandler):
         else:
             the_band = None
             
+        logging.info('\n\n{0}\n\n'.format(the_band))   
+            
         the_topics = get_forumtopics_for_forum_key(the_forum_key, False)
         
         the_topic_titles = [get_forumpost_text(f.text_id) for f in the_topics]
                     
         template_args = {
             'the_forum' : the_forum_key.get(),
-            'the_band_key' : the_band_key,
+            'the_band' : the_band,
             'the_topic_titles' : the_topic_titles,
             'the_topics' : the_topics,
             'the_date_formatter' : member.format_date_for_member
         }
-        self.render_template('band_forum.html', template_args)
+        self.render_template('forum.html', template_args)
 
 class ForumTopicHandler(BaseHandler):
-    """ shows the forum page for a band """
+    """ shows a topic page for a band """
     
     @user_required
     def get(self):
@@ -381,13 +383,14 @@ class ForumTopicHandler(BaseHandler):
         else:
             the_band = None
             user_is_forum_admin = self.user.is_superuser
-        
-
+            
+        the_gig = the_topic.parent_gig
         
         template_args = {
             'the_forum' : the_forum,
             'the_topic_name' : get_forumpost_text(the_topic.text_id),
             'the_topic' : the_topic,
+            'the_gig' : the_gig,
             'user_is_forum_admin' : user_is_forum_admin
         }
 

@@ -43,7 +43,7 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans %}Forums{% endtrans %}<b class="caret"></b></a>
                         <ul class="dropdown-menu" role="menu" id="forumlinks">
                             {% for f in the_user_forumslist %}
-                                <li><a href="/band_forum?fk={{ f.key.urlsafe() }}">{{ f.name }}</a></li>
+                                <li><a href="/forum?fk={{ f.key.urlsafe() }}">{{ f.name }}</a></li>
                             {% endfor %}
                         </ul>
                     </li>

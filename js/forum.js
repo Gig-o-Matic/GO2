@@ -19,7 +19,7 @@ function update_forum_posts(tk) {
                 },
                 function(responseTxt,statusTxt,xhr){
                     if(statusTxt=="success")
-                        $('#gig_forum').html(responseTxt)
+                        $('#forum_posts').html(responseTxt)
                     if(statusTxt=="error")
                         alert("Error: "+xhr.status+": "+xhr.statusText);
                 });
