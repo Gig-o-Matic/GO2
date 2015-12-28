@@ -48,7 +48,7 @@ class ForumTopic(ndb.Model):
     text_id = ndb.TextProperty() # title of topic
     created_date = ndb.DateTimeProperty(auto_now_add=True) # creation date
     last_update = ndb.DateTimeProperty(auto_now=True) # last update
-    parent_gig = ndb.KeyProperty() # gig, if this is in reference to a gig
+    parent_gig = ndb.KeyProperty( default=None ) # gig, if this is in reference to a gig
     open = ndb.BooleanProperty( default=True )
     approved = ndb.BooleanProperty( default=True )
     pinned = ndb.BooleanProperty( default=False)
@@ -532,7 +532,7 @@ class TogglePinHandler(BaseHandler):
         if type(the_parent) is ForumTopic:
             return self.redirect('/forum_topic?tk={0}'.format(parent_key_str))
         else:
-            return self.redirect('/band_forum?fk={0}'.format(parent_key_str))
+            return self.redirect('/forum?fk={0}'.format(parent_key_str))
         
 class ForumAdminHandler(BaseHandler):
     """ handler for forum admin page """
