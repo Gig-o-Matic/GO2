@@ -188,10 +188,17 @@ class Member(webapp2_extras.appengine.auth.models.User):
         if 'member_forumlist' in req.session.keys() and not req.member_cache_is_dirty(the_member_key):
             the_forums = req.session['member_forumlist']
         else:
-            band_keys=assoc.get_band_keys_of_member_key(the_member_key, confirmed_only=True)
+            band_keys=assoc.get_band_keys_of_member_key(the_member_key, confirmed_only=True)                    
             if band_keys:
+                # only do this if we're a member of a band            
+                bands = ndb.get_multi(band_keys)
+                band_forums=[]
+                for b in bands:
+                    if b.enable_forum:
+                        band_forums.append(b)            
                 public_forum_keys=forum.get_public_forums(keys_only=True)
-                the_forums=ndb.get_multi(band_keys+public_forum_keys)
+                public_forums=ndb.get_multi(public_forum_keys)
+                the_forums = band_forums + public_forums
                 req.session['member_forumlist'] = the_forums
             else:
                 the_forums=[]
