@@ -36,7 +36,23 @@
         {% endfor %}
     </div>
 </div>
-<div class="row">&nbsp;</div>
+<div class="row">
+    <div class="col-lg-12 col-md-12">
+        <hr>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12 col-md-12">
+        {% if is_more %}
+            <button type="button" onclick="update_forum_posts('{{the_topic.key.urlsafe()}}','{{the_cursor_urlsafe}}')">more!</button>
+        {% endif %}
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12 col-md-12">
+        <hr>
+    </div>
+</div>
 <div class="row">
     {% if the_topic_is_open %}
         <div class="col-lg-10 col-md-10">

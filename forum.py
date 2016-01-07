@@ -13,6 +13,7 @@ import webapp2
 
 from google.appengine.api import search
 from google.appengine.ext import ndb
+from google.appengine.datastore.datastore_query import Cursor
 
 from gig import Gig
 import member
@@ -126,8 +127,6 @@ def get_forumtopics_for_forum_key(the_forum_key, keys_only=False):
     topic_query = ForumTopic.query(ancestor=the_forum_key).order(-ForumTopic.pinned,-ForumTopic.last_update)
     topics = topic_query.fetch(keys_only=keys_only)
     
-    logging.info('\n\n{0}\n\n'.format(topics))
-    
     return topics
 
 
@@ -164,13 +163,24 @@ def new_forumpost(the_parent_key, the_member_key, the_text):
         logging.error("failed to create new forum post")
         return None
 
-def get_forumposts_from_topic_key(the_topic_key, keys_only=False):
+def get_forumposts_from_topic_key(the_topic_key, cursor_urlsafe=None, keys_only=False):
     """ return all posts for a topic key """
 
     post_query = ForumPost.query(ancestor=the_topic_key).order(-ForumPost.pinned, ForumPost.created_date)
-    posts = post_query.fetch(keys_only=keys_only)
+    
+    if cursor_urlsafe:
+        cursor = Cursor(urlsafe=cursor_urlsafe)
+    else:
+        cursor = None
+    
+    posts, next_cursor, more = post_query.fetch_page(3, start_cursor=cursor, keys_only=keys_only)
 
-    return posts
+    if next_cursor:
+        next_cursor_urlsafe = next_cursor.urlsafe()
+    else:
+        next_cursor_urlsafe = None
+
+    return posts, next_cursor_urlsafe, more
 
 
 def delete_forumposts_for_topic_key(the_topic_key):
@@ -267,6 +277,8 @@ class GetGigForumPostHandler(BaseHandler):
             return # todo figure this out
 
         the_topic = ndb.Key(urlsafe=topic_key_str).get()
+
+        the_cursor_urlsafe = self.request.get("c", None)
         
         if type(the_topic) is Gig:
             topic_is_gig = True
@@ -277,10 +289,10 @@ class GetGigForumPostHandler(BaseHandler):
                 forum_posts = []
                 topic_is_open = True # if we're being asked for posts for a gig and there's no topic yet, it's open
             else:
-                forum_posts = get_forumposts_from_topic_key(the_gig_topic.key)
+                forum_posts, new_cursor_urlsafe, is_more = get_forumposts_from_topic_key(the_gig_topic.key, cursor_urlsafe=the_cursor_urlsafe)
                 topic_is_open = the_gig_topic.open
         else:
-            forum_posts = get_forumposts_from_topic_key(the_topic.key)
+            forum_posts, new_cursor_urlsafe, is_more = get_forumposts_from_topic_key(the_topic.key, cursor_urlsafe=the_cursor_urlsafe)
             topic_is_open = the_topic.open
 
         post_text = [get_forumpost_text(p.text_id) for p in forum_posts]
@@ -290,7 +302,9 @@ class GetGigForumPostHandler(BaseHandler):
             'the_topic_is_open' : topic_is_open,
             'the_forum_posts' : forum_posts,
             'the_forum_text' : post_text,
-            'the_date_formatter' : member.format_date_for_member
+            'the_date_formatter' : member.format_date_for_member,
+            'the_cursor_urlsafe' : new_cursor_urlsafe,
+            'is_more' : is_more
         }
 
         self.render_template('forum_posts.html', template_args)
@@ -509,8 +523,6 @@ class TogglePinHandler(BaseHandler):
         if parent_key_str is None:
             parent_key_str.error('no topic passed to TogglePinHandler')
             return self.redirect('/')
-
-        logging.info("\n\nparent_key_str is \n\n".format(parent_key_str))
 
         the_item = ndb.Key(urlsafe=item_key_str).get()
         the_parent = ndb.Key(urlsafe=parent_key_str).get()

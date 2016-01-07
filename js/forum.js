@@ -12,10 +12,11 @@ function update_forum_topics(fk) {
                 });
 }
 
-function update_forum_posts(tk) {
+function update_forum_posts(tk,c) {
     $.post("/topic_get_forumpost",
                 {
                     tk: tk,
+                    c: c
                 },
                 function(responseTxt,statusTxt,xhr){
                     if(statusTxt=="success")
