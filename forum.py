@@ -28,8 +28,8 @@ from webapp2_extras.i18n import gettext as _
 """
 
 Forums have a band as a parent
-Topics have a forum as a parent and may have a gig as parent, or top-level topic as parent
-Posts have another post as parent, or top-level post
+Topics have a forum as a parent
+Posts have a topic as parent
 
 """
 
@@ -123,11 +123,13 @@ def new_forumtopic(the_forum_key, the_member_key, the_title, the_parent_gig_key=
 def get_forumtopics_for_forum_key(the_forum_key, keys_only=False):
     """ return all of the topics for a forum key """
     
-    pinned_topic_query = ForumTopic.query(ForumTopic.pinned==True, ancestor=the_forum_key).order(-ForumTopic.last_update)
-    pinned_topics = pinned_topic_query.fetch(keys_only=keys_only)
-    unpinned_topic_query = ForumTopic.query(ForumTopic.pinned==False, ancestor=the_forum_key).order(-ForumTopic.last_update)
-    unpinned_topics = unpinned_topic_query.fetch(keys_only=keys_only)
-    return pinned_topics + unpinned_topics
+    topic_query = ForumTopic.query(ancestor=the_forum_key).order(-ForumTopic.pinned,-ForumTopic.last_update)
+    topics = topic_query.fetch(keys_only=keys_only)
+    
+    logging.info('\n\n{0}\n\n'.format(topics))
+    
+    return topics
+
 
 def get_forumtopic_for_gig_key(the_gig_key):
     """ see if there's a forum for a gig """
@@ -164,11 +166,12 @@ def new_forumpost(the_parent_key, the_member_key, the_text):
 
 def get_forumposts_from_topic_key(the_topic_key, keys_only=False):
     """ return all posts for a topic key """
-    pinned_post_query = ForumPost.query(ForumPost.pinned==True, ancestor=the_topic_key).order(ForumPost.created_date)
-    pinned_posts = pinned_post_query.fetch(keys_only=keys_only)
-    unpinned_post_query = ForumPost.query(ForumPost.pinned==False, ancestor=the_topic_key).order(ForumPost.created_date)
-    unpinned_posts = unpinned_post_query.fetch(keys_only=keys_only)
-    return pinned_posts + unpinned_posts
+
+    post_query = ForumPost.query(ancestor=the_topic_key).order(-ForumPost.pinned, ForumPost.created_date)
+    posts = post_query.fetch(keys_only=keys_only)
+
+    return posts
+
 
 def delete_forumposts_for_topic_key(the_topic_key):
     forumposts = get_forumposts_from_topic_key(the_topic_key)
@@ -343,8 +346,6 @@ class ForumHandler(BaseHandler):
             the_band = the_band_key.get()
         else:
             the_band = None
-            
-        logging.info('\n\n{0}\n\n'.format(the_band))   
             
         the_topics = get_forumtopics_for_forum_key(the_forum_key, False)
         
