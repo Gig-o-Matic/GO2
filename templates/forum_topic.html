@@ -60,7 +60,11 @@
 <script>
 
 $(document).ready(function() {
-    update_forum_posts('{{the_topic.key.urlsafe()}}',null);
+    if ({{the_last}}=="1") {
+        update_forum_posts('{{the_topic.key.urlsafe()}}','{{num_pages}}','{{num_pages}}');
+    } else {
+        update_forum_posts('{{the_topic.key.urlsafe()}}',null,'{{num_pages}}');
+    }
 });
 
 </script>

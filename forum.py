@@ -22,6 +22,7 @@ import datetime
 import logging
 import goemail
 import assoc
+import math
 
 from webapp2_extras.i18n import gettext as _
 
@@ -60,6 +61,8 @@ class ForumPost(ndb.Model):
     text_id = ndb.TextProperty()
     created_date = ndb.DateTimeProperty(auto_now_add=True)
     pinned = ndb.BooleanProperty(default=False)
+
+global_page_size=10
 
 #
 # helper functions
@@ -163,25 +166,18 @@ def new_forumpost(the_parent_key, the_member_key, the_text):
         logging.error("failed to create new forum post")
         return None
 
-def get_forumposts_from_topic_key(the_topic_key, cursor_urlsafe=None, keys_only=False):
+def get_forumposts_from_topic_key(the_topic_key, page=1, pagesize=global_page_size, keys_only=False):
     """ return all posts for a topic key """
 
     post_query = ForumPost.query(ancestor=the_topic_key).order(-ForumPost.pinned, ForumPost.created_date)
-    
-    if cursor_urlsafe:
-        cursor = Cursor(urlsafe=cursor_urlsafe)
-    else:
-        cursor = None
-    
-    posts, next_cursor, more = post_query.fetch_page(3, start_cursor=cursor, keys_only=keys_only)
+    posts = post_query.fetch(offset=(page-1)*pagesize, limit=pagesize, keys_only=keys_only)
 
-    if next_cursor:
-        next_cursor_urlsafe = next_cursor.urlsafe()
-    else:
-        next_cursor_urlsafe = None
+    return posts
 
-    return posts, next_cursor_urlsafe, more
 
+def get_forumpost_count_from_topic_key(the_topic_key):
+    post_query = ForumPost.query(ancestor=the_topic_key).order(-ForumPost.pinned, ForumPost.created_date)
+    return post_query.count()
 
 def delete_forumposts_for_topic_key(the_topic_key):
     forumposts = get_forumposts_from_topic_key(the_topic_key)
@@ -278,8 +274,24 @@ class GetGigForumPostHandler(BaseHandler):
 
         the_topic = ndb.Key(urlsafe=topic_key_str).get()
 
-        the_cursor_urlsafe = self.request.get("c", None)
-        
+        the_page_str = self.request.get("page", None)
+        if the_page_str is None:
+            the_page = 1
+        else:
+            try:
+                the_page = int(the_page_str)
+            except ValueError:
+                the_page = 1
+
+        the_num_pages_str = self.request.get("np", None) # number of pages
+        if the_num_pages_str is None:
+            the_num_pages = 1
+        else:
+            try:
+                the_num_pages = int(the_num_pages_str)
+            except ValueError:
+                the_num_pages = 1
+
         if type(the_topic) is Gig:
             topic_is_gig = True
             the_gig_topic = get_forumtopic_for_gig_key(the_topic.key)
@@ -289,10 +301,10 @@ class GetGigForumPostHandler(BaseHandler):
                 forum_posts = []
                 topic_is_open = True # if we're being asked for posts for a gig and there's no topic yet, it's open
             else:
-                forum_posts, new_cursor_urlsafe, is_more = get_forumposts_from_topic_key(the_gig_topic.key, cursor_urlsafe=the_cursor_urlsafe)
+                forum_posts = get_forumposts_from_topic_key(the_gig_topic.key, page=the_page)
                 topic_is_open = the_gig_topic.open
         else:
-            forum_posts, new_cursor_urlsafe, is_more = get_forumposts_from_topic_key(the_topic.key, cursor_urlsafe=the_cursor_urlsafe)
+            forum_posts = get_forumposts_from_topic_key(the_topic.key, page=the_page)
             topic_is_open = the_topic.open
 
         post_text = [get_forumpost_text(p.text_id) for p in forum_posts]
@@ -303,8 +315,8 @@ class GetGigForumPostHandler(BaseHandler):
             'the_forum_posts' : forum_posts,
             'the_forum_text' : post_text,
             'the_date_formatter' : member.format_date_for_member,
-            'the_cursor_urlsafe' : new_cursor_urlsafe,
-            'is_more' : is_more
+            'the_page' : the_page,
+            'the_num_pages' : the_num_pages
         }
 
         self.render_template('forum_posts.html', template_args)
@@ -390,7 +402,7 @@ class ForumTopicHandler(BaseHandler):
         the_forum_key = the_topic_key.parent()
         the_forum = the_forum_key.get()
         the_band_key = the_forum_key.parent()
-        
+                
         if the_band_key:
             the_band = the_band_key.get()
             # is the current user a band admin?
@@ -400,12 +412,23 @@ class ForumTopicHandler(BaseHandler):
             user_is_forum_admin = self.user.is_superuser
             
         the_gig = the_topic.parent_gig
+
+        topic_count = get_forumpost_count_from_topic_key( the_topic.key )
+        num_pages = int(math.ceil( topic_count * 1.0 / global_page_size ))
+        
+        last_str = self.request.get("last", None)
+        if last_str == "1":
+            the_last="1"
+        else:
+            the_last="0"
         
         template_args = {
             'the_forum' : the_forum,
             'the_topic_name' : get_forumpost_text(the_topic.text_id),
             'the_topic' : the_topic,
+            'num_pages' : num_pages,
             'the_gig' : the_gig,
+            'the_last' : the_last,
             'user_is_forum_admin' : user_is_forum_admin
         }
 

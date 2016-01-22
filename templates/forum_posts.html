@@ -36,35 +36,55 @@
         {% endfor %}
     </div>
 </div>
-<div class="row">
-    <div class="col-lg-12 col-md-12">
-        <hr>
-    </div>
-</div>
-<div class="row">
-    <div class="col-lg-12 col-md-12">
-        {% if is_more %}
-            <button type="button" onclick="update_forum_posts('{{the_topic.key.urlsafe()}}','{{the_cursor_urlsafe}}')">more!</button>
-        {% endif %}
-    </div>
-</div>
-<div class="row">
-    <div class="col-lg-12 col-md-12">
-        <hr>
-    </div>
-</div>
-<div class="row">
-    {% if the_topic_is_open %}
-        <div class="col-lg-10 col-md-10">
-            <textarea class="form-control" id="forumpostinput" placeholder="{% trans %}say your piece!{% endtrans %}" name="forum_input" rows="2"></textarea>
-        </div>
-        <div class="col-lg-2 col-md-2">
-            <button type="button" class="btn btn-primary btn-sm" onclick="add_forumpost('{{the_topic.key.urlsafe()}}');">{% trans %}Say it!{% endtrans %}</button>
-        </div>
-    {% else %}
+{% if the_page == the_num_pages %}
+    <div class="row">
         <div class="col-lg-12 col-md-12">
-            {% trans %}This topic is closed.{% endtrans %}
+            <hr>
         </div>
-    {% endif %}
-</div>                    
-<div class="row"><hr></hr></div>
+    </div>
+    <div class="row">
+        {% if the_topic_is_open %}
+            <div class="col-lg-10 col-md-10">
+                <textarea class="form-control" id="forumpostinput" placeholder="{% trans %}say your piece!{% endtrans %}" name="forum_input" rows="2"></textarea>
+            </div>
+            <div class="col-lg-2 col-md-2">
+                <button type="button" class="btn btn-primary btn-sm" onclick="add_forumpost('{{the_topic.key.urlsafe()}}','{{the_num_pages}}');">{% trans %}Say it!{% endtrans %}</button>
+            </div>
+        {% else %}
+            <div class="col-lg-12 col-md-12">
+                {% trans %}This topic is closed.{% endtrans %}
+            </div>
+        {% endif %}
+    </div>                    
+    <div class="row"><hr></hr></div>
+{% endif %}
+<div class="row">
+    <div class="col-lg-12 col-md-12">
+        <hr>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12 col-md-12 text-right">
+            {% if the_page > 1 %}
+                <button type="button" class="btn btn-primary" onclick="update_forum_posts('{{the_topic.key.urlsafe()}}','1',{{the_num_pages}})"><i class="fa fa-fast-backward"></i></button>                
+            {% else %}
+                <button type="button" class="btn btn-primary disabled"><i class="fa fa-fast-backward"></i></button>                
+            {% endif %}
+            {% if the_page > 1 %}
+                <button type="button" class="btn btn-primary" onclick="update_forum_posts('{{the_topic.key.urlsafe()}}','{{the_page - 1}}',{{the_num_pages}})"><i class="fa fa-step-backward"></i></button>
+            {% else %}
+                <button type="button" class="btn btn-primary disabled"><i class="fa fa-step-backward"></i></button>                
+            {% endif %}
+            {% if the_page < the_num_pages %}
+                <button type="button" class="btn btn-primary" onclick="update_forum_posts('{{the_topic.key.urlsafe()}}','{{the_page + 1}}',{{the_num_pages}})"><i class="fa fa-step-forward"></i></button>
+            {% else %}
+                <button type="button" class="btn btn-primary disabled"><i class="fa fa-step-forward"></i></button>                
+            {% endif %}
+            {% if the_page < the_num_pages %}
+                <button type="button" class="btn btn-primary" onclick="update_forum_posts('{{the_topic.key.urlsafe()}}','{{the_num_pages}}',{{the_num_pages}})"><i class="fa fa-fast-forward"></i></button>
+            {% else %}
+                <button type="button" class="btn btn-primary disabled"><i class="fa fa-fast-forward"></i></button>                
+            {% endif %}
+            
+    </div>
+</div>
