@@ -969,7 +969,7 @@ class BetaMember(BaseHandler):
 
         the_member.put()
 
-        return self.redirect('/member_admin.html')        
+        return self.redirect('/member_admin')        
         
 class GetBandList(BaseHandler):
     """ return a list of bands """
