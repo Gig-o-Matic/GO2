@@ -1,8 +1,10 @@
 
-function update_forum_topics(fk) {
-    $.post("/forum_all_topics",
+function update_forum_topics(fk,p,np) {
+    $.post("/forum_get_topics",
                 {
                     fk: fk,
+                    page: p,
+                    np: np
                 },
                 function(responseTxt,statusTxt,xhr){
                     if(statusTxt=="success")

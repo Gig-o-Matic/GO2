@@ -36,7 +36,8 @@
         {% endfor %}
     </div>
 </div>
-{% if the_page == the_num_pages %}
+
+{% if the_page == the_num_pages or the_num_pages == 0 %}
     <div class="row">
         <div class="col-lg-12 col-md-12">
             <hr>

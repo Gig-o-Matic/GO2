@@ -124,11 +124,11 @@ def new_forumtopic(the_forum_key, the_member_key, the_title, the_parent_gig_key=
         logging.error("failed to create new forum topic")
         return None
 
-def get_forumtopics_for_forum_key(the_forum_key, keys_only=False):
+def get_forumtopics_for_forum_key(the_forum_key, page=1, pagesize=global_page_size, keys_only=False):
     """ return all of the topics for a forum key """
     
     topic_query = ForumTopic.query(ancestor=the_forum_key).order(-ForumTopic.pinned,-ForumTopic.last_update)
-    topics = topic_query.fetch(keys_only=keys_only)
+    topics = topic_query.fetch(offset=(page-1)*pagesize, limit=pagesize, keys_only=keys_only)
     
     return topics
 
@@ -145,6 +145,11 @@ def get_forumtopic_for_gig_key(the_gig_key):
     else:
         logging.error("found multiple forum topics for gig {0}".format(the_gig_key))
         return None
+
+def get_forumtopic_count_from_band_key(the_band_key):
+    topic_query = ForumTopic.query(ancestor=the_band_key).order(-ForumTopic.pinned, ForumTopic.created_date)
+    return topic_query.count()
+
 
 def delete_forumtopic_key(the_topic_key):
     """ take a topic key and delete it, and all its posts """
@@ -220,8 +225,8 @@ def delete_comment(forumpost_id):
 #
 # Response handlers for dealing with forums
 #
-class AddGigForumPostHandler(BaseHandler):
-    """ takes a new comment and adds it to the gig """
+class AddForumPostHandler(BaseHandler):
+    """ takes a new comment and adds it to the forum """
 
     @user_required
     def post(self):
@@ -259,8 +264,8 @@ class AddGigForumPostHandler(BaseHandler):
         self.response.write('')
 
 
-class GetGigForumPostHandler(BaseHandler):
-    """ returns the posts for a gig if there is one """
+class GetForumPostHandler(BaseHandler):
+    """ returns the posts for a topic if there is one """
 
     @user_required
     def post(self):
@@ -373,15 +378,26 @@ class ForumHandler(BaseHandler):
         else:
             the_band = None
             
-        the_topics = get_forumtopics_for_forum_key(the_forum_key, False)
+        the_topics = get_forumtopics_for_forum_key(the_forum_key, keys_only=False)
         
         the_topic_titles = [get_forumpost_text(f.text_id) for f in the_topics]
-                    
+
+        forum_count = get_forumtopic_count_from_band_key( the_band_key )
+        num_pages = int(math.ceil( forum_count * 1.0 / global_page_size ))
+
+        last_str = self.request.get("last", None)
+        if last_str == "1":
+            the_last="1"
+        else:
+            the_last="0"
+
         template_args = {
             'the_forum' : the_forum_key.get(),
             'the_band' : the_band,
             'the_topic_titles' : the_topic_titles,
             'the_topics' : the_topics,
+            'num_pages' : num_pages,
+            'the_last' : the_last,            
             'the_date_formatter' : member.format_date_for_member
         }
         self.render_template('forum.html', template_args)
@@ -456,8 +472,8 @@ class NewTopicHandler(BaseHandler):
         
         return None
 
-class ForumAllTopicsHandler(BaseHandler):
-    """ returns all the topics in a forum """
+class ForumGetTopicsHandler(BaseHandler):
+    """ returns the topics in a forum """
     
     @user_required
     def post(self):
@@ -472,7 +488,25 @@ class ForumAllTopicsHandler(BaseHandler):
         if the_forum_key is None:
             return #
             
-        the_topics = get_forumtopics_for_forum_key(the_forum_key, False)
+        the_page_str = self.request.get("page", None)
+        if the_page_str is None:
+            the_page = 1
+        else:
+            try:
+                the_page = int(the_page_str)
+            except ValueError:
+                the_page = 1
+
+        the_num_pages_str = self.request.get("np", None) # number of pages
+        if the_num_pages_str is None:
+            the_num_pages = 1
+        else:
+            try:
+                the_num_pages = int(the_num_pages_str)
+            except ValueError:
+                the_num_pages = 1
+
+        the_topics = get_forumtopics_for_forum_key(the_forum_key, page=the_page, keys_only=False)
         
         the_topic_titles = []
         goemail.set_locale_for_user(self)
@@ -500,7 +534,9 @@ class ForumAllTopicsHandler(BaseHandler):
             'user_is_forum_admin' : user_is_forum_admin,
             'the_topic_titles' : the_topic_titles,
             'the_topics' : the_topics,
-            'the_date_formatter' : member.format_date_for_member
+            'the_date_formatter' : member.format_date_for_member,
+            'the_page' : the_page,
+            'the_num_pages' : the_num_pages            
         }
         self.render_template('forum_topics.html', template_args)
         

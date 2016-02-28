@@ -117,7 +117,12 @@ $(document).ready(function() {
         },        
         submitHandler: handle_new_topic
     });
-    update_forum_topics('{{the_forum.key.urlsafe()}}');
+    
+    if ({{the_last}}=="1") {
+        update_forum_topics('{{the_forum.key.urlsafe()}}','{{num_pages}}','{{num_pages}}');
+    } else {
+        update_forum_topics('{{the_forum.key.urlsafe()}}',null,'{{num_pages}}');
+    }
 });
 </script>
 {% endblock localscripts %}
