@@ -42,7 +42,7 @@ CONFIG = {
 }
 
 if False: # maintenance mode?
-    APPLICATION = webapp2.WSGIApplication([(r'/.*', maintenance.MaintenancePage)])
+    APPLICATION = webapp2.WSGIApplication([(r'/.*', maintenance.MaintenancePage)], config=CONFIG, debug=True)
 else:
     APPLICATION = webapp2.WSGIApplication([
         webapp2.Route('/', member.DefaultPage, name='home'),
