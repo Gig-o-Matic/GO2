@@ -174,6 +174,8 @@ def new_forumpost(the_parent_key, the_member_key, the_text):
 def get_forumposts_from_topic_key(the_topic_key, page=1, pagesize=global_page_size, keys_only=False):
     """ return all posts for a topic key """
 
+    if page<1:
+        page=1
     post_query = ForumPost.query(ancestor=the_topic_key).order(-ForumPost.pinned, ForumPost.created_date)
     posts = post_query.fetch(offset=(page-1)*pagesize, limit=pagesize, keys_only=keys_only)
 
@@ -297,6 +299,14 @@ class GetForumPostHandler(BaseHandler):
             except ValueError:
                 the_num_pages = 1
 
+        # do we just want all the posts (used in gig_info pages
+        all = self.request.get("all", None)
+        if all:
+            pagesize=10000 # seems sufficiently large
+        else:
+            pagesize=10
+        
+
         if type(the_topic) is Gig:
             topic_is_gig = True
             the_gig_topic = get_forumtopic_for_gig_key(the_topic.key)
@@ -306,10 +316,10 @@ class GetForumPostHandler(BaseHandler):
                 forum_posts = []
                 topic_is_open = True # if we're being asked for posts for a gig and there's no topic yet, it's open
             else:
-                forum_posts = get_forumposts_from_topic_key(the_gig_topic.key, page=the_page)
+                forum_posts = get_forumposts_from_topic_key(the_gig_topic.key, page=the_page, pagesize=pagesize)
                 topic_is_open = the_gig_topic.open
         else:
-            forum_posts = get_forumposts_from_topic_key(the_topic.key, page=the_page)
+            forum_posts = get_forumposts_from_topic_key(the_topic.key, page=the_page, pagesize=pagesize)
             topic_is_open = the_topic.open
 
         post_text = [get_forumpost_text(p.text_id) for p in forum_posts]

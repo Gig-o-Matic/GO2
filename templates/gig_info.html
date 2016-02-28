@@ -295,7 +295,7 @@ $(document).ready(function() {
     $('.trunc').truncate({max_length: 500, more:"...{% trans %}more{% endtrans %}", less:"{% trans %}less{% endtrans %}"});
     $('.popcomment').tooltip({ 'trigger':'hover click' });    
     update_comment('{{gig.key.urlsafe()}}');
-    update_forum_posts('{{gig.key.urlsafe()}}');
+    update_forum_posts('{{gig.key.urlsafe()}}',0,0,true);
 });
 </script>
 {% endblock localscripts %}

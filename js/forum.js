@@ -14,12 +14,13 @@ function update_forum_topics(fk,p,np) {
                 });
 }
 
-function update_forum_posts(tk,p,np) {
+function update_forum_posts(tk,p,np,all) {
     $.post("/topic_get_forumpost",
                 {
                     tk: tk,
                     page: p,
-                    np: np
+                    np: np,
+                    all: all
                 },
                 function(responseTxt,statusTxt,xhr){
                     if(statusTxt=="success")
