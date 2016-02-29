@@ -23,6 +23,7 @@ import logging
 import goemail
 import assoc
 import math
+import band
 
 from webapp2_extras.i18n import gettext as _
 
@@ -82,6 +83,13 @@ def get_public_forums(keys_only=False):
     forum_query = Forum.query(Forum.public==True).order(Forum.name)
     forums = forum_query.fetch(keys_only=keys_only)
     return forums
+
+def get_band_forums(keys_only=False):
+    """ get all the forums for bands """
+    
+    forum_query = Forum.query(Forum.public==False).order(Forum.name)
+    forums = forum_query.fetch(keys_only=keys_only)
+    return forums
     
 
 def get_forum_from_band_key(the_band_key, keys_only=False):
@@ -91,7 +99,7 @@ def get_forum_from_band_key(the_band_key, keys_only=False):
     forums = forum_query.fetch(keys_only=keys_only)
     
     if len(forums) == 0:
-        the_forum = new_forum(the_band_key)
+        the_forum = new_forum(the_band_key, the_name=the_band_key.get().name)
         if keys_only:
             return the_forum.key
         else:
@@ -107,9 +115,13 @@ def delete_forum_key(the_forum_key):
     
     topic_keys = get_forumtopics_for_forum_key(the_forum_key, keys_only=True)
     for tk in topic_keys:
-        delete_forumtopic(tk)
+        delete_forumtopic_key(tk)
     
-    the_forum_key.delete()
+    # make sure the forum is not a band
+    the_forum = the_forum_key.get()
+    
+    if not type(the_forum) is Band:
+        the_forum_key.delete()
     
 
 def new_forumtopic(the_forum_key, the_member_key, the_title, the_parent_gig_key=None):
@@ -154,6 +166,9 @@ def get_forumtopic_count_from_band_key(the_band_key):
 def delete_forumtopic_key(the_topic_key):
     """ take a topic key and delete it, and all its posts """
     
+    the_topic = the_topic_key.get()
+    delete_comment(the_topic.text_id)
+
     delete_forumposts_for_topic_key(the_topic_key)
     the_topic_key.delete()
     
@@ -388,7 +403,7 @@ class ForumHandler(BaseHandler):
         else:
             the_band = None
             
-        the_topics = get_forumtopics_for_forum_key(the_forum_key, keys_only=False)
+        the_topics = get_forumtopics_for_forum_key(the_forum_key)
         
         the_topic_titles = [get_forumpost_text(f.text_id) for f in the_topics]
 
@@ -516,7 +531,7 @@ class ForumGetTopicsHandler(BaseHandler):
             except ValueError:
                 the_num_pages = 1
 
-        the_topics = get_forumtopics_for_forum_key(the_forum_key, page=the_page, keys_only=False)
+        the_topics = get_forumtopics_for_forum_key(the_forum_key, page=the_page)
         
         the_topic_titles = []
         goemail.set_locale_for_user(self)
@@ -624,9 +639,11 @@ class ForumAdminHandler(BaseHandler):
     def get(self):
     
         the_forums = get_public_forums()
+        the_bands =band.get_all_bands()
 
         template_args = {
-            'the_forums' : the_forums
+            'the_forums' : the_forums,
+            'the_bands' : the_bands
         }
         self.render_template('forum_admin.html', template_args)
 

@@ -49,4 +49,31 @@
             </div>
         </div>
     </div>
-{% endblock content %}
+    <div class="row">
+        <div class="panel-group col-md-8 col-md-offset-2" id="accordion">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                          Band Forums
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseOne" class="panel-collapse collapse in">
+                    <div class="panel-body" id="memberlist">    
+                        {% for band in the_bands %}
+                            <div class="row">
+                                <div class="col-md-4 col-md-offset-2">
+                                    <a href="/forum?fk={{band.key.urlsafe()}}">{{ band.name|e }}</a>
+                                </div>
+                                <div class="col-md-2">
+                                    <a href="/forum_delete?fk={{band.key.urlsafe()}}">delete</a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        <br>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>{% endblock content %}
