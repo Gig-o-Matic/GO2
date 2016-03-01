@@ -116,6 +116,7 @@
                     <textarea class="form-control" rows="10" id="bandfeedback" placeholder="{% trans %}items for second planning popup (BETA!){% endtrans %}" name="band_feedback">{% if the_band.plan_feedback %}{{the_band.plan_feedback }}{% endif %}</textarea>
                 </div>
             </div>
+            {% if the_user_is_betatester %}
             <div class="form-group col-md-8 col-md-offset-2">
                 <label class="checkbox">  
                     <input type="checkbox" id="bandenableforum" name="band_enableforum"
@@ -125,7 +126,7 @@
                     >{% trans %}Enable band forum{% endtrans %}   
                 </label>  
             </div>
-            
+            {% endif %}            
         </div>        
         <div class="row">
             <div class="form-group col-md-8 col-md-offset-2">
