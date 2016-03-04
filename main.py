@@ -19,6 +19,7 @@ import activity
 import forum
 import jinja2ext
 import os
+import cryptoutil
 
 CONFIG = {
     'webapp2_extras.auth': {
@@ -137,6 +138,7 @@ else:
         webapp2.Route('/updateplancomment', plan.UpdatePlanComment),
         webapp2.Route('/updateplansection', plan.UpdatePlanSection),
         webapp2.Route('/motd_admin', motd.AdminPage),
+        webapp2.Route('/crypto_admin', cryptoutil.AdminPage, name='crypto_admin'),
         webapp2.Route('/whatis.html', login.WhatisPageHandler),
         webapp2.Route('/stats', stats.StatsPage),
         webapp2.Route('/generate_stats', stats.AutoGenerateStats),
