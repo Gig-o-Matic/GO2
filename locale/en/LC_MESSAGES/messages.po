@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2016-03-05 19:34-0500\n"
+"POT-Creation-Date: 2016-03-05 21:09-0500\n"
 "PO-Revision-Date: 2014-02-01 18:13-0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: en <LL@li.org>\n"
@@ -131,12 +131,34 @@ msgstr ""
 "\n"
 "{6}\n"
 "\n"
-"Can you make it? You can (and should!) weigh in here: {7}\n"
+"You can (and should!) weigh in here: {7}\n"
 "\n"
 "Thanks,\n"
 "The Gig-o-Matic Team"
 
-#: goemail.py:197
+#: goemail.py:196
+msgid "new_gig_email_html"
+msgstr ""
+"Hello! A new gig has been added to the Gig-o-Matic for your band {0}:<br>"
+"<br>"
+"{1}<br>"
+"Date: {2}<br>"
+"Time: {3}<br>"
+"Contact: {4}<br>"
+"Status: {5}<br>"
+"<br>"
+"{6}<br>"
+"<br>"
+"If you <b>can</b> make it, <a href={9}>click here</a>.<br>"
+"<br>"
+"If you <b>can't</b> make it, <a href={10}>click here</a>.<br>"
+"<br>"
+"Gig info page is <a href={7}>here</a>.<br>"
+"<br>"
+"Thanks,<br>"
+"The Gig-o-Matic Team"
+
+#: goemail.py:198
 msgid "edited_gig_email"
 msgstr ""
 "Hello! A gig has been edited in the Gig-o-Matic for your band {0}:\n"
@@ -156,11 +178,11 @@ msgstr ""
 "Thanks,\n"
 "The Gig-o-Matic Team"
 
-#: goemail.py:233
+#: goemail.py:234
 msgid "Gig-o-Matic New Member for band {0})"
 msgstr ""
 
-#: goemail.py:244
+#: goemail.py:245
 msgid "new_member_email"
 msgstr ""
 "Hello! A new member {0} has signed up for your band {1}. Please log in "
@@ -172,11 +194,11 @@ msgstr ""
 "Thanks,\n"
 "The Gig-o-Matic Team"
 
-#: goemail.py:259
+#: goemail.py:260
 msgid "Gig-o-Matic New Band Invite"
 msgstr ""
 
-#: goemail.py:260
+#: goemail.py:261
 msgid "new_band_via_invite_email"
 msgstr ""
 "Hello! You have been invited to join the band {0}. You'll see the band on"
@@ -186,11 +208,11 @@ msgstr ""
 "Yours,\n"
 "Team Gig-o-Matic"
 
-#: goemail.py:276
+#: goemail.py:277
 msgid "Invitation to Join Gig-o-Matic"
 msgstr ""
 
-#: goemail.py:277
+#: goemail.py:278
 msgid "gigo_invite_email"
 msgstr ""
 "Hello,\n"
@@ -205,11 +227,11 @@ msgstr ""
 "Thanks,\n"
 "The Gig-o-Matic Administration Council"
 
-#: goemail.py:293
+#: goemail.py:294
 msgid "Gig-o-Matic Confirm Email Address"
 msgstr ""
 
-#: goemail.py:305
+#: goemail.py:306
 msgid "confirm_email_address_email"
 msgstr ""
 "Hi there! Someone has requested to change their Gig-o-Matic ID to this "

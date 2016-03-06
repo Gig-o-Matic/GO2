@@ -277,12 +277,10 @@ def get_confirm_urls(the_member, the_gig):
     yes_string = "{0}+{1}+1".format(the_member.key.urlsafe(), the_gig.key.urlsafe())
     yes_code = cryptoutil.encrypt_string(yes_string)
     yes_url =  webapp2.uri_for('gig_answerlink', _full=True, c=yes_code)
-    print('\n\nyes:{}\n\n'.format(yes_url))
 
     no_string = "{0}+{1}+0".format(the_member.key.urlsafe(), the_gig.key.urlsafe())
     no_code = cryptoutil.encrypt_string(no_string)
     no_url =  webapp2.uri_for('gig_answerlink', _full=True, c=no_code)
-    print('\n\nno:{}\n\n'.format(no_url))
 
     return yes_url, no_url
 

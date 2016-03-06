@@ -192,7 +192,8 @@ def send_newgig_email(the_member, the_gig, the_band, the_gig_url, is_edit=False,
     the_status_string=[_('Unconfirmed'), _('Confirmed!'), _('Cancelled!')][the_gig.status]
         
     if is_edit is False:
-        message.body=_('new_gig_email').format(the_band.name, the_gig.title, the_date_string, the_time_string, contact_name, the_status_string, the_gig.details, the_gig_url)
+        message.body=_('new_gig_email').format(the_band.name, the_gig.title, the_date_string, the_time_string, contact_name, the_status_string, the_gig.details, the_gig_url,"",the_yes_url,the_no_url)
+        message.html=_('new_gig_email_html').format(the_band.name, the_gig.title, the_date_string, the_time_string, contact_name, the_status_string, the_gig.details, the_gig_url,"",the_yes_url,the_no_url)
     else:
         message.body=_('edited_gig_email').format(the_band.name, the_gig.title, the_date_string, the_time_string, contact_name, the_status_string, the_gig.details, the_gig_url, change_string)
         
