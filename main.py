@@ -108,6 +108,7 @@ else:
         webapp2.Route('/gig_delete', gig.DeleteHandler),
         webapp2.Route('/gig_add_comment', gig.CommentHandler),
         webapp2.Route('/gig_get_comment', gig.GetCommentHandler),
+        webapp2.Route('/gig_answerlink',gig.AnswerLinkHandler, name="gig_answerlink"),
         webapp2.Route('/print_setlist', gig.PrintSetlist),
         webapp2.Route('/print_planlist', gig.PrintPlanlist),
         webapp2.Route('/band_info.html', band.InfoPage),

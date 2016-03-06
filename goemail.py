@@ -144,6 +144,9 @@ def send_newgig_email(the_member, the_gig, the_band, the_gig_url, is_edit=False,
     else:
         contact = None
         contact_name="??"        
+
+    # get the special URLs for "yes" and "no" answers
+    the_yes_url, the_no_url = gig.get_confirm_urls(the_member, the_gig)
         
     message = mail.EmailMessage()
     message.sender = SENDER_EMAIL

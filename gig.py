@@ -21,6 +21,8 @@ import gigarchive
 import gigcomment
 import assoc
 import comment
+import plan
+import cryptoutil
 # import jinja2env
 import jinja2ext
 import logging
@@ -266,6 +268,23 @@ def make_archive_for_gig_key(the_gig_key):
         # if you look back in time.
         #        # also delete any plans, since they're all now in the archive
         #        plan.delete_plans_for_gig_key(the_gig_key)
+
+
+#    the_yes_url, the_no_url = gig.get_confirm_urls(the_member, the_gig)
+def get_confirm_urls(the_member, the_gig):
+    """return two urls which encode the member and the gig, and a yes or no"""
+    
+    yes_string = "{0}+{1}+1".format(the_member.key.urlsafe(), the_gig.key.urlsafe())
+    yes_code = cryptoutil.encrypt_string(yes_string)
+    yes_url =  webapp2.uri_for('gig_answerlink', _full=True, c=yes_code)
+    print('\n\nyes:{}\n\n'.format(yes_url))
+
+    no_string = "{0}+{1}+0".format(the_member.key.urlsafe(), the_gig.key.urlsafe())
+    no_code = cryptoutil.encrypt_string(no_string)
+    no_url =  webapp2.uri_for('gig_answerlink', _full=True, c=no_code)
+    print('\n\nno:{}\n\n'.format(no_url))
+
+    return yes_url, no_url
 
 #
 #
@@ -835,3 +854,26 @@ class GetCommentHandler(BaseHandler):
         
         self.render_template('comments.html', template_args)
         
+
+class AnswerLinkHandler(BaseHandler):
+    """ special url handler for encoded user, gig, answer links """
+    
+    def get(self):
+        answer_str = self.request.get("c", None)
+        if answer_str is None:
+            return # todo figure out what to do if there's no ID passed in
+            
+        code = cryptoutil.decrypt_string(answer_str).strip()
+        
+        parts=code.split('+')
+        
+        member_key = ndb.Key(urlsafe=parts[0])
+        gig_key = ndb.Key(urlsafe=parts[1])
+        the_plan = plan.get_plan_for_member_key_for_gig_key(member_key, gig_key)
+        if the_plan:
+            if parts[2] == '0':
+                plan.update_plan(the_plan,5)
+            else:
+                plan.update_plan(the_plan,1)
+        
+        self.render_template('confirm_answer.html', [])
