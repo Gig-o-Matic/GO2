@@ -1,0 +1,30 @@
+{% extends 'go2base.html' %}
+
+{% block title %}{% trans %}Answered!{% endtrans %}{% endblock title %}
+
+{% block navbar %}
+    <!-- no navbar -->
+{% endblock navbar %}
+
+{% block wrapclass %}
+class="landingwrap"
+{% endblock wrapclass %}
+
+{% block content %}
+    <div id="landingpage_content">
+        <h3>{% trans %}OK!{% endtrans %}</h3>
+        <br>
+        <p>{% trans %}answer_confirm_message{% endtrans %}</p>
+    </div>
+{% endblock content %}
+
+{% block footer %}
+{% endblock footer %}
+
+{% block localscripts %}
+<script src="/js/randomback.js"></script>
+{% endblock localscripts %}
+
+{% block navbarscripts %}
+    <!-- no navbar -->
+{% endblock navbarscripts %}
