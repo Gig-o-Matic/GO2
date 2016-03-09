@@ -17,8 +17,26 @@
     </div>
 
     <div class="row">
-        <div class="col-md-offset-2 col-lg-8 col-md-8 col-sm-8 col-xs-8">
+        <div class="col-md-offset-2 col-lg-2 col-md-2 col-sm-2 col-xs-2">
             <a data-toggle="modal" href="#newtopicmodal" class="btn btn-primary btn-sm" id="{{the_forum.key.urlsafe()}}">{% trans %}Add A Topic{% endtrans %}</a>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+
+
+<div class="input-group">
+    <input type="text" id="search_text" name="search_text" class="form-control" placeholder="{%trans%}search!{%endtrans%}">
+  <span class="input-group-btn">
+        <button class="btn btn-default" type="button"><i class="fa fa-search"></i></button>
+      </span>
+    <!-- insert this line -->
+    <span class="input-group-addon" style="width:0px; padding-left:0px; padding-right:0px; border:none;"></span>
+    <select id="searchbygenerals_currency" name="searchbygenerals[currency]" class="form-control">
+        <option value="1">{%trans%}This Forum{%endtrans%}</option>
+        <option value="2">{%trans%}All Forums{%endtrans%}</option>
+    </select>
+  
+  </div>
+
         </div>
     </div>
 
