@@ -103,6 +103,15 @@
             </div>
             <div class="form-group col-md-8 col-md-offset-2">
                 <label class="checkbox">  
+                    <input type="checkbox" id="bandsendupdatesbydefault" name="band_sendupdatesbydefault"
+                    {% if the_band.send_updates_by_default %}
+                        checked
+                    {% endif %}
+                    >{% trans %}Send gig updates by default{% endtrans %}   
+                </label>  
+            </div>
+            <div class="form-group col-md-8 col-md-offset-2">
+                <label class="checkbox">  
                     <input type="checkbox" id="bandsimpleplan" name="band_simpleplan"
                     {% if the_band.simple_planning %}
                         checked
