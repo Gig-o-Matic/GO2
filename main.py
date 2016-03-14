@@ -157,5 +157,6 @@ else:
         webapp2.Route('/forum_toggle_pin', forum.TogglePinHandler),
         webapp2.Route('/forum_admin', forum.ForumAdminHandler),
         webapp2.Route('/forum_add', forum.AddForumHandler),
-        webapp2.Route('/forum_delete', forum.DeleteForumHandler)
+        webapp2.Route('/forum_delete', forum.DeleteForumHandler),
+        webapp2.Route('/search',forum.SearchHandler)
     ], config=CONFIG, debug=True)

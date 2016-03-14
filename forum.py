@@ -676,3 +676,15 @@ class DeleteForumHandler(BaseHandler):
     
         delete_forum_key(the_forum_key)
         return self.redirect('/forum_admin')
+        
+class SearchHandler(BaseHandler):
+    """ handler for forum searching """
+    
+    @user_required
+    def get(self):
+        the_forum_key_str = self.request.get("fk",None)
+        the_search_str = self.request.get("text",None)
+        the_search_which_str = self.request.get("which",None)
+        
+        print('\n\nsearch {0}\n{1}\n{2}\n\n'.format(the_forum_key_str, the_search_str, the_search_which_str))    
+        

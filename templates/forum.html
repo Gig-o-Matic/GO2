@@ -124,7 +124,7 @@ function handle_new_topic() {
 function do_search() {
     search_text=$('#search_text').val();
     search_which=$('#search_thisorall').val();
-    window.location.replace("/search?text="+search_text+"&which="+search_which);
+    window.location.replace("/search?fk={{the_forum.key.urlsafe()}}&text="+search_text+"&which="+search_which);
 }
 
 $(document).ready(function() {    
