@@ -53,6 +53,7 @@ class Band(ndb.Model):
     simple_planning = ndb.BooleanProperty(default=False)
     plan_feedback = ndb.TextProperty()
     show_in_nav = ndb.BooleanProperty(default=True)
+    send_updates_by_default = ndb.BooleanProperty(default=True)
     enable_forum = ndb.BooleanProperty(default=True)
 
     @classmethod
@@ -387,6 +388,12 @@ class EditPage(BaseHandler):
             the_band.share_gigs = True
         else:
             the_band.share_gigs = False
+            
+        send_updates_by_default=self.request.get("band_sendupdatesbydefault",None)
+        if (send_updates_by_default):
+            the_band.send_updates_by_default = True
+        else:
+            the_band.send_updates_by_default = False
             
         simple_plan=self.request.get("band_simpleplan",None)
         if (simple_plan):
