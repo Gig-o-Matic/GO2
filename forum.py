@@ -127,7 +127,7 @@ def delete_forum_key(the_forum_key):
 def new_forumtopic(the_forum_key, the_member_key, the_title, the_parent_gig_key=None):
     """ create a brand new topic """
 
-    the_document_id = new_forumpost_text(the_title)
+    the_document_id = new_forumpost_text(the_title,the_forum_key.urlsafe())
     if the_document_id:
         the_topic = ForumTopic(parent=the_forum_key, member=the_member_key, text_id=the_document_id, parent_gig=the_parent_gig_key)
         the_topic.put()
@@ -176,7 +176,7 @@ def delete_forumtopic_key(the_topic_key):
 def new_forumpost(the_parent_key, the_member_key, the_text):
     """ create a new post """
 
-    the_document_id = new_forumpost_text(the_text)
+    the_document_id = new_forumpost_text(the_text,the_parent_key.parent().urlsafe())
 
     if the_document_id:
         the_post = ForumPost(parent=the_parent_key, member=the_member_key, text_id=the_document_id)
@@ -208,13 +208,16 @@ def delete_forumposts_for_topic_key(the_topic_key):
     ndb.delete_multi([post.key for post in forumposts])
 
 
-def new_forumpost_text(the_text):
+def new_forumpost_text(the_text,the_forum_key):
     """ make a new searchable 'document' for this post """
 
     # create a document
     my_document = search.Document(
         doc_id=None,
-        fields=[search.TextField(name='comment', value=the_text)])
+        fields=[
+                    search.TextField(name='comment', value=the_text),
+                    search.TextField(name='forum', value=the_forum_key)
+                ])
 
     try:
         index = search.Index(name="gigomatic_forum_index")
@@ -237,6 +240,20 @@ def get_forumpost_text(forumpost_id):
 def delete_comment(forumpost_id):
     index = search.Index(name="gigomatic_forum_index")
     index.delete([forumpost_id])
+    
+def search_forumpost_text(text, forum_key_urlsafe):
+    index = search.Index(name="gigomatic_forum_index")
+
+    query = search.Query('"{0}" forum: {1}'.format(text,forum_key_urlsafe))
+    try:
+        results = index.search(query) 
+
+        # Iterate over the documents in the results
+        for doc in results:
+            print('\n\nfound doc: {0}\n\n'.format(doc))
+
+    except search.Error:
+        logging.exception('Search failed')
 
 
 #
@@ -686,5 +703,10 @@ class SearchHandler(BaseHandler):
         the_search_str = self.request.get("text",None)
         the_search_which_str = self.request.get("which",None)
         
-        print('\n\nsearch {0}\n{1}\n{2}\n\n'.format(the_forum_key_str, the_search_str, the_search_which_str))    
-        
+        if the_forum_key_str is None or the_search_str is None or the_search_which_str is None:
+            logging.error("parameter missing in search")
+            return self.redirect('/')
+            
+        # see if we can find the string in the current forum
+        search_forumpost_text(the_search_str, the_forum_key_str)
+                
