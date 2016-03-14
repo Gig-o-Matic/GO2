@@ -26,11 +26,11 @@
 <div class="input-group">
     <input type="text" id="search_text" name="search_text" class="form-control" placeholder="{%trans%}search!{%endtrans%}">
   <span class="input-group-btn">
-        <button class="btn btn-default" type="button"><i class="fa fa-search"></i></button>
+        <button class="btn btn-default" type="button" onclick='do_search()'><i class="fa fa-search"></i></button>
       </span>
     <!-- insert this line -->
     <span class="input-group-addon" style="width:0px; padding-left:0px; padding-right:0px; border:none;"></span>
-    <select id="searchbygenerals_currency" name="searchbygenerals[currency]" class="form-control">
+    <select id="search_thisorall" name="search_thisorall" class="form-control">
         <option value="1">{%trans%}This Forum{%endtrans%}</option>
         <option value="2">{%trans%}All Forums{%endtrans%}</option>
     </select>
@@ -119,6 +119,12 @@ function handle_new_topic() {
             });
 
     return false;
+}
+
+function do_search() {
+    search_text=$('#search_text').val();
+    search_which=$('#search_thisorall').val();
+    window.location.replace("/search?text="+search_text+"&which="+search_which);
 }
 
 $(document).ready(function() {    
