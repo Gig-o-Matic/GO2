@@ -48,7 +48,7 @@ class Forum(ndb.Model):
 class ForumTopic(ndb.Model):
     """ Models a gig-o-matic forum topic """
     member = ndb.KeyProperty() # creator of topic
-    text_id = ndb.TextProperty() # title of topic
+    text_id = ndb.StringProperty() # title of topic
     created_date = ndb.DateTimeProperty(auto_now_add=True) # creation date
     last_update = ndb.DateTimeProperty(auto_now=True) # last update
     parent_gig = ndb.KeyProperty( default=None ) # gig, if this is in reference to a gig
@@ -59,7 +59,7 @@ class ForumTopic(ndb.Model):
 class ForumPost(ndb.Model):
     """ Models a gig-o-matic forum post - parent is a topic """
     member = ndb.KeyProperty()
-    text_id = ndb.TextProperty()
+    text_id = ndb.StringProperty()
     created_date = ndb.DateTimeProperty(auto_now_add=True)
     pinned = ndb.BooleanProperty(default=False)
 
@@ -127,9 +127,10 @@ def delete_forum_key(the_forum_key):
 def new_forumtopic(the_forum_key, the_member_key, the_title, the_parent_gig_key=None):
     """ create a brand new topic """
 
-    the_document_id = new_forumpost_text(the_title,the_forum_key.urlsafe())
+    the_topic = ForumTopic(parent=the_forum_key, member=the_member_key, parent_gig=the_parent_gig_key)
+    the_document_id = new_forum_text(the_title,the_topic.key.urlsafe(),the_forum_key.urlsafe())
     if the_document_id:
-        the_topic = ForumTopic(parent=the_forum_key, member=the_member_key, text_id=the_document_id, parent_gig=the_parent_gig_key)
+        the_topic.text_id=the_document_id
         the_topic.put()
         return the_topic
     else:
@@ -167,7 +168,7 @@ def delete_forumtopic_key(the_topic_key):
     """ take a topic key and delete it, and all its posts """
     
     the_topic = the_topic_key.get()
-    delete_comment(the_topic.text_id)
+    delete_forum_text(the_topic.text_id)
 
     delete_forumposts_for_topic_key(the_topic_key)
     the_topic_key.delete()
@@ -176,10 +177,11 @@ def delete_forumtopic_key(the_topic_key):
 def new_forumpost(the_parent_key, the_member_key, the_text):
     """ create a new post """
 
-    the_document_id = new_forumpost_text(the_text,the_parent_key.parent().urlsafe())
+    the_post = ForumPost(parent=the_parent_key, member=the_member_key)
+    the_document_id = new_forum_text(the_text,the_post.key.urlsafe(),the_parent_key.parent().urlsafe())
 
     if the_document_id:
-        the_post = ForumPost(parent=the_parent_key, member=the_member_key, text_id=the_document_id)
+        the_post.text_id=the_document_id
         the_post.put()
         return the_post
     else:
@@ -204,18 +206,19 @@ def get_forumpost_count_from_topic_key(the_topic_key):
 def delete_forumposts_for_topic_key(the_topic_key):
     forumposts = get_forumposts_from_topic_key(the_topic_key)
     for post in forumposts:
-        delete_comment(post.text_id)
+        delete_forum_text(post.text_id)
     ndb.delete_multi([post.key for post in forumposts])
 
 
-def new_forumpost_text(the_text,the_forum_key):
+def new_forum_text(the_text,the_item_key,the_forum_key):
     """ make a new searchable 'document' for this post """
 
     # create a document
     my_document = search.Document(
         doc_id=None,
         fields=[
-                    search.TextField(name='comment', value=the_text),
+                    search.TextField(name='text', value=the_text),
+                    search.TextField(name='item', value=the_item_key),
                     search.TextField(name='forum', value=the_forum_key)
                 ])
 
@@ -229,7 +232,7 @@ def new_forumpost_text(the_text,the_forum_key):
 
     return doc_id
 
-def get_forumpost_text(forumpost_id):
+def get_forum_text(forumpost_id):
     index = search.Index(name="gigomatic_forum_index")
     doc = index.get(forumpost_id)
     if doc:
@@ -237,23 +240,45 @@ def get_forumpost_text(forumpost_id):
     else:
         return ''
 
-def delete_comment(forumpost_id):
+def delete_forum_text(forumpost_id):
     index = search.Index(name="gigomatic_forum_index")
     index.delete([forumpost_id])
     
-def search_forumpost_text(text, forum_key_urlsafe):
+def search_forum_text(text, forum_key_urlsafe):
     index = search.Index(name="gigomatic_forum_index")
 
-    query = search.Query('"{0}" forum: {1}'.format(text,forum_key_urlsafe))
+    found=[]
+
+    if forum_key_urlsafe:
+        query = search.Query('"{0}" forum: {1}'.format(text,forum_key_urlsafe))
+    else:
+        query = search.Query('{0}'.format(text))
+
     try:
         results = index.search(query) 
 
-        # Iterate over the documents in the results
-        for doc in results:
-            print('\n\nfound doc: {0}\n\n'.format(doc))
-
+                    
     except search.Error:
         logging.exception('Search failed')
+        return []
+        
+    doc_ids=[]
+    doc_info={}
+    # Iterate over the documents in the results
+    for doc in results:
+        doc_ids.append(doc.doc_id)
+        doc_info[doc.doc_id] = doc.fields[0].value # text
+
+    # Find topics with matching names
+    forum_topic_query = ForumTopic.query(ForumTopic.text_id.IN(doc_ids))
+    topics=forum_topic_query.fetch()
+    topic_results=[ {'item':x, 'text':doc_info[x.text_id]} for x in topics]        
+
+    forum_post_query = ForumPost.query(ForumPost.text_id.IN(doc_ids))
+    posts=forum_post_query.fetch()
+    post_results=[ {'item':x, 'text':doc_info[x.text_id]} for x in posts]        
+
+    return topic_results, post_results
 
 
 #
@@ -354,7 +379,7 @@ class GetForumPostHandler(BaseHandler):
             forum_posts = get_forumposts_from_topic_key(the_topic.key, page=the_page, pagesize=pagesize)
             topic_is_open = the_topic.open
 
-        post_text = [get_forumpost_text(p.text_id) for p in forum_posts]
+        post_text = [get_forum_text(p.text_id) for p in forum_posts]
 
         template_args = {
             'the_topic' : the_topic,
@@ -422,7 +447,7 @@ class ForumHandler(BaseHandler):
             
         the_topics = get_forumtopics_for_forum_key(the_forum_key)
         
-        the_topic_titles = [get_forumpost_text(f.text_id) for f in the_topics]
+        the_topic_titles = [get_forum_text(f.text_id) for f in the_topics]
 
         forum_count = get_forumtopic_count_from_band_key( the_band_key )
         num_pages = int(math.ceil( forum_count * 1.0 / global_page_size ))
@@ -482,7 +507,7 @@ class ForumTopicHandler(BaseHandler):
         
         template_args = {
             'the_forum' : the_forum,
-            'the_topic_name' : get_forumpost_text(the_topic.text_id),
+            'the_topic_name' : get_forum_text(the_topic.text_id),
             'the_topic' : the_topic,
             'num_pages' : num_pages,
             'the_gig' : the_gig,
@@ -553,7 +578,7 @@ class ForumGetTopicsHandler(BaseHandler):
         the_topic_titles = []
         goemail.set_locale_for_user(self)
         for a_topic in the_topics:
-            the_txt = get_forumpost_text(a_topic.text_id)
+            the_txt = get_forum_text(a_topic.text_id)
             if a_topic.parent_gig is None:
                 the_topic_titles.append(the_txt)
             else:
@@ -708,5 +733,13 @@ class SearchHandler(BaseHandler):
             return self.redirect('/')
             
         # see if we can find the string in the current forum
-        search_forumpost_text(the_search_str, the_forum_key_str)
+        topic_results, post_results = search_forum_text(the_search_str, the_forum_key_str)
+        
+        
+        template_args = {
+            'the_search_text' : the_search_str,
+            'the_topic_results' : topic_results,
+            'the_post_results' : post_results
+        }
+        self.render_template('search_results.html', template_args)
                 
