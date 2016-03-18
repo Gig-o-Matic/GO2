@@ -50,7 +50,7 @@
                     <div class="row">
                         {% for topic_result in the_topic_results %}
                             <div class="col-lg-12 col-md-12">
-                                {{ topic_result['text'] }}
+                                <a href="/forum_topic?tk={{topic_result['item'].key.urlsafe()}}">{{ topic_result['text'] }}</a>
                             </div>
                         {% endfor %}
                     </div>
