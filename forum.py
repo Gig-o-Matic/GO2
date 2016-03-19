@@ -129,7 +129,7 @@ def new_forumtopic(the_forum_key, the_member_key, the_title, the_parent_gig_key=
     """ create a brand new topic """
 
     the_topic = ForumTopic(parent=the_forum_key, member=the_member_key, parent_gig=the_parent_gig_key)
-    the_document_id = new_search_text(the_title,the_topic.key.urlsafe(),the_forum_key.urlsafe())
+    the_document_id = new_forum_search_text(the_title,the_topic.key.urlsafe(),the_forum_key.urlsafe())
     if the_document_id:
         the_topic.text_id=the_document_id
         the_topic.put()
@@ -179,7 +179,7 @@ def new_forumpost(the_parent_key, the_member_key, the_text):
     """ create a new post """
 
     the_post = ForumPost(parent=the_parent_key, member=the_member_key)
-    the_document_id = new_search_text(the_text,the_post.key.urlsafe(),the_parent_key.parent().urlsafe())
+    the_document_id = new_forum_search_text(the_text,the_post.key.urlsafe(),the_parent_key.parent().urlsafe())
 
     if the_document_id:
         the_post.text_id=the_document_id
@@ -211,7 +211,19 @@ def delete_forumposts_for_topic_key(the_topic_key):
     ndb.delete_multi([post.key for post in forumposts])
 
 
+def new_forum_search_text(the_string, the_item_key_str, the_forum_url_str):
+
+    the_document_id = new_search_text(
+            the_text = the_string,
+            the_item_key_str = the_item_key_str, 
+            the_type_str = 'forum',
+            the_typevalue_str = the_forum_url_str)
+
+    return the_document_id
+
+
 def search_forum_text(the_search_str, the_forum_key_str):
+    """ look in the searchable text index for text belonging to a particular forum """
     
     result_docs = search_search_text(the_search_str, 'forum', the_forum_key_str)
 

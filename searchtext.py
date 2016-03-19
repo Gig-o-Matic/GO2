@@ -8,7 +8,7 @@
 from google.appengine.api import search
 
 
-def new_search_text(the_text,the_item_key,the_forum_key):
+def new_search_text(the_text,the_item_key_str,the_type_str,the_typevalue_str):
     """ make a new searchable 'document' for this post """
 
     # create a document
@@ -16,9 +16,9 @@ def new_search_text(the_text,the_item_key,the_forum_key):
         doc_id=None,
         fields=[
                     search.TextField(name='text', value=the_text),
-                    search.TextField(name='item', value=the_item_key),
-                    search.TextField(name='type', value='forum'),
-                    search.TextField(name='value', value=the_forum_key)
+                    search.TextField(name='item', value=the_item_key_str),
+                    search.TextField(name='type', value=the_type_str),
+                    search.TextField(name='value', value=the_typevalue_str)
                 ])
 
     try:
