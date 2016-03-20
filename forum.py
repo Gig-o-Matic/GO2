@@ -23,8 +23,7 @@ import goemail
 import assoc
 import math
 import band
-
-from searchtext import *
+import searchtext
 
 from webapp2_extras.i18n import gettext as _
 
@@ -169,7 +168,7 @@ def delete_forumtopic_key(the_topic_key):
     """ take a topic key and delete it, and all its posts """
     
     the_topic = the_topic_key.get()
-    delete_search_text(the_topic.text_id)
+    searchtext.delete_search_text(the_topic.text_id)
 
     delete_forumposts_for_topic_key(the_topic_key)
     the_topic_key.delete()
@@ -207,13 +206,13 @@ def get_forumpost_count_from_topic_key(the_topic_key):
 def delete_forumposts_for_topic_key(the_topic_key):
     forumposts = get_forumposts_from_topic_key(the_topic_key)
     for post in forumposts:
-        delete_search_text(post.text_id)
+        searchtext.delete_search_text(post.text_id)
     ndb.delete_multi([post.key for post in forumposts])
 
 
 def new_forum_search_text(the_string, the_item_key_str, the_forum_url_str):
 
-    the_document_id = new_search_text(
+    the_document_id = searchtext.new_search_text(
             the_text = the_string,
             the_item_key_str = the_item_key_str, 
             the_type_str = 'forum',
@@ -225,7 +224,7 @@ def new_forum_search_text(the_string, the_item_key_str, the_forum_url_str):
 def search_forum_text(the_search_str, the_forum_key_str):
     """ look in the searchable text index for text belonging to a particular forum """
     
-    result_docs = search_search_text(the_search_str, 'forum', the_forum_key_str)
+    result_docs = searchtext.search_search_text(the_search_str, 'forum', the_forum_key_str)
 
     doc_ids=[]
     doc_info={}
@@ -347,7 +346,7 @@ class GetForumPostHandler(BaseHandler):
             forum_posts = get_forumposts_from_topic_key(the_topic.key, page=the_page, pagesize=pagesize)
             topic_is_open = the_topic.open
 
-        post_text = [get_search_text(p.text_id) for p in forum_posts]
+        post_text = [searchtext.get_search_text(p.text_id) for p in forum_posts]
 
         template_args = {
             'the_topic' : the_topic,
@@ -415,7 +414,7 @@ class ForumHandler(BaseHandler):
             
         the_topics = get_forumtopics_for_forum_key(the_forum_key)
         
-        the_topic_titles = [get_search_text(f.text_id) for f in the_topics]
+        the_topic_titles = [searchtext.get_search_text(f.text_id) for f in the_topics]
 
         forum_count = get_forumtopic_count_from_band_key( the_band_key )
         num_pages = int(math.ceil( forum_count * 1.0 / global_page_size ))
@@ -475,7 +474,7 @@ class ForumTopicHandler(BaseHandler):
         
         template_args = {
             'the_forum' : the_forum,
-            'the_topic_name' : get_search_text(the_topic.text_id),
+            'the_topic_name' : searchtext.get_search_text(the_topic.text_id),
             'the_topic' : the_topic,
             'num_pages' : num_pages,
             'the_gig' : the_gig,
@@ -546,7 +545,7 @@ class ForumGetTopicsHandler(BaseHandler):
         the_topic_titles = []
         goemail.set_locale_for_user(self)
         for a_topic in the_topics:
-            the_txt = get_search_text(a_topic.text_id)
+            the_txt = searchtext.get_search_text(a_topic.text_id)
             if a_topic.parent_gig is None:
                 the_topic_titles.append(the_txt)
             else:

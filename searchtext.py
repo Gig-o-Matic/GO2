@@ -16,6 +16,7 @@ def new_search_text(the_text,the_item_key_str,the_type_str,the_typevalue_str):
         doc_id=None,
         fields=[
                     search.TextField(name='text', value=the_text),
+                    search.TextField(name='tokenized', value=partialize(the_text)),
                     search.TextField(name='item', value=the_item_key_str),
                     search.TextField(name='type', value=the_type_str),
                     search.TextField(name='value', value=the_typevalue_str)
@@ -49,7 +50,7 @@ def search_search_text(text, the_type, the_value): # forum_key_urlsafe):
     found=[]
 
     if the_value:
-        query = search.Query('"{0}" type: {1} value: {2}'.format(text, the_type, the_value))
+        query = search.Query('"{0}" type:{1} value:{2}'.format(text, the_type, the_value))
     else:
         query = search.Query('{0}'.format(text))
 
@@ -64,3 +65,30 @@ def search_search_text(text, the_type, the_value): # forum_key_urlsafe):
     return results
 
 
+def partialize(phrase, shortest=3):
+    """Tokenize the string `phrase` argument for all possible sub-strings 
+    at least `shortest` length of characters.
+    This is a work-around for Google App Engine's Search API not supporting
+    partial full-text search (as of time of writing, April 2013
+    In case of BBCode-formatted phrase, you should first strip() away all
+    BBCode tags before passing the string to this method.
+    """
+    # See http://stackoverflow.com/questions/12899083/partial-matching-gae-search-api
+    # for original pattern (with-out shortest keyword)
+    if shortest < 1:
+        shortest = 1
+    if phrase is None:
+        return [u'']
+    tokens = []
+    for w in phrase.split():
+        j = shortest
+        while True:
+            if len(w) <= j:
+                tokens.append(w)
+                break
+            for i in range(len(w) - j + 1):
+                tokens.append(w[i:i + j])
+            if j == len(w):
+                break
+            j += 1
+    return ' '.join(tokens)
