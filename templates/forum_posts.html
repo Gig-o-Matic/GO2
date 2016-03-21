@@ -14,7 +14,7 @@
                         {% trans %}said on{% endtrans %} {{ the_date_formatter(the_user, the_post.created_date, 'long')}}:
                     </div>
                     <div class='comment-comment'>
-                        {{ the_forum_text[loop.index0]  | urlize(20, true) | good_breaks | safe }}<br>
+                        {{ the_forum_text[loop.index0]  | urlize | good_breaks | safe }}<br>
                     </div>
                 </div>
                 <div class="col-lg-2 col-md-2">
