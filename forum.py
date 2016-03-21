@@ -700,7 +700,10 @@ class SearchHandler(BaseHandler):
             return self.redirect('/')
             
         # see if we can find the string in the current forum
-        topic_results, post_results = search_forum_text(the_search_str, the_forum_key_str)
+        if (the_search_which_str == '1'):
+            topic_results, post_results = search_forum_text(the_search_str, the_forum_key_str)
+        else:
+            topic_results, post_results = search_forum_text(the_search_str, None)
         
         
         template_args = {

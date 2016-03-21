@@ -56,8 +56,6 @@ def search_search_text(text, the_type, the_value): # forum_key_urlsafe):
 
     try:
         results = index.search(query) 
-
-                    
     except search.Error:
         logging.exception('Search failed')
         return []
