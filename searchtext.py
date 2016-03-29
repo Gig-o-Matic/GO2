@@ -44,13 +44,16 @@ def delete_search_text(searchtext_id):
     index = search.Index(name="gigomatic_searchtext_index")
     index.delete([searchtext_id])
     
-def search_search_text(text, the_type, the_value): # forum_key_urlsafe):
+def search_search_text(text, the_type, the_values): # forum_key_urlsafe):
     index = search.Index(name="gigomatic_searchtext_index")
 
     found=[]
 
-    if the_value:
-        query = search.Query('"{0}" type:{1} value:{2}'.format(text, the_type, the_value))
+    if the_values:
+        if len(the_values) == 1:
+            query = search.Query('"{0}" type:{1} value:{2}'.format(text, the_type, the_values[0]))
+        else:
+            query = search.Query('"{0}" type:{1} value:{2}'.format(text, the_type, ' OR '.join(the_values)))
     else:
         query = search.Query('{0}'.format(text))
 

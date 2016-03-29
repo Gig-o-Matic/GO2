@@ -701,9 +701,11 @@ class SearchHandler(BaseHandler):
             
         # see if we can find the string in the current forum
         if (the_search_which_str == '1'):
-            topic_results, post_results = search_forum_text(the_search_str, the_forum_key_str)
+            topic_results, post_results = search_forum_text(the_search_str, [the_forum_key_str])
         else:
-            topic_results, post_results = search_forum_text(the_search_str, None)
+            the_forums = self.user.get_forums(self, self.user.key)
+            the_forum_key_strings = [x.key.urlsafe() for x in the_forums]
+            topic_results, post_results = search_forum_text(the_search_str, the_forum_key_strings)
         
         
         template_args = {
