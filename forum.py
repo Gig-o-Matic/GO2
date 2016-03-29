@@ -174,6 +174,12 @@ def delete_forumtopic_key(the_topic_key):
     the_topic_key.delete()
     
 
+def get_forumtopic_name_from_key(the_topic_key):
+    """ take a topic key and locate its name """
+    
+    the_topic = the_topic_key.get()
+    return searchtext.get_search_text(the_topic.text_id)
+
 def new_forumpost(the_parent_key, the_member_key, the_text):
     """ create a new post """
 
@@ -246,6 +252,12 @@ def search_forum_text(the_search_str, the_forum_key_str):
         topic_results=[]
         post_results=[]
         
+    for i in range(len(topic_results)):
+        topic_results[i]['parent_name'] = topic_results[i]['item'].key.parent().get().name
+        
+    for i in range(len(post_results)):
+        post_results[i]['parent_name'] = get_forumtopic_name_from_key(post_results[i]['item'].key.parent())
+
     return topic_results, post_results
     
 #
@@ -651,7 +663,7 @@ class ForumAdminHandler(BaseHandler):
         the_bands =band.get_all_bands()
 
         template_args = {
-            'the_forums' : the_forums,
+            'the_public_forums' : the_forums,
             'the_bands' : the_bands
         }
         self.render_template('forum_admin.html', template_args)
