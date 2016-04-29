@@ -168,6 +168,10 @@ class Member(webapp2_extras.appengine.auth.models.User):
     @classmethod
     def get_add_gig_band_list(cls, req, the_member_key):
         """ check to see if this is in the session - if so, just use it """
+        
+        if hasattr(req,'session') is False:
+            return []
+                
         if 'member_addgigbandlist' in req.session.keys() and not req.member_cache_is_dirty(the_member_key):
             the_manage_bands = req.session['member_addgigbandlist']
         else:
@@ -907,7 +911,7 @@ class DeleteMember(BaseHandler):
         else:
             print 'cannot delete yourself, people'
 
-        return self.redirect('/member_admin.html')
+        return self.redirect('/member_admin')
         
 class AdminMember(BaseHandler):
     """ grant or revoke admin rights """
@@ -938,7 +942,7 @@ class AdminMember(BaseHandler):
 
         the_member.put()
 
-        return self.redirect('/member_admin.html')        
+        return self.redirect('/member_admin')        
         
 class BetaMember(BaseHandler):
     """ grant or revoke betatester rights """
