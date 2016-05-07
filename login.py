@@ -24,7 +24,7 @@ class LoginPage(BaseHandler):
         self._serve_page(the_url=the_url)
 
     def post(self):
-        email = self.request.get('email')
+        email = self.request.get('email').lower()
         password = self.request.get('password')
         remember = self.request.get('remember',False)
         if remember:
@@ -75,7 +75,7 @@ class SignupPage(BaseHandler):
         self._serve_page(self, failed=False)
 
     def post(self):
-        email = self.request.get('email')
+        email = self.request.get('email').lower()
         name = self.request.get('name')
         password = self.request.get('password')
 

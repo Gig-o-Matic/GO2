@@ -89,7 +89,7 @@ class Member(webapp2_extras.appengine.auth.models.User):
     def set_email_to_pending(self):
         """ Changes the email address for the current user"""
 
-        new_email = self.pending_change_email
+        new_email = self.pending_change_email.lower()
         success = False
         if new_email != '':
             success, existing = \
@@ -479,6 +479,9 @@ class EditPage(BaseHandler):
 
        # if we're changing email addresses, make sure we're changing to something unique
         member_email=self.request.get("member_email", None)
+        if member_email is not None:
+            member_email=member_email.lower()
+            
         if member_email is not None and member_email != '' and member_email != the_member.email_address:
             # store the pending address and invite the user to confirm it
             the_member.pending_change_email = member_email

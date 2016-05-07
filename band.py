@@ -940,6 +940,7 @@ class SendInvites(BaseHandler):
         not_ok_email = []
         for e in the_emails:
             if e:
+                e=e.lower()
                 if goemail.validate_email(e):
                     ok_email.append(e)
                 else:
