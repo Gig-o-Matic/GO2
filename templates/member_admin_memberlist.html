@@ -3,7 +3,12 @@
         <div class="col-md-4">
             <a href="/member_info.html?mk={{member.key.urlsafe()}}">{{ member.name }}</a>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-4">
+            <a href="/member_info.html?mk={{member.key.urlsafe()}}">{{ member.email_address }}</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-offset-4 col-md-2">
             {% for an_assoc in the_band_info[member.key] %}
                 {% set the_band = an_assoc.band.get() %}
                 <a href="/band_info.html?bk={{the_band.key.urlsafe()}}">{{ the_band.name }}</a>{% if not an_assoc.is_confirmed %}&nbsp;(pending){% endif %}{% if not loop.last %}, {% endif %}
