@@ -486,6 +486,8 @@ class AutoDeleteSignupTokenHandler(BaseHandler):
         logging.info("deleting {0} old auth tokens".format(len(the_token_keys)))
         if len(the_token_keys):
             ndb.delete_multi(the_token_keys)
+            
+#         member.update_all_uniques()
 
 class WhatisPageHandler(BaseHandler):
     """ handle the whatis page """

@@ -321,6 +321,53 @@ def format_date_for_member(the_user, the_date, format="short"):
         tmpstr=format_date(the_date,locale=the_locale,format="short")[:-2]
         the_str=tmpstr+str(the_date.year)
     return the_str
+
+
+def update_all_uniques():
+    the_members = get_all_members(order=False)
+
+    logging.info('starting unique cleanup')
+    m_list=[]
+    t_list=[]
+    for m in the_members:
+        ea = m.email_address.lower()
+        if ea != m.email_address:
+            # found an upper-case email
+        
+            # first, make new auth_id and email_addresses Uniques
+            newauth = Unique.create('Member.auth_id:%s'%ea)
+            if newauth is False:
+                logging.error('Unable to create unique auth_id for email {0}'.format(ea))
+        
+            newemail = Unique.create('Member.email_address:%s'%ea)
+            if newemail is False:
+                logging.error('Unable to create unique email_address for email {0}'.format(ea))
+
+            if newauth and newemail:            
+                # delete the old unique values
+                logging.info('deleting old tokens for {0}'.format(m.email_address))
+                Unique.delete_multi(['Member.auth_id:%s'%m.email_address,
+                                     'Member.email_address:%s'%m.email_address])
+            else:
+                logging.error('did not delete old tokens')
+
+            m.email_address=ea
+            m.auth_ids=[ea]
+            m_list.append(m)
+        else:
+            # email address is fine, just make sure we have tokens for this guy
+            t_list.append('Member.auth_id:%s'%ea)
+            t_list.append('Member.email_address:%s'%ea)
+
+    if m_list:
+        ndb.put_multi(m_list)
+        
+    if t_list:
+        Unique.create_multi(t_list)
+
+    logging.info('unique cleanup done')
+
+
                             
 #####
 #
@@ -1020,17 +1067,8 @@ class RewriteAll(BaseHandler):
     
     @user_required
     def get(self):
-        the_members = get_all_members(order=False)
-        ndb.put_multi(the_members)
-
-        the_assocs = assoc.get_all_assocs()
-
-#         for a in the_assocs:
-#             m = a.member.get()
-#             a.email_me = m.preferences.email_new_gig
-
-        ndb.put_multi(the_assocs)
-
+    
+        update_all_uniques()
         self.redirect(self.uri_for('memberadmin'))
         
         
