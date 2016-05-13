@@ -26,6 +26,14 @@ class="landingwrap"
             </div>
         {% endif %}
 
+        {% if unverified %}
+            <div class="row">
+                <div class="col-md-5 col-md-offset-2">
+                    <strong>{% trans %}Login failed!{% endtrans %}</strong> {% trans %}Check your email to verify your account.{% endtrans %}
+                </div>
+            </div>
+        {% endif %}
+
         <form class="form form-horizontal" role="form" action= "/login" method="POST">
             <div class="row">
                 <div class="form-group">

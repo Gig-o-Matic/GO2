@@ -34,15 +34,23 @@ class LoginPage(BaseHandler):
             u = self.auth.get_user_by_password(email, password, remember=remember,
                 save_session=True)
 
-            the_url = self.request.get('originalurl',None)
-            if the_url:
-                self.redirect(str(the_url))
+            
+            the_user = self.user_model.get_by_id(u['user_id'])
+
+            if the_user.verified is False:
+                self.session.clear()
+                self.auth.unset_session()            
+                self._serve_page(unverified=True)
             else:
-                self.redirect(self.uri_for('home'))
+                the_url = self.request.get('originalurl',None)
+                if the_url:
+                    self.redirect(str(the_url))
+                else:
+                    self.redirect(self.uri_for('home'))
         except (InvalidAuthIdError, InvalidPasswordError) as e:
             self._serve_page(failed=True)
 
-    def _serve_page(self, the_url=None, failed=False):
+    def _serve_page(self, the_url=None, failed=False, unverified=False):
         username = self.request.get('username')
 
         locale=self.request.get('locale','en')
@@ -50,6 +58,7 @@ class LoginPage(BaseHandler):
         params = {
             'username': username,
             'failed': failed,
+            'unverified': unverified,
             'originalurl': the_url,
             'locale': locale,
             'languages': lang.LOCALES
