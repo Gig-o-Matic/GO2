@@ -367,6 +367,16 @@ def update_all_uniques():
 
     logging.info('unique cleanup done')
 
+def clean_up_verified():
+    member_query = Member.query(ndb.AND(Member.seen_welcome == True, ndb.GenericProperty('verified')==False))
+
+    members = member_query.fetch()
+    logging.info('fixed verified for {0} members'.format(len(members)))
+    
+    for m in members:
+        m.verified = True
+    
+    ndb.put_multi(members)
 
                             
 #####

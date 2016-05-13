@@ -496,7 +496,8 @@ class AutoDeleteSignupTokenHandler(BaseHandler):
         if len(the_token_keys):
             ndb.delete_multi(the_token_keys)
             
-#         member.update_all_uniques()
+#        member.update_all_uniques()
+#        member.clean_up_verified()
 
 class WhatisPageHandler(BaseHandler):
     """ handle the whatis page """
