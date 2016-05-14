@@ -368,15 +368,36 @@ def update_all_uniques():
     logging.info('unique cleanup done')
 
 def clean_up_verified():
-    member_query = Member.query(ndb.AND(Member.seen_welcome == True, ndb.GenericProperty('verified')==False))
-
+    """ find members that have not been verified for some reason """
+    
+    """ first, find people who have seen the welcome message but are not verified. Weird. """
+#     member_query = Member.query(ndb.AND(Member.seen_welcome == True, ndb.GenericProperty('verified')==False))
+# 
+#     members = member_query.fetch()
+#     logging.info('fixed verified for {0} members'.format(len(members)))
+#     
+#     for m in members:
+#         m.verified = True
+#     
+#     ndb.put_multi(members)
+    
+    """ now, find any members who have made plans but are not verified. really weird. """
+    member_query = Member.query(ndb.GenericProperty('verified')==False)
     members = member_query.fetch()
-    logging.info('fixed verified for {0} members'.format(len(members)))
-    
+
+    set = []
     for m in members:
-        m.verified = True
+        plan_query = plan.Plan.lquery(plan.Plan.member==m.key)
+        plans = plan_query.fetch(keys_only=True)
+        if plans:
+            m.verified=True
+            set.append(m)
+            logging.info("found an unverified with plans! {0}".format(m.name))
+
+    if set:
+        ndb.put_multi(set)
     
-    ndb.put_multi(members)
+
 
                             
 #####
