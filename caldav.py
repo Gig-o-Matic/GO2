@@ -35,7 +35,7 @@ X-WR-CALDESC:{1}
 def make_cal_footer():
     return "END:VCALENDAR\n"
 
-def make_event(the_gig, the_band, title_format=u'{0}', details_format=u'{0}'):
+def make_event(the_gig, the_band, title_format=u'{0}', details_format=u'{0}', show_url=True):
 #
 #     event="""BEGIN:VEVENT
 # DTSTART:{1}
@@ -142,7 +142,10 @@ def make_event(the_gig, the_band, title_format=u'{0}', details_format=u'{0}'):
         end_string = '{0}T{1}'.format(end_string,
                                       end_dt.astimezone(pytz.utc).strftime("%H%M00Z"))
 
-    the_url = 'http://gig-o-matic.appspot.com/gig_info.html?gk={0}'.format(the_gig.key.urlsafe())
+    if show_url:
+        the_url = 'http://gig-o-matic.appspot.com/gig_info.html?gk={0}'.format(the_gig.key.urlsafe())
+    else:
+        the_url = ''
 
     event = u"""BEGIN:VEVENT
 DTSTART:{1}
@@ -206,7 +209,7 @@ class PublicBandGigRequestHandler(BaseHandler):
         all_gigs = gig.get_gigs_for_band_keys(the_band_key, show_only_public=True)
         for a_gig in all_gigs:
             if a_gig.is_confirmed:
-                info = u'{0}{1}'.format(info, make_event(a_gig, the_band))
+                info = u'{0}{1}'.format(info, make_event(a_gig, the_band, show_url=False))
 
         info = u'{0}{1}'.format(info, make_cal_footer())
         self.response.write(info)
