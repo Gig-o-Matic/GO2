@@ -145,6 +145,7 @@ else:
         webapp2.Route('/generate_stats', stats.AutoGenerateStats),
         webapp2.Route('/cal/b/<bk:.+>', caldav.BandRequestHandler),
         webapp2.Route('/cal/m/<mk:.+>', caldav.MemberRequestHandler),
+        webapp2.Route('/cal/p/<bk:.+>', caldav.PublicBandGigRequestHandler),
         webapp2.Route('/calhelp', caldav.HelpHandler),
         webapp2.Route('/topic_add_forumpost', forum.AddForumPostHandler),
         webapp2.Route('/topic_get_forumpost', forum.GetForumPostHandler),

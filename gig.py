@@ -101,7 +101,7 @@ def adjust_date_for_band(the_band, the_date):
     
     return the_date
     
-def get_gigs_for_band_keys(the_band_key_list, num=None, start_date=None, end_date=None, show_canceled=True, show_past=False, keys_only=False):
+def get_gigs_for_band_keys(the_band_key_list, num=None, start_date=None, end_date=None, show_canceled=True, show_only_public=False, show_past=False, keys_only=False):
     """ Return gig objects by band """
         
     if (type(the_band_key_list) is not list):
@@ -123,6 +123,9 @@ def get_gigs_for_band_keys(the_band_key_list, num=None, start_date=None, end_dat
     if not show_canceled:
         params.append( Gig.is_canceled == False )
     
+    if show_only_public:
+        params.append( Gig.is_private == False )
+
     all_gigs = []
     for a_band_key in the_band_key_list:
         gig_query = Gig.query(*params, ancestor=a_band_key).order(Gig.date)

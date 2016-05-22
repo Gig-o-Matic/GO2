@@ -191,6 +191,30 @@ class BandRequestHandler(BaseHandler):
         print 'got post request'
 
 
+class PublicBandGigRequestHandler(BaseHandler):
+    """Handle a CalDav request"""
+
+    def get(self, *args, **kwargs):
+
+        bk = kwargs['bk']
+
+        the_band_key = ndb.Key(urlsafe=bk)
+        the_band = the_band_key.get()
+
+        info = u'{0}'.format(make_cal_header(the_band.name))
+
+        all_gigs = gig.get_gigs_for_band_keys(the_band_key, show_only_public=True)
+        for a_gig in all_gigs:
+            if a_gig.is_confirmed:
+                info = u'{0}{1}'.format(info, make_event(a_gig, the_band))
+
+        info = u'{0}{1}'.format(info, make_cal_footer())
+        self.response.write(info)
+
+    def post(self):
+        print 'got post request'
+
+
 class MemberRequestHandler(BaseHandler):
     """Handle a CalDav request"""
 
