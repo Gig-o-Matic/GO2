@@ -480,7 +480,7 @@ msgstr "Öffentliches Profil"
 
 #: templates/band_info.html:119
 msgid "Public Calendar Feed"
-msgstr ""
+msgstr "Öffentlicher Kalender"
 
 #: templates/band_info.html:121 templates/member_info.html:95
 msgid "Subscribe using this link's URL"
