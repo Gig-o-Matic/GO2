@@ -498,6 +498,7 @@ class AutoDeleteSignupTokenHandler(BaseHandler):
             
 #        member.update_all_uniques()
 #        member.clean_up_verified()
+#        assoc.update_all_assocs()
 
 class WhatisPageHandler(BaseHandler):
     """ handle the whatis page """
