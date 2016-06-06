@@ -35,7 +35,7 @@ X-WR-CALDESC:{1}
 def make_cal_footer():
     return "END:VCALENDAR\n"
 
-def make_event(the_gig, the_band, title_format=u'{0}', details_format=u'{0}', show_url=True):
+def make_event(the_gig, the_band, title_format=u'{0}', details_format=u'{0}', show_url=True, force_set_time=False):
 #
 #     event="""BEGIN:VEVENT
 # DTSTART:{1}
@@ -64,7 +64,7 @@ def make_event(the_gig, the_band, title_format=u'{0}', details_format=u'{0}', sh
 
     starttime_dt = None
     endtime_dt = None
-    if the_gig.calltime:
+    if the_gig.calltime and not force_set_time:
         try:
             starttime_dt = datetime.datetime.strptime(the_gig.calltime, "%I:%M%p")
         except:
@@ -209,7 +209,7 @@ class PublicBandGigRequestHandler(BaseHandler):
         all_gigs = gig.get_gigs_for_band_keys(the_band_key, show_only_public=True)
         for a_gig in all_gigs:
             if a_gig.is_confirmed:
-                info = u'{0}{1}'.format(info, make_event(a_gig, the_band, show_url=False))
+                info = u'{0}{1}'.format(info, make_event(a_gig, the_band, show_url=False, force_set_time=True))
 
         info = u'{0}{1}'.format(info, make_cal_footer())
         self.response.write(info)
