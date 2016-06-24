@@ -262,6 +262,7 @@ function email_select(ak, em) {
             });
 }
 
+
 function multi_select(bk) {
     elem=document.getElementById("msbk-"+bk)
     var mk='{{the_member.key.urlsafe()}}';
@@ -280,6 +281,19 @@ function multi_select(bk) {
 function occ_select(ak) {
     elem=document.getElementById("oak-"+ak)
     $.post('/band_makeoccasional',
+            {
+                ak: ak,
+                do: elem.checked
+            },
+            function(responseTxt,statusTxt,xhr){
+                if(statusTxt=="error")
+                    alert("Error: "+xhr.status+": "+xhr.statusText);
+            });
+}
+
+function hide_select(ak) {
+    elem=document.getElementById("hideak-"+ak)
+    $.post('/member_set_hide_from_schedule',
             {
                 ak: ak,
                 do: elem.checked

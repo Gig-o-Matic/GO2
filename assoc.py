@@ -12,6 +12,7 @@ import band
 import member
 import goemail
 import plan
+import logging
 
 def assoc_key(member_name='assoc_key'):
     """Constructs a Datastore key for an Assoc entity with assoc_name."""
@@ -32,6 +33,7 @@ class Assoc(ndb.Model):
     commitment_total = ndb.IntegerProperty(default=0)
     color = ndb.IntegerProperty(default=0) # (1=red, 2=green, 3=blue, 4=orange, 5=yellow)
     email_me = ndb.BooleanProperty (default=True)
+    hide_from_schedule = ndb.BooleanProperty (default=False)
 
     @classmethod
     def lquery(cls, *args, **kwargs):
@@ -56,6 +58,7 @@ def get_confirmed_assocs_of_band_key(the_band_key, include_occasional=True):
         ]
     if not include_occasional:
         args.append( Assoc.is_occasional==False )
+        
     assoc_query = Assoc.lquery( *args ).order(Assoc.member_name)
 
 #     assoc_query = Assoc.lquery( Assoc.band==the_band_key, Assoc.is_confirmed==True, Assoc.is_invited==False ).order(Assoc.member_name)
@@ -193,11 +196,19 @@ def get_assocs_of_band_key(the_band_key, confirmed_only=False, keys_only=False):
     assocs = assoc_query.fetch(keys_only=keys_only)
     return assocs
 
-def get_assocs_of_member_key(the_member_key, confirmed_only=False, keys_only=False):
+def get_assocs_of_member_key(the_member_key, confirmed_only=False, include_hidden=True, keys_only=False):
+
+    args=[
+            Assoc.member==the_member_key,
+        ]
+        
     if confirmed_only:
-        assoc_query = Assoc.lquery( Assoc.member==the_member_key, Assoc.is_confirmed==True )
-    else:
-        assoc_query = Assoc.lquery( Assoc.member==the_member_key )
+        args.append( Assoc.is_confirmed==True )
+
+    if not include_hidden:
+        args.append( Assoc.hide_from_schedule==False)
+
+    assoc_query = Assoc.lquery( *args )
     assocs = assoc_query.fetch(keys_only=keys_only)
     return assocs
 
@@ -218,9 +229,9 @@ def get_confirmed_bands_of_member(the_member):
     bands = ndb.get_multi(band_keys)
     return bands
 
-def get_confirmed_assocs_of_member(the_member):
+def get_confirmed_assocs_of_member(the_member, include_hidden=True):
     """ Return assocs objects by member"""
-    assocs = get_assocs_of_member_key(the_member.key, True)
+    assocs = get_assocs_of_member_key(the_member.key, confirmed_only=True, include_hidden=include_hidden)
     return assocs
 
 def confirm_invites_for_member_key(the_member_key):
@@ -264,3 +275,12 @@ def confirm_user_is_member(the_user_key, the_band_key):
     print '\n\n{0}\n\n'.format(a_key)
     return a_key
     
+def update_all_assocs():
+    # add the hide_me to all assocs (as false)
+    
+    assoc_query = Assoc.lquery()
+    assocs = assoc_query.fetch()
+    for a in assocs:
+        a.hide_from_schedule=False
+    ndb.put_multi(assocs)
+    logging.info("updated {0} assocs".format(len(assocs)))

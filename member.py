@@ -838,6 +838,27 @@ class SetGetEmail(BaseHandler):
             the_assoc.email_me= the_get_email
             the_assoc.put()
 
+class SetHideFromSchedule(BaseHandler):
+    """ change the schedule-hiding for this assoc """
+
+    def post(self):
+
+        the_user = self.user
+
+        the_assoc_keyurl=self.request.get('ak','0')
+        the_do=self.request.get('do',None)
+
+        if the_assoc_keyurl=='0' or the_do is None:
+            return # todo figure out what to do
+
+        the_hide_me= True if (the_do == 'true') else False
+
+        the_assoc_key = ndb.Key(urlsafe=the_assoc_keyurl)
+        the_assoc = the_assoc_key.get()
+
+        if the_assoc.member == the_user.key or the_user.is_superuser:
+            the_assoc.hide_from_schedule = the_hide_me
+            the_assoc.put()
 
 
 class SetMulti(BaseHandler):

@@ -50,6 +50,13 @@
                 > {% trans %}occasional{% endtrans %}
             </td>
             <td style="border-top:none;">
+                <input type="checkbox" id='hideak-{{the_info.assoc.key.urlsafe()}}' onclick="hide_select('{{the_info.assoc.key.urlsafe()}}')"
+                {% if the_info.assoc.hide_from_schedule %}
+                    checked
+                {% endif %}
+                > {% trans %}hide{% endtrans %}
+            </td>
+            <td style="border-top:none;">
                 <div class="dropdown">
                     <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" id='mailbk-{{the_info.assoc.key.urlsafe()}}'>
                         {% if the_info.assoc.email_me == True %}

@@ -27,7 +27,7 @@ class MainPage(BaseHandler):
         """ construct page for agenda view """
         
         # find the bands this member is associated with
-        the_assocs = assoc.get_confirmed_assocs_of_member(the_user)
+        the_assocs = assoc.get_confirmed_assocs_of_member(the_user, include_hidden=False)
         the_band_keys = [a.band for a in the_assocs]
         
         if the_band_keys is None or len(the_band_keys)==0:
