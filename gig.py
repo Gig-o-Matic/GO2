@@ -341,10 +341,8 @@ class InfoPage(BaseHandler):
                 for p in all_plans:
                     if p.member == a_member_key:
                         the_plan = p
-                        logging.info("Found plan for member {0}".format(a_member_key))
                         break
                 else:
-                    logging.info("Did not find a plan for member {0}".format(a_member_key))
                     the_plan = plan.Plan(parent=gig_key, member=a_member_key, value=0, comment="", section=None)
                     the_new_plans.append(the_plan)
                     new_plan = True
@@ -369,12 +367,7 @@ class InfoPage(BaseHandler):
         
             if the_new_plans:
                 ndb.put_multi(the_new_plans)
-                
-            # go back through the plans, and set the plan key - we have to do this late, because
-            # new plans won't have had real keys until after we 'put' them.
-            for p in the_plans:
-                p['the_plan_key'] = p['the_plan'].key
-        
+
             the_section_keys = band.get_section_keys_of_band_key(the_band_key)
             the_sections = ndb.get_multi(the_section_keys)
             if need_empty_section:

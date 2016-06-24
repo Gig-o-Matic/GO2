@@ -2,8 +2,10 @@
 
 {% macro plan_edit(plan_info) -%}
 {% set the_gig_key = plan_info['the_gig_key'] %}
-{% set the_plan_key = plan_info['the_plan_key'] %}
-{% set the_plan = the_plan_key.get() %}
+
+{% set the_plan = plan_info['the_plan'] %}
+{% set the_plan_key = the_plan.key %}
+
 {% set the_member_key = plan_info['the_member_key'] %}
 {% set the_member = the_member_key.get() %}
 {% set the_band_key = plan_info['the_band_key'] %}
