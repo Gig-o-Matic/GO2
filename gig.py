@@ -244,7 +244,7 @@ def set_sections_for_empty_plans(the_gig):
     """ For this gig, get all plans. For plans with no section set, get the users default and set it """
     """ This is used when freezing a gig's plans """
     
-    the_plan_keys = plan.get_plan_keys_for_gig_key(the_gig.key)
+    the_plan_keys = plan.get_plans_for_gig_key(the_gig.key, keys_only=True)
     the_band_key = the_gig.key.parent()
     for a_plan_key in the_plan_keys:
         a_plan = a_plan_key.get()
@@ -325,12 +325,30 @@ class InfoPage(BaseHandler):
 
             the_assocs = assoc.get_assocs_of_band_key(the_band_key, confirmed_only=True, keys_only=False)
 
+            
+            # get all the plans for this gig - might actually not be any yet.
+            all_plans = plan.get_plans_for_gig_key(gig_key, keys_only=False)
+            
+            # now, for each associated member, find or make a plan
             the_plans = []
-        
+            the_new_plans = [] # in case we need to make new ones
+                                        
             need_empty_section = False
             for the_assoc in the_assocs:
                 a_member_key = the_assoc.member
-                the_plan = plan.get_plan_for_member_key_for_gig_key(a_member_key, gig_key)
+                new_plan = False
+                
+                for p in all_plans:
+                    if p.member == a_member_key:
+                        the_plan = p
+                        logging.info("Found plan for member {0}".format(a_member_key))
+                        break
+                else:
+                    logging.info("Did not find a plan for member {0}".format(a_member_key))
+                    the_plan = plan.Plan(parent=gig_key, member=a_member_key, value=0, comment="", section=None)
+                    the_new_plans.append(the_plan)
+                    new_plan = True
+
                 if (not the_assoc.is_occasional) or \
                    (the_assoc.is_occasional and the_plan.value != 0) or \
                    (a_member_key == the_user.key) or \
@@ -339,7 +357,7 @@ class InfoPage(BaseHandler):
                         need_empty_section = True
                     info_block={}
                     info_block['the_gig_key'] = the_gig.key
-                    info_block['the_plan_key'] = the_plan.key
+                    info_block['the_plan'] = the_plan
                     info_block['the_member_key'] = a_member_key
                     info_block['the_band_key'] = the_band_key
                     info_block['the_assoc'] = the_assoc
@@ -348,6 +366,14 @@ class InfoPage(BaseHandler):
                     else:
                         info_block['the_section'] = the_assoc.default_section            
                     the_plans.append(info_block)          
+        
+            if the_new_plans:
+                ndb.put_multi(the_new_plans)
+                
+            # go back through the plans, and set the plan key - we have to do this late, because
+            # new plans won't have had real keys until after we 'put' them.
+            for p in the_plans:
+                p['the_plan_key'] = p['the_plan'].key
         
             the_section_keys = band.get_section_keys_of_band_key(the_band_key)
             the_sections = ndb.get_multi(the_section_keys)
