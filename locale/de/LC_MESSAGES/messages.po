@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2016-05-23 10:27-0400\n"
+"POT-Creation-Date: 2016-06-24 15:30-0400\n"
 "PO-Revision-Date: 2014-02-01 18:13-0500\n"
 "Last-Translator: Christian Neumayer <christian.m.neumayer@gmail.com>\n"
 "Language-Team: en <LL@li.org>\n"
@@ -23,19 +23,19 @@ msgstr ""
 msgid "Gig"
 msgstr "Termin"
 
-#: gig.py:646
+#: gig.py:665
 msgid "Time"
 msgstr "Zeit"
 
-#: gig.py:648 templates/gig_edit.html:60
+#: gig.py:667 templates/gig_edit.html:60
 msgid "Date"
 msgstr "Datum"
 
-#: gig.py:650 templates/gig_edit.html:34
+#: gig.py:669 templates/gig_edit.html:34
 msgid "Status"
 msgstr "Status"
 
-#: gig.py:653
+#: gig.py:672
 msgid "Details"
 msgstr ""
 
@@ -1361,11 +1361,15 @@ msgstr "vorläufig"
 msgid "other sections, too"
 msgstr "auch andere Register"
 
-#: templates/member_band_assocs.html:94
+#: templates/member_band_assocs.html:56
+msgid "hide from calendar"
+msgstr "nicht in meinem Kalender anzeigen"
+
+#: templates/member_band_assocs.html:100
 msgid "Leave Band"
 msgstr "Band verlassen"
 
-#: templates/member_band_assocs.html:100
+#: templates/member_band_assocs.html:106
 msgid "You need to add a band!"
 msgstr "Du musst eine Band auswählen!"
 

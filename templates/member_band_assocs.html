@@ -48,13 +48,12 @@
                     checked
                 {% endif %}
                 > {% trans %}occasional{% endtrans %}
-            </td>
-            <td style="border-top:none;">
+                <br>
                 <input type="checkbox" id='hideak-{{the_info.assoc.key.urlsafe()}}' onclick="hide_select('{{the_info.assoc.key.urlsafe()}}')"
                 {% if the_info.assoc.hide_from_schedule %}
                     checked
                 {% endif %}
-                > {% trans %}hide{% endtrans %}
+                > {% trans %}hide from calendar{% endtrans %}
             </td>
             <td style="border-top:none;">
                 <div class="dropdown">
