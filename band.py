@@ -83,7 +83,7 @@ def forget_band_from_key(the_band_key):
     
     # delete the plans
     for a_gig_key in the_gig_keys:
-        plan_keys = plan.get_plan_keys_for_gig_key(a_gig_key)
+        plan_keys = plan.get_plans_for_gig_key(a_gig_key, keys_only = True)
         ndb.delete_multi(plan_keys)
     
     ndb.delete_multi(the_gig_keys)
