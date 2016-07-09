@@ -201,6 +201,7 @@ def send_newgig_email(the_member, the_gig, the_band, the_gig_url, is_edit=False,
         message.send()
     except:
         logging.error('failed to send email!')
+        logging.info(u'\n\n{0}\n\n'.format(message.html))
         
     return True
 
