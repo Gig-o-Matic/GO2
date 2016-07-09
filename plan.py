@@ -45,6 +45,7 @@ def new_plan(the_gig, the_member, value):
     """ associate a gig and a member """
     the_plan = Plan(parent=the_gig.key, member=the_member.key, value=value, comment="", section=None)
     the_plan.put()
+
     return the_plan
 
 def get_plan_from_id(the_gig, id):
@@ -63,7 +64,12 @@ def get_plan_for_member_key_for_gig_key(the_member_key, the_gig_key):
     if len(plans)>1:
         logging.error("gig/member with multiple plans! gk={0} mk={1}".format(the_gig_key.urlsafe(),the_member_key.urlsafe()))
 #         return None #todo what to do if there's more than one plan        
-        return plans[0]
+
+        # more than one plan! Just delete the others - not sure how they got here
+        the_plan = plans[0]
+        delplan_keys = [p.key for p in plans[1:]]
+        ndb.delete_multi(delplan_keys)
+        return the_plan
     if len(plans)>0:
         return plans[0]
     else:
