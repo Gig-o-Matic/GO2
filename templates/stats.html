@@ -20,15 +20,15 @@
         </div>            
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
-                <a href="/band_info.html?bk={{stat[1].urlsafe()}}">{{ stat[0] }}</a>
+                <a href="/band_info.html?bk={{stat[0].key.urlsafe()}}">{{ stat[0].name }} ( since {{ stat[0].created }} )</a>
             </div>
         </div>
         <div class="row">
             <div class="col-md-4 col-md-offset-2">
-                <div id="memberstats-{{stat[1].urlsafe()}}"></div>
+                <div id="memberstats-{{stat[0].key.urlsafe()}}"></div>
             </div>
             <div class="col-md-4">
-                <div id="gigstats-{{stat[1].urlsafe()}}" style="width:100%;"></div>
+                <div id="gigstats-{{stat[0].key.urlsafe()}}" style="width:100%;"></div>
             </div>
         </div>
     {% endfor %}
@@ -115,18 +115,18 @@ function makegigchart(which,counts) {
 
 $(function () {
     {% for s in the_stats %}
-        var stats=jQuery.parseJSON('{{s[2]|safe}}')
+        var stats=jQuery.parseJSON('{{s[1]|safe}}')
         var the_member_data=new Array()
         for (var i=0; i<stats.length; i++) {
             the_member_data.push(new Array(Date.UTC(stats[i][0],stats[i][1],stats[i][2]),stats[i][3]))
         }
-        makememberchart('{{s[1].urlsafe()}}',the_member_data)
+        makememberchart('{{s[0].key.urlsafe()}}',the_member_data)
 
         var the_gig_data=new Array()
         for (var i=0; i<stats.length; i++) {
             the_gig_data.push(new Array(Date.UTC(stats[i][0],stats[i][1],stats[i][2]),stats[i][4]))
         }
-        makegigchart('{{s[1].urlsafe()}}',the_gig_data)
+        makegigchart('{{s[0].key.urlsafe()}}',the_gig_data)
     {% endfor %} 
 });
 

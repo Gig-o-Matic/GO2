@@ -33,8 +33,8 @@ class BandStats(ndb.Model):
     
 def get_band_stats(the_band_key):
     """ Return all the stats we have for a band """
-    stats_query = BandStats.query( BandStats.band==the_band_key).order(BandStats.date)
-    the_stats = stats_query.fetch()
+    stats_query = BandStats.query( BandStats.band==the_band_key).order(-BandStats.date)
+    the_stats = stats_query.fetch(limit=30)
     return the_stats
     
 def make_band_stats(the_band_key):
@@ -89,7 +89,7 @@ class StatsPage(BaseHandler):
                 the_count_data.append([s.date.year, s.date.month-1, s.date.day, s.number_members, s.number_upcoming_gigs])
             the_count_data_json=json.dumps(the_count_data)
             
-            stats.append([a_band.name, a_band.key, the_count_data_json])
+            stats.append([a_band, the_count_data_json])
         
         template_args = {
             'the_stats' : stats,

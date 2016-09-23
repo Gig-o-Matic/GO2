@@ -70,6 +70,12 @@ indexes:
   - name: band
   - name: date
 
+- kind: BandStats
+  properties:
+  - name: band
+  - name: date
+    direction: desc
+
 - kind: Comment
   ancestor: yes
   properties:
