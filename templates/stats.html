@@ -9,7 +9,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-5 col-md-offset-2">{{ num_members }} members in {{ num_bands }} bands!</div>
+        <div class="col-md-5 col-md-offset-2">{{ num_members }} members in {{ num_active_bands }} active bands!</div>
         <br><br>
     </div> 
     {% for stat in the_stats %}
@@ -20,7 +20,7 @@
         </div>            
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
-                <a href="/band_info.html?bk={{stat[0].key.urlsafe()}}">{{ stat[0].name }} ( since {{ stat[0].created }} )</a>
+                <a href="/band_info.html?bk={{stat[0].key.urlsafe()}}">{{ stat[0].name }}</a> ( created {{ stat[0].created }} )
             </div>
         </div>
         <div class="row">
@@ -32,6 +32,16 @@
             </div>
         </div>
     {% endfor %}
+    <div class="row">
+        <div class="col-md-5 col-md-offset-2">
+            Inactive bands:
+            <ul>
+            {% for band in inactive_bands %}
+                <li><a href="/band_info.html?bk={{band.key.urlsafe()}}">{{ band.name }}</a> ( created {{ band.created }} )</li>
+            {% endfor %}
+            </ul>
+        </div>
+    </div>    
 {% endblock content %}
 
 {% block localscripts %}
