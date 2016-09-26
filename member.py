@@ -230,7 +230,7 @@ def create_new_member(email, name, password):
     return user_data
         
         
-def get_all_members(order=True, keys_only=False, verified_only=False):
+def get_all_members(order=True, keys_only=False, verified_only=False, pagelen=0, page=0):
     """ Return all member objects """
 
     args=[]
@@ -242,7 +242,11 @@ def get_all_members(order=True, keys_only=False, verified_only=False):
     else:
         member_query = Member.lquery(*args)
     
-    members = member_query.fetch(keys_only=keys_only)
+    if pagelen == 0:
+        members = member_query.fetch(keys_only=keys_only)
+    else:
+        members = member_query.fetch(keys_only=keys_only, offset=page*pagelen, limit=pagelen)
+
     return members
 
 def reset_motd():
@@ -919,14 +923,16 @@ class AdminPageAllMembers(BaseHandler):
     @user_required
     def post(self):
         if member_is_superuser(self.user):
-            self._make_page(the_user=self.user)
+            the_page_str=self.request.get('p','0')
+            the_page=int(the_page_str)
+            self._make_page(the_user=self.user, the_page=the_page)
         else:
             return;
             
-    def _make_page(self,the_user):
-    
-        the_members = get_all_members(verified_only=True)
+    def _make_page(self,the_user, the_page=0):
 
+        the_members = get_all_members(verified_only=True, pagelen=50, page=the_page)
+        
         member_band_info={}
         for a_member in the_members:
             assocs=assoc.get_assocs_of_member_key(a_member.key, confirmed_only=False)

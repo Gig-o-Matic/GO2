@@ -19,8 +19,11 @@
               </h4>
             </div>
             <div id="collapseOne" class="panel-collapse collapse in">
-                <div class="panel-body" id="memberlist">
+                <div class="panel-body">
+                  <div id="memberlist">
                     <i class="fa fa-spinner fa-spin fa-lg"></i>
+                  </div>
+                    <a class="btn btn-default" onclick="prevMembers()"><i class="fa fa-chevron-left"></i></a><a class="btn btn-default" onclick="nextMembers()"><i class="fa fa-chevron-right"></i></a>
                 </div>
             </div>
           </div>
@@ -89,10 +92,12 @@
 
 {% block localscripts %}
 <script>
+var memberpage = 0;
+
 function updateMembers() {
     if (document.getElementById('memberlist')) {
         $.post('/member_admin_get_all_members',
-                {},
+                {p: memberpage},
                 function(responseTxt,statusTxt,xhr){
                     if(statusTxt=="success")
                         document.getElementById('memberlist').innerHTML=responseTxt;
@@ -102,6 +107,18 @@ function updateMembers() {
     }
 }
 
+function nextMembers() {
+    memberpage = memberpage + 1;
+    updateMembers();
+}
+
+function prevMembers() {
+    memberpage = memberpage - 1;
+    if (memberpage < 0) {
+      memberpage = 0;
+    }
+    updateMembers();
+}
 function updateSignups() {
     if (document.getElementById('signuplist')) {
         $.post('/member_admin_get_signup_members',
