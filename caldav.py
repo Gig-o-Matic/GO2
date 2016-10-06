@@ -160,7 +160,12 @@ URL:{5}
 END:VEVENT
 """
     event = event.format(title_format.format(summary), start_string, end_string,
-                         details_format.format(the_gig.details.replace('\r\n', ' ')),
+                         details_format.format(
+                            '{0}\\n{1}'.format(
+                                the_gig.details.replace('\r\n', '\\n'),
+                                the_gig.setlist.replace('\r\n', '\\n')
+                            )
+                        ),
                          the_gig.address, the_url)
     return event
 
