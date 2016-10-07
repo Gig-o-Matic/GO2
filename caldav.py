@@ -236,11 +236,11 @@ class MemberRequestHandler(BaseHandler):
         the_member = the_member_key.get()
         
         limit=datetime.datetime.now()-datetime.timedelta(hours=1)
-        # if the_member.last_calfetch is not None and the_member.last_calfetch > limit:
-        #     # too often - just return 503
-        #     self.response.headers.add_header("Retry-After", "3600")
-        #     self.error(503)
-        #     return
+        if the_member.last_calfetch is not None and the_member.last_calfetch > limit:
+            # too often - just return 503
+            self.response.headers.add_header("Retry-After", "3600")
+            self.error(503)
+            return
         
         the_member.last_calfetch = datetime.datetime.now()
         the_member.put()
