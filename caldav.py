@@ -159,13 +159,15 @@ TRANSP:OPAQUE
 URL:{5}
 END:VEVENT
 """
-    event = event.format(title_format.format(summary), start_string, end_string,
-                         details_format.format(
-                            '{0}\\n{1}'.format(
-                                the_gig.details.replace('\r\n', '\\n'),
-                                the_gig.setlist.replace('\r\n', '\\n')
+    the_details = details_format.format(
+                            '{0}\\n\\n{1}'.format(
+                                the_gig.details.encode('ascii','ignore').replace('\r\n', '\\n'),
+                                the_gig.setlist.encode('ascii','ignore').replace('\r\n', '\\n')
                             )
-                        ),
+                        )
+
+    event = event.format(title_format.format(summary), start_string, end_string,
+                         the_details,
                          the_gig.address, the_url)
     return event
 
@@ -234,11 +236,11 @@ class MemberRequestHandler(BaseHandler):
         the_member = the_member_key.get()
         
         limit=datetime.datetime.now()-datetime.timedelta(hours=1)
-        if the_member.last_calfetch is not None and the_member.last_calfetch > limit:
-            # too often - just return 503
-            self.response.headers.add_header("Retry-After", "3600")
-            self.error(503)
-            return
+        # if the_member.last_calfetch is not None and the_member.last_calfetch > limit:
+        #     # too often - just return 503
+        #     self.response.headers.add_header("Retry-After", "3600")
+        #     self.error(503)
+        #     return
         
         the_member.last_calfetch = datetime.datetime.now()
         the_member.put()
