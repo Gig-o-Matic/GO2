@@ -23,7 +23,10 @@
                   <div id="memberlist">
                     <i class="fa fa-spinner fa-spin fa-lg"></i>
                   </div>
-                    <a class="btn btn-default" onclick="prevMembers()"><i class="fa fa-chevron-left"></i></a><a class="btn btn-default" onclick="nextMembers()"><i class="fa fa-chevron-right"></i></a>
+                    <a class="btn btn-default" onclick="prevMembers()"><i class="fa fa-chevron-left"></i></a>
+                    <a class="btn btn-default" onclick="nextMembers()"><i class="fa fa-chevron-right"></i></a>
+                    <input type="text" class="form-control" id="searchinput" placeholder="search string" value="" name="search_input">
+                    <a class="btn btn-default" onclick="searchMembers()">Search</a>
                 </div>
             </div>
           </div>
@@ -119,6 +122,21 @@ function prevMembers() {
     }
     updateMembers();
 }
+function searchMembers() {
+  searchstring = document.getElementById('searchinput').value;
+    if (document.getElementById('memberlist')) {
+      $.post('/member_admin_get_all_members',
+              {s: searchstring},
+              function(responseTxt,statusTxt,xhr){
+                  if(statusTxt=="success")
+                      document.getElementById('memberlist').innerHTML=responseTxt;
+                  if(statusTxt=="error")
+                      alert("Error: "+xhr.status+": "+xhr.statusText);
+              }
+      );
+    }
+}
+
 function updateSignups() {
     if (document.getElementById('signuplist')) {
         $.post('/member_admin_get_signup_members',

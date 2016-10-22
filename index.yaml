@@ -236,6 +236,16 @@ indexes:
 
 - kind: Member
   properties:
+  - name: email_address
+  - name: lower_name
+
+- kind: Member
+  properties:
+  - name: local_email_address
+  - name: lower_name
+
+- kind: Member
+  properties:
   - name: verified
   - name: lower_name
 

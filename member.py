@@ -72,6 +72,7 @@ class Member(webapp2_extras.appengine.auth.models.User):
     display_name = ndb.ComputedProperty(lambda self: self.nickname if self.nickname else self.name)
     last_activity = ndb.DateTimeProperty(auto_now=True)
     last_calfetch = ndb.DateTimeProperty(default=None)
+    local_email_address = ndb.ComputedProperty(lambda self: self.email_address)
 
     @classmethod
     def lquery(cls, *args, **kwargs):
@@ -236,6 +237,31 @@ def get_all_members(order=True, keys_only=False, verified_only=False, pagelen=0,
     args=[]
     if verified_only:
         args=[ndb.GenericProperty('verified')==True]
+
+    if order:
+        member_query = Member.lquery(*args).order(Member.lower_name)
+    else:
+        member_query = Member.lquery(*args)
+    
+    if pagelen == 0:
+        members = member_query.fetch(keys_only=keys_only)
+    else:
+        members = member_query.fetch(keys_only=keys_only, offset=page*pagelen, limit=pagelen)
+
+    return members
+
+def search_for_members(order=True, keys_only=False, verified_only=False, pagelen=0, page=0, search=None):
+    """ Return all member objects """
+
+    args=[]
+    if verified_only:
+        args=[ndb.GenericProperty('verified')==True]
+
+    if search:
+        args.append(ndb.StringProperty('local_email_address')==search)
+
+    # print('\n\n{0}\n\n'.format(*args))
+
 
     if order:
         member_query = Member.lquery(*args).order(Member.lower_name)
@@ -925,13 +951,17 @@ class AdminPageAllMembers(BaseHandler):
         if member_is_superuser(self.user):
             the_page_str=self.request.get('p','0')
             the_page=int(the_page_str)
-            self._make_page(the_user=self.user, the_page=the_page)
+            the_search_str=self.request.get('s', None)
+            self._make_page(the_user=self.user, the_page=the_page, the_search=the_search_str)
         else:
             return;
             
-    def _make_page(self,the_user, the_page=0):
+    def _make_page(self,the_user, the_page=0, the_search=None):
 
-        the_members = get_all_members(verified_only=True, pagelen=50, page=the_page)
+        if the_search is None:
+            the_members = get_all_members(verified_only=True, pagelen=50, page=the_page)
+        else:
+            the_members = search_for_members(verified_only=False, pagelen=50, page=the_page, search=the_search)
         
         member_band_info={}
         for a_member in the_members:
@@ -1127,7 +1157,10 @@ class RewriteAll(BaseHandler):
     @user_required
     def get(self):
     
-        update_all_uniques()
+        #  update_all_uniques()
+        members=get_all_members()
+        ndb.put_multi(members)
+
         self.redirect(self.uri_for('memberadmin'))
         
         
