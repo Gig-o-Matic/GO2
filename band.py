@@ -950,7 +950,7 @@ class SendInvites(BaseHandler):
         # for each one, create a new member (if there isn't one already)
         for e in ok_email:
             existing_member = member.get_member_from_email(e)
-            logging.info("existing_member:{0}".format(existing_member))
+            # logging.info("existing_member:{0}".format(existing_member))
 
             if existing_member:
                 # make sure this person isn't already a member of this band; if not, send invite
@@ -961,9 +961,9 @@ class SendInvites(BaseHandler):
                     goemail.send_new_band_via_invite_email(self, the_band, existing_member)
             else:
                 # create assoc for this member - but because they're not verified, will just show up as 'invited'
-                logging.info("creating new member")
+                # logging.info("creating new member")
                 user_data = member.create_new_member(email=e, name='', password='')
-                logging.info("creating new member: {0}".format(user_data))
+                # logging.info("creating new member: {0}".format(user_data))
                 the_user = user_data[1]
                 if the_user:
                     assoc.new_association(the_user, the_band, confirm=True, invited=True)
