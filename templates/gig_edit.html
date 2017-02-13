@@ -21,7 +21,7 @@
         <div class="row">
             <div class="form-group col-md-8 col-md-offset-2">
                 <label for="gigtitleinput" class="control-label">{% trans %}Gig Title{% endtrans %}</label>
-                <input type="text" class="form-control" id="gigtitleinput" placeholder="({%trans%}required{%endtrans%})" value="{% if is_dupe %}{%trans%}Copy of{%endtrans%} {% endif %}{{gig.title}}" name="gig_title">
+                <input type="text" class="form-control" id="gigtitleinput" placeholder="({%trans%}required{%endtrans%})" value="{% if is_dupe %}{%trans%}Copy of{%endtrans%} {% endif %}{{gig.title|e}}" name="gig_title">
             </div>
         </div>
         <div class="row">
