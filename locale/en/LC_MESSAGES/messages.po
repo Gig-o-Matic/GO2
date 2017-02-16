@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2016-06-24 15:30-0400\n"
+"POT-Creation-Date: 2017-02-16 11:49-0500\n"
 "PO-Revision-Date: 2014-02-01 18:13-0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: en <LL@li.org>\n"
@@ -807,6 +807,21 @@ msgstr ""
 msgid "Crypto Key"
 msgstr ""
 
+#: templates/error.html:3
+msgid "Error!"
+msgstr ""
+
+#: templates/error.html:15 templates/no_band_gig.html:3
+#: templates/no_gig_found.html:3
+msgid "Uh oh!"
+msgstr ""
+
+#: templates/error.html:17
+msgid "error_message"
+msgstr ""
+"There has been an internal error! Please email "
+"<a href=\"mailto:gigomatic.superuser@gmail.com\">gigomatic.superuser@gmail.com</a> to let us know about it!"
+
 #: templates/forgot.html:3 templates/forgot.html:17
 #: templates/resetpassword.html:3 templates/resetpassword.html:17
 msgid "Reset Password"
@@ -1546,20 +1561,20 @@ msgstr ""
 msgid "Stats Page"
 msgstr ""
 
-#: templates/navbar.html:68
+#: templates/navbar.html:63
+msgid "AppStats"
+msgstr ""
+
+#: templates/navbar.html:69
 msgid "Help"
 msgstr ""
 
-#: templates/navbar.html:74
+#: templates/navbar.html:75
 msgid "My Profile"
 msgstr ""
 
-#: templates/navbar.html:75
+#: templates/navbar.html:76
 msgid "Logout"
-msgstr ""
-
-#: templates/no_band_gig.html:3 templates/no_gig_found.html:3
-msgid "Uh oh!"
 msgstr ""
 
 #: templates/no_band_gig.html:8
@@ -1765,5 +1780,8 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Email me for new gigs"
+#~ msgstr ""
+
+#~ msgid "Uh no!"
 #~ msgstr ""
 

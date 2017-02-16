@@ -896,4 +896,6 @@ class AnswerLinkHandler(BaseHandler):
             else:
                 plan.update_plan(the_plan,1)
         
-        self.render_template('confirm_answer.html', [])
+            self.render_template('confirm_answer.html', [])
+        else:
+            self.render_template('error.html', [])

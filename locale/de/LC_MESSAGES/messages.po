@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2016-06-24 15:30-0400\n"
+"POT-Creation-Date: 2017-02-16 11:49-0500\n"
 "PO-Revision-Date: 2014-02-01 18:13-0500\n"
 "Last-Translator: Christian Neumayer <christian.m.neumayer@gmail.com>\n"
 "Language-Team: en <LL@li.org>\n"
@@ -145,11 +145,10 @@ msgid "new_gig_email_html"
 msgstr ""
 "Hallo! Für deine Band {0} wurde ein neuer Termin in Gig-o-Matic "
 "eingetragen:<br><br>{1}<br>Datum: {2}<br>Uhrzeit: {3}<br>Kontakt: "
-"{4}<br>Status: {5}<br><br>{6}<br><br>"
-"Ich bin dabei - <a href={9}>(hier klicken)</a>"
-"<br>Geht sich nicht aus - <a href={10}>(hier klicken)</a>"
-"<br>Zur <a href={7}>Infoseite des Gig</a>"
-"<br><br>Danke,<br>Dein Gig-o-Matic Team"
+"{4}<br>Status: {5}<br><br>{6}<br><br>Ich bin dabei - <a href={9}>(hier "
+"klicken)</a><br>Geht sich nicht aus - <a href={10}>(hier "
+"klicken)</a><br>Zur <a href={7}>Infoseite des "
+"Gig</a><br><br>Danke,<br>Dein Gig-o-Matic Team"
 
 #: goemail.py:198
 msgid "edited_gig_email"
@@ -824,6 +823,19 @@ msgstr ""
 
 #: templates/crypto_admin.html:8
 msgid "Crypto Key"
+msgstr ""
+
+#: templates/error.html:3
+msgid "Error!"
+msgstr ""
+
+#: templates/error.html:15 templates/no_band_gig.html:3
+#: templates/no_gig_found.html:3
+msgid "Uh oh!"
+msgstr "Ohje!"
+
+#: templates/error.html:17
+msgid "error_message"
 msgstr ""
 
 #: templates/forgot.html:3 templates/forgot.html:17
@@ -1571,21 +1583,21 @@ msgstr "Administrator"
 msgid "Stats Page"
 msgstr "Statistiken"
 
-#: templates/navbar.html:68
+#: templates/navbar.html:63
+msgid "AppStats"
+msgstr ""
+
+#: templates/navbar.html:69
 msgid "Help"
 msgstr "Hilfe"
 
-#: templates/navbar.html:74
+#: templates/navbar.html:75
 msgid "My Profile"
 msgstr "Mein Profil"
 
-#: templates/navbar.html:75
+#: templates/navbar.html:76
 msgid "Logout"
 msgstr "Abmelden"
-
-#: templates/no_band_gig.html:3 templates/no_gig_found.html:3
-msgid "Uh oh!"
-msgstr "Ohje!"
 
 #: templates/no_band_gig.html:8
 msgid "Adding a Gig"
@@ -1790,4 +1802,7 @@ msgstr "Was ist das?"
 
 #~ msgid "Email me for new gigs"
 #~ msgstr "Sende mir eine Email über neue Termine"
+
+#~ msgid "Uh no!"
+#~ msgstr ""
 

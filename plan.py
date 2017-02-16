@@ -43,6 +43,14 @@ class Plan(ndb.Model):
 
 def new_plan(the_gig, the_member, value):
     """ associate a gig and a member """
+
+    if the_gig is None:
+    	logging.error("no gig passed to new_plan")
+    	return None
+
+    if the_member is None:
+    	logging.error("no member passed to new_plan")
+    	return None
     the_plan = Plan(parent=the_gig.key, member=the_member.key, value=value, comment="", section=None)
     the_plan.put()
 
