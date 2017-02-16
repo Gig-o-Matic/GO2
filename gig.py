@@ -898,4 +898,5 @@ class AnswerLinkHandler(BaseHandler):
         
             self.render_template('confirm_answer.html', [])
         else:
+            logging.error("answer link failed.\ngig key:{0}\nmember_key:{1}".format(parts[1], parts[0]))
             self.render_template('error.html', [])
