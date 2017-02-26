@@ -183,12 +183,15 @@
                                 <span id="simpleoff">{% trans %}Show All{% endtrans %}</span>
                                 <span id="simpleon">{% trans %}Show Committed{% endtrans %}</span>
                                 </a>
-                                <span id="showremind"><a href="#" onclick="sendreminder('{{gig.key.urlsafe()}}'); return false;" class="btn btn-xs btn-default"><i class="fa fa-envelope"></i>
-                                	{% trans %}Remind{% endtrans %}
-                                </a></span>
-                            	<span id="hideremind">
-                                	<small>{% trans %}Reminder Sent{% endtrans %}</small>
-                            	</span>
+
+                                {% if user_can_edit %}
+                                    <span id="showremind"><a href="#" onclick="sendreminder('{{gig.key.urlsafe()}}'); return false;" class="btn btn-xs btn-default"><i class="fa fa-envelope"></i>
+                                    	{% trans %}Remind{% endtrans %}
+                                    </a></span>
+                                	<span id="hideremind">
+                                    	<small>{% trans %}Reminder Sent{% endtrans %}</small>
+                                	</span>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -296,6 +299,7 @@ function simpleswitch() {
     setsimple()
 }
 
+{% if user_can_edit %}
 function sendreminder(gk) {
 	$('#showremind').hide();
 	$('#hideremind').show();
@@ -305,15 +309,18 @@ function sendreminder(gk) {
             gk: gk
         });
 }
+{% endif %}
 
 $(document).ready(function() {
     setsimple();
-    {% if not gig.was_reminded or gig.was_reminded==false %}
-    	$('#showremind').show();
-    	$('#hideremind').hide();
-    {% else %}
-    	$('#showremind').hide();
-    	$('#hideremind').show();
+    {% if user_can_edit %}
+        {% if not gig.was_reminded or gig.was_reminded==false %}
+        	$('#showremind').show();
+        	$('#hideremind').hide();
+        {% else %}
+        	$('#showremind').hide();
+        	$('#hideremind').show();
+        {% endif %}
     {% endif %}
     $('.trunc').truncate({max_length: 500, more:"...{% trans %}more{% endtrans %}", less:"{% trans %}less{% endtrans %}"});
     $('.popcomment').tooltip({ 'trigger':'hover click' });    
