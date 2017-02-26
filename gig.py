@@ -64,6 +64,7 @@ class Gig(ndb.Model):
     comment_id = ndb.TextProperty( default = None)
     creator = ndb.KeyProperty()
     invite_occasionals = ndb.BooleanProperty(default=True)
+    was_reminded = ndb.BooleanProperty(default=False)
     
     def gigtime(self):
         if self.calltime:
@@ -900,3 +901,27 @@ class AnswerLinkHandler(BaseHandler):
         else:
             logging.error("answer link failed.\ngig key:{0}\nmember_key:{1}".format(parts[1], parts[0]))
             self.render_template('error.html', [])
+
+class SendReminder(BaseHandler):
+    """ special URL to send a reminder email to straggler members for a gig """
+
+    def post(self):
+        gig_key_str = self.request.get("gk", None)
+        if gig_key_str is None:
+            return # todo figure out what to do if there's no ID passed in
+        the_gig = ndb.Key(urlsafe=gig_key_str).get()
+
+        the_plans = plan.get_plans_for_gig_key(the_gig.key)
+
+        stragglers=[]
+        for p in the_plans:
+            if p.value in [0,3]:
+                stragglers.append(p.member)
+
+        if len(stragglers) > 0:
+            goemail.announce_new_gig(the_gig, self.uri_for('gig_info', _full=True, gk=the_gig.key.urlsafe()), is_edit=False, is_reminder=True, the_members=stragglers)
+
+
+        # OK, we sent the reminder.
+        the_gig.was_reminded = True
+        # the_gig.put()

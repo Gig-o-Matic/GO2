@@ -183,6 +183,12 @@
                                 <span id="simpleoff">{% trans %}Show All{% endtrans %}</span>
                                 <span id="simpleon">{% trans %}Show Committed{% endtrans %}</span>
                                 </a>
+                                <span id="showremind"><a href="#" onclick="sendreminder('{{gig.key.urlsafe()}}'); return false;" class="btn btn-xs btn-default"><i class="fa fa-envelope"></i>
+                                	{% trans %}Remind{% endtrans %}
+                                </a></span>
+                            	<span id="hideremind">
+                                	<small>{% trans %}Reminder Sent{% endtrans %}</small>
+                            	</span>
                             </div>
                         </div>
                     </div>
@@ -235,7 +241,7 @@
                 </div> <!-- panel body -->
             </div> <!-- panel -->
             
-            {% if the_user_is_betatester %}
+            {% if the_user_is_betatester and False %}
                 <div class="row">&nbsp;</div>
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -290,8 +296,25 @@ function simpleswitch() {
     setsimple()
 }
 
+function sendreminder(gk) {
+	$('#showremind').hide();
+	$('#hideremind').show();
+
+	$.post("/sendreminder",
+        {
+            gk: gk
+        });
+}
+
 $(document).ready(function() {
     setsimple();
+    {% if not gig.was_reminded or gig.was_reminded==false %}
+    	$('#showremind').show();
+    	$('#hideremind').hide();
+    {% else %}
+    	$('#showremind').hide();
+    	$('#hideremind').show();
+    {% endif %}
     $('.trunc').truncate({max_length: 500, more:"...{% trans %}more{% endtrans %}", less:"{% trans %}less{% endtrans %}"});
     $('.popcomment').tooltip({ 'trigger':'hover click' });    
     update_comment('{{gig.key.urlsafe()}}');
