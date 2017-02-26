@@ -924,4 +924,4 @@ class SendReminder(BaseHandler):
 
         # OK, we sent the reminder.
         the_gig.was_reminded = True
-        # the_gig.put()
+        the_gig.put()

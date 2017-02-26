@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-02-16 11:49-0500\n"
+"POT-Creation-Date: 2017-02-26 17:33-0500\n"
 "PO-Revision-Date: 2014-02-01 18:13-0500\n"
 "Last-Translator: Christian Neumayer <christian.m.neumayer@gmail.com>\n"
 "Language-Team: en <LL@li.org>\n"
@@ -23,19 +23,19 @@ msgstr ""
 msgid "Gig"
 msgstr "Termin"
 
-#: gig.py:665
+#: gig.py:666
 msgid "Time"
 msgstr "Zeit"
 
-#: gig.py:667 templates/gig_edit.html:60
+#: gig.py:668 templates/gig_edit.html:60
 msgid "Date"
 msgstr "Datum"
 
-#: gig.py:669 templates/gig_edit.html:34
+#: gig.py:670 templates/gig_edit.html:34
 msgid "Status"
 msgstr "Status"
 
-#: gig.py:672
+#: gig.py:673
 msgid "Details"
 msgstr ""
 
@@ -92,65 +92,36 @@ msgstr ""
 msgid "Gig Edit"
 msgstr "Termin bearbeiten"
 
-#: goemail.py:159
+#: goemail.py:161
 msgid "New Gig:"
 msgstr "Neue Termin:"
 
-#: goemail.py:182 templates/gig_edit.html:103 templates/gig_info.html:76
+#: goemail.py:184 templates/gig_edit.html:103 templates/gig_info.html:76
 msgid "Call Time"
 msgstr "Beginn"
 
-#: goemail.py:186 templates/gig_edit.html:107 templates/gig_info.html:84
+#: goemail.py:188 templates/gig_edit.html:107 templates/gig_info.html:84
 msgid "Set Time"
 msgstr "Termin"
 
-#: goemail.py:190 templates/gig_edit.html:111 templates/gig_info.html:87
+#: goemail.py:192 templates/gig_edit.html:111 templates/gig_info.html:87
 msgid "End Time"
 msgstr "Ende"
 
-#: goemail.py:192 templates/gig_edit.html:38 templates/gig_info.html:50
+#: goemail.py:194 templates/gig_edit.html:38 templates/gig_info.html:50
 msgid "Unconfirmed"
 msgstr "Nicht fixiert"
 
-#: goemail.py:192 templates/gig_edit.html:41 templates/gig_info.html:46
+#: goemail.py:194 templates/gig_edit.html:41 templates/gig_info.html:46
 msgid "Confirmed!"
 msgstr "Fixiert!"
 
-#: goemail.py:192 templates/agenda_plan_edit.html:137
+#: goemail.py:194 templates/agenda_plan_edit.html:137
 #: templates/gig_edit.html:44 templates/gig_info.html:48
 msgid "Cancelled!"
 msgstr "Abgesagt!"
 
-#: goemail.py:195
-msgid "new_gig_email"
-msgstr ""
-"Hallo! Für deine Band {0} wurde ein neuer Termin in Gig-o-Matic "
-"eingetragen:\n"
-"\n"
-"{1}\n"
-"Datum: {2}\n"
-"Uhrzeit: {3}\n"
-"Kontakt: {4}\n"
-"Status: {5}\n"
-"\n"
-"{6}\n"
-"\n"
-"Bist du dabei? Du kannst (und sollst!) hier Bescheid sagen: {7}\n"
-"\n"
-"Danke,\n"
-"Dein Gig-o-Matic Team"
-
-#: goemail.py:196
-msgid "new_gig_email_html"
-msgstr ""
-"Hallo! Für deine Band {0} wurde ein neuer Termin in Gig-o-Matic "
-"eingetragen:<br><br>{1}<br>Datum: {2}<br>Uhrzeit: {3}<br>Kontakt: "
-"{4}<br>Status: {5}<br><br>{6}<br><br>Ich bin dabei - <a href={9}>(hier "
-"klicken)</a><br>Geht sich nicht aus - <a href={10}>(hier "
-"klicken)</a><br>Zur <a href={7}>Infoseite des "
-"Gig</a><br><br>Danke,<br>Dein Gig-o-Matic Team"
-
-#: goemail.py:198
+#: goemail.py:197
 msgid "edited_gig_email"
 msgstr ""
 "Hallo! Für deine Band {0} wurde ein Termin bearbeitet:\n"
@@ -170,11 +141,48 @@ msgstr ""
 "Danke,\n"
 "Dein Gig-o-Matic Team"
 
-#: goemail.py:234
+#: goemail.py:199
+msgid "reminder_gig_email"
+msgstr ""
+
+#: goemail.py:200
+msgid "reminder_gig_email_html"
+msgstr ""
+
+#: goemail.py:202
+msgid "new_gig_email"
+msgstr ""
+"Hallo! Für deine Band {0} wurde ein neuer Termin in Gig-o-Matic "
+"eingetragen:\n"
+"\n"
+"{1}\n"
+"Datum: {2}\n"
+"Uhrzeit: {3}\n"
+"Kontakt: {4}\n"
+"Status: {5}\n"
+"\n"
+"{6}\n"
+"\n"
+"Bist du dabei? Du kannst (und sollst!) hier Bescheid sagen: {7}\n"
+"\n"
+"Danke,\n"
+"Dein Gig-o-Matic Team"
+
+#: goemail.py:203
+msgid "new_gig_email_html"
+msgstr ""
+"Hallo! Für deine Band {0} wurde ein neuer Termin in Gig-o-Matic "
+"eingetragen:<br><br>{1}<br>Datum: {2}<br>Uhrzeit: {3}<br>Kontakt: "
+"{4}<br>Status: {5}<br><br>{6}<br><br>Ich bin dabei - <a href={9}>(hier "
+"klicken)</a><br>Geht sich nicht aus - <a href={10}>(hier "
+"klicken)</a><br>Zur <a href={7}>Infoseite des "
+"Gig</a><br><br>Danke,<br>Dein Gig-o-Matic Team"
+
+#: goemail.py:247
 msgid "Gig-o-Matic New Member for band {0})"
 msgstr "Gig-o-Matic Neues Mitglied für Band {0}"
 
-#: goemail.py:245
+#: goemail.py:258
 msgid "new_member_email"
 msgstr ""
 "Hallo! Für deine Band {1} hat sich ein neues Mitglied {1} angemeldet. "
@@ -186,11 +194,11 @@ msgstr ""
 "Danke,\n"
 "Dein Gig-o-Matic Team"
 
-#: goemail.py:260
+#: goemail.py:273
 msgid "Gig-o-Matic New Band Invite"
 msgstr "Gig-o-Matic Neue Band Einladung"
 
-#: goemail.py:261
+#: goemail.py:274
 msgid "new_band_via_invite_email"
 msgstr ""
 "Hallo! Du wurdest eingeladen, der Band {0} beizutreten. Du wirst die "
@@ -200,11 +208,11 @@ msgstr ""
 "Freundliche Grüße,\n"
 "Team Gig-o-Matic"
 
-#: goemail.py:277
+#: goemail.py:290
 msgid "Invitation to Join Gig-o-Matic"
 msgstr "Einladung um Gig-o-Matic beizutreten"
 
-#: goemail.py:278
+#: goemail.py:291
 msgid "gigo_invite_email"
 msgstr ""
 "Hallo,\n"
@@ -220,11 +228,11 @@ msgstr ""
 "Danke,\n"
 "Der Gig-o-Matic Lenkungsausschuss"
 
-#: goemail.py:294
+#: goemail.py:307
 msgid "Gig-o-Matic Confirm Email Address"
 msgstr "Gig-o-Matic Emailadressen Bestätigung"
 
-#: goemail.py:306
+#: goemail.py:319
 msgid "confirm_email_address_email"
 msgstr ""
 "Hallo! Jemand möchte seine Gig-o-Matic ID zu dieser Email-Adresseändern.\n"
@@ -652,11 +660,11 @@ msgstr "Aus Band entfernen"
 msgid "Band Navigator"
 msgstr "Band Navigator"
 
-#: templates/band_nav.html:73 templates/gig_info.html:295
+#: templates/band_nav.html:73 templates/gig_info.html:318
 msgid "more"
 msgstr "mehr"
 
-#: templates/band_nav.html:73 templates/gig_info.html:295
+#: templates/band_nav.html:73 templates/gig_info.html:318
 msgid "less"
 msgstr "weniger"
 
@@ -664,7 +672,7 @@ msgstr "weniger"
 msgid "None!"
 msgstr "Keine!"
 
-#: templates/band_sections.html:12 templates/gig_info.html:199
+#: templates/band_sections.html:12 templates/gig_info.html:205
 #: templates/grid.html:80
 msgid "No Section"
 msgstr "Kein Register"
@@ -917,12 +925,12 @@ msgid "pin"
 msgstr ""
 
 #: templates/forum_posts.html:49 templates/forumpostreply.html:3
-#: templates/gig_info.html:229
+#: templates/gig_info.html:235
 msgid "say your piece!"
 msgstr "Melde dich zu Wort!"
 
 #: templates/forum_posts.html:52 templates/forumpostreply.html:6
-#: templates/gig_info.html:232
+#: templates/gig_info.html:238
 msgid "Say it!"
 msgstr "Sag es!"
 
@@ -987,11 +995,11 @@ msgstr "Programm"
 msgid "Member Plans"
 msgstr "Zu- und Absagen"
 
-#: templates/gig_archived_info.html:74 templates/gig_info.html:218
+#: templates/gig_archived_info.html:74 templates/gig_info.html:224
 msgid "Comments"
 msgstr "Kommentare"
 
-#: templates/gig_archived_info.html:97 templates/gig_info.html:242
+#: templates/gig_archived_info.html:97 templates/gig_info.html:248
 msgid "Forum"
 msgstr ""
 
@@ -1185,6 +1193,14 @@ msgstr "Zeige alle"
 #: templates/gig_info.html:184
 msgid "Show Committed"
 msgstr "Zeige fixe Zusagen"
+
+#: templates/gig_info.html:187
+msgid "Remind"
+msgstr ""
+
+#: templates/gig_info.html:190
+msgid "Reminder Sent"
+msgstr ""
 
 #: templates/go2base.html:82
 msgid "Who made this thing?"
