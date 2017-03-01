@@ -144,10 +144,30 @@ msgstr ""
 #: goemail.py:199
 msgid "reminder_gig_email"
 msgstr ""
+"Hallo! Als Erinnerung: Du bist eingeladen, deine Meinung zu einem Gig für {0}:\n"
+"\n"
+"{1}\n"
+"Datum: {2}\n"
+"Uhrzeit: {3}\n"
+"Kontakt: {4}\n"
+"Status: {5}\n"
+"\n"
+"{6}\n"
+"\n"
+"Bist du dabei? Du kannst (und sollst!) hier Bescheid sagen: {7}\n"
+"\n"
+"Danke,\n"
+"Dein Gig-o-Matic Team"
 
 #: goemail.py:200
 msgid "reminder_gig_email_html"
 msgstr ""
+"Hallo! Als Erinnerung: Du bist eingeladen, deine Meinung zu einem Gig für {0}:"
+"<br><br>{1}<br>Datum: {2}<br>Uhrzeit: {3}<br>Kontakt: "
+"{4}<br>Status: {5}<br><br>{6}<br><br>Ich bin dabei - <a href={9}>(hier "
+"klicken)</a><br>Geht sich nicht aus - <a href={10}>(hier "
+"klicken)</a><br>Zur <a href={7}>Infoseite des "
+"Gig</a><br><br>Danke,<br>Dein Gig-o-Matic Team"
 
 #: goemail.py:202
 msgid "new_gig_email"
@@ -1196,11 +1216,11 @@ msgstr "Zeige fixe Zusagen"
 
 #: templates/gig_info.html:187
 msgid "Remind"
-msgstr ""
+msgstr "Sende Erinnerung"
 
 #: templates/gig_info.html:190
 msgid "Reminder Sent"
-msgstr ""
+msgstr "Erinnerung gesendet"
 
 #: templates/go2base.html:82
 msgid "Who made this thing?"
