@@ -33,7 +33,8 @@ class Plan(ndb.Model):
     comment = ndb.StringProperty(indexed=False)
     section = ndb.KeyProperty()
     last_update = ndb.DateTimeProperty(auto_now=True)
-
+    snooze_until = ndb.DateTimeProperty(default=None)
+    
     @classmethod
     def lquery(cls, *args, **kwargs):
         if debug.DEBUG:
