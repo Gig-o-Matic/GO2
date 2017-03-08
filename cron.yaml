@@ -8,3 +8,6 @@ cron:
 - description: generate stats
   url: /generate_stats
   schedule: every day 05:15
+- description: send reminders
+  url: /send_reminders
+  schedule: every day 05:10
