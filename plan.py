@@ -7,6 +7,8 @@
 
 import debug
 from google.appengine.ext import ndb
+from requestmodel import *
+
 from debug import debug_print
 import webapp2
 
@@ -16,6 +18,7 @@ import member
 import assoc
 import datetime
 import logging
+import goemail
 
 plan_text = ["No Plan", "Definitely", "Probably", "Don't Know", "Probably Not", "Can't Do It", "Not Interested"]
 
@@ -30,7 +33,6 @@ class Plan(ndb.Model):
     comment = ndb.StringProperty(indexed=False)
     section = ndb.KeyProperty()
     last_update = ndb.DateTimeProperty(auto_now=True)
-    snooze_until = ndb.DateTimeProperty(default=None)
 
     @classmethod
     def lquery(cls, *args, **kwargs):
@@ -94,6 +96,14 @@ def get_recent_changes_for_band_key(the_band_key, the_time_delta_days=1, keys_on
     plans = plan_query.fetch(keys_only=keys_only)
     return plans
     
+def get_plan_reminders():
+    """ find plan that have a snooze date which is today or earlier """
+    plan_query = Plan.lquery( ndb.AND(
+                                        Plan.snooze_until != None, 
+                                        Plan.snooze_until <= (datetime.datetime.now() + datetime.timedelta(days=1))))
+    plans = plan_query.fetch()
+    return plans
+
 def update_plan(the_plan, the_value):
     the_plan.value=the_value
     the_plan.put()
@@ -205,3 +215,28 @@ class UpdatePlanSection(webapp2.RequestHandler):
         else:
             pass # todo figure out why there was no plan
         
+
+##########
+#
+# auto send reminders
+#
+##########
+class SendReminders(BaseHandler):
+    """ automatically send plan reminders """
+    def get(self):
+        the_plans = get_plan_reminders()
+        for p in the_plans:
+            logging.info("found plan {0}".format(p))
+            the_gig = p.key.parent().get()
+            stragglers = [p.member]
+            goemail.announce_new_gig(the_gig, self.uri_for('gig_info', _full=True, gk=the_gig.key.urlsafe()), is_edit=False, is_reminder=True, the_members=stragglers)
+            p.snooze_until = None
+            p.put()
+        logging.info("send {0} gig reminders".format(len(the_plans)))
+        template_args = {
+            'message' :  "send reminders for {0} plans".format(len(the_plans)),
+        }
+        self.render_template('message.html', template_args)
+
+
+
