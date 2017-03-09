@@ -227,10 +227,10 @@ class SendReminders(BaseHandler):
     def get(self):
         the_plans = get_plan_reminders()
         for p in the_plans:
-            logging.info("found plan {0}".format(p))
             the_gig = p.key.parent().get()
-            stragglers = [p.member]
-            goemail.announce_new_gig(the_gig, self.uri_for('gig_info', _full=True, gk=the_gig.key.urlsafe()), is_edit=False, is_reminder=True, the_members=stragglers)
+            if the_gig.date > datetime.datetime.now():
+                stragglers = [p.member]
+                goemail.announce_new_gig(the_gig, self.uri_for('gig_info', _full=True, gk=the_gig.key.urlsafe()), is_edit=False, is_reminder=True, the_members=stragglers)
             p.snooze_until = None
             p.put()
         logging.info("send {0} gig reminders".format(len(the_plans)))
