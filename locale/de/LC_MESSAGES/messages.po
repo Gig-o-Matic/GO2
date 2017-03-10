@@ -166,7 +166,8 @@ msgstr ""
 "<br><br>{1}<br>Datum: {2}<br>Uhrzeit: {3}<br>Kontakt: "
 "{4}<br>Status: {5}<br><br>{6}<br><br>Ich bin dabei - <a href={9}>(hier "
 "klicken)</a><br>Geht sich nicht aus - <a href={10}>(hier "
-"klicken)</a><br>Zur <a href={7}>Infoseite des "
+"klicken)</a><br>Du bist dir nicht sicher und willst in einer Woche erinnert "
+"werden? <a href={11}>Klick hier</a>.<br>Zur <a href={7}>Infoseite des "
 "Gig</a><br><br>Danke,<br>Dein Gig-o-Matic Team"
 
 #: goemail.py:202
@@ -195,7 +196,8 @@ msgstr ""
 "eingetragen:<br><br>{1}<br>Datum: {2}<br>Uhrzeit: {3}<br>Kontakt: "
 "{4}<br>Status: {5}<br><br>{6}<br><br>Ich bin dabei - <a href={9}>(hier "
 "klicken)</a><br>Geht sich nicht aus - <a href={10}>(hier "
-"klicken)</a><br>Zur <a href={7}>Infoseite des "
+"klicken)</a><br>Du bist dir nicht sicher und willst in einer Woche erinnert "
+"werden? <a href={11}>Klick hier</a>.<br>Zur <a href={7}>Infoseite des "
 "Gig</a><br><br>Danke,<br>Dein Gig-o-Matic Team"
 
 #: goemail.py:247
