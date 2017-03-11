@@ -988,6 +988,36 @@ class SendInvites(BaseHandler):
         }
         self.render_template('band_invite_result.html', template_args)
 
+class MemberSpreadsheet(BaseHandler):
+
+    def get(self):
+        the_user = self.user
+        the_band_keyurl=self.request.get('bk','0')
+
+        the_band_key = ndb.Key(urlsafe=the_band_keyurl)
+
+        if not is_authorized_to_edit_band(the_band_key, the_user):
+            return
+
+        self.response.headers['Content-Type'] = 'application/x-gzip'
+        self.response.headers['Content-Disposition'] = 'attachment; filename=members.csv'
+        
+        the_member_keys = assoc.get_member_keys_of_band_key(the_band_key)
+
+        the_members = ndb.get_multi(the_member_keys)
+
+        data="name,nickname,email,phone"
+        for m in the_members:
+            nick = m.nickname
+            if m.nickname is None:
+                nick=''
+            
+            data="{0}\n{1},{2},{3},{4}".format(data,m.name,nick,m.email_address,m.phone)
+
+        self.response.write(data)
+
+
+
 def is_authorized_to_edit_band(the_band_key, the_user):
     if assoc.get_admin_status_for_member_for_band_key(the_user, the_band_key) or the_user.is_superuser:
         return True
