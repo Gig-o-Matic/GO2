@@ -789,7 +789,7 @@ msgstr ""
 
 #: templates/confirm_answer.html:17
 msgid "answer_confirm_message"
-msgstr ""
+msgstr "Deine Antwort wurde übermittelt - danke!"
 
 #: templates/confirm_band_request.html:3
 msgid "Request Received!"
