@@ -162,8 +162,10 @@ msgstr ""
 "Ciao! Non hai ancora segnalato la tua disponibilità per una suonata della "
 "{0}:<br><br>{1}<br>Data: {2}<br>Orario: {3}<br>Contatto: {4}<br>Stato: "
 "{5}<br><br>{6}<br><br><br><br>Se ci sarai, <a href={9}>clicca "
-"qui</a><br>Se non puoi, <a href={10}>clicca qui</a><br>Info sulla suonata"
-" <a href={7}>qui</a><br><br>Grazie,<br>Il Team Gig-o-Matic"
+"qui</a><br>Se non puoi, <a href={10}>clicca qui</a><br>"
+"Se non lo sai ancora e vuoi ricevere un sollecito fra qualche giorno, "
+"<a href={11}>clicca qui</a><br>"
+"Info sulla suonata <a href={7}>qui</a><br><br>Grazie,<br>Il Team Gig-o-Matic"
 
 #: goemail.py:202
 msgid "new_gig_email"
@@ -780,7 +782,7 @@ msgstr ""
 
 #: templates/confirm_answer.html:17
 msgid "answer_confirm_message"
-msgstr ""
+msgstr "La tua risposta è stata registrata – grazie!"
 
 #: templates/confirm_band_request.html:3
 msgid "Request Received!"

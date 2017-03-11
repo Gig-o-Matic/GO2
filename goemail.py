@@ -1,3 +1,4 @@
+
 import webapp2
 from google.appengine.api import mail
 from google.appengine.api import users
@@ -146,7 +147,7 @@ def send_newgig_email(the_member, the_gig, the_band, the_gig_url, is_edit=False,
         contact_name="??"        
 
     # get the special URLs for "yes" and "no" answers
-    the_yes_url, the_no_url = gig.get_confirm_urls(the_member, the_gig)
+    the_yes_url, the_no_url, the_snooze_url = gig.get_confirm_urls(the_member, the_gig)
         
     message = mail.EmailMessage()
     message.sender = SENDER_EMAIL
@@ -196,11 +197,11 @@ def send_newgig_email(the_member, the_gig, the_band, the_gig_url, is_edit=False,
     if is_edit:
         message.body=_('edited_gig_email').format(the_band.name, the_gig.title, the_date_string, the_time_string, contact_name, the_status_string, the_gig.details, the_gig_url, change_string)
     elif is_reminder:
-        message.body=_('reminder_gig_email').format(the_band.name, the_gig.title, the_date_string, the_time_string, contact_name, the_status_string, the_gig.details, the_gig_url,"",the_yes_url,the_no_url)
-        message.html=_('reminder_gig_email_html').format(the_band.name, the_gig.title, the_date_string, the_time_string, contact_name, the_status_string, the_gig.details, the_gig_url,"",the_yes_url,the_no_url)
+        message.body=_('reminder_gig_email').format(the_band.name, the_gig.title, the_date_string, the_time_string, contact_name, the_status_string, the_gig.details, the_gig_url,"",the_yes_url,the_no_url,the_snooze_url)
+        message.html=_('reminder_gig_email_html').format(the_band.name, the_gig.title, the_date_string, the_time_string, contact_name, the_status_string, the_gig.details, the_gig_url,"",the_yes_url,the_no_url,the_snooze_url)
     else:
-        message.body=_('new_gig_email').format(the_band.name, the_gig.title, the_date_string, the_time_string, contact_name, the_status_string, the_gig.details, the_gig_url,"",the_yes_url,the_no_url)
-        message.html=_('new_gig_email_html').format(the_band.name, the_gig.title, the_date_string, the_time_string, contact_name, the_status_string, the_gig.details, the_gig_url,"",the_yes_url,the_no_url)
+        message.body=_('new_gig_email').format(the_band.name, the_gig.title, the_date_string, the_time_string, contact_name, the_status_string, the_gig.details, the_gig_url,"",the_yes_url,the_no_url,the_snooze_url)
+        message.html=_('new_gig_email_html').format(the_band.name, the_gig.title, the_date_string, the_time_string, contact_name, the_status_string, the_gig.details, the_gig_url,"",the_yes_url,the_no_url,the_snooze_url)
         
     try:
         message.send()

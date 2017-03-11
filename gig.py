@@ -276,7 +276,7 @@ def make_archive_for_gig_key(the_gig_key):
 
 #    the_yes_url, the_no_url = gig.get_confirm_urls(the_member, the_gig)
 def get_confirm_urls(the_member, the_gig):
-    """return two urls which encode the member and the gig, and a yes or no"""
+    """return three urls which encode the member and the gig, and a yes or no"""
     
     yes_string = "{0}+{1}+1".format(the_member.key.urlsafe(), the_gig.key.urlsafe())
     yes_code = cryptoutil.encrypt_string(yes_string)
@@ -286,7 +286,11 @@ def get_confirm_urls(the_member, the_gig):
     no_code = cryptoutil.encrypt_string(no_string)
     no_url =  webapp2.uri_for('gig_answerlink', _full=True, c=no_code)
 
-    return yes_url, no_url
+    snooze_string = "{0}+{1}+2".format(the_member.key.urlsafe(), the_gig.key.urlsafe())
+    snooze_code = cryptoutil.encrypt_string(snooze_string)
+    snooze_url =  webapp2.uri_for('gig_answerlink', _full=True, c=snooze_code)
+
+    return yes_url, no_url, snooze_url
 
 #
 #
@@ -894,8 +898,25 @@ class AnswerLinkHandler(BaseHandler):
         if the_plan:
             if parts[2] == '0':
                 plan.update_plan(the_plan,5)
-            else:
+            elif parts[2] == '1':
                 plan.update_plan(the_plan,1)
+            elif parts[2] == '2':
+                # snooze!
+                the_gig = the_plan.key.parent().get()
+                snooze_days = 7
+                gig_future = the_gig.date - datetime.datetime.now()
+                if gig_future.days < 8:
+                    snooze_days = gig_future.days - 2
+
+                if snooze_days > 0:
+                    snooze_day = datetime.datetime.now() + datetime.timedelta(days = snooze_days)
+                    # logging.info("\n\nsnooze date is {0}\n\n".format(snooze_day))
+                    the_plan.snooze_until = snooze_day
+                    the_plan.put()
+                    # TODO if the gig is too soon, silently ignore request fo snooze - should give a message
+
+            else:
+                logging.error("answerlink got unknown type.\ngig key:{0}\nmember_key:{1}".format(parts[1], parts[0]))
         
             self.render_template('confirm_answer.html', [])
         else:
