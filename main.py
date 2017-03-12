@@ -65,6 +65,7 @@ else:
         webapp2.Route('/login_auto_old_token', login.AutoDeleteSignupTokenHandler),
         webapp2.Route('/help', help.HelpHandler),
         webapp2.Route('/changelog', help.ChangeLogHandler),
+        webapp2.Route('/privacy', help.PrivacyHandler),
         webapp2.Route('/help_band_request.html', help.SignUpBandHandler),
         webapp2.Route('/credits', credits.CreditsHandler),
         webapp2.Route('/seen_welcome', motd.SeenWelcomeHandler),

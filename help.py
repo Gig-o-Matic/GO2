@@ -36,6 +36,20 @@ class ChangeLogHandler(BaseHandler):
         self.render_template('changelog.html', template_args)
 
 
+class PrivacyHandler(BaseHandler):
+
+    @user_required
+    def get(self):    
+        """ get handler for help page """
+        self._make_page(the_user=self.user)
+            
+    def _make_page(self,the_user):
+        """ construct page for changelog """
+
+        template_args = {
+        }
+        self.render_template('privacy.html', template_args)
+
 class SignUpBandHandler(BaseHandler):
 
     def get(self):    
