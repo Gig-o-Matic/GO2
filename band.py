@@ -1002,17 +1002,37 @@ class MemberSpreadsheet(BaseHandler):
         self.response.headers['Content-Type'] = 'application/x-gzip'
         self.response.headers['Content-Disposition'] = 'attachment; filename=members.csv'
         
-        the_member_keys = assoc.get_member_keys_of_band_key(the_band_key)
+        the_assocs = assoc.get_assocs_of_band_key(the_band_key)
 
+        the_member_keys = [a.member for a in the_assocs]
         the_members = ndb.get_multi(the_member_keys)
 
-        data="name,nickname,email,phone"
+        section_keys = get_section_keys_of_band_key(the_band_key)
+        sections = ndb.get_multi(section_keys)
+
+        data="name,nickname,email,phone,section"
         for m in the_members:
             nick = m.nickname
             if m.nickname is None:
                 nick=''
             
-            data="{0}\n{1},{2},{3},{4}".format(data,m.name,nick,m.email_address,m.phone)
+            # find the assoc for this member
+            the_assoc = None
+            for a in the_assocs:
+                logging.info('\n\n{0}\n\n{1}\n\n'.format(a.member, m.key))
+                if a.member == m.key:
+                    the_assoc = a
+                    break
+
+            if the_assoc and the_assoc.default_section:
+                sec=''
+                for s in sections:
+                    if s.key == the_assoc.default_section:
+                        sec=s.name
+            else:
+                sec=''
+
+            data="{0}\n{1},{2},{3},{4},{5}".format(data,m.name,nick,m.email_address,m.phone,sec)
 
         self.response.write(data)
 
