@@ -156,7 +156,7 @@ def get_admin_status_for_member_for_band_key(the_member, the_band_key):
 def confirm_member_for_band_key(the_member, the_band_key):
     """ assuming this member is pending, confirm them """
     a = get_assoc_for_band_key_and_member_key(the_member_key=the_member.key, the_band_key=the_band_key)
-    if a:
+    if a and not a.is_confirmed:
         a.is_confirmed = True
         # update the assoc creation date to now
         a.created=datetime.datetime.now()

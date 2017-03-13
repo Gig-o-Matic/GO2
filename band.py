@@ -552,12 +552,14 @@ class BandGetSections(BaseHandler):
         the_band = the_band_key.get()
         the_members_by_section = get_assocs_of_band_key_by_section_key(the_band_key)
 
+        someone_is_new = False
         lately = datetime.datetime.now() - datetime.timedelta(days=7)
         for a_section in the_members_by_section:
             if a_section[1]:
                 for a in a_section[1]:
                     if a.created and a.created > lately:
                         a.is_new=True
+                        someone_is_new = True
 
         the_user_is_band_admin = assoc.get_admin_status_for_member_for_band_key(the_user, the_band_key)
 
@@ -568,7 +570,8 @@ class BandGetSections(BaseHandler):
             'the_section_count' : len(the_members_by_section),
             'the_members_by_section' : the_members_by_section,
             'num_sections' : num_sections,
-            'the_user_is_band_admin' : the_user_is_band_admin
+            'the_user_is_band_admin' : the_user_is_band_admin,
+            'someone_is_new' : someone_is_new
         }
         self.render_template('band_sections.html', template_args)
 
