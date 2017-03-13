@@ -79,8 +79,16 @@
             {% if the_user %}
                 <div id="footer">
                     <div class="container text-right">
-                        <a href="/credits"><p class="text-muted credit">{% trans %}Who made this thing?{% endtrans %}</p></a>
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-12 text-left">
+                                <a href="/privacy"><p class="text-muted credit">{% trans %}Privacy & Security{% endtrans %}</p></a>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12 text-right">
+                                <a href="/credits"><p class="text-muted credit">{% trans %}Who made this thing?{% endtrans %}</p></a>
+                            </div>
+                        </div>
                     </div>
+
                 </div>
             {% endif %}
         {% endblock footer %}
