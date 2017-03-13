@@ -1010,27 +1010,25 @@ class MemberSpreadsheet(BaseHandler):
         section_keys = get_section_keys_of_band_key(the_band_key)
         sections = ndb.get_multi(section_keys)
 
+        section_map={}
+        for s in sections:
+            section_map[s.key] = s.name
+
+        member_section_map={}
+        for a in the_assocs:
+            if a.default_section:
+                member_section_map[a.member] = section_map[a.default_section]
+            else:
+                member_section_map[a.member] = ''
+
+
         data="name,nickname,email,phone,section"
         for m in the_members:
             nick = m.nickname
             if m.nickname is None:
                 nick=''
             
-            # find the assoc for this member
-            the_assoc = None
-            for a in the_assocs:
-                logging.info('\n\n{0}\n\n{1}\n\n'.format(a.member, m.key))
-                if a.member == m.key:
-                    the_assoc = a
-                    break
-
-            if the_assoc and the_assoc.default_section:
-                sec=''
-                for s in sections:
-                    if s.key == the_assoc.default_section:
-                        sec=s.name
-            else:
-                sec=''
+            sec = member_section_map[m.key]
 
             data=u"{0}\n{1},{2},{3},{4},{5}".format(data,m.name,nick,m.email_address,m.phone,sec)
 
