@@ -1032,7 +1032,7 @@ class MemberSpreadsheet(BaseHandler):
             else:
                 sec=''
 
-            data="{0}\n{1},{2},{3},{4},{5}".format(data,m.name,nick,m.email_address,m.phone,sec)
+            data=u"{0}\n{1},{2},{3},{4},{5}".format(data,m.name,nick,m.email_address,m.phone,sec)
 
         self.response.write(data)
 
