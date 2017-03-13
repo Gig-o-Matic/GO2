@@ -21,6 +21,9 @@
                         {% if the_assoc.is_occasional %}
                             ({% trans %}occasional{% endtrans %})
                         {% endif %}
+                        {% if the_assoc.is_new %}
+                            <i class="fa fa-star" style="color:green"></i>
+                        {% endif %}
                         <br>
                 {% endfor %}
             {% else %}
