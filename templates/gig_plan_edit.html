@@ -13,7 +13,7 @@
 
 {% set show_section = False %}
 {% if the_assoc and the_assoc.is_multisectional %}
-    {% if the_member_key == the_user.key or the_user_is_superuser %}
+    {% if the_member_key == the_user.key or the_user_is_superuser or user_is_band_admin %}
         {% set show_section = True %}
     {% endif %}
 {% endif %}
