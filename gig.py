@@ -65,6 +65,7 @@ class Gig(ndb.Model):
     creator = ndb.KeyProperty()
     invite_occasionals = ndb.BooleanProperty(default=True)
     was_reminded = ndb.BooleanProperty(default=False)
+    hide_from_calendar = ndb.BooleanProperty(default=False)
     
     def gigtime(self):
         if self.calltime:
@@ -597,6 +598,13 @@ class EditPage(BaseHandler):
             the_gig.invite_occasionals = True
         else:
             the_gig.invite_occasionals = False
+
+        gig_hide_from_calendar=self.request.get("gig_hide_from_calendar",None)
+        if (gig_hide_from_calendar):
+            the_gig.hide_from_calendar = True
+        else:
+            the_gig.hide_from_calendar = False
+
 
         gig_private=self.request.get("gig_private",None)
         if (gig_private):

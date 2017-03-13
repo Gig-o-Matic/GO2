@@ -172,6 +172,11 @@
                         >{% trans %}Also send update to occasional members{% endtrans %}  
                     {% endif %}
                 </label>  
+                <label class="checkbox">  
+                    <input type="checkbox" id="gig_hide_from_calendar" name="gig_hide_from_calendar" 
+                    {% if gig.hide_from_calendar %}checked{% endif %}                        
+                    >{% trans %}Hide gig from calendars{% endtrans %}  
+                </label>  
             </div>
         </div>
         <div class="row">

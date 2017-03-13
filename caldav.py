@@ -191,7 +191,7 @@ class BandRequestHandler(BaseHandler):
 
         all_gigs = gig.get_gigs_for_band_keys(the_band_key)
         for a_gig in all_gigs:
-            if a_gig.is_confirmed:
+            if a_gig.is_confirmed and not a_gig.hide_from_calendar:
                 info = u'{0}{1}'.format(info, make_event(a_gig, the_band))
 
         info = u'{0}{1}'.format(info, make_cal_footer())
@@ -215,7 +215,7 @@ class PublicBandGigRequestHandler(BaseHandler):
 
         all_gigs = gig.get_gigs_for_band_keys(the_band_key, show_only_public=True)
         for a_gig in all_gigs:
-            if a_gig.is_confirmed:
+            if a_gig.is_confirmed and not a_gig.hide_from_calendar:
                 info = u'{0}{1}'.format(info, make_event(a_gig, the_band, show_url=False, force_set_time=True))
 
         info = u'{0}{1}'.format(info, make_cal_footer())
@@ -253,7 +253,7 @@ class MemberRequestHandler(BaseHandler):
             a_band_name = a_band.shortname if a_band.shortname else a_band.name
             all_gigs = gig.get_gigs_for_band_keys(a_band.key, show_past=True)
             for a_gig in all_gigs:
-                if not a_gig.is_canceled: # and not a_gig.is_archived:
+                if not a_gig.is_canceled and not a_gig.hide_from_calendar: # and not a_gig.is_archived:
                     the_plan = plan.get_plan_for_member_key_for_gig_key(the_member_key, a_gig.key)
                     if the_plan:
                         # check member preferences

@@ -136,6 +136,12 @@
                         </div>
                         <div class="row">&nbsp;</div>
                     {% endif %}
+                    {% if gig.hide_from_calendar %}
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12 col-xs-12">{% trans %}Gig is hidden from calendar.{% endtrans %}</div>
+                        </div>
+                        <div class="row">&nbsp;</div>
+                    {% endif %}
                 </div>  <!-- panel body -->
             </div> <!-- panel -->
             {% if gig.setlist %}
