@@ -13,6 +13,7 @@ import member
 import goemail
 import plan
 import logging
+import datetime
 
 def assoc_key(member_name='assoc_key'):
     """Constructs a Datastore key for an Assoc entity with assoc_name."""
@@ -34,6 +35,8 @@ class Assoc(ndb.Model):
     color = ndb.IntegerProperty(default=0) # (1=red, 2=green, 3=blue, 4=orange, 5=yellow)
     email_me = ndb.BooleanProperty (default=True)
     hide_from_schedule = ndb.BooleanProperty (default=False)
+    created = ndb.DateTimeProperty(auto_now_add=True)
+
 
     @classmethod
     def lquery(cls, *args, **kwargs):
@@ -155,6 +158,8 @@ def confirm_member_for_band_key(the_member, the_band_key):
     a = get_assoc_for_band_key_and_member_key(the_member_key=the_member.key, the_band_key=the_band_key)
     if a:
         a.is_confirmed = True
+        # update the assoc creation date to now
+        a.created=datetime.datetime.now()
         a.put()
 
 def set_admin_for_member_key_and_band_key(the_member_key, the_band_key, the_do):
