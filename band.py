@@ -134,30 +134,15 @@ def get_section_keys_of_band_key(the_band_key):
 
 def get_assocs_of_band_key_by_section_key(the_band_key, include_occasional=True):
     the_assocs = assoc.get_confirmed_assocs_of_band_key(the_band_key, include_occasional=include_occasional)
-    the_section_keys = get_section_keys_of_band_key(the_band_key)
     
-    the_info=[]
-    for a_section_key in the_section_keys:
-        the_section_info=[]
-        for an_assoc in the_assocs:
-            if an_assoc.default_section == a_section_key:
-                the_section_info.append(an_assoc)
-# *** 
-# we always want to get the section, even if it's empty.
-#         if the_section_info: 
-        the_info.append( [a_section_key, the_section_info] )
-# *** 
-
-    # now look for empty section
-    the_section_info=[]
+    the_info={}
     for an_assoc in the_assocs:
-        if an_assoc.default_section == None:
-            the_section_info.append(an_assoc)
-    if the_section_info:
-        the_info.append( [None, the_section_info] )
+        if an_assoc.default_section in the_info:
+            the_info[an_assoc.default_section].append(an_assoc)
+        else:
+            the_info[an_assoc.default_section] = [an_assoc]
 
-    return the_info
-    
+    return the_info.items()
 
     
 def new_section_for_band(the_band, the_section_name):

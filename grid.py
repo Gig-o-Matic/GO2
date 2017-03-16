@@ -79,9 +79,9 @@ class MainPage(BaseHandler):
                 member_key=an_assoc.member
                 member_plans = {}
                 for a_gig in the_gigs:
-                    the_plan = plan.get_plan_for_member_key_for_gig_key(the_member_key=member_key, the_gig_key=a_gig.key)
+                    the_plan = plan.get_plan_for_member_key_for_gig_key(the_member_key=member_key, the_gig_key=a_gig.key, keys_only=True)
                     if the_plan is not None:
-                        member_plans[a_gig.key] = the_plan.value
+                        member_plans[a_gig.key] = the_plan.get().value
                 the_plans[member_key] = member_plans
                 
 

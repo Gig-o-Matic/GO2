@@ -45,7 +45,7 @@ class Plan(ndb.Model):
         self.comment=the_comment;
         self.put()
 
-def new_plan(the_gig, the_member, value):
+def new_plan(the_gig_key, the_member_key, value):
     """ associate a gig and a member """
 
     if the_gig is None:
@@ -55,7 +55,7 @@ def new_plan(the_gig, the_member, value):
     if the_member is None:
     	logging.error("no member passed to new_plan")
     	return None
-    the_plan = Plan(parent=the_gig.key, member=the_member.key, value=value, comment="", section=None)
+    the_plan = Plan(parent=the_gig_key, member=the_member_key, value=value, comment="", section=None)
     the_plan.put()
 
     return the_plan
@@ -70,23 +70,26 @@ def get_plans_for_gig_key(the_gig_key, keys_only = False):
     plans = plan_query.fetch(keys_only=keys_only)
     return plans
 
-def get_plan_for_member_key_for_gig_key(the_member_key, the_gig_key):
+def get_plan_for_member_key_for_gig_key(the_member_key, the_gig_key, keys_only=False):
     plan_query = Plan.lquery(Plan.member==the_member_key, ancestor=the_gig_key)
-    plans = plan_query.fetch()
+    plans = plan_query.fetch(keys_only=keys_only)
     if len(plans)>1:
         logging.error("gig/member with multiple plans! gk={0} mk={1}".format(the_gig_key.urlsafe(),the_member_key.urlsafe()))
 #         return None #todo what to do if there's more than one plan        
 
         # more than one plan! Just delete the others - not sure how they got here
         the_plan = plans[0]
-        delplan_keys = [p.key for p in plans[1:]]
+        if keys_only:
+            delplan_keys = plans[1:]
+        else:
+            delplan_keys = [p.key for p in plans[1:]]
         ndb.delete_multi(delplan_keys)
         return the_plan
     if len(plans)>0:
         return plans[0]
     else:
         # no plan? make a new one
-        return new_plan(the_gig_key.get(), the_member_key.get(), 0)
+        return new_plan(the_gig_key, the_member_key, 0)
 
 def get_plan_for_member_for_gig(the_member, the_gig):
     return get_plan_for_member_key_for_gig_key(the_member_key=the_member.key, the_gig_key=the_gig.key)
