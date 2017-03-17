@@ -71,18 +71,38 @@ class MainPage(BaseHandler):
             show_canceled=False
 
         the_gigs = gig.get_gigs_for_band_key_for_dates(the_band_key, start_date, end_date, get_canceled=show_canceled)
+
+        all_plans = []
+        for g in the_gigs:
+            all_plans.append(plan.get_plans_for_gig_key(g.key))
+
         the_member_assocs = band.get_assocs_of_band_key_by_section_key(the_band_key, include_occasional=False)
 
         the_plans = {}
         for section in the_member_assocs:
             for an_assoc in section[1]:
-                member_key=an_assoc.member
+                member_key = an_assoc.member
                 member_plans = {}
-                for a_gig in the_gigs:
-                    the_plan = plan.get_plan_for_member_key_for_gig_key(the_member_key=member_key, the_gig_key=a_gig.key, keys_only=True)
-                    if the_plan is not None:
-                        member_plans[a_gig.key] = the_plan.get().value
+                for i in range(0,len(the_gigs)):
+                    gig_plans = all_plans[i]
+                    for p in gig_plans:
+                        if p.member == member_key:
+                            member_plans[p.key.parent()] = p.value
+                            break
                 the_plans[member_key] = member_plans
+
+
+
+        # the_plans = {}
+        # for section in the_member_assocs:
+        #     for an_assoc in section[1]:
+        #         member_key=an_assoc.member
+        #         member_plans = {}
+        #         for a_gig in the_gigs:
+        #             the_plan = plan.get_plan_for_member_key_for_gig_key(the_member_key=member_key, the_gig_key=a_gig.key, keys_only=True)
+        #             if the_plan is not None:
+        #                 member_plans[a_gig.key] = the_plan.get().value
+        #         the_plans[member_key] = member_plans
                 
 
         template_args = {
