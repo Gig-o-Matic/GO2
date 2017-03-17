@@ -253,7 +253,7 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-12 col-md-offset-0" id="sectionlist">
-                        <i class="fa fa-spinner fa-spin fa-lg"></i>
+                                <i class="fa fa-spinner fa-spin fa-lg"></i>
                             </div>
                         </div>
                         <div class="row">
@@ -431,6 +431,7 @@ function updateMembers() {
 
 function updateSections() {
     if (document.getElementById('sectionlist')) {
+        document.getElementById('sectionlist').innerHTML='<i class="fa fa-spinner fa-spin fa-lg"></i>';
         $.post('/band_get_sections',
                 {
                     bk: '{{ the_band.key.urlsafe() }}'
