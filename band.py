@@ -133,16 +133,23 @@ def get_section_keys_of_band_key(the_band_key):
     return the_band_key.get().sections
 
 def get_assocs_of_band_key_by_section_key(the_band_key, include_occasional=True):
+    the_band = the_band_key.get()
+    the_info=[]
+    the_map={}
+    count=0
+    for s in the_band.sections:
+        the_info.append([s,[]])
+        the_map[s]=count
+        count=count+1
+    the_info.append([None,[]]) # for 'None'
+    the_map[None]=count
+
     the_assocs = assoc.get_confirmed_assocs_of_band_key(the_band_key, include_occasional=include_occasional)
     
-    the_info={}
     for an_assoc in the_assocs:
-        if an_assoc.default_section in the_info:
-            the_info[an_assoc.default_section].append(an_assoc)
-        else:
-            the_info[an_assoc.default_section] = [an_assoc]
+        the_info[the_map[an_assoc.default_section]][1].append(an_assoc)
 
-    return the_info.items()
+    return the_info
 
     
 def new_section_for_band(the_band, the_section_name):
@@ -155,6 +162,7 @@ def new_section_for_band(the_band, the_section_name):
     else:
         the_band.sections=[the_section.key]
     the_band.put()
+
     return the_section
 
 def delete_section_key(the_section_key):
@@ -535,6 +543,7 @@ class BandGetSections(BaseHandler):
             
         the_band_key = ndb.Key(urlsafe=the_band_key_str)
         the_band = the_band_key.get()
+
         the_members_by_section = get_assocs_of_band_key_by_section_key(the_band_key)
 
         someone_is_new = False
@@ -558,6 +567,7 @@ class BandGetSections(BaseHandler):
             'the_user_is_band_admin' : the_user_is_band_admin,
             'someone_is_new' : someone_is_new
         }
+
         self.render_template('band_sections.html', template_args)
 
 class NewSection(BaseHandler):
@@ -580,7 +590,7 @@ class NewSection(BaseHandler):
             return
 
         the_band=the_band_key.get()
-        
+
         new_section_for_band(the_band, the_section_name)
 
 class DeleteSection(BaseHandler):
