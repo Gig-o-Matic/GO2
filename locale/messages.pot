@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-03-13 19:25-0400\n"
+"POT-Creation-Date: 2017-03-18 18:33-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -323,8 +323,8 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-#: templates/band_edit.html:172 templates/band_info.html:605
-#: templates/band_info.html:619 templates/forum.html:139
+#: templates/band_edit.html:172 templates/band_info.html:606
+#: templates/band_info.html:620 templates/forum.html:139
 #: templates/gig_edit.html:311 templates/gig_edit.html:314
 #: templates/gig_edit.html:317 templates/invite_welcome.html:101
 #: templates/invite_welcome.html:107 templates/member_edit.html:198
