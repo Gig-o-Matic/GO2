@@ -547,7 +547,7 @@ class BandGetSections(BaseHandler):
         the_members_by_section = get_assocs_of_band_key_by_section_key(the_band_key)
 
         someone_is_new = False
-        lately = datetime.datetime.now() - datetime.timedelta(days=7)
+        lately = datetime.datetime.now() - datetime.timedelta(days=4)
         for a_section in the_members_by_section:
             if a_section[1]:
                 for a in a_section[1]:
