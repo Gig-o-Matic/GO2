@@ -112,8 +112,9 @@
 {% endblock content %}
 
 {% block localscripts %}
-<script src="/datepicker/js/bootstrap-datepicker.js"></script>
-<script src="/datepicker/js/locales/bootstrap-datepicker.{{ the_user.preferences.locale }}.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/locales/bootstrap-datepicker.{{ the_user.preferences.locale }}.min.js"></script>
+
 {% if the_user.preferences.locale == 'en' %}
     <script src='/js/moment.min.js'></script>
 {% else %}

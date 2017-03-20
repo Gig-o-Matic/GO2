@@ -349,8 +349,11 @@ def format_date_for_member(the_user, the_date, format="short"):
         the_str=u'{0}'.format(format_date(the_date,locale=the_locale,format="EEE"))
     elif format=='datepicker':
         # here we want the short format but replace the year with the complete year
-        tmpstr=format_date(the_date,locale=the_locale,format="short")[:-2]
-        the_str=tmpstr+str(the_date.year)
+        the_str=format_date(the_date,locale=the_locale,format="short")
+
+        if not the_str[-4:].isdigit(): # if we only have a 2-digit date
+            the_str=the_str[:-2]+str(the_date.year)
+
     return the_str
 
 

@@ -245,8 +245,12 @@
     </div><!-- /.modal -->
 {% endblock modal %}
 {% block localscripts %}
-<script src="/datepicker/js/bootstrap-datepicker.js"></script>
-<script src="/datepicker/js/locales/bootstrap-datepicker.{{ the_user.preferences.locale }}.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.js"></script>
+{% if the_user.preferences.locale=='en_GB' %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/locales/bootstrap-datepicker.en-GB.min.js"></script>
+{% else %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/locales/bootstrap-datepicker.{{ the_user.preferences.locale }}.min.js"></script>
+{% endif %}
 <script src="/js/jquery.validate.js"></script>
 <script src="/timepicker/jquery.timepicker.min.js"></script>
 {% if the_user.preferences.locale == 'en' %}
@@ -255,9 +259,16 @@
 <script src='/js/moment-with-langs.min.js'></script>
 {% endif %}
 <script>
+
+{% if the_user.preferences.locale == 'en_GB' %}
+    {% set locale_fix = 'en-GB' %}
+{% else %}
+    {% set locale_fix = the_user.preferences.locale %}
+{% endif %}
+
 $(document).ready(function () {
     $('#gigdateinput').datepicker({
-                language: '{{ the_user.preferences.locale }}'
+                language: '{{ locale_fix }}'
             });
     $('#gigdateinput')
       .on('changeDate', function(ev){
@@ -265,7 +276,7 @@ $(document).ready(function () {
       });
       
     $('#gigenddateinput').datepicker({
-                language: '{{ the_user.preferences.locale }}'
+                language: '{{ locale_fix }}'
             });
     $('#gigenddateinput')
       .on('changeDate', function(ev){
@@ -333,11 +344,9 @@ function(value, element, params) {
         return true;
     }
 
-    {% if the_user.preferences.locale != 'en' %} 
-        moment.lang('{{the_user.preferences.locale}}');
-    {% endif %}
-    d1 = moment(value,moment.langData('{{ the_user.preferences.locale }}').longDateFormat("L"));
-    d2 = moment($(params).val(),moment.langData('{{ the_user.preferences.locale }}').longDateFormat("L"));
+    moment.lang('{{ locale_fix }}');
+    d1 = moment(value,moment.langData('{{ locale_fix }}').longDateFormat("L"));
+    d2 = moment($(params).val(),moment.langData('{{ locale_fix }}').longDateFormat("L"));
 
     return d1 > d2;
 },'{% trans %}Must be later than start date!{% endtrans %}');
@@ -349,10 +358,8 @@ function(value, element, params) {
     today.minute(0);
     today.second(0);
     today.millisecond(0);
-    {% if the_user.preferences.locale != 'en' %} 
-        moment.lang('{{the_user.preferences.locale}}');
-    {% endif %}
-    d1 = moment(value,moment.langData('{{ the_user.preferences.locale }}').longDateFormat("L"));
+    moment.lang('{{locale_fix}}');
+    d1 = moment(value,moment.langData('{{ locale_fix }}').longDateFormat("L"));
     return d1 >= today;
 },'{% trans %}Must be in the future!{% endtrans %}');
 
