@@ -260,6 +260,7 @@
                             {% if the_user_is_superuser or the_user_is_band_admin %}
                                 <div class="col-md-4 col-md-offset-0">
                                     <br>
+                                    <a href='/band_setup_sections?bk={{the_band.key.urlsafe()}}' class="btn btn-primary btn-sm" >{% trans %}Set Up Sections{% endtrans %}</a>
                                     <a data-toggle="modal" href="#newsectionmodal" class="btn btn-primary btn-sm" id="{{the_band.key.urlsafe()}}">{% trans %}Add a Section{% endtrans %}</a>
                                 </div>
                             {% endif %}

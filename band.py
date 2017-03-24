@@ -570,6 +570,34 @@ class BandGetSections(BaseHandler):
 
         self.render_template('band_sections.html', template_args)
 
+class SetupSections(BaseHandler):
+    """ edit sections - add them, rename them, reorder them """
+
+    @user_required
+    def get(self):
+        the_user = self.user
+
+        the_band_key_str=self.request.get('bk','0')
+        
+        if the_band_key_str=='0':
+            return # todo figure out what to do
+            
+        the_band_key = ndb.Key(urlsafe=the_band_key_str)
+
+        if not is_authorized_to_edit_band(the_band_key,the_user):
+            return        
+
+        the_band = the_band_key.get()
+
+        template_args = {
+            'the_band' : the_band,
+            'the_sections' : ndb.get_multi(the_band.sections)
+        }
+        self.render_template('band_setup_sections.html', template_args)
+
+    def post(self):
+        return
+
 class NewSection(BaseHandler):
     """ makes a new section for a band """                   
 
@@ -614,6 +642,9 @@ class DeleteSection(BaseHandler):
             return        
         
         delete_section_key(the_section_key)
+
+
+
 
 class MoveSection(BaseHandler):
     """ move a section for a band """                   

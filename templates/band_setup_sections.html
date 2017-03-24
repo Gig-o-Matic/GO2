@@ -1,0 +1,88 @@
+{% extends 'go2base.html' %}
+
+{% block title %}{% trans %}Band Info{% endtrans %}{% endblock title %}
+
+{% block headcontent %}
+{% endblock headcontent %}
+
+{% block content %}
+    <div class="row">
+        <div class="page-header col-md-8 col-md-offset-2">
+            {{ the_band.name }}
+            {% if the_user_is_associated and the_band.shortname %}
+                <br>
+                ({% trans %}a.k.a.{% endtrans %}&nbsp;{{ the_band.shortname }})
+            {% endif %}
+        </div> 
+    </div>
+
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+                <div class="row">
+                    <div class="col-md-12 col-md-offset-0">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="row">
+                                <div class="col-md-10 col-sm-10 col-xs-10">
+                                    <div class="panel-title">{% trans %}Sections{% endtrans %}</div>
+                                </div>
+                        </div>
+                    </div>        
+                    <div class="panel-body">
+
+                        {% for the_section in the_sections %}
+                            <div class="row" style="padding-top: 5px; padding-bottom: 5px; {{ loop.cycle('', 'background:#f5f5f5;') }}">
+                                <div class="col-md-6 col-sm-6 col-xs-3 gomlabel">
+                                    <input type="text" value="{{the_section.name}}">
+                                </div>
+                                <div class="col-md-2 col-sm-2 col-xs-8">
+                                        <a class="btn btn-default btn-sm" onclick="delete_section('{{the_section.name}}','{{the_section.key.urlsafe()}}'); return false;" href="#"><i class="fa fa-times-circle fa-lg"></i></a>
+                                </div>
+                                {% if loop.first %}
+                                    <div class="col-md-1 col-sm-1 col-xs-2"></div>
+                                    <div class="col-md-1 col-sm-1 col-xs-2 text-left">
+                                        <a class="btn btn-default btn-sm movesection" onclick="move(0,'{{the_section.key.urlsafe()}}')"><i class="fa fa-arrow-circle-down fa-lg"></i></a>
+                                    </div>
+                                {% elif loop.last %}
+                                    <div class="col-md-1 col-sm-1 col-xs-2 text-right">                
+                                        <a class="btn btn-default btn-sm movesection" onclick="move(1,'{{the_section.key.urlsafe()}}')"><i class="fa fa-arrow-circle-up fa-lg"></i></a>
+                                    </div>
+                                    <div class="col-md-1 col-sm-1 col-xs-2"></div>
+                                {% else %}
+                                    <div class="col-md-1 col-sm-1 col-xs-2 text-right">                
+                                        <a class="btn btn-default btn-sm movesection" onclick="move(1,'{{the_section.key.urlsafe()}}')"><i class="fa fa-arrow-circle-up fa-lg"></i></a>
+                                    </div>
+                                    <div class="col-md-1 col-sm-1 col-xs-2 text-left">                
+                                        <a class="btn btn-default btn-sm movesection" onclick="move(0,'{{the_section.key.urlsafe()}}')"><i class="fa fa-arrow-circle-down fa-lg"></i></a>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+
+
+                        <div class="row">
+                            <div class="col-md-4 col-md-offset-0">
+                                <br>
+                                <a data-toggle="modal" href="#newsectionmodal" class="btn btn-primary btn-sm" id="{{the_band.key.urlsafe()}}">{% trans %}Add a Section{% endtrans %}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- panel -->
+                        
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+
+{% block localscripts %}
+
+
+$(document).ready(function() {
+
+});
+</script>
+{% endblock localscripts %}
