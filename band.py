@@ -22,6 +22,7 @@ import json
 import logging
 import datetime
 import stats
+import json
 from pytz.gae import pytz
 
 def band_key(band_name='band_key'):
@@ -596,6 +597,72 @@ class SetupSections(BaseHandler):
         self.render_template('band_setup_sections.html', template_args)
 
     def post(self):
+        the_user = self.user
+
+        the_band_key_str=self.request.get('bk','0')
+        
+        if the_band_key_str=='0':
+            return # todo figure out what to do
+            
+        the_band_key = ndb.Key(urlsafe=the_band_key_str)
+
+        if not is_authorized_to_edit_band(the_band_key,the_user):
+            return        
+
+        the_band = the_band_key.get()
+
+        the_section_info = self.request.get('sectionInfo', None)
+        if the_section_info is None:
+            return
+
+        new_sections = json.loads(the_section_info)
+
+        # build a new list of sections. Make sure the sections are actually in the band.
+        new_section_list = []
+        for n in new_sections:
+            if n[1] == "":
+                # this is a new section
+                ns = Section(parent=the_band.key, name=n[0])
+                ns.put()
+                s = ns.key
+                logging.info("\n\nnew section{0} is {1}\n\n".format(n[0], s))
+            else:
+                s = ndb.Key(urlsafe=n[1])
+                old_section = s.get()
+                if old_section.name != n[0]:
+                    old_section.name=n[0]
+                    old_section.put()
+
+            new_section_list.append(s)
+
+        the_band.sections = new_section_list
+        the_band.put()
+
+        deleted_section_info = self.request.get('deletedSections', None)
+
+        print("\n\n1 {0}".format(deleted_section_info))
+
+        if deleted_section_info:
+            the_deleted_sections = json.loads(deleted_section_info)
+            print("\n\n2 {0}".format(the_deleted_sections))
+            if the_deleted_sections:
+                assoc_keys = []
+                dels = [ndb.Key(urlsafe=x) for x in the_deleted_sections]
+                print("\n\n3 {0}".format(dels))
+                for d in dels:
+                    assoc_keys += assoc.get_assocs_for_section_key(d, keys_only=True)
+
+                print("\n\n4 {0}".format(assoc_keys))
+
+                if assoc_keys:
+                    logging.info("\n\nkeys:{0}\n\n".format(assoc_keys))
+                    assocs = ndb.get_multi(assoc_keys)
+                    print("\n\n5 {0}".format(assocs))
+                    for a in assocs:
+                        a.default_section = None
+                    ndb.put_multi(assocs)
+                ndb.delete_multi(dels)
+
         return
 
 class NewSection(BaseHandler):

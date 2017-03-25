@@ -111,6 +111,11 @@ def get_assoc_for_band_key_and_member_key(the_member_key, the_band_key, confirme
     else:
         return None
 
+def get_assocs_for_section_key(the_section_key, keys_only=True):
+    assoc_query = Assoc.lquery(Assoc.default_section==the_section_key)
+    assocs = assoc_query.fetch(keys_only=keys_only)
+    return assocs
+
 def get_member_keys_for_band_key_for_section_key(the_band_key, the_section_key):
     """ Return member objects by band with specified default section"""
     assoc_query = Assoc.lquery(Assoc.band==the_band_key,
