@@ -640,22 +640,15 @@ class SetupSections(BaseHandler):
 
         deleted_section_info = self.request.get('deletedSections', None)
 
-        print("\n\n1 {0}".format(deleted_section_info))
-
         if deleted_section_info:
             the_deleted_sections = json.loads(deleted_section_info)
-            print("\n\n2 {0}".format(the_deleted_sections))
             if the_deleted_sections:
                 assoc_keys = []
                 dels = [ndb.Key(urlsafe=x) for x in the_deleted_sections]
-                print("\n\n3 {0}".format(dels))
                 for d in dels:
                     assoc_keys += assoc.get_assocs_for_section_key(d, keys_only=True)
 
-                print("\n\n4 {0}".format(assoc_keys))
-
                 if assoc_keys:
-                    logging.info("\n\nkeys:{0}\n\n".format(assoc_keys))
                     assocs = ndb.get_multi(assoc_keys)
                     print("\n\n5 {0}".format(assocs))
                     for a in assocs:
