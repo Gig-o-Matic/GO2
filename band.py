@@ -150,6 +150,9 @@ def get_assocs_of_band_key_by_section_key(the_band_key, include_occasional=True)
     for an_assoc in the_assocs:
         the_info[the_map[an_assoc.default_section]][1].append(an_assoc)
 
+    if the_info[the_map[None]][1] == []:
+        the_info.pop(the_map[None])
+
     return the_info
 
     
