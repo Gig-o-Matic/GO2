@@ -23,7 +23,7 @@
 		                        {% if the_assoc.is_occasional %}
 		                            ({% trans %}occasional{% endtrans %})
 		                        {% endif %}
-		                        {% if the_assoc.is_new %}
+		                        {% if the_assoc.is_new and false %}
 		                            <i class="fa fa-star" style="color:green"></i>
 		                        {% endif %}
 		                    </div>
@@ -38,7 +38,7 @@
         </div>
     </div>
 {% endfor %}
-    {% if someone_is_new %}
+    {% if someone_is_new and false %}
     <div class="row" style="padding-top: 5px; padding-bottom: 5px;">
         <div class="col-md-12 col-sm-12 col-xs-12">
             <i class="fa fa-star" style="color:green"></i>&nbsp;{% trans %}new members{% endtrans %}
