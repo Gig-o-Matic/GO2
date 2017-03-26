@@ -196,6 +196,21 @@ class Section(ndb.Model):
     """ Models an instrument section in a band """
     name = ndb.StringProperty()
 
+
+def set_section_indices(the_band):
+    """ for every assoc in the band, set the default_section_index according to the section list in the band """
+
+    the_assocs = assoc.get_confirmed_assocs_of_band_key(the_band.key, include_occasional=True)
+    for a in the_assocs:
+        if a.default_section is None:
+            a.default_section_index = None
+        else:
+            if a.default_section in the_band.sections:
+                a.default_section_index = the_band.sections.index(a.default_section)
+
+    ndb.put_multi(the_assocs)
+
+
 #
 #
 # Handlers
@@ -653,15 +668,16 @@ class SetupSections(BaseHandler):
 
                 if assoc_keys:
                     assocs = ndb.get_multi(assoc_keys)
-                    print("\n\n5 {0}".format(assocs))
                     for a in assocs:
                         a.default_section = None
                     ndb.put_multi(assocs)
                 ndb.delete_multi(dels)
 
+        set_section_indices(the_band)
+
         return
 
-    
+
 class ConfirmMember(BaseHandler):
     """ move a member from pending to 'real' member """
     
@@ -1026,3 +1042,13 @@ def is_authorized_to_edit_band(the_band_key, the_user):
     else:
         logging.error("Non-authorized user tried to access admin function - user key {0}".format(the_user.key.urlsafe()))
         return False
+
+def update_all_bands():
+    """ do some all-band updates """
+
+    for the_band in get_all_bands():
+        set_section_indices(the_band)
+        
+
+
+

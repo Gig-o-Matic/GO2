@@ -1164,6 +1164,8 @@ class RewriteAll(BaseHandler):
         members=get_all_members()
         ndb.put_multi(members)
 
+        band.update_all_bands()
+
         self.redirect(self.uri_for('memberadmin'))
         
         

@@ -27,6 +27,7 @@ class Assoc(ndb.Model):
     is_invited = ndb.BooleanProperty( default=False )
     is_band_admin = ndb.BooleanProperty( default = False )
     default_section = ndb.KeyProperty( default=None )
+    default_section_index = ndb.IntegerProperty( default=None )
     is_multisectional = ndb.BooleanProperty( default = False )
     is_occasional = ndb.BooleanProperty( default = False )
     member_name = ndb.StringProperty() # need this for ordering
@@ -188,6 +189,14 @@ def set_default_section(the_member_key, the_band_key, the_section_key):
     a = get_assoc_for_band_key_and_member_key(the_member_key, the_band_key)
     if a:
         a.default_section = the_section_key
+
+        the_band = the_band_key.get()
+        if the_section_key in the_band.sections:
+            a.default_section_index = the_band.sections.index(the_section_key)
+        else:
+            logging.error("weird: got a default section that isn't in the band")
+            a.default_section_index = None
+
         a.put()
 
 def set_multi(the_member_key, the_band_key, the_do):
