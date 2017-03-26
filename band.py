@@ -202,6 +202,7 @@ def set_section_indices(the_band):
 
     the_assocs = assoc.get_confirmed_assocs_of_band_key(the_band.key, include_occasional=True)
     for a in the_assocs:
+
         if a.default_section is None:
             a.default_section_index = None
         else:
@@ -1042,12 +1043,6 @@ def is_authorized_to_edit_band(the_band_key, the_user):
     else:
         logging.error("Non-authorized user tried to access admin function - user key {0}".format(the_user.key.urlsafe()))
         return False
-
-def update_all_bands():
-    """ do some all-band updates """
-
-    for the_band in get_all_bands():
-        set_section_indices(the_band)
         
 
 
