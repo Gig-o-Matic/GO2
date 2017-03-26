@@ -147,9 +147,7 @@ function saveButton() {
 
 
 $(document).ready(function() {
-    {% for s in the_sections %}
-        theSectionArray.push(['{{s.name}}', '{{s.key.urlsafe()}}','{{s.name}}']);
-    {% endfor %}
+    theSectionArray = JSON.parse('{{the_info}}')
     updateSectionList();
 });
 </script>

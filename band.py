@@ -23,6 +23,7 @@ import logging
 import datetime
 import stats
 import json
+import string
 from pytz.gae import pytz
 
 def band_key(band_name='band_key'):
@@ -608,10 +609,17 @@ class SetupSections(BaseHandler):
             return        
 
         the_band = the_band_key.get()
+        the_sections = ndb.get_multi(the_band.sections)
+
+
+        the_info = []
+        for s in the_sections:
+            the_name = string.replace(string.replace(s.name,"'",""),'"','') # ugly: disallow quotes
+            the_info.append([the_name, s.key.urlsafe(), the_name])
 
         template_args = {
             'the_band' : the_band,
-            'the_sections' : ndb.get_multi(the_band.sections)
+            'the_info' : json.dumps(the_info)
         }
         self.render_template('band_setup_sections.html', template_args)
 
@@ -641,15 +649,14 @@ class SetupSections(BaseHandler):
         for n in new_sections:
             if n[1] == "":
                 # this is a new section
-                ns = Section(parent=the_band.key, name=n[0])
+                ns = Section(parent=the_band.key, name=string.replace(string.replace(n[0],"'",""),'"',''))
                 ns.put()
                 s = ns.key
-                logging.info("\n\nnew section{0} is {1}\n\n".format(n[0], s))
             else:
                 s = ndb.Key(urlsafe=n[1])
                 old_section = s.get()
                 if old_section.name != n[0]:
-                    old_section.name=n[0]
+                    old_section.name=string.replace(string.replace(n[0],"'",""),'"','')
                     old_section.put()
 
             new_section_list.append(s)
