@@ -36,7 +36,8 @@ class Assoc(ndb.Model):
     color = ndb.IntegerProperty(default=0) # (1=red, 2=green, 3=blue, 4=orange, 5=yellow)
     email_me = ndb.BooleanProperty (default=True)
     hide_from_schedule = ndb.BooleanProperty (default=False)
-    created = ndb.DateTimeProperty(auto_now_add=True)
+    created = ndb.DateTimeProperty(default=None)
+
 
 
     @classmethod
