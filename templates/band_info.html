@@ -386,7 +386,13 @@ function updateSections() {
         },
         function(responseTxt,statusTxt,xhr){
             if(statusTxt=="success")
-                document.getElementById('sectionNone').innerHTML=responseTxt;
+            	if (responseTxt=="None") {
+            		$('#sectionNone').hide()
+            		$('#sectionNone').css('padding-top','0px')
+            		$('#sectionNone').css('padding-bottom','0px')
+            	} else {
+                	document.getElementById('sectionNone').innerHTML=responseTxt;
+                }
             if(statusTxt=="error")
                 alert("Error: "+xhr.status+": "+xhr.statusText);
         });

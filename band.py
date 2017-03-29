@@ -577,6 +577,10 @@ class BandGetSections(BaseHandler):
 
         the_assocs = assoc.get_assocs_of_band_key_for_section_key(the_band_key, the_section_key)
 
+        if the_section is None and len(the_assocs)==0:
+            self.response.write("None")
+            return
+
         member_keys = [a.member for a in the_assocs]
         the_members=ndb.get_multi(member_keys)
 
