@@ -15,6 +15,22 @@ indexes:
   - name: band
   - name: default_section
   - name: is_confirmed
+  - name: is_invited
+  - name: member_name
+
+- kind: Assoc
+  properties:
+  - name: band
+  - name: default_section
+  - name: is_confirmed
+  - name: member_name
+
+- kind: Assoc
+  properties:
+  - name: band
+  - name: is_confirmed
+  - name: is_invited
+  - name: default_section_index
   - name: member_name
 
 - kind: Assoc

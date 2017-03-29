@@ -560,30 +560,46 @@ class BandGetSections(BaseHandler):
         
         if the_band_key_str=='0':
             return # todo figure out what to do
-            
+
         the_band_key = ndb.Key(urlsafe=the_band_key_str)
         the_band = the_band_key.get()
 
-        the_members_by_section = get_assocs_of_band_key_by_section_key(the_band_key)
+        the_section_index_str=self.request.get('ski',None)
+        if the_section_index_str is None:
+            the_section is None
+        else:
+            if the_section_index_str == 'None':
+                the_section = None
+                the_section_key = None
+            else:
+                the_section_key = the_band.sections[int(the_section_index_str)]
+                the_section = the_section_key.get()
 
+        the_assocs = assoc.get_assocs_of_band_key_for_section_key(the_band_key, the_section_key)
+
+        member_keys = [a.member for a in the_assocs]
+        the_members=ndb.get_multi(member_keys)
+
+        # make sure members and assocs are in the right order
+        the_members = sorted(the_members, key=lambda m: member_keys.index(m.key))
+
+        # someone_is_new = False
+        # lately = datetime.datetime.now() - datetime.timedelta(days=4)
+        # for a_section in the_members_by_section:
+        #     if a_section[1]:
+        #         for a in a_section[1]:
+        #             if a.created and a.created > lately:
+        #                 a.is_new=True
+        #                 someone_is_new = True
         someone_is_new = False
-        lately = datetime.datetime.now() - datetime.timedelta(days=4)
-        for a_section in the_members_by_section:
-            if a_section[1]:
-                for a in a_section[1]:
-                    if a.created and a.created > lately:
-                        a.is_new=True
-                        someone_is_new = True
 
         the_user_is_band_admin = assoc.get_admin_status_for_member_for_band_key(the_user, the_band_key)
-
-        num_sections=len(the_band.sections)
                 
         template_args = {
             'the_band' : the_band,
-            'the_section_count' : len(the_members_by_section),
-            'the_members_by_section' : the_members_by_section,
-            'num_sections' : num_sections,
+            'the_section' : the_section,
+            'the_assocs' : the_assocs,
+            'the_members' : the_members,
             'the_user_is_band_admin' : the_user_is_band_admin,
             'someone_is_new' : someone_is_new
         }

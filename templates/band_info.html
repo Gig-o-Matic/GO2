@@ -248,7 +248,18 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-12 col-md-offset-0" id="sectionlist">
-                                <i class="fa fa-spinner fa-spin fa-lg"></i>
+                            	{% for s in the_band.sections %}
+                            	    <div class="row" id="section{{loop.index0}}" style="padding-top: 5px; padding-bottom: 5px; {{ loop.cycle('', 'background:#f5f5f5;') }}">
+                                		<div class="col-md-12 col-md-offset-0">
+                                			<i class="fa fa-spinner fa-spin fa-lg"></i>
+                                		</div>
+                               	    </div>
+                            	{% endfor %}
+                        	    <div class="row" id="sectionNone" style="padding-top: 5px; padding-bottom: 5px; {% if the_band.sections | length is odd %}'background:#f5f5f5;'{% endif %}">
+                            		<div class="col-md-12 col-md-offset-0">
+                            			<i class="fa fa-spinner fa-spin fa-lg"></i>
+                            		</div>
+                           	    </div>
                             </div>
                         </div>
                         <div class="row">
@@ -353,20 +364,32 @@ function updateMembers() {
     }
 }
 
+
 function updateSections() {
-    if (document.getElementById('sectionlist')) {
-        document.getElementById('sectionlist').innerHTML='<i class="fa fa-spinner fa-spin fa-lg"></i>';
+	{% for s in the_band.sections %}
         $.post('/band_get_sections',
                 {
-                    bk: '{{ the_band.key.urlsafe() }}'
+                    bk: '{{ the_band.key.urlsafe() }}',
+                    ski: '{{ loop.index0 }}'
                 },
                 function(responseTxt,statusTxt,xhr){
                     if(statusTxt=="success")
-                        document.getElementById('sectionlist').innerHTML=responseTxt;
+                        document.getElementById('section'+{{loop.index0}}).innerHTML=responseTxt;
                     if(statusTxt=="error")
                         alert("Error: "+xhr.status+": "+xhr.statusText);
                 });
-    }
+	{% endfor %}
+    $.post('/band_get_sections',
+        {
+            bk: '{{ the_band.key.urlsafe() }}',
+            ski: 'None'
+        },
+        function(responseTxt,statusTxt,xhr){
+            if(statusTxt=="success")
+                document.getElementById('sectionNone').innerHTML=responseTxt;
+            if(statusTxt=="error")
+                alert("Error: "+xhr.status+": "+xhr.statusText);
+        });
 }
 
 function handle_new_section() {
