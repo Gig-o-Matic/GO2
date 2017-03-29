@@ -1,10 +1,12 @@
-<div class="col-md-2 col-sm-2 col-xs-3 gomlabel">
-    {% if the_section %}
-        {{the_section.name}}
-    {% else %}
-        {% trans %}No Section{% endtrans %}
-    {% endif %}
-</div>
+{% if has_sections %}
+    <div class="col-md-2 col-sm-2 col-xs-3 gomlabel">
+        {% if the_section %}
+            {{the_section.name}}
+        {% else %}
+            {% trans %}No Section{% endtrans %}
+        {% endif %}
+    </div>
+{% endif %}
 <div class="col-md-6 col-sm-6 col-xs-9">
     {% for the_member in the_members %}
         {% set the_assoc = the_assocs[loop.index0] %}

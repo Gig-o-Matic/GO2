@@ -600,6 +600,7 @@ class BandGetSections(BaseHandler):
             'the_section' : the_section,
             'the_assocs' : the_assocs,
             'the_members' : the_members,
+            'has_sections' : the_band.sections and len(the_band.sections) > 0,
             'the_user_is_band_admin' : the_user_is_band_admin,
             'someone_is_new' : someone_is_new
         }
