@@ -139,10 +139,11 @@ function saveButton() {
                     deletedSections: JSON.stringify(theDeletedSections)
                 },
                 function(responseTxt,statusTxt,xhr){
+                    if(statusTxt=="success")
+                        window.location.replace("/band_info.html?bk={{the_band.key.urlsafe()}}");
                     if(statusTxt=="error")
                       alert("{% trans %}Error{% endtrans %}: "+xhr.status+": "+xhr.statusText);
                 });
-                window.location.replace("/band_info.html?bk={{the_band.key.urlsafe()}}");
 }
 
 
