@@ -201,17 +201,16 @@ class Section(ndb.Model):
 def set_section_indices(the_band):
     """ for every assoc in the band, set the default_section_index according to the section list in the band """
 
+    map = {}
+    for i,s in enumerate(the_band.sections):
+        map[s] = i
+    map[None] = None
+
     the_assocs = assoc.get_confirmed_assocs_of_band_key(the_band.key, include_occasional=True)
     for a in the_assocs:
-
-        if a.default_section is None:
-            a.default_section_index = None
-        else:
-            if a.default_section in the_band.sections:
-                a.default_section_index = the_band.sections.index(a.default_section)
+        a.default_section_index = map[a.default_section]
 
     ndb.put_multi(the_assocs)
-
 
 #
 #
