@@ -2,12 +2,16 @@
 import webapp2
 from google.appengine.api import mail
 from google.appengine.api import users
+from google.appengine.api.taskqueue import taskqueue
+
 import band
 import gig
 import member
 import assoc
 import logging
 import re
+
+import pickle
 
 from webapp2_extras import i18n
 from webapp2_extras import jinja2
@@ -210,24 +214,59 @@ def send_newgig_email(the_member, the_gig, the_band, the_gig_url, is_edit=False,
         
     return True
 
+
 def announce_new_gig(the_gig, the_gig_url, is_edit=False, is_reminder=False, change_string="", the_members=[]):
-    the_band_key = the_gig.key.parent()
-    the_band=the_band_key.get()
-    the_assocs = assoc.get_confirmed_assocs_of_band_key(the_band_key, include_occasional=the_gig.invite_occasionals)
 
-    if is_reminder and the_members:
-        recipient_assocs=[]
-        for a in the_assocs:
-            if a.member in the_members:
-                recipient_assocs.append(a)
-    else:
-        recipient_assocs = the_assocs
+    the_params = pickle.dumps({'the_gig_key': the_gig.key,
+                            'the_gig_url': the_gig_url,
+                            'is_edit': is_edit,
+                            'is_reminder': is_reminder,
+                            'change_string': change_string,
+                            'the_members': the_members})
 
-    for an_assoc in recipient_assocs:
-        if an_assoc.email_me:
-            the_member = an_assoc.member.get()
-            send_newgig_email(the_member, the_gig, the_band, the_gig_url, is_edit, is_reminder, change_string)
+    task = taskqueue.add(
+            url='/announce_new_gig_handler',
+            params={'the_params': the_params
+            })
+
+class AnnounceNewGigHandler(webapp2.RequestHandler):
+
+    def post(self):
+
+        the_params = pickle.loads(self.request.get('the_params'))
+
+        the_gig_key  = the_params['the_gig_key']
+        the_gig_url = the_params['the_gig_url']
+        is_edit = the_params['is_edit']
+        is_reminder = the_params['is_reminder']
+        change_string = the_params['change_string']
+        the_members = the_params['the_members']
+
+        the_gig = the_gig_key.get()
+        the_band_key = the_gig_key.parent()
+        the_band=the_band_key.get()
+        the_assocs = assoc.get_confirmed_assocs_of_band_key(the_band_key, include_occasional=the_gig.invite_occasionals)
+
+        if is_reminder and the_members:
+            recipient_assocs=[]
+            for a in the_assocs:
+                if a.member in the_members:
+                    recipient_assocs.append(a)
+        else:
+            recipient_assocs = the_assocs
+
+        logging.info('announcing gig {0} to {1} people'.format(the_gig_key,len(recipient_assocs)))
+
+
+        for an_assoc in recipient_assocs:
+            if an_assoc.email_me:
+                the_member = an_assoc.member.get()
+                send_newgig_email(the_member, the_gig, the_band, the_gig_url, is_edit, is_reminder, change_string)
         
+        logging.info('announced gig {0}'.format(the_gig_key))
+
+        self.response.write( 200 )
+
 
 def send_new_member_email(band,new_member):
     members=assoc.get_admin_members_from_band_key(band.key)

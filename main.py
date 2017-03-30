@@ -20,6 +20,7 @@ import forum
 import jinja2ext
 import os
 import cryptoutil
+import goemail
 
 CONFIG = {
     'webapp2_extras.auth': {
@@ -161,5 +162,6 @@ else:
         webapp2.Route('/forum_admin', forum.ForumAdminHandler),
         webapp2.Route('/forum_add', forum.AddForumHandler),
         webapp2.Route('/forum_delete', forum.DeleteForumHandler),
-        webapp2.Route('/search',forum.SearchHandler)
+        webapp2.Route('/search',forum.SearchHandler),
+        webapp2.Route('/announce_new_gig_handler',goemail.AnnounceNewGigHandler)
     ], config=CONFIG, debug=True)
