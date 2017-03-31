@@ -263,9 +263,9 @@ class AnnounceNewGigHandler(webapp2.RequestHandler):
                 the_member = an_assoc.member.get()
 
                 the_params = pickle.dumps({
-                    'the_member': the_member,
-                    'the_gig': the_gig,
-                    'the_band': the_band,
+                    'the_member': the_member.key,
+                    'the_gig': the_gig.key,
+                    'the_band': the_band.key,
                     'the_gig_url': the_gig_url,
                     'is_edit': is_edit,
                     'is_reminder': is_reminder,
@@ -290,9 +290,9 @@ class SendNewGigHandler(webapp2.RequestHandler):
 
         the_params = pickle.loads(self.request.get('the_params'))
 
-        the_member  = the_params['the_member']
-        the_gig = the_params['the_gig']
-        the_band = the_params['the_band']
+        the_member  = the_params['the_member'].get()
+        the_gig = the_params['the_gig'].get()
+        the_band = the_params['the_band'].get()
         the_gig_url = the_params['the_gig_url']
         is_edit = the_params['is_edit']
         is_reminder = the_params['is_reminder']
