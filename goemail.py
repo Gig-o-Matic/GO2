@@ -261,9 +261,44 @@ class AnnounceNewGigHandler(webapp2.RequestHandler):
         for an_assoc in recipient_assocs:
             if an_assoc.email_me:
                 the_member = an_assoc.member.get()
-                send_newgig_email(the_member, the_gig, the_band, the_gig_url, is_edit, is_reminder, change_string)
+
+                the_params = pickle.dumps({
+                    'the_member': the_member,
+                    'the_gig': the_gig,
+                    'the_band': the_band,
+                    'the_gig_url': the_gig_url,
+                    'is_edit': is_edit,
+                    'is_reminder': is_reminder,
+                    'change_string': change_string
+                })
+
+                task = taskqueue.add(
+                    queue_name='emailqueue',
+                    url='/send_new_gig_handler',
+                    params={'the_params': the_params
+                    })                
+                # send_newgig_email(the_member, the_gig, the_band, the_gig_url, is_edit, is_reminder, change_string)
         
         logging.info('announced gig {0}'.format(the_gig_key))
+
+        self.response.write( 200 )
+
+
+class SendNewGigHandler(webapp2.RequestHandler):
+
+    def post(self):
+
+        the_params = pickle.loads(self.request.get('the_params'))
+
+        the_member  = the_params['the_member']
+        the_gig = the_params['the_gig']
+        the_band = the_params['the_band']
+        the_gig_url = the_params['the_gig_url']
+        is_edit = the_params['is_edit']
+        is_reminder = the_params['is_reminder']
+        change_string = the_params['change_string']
+
+        send_newgig_email(the_member, the_gig, the_band, the_gig_url, is_edit, is_reminder, change_string)
 
         self.response.write( 200 )
 

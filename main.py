@@ -163,5 +163,6 @@ else:
         webapp2.Route('/forum_add', forum.AddForumHandler),
         webapp2.Route('/forum_delete', forum.DeleteForumHandler),
         webapp2.Route('/search',forum.SearchHandler),
-        webapp2.Route('/announce_new_gig_handler',goemail.AnnounceNewGigHandler)
+        webapp2.Route('/announce_new_gig_handler',goemail.AnnounceNewGigHandler),
+        webapp2.Route('/send_new_gig_handler',goemail.SendNewGigHandler)
     ], config=CONFIG, debug=True)
