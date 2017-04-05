@@ -702,13 +702,14 @@ class DeleteHandler(BaseHandler):
                 self.response.write('did not find gig!')
             else:
                 the_gig = ndb.Key(urlsafe=the_gig_key).get()
-                if the_gig.is_archived:
-                    gigarchive.delete_archive(the_gig.archive_id)
-                if the_gig.comment_id:
-                    gigcomment.delete_comment(the_gig.comment_id)
-                comment.delete_comments_for_gig_key(the_gig.key)
-                plan.delete_plans_for_gig_key(the_gig.key)
-                the_gig.key.delete()
+                if the_gig:
+                    if the_gig.is_archived:
+                        gigarchive.delete_archive(the_gig.archive_id)
+                    if the_gig.comment_id:
+                        gigcomment.delete_comment(the_gig.comment_id)
+                    comment.delete_comments_for_gig_key(the_gig.key)
+                    plan.delete_plans_for_gig_key(the_gig.key)
+                    the_gig.key.delete()
             return self.redirect('/')
             
 class PrintSetlist(BaseHandler):
