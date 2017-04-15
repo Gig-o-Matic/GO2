@@ -23,6 +23,7 @@ import assoc
 import comment
 import plan
 import cryptoutil
+import rss
 # import jinja2env
 import jinja2ext
 import logging
@@ -66,6 +67,7 @@ class Gig(ndb.Model):
     invite_occasionals = ndb.BooleanProperty(default=True)
     was_reminded = ndb.BooleanProperty(default=False)
     hide_from_calendar = ndb.BooleanProperty(default=False)
+    rss_description = ndb.TextProperty( default=None )
     
     def gigtime(self):
         if self.calltime:
@@ -684,6 +686,9 @@ class EditPage(BaseHandler):
                 else:
                     change_str = _('Details')
                 goemail.announce_new_gig(the_gig, self.uri_for('gig_info', _full=True, gk=the_gig.key.urlsafe()), is_edit=True, change_string=change_str)
+
+        if (the_band.rss_feed):
+            rss.make_rss_feed_for_band(the_band)
 
         return self.redirect(\
             '/gig_info.html?&gk={0}'.format(the_gig.key.urlsafe()))

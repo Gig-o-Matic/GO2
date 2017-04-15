@@ -7,6 +7,7 @@
 from google.appengine.ext import ndb
 from requestmodel import *
 import webapp2_extras.appengine.auth.models
+from google.appengine.api.taskqueue import taskqueue
 
 import webapp2
 import logging
@@ -19,12 +20,96 @@ import band
 
 import datetime
 from pytz.gae import pytz
-
+import pickle
 
 def make_gig_feed(the_band):
-    feed = None
+
+    the_gigs = gig.get_gigs_for_band_keys(the_band.key, show_canceled=False, show_only_public=True, show_past=False, start_date=datetime.datetime.now())
+    feed = """
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+
+<channel>
+"""
+
+    feed="{0}\n<title>{1} Gigs</title>".format(feed, the_band.name)
+    feed="{0}\n<link>{1}{2}</link>".format(feed, "gig-o-matic.appspot.com/feeds/",the_band.key.urlsafe())
+    feed="{0}\n<description>{1} Gigs</title>".format(feed, the_band.name)
+
+    for a_gig in the_gigs:
+        feed="{0}\n<item>".format(feed)
+        feed="{0}\n<title>{1}</title>".format(feed, a_gig.title)
+        feed="{0}\n<guid>{1}</guid>".format(feed, a_gig.key.urlsafe())
+        feed="{0}\n<description>{1}</description>".format(feed, a_gig.rss_description)
+        feed="{0}\n</item>".format(feed)
+    feed="{0}{1}".format(feed,"""
+</channel>
+</rss>
+""")
+
     return feed
 
+
+def store_feed_for_band_key(the_band_key, the_feed):
+
+    bucket_name = os.environ.get('BUCKET_NAME',
+                           app_identity.get_default_gcs_bucket_name())
+
+    # self.response.headers['Content-Type'] = 'text/plain'
+    # self.response.write('Demo GCS Application running from Version: '
+    #                   + os.environ['CURRENT_VERSION_ID'] + '\n')
+    # self.response.write('Using bucket name: ' + bucket_name + '\n\n')
+
+    filename = "/{0}/{1}{2}".format(bucket_name,"rss-",the_band_key.urlsafe())
+    # self.response.write('Creating file %s\n' % filename)
+
+    write_retry_params = gcs.RetryParams(backoff_factor=1.1)
+    gcs_file = gcs.open(filename,
+                      'w',
+                      content_type='text/plain',
+                      retry_params=write_retry_params)
+    gcs_file.write(the_feed)
+    gcs_file.close()
+
+def get_feed_for_band_key(the_band_key):
+    bucket_name = os.environ.get('BUCKET_NAME',
+                           app_identity.get_default_gcs_bucket_name())
+
+    filename = "/{0}/{1}{2}".format(bucket_name,"rss-",the_band_key.urlsafe())
+
+    gcs_file = None
+
+    try:
+        gcs_file = gcs.open(filename)
+    except:
+        gcs_file = None
+
+    if gcs_file:
+        feed = gcs_file.read()
+        gcs_file.close()
+    else:
+        feed = None
+
+    return feed
+
+def make_rss_feed_for_band(the_band):
+    print('\n\nqueueing!\n\n')
+
+    the_params = pickle.dumps({'the_band_key': the_band.key})
+
+    task = taskqueue.add(
+            url='/make_rss_feed_handler',
+            params={'the_params': the_params
+            })
+
+class MakeRssFeedHandler(webapp2.RequestHandler):
+
+    def post(self):
+        print('\n\nMADE FEED\n\n')
+        the_params = pickle.loads(self.request.get('the_params'))
+        the_band_key = the_params['the_band_key']
+        the_band = the_band_key.get()
+        store_feed_for_band_key(the_band.key, make_gig_feed(the_band))
 
 #####
 #
@@ -32,60 +117,23 @@ def make_gig_feed(the_band):
 #
 #####
 
-class MakeRssHandler(BaseHandler):
-    """Handle a CalDav request"""
+
+class GetRssHandler(BaseHandler):
+    """Handle an RSS request"""
 
     def get(self, *args, **kwargs):
 
-        bucket_name = os.environ.get('BUCKET_NAME',
-                               app_identity.get_default_gcs_bucket_name())
+        the_band_keyurl = kwargs['bk']
 
-        self.response.headers['Content-Type'] = 'text/plain'
-        self.response.write('Demo GCS Application running from Version: '
-                          + os.environ['CURRENT_VERSION_ID'] + '\n')
-        self.response.write('Using bucket name: ' + bucket_name + '\n\n')
+        if the_band_keyurl is None:
+            return # figure out what to do
+        else:
+            the_band = ndb.Key(urlsafe = the_band_keyurl).get()
 
-        filename = "/{0}/{1}".format(bucket_name,"test.txt")
-        self.response.write('Creating file %s\n' % filename)
+        feed = get_feed_for_band_key(the_band.key)
 
-        write_retry_params = gcs.RetryParams(backoff_factor=1.1)
-        gcs_file = gcs.open(filename,
-                          'w',
-                          content_type='text/plain',
-                          options={'x-goog-meta-foo': 'foo',
-                                   'x-goog-meta-bar': 'bar'},
-                          retry_params=write_retry_params)
-        gcs_file.write('abcde\n')
-        gcs_file.write('f'*1024*4 + '\n')
-        gcs_file.close()
-        # self.tmp_filenames_to_clean_up.append(filename)
+        self.response.write('{0}\n'.format(feed))
 
 
-        self.response.write('Listbucket result:\n')
 
-        # Production apps should set page_size to a practical value.
-        page_size = 1
-        stats = gcs.listbucket("/"+bucket_name, max_keys=page_size)
-        while True:
-            count = 0
-            for stat in stats:
-                count += 1
-                self.response.write(repr(stat))
-                self.response.write('\n')
-
-            if count != page_size or count == 0:
-                break
-            stats = gcs.listbucket(
-                filename, max_keys=page_size, marker=stat.filename)
-
-        self.response.write('\n\n')
-
-
-        self.response.write('Abbreviated file content (first line and last 1K):\n')
-
-        gcs_file = gcs.open(filename)
-        self.response.write(gcs_file.readline())
-        gcs_file.seek(-1024, os.SEEK_END)
-        self.response.write(gcs_file.read())
-        gcs_file.close()
 

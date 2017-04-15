@@ -57,6 +57,8 @@ class Band(ndb.Model):
     show_in_nav = ndb.BooleanProperty(default=True)
     send_updates_by_default = ndb.BooleanProperty(default=True)
     enable_forum = ndb.BooleanProperty(default=True)
+    rss_feed = ndb.BooleanProperty(default=False)
+
 
     @classmethod
     def lquery(cls, *args, **kwargs):
