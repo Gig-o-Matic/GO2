@@ -48,7 +48,13 @@ def make_gig_feed(the_band):
             the_time = u' - {0}'.format(a_gig.settime)
         else:
             the_time = u''
-        feed=u"{0}\n<description><![CDATA[{1}{2}\n\n{3}]]></description>".format(feed, the_date, the_time, a_gig.rss_description)
+
+        if a_gig.rss_description:
+            the_desc = a_gig.rss_description
+        else:
+            the_desc = ''
+
+        feed=u"{0}\n<description><![CDATA[{1}{2}\n\n{3}]]></description>".format(feed, the_date, the_time, the_desc)
         # feed=u"{0}\n<description>{1}{2}\n\n{3}</description>".format(feed, the_date, the_time, a_gig.rss_description)
         feed=u"{0}\n</item>".format(feed)
     feed=u"{0}{1}".format(feed,"""

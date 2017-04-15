@@ -24,6 +24,7 @@ import datetime
 import stats
 import json
 import string
+import rss
 from pytz.gae import pytz
 
 def band_key(band_name='band_key'):
@@ -410,9 +411,11 @@ class EditPage(BaseHandler):
         else:
             the_band.send_updates_by_default = False
             
+        rss_change = False
         enable_rss=self.request.get("band_enablerss",None)
         if (enable_rss):
             the_band.rss_feed = True
+            rss_change = True
         else:
             the_band.rss_feed = False
 
@@ -437,6 +440,9 @@ class EditPage(BaseHandler):
             the_band.timezone=band_timezone
 
         the_band.put()            
+
+        if rss_change:
+            rss.make_rss_feed_for_band(the_band)
 
         return self.redirect('/band_info.html?bk={0}'.format(the_band.key.urlsafe()))
         
