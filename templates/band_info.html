@@ -116,11 +116,24 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-2 col-sm-2 col-xs-3">{% trans %}Public Calendar Feed{% endtrans %}</div>
+                            <div class="col-md-2 col-sm-2 col-xs-3">{% trans %}Public Gig Calendar Feed{% endtrans %}</div>
                             <div class="col-md-10 col-sm-10 col-xs-9">
                                     <a href="http://gig-o-matic.appspot.com/cal/p/{{the_band.key.urlsafe()}}" onclick="return false;">{% trans %}Subscribe using this link's URL{% endtrans %}</a>
                             </div>
                         </div>
+                        {% if the_band.rss_feed %}
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    &nbsp;
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2 col-sm-2 col-xs-3">{% trans %}Public Gig RSS{% endtrans %}</div>
+                                <div class="col-md-10 col-sm-10 col-xs-9">
+                                        <a href="http://gig-o-matic.appspot.com/rss/{{the_band.key.urlsafe()}}" onclick="return false;">{% trans %}Subscribe using this link's URL{% endtrans %}</a>
+                                </div>
+                            </div>
+                        {% endif %}
                         {% if the_user_is_superuser %}
                             <div class="row">
                                 <div class="col-md-12 col-sm-12 col-xs-12">
