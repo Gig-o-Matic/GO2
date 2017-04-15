@@ -410,6 +410,12 @@ class EditPage(BaseHandler):
         else:
             the_band.send_updates_by_default = False
             
+        enable_rss=self.request.get("band_enablerss",None)
+        if (enable_rss):
+            the_band.rss_feed = True
+        else:
+            the_band.rss_feed = False
+
         simple_plan=self.request.get("band_simpleplan",None)
         if (simple_plan):
             the_band.simple_planning = True

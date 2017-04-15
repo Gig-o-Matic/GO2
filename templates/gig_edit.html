@@ -148,6 +148,14 @@
                 <textarea class="form-control" rows="10" id="gigsetlistinput" placeholder="{% trans %}setlist here{% endtrans %}" name="gig_setlist">{{gig.setlist}}</textarea>
             </div>
         </div>
+        {% if the_band.rss_feed %}
+            <div class="row">
+                <div class="form-group col-md-8 col-md-offset-2">
+                    <label for="gigrssdescriptioninput" class="control-label">{% trans %}Description for RSS feed{% endtrans %}</label>
+                    <textarea class="form-control" rows="10" id="gigrssdescriptioninput" placeholder="{% trans %}description here{% endtrans %}" name="gig_rssdescription">{{gig.rss_description}}</textarea>
+                </div>
+            </div>
+        {% endif %}
         <div class="row">
             <div class="form-group col-md-8 col-md-offset-2">
                 <label class="checkbox">  

@@ -110,6 +110,17 @@
                     >{% trans %}Send gig updates by default{% endtrans %}   
                 </label>  
             </div>
+            {% if the_user_is_betatester or the_user_is_superuser %}
+                <div class="form-group col-md-8 col-md-offset-2">
+                    <label class="checkbox">  
+                        <input type="checkbox" id="bandenablerss" name="band_enablerss"
+                        {% if the_band.rss_feed %}
+                            checked
+                        {% endif %}
+                        >{% trans %}Enable RSS feed{% endtrans %}   
+                    </label>  
+                </div>
+            {% endif %}
             <div class="form-group col-md-8 col-md-offset-2">
                 <label class="checkbox">  
                     <input type="checkbox" id="bandsimpleplan" name="band_simpleplan"
@@ -125,7 +136,7 @@
                     <textarea class="form-control" rows="10" id="bandfeedback" placeholder="{% trans %}items for second planning popup (BETA!){% endtrans %}" name="band_feedback">{% if the_band.plan_feedback %}{{the_band.plan_feedback }}{% endif %}</textarea>
                 </div>
             </div>
-            {% if the_user_is_betatester %}
+            {% if the_user_is_superuser %}
             <div class="form-group col-md-8 col-md-offset-2">
                 <label class="checkbox">  
                     <input type="checkbox" id="bandenableforum" name="band_enableforum"

@@ -105,7 +105,7 @@ def adjust_date_for_band(the_band, the_date):
     
     return the_date
     
-def get_gigs_for_band_keys(the_band_key_list, num=None, start_date=None, end_date=None, show_canceled=True, show_only_public=False, show_past=False, keys_only=False):
+def get_gigs_for_band_keys(the_band_key_list, num=None, start_date=None, end_date=None, show_canceled=True, show_only_public=False, confirmed_only=False, show_past=False, keys_only=False):
     """ Return gig objects by band """
         
     if (type(the_band_key_list) is not list):
@@ -129,6 +129,9 @@ def get_gigs_for_band_keys(the_band_key_list, num=None, start_date=None, end_dat
     
     if show_only_public:
         params.append( Gig.is_private == False )
+
+    if confirmed_only:
+        params.append( Gig.status == 1 )
 
     all_gigs = []
     for a_band_key in the_band_key_list:
@@ -529,6 +532,10 @@ class EditPage(BaseHandler):
         gig_setlist = self.request.get("gig_setlist", None)
         if gig_setlist is not None:
             the_gig.setlist = gig_setlist
+
+        gig_rssdescription = self.request.get("gig_rssdescription", None)
+        if gig_rssdescription is not None:
+            the_gig.rss_description = gig_rssdescription
 
         gig_date = self.request.get("gig_date", None)
         if gig_date is not None and gig_date != '':

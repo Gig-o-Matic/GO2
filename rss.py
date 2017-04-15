@@ -25,7 +25,7 @@ import pickle
 
 def make_gig_feed(the_band):
 
-    the_gigs = gig.get_gigs_for_band_keys(the_band.key, show_canceled=False, show_only_public=True, show_past=False, start_date=datetime.datetime.now())
+    the_gigs = gig.get_gigs_for_band_keys(the_band.key, show_canceled=False, show_only_public=True, show_past=False, confirmed_only=True, start_date=datetime.datetime.now())
     feed = u"""<?xml version="1.0" encoding="UTF-8" ?>
 <rss version="2.0">
 <channel>
@@ -48,7 +48,8 @@ def make_gig_feed(the_band):
             the_time = u' - {0}'.format(a_gig.settime)
         else:
             the_time = u''
-        feed=u"{0}\n<description>{1}{2}\n\n{3}</description>".format(feed, the_date, the_time, a_gig.rss_description)
+        feed=u"{0}\n<description><![CDATA[{1}{2}\n\n{3}]]></description>".format(feed, the_date, the_time, a_gig.rss_description)
+        # feed=u"{0}\n<description>{1}{2}\n\n{3}</description>".format(feed, the_date, the_time, a_gig.rss_description)
         feed=u"{0}\n</item>".format(feed)
     feed=u"{0}{1}".format(feed,"""
 </channel>
