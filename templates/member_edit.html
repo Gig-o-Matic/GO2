@@ -7,7 +7,13 @@
         <div class="page-header col-md-5 col-md-offset-2">
             {% trans %}Edit Profile{% endtrans %}
         </div>
+
     </div>
+    <div class="row col-md-5 col-md-offset-2">
+        {{ validate_error }}
+    </div>
+
+
     <form class="form" id="infoform" role="form" method="post" action="member_edit.html">
         <div class="row">
             <div class="form-group col-md-5 col-md-offset-2">

@@ -82,19 +82,22 @@ class LogoutHandler(BaseHandler):
 class SignupPage(BaseHandler):
     """ class for handling signup requests """
     def get(self):
-        self._serve_page(self, failed=False)
+        self._serve_page(self)
 
     def post(self):
         email = self.request.get('email').lower()
         name = self.request.get('name')
         password = self.request.get('password')
 
-        user_data = member.create_new_member(email=email, name=name, password=password)
-        if not user_data[0]: #user_data is a tuple
-            self._serve_page(self,failed=True)
-            return
-        
-        user = user_data[1]
+        try:
+            (success, result) = member.create_new_member(email=email, name=name, password=password)
+        except member.MemberError as e:
+            return self._serve_page(e.value)
+
+        if not success:
+            return self._serve_page('User could not be created (email address may be in use)')
+
+        user = result
         user_id = user.get_id()
 
         locale = self.request.get('locale','en')
@@ -118,13 +121,14 @@ class SignupPage(BaseHandler):
         }
         self.render_template('confirm_signup.html', params=params)
             
-    def _serve_page(self, the_url=None, failed=False):
+    def _serve_page(self, error=None):
     
         locale=self.request.get('locale',None)
 
         params = {
-            'failed': failed,
-            'locale' : locale
+            'failed': error is not None,
+            'locale' : locale,
+            'error': error
         }
         self.render_template('signup.html', params=params)
 
