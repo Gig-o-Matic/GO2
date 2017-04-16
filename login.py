@@ -327,14 +327,17 @@ class SetPasswordHandler(BaseHandler):
       self.display_message('passwords do not match')
       return
 
-    user = self.user
-    user.set_password(password)
-    user.put()
+    try:
+        user = self.user
+        user.set_password(password)
+        user.put()
+    except member.MemberError as e:
+        self.display_message(e.value)
+        return
 
     # remove signup token, we don't want users to come back with an old link
     self.user_model.delete_signup_token(user.get_id(), old_token)
     
-#    self.display_message('Password updated')
     self.auth.unset_session()
     self.redirect(self.uri_for('home'))
 
