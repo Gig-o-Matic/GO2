@@ -112,6 +112,16 @@ code {
     overflow:visible;
 }
 
+.validation-error {
+    margin-bottom: 20px;
+}
+
+.validation-error::before {
+    content: url('./images/alert.png');
+    margin-right: 5px;
+    vertical-align: top;
+}
+
 
 /* override calendar event border thickness */
 .fc-event { /* non-theme */

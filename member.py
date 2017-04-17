@@ -11,6 +11,7 @@ from requestmodel import *
 import webapp2_extras.appengine.auth.models
 from webapp2_extras.appengine.auth.models import Unique
 from webapp2_extras import security
+from webapp2_extras.i18n import gettext as _
 
 import time
 
@@ -59,7 +60,7 @@ class SimplePasswordValidator:
         self.minLength = minLength
     def ensure_valid(self, password):
         if len(password) < self.minLength:
-            raise MemberError("Password must be at least {0} characters long".format(self.minLength))
+            raise MemberError(_("Password must be at least {0} characters long").format(self.minLength))
 
 class Member(webapp2_extras.appengine.auth.models.User):
     """ Models a gig-o-matic member """
