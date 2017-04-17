@@ -83,7 +83,7 @@ class LogoutHandler(BaseHandler):
 class SignupPage(BaseHandler):
     """ class for handling signup requests """
     def get(self):
-        self._serve_page(self)
+        self._serve_page()
 
     def post(self):
         email = self.request.get('email').lower()
