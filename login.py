@@ -8,6 +8,7 @@ from requestmodel import *
 from webapp2_extras.appengine.auth.models import UserToken
 from webapp2_extras.appengine.auth.models import User
 from google.appengine.ext import ndb
+from webapp2_extras.i18n import gettext as _
 
 import logging
 import member
@@ -95,7 +96,7 @@ class SignupPage(BaseHandler):
             return self._serve_page(e.value)
 
         if not success:
-            return self._serve_page('User could not be created (email address may be in use)')
+            return self._serve_page(_('User could not be created (email address may be in use)'))
 
         user = result
         user_id = user.get_id()
