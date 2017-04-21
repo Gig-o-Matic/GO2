@@ -395,7 +395,7 @@ class InfoPage(BaseHandler):
             user_can_edit = False
             if user_is_band_admin or the_user.is_superuser:
                 user_can_edit = True
-            elif the_band_key.get().anyone_can_manage_gigs:
+            elif the_band_key.get().anyone_can_manage_gigs and the_user.key == the_gig.contact:
                 user_can_edit = True
 
             datestr = member.format_date_for_member(the_user, the_gig.date, format="long")
