@@ -116,12 +116,9 @@ code {
     margin-bottom: 20px;
 }
 
-.validation-error::before {
-    content: url('./images/alert.png');
-    margin-right: 5px;
-    vertical-align: top;
+.validation-error .fa-exclamation-triangle {
+    color: firebrick;
 }
-
 
 /* override calendar event border thickness */
 .fc-event { /* non-theme */
