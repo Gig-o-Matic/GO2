@@ -17,6 +17,7 @@ from webapp2_extras import jinja2
 
 import logging
 import motd_db
+import sys
 
 def user_required(handler):
     """
@@ -168,15 +169,18 @@ class BaseHandler(webapp2.RequestHandler):
 
     # this is needed for webapp2 sessions to work
     def dispatch(self):
-		# Get a session store for this request.
-		self.session_store = sessions.get_store(request=self.request)
+        # Get a session store for this request.
+        self.session_store = sessions.get_store(request=self.request)
 
-		try:
-				# Dispatch the request.
-				webapp2.RequestHandler.dispatch(self)
-		finally:
-				# Save all sessions.
-				self.session_store.save_sessions(self.response)
+        try:
+            # Dispatch the request.
+            webapp2.RequestHandler.dispatch(self)
+        except Exception as error:
+            logging.error( "Exception: %s" % repr(error) )
+            self.render_template('error.html', [])
+        finally:
+            # Save all sessions.
+            self.session_store.save_sessions(self.response)
 
     # create a way for one member to invalidate another's bandlist cache
     def set_member_cache_dirty(self,member_key):
