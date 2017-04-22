@@ -110,17 +110,15 @@
                     >{% trans %}Send gig updates by default{% endtrans %}   
                 </label>  
             </div>
-            {% if the_user_is_betatester or the_user_is_superuser %}
-                <div class="form-group col-md-8 col-md-offset-2">
-                    <label class="checkbox">  
-                        <input type="checkbox" id="bandenablerss" name="band_enablerss"
-                        {% if the_band.rss_feed %}
-                            checked
-                        {% endif %}
-                        >{% trans %}Enable RSS feed{% endtrans %}   
-                    </label>  
-                </div>
-            {% endif %}
+            <div class="form-group col-md-8 col-md-offset-2">
+                <label class="checkbox">  
+                    <input type="checkbox" id="bandenablerss" name="band_enablerss"
+                    {% if the_band.rss_feed %}
+                        checked
+                    {% endif %}
+                    >{% trans %}Enable RSS feed{% endtrans %}   
+                </label>  
+            </div>
             <div class="form-group col-md-8 col-md-offset-2">
                 <label class="checkbox">  
                     <input type="checkbox" id="bandsimpleplan" name="band_simpleplan"
