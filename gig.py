@@ -27,6 +27,7 @@ import rss
 # import jinja2env
 import jinja2ext
 import logging
+import gigoexceptions
 
 from pytz.gae import pytz
 from webapp2_extras.i18n import gettext as _
@@ -472,7 +473,7 @@ class EditPage(BaseHandler):
         # are we authorized to edit this gig?
         if can_edit_gig(self.user, the_gig, the_band) is False:
             # logging.error(u'user {0} trying to edit a gig for band {1}'.format(self.user.key.urlsafe(),the_band.key.urlsafe()))
-            raise Exception('user {0} trying to edit a gig for band {1}'.format(self.user.key.urlsafe(),the_band.key.urlsafe()))
+            raise gigoexceptions.GigoException('user {0} trying to edit a gig for band {1}'.format(self.user.key.urlsafe(),the_band.key.urlsafe()))
 
         the_dupe = self.request.get("dupe", 0)
 

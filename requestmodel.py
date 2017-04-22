@@ -19,6 +19,8 @@ import logging
 import motd_db
 import sys
 
+import gigoexceptions
+
 def user_required(handler):
     """
         Decorator that checks if there's a user associated with the current session.
@@ -175,8 +177,8 @@ class BaseHandler(webapp2.RequestHandler):
         try:
             # Dispatch the request.
             webapp2.RequestHandler.dispatch(self)
-        except Exception as error:
-            logging.error( "Exception: %s" % repr(error) )
+        except gigoexceptions.GigoException as error:
+            logging.error( "Exception: %s" % error )
             self.render_template('error.html', [])
         finally:
             # Save all sessions.
