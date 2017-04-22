@@ -298,6 +298,21 @@ def get_confirm_urls(the_member, the_gig):
 
     return yes_url, no_url, snooze_url
 
+#   confirm user is either superuser, a band admin, or the contact for a gig.
+def can_edit_gig(the_user, the_gig=None, the_band=None):
+
+    authorized = False
+    if the_user.is_superuser:
+        authorized = True
+    elif the_gig and the_gig.contact == the_user.key:
+        authorized = True
+    elif the_gig is None and the_band and the_band.anyone_can_manage_gigs:
+        authorized = True
+    elif the_band and assoc.get_admin_status_for_member_for_band_key(the_user, the_band.key):
+        authorized = True
+
+    return authorized
+
 #
 #
 # Handlers
@@ -391,12 +406,7 @@ class InfoPage(BaseHandler):
 
             # is the current user a band admin?
             user_is_band_admin = assoc.get_admin_status_for_member_for_band_key(the_user, the_band_key)
-
-            user_can_edit = False
-            if user_is_band_admin or the_user.is_superuser:
-                user_can_edit = True
-            elif the_band_key.get().anyone_can_manage_gigs and the_user.key == the_gig.contact:
-                user_can_edit = True
+            user_can_edit = can_edit_gig(the_user, the_gig, the_band_key.get())
 
             datestr = member.format_date_for_member(the_user, the_gig.date, format="long")
             if the_gig.enddate:
@@ -459,11 +469,10 @@ class EditPage(BaseHandler):
             is_new = False
             the_band = the_gig.key.parent().get()
 
-        # are we authorized to edit a gig for this band?
-        ok_band_list = self.user.get_add_gig_band_list(self, self.user.key)
-        if not the_band.key in [x.key for x in ok_band_list]:
-            logging.error(u'user {0} trying to edit a gig for band {1}'.format(self.user.key.urlsafe(),the_band.key.urlsafe()))
-            return self.redirect('/')            
+        # are we authorized to edit this gig?
+        if can_edit_gig(self.user, the_gig, the_band) is False:
+            # logging.error(u'user {0} trying to edit a gig for band {1}'.format(self.user.key.urlsafe(),the_band.key.urlsafe()))
+            raise Exception('user {0} trying to edit a gig for band {1}'.format(self.user.key.urlsafe(),the_band.key.urlsafe()))
 
         the_dupe = self.request.get("dupe", 0)
 
