@@ -15,6 +15,7 @@ import goemail
 import datetime
 import lang
 import assoc
+import gigoexceptions
 
 ENABLE_EMAIL = True
 
@@ -183,8 +184,8 @@ class VerificationHandler(BaseHandler):
             }
             self.render_template('resetpassword.html', params=params)
         else:
-            logging.info('verification type not supported')
-            self.abort(404)
+            raise gigoexceptions.GigoException('verification type not supported')
+
 
 ##########
 #
@@ -208,10 +209,7 @@ class EmailVerificationHandler(BaseHandler):
                                                     'email')
 
         if not user:
-            logging.error( \
-                'Could not find any user with id "%s" signup token "%s"',
-                user_id, signup_token)
-            self.abort(404)
+            raise gigoexceptions.GigoException('Email verification handler could not find any user with id "{0}" signup token "{1}"'.format(user_id, signup_token))
         
         # store user data in the session
         self.auth.set_session(self.auth.store.user_to_dict(user), remember=True)
@@ -226,8 +224,7 @@ class EmailVerificationHandler(BaseHandler):
             }
             self.render_template('confirm_email_change.html', params=template_args)            
         else:
-            logging.info('verification type not supported')
-            self.abort(404)
+            raise gigoexceptions.GigoException('Email verification handler: verification type not supported')
 
 ##########
 #
@@ -272,8 +269,7 @@ class InviteVerificationHandler(BaseHandler):
             }
             self.render_template('invite_welcome.html', params=template_args)            
         else:
-            logging.info('verification type not supported')
-            self.abort(404)
+            raise gigoexceptions.GigoException('invite verification handler: verification type not supported')
             
     def post(self):
         mk = self.request.get('mk', None)
@@ -281,7 +277,7 @@ class InviteVerificationHandler(BaseHandler):
         password = self.request.get('password')
         
         if mk is None or st is None:
-            self.abort(404)
+            raise gigoexceptions.GigoException('invite verification handler: no mk or st')
             
         the_member = ndb.Key(urlsafe = mk).get()
 
