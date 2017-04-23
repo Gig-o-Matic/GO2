@@ -87,6 +87,9 @@
                                         {% endfor %}
                                     {% endif %}
                                     <a href="/band_gig_archive?bk={{ the_band.key.urlsafe() }}">{% trans %}Gig Archive{% endtrans %}</a><br>
+                                    {% if the_user_is_superuser or the_user_is_band_admin %}
+                                    <a href="/band_gig_trashcan?bk={{ the_band.key.urlsafe() }}">{% trans %}Gig Trashcan{% endtrans %}</a>
+                                    {% endif %}
                             </div>
                         </div>
                         {% if the_user_is_betatester %}

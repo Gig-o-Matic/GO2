@@ -879,8 +879,7 @@ class GigArchivePage(BaseHandler):
 
         the_band = the_band_key.get()
         if the_band is None:
-            raise gigoexceptions.GigoException('GigArchivePage handler calledd without a band')
-            return # todo figure out what to do if we didn't find it
+            raise gigoexceptions.GigoException('GigArchivePage handler called without a band')
 
         the_gigs = gig.get_gigs_for_band_keys(the_band_key, show_past=True)
         
@@ -892,7 +891,38 @@ class GigArchivePage(BaseHandler):
             'the_date_formatter' : member.format_date_for_member
         }
         self.render_template('band_gig_archive.html', template_args)
+
+class GigTrashcanPage(BaseHandler):
+    """ Show complete gig archives """
+
+    @user_required
+    def get(self):
+        self.make_page(the_user=self.user)
+
+    def make_page(self, the_user):
+        the_band_key_url=self.request.get("bk",None)
+        if the_band_key_url is None:
+            raise gigoexceptions.GigoException('no band key passed to GigTrashcanPage handler')
+        else:
+            the_band_key = ndb.Key(urlsafe=the_band_key_url)
         
+        # make sure this member is actually a band admin
+        if not assoc.get_admin_status_for_member_for_band_key(the_user, the_band_key) and not the_user.is_superuser:
+            raise gigoexceptions.GigoException('user called GigTrashcanPage handler but is not admin')
+
+        the_band = the_band_key.get()
+        if the_band is None:
+            raise gigoexceptions.GigoException('GigTrashcanPage handler calledd without a band')
+
+        the_gigs = gig.get_trashed_gigs_for_band_key(the_band_key)
+
+        template_args = {
+            'the_user' : the_user,
+            'the_band' : the_band,
+            'the_gigs' : the_gigs,
+            'the_date_formatter' : member.format_date_for_member
+        }
+        self.render_template('band_gig_trashcan.html', template_args)        
 
 class GetMemberList(BaseHandler):
     """ service function to return a list of member names """
