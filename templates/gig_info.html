@@ -58,6 +58,13 @@
                             {% endif %}
                         </div>
                     </div>
+                    {% if gig.is_trashed %}
+                        <div class="row">
+                            <div class="col-md-10 col-md-offset-2 col-sm-10 col-sm-offset-2 col-xs-9 col-xs-offset-3" style="color:red">
+                                <strong>{% trans %}THIS GIG IS IN THE TRASH!{% endtrans %}</strong>
+                            </div>
+                        </div>
+                    {% endif %}
                     <div class="row">
                         <div class="col-md-2 col-sm-2 col-xs-3">{% trans %}Band{% endtrans %}</div>
                         <div class="col-md-10 col-sm-10 col-xs-9"><a href="band_info.html?bk={{the_band_key.urlsafe()}}">{{ the_band_key.get().name }}</a></div>

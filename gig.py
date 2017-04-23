@@ -139,8 +139,10 @@ def get_gigs_for_band_keys(the_band_key_list, num=None, start_date=None, end_dat
     for a_band_key in the_band_key_list:
         gig_query = Gig.query(*params, ancestor=a_band_key).order(Gig.date)
         the_gigs = gig_query.fetch()
+        the_gigs = [x for x in the_gigs if (not hasattr(x, 'is_trashed') or x.is_trashed==False)]
         all_gigs.append(the_gigs)
-        
+
+
     # now we have several lists of gigs - merge them
     if len(all_gigs) == 0:
         return None
