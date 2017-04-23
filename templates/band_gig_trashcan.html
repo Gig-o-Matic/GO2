@@ -14,6 +14,8 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             {% if the_gigs | length > 0 %}
+                {% trans %}Messages in the trash will be deleted after 30 days.{% endtrans %}
+                <br><br>
                 {% for gig in the_gigs %}
                     <div class="col-md-2 col-md-offset-2">
                         {{ the_date_formatter(the_user, gig.date, 'short') }}
