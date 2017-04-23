@@ -111,6 +111,7 @@ else:
         webapp2.Route('/gig_archive', gig.ArchiveHandler),
         webapp2.Route('/gig_autoarchive', gig.AutoArchiveHandler),
         webapp2.Route('/gig_delete', gig.DeleteHandler),
+        webapp2.Route('/gig_restore_trashed', gig.RestoreHandler),
         webapp2.Route('/gig_add_comment', gig.CommentHandler),
         webapp2.Route('/gig_get_comment', gig.GetCommentHandler),
         webapp2.Route('/gig_answerlink',gig.AnswerLinkHandler, name="gig_answerlink"),

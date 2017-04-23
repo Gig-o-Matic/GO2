@@ -190,7 +190,11 @@
         <div class="row">
             <div class="form-group col-md-4 col-md-offset-2 col-sm-6 col-sm-offset-0 col-xs-6 col-xs-offset-0">
                 {% if gig!=None and not is_dupe%}
-                    <a data-toggle="modal" href="#deleteModal" class="btn btn-default">{% trans %}Delete{% endtrans %}</a>
+                    {% if not gig.is_trashed %}
+                        <a data-toggle="modal" href="#deleteModal" class="btn btn-default">{% trans %}Move To Trash{% endtrans %}</a>
+                    {% else %}
+                        <a class="btn btn-default" href="/gig_restore_trashed?gk={{ gig.key.urlsafe() }}">{% trans %}Restore Gig{% endtrans %}</a>
+                    {% endif %}
                     <a data-toggle="modal" href="#archiveModal" class="btn btn-default">{% trans %}Archive{% endtrans %}</a>
                 {% endif %}   
             </div>
@@ -217,15 +221,15 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">{% trans %}Confirm Delete{% endtrans %}</h4>
+                    <h4 class="modal-title">{% trans %}Confirm Trash{% endtrans %}</h4>
                 </div>
                 <div class="modal-body">
-                    {% trans %}Do you really want to delete this gig?{% endtrans %}
+                    {% trans %}Do you really want to move this gig to the trash?{% endtrans %}
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">{% trans %}Don't Delete{% endtrans %}</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{% trans %}Cancel{% endtrans %}</button>
                     {% if gig %}
-                        <a class="btn btn-primary" id="opener" href="gig_delete?&gk={{ gig.key.urlsafe() }}">{% trans %}Delete{% endtrans %}</a>
+                        <a class="btn btn-primary" id="opener" href="gig_delete?&gk={{ gig.key.urlsafe() }}">{% trans %}Trash it!{% endtrans %}</a>
                     {% endif %}
                 </div>
             </div><!-- /.modal-content -->

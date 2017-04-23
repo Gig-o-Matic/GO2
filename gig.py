@@ -69,6 +69,7 @@ class Gig(ndb.Model):
     was_reminded = ndb.BooleanProperty(default=False)
     hide_from_calendar = ndb.BooleanProperty(default=False)
     rss_description = ndb.TextProperty( default=None )
+    is_trashed = ndb.BooleanProperty(default=False)
     
     def gigtime(self):
         if self.calltime:
@@ -315,6 +316,17 @@ def can_edit_gig(the_user, the_gig=None, the_band=None):
         authorized = True
 
     return authorized
+
+def delete_gig_completely(the_gig):
+    """ fully delete a gig, its archive, comments, plans, and itself """
+    if the_gig:
+        if the_gig.is_archived:
+            gigarchive.delete_archive(the_gig.archive_id)
+        if the_gig.comment_id:
+            gigcomment.delete_comment(the_gig.comment_id)
+        comment.delete_comments_for_gig_key(the_gig.key)
+        plan.delete_plans_for_gig_key(the_gig.key)
+        the_gig.key.delete()
 
 #
 #
@@ -715,29 +727,42 @@ class EditPage(BaseHandler):
             '/gig_info.html?&gk={0}'.format(the_gig.key.urlsafe()))
                 
 class DeleteHandler(BaseHandler):
+
+    @user_required
     def get(self):
 
         user = self.user
         
-        if user is None:
-            self.redirect(users.create_login_url(self.request.uri))
-        else:
-            the_gig_key = self.request.get("gk", None)
+        the_gig_key = self.request.get("gk", None)
 
-            if the_gig_key is None:
-                self.response.write('did not find gig!')
-            else:
-                the_gig = ndb.Key(urlsafe=the_gig_key).get()
-                if the_gig:
-                    if the_gig.is_archived:
-                        gigarchive.delete_archive(the_gig.archive_id)
-                    if the_gig.comment_id:
-                        gigcomment.delete_comment(the_gig.comment_id)
-                    comment.delete_comments_for_gig_key(the_gig.key)
-                    plan.delete_plans_for_gig_key(the_gig.key)
-                    the_gig.key.delete()
-            return self.redirect('/')
+        if the_gig_key is None:
+            raise gigoexceptions.GigoException('deletehandler did not find a gig in the request')
+        else:
+            the_gig = ndb.Key(urlsafe=the_gig_key).get()
+            if the_gig:
+                the_gig.is_trashed = True
+                the_gig.put()
+        return self.redirect('/')
             
+class RestoreHandler(BaseHandler):
+
+    @user_required
+    def get(self):
+
+        user = self.user
+        
+        the_gig_key = self.request.get("gk", None)
+
+        if the_gig_key is None:
+            raise gigoexceptions.GigoException('restore did not find a gig in the request')
+        else:
+            the_gig = ndb.Key(urlsafe=the_gig_key).get()
+            if the_gig:
+                the_gig.is_trashed = False
+                the_gig.put()
+        return self.redirect(\
+            '/gig_info.html?&gk={0}'.format(the_gig.key.urlsafe()))
+
 class PrintSetlist(BaseHandler):
     """ print-friendly setlist view """
     
