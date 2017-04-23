@@ -1,0 +1,30 @@
+{% extends 'go2base.html' %}
+
+{% block title %}{% trans %}Gig Trashcan{% endtrans %}{% endblock title %}
+
+{% block headcontent %}
+{% endblock headcontent %}
+
+{% block content %}
+    <div class="row">
+        <div class="page-header col-md-8 col-md-offset-2">
+            {{ _('trashcan_title') | replace('BandName','<a href=/band_info.html?bk='+the_band.key.urlsafe()+'>'+the_band.name+'</a>') }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            {% if the_gigs | length > 0 %}
+                {% for gig in the_gigs %}
+                    <div class="col-md-2 col-md-offset-2">
+                        {{ the_date_formatter(the_user, gig.date, 'short') }}
+                    </div>
+                    <div class="col-md-6">
+                        <a href="/gig_info.html?gk={{ gig.key.urlsafe() }}">{{ gig.title }}</a><br>
+                    </div>
+                {% endfor %}
+            {% else %}
+                {% trans %}There are no gigs in the trashcan!{% endtrans %}
+            {% endif %}
+        </div>
+    </div>
+{% endblock content %}

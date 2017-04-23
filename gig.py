@@ -250,6 +250,16 @@ def get_old_gig_keys(end_date):
                                   Gig.date <= end_date))
     gigs = gig_query.fetch(keys_only=True)
     return gigs
+
+def get_trashed_gigs_for_band_key(the_band_key):
+    """ get non-archived gigs that are currently in the trash """
+
+    params = [ Gig.is_archived == False ]
+    params.append( Gig.is_trashed == True )
+    gig_query = Gig.query(*params, ancestor=the_band_key).order(Gig.date)
+    the_gigs = gig_query.fetch()
+    return the_gigs
+
     
 def set_sections_for_empty_plans(the_gig):
     """ For this gig, get all plans. For plans with no section set, get the users default and set it """
