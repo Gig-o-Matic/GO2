@@ -25,6 +25,7 @@ import stats
 import json
 import string
 import rss
+import gigoexceptions
 from pytz.gae import pytz
 
 def band_key(band_name='band_key'):
@@ -858,23 +859,25 @@ class GigArchivePage(BaseHandler):
 
     def make_page(self, the_user):
 
+
         the_band_key_url=self.request.get("bk",None)
         if the_band_key_url is None:
-            return
+            raise gigoexceptions.GigoException('no band key passed to GigArchivePage handler')
         else:
             the_band_key = ndb.Key(urlsafe=the_band_key_url)
-
+        
         # make sure this member is actually in the band
         if assoc.confirm_user_is_member(the_user.key, the_band_key) is None:
-            return
-        
+            raise gigoexceptions.GigoException('user called GigArchivePage handler but is not member')
+
         the_band = the_band_key.get()
         if the_band is None:
-            self.response.write('did not find a band!')
+            raise gigoexceptions.GigoException('GigArchivePage handler calledd without a band')
             return # todo figure out what to do if we didn't find it
 
         the_gigs = gig.get_gigs_for_band_keys(the_band_key, show_past=True)
         
+
         template_args = {
             'the_user' : the_user,
             'the_band' : the_band,
