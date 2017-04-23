@@ -215,6 +215,13 @@ indexes:
   ancestor: yes
   properties:
   - name: is_archived
+  - name: is_in_trash
+  - name: date
+
+- kind: Gig
+  ancestor: yes
+  properties:
+  - name: is_archived
   - name: is_private
   - name: date
 
