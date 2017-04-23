@@ -69,7 +69,8 @@ class Gig(ndb.Model):
     was_reminded = ndb.BooleanProperty(default=False)
     hide_from_calendar = ndb.BooleanProperty(default=False)
     rss_description = ndb.TextProperty( default=None )
-    is_trashed = ndb.BooleanProperty(default=False)
+    trashed_date = ndb.DateTimeProperty( default=None )
+    is_in_trash = ndb.ComputedProperty(lambda self: self.trashed_date is not None )
     
     def gigtime(self):
         if self.calltime:
@@ -135,11 +136,13 @@ def get_gigs_for_band_keys(the_band_key_list, num=None, start_date=None, end_dat
     if confirmed_only:
         params.append( Gig.status == 1 )
 
+    # params.append( Gig.is_in_trash == False )
+
     all_gigs = []
     for a_band_key in the_band_key_list:
         gig_query = Gig.query(*params, ancestor=a_band_key).order(Gig.date)
         the_gigs = gig_query.fetch()
-        the_gigs = [x for x in the_gigs if (not hasattr(x, 'is_trashed') or x.is_trashed==False)]
+        the_gigs = [x for x in the_gigs if not (hasattr(x,"trashed_date") and x.is_in_trash)]
         all_gigs.append(the_gigs)
 
 
@@ -255,7 +258,7 @@ def get_trashed_gigs_for_band_key(the_band_key):
     """ get non-archived gigs that are currently in the trash """
 
     params = [ Gig.is_archived == False ]
-    params.append( Gig.is_trashed == True )
+    params.append( Gig.is_in_trash == True )
     gig_query = Gig.query(*params, ancestor=the_band_key).order(Gig.date)
     the_gigs = gig_query.fetch()
     return the_gigs
@@ -748,7 +751,7 @@ class DeleteHandler(BaseHandler):
         else:
             the_gig = ndb.Key(urlsafe=the_gig_key).get()
             if the_gig:
-                the_gig.is_trashed = True
+                the_gig.trashed_date = datetime.datetime.now()
                 the_gig.put()
         return self.redirect('/')
             
@@ -766,7 +769,7 @@ class RestoreHandler(BaseHandler):
         else:
             the_gig = ndb.Key(urlsafe=the_gig_key).get()
             if the_gig:
-                the_gig.is_trashed = False
+                the_gig.trashed_date = None
                 the_gig.put()
         return self.redirect(\
             '/gig_info.html?&gk={0}'.format(the_gig.key.urlsafe()))
