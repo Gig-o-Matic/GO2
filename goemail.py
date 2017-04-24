@@ -158,7 +158,7 @@ def announce_new_gig(the_gig, the_gig_url, is_edit=False, is_reminder=False, cha
                             'change_string': change_string,
                             'the_members': the_members})
 
-    task = taskqueue.add(
+    taskqueue.add(
             url='/announce_new_gig_handler',
             params={'the_params': the_params
             })
@@ -258,16 +258,6 @@ def send_the_new_member_email(the_locale, the_email_address, new_member, the_ban
     message.sender = SENDER_EMAIL
     message.to = the_email_address
     message.subject = _('Gig-o-Matic New Member for band {0})').format(the_band.name)
-#     message.body = u"""
-# Hello! A new member {0} has signed up for your band {1}. Please log in and
-# confirm the membership.
-# 
-# http://gig-o-matic.appspot.com/band_info.html?bk={2}
-# 
-# Thanks,
-# The Gig-o-Matic Team
-# 
-#     """.format(new_member.name, the_band.name, the_band.key.urlsafe())
     message.body = _('new_member_email').format( '{0} ({1})'.format(new_member.name, new_member.email_address), the_band.name, the_band.key.urlsafe())
 
     try:

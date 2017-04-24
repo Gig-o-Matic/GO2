@@ -1020,9 +1020,9 @@ class DeleteMember(BaseHandler):
         # The only way to get here is to manually paste your key into the url;
         # someone doing that is a troublemaker.
         if not self.user.is_superuser:
-            raise MemberError("Cannot delete user because {0} is not a superuser", self.user.user_id)
+            raise MemberError("Cannot delete user because {0} is not a superuser".format(self.user.name))
 
-        if (self.user != the_member_key):
+        if (self.user.key != the_member_key):
             forget_member_from_key(the_member_key)
         else:
             print 'cannot delete yourself, people'
