@@ -259,8 +259,23 @@ def get_trashed_gigs_for_band_key(the_band_key):
 
     params = [ Gig.is_archived == False ]
     params.append( Gig.is_in_trash == True )
-    gig_query = Gig.query(*params, ancestor=the_band_key).order(Gig.date)
+    gig_query = Gig.query(*params, ancestor=the_band_key)
     the_gigs = gig_query.fetch()
+    # sorted(the_gigs, key=lambda x:x.date)
+    return the_gigs
+
+def get_old_trashed_gigs(minimum_age=None):
+    """ get non-archived gigs that are currently in the trash """
+
+    params = [ Gig.is_archived == False ]
+    params.append( Gig.is_in_trash == True )
+    if minimum_age:
+        max_date = datetime.datetime.now() - datetime.timedelta(days=minimum_age)
+        params.append( Gig.trashed_date <= max_date )
+
+    gig_query = Gig.query(*params)
+    the_gigs = gig_query.fetch()
+    # sorted(the_gigs, key=lambda x:x.date)
     return the_gigs
 
     
@@ -886,8 +901,13 @@ class AutoArchiveHandler(BaseHandler):
         the_gig_keys = get_old_gig_keys(end_date = end_date)
         for a_gig_key in the_gig_keys:
             make_archive_for_gig_key(a_gig_key)
-#         if len(the_gig_keys) > 0:
         logging.info("Archived {0} gigs".format(len(the_gig_keys)))
+
+        # while we're here, look for gigs that have been trashed more than 30 days ago
+        gigs = get_old_trashed_gigs(minimum_age=30)
+        for g in gigs:
+            delete_gig_completely(g)
+
         
 class CommentHandler(BaseHandler):
     """ takes a new comment and adds it to the gig """
