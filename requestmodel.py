@@ -57,8 +57,7 @@ def superuser_required(handler):
             self.redirect(self.uri_for('login',originalurl=self.request.url),abort=True)            
         else:
             return handler(self, *args, **kwargs)
-        
-    
+
     return check_superuser
     
 
@@ -214,6 +213,3 @@ class BaseHandler(webapp2.RequestHandler):
         else:
             dirty_list.remove(member_key)
             app.registry['member_dirty_cache_list'] = dirty_list
-
-    def abort_non_admin(self):
-        self.response.set_status(403, "User {0} is not an administrator".format(self.user.to_s))

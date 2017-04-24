@@ -18,7 +18,7 @@ import lang
 import assoc
 import gigoexceptions
 
-ENABLE_EMAIL = True
+ENABLE_EMAIL = False
 
 class LoginPage(BaseHandler):
     def get(self):
@@ -113,7 +113,7 @@ class SignupPage(BaseHandler):
         if not ENABLE_EMAIL:
             msg=verification_url
         else:
-            goemail.send_registration_email(the_req=self, the_email=email, the_url=verification_url)
+            goemail.send_registration_email(the_email=email, the_url=verification_url)
             msg=''
 
         params = {
@@ -393,7 +393,7 @@ class ForgotPasswordHandler(BaseHandler):
       signup_token=token, _full=True)
 
     if ENABLE_EMAIL:
-        goemail.send_forgot_email(the_req=self, the_email=user.email_address, the_url=verification_url)
+        goemail.send_forgot_email(the_email=user.email_address, the_url=verification_url)
         msg=""
     else:
         msg = verification_url
@@ -457,8 +457,7 @@ def request_new_email(the_request, the_new_address):
     verification_url = the_request.uri_for('emailverification', type='e', user_id=user_id,
             signup_token=token, _full=True)
 
-    goemail.send_the_pending_email(the_req=the_request, the_email_address=the_new_address, the_confirm_link=verification_url)
-    
+    goemail.send_the_pending_email(the_email_address=the_new_address, the_confirm_link=verification_url)
 
 def get_all_signup_tokens():
     """ Return query with subject 'signup' """

@@ -930,14 +930,12 @@ class AdminPageAllMembers(BaseHandler):
     """ Page for member administration """
 
     @user_required
+    @superuser_required
     def post(self):
-        if member_is_superuser(self.user):
-            the_page_str=self.request.get('p','0')
-            the_page=int(the_page_str)
-            the_search_str=self.request.get('s', None)
-            self._make_page(the_user=self.user, the_page=the_page, the_search=the_search_str)
-        else:
-            self.abort_nonadmin()
+        the_page_str=self.request.get('p','0')
+        the_page=int(the_page_str)
+        the_search_str=self.request.get('s', None)
+        self._make_page(the_user=self.user, the_page=the_page, the_search=the_search_str)
             
     def _make_page(self,the_user, the_page=0, the_search=None):
 
@@ -962,11 +960,9 @@ class AdminPageInviteMembers(BaseHandler):
     """ Page for member administration """
     
     @user_required
+    @superuser_required
     def post(self):
-        if member_is_superuser(self.user):
-            self._make_page(the_user=self.user)
-        else:
-            self.abort_non_admin()
+        self._make_page(the_user=self.user)
 
     def _make_page(self,the_user):
     
@@ -982,11 +978,9 @@ class AdminPageSignupMembers(BaseHandler):
     """ Page for member administration """
 
     @user_required
+    @superuser_required
     def post(self):
-        if member_is_superuser(self.user):
-            self._make_page(the_user=self.user)
-        else:
-            self.abort_non_admin()
+        self._make_page(the_user=self.user)
             
     def _make_page(self,the_user):
         the_tokens = login.get_all_signup_tokens()
@@ -1023,8 +1017,10 @@ class DeleteMember(BaseHandler):
 
         the_member_key=ndb.Key(urlsafe=the_member_keyurl)
 
-        if not member_is_superuser(self.user):
-            self.abort_non_admin()
+        # The only way to get here is to manually paste your key into the url;
+        # someone doing that is a troublemaker.
+        if not self.user.is_superuser:
+            raise MemberError("Cannot delete user because {0} is not a superuser", self.user.user_id)
 
         if (self.user != the_member_key):
             forget_member_from_key(the_member_key)
@@ -1037,6 +1033,7 @@ class AdminMember(BaseHandler):
     """ grant or revoke admin rights """
     
     @user_required
+    @superuser_required
     def get(self):
         """ post handler - wants a mk """
         
@@ -1051,9 +1048,6 @@ class AdminMember(BaseHandler):
 
         the_member_key=ndb.Key(urlsafe=the_member_keyurl)
         the_member=the_member_key.get()
-        
-        if not member_is_superuser(self.user):
-            self.abort_non_admin()
 
         if (the_do=='0'):
             the_member.is_superuser=False

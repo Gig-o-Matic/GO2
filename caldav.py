@@ -36,23 +36,6 @@ def make_cal_footer():
     return "END:VCALENDAR\n"
 
 def make_event(the_gig, the_band, title_format=u'{0}', details_format=u'{0}', show_url=True, force_set_time=False):
-#
-#     event="""BEGIN:VEVENT
-# DTSTART:{1}
-# DTEND:{2}
-# DTSTAMP:20140329T155645Z
-# UID:3jba27qkcfjmf9elvfs909fgdk@google.com
-# CREATED:20140329T154445Z
-# DESCRIPTION:
-# LAST-MODIFIED:20140329T154445Z
-# LOCATION:
-# SEQUENCE:0
-# STATUS:CONFIRMED
-# SUMMARY:{0}
-# TRANSP:OPAQUE
-# END:VEVENT
-# """
-
     summary = the_gig.title
 
     # make real gig start time, assuming everything is in local time
@@ -103,22 +86,8 @@ def make_event(the_gig, the_band, title_format=u'{0}', details_format=u'{0}', sh
     if endtime_dt and end_dt:
         end_dt = datetime.datetime.combine(end_dt, endtime_dt.time())
 
-
     # do the setup so we can do timezone math
     if the_band.timezone:
-
-## this hopefully fixes the timezone bug!
-#         start_dt = start_dt.replace(tzinfo=pytz.timezone(the_band.timezone))
-#         end_dt = end_dt.replace(tzinfo=pytz.timezone(the_band.timezone))
-
-#         if starttime_dt:
-#             tzcorr = datetime.datetime.now(pytz.timezone(the_band.timezone)).dst()
-#         else:
-#             tzcorr = datetime.timedelta(0)
-# 
-#         start_dt = start_dt.astimezone(pytz.utc) - tzcorr
-#         end_dt = end_dt.astimezone(pytz.utc) - tzcorr
-
         zone=pytz.timezone(the_band.timezone)
         start_dt=zone.localize(start_dt)
         end_dt=zone.localize(end_dt)

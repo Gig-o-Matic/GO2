@@ -691,7 +691,6 @@ class EditPage(BaseHandler):
                 goemail.announce_new_gig(the_gig, self.uri_for('gig_info', _full=True, gk=the_gig.key.urlsafe()), is_edit=False)
             else:
                 if edit_time_change or edit_date_change or edit_status_change:
-                    goemail.set_locale_for_user(self)
                     change_strings=[]
                     if edit_time_change:
                         change_strings.append(_('Time'))

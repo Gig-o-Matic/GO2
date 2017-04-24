@@ -23,23 +23,7 @@ def validate_email(the_string):
     if re.match(r"^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$",the_string.lower()):
         return True
 
-def set_locale_for_user(the_req, the_locale_override=None):
-    if the_locale_override:
-        locale=the_locale_override
-    else:
-        if the_req.user:
-            if the_req.user.preferences.locale:
-                locale=the_req.user.preferences.locale
-            else:
-                locale='en'
-        else:
-            locale='en'
-
-    i18n.get_i18n().set_locale(locale)
-
-def send_registration_email(the_req, the_email, the_url, the_locale_override=None):
-
-    set_locale_for_user(the_req, the_locale_override)
+def send_registration_email(the_email, the_url):
 
     if not mail.is_email_valid(the_email):
         return False
@@ -48,16 +32,6 @@ def send_registration_email(the_req, the_email, the_url, the_locale_override=Non
     message.sender = SENDER_EMAIL
     message.to = the_email
     message.subject = _('Welcome to Gig-o-Matic')
-#     message.body = u"""
-# Hello! You have registered to join Gig-o-Matic - click the link below to log in and you're good to go. (The link
-# is good for 48 hours - after that you can just register again to get a new one if you need it.)
-# 
-# {0}
-# 
-# Thanks,
-# The Gig-o-Matic Team
-# 
-#     """.format(the_url)
     message.body=_('welcome_msg_email').format(the_url)
     
     try:
@@ -67,10 +41,7 @@ def send_registration_email(the_req, the_email, the_url, the_locale_override=Non
         
     return True
 
-def send_band_accepted_email(the_req, the_email, the_band):
-
-    set_locale_for_user(the_req)
-
+def send_band_accepted_email(the_email, the_band):
     if not mail.is_email_valid(the_email):
         return False
         
@@ -78,15 +49,6 @@ def send_band_accepted_email(the_req, the_email, the_band):
     message.sender = SENDER_EMAIL
     message.to = the_email
     message.subject = _('Gig-o-Matic: Confirmed!')
-#     message.body = u"""
-# Hello! You have been confirmed as a member of {0} and can now start using Gig-o-Matic to manage your band life.
-# 
-# http://gig-o-matic.appspot.com/band_info.html?bk={1}
-# 
-# Thanks,
-# The Gig-o-Matic Team
-# 
-#     """.format(the_band.name, the_band.key.urlsafe())
     message.body = _('member_confirmed_email').format(the_band.name, the_band.key.urlsafe())
 
     try:
@@ -96,9 +58,7 @@ def send_band_accepted_email(the_req, the_email, the_band):
         
     return True
     
-def send_forgot_email(the_req, the_email, the_url):
-
-    set_locale_for_user(the_req)
+def send_forgot_email(the_email, the_url):
 
     if not mail.is_email_valid(the_email):
         logging.error("send_forgot_email invalid email: {0}".format(the_email))
@@ -108,16 +68,6 @@ def send_forgot_email(the_req, the_email, the_url):
     message.sender = SENDER_EMAIL
     message.to = the_email
     message.subject = _('Gig-o-Matic Password Reset')
-#     message.body = u"""
-# Hello! To reset your Gig-o-Matic password, click the link below.
-# 
-# {0}
-# 
-# Thanks,
-# The Gig-o-Matic Team
-# 
-#     """.format(the_url)
-
     message.body = _('forgot_password_email').format(the_url)
 
     try:
@@ -165,22 +115,6 @@ def send_newgig_email(the_member, the_gig, the_band, the_gig_url, is_edit=False,
     else:
         title_string=_('New Gig:')
     message.subject = u'{0} {1}'.format(title_string, the_gig.title)
-#     message.body = u"""
-# Hello! A new gig has been added to the Gig-o-Matic for your band {0}:
-# 
-# {1}
-# Date: {2}
-# Time: {3}
-# Contact: {4}
-# 
-# {5}
-# 
-# Can you make it? You can (and should!) weigh in here: {6}
-# 
-# Thanks,
-# The Gig-o-Matic Team
-# 
-#     """.format(the_band.name, the_gig.title, the_gig.date, the_gig.settime, contact_name, the_gig.details, the_gig_url)
     the_date_string = "{0} ({1})".format(member.format_date_for_member(the_member, the_gig.date),
                                        member.format_date_for_member(the_member, the_gig.date, "day"))
 
@@ -343,9 +277,7 @@ def send_the_new_member_email(the_locale, the_email_address, new_member, the_ban
         
     return True        
 
-def send_new_band_via_invite_email(the_req, the_band, the_member):
-    set_locale_for_user(the_req, the_member.preferences.locale)
-    
+def send_new_band_via_invite_email(the_band, the_member):
     message = mail.EmailMessage()
     message.sender = SENDER_EMAIL
     message.to = the_member.email_address
@@ -358,8 +290,7 @@ def send_new_band_via_invite_email(the_req, the_band, the_member):
 
     return True
 
-def send_gigo_invite_email(the_req, the_band, the_member, the_url):
-    set_locale_for_user(the_req) # send the invite in the admin member's language
+def send_gigo_invite_email(the_band, the_member, the_url):
     if not mail.is_email_valid(the_member.email_address):
         return False
         
@@ -374,27 +305,14 @@ def send_gigo_invite_email(the_req, the_band, the_member, the_url):
         logging.error('failed to send email!')
 
 
-def send_the_pending_email(the_req, the_email_address, the_confirm_link):
+def send_the_pending_email( the_email_address, the_confirm_link):
     if not mail.is_email_valid(the_email_address):
         return False
-        
-    set_locale_for_user(the_req)
         
     message = mail.EmailMessage()
     message.sender = SENDER_EMAIL
     message.to = the_email_address
     message.subject = _('Gig-o-Matic Confirm Email Address')
-#     message.body = u"""
-# Hi there! Someone has requested to change their Gig-o-Matic ID to this email address.
-# If it's you, please click the link to confirm. If not, just ignore this and it will
-# go away.
-# 
-# {0}
-# 
-# Thanks,
-# Team Gig-o-Matic
-# 
-#     """.format(the_confirm_link)
     message.body=_('confirm_email_address_email').format(the_confirm_link)
     try:
         message.send()
