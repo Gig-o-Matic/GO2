@@ -177,6 +177,12 @@ indexes:
   - name: date
 
 - kind: Gig
+  properties:
+  - name: is_archived
+  - name: is_in_trash
+  - name: trashed_date
+
+- kind: Gig
   ancestor: yes
   properties:
   - name: date
@@ -217,6 +223,13 @@ indexes:
   - name: is_archived
   - name: is_in_trash
   - name: date
+
+- kind: Gig
+  ancestor: yes
+  properties:
+  - name: is_archived
+  - name: is_in_trash
+  - name: trashed_date
 
 - kind: Gig
   ancestor: yes
