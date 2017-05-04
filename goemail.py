@@ -1,137 +1,66 @@
-
 import webapp2
 from google.appengine.api import mail
 from google.appengine.api import users
 from google.appengine.api.taskqueue import taskqueue
 
-import band
 import gig
 import member
 import assoc
 import logging
 import re
-
 import pickle
 
 from webapp2_extras import i18n
-from webapp2_extras import jinja2
 from webapp2_extras.i18n import gettext as _
 
-SENDER_EMAIL = 'gigomatic.superuser@gmail.com'
+def _send_admin_mail(to, subject, body, html=None, reply_to=None):
+    valid_address = r"^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$"
+    if (not mail.is_email_valid(to)) or (re.match(valid_address, to.lower()) is None):
+        logging.error("invalid recipient address '{0}'".format(to))
+        return False
 
-def validate_email(the_string):
-    if re.match(r"^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$",the_string.lower()):
+    message = mail.EmailMessage()
+    message.sender = 'Gig-o-Matic <gigomatic.superuser@gmail.com>'
+    message.to = to
+    message.subject = subject
+    message.body = body
+    if reply_to is not None:
+        message.reply_to = reply_to
+    if html is not None:
+        message.html = html
+
+    try:
+        message.send()
         return True
+    except Exception as e:
+        logging.error("Failed to send mail {0} to {1}.\n{2}".format(subject, to, e))
+        return False
 
 def set_locale_for_user(the_req, the_locale_override=None):
     if the_locale_override:
-        locale=the_locale_override
+        locale = the_locale_override
     else:
-        if the_req.user:
-            if the_req.user.preferences.locale:
-                locale=the_req.user.preferences.locale
-            else:
-                locale='en'
+        if the_req and the_req.user and the_req.user.preferences.locale:
+            locale = the_req.user.preferences.locale
         else:
-            locale='en'
+            locale = 'en'
 
     i18n.get_i18n().set_locale(locale)
 
 def send_registration_email(the_req, the_email, the_url, the_locale_override=None):
-
     set_locale_for_user(the_req, the_locale_override)
-
-    if not mail.is_email_valid(the_email):
-        return False
-        
-    message = mail.EmailMessage()
-    message.sender = SENDER_EMAIL
-    message.to = the_email
-    message.subject = _('Welcome to Gig-o-Matic')
-#     message.body = u"""
-# Hello! You have registered to join Gig-o-Matic - click the link below to log in and you're good to go. (The link
-# is good for 48 hours - after that you can just register again to get a new one if you need it.)
-# 
-# {0}
-# 
-# Thanks,
-# The Gig-o-Matic Team
-# 
-#     """.format(the_url)
-    message.body=_('welcome_msg_email').format(the_url)
-    
-    try:
-        message.send()
-    except:
-        logging.error('failed to send email!')
-        
-    return True
+    return _send_admin_mail(the_email, _('Welcome to Gig-o-Matic'), _('welcome_msg_email').format(the_url))
 
 def send_band_accepted_email(the_req, the_email, the_band):
-
     set_locale_for_user(the_req)
+    return _send_admin_mail(the_email, _('Gig-o-Matic: Confirmed!'),
+                            _('member_confirmed_email').format(the_band.name, the_band.key.urlsafe()))
 
-    if not mail.is_email_valid(the_email):
-        return False
-        
-    message = mail.EmailMessage()
-    message.sender = SENDER_EMAIL
-    message.to = the_email
-    message.subject = _('Gig-o-Matic: Confirmed!')
-#     message.body = u"""
-# Hello! You have been confirmed as a member of {0} and can now start using Gig-o-Matic to manage your band life.
-# 
-# http://gig-o-matic.appspot.com/band_info.html?bk={1}
-# 
-# Thanks,
-# The Gig-o-Matic Team
-# 
-#     """.format(the_band.name, the_band.key.urlsafe())
-    message.body = _('member_confirmed_email').format(the_band.name, the_band.key.urlsafe())
-
-    try:
-        message.send()
-    except:
-        logging.error('failed to send email!')
-        
-    return True
-    
 def send_forgot_email(the_req, the_email, the_url):
-
     set_locale_for_user(the_req)
+    return _send_admin_mail(the_email, _('Gig-o-Matic Password Reset'), _('forgot_password_email').format(the_url))
 
-    if not mail.is_email_valid(the_email):
-        logging.error("send_forgot_email invalid email: {0}".format(the_email))
-        return False
-        
-    message = mail.EmailMessage()
-    message.sender = SENDER_EMAIL
-    message.to = the_email
-    message.subject = _('Gig-o-Matic Password Reset')
-#     message.body = u"""
-# Hello! To reset your Gig-o-Matic password, click the link below.
-# 
-# {0}
-# 
-# Thanks,
-# The Gig-o-Matic Team
-# 
-#     """.format(the_url)
-
-    message.body = _('forgot_password_email').format(the_url)
-
-    try:
-        message.send()
-    except:
-        logging.error('failed to send email!')
-        
-    return True
-    
-##########
-#
 # send an email announcing a new gig
-#
-##########    
 def send_newgig_email(the_member, the_gig, the_band, the_gig_url, is_edit=False, is_reminder=False, change_string=""):
  
     the_locale=the_member.preferences.locale
@@ -152,35 +81,16 @@ def send_newgig_email(the_member, the_gig, the_band, the_gig_url, is_edit=False,
 
     # get the special URLs for "yes" and "no" answers
     the_yes_url, the_no_url, the_snooze_url = gig.get_confirm_urls(the_member, the_gig)
-        
-    message = mail.EmailMessage()
-    message.sender = SENDER_EMAIL
+
+    reply_to = None
     if contact is not None:
-        message.reply_to = contact.email_address
-    message.to = the_email_address
+       reply_to = contact.email_address
     if is_edit:
         title_string='{0} ({1})'.format(_('Gig Edit'),change_string)
     elif is_reminder:
         title_string='Gig Reminder:'
     else:
         title_string=_('New Gig:')
-    message.subject = u'{0} {1}'.format(title_string, the_gig.title)
-#     message.body = u"""
-# Hello! A new gig has been added to the Gig-o-Matic for your band {0}:
-# 
-# {1}
-# Date: {2}
-# Time: {3}
-# Contact: {4}
-# 
-# {5}
-# 
-# Can you make it? You can (and should!) weigh in here: {6}
-# 
-# Thanks,
-# The Gig-o-Matic Team
-# 
-#     """.format(the_band.name, the_gig.title, the_gig.date, the_gig.settime, contact_name, the_gig.details, the_gig_url)
     the_date_string = "{0} ({1})".format(member.format_date_for_member(the_member, the_gig.date),
                                        member.format_date_for_member(the_member, the_gig.date, "day"))
 
@@ -196,33 +106,34 @@ def send_newgig_email(the_member, the_gig, the_band, the_gig_url, is_edit=False,
             the_time_string = u'{0}, '.format(the_time_string)
         the_time_string = u'{0}{1} ({2})'.format(the_time_string,the_gig.endtime, _('End Time'))
         
-    the_status_string=[_('Unconfirmed'), _('Confirmed!'), _('Cancelled!')][the_gig.status]
-        
-    if is_edit:
-        message.body=_('edited_gig_email').format(the_band.name, the_gig.title, the_date_string, the_time_string, contact_name, the_status_string, the_gig.details, the_gig_url, change_string)
-    elif is_reminder:
-        message.body=_('reminder_gig_email').format(the_band.name, the_gig.title, the_date_string, the_time_string, contact_name, the_status_string, the_gig.details, the_gig_url,"",the_yes_url,the_no_url,the_snooze_url)
-        message.html=_('reminder_gig_email_html').format(the_band.name, the_gig.title, the_date_string, the_time_string, contact_name, the_status_string, the_gig.details, the_gig_url,"",the_yes_url,the_no_url,the_snooze_url)
-    else:
-        message.body=_('new_gig_email').format(the_band.name, the_gig.title, the_date_string, the_time_string, contact_name, the_status_string, the_gig.details, the_gig_url,"",the_yes_url,the_no_url,the_snooze_url)
-        message.html=_('new_gig_email_html').format(the_band.name, the_gig.title, the_date_string, the_time_string, contact_name, the_status_string, the_gig.details, the_gig_url,"",the_yes_url,the_no_url,the_snooze_url)
-        
-    try:
-        message.send()
-    except:
-        logging.error('failed to send email!')
-        
-    return True
+    the_status_string = [_('Unconfirmed'), _('Confirmed!'), _('Cancelled!')][the_gig.status]
 
+    def format_body(body_format_str):
+        return body_format_str.format(the_band.name, the_gig.title, the_date_string, the_time_string, contact_name,
+                                      the_status_string, the_gig.details, the_gig_url, "", the_yes_url, the_no_url,
+                                      the_snooze_url)
+
+    if is_edit:
+        body = _('edited_gig_email').format(the_band.name, the_gig.title, the_date_string, the_time_string, contact_name,
+                                            the_status_string, the_gig.details, the_gig_url, change_string)
+        html = None
+    elif is_reminder:
+        body = format_body(_('reminder_gig_email'))
+        html = format_body(_('reminder_gig_email_html'))
+    else:
+        body = format_body(_('new_gig_email'))
+        html = format_body(_('new_gig_email_html'))
+
+    return _send_admin_mail(the_email_address, u'{0} {1}'.format(title_string, the_gig.title), body, html=html, reply_to=reply_to)
 
 def announce_new_gig(the_gig, the_gig_url, is_edit=False, is_reminder=False, change_string="", the_members=[]):
 
-    the_params = pickle.dumps({'the_gig_key': the_gig.key,
-                            'the_gig_url': the_gig_url,
-                            'is_edit': is_edit,
-                            'is_reminder': is_reminder,
-                            'change_string': change_string,
-                            'the_members': the_members})
+    the_params = pickle.dumps({'the_gig_key':   the_gig.key,
+                               'the_gig_url':   the_gig_url,
+                               'is_edit':       is_edit,
+                               'is_reminder':   is_reminder,
+                               'change_string': change_string,
+                               'the_members':   the_members})
 
     task = taskqueue.add(
             url='/announce_new_gig_handler',
@@ -232,7 +143,6 @@ def announce_new_gig(the_gig, the_gig_url, is_edit=False, is_reminder=False, cha
 class AnnounceNewGigHandler(webapp2.RequestHandler):
 
     def post(self):
-
         the_params = pickle.loads(self.request.get('the_params'))
 
         the_gig_key  = the_params['the_gig_key']
@@ -256,7 +166,6 @@ class AnnounceNewGigHandler(webapp2.RequestHandler):
 
         logging.info('announcing gig {0} to {1} people'.format(the_gig_key,len(recipient_assocs)))
 
-
         the_shared_params = pickle.dumps({
             'the_gig_key': the_gig_key,
             'the_band_key': the_band_key,
@@ -279,8 +188,7 @@ class AnnounceNewGigHandler(webapp2.RequestHandler):
                     url='/send_new_gig_handler',
                     params={'the_shared_params': the_shared_params,
                             'the_member_params': the_member_params
-                    })                
-                # send_newgig_email(the_member, the_gig, the_band, the_gig_url, is_edit, is_reminder, change_string)
+                    })
         
         logging.info('announced gig {0}'.format(the_gig_key))
 
@@ -290,7 +198,6 @@ class AnnounceNewGigHandler(webapp2.RequestHandler):
 class SendNewGigHandler(webapp2.RequestHandler):
 
     def post(self):
-
         the_shared_params = pickle.loads(self.request.get('the_shared_params'))
         the_member_params = pickle.loads(self.request.get('the_member_params'))
 
@@ -315,132 +222,40 @@ def send_new_member_email(band,new_member):
  
 def send_the_new_member_email(the_locale, the_email_address, new_member, the_band):
 
-    if not mail.is_email_valid(the_email_address):
-        return False
-        
     i18n.get_i18n().set_locale(the_locale)
-        
-    message = mail.EmailMessage()
-    message.sender = SENDER_EMAIL
-    message.to = the_email_address
-    message.subject = _('Gig-o-Matic New Member for band {0})').format(the_band.name)
-#     message.body = u"""
-# Hello! A new member {0} has signed up for your band {1}. Please log in and
-# confirm the membership.
-# 
-# http://gig-o-matic.appspot.com/band_info.html?bk={2}
-# 
-# Thanks,
-# The Gig-o-Matic Team
-# 
-#     """.format(new_member.name, the_band.name, the_band.key.urlsafe())
-    message.body = _('new_member_email').format( '{0} ({1})'.format(new_member.name, new_member.email_address), the_band.name, the_band.key.urlsafe())
 
-    try:
-        message.send()
-    except:
-        logging.error('failed to send email!')
-        
-    return True        
+    return _send_admin_mail(the_email_address,
+                            _('Gig-o-Matic New Member for band {0})').format(the_band.name),
+                            _('new_member_email').format('{0} ({1})'.format(new_member.name, new_member.email_address),
+                                                        the_band.name, the_band.key.urlsafe()))
 
 def send_new_band_via_invite_email(the_req, the_band, the_member):
     set_locale_for_user(the_req, the_member.preferences.locale)
-    
-    message = mail.EmailMessage()
-    message.sender = SENDER_EMAIL
-    message.to = the_member.email_address
-    message.subject = _('Gig-o-Matic New Band Invite')
-    message.body = _('new_band_via_invite_email').format(the_band.name)
-    try:
-        message.send()
-    except:
-        logging.error(u'failed to send new_band_via_invite email to user {0}!'.format(the_member.email_address))
-
-    return True
+    return _send_admin_mail(the_member.email_address, _('Gig-o-Matic New Band Invite'),
+                            _('new_band_via_invite_email').format(the_band.name))
 
 def send_gigo_invite_email(the_req, the_band, the_member, the_url):
     set_locale_for_user(the_req) # send the invite in the admin member's language
-    if not mail.is_email_valid(the_member.email_address):
-        return False
-        
-    message = mail.EmailMessage()
-    message.sender = SENDER_EMAIL
-    message.to = the_member.email_address
-    message.subject = _('Invitation to Join Gig-o-Matic')
-    message.body=_('gigo_invite_email').format(the_band.name, the_url)
-    try:
-        message.send()
-    except:
-        logging.error('failed to send email!')
-
+    return _send_admin_mail(the_member.email_address, _('Invitation to Join Gig-o-Matic'),
+                            _('gigo_invite_email').format(the_band.name, the_url))
 
 def send_the_pending_email(the_req, the_email_address, the_confirm_link):
-    if not mail.is_email_valid(the_email_address):
-        return False
-        
     set_locale_for_user(the_req)
-        
-    message = mail.EmailMessage()
-    message.sender = SENDER_EMAIL
-    message.to = the_email_address
-    message.subject = _('Gig-o-Matic Confirm Email Address')
-#     message.body = u"""
-# Hi there! Someone has requested to change their Gig-o-Matic ID to this email address.
-# If it's you, please click the link to confirm. If not, just ignore this and it will
-# go away.
-# 
-# {0}
-# 
-# Thanks,
-# Team Gig-o-Matic
-# 
-#     """.format(the_confirm_link)
-    message.body=_('confirm_email_address_email').format(the_confirm_link)
-    try:
-        message.send()
-    except:
-        logging.error('failed to send email!')
-
-    return True
+    return _send_admin_mail(the_email_address, _('Gig-o-Matic Confirm Email Address'),
+                            _('confirm_email_address_email').format(the_confirm_link))
 
 def notify_superuser_of_archive(the_num):
-    message = mail.EmailMessage()
-    message.sender = SENDER_EMAIL
-    message.to = 'gigomatic.superuser@gmail.com'
-    message.subject = 'Gig-o-Matic Auto-Archiver'
-    message.body = """
-Yo! The Gig-o-Matic archived {0} gigs last night.
-    """.format(the_num)
-    try:
-        message.send()
-    except:
-        logging.error('failed to send email!')
-        
-    return True        
-
+    return _send_admin_mail('gigomatic.superuser@gmail.com', 'Gig-o-Matic Auto-Archiver'
+                           "Yo! The Gig-o-Matic archived {0} gigs last night.".format(the_num))
 
 def notify_superuser_of_old_tokens(the_num):
-    message = mail.EmailMessage()
-    message.sender = SENDER_EMAIL
-    message.to = 'gigomatic.superuser@gmail.com'
-    message.subject = 'Gig-o-Matic Old Tokens'
-    message.body = """
-Yo! The Gig-o-Matic found {0} old signup tokens last night.
-    """.format(the_num)
-    try:
-        message.send()
-    except:
-        logging.error('failed to send email!')
-    return True        
+    return _send_admin_mail('gigomatic.superuser@gmail.com', 'Gig-o-Matic Old Tokens',
+                           "Yo! The Gig-o-Matic found {0} old signup tokens last night.".format(the_num))
 
 def send_band_request_email(the_email_address, the_name, the_info):
     if not mail.is_email_valid(the_email_address):
         return False
-    message = mail.EmailMessage()
-    message.sender = SENDER_EMAIL
-    message.to = 'gigomatic.superuser@gmail.com'
-    message.subject = 'Gig-o-Matic New Band Request'
-    message.body = u"""
+    body = u"""
 Hi there! Someone has requested to add their band to the Gig-o-Matic. SO EXCITING!
 
 {0}
@@ -451,9 +266,4 @@ Enjoy,
 Team Gig-o-Matic
 
     """.format(the_email_address, the_name, the_info)
-    try:
-        message.send()
-    except:
-        logging.error('failed to send email!')
-
-    return True
+    return _send_admin_mail('gigomatic.superuser@gmail.com', 'Gig-o-Matic New Band Request', body)
