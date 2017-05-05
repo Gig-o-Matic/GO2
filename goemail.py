@@ -13,6 +13,8 @@ import pickle
 from webapp2_extras import i18n
 from webapp2_extras.i18n import gettext as _
 
+_admin_email_address = 'Gig-o-Matic <gigomatic.superuser@gmail.com>'
+
 def _send_admin_mail(to, subject, body, html=None, reply_to=None):
     valid_address = r"^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$"
     if (not mail.is_email_valid(to)) or (re.match(valid_address, to.lower()) is None):
@@ -20,7 +22,7 @@ def _send_admin_mail(to, subject, body, html=None, reply_to=None):
         return False
 
     message = mail.EmailMessage()
-    message.sender = 'Gig-o-Matic <gigomatic.superuser@gmail.com>'
+    message.sender = _admin_email_address
     message.to = to
     message.subject = subject
     message.body = body
@@ -245,11 +247,11 @@ def send_the_pending_email(the_req, the_email_address, the_confirm_link):
                             _('confirm_email_address_email').format(the_confirm_link))
 
 def notify_superuser_of_archive(the_num):
-    return _send_admin_mail('gigomatic.superuser@gmail.com', 'Gig-o-Matic Auto-Archiver'
+    return _send_admin_mail(_admin_email_address, 'Gig-o-Matic Auto-Archiver'
                            "Yo! The Gig-o-Matic archived {0} gigs last night.".format(the_num))
 
 def notify_superuser_of_old_tokens(the_num):
-    return _send_admin_mail('gigomatic.superuser@gmail.com', 'Gig-o-Matic Old Tokens',
+    return _send_admin_mail(_admin_email_address, 'Gig-o-Matic Old Tokens',
                            "Yo! The Gig-o-Matic found {0} old signup tokens last night.".format(the_num))
 
 def send_band_request_email(the_email_address, the_name, the_info):
@@ -266,4 +268,4 @@ Enjoy,
 Team Gig-o-Matic
 
     """.format(the_email_address, the_name, the_info)
-    return _send_admin_mail('gigomatic.superuser@gmail.com', 'Gig-o-Matic New Band Request', body)
+    return _send_admin_mail(_admin_email_address, 'Gig-o-Matic New Band Request', body)
