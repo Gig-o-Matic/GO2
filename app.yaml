@@ -4,6 +4,10 @@ runtime: python27
 api_version: 1
 threadsafe: true
 
+automatic_scaling:
+  min_pending_latency: 60ms
+  max_concurrent_requests: 40
+
 handlers:
 
 - url: /bootstrap
