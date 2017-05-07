@@ -381,20 +381,39 @@ function updateMembers() {
 }
 
 
+var len_sections = {{ the_band.sections | length }};
+
 function updateSections() {
-	{% for s in the_band.sections %}
-        $.post('/band_get_sections',
-                {
-                    bk: '{{ the_band.key.urlsafe() }}',
-                    ski: '{{ loop.index0 }}'
-                },
-                function(responseTxt,statusTxt,xhr){
-                    if(statusTxt=="success")
-                        document.getElementById('section'+{{loop.index0}}).innerHTML=responseTxt;
-                    if(statusTxt=="error")
-                        alert("Error: "+xhr.status+": "+xhr.statusText);
-                });
-	{% endfor %}
+	updateSection(0);
+}
+
+function updateSection(i) {
+	if (i >= len_sections) {
+		updateNoneSection()
+	} else {
+		updateOneSection(i)
+	}
+}
+
+function updateOneSection(i) {
+    $.post('/band_get_sections',
+            {
+                bk: '{{ the_band.key.urlsafe() }}',
+                ski: i
+            },
+            function(responseTxt,statusTxt,xhr){
+                if(statusTxt=="success")
+                    document.getElementById('section'+i).innerHTML=responseTxt;
+                	if (i != "None") {
+                		updateSection(i+1)
+                	}
+                if(statusTxt=="error")
+                    alert("Error: "+xhr.status+": "+xhr.statusText);
+            });
+}
+
+function updateNoneSection() {
+
     $.post('/band_get_sections',
         {
             bk: '{{ the_band.key.urlsafe() }}',
