@@ -28,8 +28,12 @@
                             </div>
                             {% if user_can_edit %}
                                     <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-right">
-                                        <a class="btn btn-primary btn-xs" href="gig_edit.html?gk={{ gig.key.urlsafe() }}">{% trans %}Edit{% endtrans %}</a>
-                                        <a class="btn btn-primary btn-xs" href="gig_edit.html?gk={{ gig.key.urlsafe() }}&dupe=1">{% trans %}Duplicate{% endtrans %}</a>
+                                        {% if user_can_edit %}
+                                            <a class="btn btn-primary btn-xs" href="gig_edit.html?gk={{ gig.key.urlsafe() }}">{% trans %}Edit{% endtrans %}</a>
+                                        {% endif %}
+                                        {% if user_can_create %}
+                                            <a class="btn btn-primary btn-xs" href="gig_edit.html?gk={{ gig.key.urlsafe() }}&dupe=1">{% trans %}Duplicate{% endtrans %}</a>
+                                        {% endif %}
                                     </div>
                             {% endif %}
                         </div>

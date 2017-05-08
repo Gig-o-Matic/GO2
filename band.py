@@ -53,6 +53,7 @@ class Band(ndb.Model):
     member_links = ndb.TextProperty(default=None)
     share_gigs = ndb.BooleanProperty(default=True)
     anyone_can_manage_gigs = ndb.BooleanProperty(default=True)
+    anyone_can_create_gigs = ndb.BooleanProperty(default=True)
     condensed_name = ndb.ComputedProperty(lambda self: ''.join(ch for ch in self.name if ch.isalnum()).lower())
     simple_planning = ndb.BooleanProperty(default=False)
     plan_feedback = ndb.TextProperty()
@@ -394,6 +395,12 @@ class EditPage(BaseHandler):
 
         the_band.description=self.request.get("band_description",None)
             
+        create_gigs=self.request.get("band_anyonecancreategigs",None)
+        if (create_gigs):
+            the_band.anyone_can_create_gigs = True
+        else:
+            the_band.anyone_can_create_gigs = False
+
         manage_gigs=self.request.get("band_anyonecanmanagegigs",None)
         if (manage_gigs):
             the_band.anyone_can_manage_gigs = True

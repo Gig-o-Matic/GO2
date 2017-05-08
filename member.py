@@ -181,9 +181,12 @@ class Member(webapp2_extras.appengine.auth.models.User):
             the_bands = ndb.get_multi(band_keys)
             the_manage_bands = []
             for b in the_bands:
-                if b.anyone_can_manage_gigs or \
+                print('checking {0}'.format(b.name))
+                if b.anyone_can_create_gigs or \
                     req.user.is_superuser or \
                     assoc.get_admin_status_for_member_for_band_key(req.user, b.key):
+
+                    print('adding {0}'.format(b.anyone_can_create_gigs))
                     the_manage_bands.append(b)
             req.session['member_addgigbandlist'] = the_manage_bands
         return the_manage_bands
