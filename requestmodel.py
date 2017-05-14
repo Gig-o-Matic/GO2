@@ -6,7 +6,6 @@ Base class for webapp2 request handlers
 
 from google.appengine.ext import ndb
 
-#import logging
 import os.path
 import webapp2
 
@@ -58,8 +57,7 @@ def superuser_required(handler):
             self.redirect(self.uri_for('login',originalurl=self.request.url),abort=True)            
         else:
             return handler(self, *args, **kwargs)
-        
-    
+
     return check_superuser
     
 
@@ -118,19 +116,12 @@ class BaseHandler(webapp2.RequestHandler):
         self.response.write(rv)
 
     def render_template(self, filename, params=None):
-    
-        if params and 'locale' in params.keys():
-            locale=params['locale']
-        elif self.user:
-            if self.user.preferences.locale:
-                locale=self.user.preferences.locale
-        else:
-            locale = None
-    
-        i18n.get_i18n().set_locale(locale)        
-
         if not params:
             params = {}
+
+        # override locale if set in params
+        if params and 'locale' in params.keys():
+            i18n.get_i18n().set_locale(params['locale'])
 
         is_superuser = False
         if self.user:
@@ -173,6 +164,16 @@ class BaseHandler(webapp2.RequestHandler):
     def dispatch(self):
         # Get a session store for this request.
         self.session_store = sessions.get_store(request=self.request)
+
+        # Set locale on each request right away, to make it available to both
+        # templates and backend Python code
+        if self.request.get("locale"):
+            locale = self.request.get("locale")
+        elif self.user and self.user.preferences.locale:
+            locale = self.user.preferences.locale
+        else:
+            locale = None
+        i18n.get_i18n().set_locale(locale)
 
         try:
             # Dispatch the request.

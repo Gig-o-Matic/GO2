@@ -22,7 +22,7 @@ class="landingwrap"
         {% if failed %}
             <div class="row">
                 <div class="col-md-5 col-md-offset-2">
-                    <strong>{% trans %}Sorry, someone already has that email address.{% endtrans %}</strong>
+                    <div class="validation-error"><span class="fa fa-exclamation-triangle"></span> {{ error }}</div>
                 </div>
             </div>
         {% endif %}
