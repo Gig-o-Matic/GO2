@@ -1,5 +1,5 @@
 queue:
 - name: emailqueue
-  rate: 20/s
-  bucket_size: 40
+  rate: 40/m
+  bucket_size: 10
   max_concurrent_requests: 10
