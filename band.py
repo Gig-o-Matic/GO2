@@ -1014,7 +1014,7 @@ class SendInvites(BaseHandler):
             else:
                 # create assoc for this member - but because they're not verified, will just show up as 'invited'
                 # logging.info("creating new member")
-                user_data = member.create_new_member(email=e, name='', password='')
+                user_data = member.create_new_member(email=e, name='', password='invited')
                 # logging.info("creating new member: {0}".format(user_data))
                 the_user = user_data[1]
                 if the_user:
