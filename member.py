@@ -1174,3 +1174,34 @@ class DeleteInvite(BaseHandler):
             forget_member_from_key(the_member_key)            
                     
         return self.redirect('/band_info.html?bk={0}'.format(the_band_key.urlsafe()))
+
+
+class VerifyMember(BaseHandler):
+    """ manually verify a member """
+    
+    @user_required
+    @superuser_required
+    def get(self):
+        """ handler - wants a mk """
+
+        if not self.user.is_superuser:
+            raise MemberError("Cannot verify user because {0} is not a superuser".format(self.user.name))
+
+        the_member_keyurl=self.request.get('mk','0')
+        if the_member_keyurl=='0':
+            raise MemberError("Cannot verify user because no member key passed in, user={0}".format(self.user.name))
+        the_member_key=ndb.Key(urlsafe=the_member_keyurl)
+        the_member = the_member_key.get()
+
+        if the_member is None:
+            raise MemberError("Cannot verify user because no member found, user={0}".format(self.user.name))
+
+        the_member.verified = True
+        the_member.put()
+
+        return self.redirect('/member_info.html?mk={0}'.format(the_member_keyurl))
+
+
+
+
+
