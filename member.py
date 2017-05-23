@@ -754,7 +754,7 @@ class ManageBandsNewAssoc(BaseHandler):
         if the_band_key=='0':
             raise Exception("Band not specified")
             
-        the_member=ndb.Key(urlsafe=the_member_key).get()
+        the_member=the_member_key.get()
         the_band=ndb.Key(urlsafe=the_band_key).get()
         
         if assoc.get_assoc_for_band_key_and_member_key(the_band_key = the_band.key, the_member_key = the_member_key) is None:
