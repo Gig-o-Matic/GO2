@@ -905,6 +905,7 @@ class AutoArchiveHandler(BaseHandler):
 
         # while we're here, look for gigs that have been trashed more than 30 days ago
         gigs = get_old_trashed_gigs(minimum_age=30)
+        logging.info("Deleting {0} trashed gigs".format(len(gigs)))
         for g in gigs:
             delete_gig_completely(g)
 
