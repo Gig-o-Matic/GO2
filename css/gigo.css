@@ -112,6 +112,13 @@ code {
     overflow:visible;
 }
 
+.validation-error {
+    margin-bottom: 20px;
+}
+
+.validation-error .fa-exclamation-triangle {
+    color: firebrick;
+}
 
 /* override calendar event border thickness */
 .fc-event { /* non-theme */

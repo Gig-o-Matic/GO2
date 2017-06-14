@@ -53,6 +53,7 @@ class Band(ndb.Model):
     member_links = ndb.TextProperty(default=None)
     share_gigs = ndb.BooleanProperty(default=True)
     anyone_can_manage_gigs = ndb.BooleanProperty(default=True)
+    anyone_can_create_gigs = ndb.BooleanProperty(default=True)
     condensed_name = ndb.ComputedProperty(lambda self: ''.join(ch for ch in self.name if ch.isalnum()).lower())
     simple_planning = ndb.BooleanProperty(default=False)
     plan_feedback = ndb.TextProperty()
@@ -394,6 +395,12 @@ class EditPage(BaseHandler):
 
         the_band.description=self.request.get("band_description",None)
             
+        create_gigs=self.request.get("band_anyonecancreategigs",None)
+        if (create_gigs):
+            the_band.anyone_can_create_gigs = True
+        else:
+            the_band.anyone_can_create_gigs = False
+
         manage_gigs=self.request.get("band_anyonecanmanagegigs",None)
         if (manage_gigs):
             the_band.anyone_can_manage_gigs = True
@@ -749,7 +756,7 @@ class ConfirmMember(BaseHandler):
         the_member.invalidate_member_bandlists(self, the_member_key)
 
         the_band = the_band_key.get()
-        goemail.send_band_accepted_email(self, the_member.email_address, the_band)
+        goemail.send_band_accepted_email(the_member.email_address, the_band)
 
         return self.redirect('/band_info.html?bk={0}'.format(the_band_keyurl))
         
@@ -1033,11 +1040,11 @@ class SendInvites(BaseHandler):
                     # create assoc for this member - they're already on the gig-o
                     # send email letting them know they're in the band
                     assoc.new_association(existing_member, the_band, confirm=True)
-                    goemail.send_new_band_via_invite_email(self, the_band, existing_member)
+                    goemail.send_new_band_via_invite_email(the_band, existing_member)
             else:
                 # create assoc for this member - but because they're not verified, will just show up as 'invited'
                 # logging.info("creating new member")
-                user_data = member.create_new_member(email=e, name='', password='')
+                user_data = member.create_new_member(email=e, name='', password='invited')
                 # logging.info("creating new member: {0}".format(user_data))
                 the_user = user_data[1]
                 if the_user:
@@ -1047,9 +1054,9 @@ class SendInvites(BaseHandler):
                     verification_url = self.uri_for('inviteverification', type='i', user_id=the_user.get_id(),
                         signup_token=token, _full=True)  
                         
-                    goemail.send_gigo_invite_email(self, the_band, the_user, verification_url)                
+                    goemail.send_gigo_invite_email(the_band, the_user, verification_url)                
 
-                    # set the new users's local to be the same as mine by default.
+                    # set the new users's locale to be the same as mine by default.
                     if the_user.preferences.locale != self.user.preferences.locale:
                         the_user.preferences.locale = self.user.preferences.locale
                         the_user.put()

@@ -338,7 +338,9 @@ def can_edit_gig(the_user, the_gig=None, the_band=None):
         authorized = True
     elif the_gig and the_gig.contact == the_user.key:
         authorized = True
-    elif the_gig is None and the_band and the_band.anyone_can_manage_gigs:
+    elif the_gig is None and the_band and the_band.anyone_can_create_gigs:
+        authorized = True
+    elif the_gig is not None and the_band and the_band.anyone_can_manage_gigs:
         authorized = True
     elif the_band and assoc.get_admin_status_for_member_for_band_key(the_user, the_band.key):
         authorized = True
@@ -449,7 +451,9 @@ class InfoPage(BaseHandler):
 
             # is the current user a band admin?
             user_is_band_admin = assoc.get_admin_status_for_member_for_band_key(the_user, the_band_key)
-            user_can_edit = can_edit_gig(the_user, the_gig, the_band_key.get())
+            the_band = the_band_key.get()
+            user_can_edit = can_edit_gig(the_user, the_gig, the_band)
+            user_can_create = can_edit_gig(the_user, None, the_band)
 
             datestr = member.format_date_for_member(the_user, the_gig.date, format="long")
             if the_gig.enddate:
@@ -466,7 +470,8 @@ class InfoPage(BaseHandler):
                 'comment_text' : the_comment_text,
                 'band_has_sections' : band_has_sections,
                 'user_is_band_admin' : user_is_band_admin,
-                'user_can_edit' : user_can_edit
+                'user_can_edit' : user_can_edit,
+                'user_can_create' : user_can_create
             }
             self.render_template('gig_info.html', template_args)
 
@@ -733,7 +738,6 @@ class EditPage(BaseHandler):
                 goemail.announce_new_gig(the_gig, self.uri_for('gig_info', _full=True, gk=the_gig.key.urlsafe()), is_edit=False)
             else:
                 if edit_time_change or edit_date_change or edit_status_change:
-                    goemail.set_locale_for_user(self)
                     change_strings=[]
                     if edit_time_change:
                         change_strings.append(_('Time'))

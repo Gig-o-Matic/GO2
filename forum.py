@@ -555,7 +555,6 @@ class ForumGetTopicsHandler(BaseHandler):
         the_topics = get_forumtopics_for_forum_key(the_forum_key, page=the_page)
         
         the_topic_titles = []
-        goemail.set_locale_for_user(self)
         for a_topic in the_topics:
             the_txt = searchtext.get_search_text(a_topic.text_id)
             if a_topic.parent_gig is None:

@@ -7,7 +7,15 @@
         <div class="page-header col-md-5 col-md-offset-2">
             {% trans %}Edit Profile{% endtrans %}
         </div>
+
     </div>
+
+    {%- if validate_error is not none %}
+    <div class="row col-md-5 col-md-offset-2">
+        <div class="validation-error"><span class="fa fa-exclamation-triangle"></span> {{ validate_error }}</div>
+    </div>
+    {%  endif %}
+
     <form class="form" id="infoform" role="form" method="post" action="member_edit.html">
         <div class="row">
             <div class="form-group col-md-5 col-md-offset-2">
