@@ -56,7 +56,7 @@ def make_event(the_gig, the_band, title_format=u'{0}', details_format=u'{0}', sh
             try:
                 starttime_dt = datetime.datetime.strptime(the_gig.calltime, "%H:%M")
             except:
-                pass # TODO convert to real time objects; for now punt
+                starttime_dt = datetime.datetime(year=2000, month=1, day=1, hour=0, minute=0)
 
     if starttime_dt is None and the_gig.settime: # only use the set time if there's no call time
         try:
@@ -65,7 +65,7 @@ def make_event(the_gig, the_band, title_format=u'{0}', details_format=u'{0}', sh
             try:
                 starttime_dt = datetime.datetime.strptime(the_gig.settime, "%H:%M")
             except:
-                pass # TODO convert to real time objects; for now punt
+                starttime_dt = datetime.datetime(year=2000, month=1, day=1, hour=0, minute=0)
 
     if the_gig.endtime:
         try:
@@ -74,13 +74,11 @@ def make_event(the_gig, the_band, title_format=u'{0}', details_format=u'{0}', sh
             try:
                 endtime_dt = datetime.datetime.strptime(the_gig.endtime, "%H:%M")
             except:
-                pass # TODO convert to real time objects; for now punt
+                pass
 
-
-    if starttime_dt and endtime_dt is None:
+    if starttime_dt is not None and endtime_dt is None:
         # no end time - use the start time if there is one, plus 1 hour
-        if starttime_dt:
-            endtime_dt = starttime_dt + datetime.timedelta(hours=1)
+        endtime_dt = starttime_dt + datetime.timedelta(hours=1)
 
     if starttime_dt:
         start_dt = datetime.datetime.combine(start_dt, starttime_dt.time())
@@ -105,11 +103,11 @@ def make_event(the_gig, the_band, title_format=u'{0}', details_format=u'{0}', sh
     end_string = end_dt.astimezone(pytz.utc).strftime('%Y%m%d')
 
     # now, if we have a start time, append it
-    if starttime_dt:
+    if starttime_dt is not None:
         start_string = '{0}T{1}'.format(start_string,
                                         start_dt.astimezone(pytz.utc).strftime("%H%M00Z"))
 
-    if endtime_dt:
+    if endtime_dt is not None:
         end_string = '{0}T{1}'.format(end_string,
                                       end_dt.astimezone(pytz.utc).strftime("%H%M00Z"))
 
