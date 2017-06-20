@@ -18,7 +18,7 @@ import lang
 import assoc
 import gigoexceptions
 
-ENABLE_EMAIL = False
+ENABLE_EMAIL = True
 
 class LoginPage(BaseHandler):
     def get(self):
