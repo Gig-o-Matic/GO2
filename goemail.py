@@ -38,28 +38,15 @@ def _send_admin_mail(to, subject, body, html=None, reply_to=None):
         logging.error("Failed to send mail {0} to {1}.\n{2}".format(subject, to, e))
         return False
 
-def set_locale_for_user(the_req, the_locale_override=None):
-    if the_locale_override:
-        locale = the_locale_override
-    else:
-        if the_req and the_req.user and the_req.user.preferences.locale:
-            locale = the_req.user.preferences.locale
-        else:
-            locale = 'en'
+def send_registration_email(the_email, the_url):
 
-    i18n.get_i18n().set_locale(locale)
-
-def send_registration_email(the_req, the_email, the_url, the_locale_override=None):
-    set_locale_for_user(the_req, the_locale_override)
     return _send_admin_mail(the_email, _('Welcome to Gig-o-Matic'), _('welcome_msg_email').format(the_url))
 
-def send_band_accepted_email(the_req, the_email, the_band):
-    set_locale_for_user(the_req)
+def send_band_accepted_email(the_email, the_band):
     return _send_admin_mail(the_email, _('Gig-o-Matic: Confirmed!'),
                             _('member_confirmed_email').format(the_band.name, the_band.key.urlsafe()))
 
-def send_forgot_email(the_req, the_email, the_url):
-    set_locale_for_user(the_req)
+def send_forgot_email(the_email, the_url):
     return _send_admin_mail(the_email, _('Gig-o-Matic Password Reset'), _('forgot_password_email').format(the_url))
 
 # send an email announcing a new gig
@@ -137,7 +124,7 @@ def announce_new_gig(the_gig, the_gig_url, is_edit=False, is_reminder=False, cha
                                'change_string': change_string,
                                'the_members':   the_members})
 
-    task = taskqueue.add(
+    taskqueue.add(
             url='/announce_new_gig_handler',
             params={'the_params': the_params
             })
@@ -231,18 +218,15 @@ def send_the_new_member_email(the_locale, the_email_address, new_member, the_ban
                             _('new_member_email').format('{0} ({1})'.format(new_member.name, new_member.email_address),
                                                         the_band.name, the_band.key.urlsafe()))
 
-def send_new_band_via_invite_email(the_req, the_band, the_member):
-    set_locale_for_user(the_req, the_member.preferences.locale)
+def send_new_band_via_invite_email(the_band, the_member):
     return _send_admin_mail(the_member.email_address, _('Gig-o-Matic New Band Invite'),
                             _('new_band_via_invite_email').format(the_band.name))
 
-def send_gigo_invite_email(the_req, the_band, the_member, the_url):
-    set_locale_for_user(the_req) # send the invite in the admin member's language
+def send_gigo_invite_email(the_band, the_member, the_url):
     return _send_admin_mail(the_member.email_address, _('Invitation to Join Gig-o-Matic'),
                             _('gigo_invite_email').format(the_band.name, the_url))
 
-def send_the_pending_email(the_req, the_email_address, the_confirm_link):
-    set_locale_for_user(the_req)
+def send_the_pending_email(the_email_address, the_confirm_link):
     return _send_admin_mail(the_email_address, _('Gig-o-Matic Confirm Email Address'),
                             _('confirm_email_address_email').format(the_confirm_link))
 

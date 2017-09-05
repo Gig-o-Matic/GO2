@@ -26,6 +26,8 @@ CALSCALE:GREGORIAN
 METHOD:PUBLISH
 X-WR-CALNAME:{0}
 X-WR-CALDESC:{1}
+REFRESH-INTERVAL;VALUE=DURATION:PT2H
+X-PUBLISHED-TTL:PT2H
 """
 
 # X-WR-TIMEZONE:{1}
@@ -36,23 +38,6 @@ def make_cal_footer():
     return "END:VCALENDAR\n"
 
 def make_event(the_gig, the_band, title_format=u'{0}', details_format=u'{0}', show_url=True, force_set_time=False):
-#
-#     event="""BEGIN:VEVENT
-# DTSTART:{1}
-# DTEND:{2}
-# DTSTAMP:20140329T155645Z
-# UID:3jba27qkcfjmf9elvfs909fgdk@google.com
-# CREATED:20140329T154445Z
-# DESCRIPTION:
-# LAST-MODIFIED:20140329T154445Z
-# LOCATION:
-# SEQUENCE:0
-# STATUS:CONFIRMED
-# SUMMARY:{0}
-# TRANSP:OPAQUE
-# END:VEVENT
-# """
-
     summary = the_gig.title
 
     # make real gig start time, assuming everything is in local time
@@ -71,7 +56,7 @@ def make_event(the_gig, the_band, title_format=u'{0}', details_format=u'{0}', sh
             try:
                 starttime_dt = datetime.datetime.strptime(the_gig.calltime, "%H:%M")
             except:
-                pass # TODO convert to real time objects; for now punt
+                starttime_dt = datetime.datetime(year=2000, month=1, day=1, hour=0, minute=0)
 
     if starttime_dt is None and the_gig.settime: # only use the set time if there's no call time
         try:
@@ -80,7 +65,7 @@ def make_event(the_gig, the_band, title_format=u'{0}', details_format=u'{0}', sh
             try:
                 starttime_dt = datetime.datetime.strptime(the_gig.settime, "%H:%M")
             except:
-                pass # TODO convert to real time objects; for now punt
+                starttime_dt = datetime.datetime(year=2000, month=1, day=1, hour=0, minute=0)
 
     if the_gig.endtime:
         try:
@@ -89,13 +74,11 @@ def make_event(the_gig, the_band, title_format=u'{0}', details_format=u'{0}', sh
             try:
                 endtime_dt = datetime.datetime.strptime(the_gig.endtime, "%H:%M")
             except:
-                pass # TODO convert to real time objects; for now punt
+                pass
 
-
-    if starttime_dt and endtime_dt is None:
+    if starttime_dt is not None and endtime_dt is None:
         # no end time - use the start time if there is one, plus 1 hour
-        if starttime_dt:
-            endtime_dt = starttime_dt + datetime.timedelta(hours=1)
+        endtime_dt = starttime_dt + datetime.timedelta(hours=1)
 
     if starttime_dt:
         start_dt = datetime.datetime.combine(start_dt, starttime_dt.time())
@@ -103,22 +86,8 @@ def make_event(the_gig, the_band, title_format=u'{0}', details_format=u'{0}', sh
     if endtime_dt and end_dt:
         end_dt = datetime.datetime.combine(end_dt, endtime_dt.time())
 
-
     # do the setup so we can do timezone math
     if the_band.timezone:
-
-## this hopefully fixes the timezone bug!
-#         start_dt = start_dt.replace(tzinfo=pytz.timezone(the_band.timezone))
-#         end_dt = end_dt.replace(tzinfo=pytz.timezone(the_band.timezone))
-
-#         if starttime_dt:
-#             tzcorr = datetime.datetime.now(pytz.timezone(the_band.timezone)).dst()
-#         else:
-#             tzcorr = datetime.timedelta(0)
-# 
-#         start_dt = start_dt.astimezone(pytz.utc) - tzcorr
-#         end_dt = end_dt.astimezone(pytz.utc) - tzcorr
-
         zone=pytz.timezone(the_band.timezone)
         start_dt=zone.localize(start_dt)
         end_dt=zone.localize(end_dt)
@@ -134,11 +103,11 @@ def make_event(the_gig, the_band, title_format=u'{0}', details_format=u'{0}', sh
     end_string = end_dt.astimezone(pytz.utc).strftime('%Y%m%d')
 
     # now, if we have a start time, append it
-    if starttime_dt:
+    if starttime_dt is not None:
         start_string = '{0}T{1}'.format(start_string,
                                         start_dt.astimezone(pytz.utc).strftime("%H%M00Z"))
 
-    if endtime_dt:
+    if endtime_dt is not None:
         end_string = '{0}T{1}'.format(end_string,
                                       end_dt.astimezone(pytz.utc).strftime("%H%M00Z"))
 

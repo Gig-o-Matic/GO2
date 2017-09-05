@@ -8,6 +8,7 @@ from requestmodel import *
 from webapp2_extras.appengine.auth.models import UserToken
 from webapp2_extras.appengine.auth.models import User
 from google.appengine.ext import ndb
+from webapp2_extras.i18n import gettext as _
 
 import logging
 import member
@@ -82,19 +83,22 @@ class LogoutHandler(BaseHandler):
 class SignupPage(BaseHandler):
     """ class for handling signup requests """
     def get(self):
-        self._serve_page(self, failed=False)
+        self._serve_page()
 
     def post(self):
         email = self.request.get('email').lower()
         name = self.request.get('name')
         password = self.request.get('password')
 
-        user_data = member.create_new_member(email=email, name=name, password=password)
-        if not user_data[0]: #user_data is a tuple
-            self._serve_page(self,failed=True)
-            return
-        
-        user = user_data[1]
+        try:
+            (success, result) = member.create_new_member(email=email, name=name, password=password)
+        except member.MemberError as e:
+            return self._serve_page(e.value)
+
+        if not success:
+            return self._serve_page(_('User could not be created (email address may be in use)'))
+
+        user = result
         user_id = user.get_id()
 
         locale = self.request.get('locale','en')
@@ -109,7 +113,7 @@ class SignupPage(BaseHandler):
         if not ENABLE_EMAIL:
             msg=verification_url
         else:
-            goemail.send_registration_email(the_req=self, the_email=email, the_url=verification_url)
+            goemail.send_registration_email(the_email=email, the_url=verification_url)
             msg=''
 
         params = {
@@ -118,13 +122,14 @@ class SignupPage(BaseHandler):
         }
         self.render_template('confirm_signup.html', params=params)
             
-    def _serve_page(self, the_url=None, failed=False):
+    def _serve_page(self, error=None):
     
         locale=self.request.get('locale',None)
 
         params = {
-            'failed': failed,
-            'locale' : locale
+            'failed': error is not None,
+            'locale' : locale,
+            'error': error
         }
         self.render_template('signup.html', params=params)
 
@@ -323,14 +328,17 @@ class SetPasswordHandler(BaseHandler):
       self.display_message('passwords do not match')
       return
 
-    user = self.user
-    user.set_password(password)
-    user.put()
+    try:
+        user = self.user
+        user.set_password(password)
+        user.put()
+    except member.MemberError as e:
+        self.display_message(e.value)
+        return
 
     # remove signup token, we don't want users to come back with an old link
     self.user_model.delete_signup_token(user.get_id(), old_token)
     
-#    self.display_message('Password updated')
     self.auth.unset_session()
     self.redirect(self.uri_for('home'))
 
@@ -385,7 +393,7 @@ class ForgotPasswordHandler(BaseHandler):
       signup_token=token, _full=True)
 
     if ENABLE_EMAIL:
-        goemail.send_forgot_email(the_req=self, the_email=user.email_address, the_url=verification_url)
+        goemail.send_forgot_email(the_email=user.email_address, the_url=verification_url)
         msg=""
     else:
         msg = verification_url
@@ -449,8 +457,7 @@ def request_new_email(the_request, the_new_address):
     verification_url = the_request.uri_for('emailverification', type='e', user_id=user_id,
             signup_token=token, _full=True)
 
-    goemail.send_the_pending_email(the_req=the_request, the_email_address=the_new_address, the_confirm_link=verification_url)
-    
+    goemail.send_the_pending_email(the_email_address=the_new_address, the_confirm_link=verification_url)
 
 def get_all_signup_tokens():
     """ Return query with subject 'signup' """

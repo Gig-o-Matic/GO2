@@ -107,6 +107,16 @@
                         {% if the_user_is_superuser %}
                         <br>
                         <div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-6">Verified:</div>
+                            <div class="col-md-6 col-sm-6 col-xs-6">
+                            	{{ the_member.verified }}
+                            	{% if the_member.verified == False %}
+                            		<a class="btn btn-primary btn-xs" href="/verify_member?mk={{ the_member.key.urlsafe() }}">verify</a>
+                            	{% endif %}
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
                             <div class="col-md-6 col-sm-6 col-xs-6">Last Activity:</div>
                             <div class="col-md-6 col-sm-6 col-xs-6">
                                 {% if the_member.last_activity %}

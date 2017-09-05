@@ -57,17 +57,17 @@ class MailTestCase(unittest.TestCase):
         self.assertRegexpMatches(message.body.payload, text)
 
     def test_registration_email(self):
-        goemail.send_registration_email(self.request_stub, self.TEST_RECIPIENT, self.TEST_URL)
+        goemail.send_registration_email(self.TEST_RECIPIENT, self.TEST_URL)
         self.assertWellFormedAndContainsText(self.TEST_RECIPIENT, self.TEST_URL)
 
     def test_band_accepted_email(self):
         the_band = band.new_band(self.TEST_BAND)
-        goemail.send_band_accepted_email(self.request_stub, self.TEST_RECIPIENT, the_band)
+        goemail.send_band_accepted_email(self.TEST_RECIPIENT, the_band)
 
         self.assertWellFormedAndContainsText(self.TEST_RECIPIENT, self.TEST_BAND)
 
     def test_forgot_email(self):
-        goemail.send_forgot_email(self.request_stub, self.TEST_RECIPIENT, self.TEST_URL)
+        goemail.send_forgot_email(self.TEST_RECIPIENT, self.TEST_URL)
         self.assertWellFormedAndContainsText(self.TEST_RECIPIENT, self.TEST_URL)
 
     def _create_test_band_with_member(self, member_is_admin = True):
@@ -103,12 +103,12 @@ class MailTestCase(unittest.TestCase):
 
     def test_new_band_via_invite_email(self):
         the_band, the_member = self._create_test_band_with_member()
-        goemail.send_new_band_via_invite_email(self.request_stub, the_band, the_member)
+        goemail.send_new_band_via_invite_email(the_band, the_member)
         self.assertWellFormedAndContainsText(self.TEST_RECIPIENT, the_band.name)
 
     def test_gigo_invite_email(self):
         the_band, the_member = self._create_test_band_with_member()
-        goemail.send_gigo_invite_email(self.request_stub, the_band, the_member, self.TEST_URL)
+        goemail.send_gigo_invite_email(the_band, the_member, self.TEST_URL)
 
         message = self._get_single_message()
         self.assertEqual(message.to, self.TEST_RECIPIENT)
@@ -117,7 +117,7 @@ class MailTestCase(unittest.TestCase):
         self.assertRegexpMatches(message.body.payload, self.TEST_URL)
 
     def test_user_confirm_email(self):
-        goemail.send_the_pending_email(self.request_stub, self.TEST_RECIPIENT, self.TEST_URL)
+        goemail.send_the_pending_email(self.TEST_RECIPIENT, self.TEST_URL)
         self.assertWellFormedAndContainsText(self.TEST_RECIPIENT, self.TEST_URL)
 
 if __name__ == '__main__':
