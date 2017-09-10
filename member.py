@@ -22,7 +22,6 @@ import plan
 import goemail
 import assoc
 import login
-import forum
 import datetime
 import lang
 from colors import colors
@@ -205,6 +204,7 @@ class Member(webapp2_extras.appengine.auth.models.User):
 
     @classmethod
     def get_forums(cls, req, the_member_key):
+        import forum
         """ check to see if this is in the session - if so, just use it """
         if 'member_forumlist' in req.session.keys() and not req.member_cache_is_dirty(the_member_key):
             the_forums = req.session['member_forumlist']
