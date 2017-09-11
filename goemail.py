@@ -21,12 +21,19 @@ if os.getenv('SERVER_SOFTWARE', '').startswith('Google App Engine/'):
 else:
     _admin_email_address = 'gigomatic.superuser@gmail.com'
 
-def _send_admin_mail(to, subject, body, html=None, reply_to=None):
+def validate_email(to):
     # + and . are allowed in username, and . in the domain name, but neither can be
     # the leading character. Alphanumerics, - and _ are allowed anywhere.
     valid_address = r"^[_a-z0-9-]+((\.|\+)[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$"
     if (not mail.is_email_valid(to)) or (re.match(valid_address, to.lower()) is None):
         logging.error("invalid recipient address '{0}'".format(to))
+        return False
+    else:
+        return True
+
+def _send_admin_mail(to, subject, body, html=None, reply_to=None):
+
+    if validate_email(to) is False:
         return False
 
     message = mail.EmailMessage()
