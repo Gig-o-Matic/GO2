@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-09-10 12:01-0400\n"
+"POT-Creation-Date: 2017-09-17 12:35-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,128 +22,128 @@ msgstr ""
 msgid "Gig"
 msgstr ""
 
-#: gig.py:725
+#: gig.py:743
 msgid "Time"
 msgstr ""
 
-#: gig.py:727 templates/gig_edit.html:60
+#: gig.py:745 templates/gig_edit.html:60
 msgid "Date"
 msgstr ""
 
-#: gig.py:729 templates/gig_edit.html:34
+#: gig.py:747 templates/gig_edit.html:34
 msgid "Status"
 msgstr ""
 
-#: gig.py:732
+#: gig.py:750
 msgid "Details"
 msgstr ""
 
-#: goemail.py:51
+#: goemail.py:58
 msgid "Welcome to Gig-o-Matic"
 msgstr ""
 
-#: goemail.py:51
+#: goemail.py:58
 msgid "welcome_msg_email"
 msgstr ""
 
-#: goemail.py:54
+#: goemail.py:61
 msgid "Gig-o-Matic: Confirmed!"
 msgstr ""
 
-#: goemail.py:55
+#: goemail.py:62
 msgid "member_confirmed_email"
 msgstr ""
 
-#: goemail.py:58
+#: goemail.py:65
 msgid "Gig-o-Matic Password Reset"
 msgstr ""
 
-#: goemail.py:58
+#: goemail.py:65
 msgid "forgot_password_email"
 msgstr ""
 
-#: goemail.py:86 templates/gig_edit.html:3 templates/gig_edit.html:15
+#: goemail.py:93 templates/gig_edit.html:3 templates/gig_edit.html:15
 msgid "Gig Edit"
 msgstr ""
 
-#: goemail.py:90
+#: goemail.py:97
 msgid "New Gig:"
 msgstr ""
 
-#: goemail.py:96 templates/gig_edit.html:103 templates/gig_info.html:87
+#: goemail.py:103 templates/gig_edit.html:103 templates/gig_info.html:88
 msgid "Call Time"
 msgstr ""
 
-#: goemail.py:100 templates/gig_edit.html:107 templates/gig_info.html:95
+#: goemail.py:107 templates/gig_edit.html:107 templates/gig_info.html:96
 msgid "Set Time"
 msgstr ""
 
-#: goemail.py:104 templates/gig_edit.html:111 templates/gig_info.html:98
+#: goemail.py:111 templates/gig_edit.html:111 templates/gig_info.html:99
 msgid "End Time"
 msgstr ""
 
-#: goemail.py:106 templates/gig_edit.html:38 templates/gig_info.html:54
+#: goemail.py:113 templates/gig_edit.html:38 templates/gig_info.html:54
 msgid "Unconfirmed"
 msgstr ""
 
-#: goemail.py:106 templates/gig_edit.html:41 templates/gig_info.html:50
+#: goemail.py:113 templates/gig_edit.html:41 templates/gig_info.html:50
 msgid "Confirmed!"
 msgstr ""
 
-#: goemail.py:106 templates/agenda_plan_edit.html:137
+#: goemail.py:113 templates/agenda_plan_edit.html:137
 #: templates/gig_edit.html:44 templates/gig_info.html:52
 msgid "Cancelled!"
 msgstr ""
 
-#: goemail.py:114
+#: goemail.py:121
 msgid "edited_gig_email"
 msgstr ""
 
-#: goemail.py:118
+#: goemail.py:125
 msgid "reminder_gig_email"
 msgstr ""
 
-#: goemail.py:119
+#: goemail.py:126
 msgid "reminder_gig_email_html"
 msgstr ""
 
-#: goemail.py:121
+#: goemail.py:128
 msgid "new_gig_email"
 msgstr ""
 
-#: goemail.py:122
+#: goemail.py:129
 msgid "new_gig_email_html"
 msgstr ""
 
-#: goemail.py:225
+#: goemail.py:232
 msgid "Gig-o-Matic New Member for band {0})"
 msgstr ""
 
-#: goemail.py:226
+#: goemail.py:233
 msgid "new_member_email"
 msgstr ""
 
-#: goemail.py:230
+#: goemail.py:237
 msgid "Gig-o-Matic New Band Invite"
 msgstr ""
 
-#: goemail.py:231
+#: goemail.py:238
 msgid "new_band_via_invite_email"
 msgstr ""
 
-#: goemail.py:234
+#: goemail.py:241
 msgid "Invitation to Join Gig-o-Matic"
 msgstr ""
 
-#: goemail.py:235
+#: goemail.py:242
 msgid "gigo_invite_email"
 msgstr ""
 
-#: goemail.py:238
+#: goemail.py:245
 msgid "Gig-o-Matic Confirm Email Address"
 msgstr ""
 
-#: goemail.py:239
+#: goemail.py:246
 msgid "confirm_email_address_email"
 msgstr ""
 
@@ -365,7 +365,11 @@ msgstr ""
 msgid "trashcan_title"
 msgstr ""
 
-#: templates/band_gig_trashcan.html:26
+#: templates/band_gig_trashcan.html:17
+msgid "Gigs in the trash will be deleted after 30 days."
+msgstr ""
+
+#: templates/band_gig_trashcan.html:28
 msgid "There are no gigs in the trashcan!"
 msgstr ""
 
@@ -552,11 +556,11 @@ msgstr ""
 msgid "Band Navigator"
 msgstr ""
 
-#: templates/band_nav.html:73 templates/gig_info.html:342
+#: templates/band_nav.html:73 templates/gig_info.html:343
 msgid "more"
 msgstr ""
 
-#: templates/band_nav.html:73 templates/gig_info.html:342
+#: templates/band_nav.html:73 templates/gig_info.html:343
 msgid "less"
 msgstr ""
 
@@ -564,7 +568,7 @@ msgstr ""
 msgid "None!"
 msgstr ""
 
-#: templates/band_sections.html:6 templates/gig_info.html:225
+#: templates/band_sections.html:6 templates/gig_info.html:226
 #: templates/grid.html:80
 msgid "No Section"
 msgstr ""
@@ -809,12 +813,12 @@ msgid "pin"
 msgstr ""
 
 #: templates/forum_posts.html:49 templates/forumpostreply.html:3
-#: templates/gig_info.html:255
+#: templates/gig_info.html:256
 msgid "say your piece!"
 msgstr ""
 
 #: templates/forum_posts.html:52 templates/forumpostreply.html:6
-#: templates/gig_info.html:258
+#: templates/gig_info.html:259
 msgid "Say it!"
 msgstr ""
 
@@ -842,48 +846,48 @@ msgstr ""
 msgid "Archived Gig Info"
 msgstr ""
 
-#: templates/gig_archived_info.html:19 templates/gig_info.html:69
+#: templates/gig_archived_info.html:19 templates/gig_info.html:70
 msgid "Band"
 msgstr ""
 
 #: templates/gig_archived_info.html:30 templates/gig_edit.html:117
-#: templates/gig_info.html:104
+#: templates/gig_info.html:105
 msgid "Address"
 msgstr ""
 
-#: templates/gig_archived_info.html:37 templates/gig_info.html:111
+#: templates/gig_archived_info.html:37 templates/gig_info.html:112
 msgid "What to Wear"
 msgstr ""
 
 #: templates/gig_archived_info.html:44 templates/gig_edit.html:125
-#: templates/gig_info.html:118
+#: templates/gig_info.html:119
 msgid "Pay Deal"
 msgstr ""
 
 #: templates/gig_archived_info.html:51 templates/gig_edit.html:131
-#: templates/gig_info.html:125
+#: templates/gig_info.html:126
 msgid "Leader"
 msgstr ""
 
 #: templates/gig_archived_info.html:58 templates/gig_edit.html:141
-#: templates/gig_info.html:139
+#: templates/gig_info.html:140
 msgid "More Details"
 msgstr ""
 
 #: templates/gig_archived_info.html:63 templates/gig_edit.html:147
-#: templates/gig_info.html:165
+#: templates/gig_info.html:166
 msgid "Setlist"
 msgstr ""
 
-#: templates/gig_archived_info.html:68 templates/gig_info.html:189
+#: templates/gig_archived_info.html:68 templates/gig_info.html:190
 msgid "Member Plans"
 msgstr ""
 
-#: templates/gig_archived_info.html:74 templates/gig_info.html:244
+#: templates/gig_archived_info.html:74 templates/gig_info.html:245
 msgid "Comments"
 msgstr ""
 
-#: templates/gig_archived_info.html:97 templates/gig_info.html:268
+#: templates/gig_archived_info.html:97 templates/gig_info.html:269
 msgid "Forum"
 msgstr ""
 
@@ -903,7 +907,7 @@ msgstr ""
 msgid "Copy of"
 msgstr ""
 
-#: templates/gig_edit.html:29 templates/gig_info.html:73
+#: templates/gig_edit.html:29 templates/gig_info.html:74
 msgid "Contact"
 msgstr ""
 
@@ -963,7 +967,7 @@ msgstr ""
 msgid "leader_placeholder"
 msgstr ""
 
-#: templates/gig_edit.html:135 templates/gig_info.html:132
+#: templates/gig_edit.html:135 templates/gig_info.html:133
 msgid "Post-gig Plans"
 msgstr ""
 
@@ -1011,7 +1015,7 @@ msgstr ""
 msgid "Move To Trash"
 msgstr ""
 
-#: templates/gig_edit.html:196
+#: templates/gig_edit.html:196 templates/gig_info.html:65
 msgid "Restore Gig"
 msgstr ""
 
@@ -1080,32 +1084,32 @@ msgstr ""
 msgid "THIS GIG IS IN THE TRASH!"
 msgstr ""
 
-#: templates/gig_info.html:146
+#: templates/gig_info.html:147
 msgid "Occasional members were not invited."
 msgstr ""
 
-#: templates/gig_info.html:152
+#: templates/gig_info.html:153
 msgid "Gig is hidden from calendar."
 msgstr ""
 
-#: templates/gig_info.html:169 templates/gig_info.html:193
-#: templates/gig_info.html:197
+#: templates/gig_info.html:170 templates/gig_info.html:194
+#: templates/gig_info.html:198
 msgid "Print"
 msgstr ""
 
-#: templates/gig_info.html:200
+#: templates/gig_info.html:201
 msgid "Show All"
 msgstr ""
 
-#: templates/gig_info.html:201
+#: templates/gig_info.html:202
 msgid "Show Committed"
 msgstr ""
 
-#: templates/gig_info.html:206
+#: templates/gig_info.html:207
 msgid "Remind"
 msgstr ""
 
-#: templates/gig_info.html:209
+#: templates/gig_info.html:210
 msgid "Reminder Sent"
 msgstr ""
 

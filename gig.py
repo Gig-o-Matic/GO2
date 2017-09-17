@@ -912,7 +912,6 @@ class AutoArchiveHandler(BaseHandler):
     """ automatically archive old gigs """
     def get(self):
         _do_autoarchive()
-
         
 class CommentHandler(BaseHandler):
     """ takes a new comment and adds it to the gig """
