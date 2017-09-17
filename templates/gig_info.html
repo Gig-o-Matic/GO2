@@ -62,7 +62,9 @@
                         <div class="row">
                             <div class="col-md-10 col-md-offset-2 col-sm-10 col-sm-offset-2 col-xs-9 col-xs-offset-3" style="color:red">
                                 <strong>{% trans %}THIS GIG IS IN THE TRASH!{% endtrans %}</strong>  
-                                <a class="btn btn-default" href="/gig_restore_trashed?gk={{ gig.key.urlsafe() }}">{% trans %}Restore Gig{% endtrans %}</a>
+                                {% if the_user_is_superuser or the_user_is_band_admin %}
+                                    <a class="btn btn-default" href="/gig_restore_trashed?gk={{ gig.key.urlsafe() }}">{% trans %}Restore Gig{% endtrans %}</a>
+                                {% endif %}
                             </div>
                         </div>
                     {% endif %}
