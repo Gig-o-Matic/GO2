@@ -148,6 +148,14 @@ class TrashcanTestCase(unittest.TestCase):
         the_gig1 = gig.new_gig(the_band, "Parade1", the_member.key)
         the_gig2 = gig.new_gig(the_band, "Parade2", the_member.key)
 
+        # verify that we have two gigs for this band
+        all_gigs = gig.get_gigs_for_band_keys([the_band.key])
+        self.assertEqual(len(all_gigs),2)
+
+        # verify that we have no trashed gig
+        trash_gigs = gig.get_old_trashed_gigs(minimum_age = 0)
+        self.assertEmpty(trash_gigs)
+
         the_gig1.trashed_date = datetime.datetime.now() - datetime.timedelta(days=20)
         self.assertTrue(the_gig1.is_in_trash)
         the_gig1.put()
