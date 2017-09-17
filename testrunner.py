@@ -5,9 +5,7 @@ From https://cloud.google.com/appengine/docs/standard/python/tools/localunittest
 This program handles properly importing the App Engine SDK so that test modules
 can use google.appengine.* APIs and the Google App Engine testbed.
 
-Example invocation:
-
-    $ python runner.py ~/google-cloud-sdk
+$ python testrunner.py /usr/local/google_appengine --test-path tests
 """
 
 import argparse
