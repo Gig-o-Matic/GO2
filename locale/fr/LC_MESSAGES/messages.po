@@ -109,7 +109,7 @@ msgid "edited_gig_email"
 msgstr ""
 
 #: goemail.py:234
-msgid "Gig-o-Matic New Member for band {0})"
+msgid "Gig-o-Matic New Member for band {0}"
 msgstr ""
 
 #: goemail.py:245

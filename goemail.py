@@ -229,7 +229,7 @@ def send_the_new_member_email(the_locale, the_email_address, new_member, the_ban
     i18n.get_i18n().set_locale(the_locale)
 
     return _send_admin_mail(the_email_address,
-                            _('Gig-o-Matic New Member for band {0})').format(the_band.name),
+                            _('Gig-o-Matic New Member for band {0}').format(the_band.name),
                             _('new_member_email').format('{0} ({1})'.format(new_member.name, new_member.email_address),
                                                         the_band.name, the_band.key.urlsafe()))
 
