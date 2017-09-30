@@ -35,6 +35,7 @@ from webapp2_extras.i18n import gettext as _
 from clone import clone_entity
 
 import datetime
+from dateutil import parser
 import babel
 
 #
@@ -52,6 +53,7 @@ class Gig(ndb.Model):
     calltime = ndb.TextProperty( default=None )
     settime = ndb.TextProperty( default=None )
     endtime = ndb.TextProperty( default=None )
+    sorttime = ndb.IntegerProperty( default=None )
     address = ndb.TextProperty( default=None )
     dress = ndb.TextProperty( default=None )
     paid = ndb.TextProperty( default=None )
@@ -79,6 +81,43 @@ class Gig(ndb.Model):
             return self.settime
         else:
             return None
+
+    # gig call, start, and end times are strings that may or may not be times
+    def _make_sort_time(self):
+
+        def _time_as_minutes(n):
+            try:
+                t = parser.parse(n).time()
+                return t.hour * 60 + t.minute
+            except ValueError:
+                return 0 # just sort the non-parsable values first
+
+        # do some work to figure out the actual time of the gig
+        timestring = self.calltime if self.calltime else self.settime
+
+        if timestring:
+            self.sorttime = _time_as_minutes(timestring)
+        else:
+            self.sorttime = 0
+        self.put()
+
+    def set_calltime(self, time):
+        self.calltime = time
+        self.sorttime = None
+
+    def set_settime(self, time):
+        self.settime = time
+        self.sorttime = None
+
+    def set_endtime(self, time):
+        self.endtime = time
+
+    # overload the put method to make sure we set the sorting time properly
+    def put(self):
+        if self.sorttime is None:
+            self._make_sort_time()
+        super(Gig, self).put()
+
 #
 # Functions to make and find gigs
 #
@@ -278,6 +317,16 @@ def get_old_trashed_gigs(minimum_age=None):
     # sorted(the_gigs, key=lambda x:x.date)
     return the_gigs
 
+def get_sorted_gigs_from_band_keys(the_band_keys=[], include_canceled=False):
+    all_gigs=[]
+    for bk in the_band_keys:
+        b = bk.get()                       
+        today_date = datetime.datetime.combine(datetime.datetime.now(tz=pytz.timezone(b.timezone)), datetime.time(0,0,0))
+        some_gigs = get_gigs_for_band_keys(bk, show_canceled=include_canceled, start_date=today_date)
+        all_gigs = all_gigs + some_gigs
+
+    all_gigs = sorted(all_gigs, key=lambda gig: (gig.date, gig.sorttime))
+    return all_gigs
     
 def set_sections_for_empty_plans(the_gig):
     """ For this gig, get all plans. For plans with no section set, get the users default and set it """
@@ -614,23 +663,20 @@ class EditPage(BaseHandler):
 
         gig_call = self.request.get("gig_call", '')
         if gig_call is not None:
-            old_calltime = the_gig.calltime
-            the_gig.calltime = gig_call
-            if old_calltime != the_gig.calltime:
+            if the_gig.calltime != gig_call:
+                the_gig.set_calltime(gig_call)
                 edit_time_change = True
 
         gig_set = self.request.get("gig_set", '')
         if gig_set is not None:
-            old_settime = the_gig.settime
-            the_gig.settime = gig_set
-            if old_settime != the_gig.settime:
+            if the_gig.settime != gig_set:
+                the_gig.set_settime(gig_set)
                 edit_time_change = True
 
         gig_end = self.request.get("gig_end", '')
         if gig_end is not None:
-            old_endtime = the_gig.endtime
-            the_gig.endtime = gig_end
-            if old_endtime != the_gig.endtime:
+            if the_gig.endtime != gig_end:
+                the_gig.set_endtime(gig_end)
                 edit_time_change = True
 
         gig_address = self.request.get("gig_address", '')

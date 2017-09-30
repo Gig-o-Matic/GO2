@@ -42,15 +42,8 @@ class MainPage(BaseHandler):
         if the_user.preferences and the_user.preferences.hide_canceled_gigs:
             show_canceled=False
             
-        all_gigs=[]
-        for bk in the_band_keys:
-            b = bk.get()                       
-            today_date = datetime.datetime.combine(datetime.datetime.now(tz=pytz.timezone(b.timezone)), datetime.time(0,0,0))
-#         the_gigs = gig.get_gigs_for_bands(the_bands, num=num_to_put_in_upcoming, start_date=today_date)
-            some_gigs = gig.get_gigs_for_band_keys(bk, show_canceled=show_canceled, start_date=today_date)
-            all_gigs = all_gigs + some_gigs
 
-        all_gigs = sorted(all_gigs, key=lambda gig: gig.date)
+        all_gigs = gig.get_sorted_gigs_from_band_keys(the_band_keys=the_band_keys, include_canceled=show_canceled)
 
         upcoming_plans = []
         weighin_plans = []        

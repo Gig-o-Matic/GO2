@@ -72,6 +72,7 @@ class Band(ndb.Model):
 def new_band(name):
     """ Make and return a new band """
     the_band = Band(parent=band_key(), name=name)
+    the_band.timezone = 'UTC' # every band needs this - when creating from application, done in the UI code, but should not be None
     the_band.put()
     return the_band
 
