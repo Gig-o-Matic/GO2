@@ -99,13 +99,21 @@ class GigSortTestCase(unittest.TestCase):
         self.assertGigOrder(the_band, total=2, first="B")
 
         # check out other formats of time or not-time
-        gigA.set_calltime("blah")
-        gigA.set_settime("1:00 pm")
+        gigA.set_calltime("early")
+        gigA.set_settime(None)
         gigA.put()
-        gigB.set_calltime("12:00pm")
+        gigB.set_calltime("1:00")
         gigB.set_settime(None)
         gigB.put()
         self.assertGigOrder(the_band, total=2, first="A")
+
+        gigA.set_calltime("2:30pm")
+        gigA.set_settime(None)
+        gigA.put()
+        gigB.set_calltime("early")
+        gigB.set_settime(None)
+        gigB.put()
+        self.assertGigOrder(the_band, total=2, first="B")
 
 
 
