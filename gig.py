@@ -439,7 +439,7 @@ class InfoPage(BaseHandler):
         the_comment_text = None
         if the_gig.comment_id:
             the_comment_text = gigcomment.get_comment(the_gig.comment_id)
-            
+
         if not the_gig.is_archived:
             the_band_key = the_gig.key.parent()
 
@@ -452,6 +452,10 @@ class InfoPage(BaseHandler):
             # now, for each associated member, find or make a plan
             the_plans = []
             the_new_plans = [] # in case we need to make new ones
+
+            the_plan_counts={}
+            for i in range(len(plan.plan_text)):
+                the_plan_counts[i]=0
                                         
             need_empty_section = False
             for the_assoc in the_assocs:
@@ -483,7 +487,8 @@ class InfoPage(BaseHandler):
                         info_block['the_section'] = the_plan.section
                     else:
                         info_block['the_section'] = the_assoc.default_section            
-                    the_plans.append(info_block)          
+                    the_plans.append(info_block)
+                    the_plan_counts[the_plan.value] += 1
         
             if the_new_plans:
                 ndb.put_multi(the_new_plans)
@@ -520,7 +525,8 @@ class InfoPage(BaseHandler):
                 'band_has_sections' : band_has_sections,
                 'user_is_band_admin' : user_is_band_admin,
                 'user_can_edit' : user_can_edit,
-                'user_can_create' : user_can_create
+                'user_can_create' : user_can_create,
+                'the_plan_counts' : the_plan_counts
             }
             self.render_template('gig_info.html', template_args)
 
