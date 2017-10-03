@@ -504,7 +504,7 @@ class InfoPage(BaseHandler):
                 band_has_sections = True
 
             # is the current user a band admin?
-            user_is_band_admin = assoc.get_admin_status_for_member_for_band_key(the_user, the_band_key)
+            the_user_is_band_admin = assoc.get_admin_status_for_member_for_band_key(the_user, the_band_key)
             the_band = the_band_key.get()
             user_can_edit = can_edit_gig(the_user, the_gig, the_band)
             user_can_create = can_edit_gig(the_user, None, the_band)
@@ -523,7 +523,7 @@ class InfoPage(BaseHandler):
                 'the_sections' : the_sections,
                 'comment_text' : the_comment_text,
                 'band_has_sections' : band_has_sections,
-                'user_is_band_admin' : user_is_band_admin,
+                'the_user_is_band_admin' : the_user_is_band_admin,
                 'user_can_edit' : user_can_edit,
                 'user_can_create' : user_can_create,
                 'the_plan_counts' : the_plan_counts
