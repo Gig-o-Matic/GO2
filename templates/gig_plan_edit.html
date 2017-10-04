@@ -13,7 +13,7 @@
 
 {% set show_section = False %}
 {% if the_assoc and the_assoc.is_multisectional %}
-    {% if the_member_key == the_user.key or the_user_is_superuser or user_is_band_admin %}
+    {% if the_member_key == the_user.key or the_user_is_superuser or the_user_is_band_admin %}
         {% set show_section = True %}
     {% endif %}
 {% endif %}
@@ -47,7 +47,7 @@
     </div>
     <div class="col-lg-{{grp2_lg}} col-md-{{grp2_lg}} col-md-offset-0 col-sm-{{grp2_sm}} col-sm-offset-0 col-xs-{{grp2_sm}} col-xs-offset-0">
         <div class="row">
-            {% if the_member_key == the_user.key or the_user_is_superuser or user_is_band_admin %}
+            {% if the_member_key == the_user.key or the_user_is_superuser or the_user_is_band_admin %}
                 <div class="col-md-2 col-sm-2 col-xs-3">
                     {{ plan_icon.icon_button(the_plan, the_band.simple_planning) }}
                 </div>
@@ -80,7 +80,7 @@
             {% endif %}
             {% if show_section %}
                 <div class="col-md-{{section_lg}} col-sm-{{section_sm}} col-xs-{{section_sm}}">
-                    {% if the_plan.member == the_user.key or the_user_is_superuser or user_is_band_admin %}
+                    {% if the_plan.member == the_user.key or the_user_is_superuser or the_user_is_band_admin %}
                         {% if get_the_section_keys %}
                             {% set the_section_keys = get_the_section_keys(the_band_key) %}
                         {% endif %}
