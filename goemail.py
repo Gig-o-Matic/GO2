@@ -14,12 +14,16 @@ import os
 from webapp2_extras import i18n
 from webapp2_extras.i18n import gettext as _
 
+# need this for sending stuff to the superuser - can't use the decorated version
+_bare_admin_email_address = 'gigomatic.superuser@gmail.com'
+
 # The MailServiceStub class used by dev_appserver can't handle a sender address that's more
 # than a raw email address, but production GAE doesn't have this limitation.
 if os.getenv('SERVER_SOFTWARE', '').startswith('Google App Engine/'):
     _admin_email_address = 'Gig-o-matic <gigomatic.superuser@gmail.com>'
 else:
     _admin_email_address = 'gigomatic.superuser@gmail.com'
+
 
 def validate_email(to):
     # + and . are allowed in username, and . in the domain name, but neither can be
@@ -246,11 +250,11 @@ def send_the_pending_email(the_email_address, the_confirm_link):
                             _('confirm_email_address_email').format(the_confirm_link))
 
 def notify_superuser_of_archive(the_num):
-    return _send_admin_mail(_admin_email_address, 'Gig-o-Matic Auto-Archiver'
+    return _send_admin_mail(_bare_admin_email_address, 'Gig-o-Matic Auto-Archiver'
                            "Yo! The Gig-o-Matic archived {0} gigs last night.".format(the_num))
 
 def notify_superuser_of_old_tokens(the_num):
-    return _send_admin_mail(_admin_email_address, 'Gig-o-Matic Old Tokens',
+    return _send_admin_mail(_bare_admin_email_address, 'Gig-o-Matic Old Tokens',
                            "Yo! The Gig-o-Matic found {0} old signup tokens last night.".format(the_num))
 
 def send_band_request_email(the_email_address, the_name, the_info):
@@ -267,4 +271,4 @@ Enjoy,
 Team Gig-o-Matic
 
     """.format(the_email_address, the_name, the_info)
-    return _send_admin_mail(_admin_email_address, 'Gig-o-Matic New Band Request', body)
+    return _send_admin_mail(_bare_admin_email_address, 'Gig-o-Matic New Band Request', body)
