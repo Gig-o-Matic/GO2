@@ -1,8 +1,8 @@
 {% if the_bands %}
     {% for band in the_bands %}
-        <li role="presentation"><a href="/gig_edit.html?new=1&bk={{ band.key.urlsafe() }}">{{ band.name }}</a></li>
+        <a class="dropdown-item" href="/gig_edit.html?new=1&bk={{ band.key.urlsafe() }}">{{ band.name }}</a>
     {% endfor %}
 {% else %}
-    <li><a href="#">{% trans %}No bands yet!{% endtrans %}</a></li>
+    <a class="dropdown-item" href="#">{% trans %}No bands yet!{% endtrans %}</a>
 {% endif %}
 
