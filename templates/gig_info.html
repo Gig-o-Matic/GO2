@@ -22,22 +22,20 @@
         <div class="mx-auto col-lg-8 col-md-10 col-sm-12">
             <div class="card">
                 <div class="card-header">
-                    <div class="card-title">
-                        <div class="row">
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                {% trans %}Info{% endtrans %}
-                            </div>
-                            {% if user_can_edit %}
-                                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-right">
-                                        {% if user_can_edit %}
-                                            <a class="btn btn-primary btn-xs" href="gig_edit.html?gk={{ gig.key.urlsafe() }}">{% trans %}Edit{% endtrans %}</a>
-                                        {% endif %}
-                                        {% if user_can_create %}
-                                            <a class="btn btn-primary btn-xs" href="gig_edit.html?gk={{ gig.key.urlsafe() }}&dupe=1">{% trans %}Duplicate{% endtrans %}</a>
-                                        {% endif %}
-                                    </div>
-                            {% endif %}
+                    <div class="row">
+                        <div class="col-4">
+                            <h4>{% trans %}Info{% endtrans %}</h4>
                         </div>
+                        {% if user_can_edit %}
+                                <div class="ml-auto">
+                                    {% if user_can_edit %}
+                                        <a class="btn btn-primary btn-xs" href="gig_edit.html?gk={{ gig.key.urlsafe() }}">{% trans %}Edit{% endtrans %}</a>
+                                    {% endif %}
+                                    {% if user_can_create %}
+                                        <a class="btn btn-primary btn-xs" href="gig_edit.html?gk={{ gig.key.urlsafe() }}&dupe=1">{% trans %}Duplicate{% endtrans %}</a>
+                                    {% endif %}
+                                </div>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="card-body">
@@ -191,41 +189,39 @@
             <div class="row">&nbsp;</div>
             <div class="card">
                 <div class="card-header">
-                    <div class="card-title">
-                        <div class="row">
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                {% trans %}Member Plans{% endtrans %}
-                                {% if the_user_is_superuser or the_user_is_band_admin %}
-                                    {% for p in the_plan_counts %}
-                                        {% if p > 0 %}
-                                            <span class="badge badge-pill badge-primary" style="background-color: #ffffff; color: #000000;">{{ plan_icon.icon(p) }}{{ the_plan_counts[p] }}</span>
-                                        {% endif %}
-                                    {% endfor %}
-                                    <span class="badge badge-pill badge-primary" style="background-color: #ffffff; color: #000000;">{{ plan_icon.icon(0) }}{{ the_plan_counts[0] }}</span>
-                                {% endif %}
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 text-right">
-                                <span id="printall"><a href="print_planlist?gk={{gig.key.urlsafe()}}&printall=1" target="new" class="btn btn-xs btn-default"><i class="fa fa-print"></i>
-                                {% trans %}Print{% endtrans %}
-                                </a></span>
-                                <span id="printcomm">
-                                <a href="print_planlist?gk={{gig.key.urlsafe()}}&printall=0" target="new" class="btn btn-xs btn-default"><i class="fa fa-print"></i>
-                                {% trans %}Print{% endtrans %}
-                                </a></span>
-                                <a href="#" onclick="simpleswitch(); return false;" class="btn btn-xs btn-default"><i class="fa fa-refresh fs-lg"></i>
-                                <span id="simpleoff">{% trans %}Show All{% endtrans %}</span>
-                                <span id="simpleon">{% trans %}Show Committed{% endtrans %}</span>
-                                </a>
+                    <div class="row">
+                        <div class="col-4">
+                            <h4>{% trans %}Member Plans{% endtrans %}</h4>
+                            {% if the_user_is_superuser or the_user_is_band_admin %}
+                                {% for p in the_plan_counts %}
+                                    {% if p > 0 %}
+                                        <span class="badge badge-pill badge-primary" style="background-color: #ffffff; color: #000000;">{{ plan_icon.icon(p) }}{{ the_plan_counts[p] }}</span>
+                                    {% endif %}
+                                {% endfor %}
+                                <span class="badge badge-pill badge-primary" style="background-color: #ffffff; color: #000000;">{{ plan_icon.icon(0) }}{{ the_plan_counts[0] }}</span>
+                            {% endif %}
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 text-right">
+                            <span id="printall"><a href="print_planlist?gk={{gig.key.urlsafe()}}&printall=1" target="new" class="btn btn-xs btn-default"><i class="fa fa-print"></i>
+                            {% trans %}Print{% endtrans %}
+                            </a></span>
+                            <span id="printcomm">
+                            <a href="print_planlist?gk={{gig.key.urlsafe()}}&printall=0" target="new" class="btn btn-xs btn-default"><i class="fa fa-print"></i>
+                            {% trans %}Print{% endtrans %}
+                            </a></span>
+                            <a href="#" onclick="simpleswitch(); return false;" class="btn btn-xs btn-default"><i class="fa fa-refresh fs-lg"></i>
+                            <span id="simpleoff">{% trans %}Show All{% endtrans %}</span>
+                            <span id="simpleon">{% trans %}Show Committed{% endtrans %}</span>
+                            </a>
 
-                                {% if user_can_edit %}
-                                    <span id="showremind"><a href="#" onclick="sendreminder('{{gig.key.urlsafe()}}'); return false;" class="btn btn-xs btn-default"><i class="fa fa-envelope"></i>
-                                    	{% trans %}Remind{% endtrans %}
-                                    </a></span>
-                                	<span id="hideremind">
-                                    	<small>{% trans %}Reminder Sent{% endtrans %}</small>
-                                	</span>
-                                {% endif %}
-                            </div>
+                            {% if user_can_edit %}
+                                <span id="showremind"><a href="#" onclick="sendreminder('{{gig.key.urlsafe()}}'); return false;" class="btn btn-xs btn-default"><i class="fa fa-envelope"></i>
+                                	{% trans %}Remind{% endtrans %}
+                                </a></span>
+                            	<span id="hideremind">
+                                	<small>{% trans %}Reminder Sent{% endtrans %}</small>
+                            	</span>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
