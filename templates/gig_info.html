@@ -14,12 +14,12 @@
 {% block content %}
     {% set the_band_key = gig.key.parent() %}
     <div class="row">
-        <div class="page-header col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0">
+        <div class="page-header mx-auto col-lg-8 col-md-10 col-sm-12">
             {% trans %}Gig Info{% endtrans %}
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0">
+        <div class="mx-auto col-lg-8 col-md-10 col-sm-12">
             <div class="card">
                 <div class="card-header">
                     <div class="card-title">
@@ -42,11 +42,13 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-2 col-sm-2 col-xs-3">{% trans %}Gig{% endtrans %}</div>
-                        <div class="col-md-10 col-sm-10 col-xs-9"><strong>{{ gig.title|e }}</strong></div>
+                        <div class="col-md-2 col-sm-2 col-xs-3 col-4">{% trans %}Gig{% endtrans %}</div>
+                        <div class="col-md-10 col-sm-10 col-xs-9 col-8"><strong>{{ gig.title|e }}</strong></div>
                     </div>                    
                     <div class="row">
-                        <div class="col-md-10 col-md-offset-2 col-sm-10 col-sm-offset-2 col-xs-9 col-xs-offset-3 ">
+                        <div class="col-md-2 col-sm-2 col-xs-3 col-4">
+                        </div>
+                        <div class="col-md-10 col-sm-10 col-xs-9 col-8">
                             {% if gig.status==1 %}
                                 <i class="fa fa-check-circle" style="color:green"></i> {% trans %}Confirmed!{% endtrans %}
                             {% elif gig.status==2 %}
@@ -60,8 +62,10 @@
                         </div>
                     </div>
                     {% if gig.is_in_trash %}
+                        <div class="col-md-2 col-sm-2 col-xs-3 col-4">
+                        </div>
                         <div class="row">
-                            <div class="col-md-10 col-md-offset-2 col-sm-10 col-sm-offset-2 col-xs-9 col-xs-offset-3" style="color:red">
+                            <div class="col-md-10 col-sm-10 col-xs-9 col-8" style="color:red">
                                 <strong>{% trans %}THIS GIG IS IN THE TRASH!{% endtrans %}</strong>  
                                 {% if the_user_is_superuser or the_user_is_band_admin %}
                                     <a class="btn btn-default" href="/gig_restore_trashed?gk={{ gig.key.urlsafe() }}">{% trans %}Restore Gig{% endtrans %}</a>
@@ -70,12 +74,12 @@
                         </div>
                     {% endif %}
                     <div class="row">
-                        <div class="col-md-2 col-sm-2 col-xs-3">{% trans %}Band{% endtrans %}</div>
-                        <div class="col-md-10 col-sm-10 col-xs-9"><a href="band_info.html?bk={{the_band_key.urlsafe()}}">{{ the_band_key.get().name }}</a></div>
+                        <div class="col-md-2 col-sm-2 col-xs-3 col-4">{% trans %}Band{% endtrans %}</div>
+                        <div class="col-md-10 col-sm-10 col-xs-9 col-8"><a href="band_info.html?bk={{the_band_key.urlsafe()}}">{{ the_band_key.get().name }}</a></div>
                     </div>
                     <div class="row">
-                        <div class="col-md-2 col-sm-2 col-xs-3">{% trans %}Contact{% endtrans %}</div>
-                        <div class="col-md-10 col-sm-10 col-xs-9">
+                        <div class="col-md-2 col-sm-2 col-xs-3 col-4">{% trans %}Contact{% endtrans %}</div>
+                        <div class="col-md-10 col-sm-10 col-xs-9 col-8">
                             {% if gig.contact %}
                                 <a href="/member_info.html?mk='{{gig.contact.urlsafe()}}'">{{ gig.contact.get().display_name }}</a>
                             {% endif %}
@@ -83,12 +87,12 @@
                     </div>                    
                     <div class="row">&nbsp;</div>
                     <div class="row">
-                        <div class="col-md-2 col-sm-2 col-xs-3"><i class="fa fa-calendar"></i></div>
-                        <div class="col-md-10 col-sm-10 col-xs-9">{{ date_str }}{{ enddate_str }}</div>
+                        <div class="col-md-2 col-sm-2 col-xs-3 col-12"><i class="fa fa-calendar"></i></div>
+                        <div class="col-md-10 col-sm-10 col-xs-9 col-12">{{ date_str }}{{ enddate_str }}</div>
                     </div>
                     <div class="row">
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-3"><i class="fa fa-clock-o"></i></div>
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-9">{% trans %}Call Time{% endtrans %}: 
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 col-12"><i class="fa fa-clock-o"></i></div>
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 col-3">{% trans %}Call Time{% endtrans %}: 
                         {% if gig.calltime %}
                             {{ gig.calltime }}
                         {% else %}
@@ -96,64 +100,64 @@
                         {% endif %}
                         </div>
                         {% if gig.settime %}
-                            <div class="col-lg-3 col-md-3 col-sm-3 col-sm-offset-0 col-xs-9 col-xs-offset-3">{% trans %}Set Time{% endtrans %}: {{ gig.settime }}</div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 col-3">{% trans %}Set Time{% endtrans %}: {{ gig.settime }}</div>
                         {% endif %}
                         {% if gig.endtime %}
-                            <div class="col-lg-3 col-md-3 col-sm-3 col-sm-offset-0 col-xs-9 col-xs-offset-3">{% trans %}End Time{% endtrans %}: {{ gig.endtime }}</div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 col-3">{% trans %}End Time{% endtrans %}: {{ gig.endtime }}</div>
                         {% endif %}
                     </div>
                     <div class="row">&nbsp;</div>
                     {% if gig.address %}
                         <div class="row">
-                            <div class="col-md-2 col-sm-2 col-xs-3">{% trans %}Address{% endtrans %}</div>
-                            <div class="col-md-10 col-sm-10 col-xs-9"><a href="http://maps.google.com?q={{gig.address | replace(' ','+')}}" target="new">{{ gig.address }}</a></div>
+                            <div class="col-md-2 col-sm-2 col-xs-3 col-4">{% trans %}Address{% endtrans %}</div>
+                            <div class="col-md-10 col-sm-10 col-xs-9 col-8"><a href="http://maps.google.com?q={{gig.address | replace(' ','+')}}" target="new">{{ gig.address }}</a></div>
                         </div>
                         <div class="row">&nbsp;</div>
                     {% endif %}
                     {% if gig.dress %}
                         <div class="row">
-                            <div class="col-md-2 col-sm-2 col-xs-3">{% trans %}What to Wear{% endtrans %}</div>
-                            <div class="col-md-10 col-sm-10 col-xs-9">{{ gig.dress }}</div>
+                            <div class="col-md-2 col-sm-2 col-xs-3 col-4">{% trans %}What to Wear{% endtrans %}</div>
+                            <div class="col-md-10 col-sm-10 col-xs-9 col-8">{{ gig.dress }}</div>
                         </div>
                         <div class="row">&nbsp;</div>
                     {% endif %}
                     {% if gig.paid %}
                         <div class="row">
-                            <div class="col-md-2 col-sm-2 col-xs-3">{% trans %}Pay Deal{% endtrans %}</div>
-                            <div class="col-md-10 col-sm-10 col-xs-9">{{ gig.paid }}</div>
+                            <div class="col-md-2 col-sm-2 col-xs-3 col-4">{% trans %}Pay Deal{% endtrans %}</div>
+                            <div class="col-md-10 col-sm-10 col-xs-9 col-8">{{ gig.paid }}</div>
                         </div>
                         <div class="row">&nbsp;</div>
                     {% endif %}
                     {% if gig.leader %}
                         <div class="row">
-                            <div class="col-md-2 col-sm-2 col-xs-3">{% trans %}Leader{% endtrans %}</div>
-                            <div class="col-md-10 col-sm-10 col-xs-9">{{ gig.leader }}</div>
+                            <div class="col-md-2 col-sm-2 col-xs-3 col-4">{% trans %}Leader{% endtrans %}</div>
+                            <div class="col-md-10 col-sm-10 col-xs-9 col-8">{{ gig.leader }}</div>
                         </div>                    
                         <div class="row">&nbsp;</div>
                     {% endif %}
                     {% if gig.postgig %}
                         <div class="row">
-                            <div class="col-md-2 col-sm-2 col-xs-3">{% trans %}Post-gig Plans{% endtrans %}</div>
-                            <div class="col-md-10 col-sm-10 col-xs-9 trunc">{{ gig.postgig }}</div>
+                            <div class="col-md-2 col-sm-2 col-xs-3 col-4">{% trans %}Post-gig Plans{% endtrans %}</div>
+                            <div class="col-md-10 col-sm-10 col-xs-9 col-8 trunc">{{ gig.postgig }}</div>
                         </div>
                         <div class="row">&nbsp;</div>
                     {% endif %}
                     {% if gig.details %}
                         <div class="row">
-                            <div class="col-md-2 col-sm-2 col-xs-3">{% trans %}More Details{% endtrans %}</div>
-                            <div class="col-md-10 col-sm-10 col-xs-9 trunc">{{ gig.details | urlize(20, true) | good_breaks | safe }}</div>
+                            <div class="col-md-2 col-sm-2 col-xs-3 col-4">{% trans %}More Details{% endtrans %}</div>
+                            <div class="col-md-10 col-sm-10 col-xs-9 col-8 trunc">{{ gig.details | urlize(20, true) | good_breaks | safe }}</div>
                         </div>
                         <div class="row">&nbsp;</div>
                     {% endif %}
                     {% if not gig.invite_occasionals %}
                         <div class="row">
-                            <div class="col-md-12 col-sm-12 col-xs-12">{% trans %}Occasional members were not invited.{% endtrans %}</div>
+                            <div class="col-md-12 col-sm-12 col-xs-12 col-12">{% trans %}Occasional members were not invited.{% endtrans %}</div>
                         </div>
                         <div class="row">&nbsp;</div>
                     {% endif %}
                     {% if gig.hide_from_calendar %}
                         <div class="row">
-                            <div class="col-md-12 col-sm-12 col-xs-12">{% trans %}Gig is hidden from calendar.{% endtrans %}</div>
+                            <div class="col-md-12 col-sm-12 col-xs-12 col-12">{% trans %}Gig is hidden from calendar.{% endtrans %}</div>
                         </div>
                         <div class="row">&nbsp;</div>
                     {% endif %}
