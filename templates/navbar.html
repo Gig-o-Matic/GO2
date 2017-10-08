@@ -1,83 +1,85 @@
-<div class="navbar navbar-inverse navbar-fixed-top">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="/">Gig-O-Matic</a>
-    </div>
-    {% if the_user %}
-        <div class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans %}Gigs{% endtrans %}<b class="caret"></b></a>
-                <ul class="dropdown-menu" role="menu">
-                    <li {{ 'class="active"' if agenda_is_active }}><a href="/agenda.html">{% trans %}Schedule{% endtrans %}</a></li>
-                    <li {{ 'class="active"' if calview_is_active }}><a href="/calview.html">{% trans %}Calendar{% endtrans %}</a></li>
-                    <li {{ 'class="active"' if grid_is_active }}><a href="/grid.html">{% trans %}Grid{% endtrans %}</a></li>
-                </ul>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans %}Bands{% endtrans %}<b class="caret"></b></a>
-                    <ul class="dropdown-menu" role="menu" id="bandlinks">
-                      <li><a href="#">{% trans %}No bands yet!{% endtrans %}</a></li>
-                    </ul>
-                </li>
-            
-                {% if the_user_addgigbandlist %}
-                    {% if the_user_addgigbandlist | length == 1 %}
-                        <li {{ 'class="active"' if newgig_is_active }}><a href="/gig_edit.html?new=1&bk={{ the_user_addgigbandlist[0].key.urlsafe() }}">{% trans %}Add Gig{% endtrans %}</a></li>
-                    {% else %}
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans %}Add Gig{% endtrans %}<b class="caret"></b></a>
-                            <ul class="dropdown-menu" role="menu" id="addgigbandlinks">
-                              <li><a href="#">{% trans %}No bands yet!{% endtrans %}</a></li>
-                            </ul>
-                        </li>
-                    {% endif %}
-                {% endif %}
-                
-                {% if the_user_is_betatester %}
-                    {% if the_user_forumslist %}
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans %}Forums{% endtrans %}<b class="caret"></b></a>
-                            <ul class="dropdown-menu" role="menu" id="forumlinks">
-                                {% for f in the_user_forumslist %}
-                                    <li><a href="/forum?fk={{ f.key.urlsafe() }}">{{ f.name }}</a></li>
-                                {% endfor %}
-                            </ul>
-                        </li>
-                    {% endif %}
-                {% endif %}
-            {% if the_user_is_superuser %}
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans %}Admin{% endtrans %}<b class="caret"></b></a>
-                <ul class="dropdown-menu" role="menu">
-                  <li><a href="/member_admin">{% trans %}Member Admin{% endtrans %}</a></li>
-                  <li><a href="/band_admin">{% trans %}Band Admin{% endtrans %}</a></li>
-                  <li><a href="/forum_admin">{% trans %}Forum Admin{% endtrans %}</a></li>
-                  <li><a href="/motd_admin">{% trans %}MOTD Admin{% endtrans %}</a></li>
-                  <li><a href="/crypto_admin">{% trans %}CryptoKey Admin{% endtrans %}</a></li>
-                  <li><a href="/stats">{% trans %}Stats Page{% endtrans %}</a></li>
-                  <li><a href="/_ah/stats" target="_new">{% trans %}AppStats{% endtrans %}</a></li>
-                </ul>
-            </li>
-            {% endif %}
-          </ul>
-          <ul class="nav navbar-nav navbar-right">
-              <li {{ 'class="active"' if help_is_active }}><a href="/help">{% trans %}Help{% endtrans %}</a></li>   
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    {% if the_user.nickname %}{{the_user.nickname}}{% else %}{{ the_user.name }}{% endif %}
-                    <b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                  <li><a href="/member_info.html?mk={{the_user.key.urlsafe()}}">{% trans %}My Profile{% endtrans %}</a></li>
-                  <li><a href="{{logout_link}}">{% trans %}Logout{% endtrans %}</a></li>
-                </ul>
-              </li>
-          </ul>
-        </div><!--/.nav-collapse -->
-    {% endif %}
+<nav class="navbar navbar-light navbar-expand-lg bg-light">
+  <a class="navbar-brand" href="/">Gig-O-Matic</a>
+{% if the_user %}
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav">
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarGigsMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          {% trans %}Gigs{% endtrans %}
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarGigsMenuLink">
+            <a class="dropdown-item{{ ' active' if agenda_is_active }}" href="/agenda.html">{% trans %}Schedule{% endtrans %}</a>
+            <a class="dropdown-item{{ ' active' if calview_is_active }}" href="/calview.html">{% trans %}Calendar{% endtrans %}</a>
+            <a class="dropdown-item{{ ' active' if grid_is_active }}" href="/grid.html">{% trans %}Grid{% endtrans %}</a>
+        </div>
+      </li>
+    </ul>
   </div>
-</div>
+  {% if false %}
+              <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans %}Bands{% endtrans %}<b class="caret"></b></a>
+                  <ul class="dropdown-menu" role="menu" id="bandlinks">
+                    <li><a href="#">{% trans %}No bands yet!{% endtrans %}</a></li>
+                  </ul>
+              </li>
+          
+              {% if the_user_addgigbandlist %}
+                  {% if the_user_addgigbandlist | length == 1 %}
+                      <li {{ 'class="active"' if newgig_is_active }}><a href="/gig_edit.html?new=1&bk={{ the_user_addgigbandlist[0].key.urlsafe() }}">{% trans %}Add Gig{% endtrans %}</a></li>
+                  {% else %}
+                      <li class="dropdown">
+                          <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans %}Add Gig{% endtrans %}<b class="caret"></b></a>
+                          <ul class="dropdown-menu" role="menu" id="addgigbandlinks">
+                            <li><a href="#">{% trans %}No bands yet!{% endtrans %}</a></li>
+                          </ul>
+                      </li>
+                  {% endif %}
+              {% endif %}
+              
+              {% if the_user_is_betatester %}
+                  {% if the_user_forumslist %}
+                      <li class="dropdown">
+                          <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans %}Forums{% endtrans %}<b class="caret"></b></a>
+                          <ul class="dropdown-menu" role="menu" id="forumlinks">
+                              {% for f in the_user_forumslist %}
+                                  <li><a href="/forum?fk={{ f.key.urlsafe() }}">{{ f.name }}</a></li>
+                              {% endfor %}
+                          </ul>
+                      </li>
+                  {% endif %}
+              {% endif %}
+          {% if the_user_is_superuser %}
+          <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans %}Admin{% endtrans %}<b class="caret"></b></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="/member_admin">{% trans %}Member Admin{% endtrans %}</a></li>
+                <li><a href="/band_admin">{% trans %}Band Admin{% endtrans %}</a></li>
+                <li><a href="/forum_admin">{% trans %}Forum Admin{% endtrans %}</a></li>
+                <li><a href="/motd_admin">{% trans %}MOTD Admin{% endtrans %}</a></li>
+                <li><a href="/crypto_admin">{% trans %}CryptoKey Admin{% endtrans %}</a></li>
+                <li><a href="/stats">{% trans %}Stats Page{% endtrans %}</a></li>
+                <li><a href="/_ah/stats" target="_new">{% trans %}AppStats{% endtrans %}</a></li>
+              </ul>
+          </li>
+          {% endif %}
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li {{ 'class="active"' if help_is_active }}><a href="/help">{% trans %}Help{% endtrans %}</a></li>   
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                  {% if the_user.nickname %}{{the_user.nickname}}{% else %}{{ the_user.name }}{% endif %}
+                  <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="/member_info.html?mk={{the_user.key.urlsafe()}}">{% trans %}My Profile{% endtrans %}</a></li>
+                <li><a href="{{logout_link}}">{% trans %}Logout{% endtrans %}</a></li>
+              </ul>
+            </li>
+        </ul>
+      </div><!--/.nav-collapse -->
+  {% endif %} <!-- if false -->
+  {% endif %}
+</nav>

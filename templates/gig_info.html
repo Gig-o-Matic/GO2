@@ -20,9 +20,9 @@
     </div>
     <div class="row">
         <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <div class="panel-title">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
                         <div class="row">
                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                 {% trans %}Info{% endtrans %}
@@ -40,7 +40,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <div class="row">
                         <div class="col-md-2 col-sm-2 col-xs-3">{% trans %}Gig{% endtrans %}</div>
                         <div class="col-md-10 col-sm-10 col-xs-9"><strong>{{ gig.title|e }}</strong></div>
@@ -157,13 +157,13 @@
                         </div>
                         <div class="row">&nbsp;</div>
                     {% endif %}
-                </div>  <!-- panel body -->
-            </div> <!-- panel -->
+                </div>  <!-- card body -->
+            </div> <!-- card -->
             {% if gig.setlist %}
                 <div class="row">&nbsp;</div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <div class="panel-title">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">
                             <div class="row">
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                     {% trans %}Setlist{% endtrans %}
@@ -175,19 +175,19 @@
                             </div>
                         </div>
                     </div>
-                    <div class="panel-body">
+                    <div class="card-body">
                         <div class="row">                        
                             <div class="col-md-12 col-sm-12 col-xs-12">
                                 {{ gig.setlist | urlize(20, true) | good_breaks | safe }}
                             </div>
                         </div>
                     </div>
-                </div> <!-- panel -->
+                </div> <!-- card -->
             {% endif %}
             <div class="row">&nbsp;</div>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <div class="panel-title">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
                         <div class="row">
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                 {% trans %}Member Plans{% endtrans %}
@@ -225,7 +225,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     {% import 'gig_plan_edit.html' as plan_edit with context %}                
                     {% for the_section in the_sections %}
                         <div class="row" style="padding-top: 5px; padding-bottom: 5px; {{ loop.cycle('', 'background:#f5f5f5;') }}">
@@ -248,14 +248,14 @@
                             </div>
                         </div>
                     {% endfor %}
-                </div> <!-- panel body -->
-            </div> <!-- panel -->
+                </div> <!-- card body -->
+            </div> <!-- card-body -->
             <div class="row">&nbsp;</div>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <div class="panel-title">{% trans %}Comments{% endtrans %}</div>
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">{% trans %}Comments{% endtrans %}</div>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <div class="row">
                         <div class="col-lg-12 col-md-12" id="gig_comment">
                             <i class="fa fa-spinner fa-spin fa-lg"></i>
@@ -270,23 +270,23 @@
                             <button type="button" class="btn btn-primary btn-sm" onclick="add_comment('{{gig.key.urlsafe()}}');">{% trans %}Say it!{% endtrans %}</button>
                         </div>
                     </div>                    
-                </div> <!-- panel body -->
-            </div> <!-- panel -->
+                </div> <!-- card body -->
+            </div> <!-- card -->
             
             {% if the_user_is_betatester and False %}
                 <div class="row">&nbsp;</div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <div class="panel-title">{% trans %}Forum{% endtrans %}</div>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">{% trans %}Forum{% endtrans %}</div>
                     </div>
-                    <div class="panel-body" id="gig_forum">
+                    <div class="card-body" id="gig_forum">
                         <div class="row">
                             <div class="col-lg-12 col-md-12" id="forum_posts">
                                 <i class="fa fa-spinner fa-spin fa-lg"></i>
                             </div>
                         </div>
-                    </div> <!-- panel body -->
-                </div> <!-- panel -->
+                    </div> <!-- card body -->
+                </div> <!-- card -->
             {% endif %}
 
         </div>
