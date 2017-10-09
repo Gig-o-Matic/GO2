@@ -29,10 +29,10 @@
                         {% if user_can_edit %}
                                 <div class="ml-auto">
                                     {% if user_can_edit %}
-                                        <a class="btn btn-primary btn-xs" href="gig_edit.html?gk={{ gig.key.urlsafe() }}">{% trans %}Edit{% endtrans %}</a>
+                                        <a class="btn btn-primary btn-sm" href="gig_edit.html?gk={{ gig.key.urlsafe() }}">{% trans %}Edit{% endtrans %}</a>
                                     {% endif %}
                                     {% if user_can_create %}
-                                        <a class="btn btn-primary btn-xs" href="gig_edit.html?gk={{ gig.key.urlsafe() }}&dupe=1">{% trans %}Duplicate{% endtrans %}</a>
+                                        <a class="btn btn-primary btn-sm" href="gig_edit.html?gk={{ gig.key.urlsafe() }}&dupe=1">{% trans %}Duplicate{% endtrans %}</a>
                                     {% endif %}
                                 </div>
                         {% endif %}
@@ -190,32 +190,24 @@
             <div class="card">
                 <div class="card-header">
                     <div class="row">
-                        <div class="col-4">
+                        <div class="col-6">
                             <h4>{% trans %}Member Plans{% endtrans %}</h4>
-                            {% if the_user_is_superuser or the_user_is_band_admin %}
-                                {% for p in the_plan_counts %}
-                                    {% if p > 0 %}
-                                        <span class="badge badge-pill badge-primary" style="background-color: #ffffff; color: #000000;">{{ plan_icon.icon(p) }}{{ the_plan_counts[p] }}</span>
-                                    {% endif %}
-                                {% endfor %}
-                                <span class="badge badge-pill badge-primary" style="background-color: #ffffff; color: #000000;">{{ plan_icon.icon(0) }}{{ the_plan_counts[0] }}</span>
-                            {% endif %}
                         </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 text-right">
-                            <span id="printall"><a href="print_planlist?gk={{gig.key.urlsafe()}}&printall=1" target="new" class="btn btn-xs btn-default"><i class="fa fa-print"></i>
+                        <div class="ml-auto"">
+                            <span id="printall"><a href="print_planlist?gk={{gig.key.urlsafe()}}&printall=1" target="new" class="btn btn-sm btn-secondary"><i class="fa fa-print"></i>
                             {% trans %}Print{% endtrans %}
                             </a></span>
                             <span id="printcomm">
-                            <a href="print_planlist?gk={{gig.key.urlsafe()}}&printall=0" target="new" class="btn btn-xs btn-default"><i class="fa fa-print"></i>
+                            <a href="print_planlist?gk={{gig.key.urlsafe()}}&printall=0" target="new" class="btn btn-sm btn-secondary"><i class="fa fa-print"></i>
                             {% trans %}Print{% endtrans %}
                             </a></span>
-                            <a href="#" onclick="simpleswitch(); return false;" class="btn btn-xs btn-default"><i class="fa fa-refresh fs-lg"></i>
+                            <a href="#" onclick="simpleswitch(); return false;" class="btn btn-sm btn-secondary"><i class="fa fa-refresh fs-lg"></i>
                             <span id="simpleoff">{% trans %}Show All{% endtrans %}</span>
                             <span id="simpleon">{% trans %}Show Committed{% endtrans %}</span>
                             </a>
 
                             {% if user_can_edit %}
-                                <span id="showremind"><a href="#" onclick="sendreminder('{{gig.key.urlsafe()}}'); return false;" class="btn btn-xs btn-default"><i class="fa fa-envelope"></i>
+                                <span id="showremind"><a href="#" onclick="sendreminder('{{gig.key.urlsafe()}}'); return false;" class="btn btn-sm btn-secondary"><i class="fa fa-envelope"></i>
                                 	{% trans %}Remind{% endtrans %}
                                 </a></span>
                             	<span id="hideremind">
@@ -226,6 +218,19 @@
                     </div>
                 </div>
                 <div class="card-body">
+                    {% if the_user_is_superuser or the_user_is_band_admin %}
+                        <div class="row">
+                            <div class="col-12">
+                                {% for p in the_plan_counts %}
+                                    {% if p > 0 %}
+                                        <span class="badge badge-light">{{ plan_icon.icon(p) }}{{ the_plan_counts[p] }}</span>
+                                    {% endif %}
+                                {% endfor %}
+                                <span class="badge badge-light">{{ plan_icon.icon(0) }}{{ the_plan_counts[0] }}</span>
+                            </div>
+                        </div>
+                    {% endif %}
+
                     {% import 'gig_plan_edit.html' as plan_edit with context %}                
                     {% for the_section in the_sections %}
                         <div class="row" style="padding-top: 5px; padding-bottom: 5px; {{ loop.cycle('', 'background:#f5f5f5;') }}">
@@ -253,7 +258,9 @@
             <div class="row">&nbsp;</div>
             <div class="card">
                 <div class="card-header">
-                    <div class="card-title">{% trans %}Comments{% endtrans %}</div>
+                    <div class="card-title">
+                        <h4>{% trans %}Comments{% endtrans %}</h4>
+                    </div>
                 </div>
                 <div class="card-body">
                     <div class="row">
