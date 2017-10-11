@@ -22,7 +22,7 @@
 
 {% macro icon_button(plan, simple_planning) -%}
 <div class="btn-group">
-    <button type="button" class="btn btn-default btn-sm dropdown-toggle text-center plan-button" data-toggle="dropdown" id="{{plan.key.urlsafe()}}" data-init="{{plan.value}}">
+    <button type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle text-center plan-button" data-toggle="dropdown" id="{{plan.key.urlsafe()}}" data-init="{{plan.value}}">
         <i class="fa fa-spinner fa-spin fa-lg"></i>
     </button>
     <ul class="dropdown-menu" role="menu">
