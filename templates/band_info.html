@@ -24,16 +24,11 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div class="panel-title">
-                        <div class="row">
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                {% trans %}Info{% endtrans %}
-                            </div>
-                            {% if the_user_is_band_admin or the_user_is_superuser %}
-                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-right">
-                                    <a class="btn btn-primary btn-xs" href="band_edit.html?bk={{ the_band.key.urlsafe() }}">{% trans %}Edit{% endtrans %}</a>
-                                </div>
-                            {% endif %}
-                        </div>
+                      {% trans %}Info{% endtrans %}
+
+                      {% if the_user_is_band_admin or the_user_is_superuser %}
+                        <button type="button" class="btn btn-primary btn-xs pull-right" href="band_edit.html?bk={{ the_band.key.urlsafe() }}">{% trans %}Edit{% endtrans %}</button>
+                      {% endif %}
                     </div>
                 </div>
                 <div class="panel-body">
