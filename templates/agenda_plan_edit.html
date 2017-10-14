@@ -37,12 +37,12 @@
 {% endif %}
 
 <div class="row" style="border-left:solid thick {{ colors[the_assoc.color] }};">
-    <div class="col-md-2 col-sm-2 col-xs-2">
+    <div class="col-2">
         {{ the_date_formatter(the_user, the_gig.date, 'short') }} {{ the_date_formatter(the_user, the_gig.date, 'day') }}
         {% if the_user.preferences.agenda_show_time and the_gig.gigtime() %}
             {{ the_gig.gigtime() }}
         {% endif %}
-        <div class='visible-sm visible-xs'>
+        <div class='d-md-none'>
             {% if the_gig.status==1 %}
                 <i class="fa fa-check-circle" style="color:green"></i>
             {% elif the_gig.status==2 %}
@@ -54,7 +54,7 @@
     </div>
     <div class="col-md-10 col-sm-10 col-xs-10">
         <div class="row">
-            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 hidden-sm hidden-xs">
+            <div class="d-md-inline d-none">
                 {% if the_gig.status==1 %}
                     <i class="fa fa-check-circle" style="color:green"></i>
                 {% elif the_gig.status==2 %}
