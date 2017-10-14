@@ -10,3 +10,14 @@ Features:
 
 Coming Features:
 * Email updates
+
+
+## Developing/Contributing
+
+Interested in contributing to the development of Gig-o-matic? Great!
+
+* [Development environment setup](https://github.com/SecondLiners/GO2/wiki/Development-Environment) - How to set up Gig-o-matic locally for development
+* [Open Issues](https://github.com/SecondLiners/GO2/issues) - Things that Gig-o-matic could use some help improving
+
+
+
