@@ -17,7 +17,7 @@ class="landingwrap"
                 <h3>{% trans %}Welcome to Gig-o-Matic!{% endtrans %}</h3>
             </div>
         </div>
-    
+
         {% if failed %}
             <div class="row">
                 <div class="col-md-5 col-md-offset-2">
@@ -72,7 +72,7 @@ class="landingwrap"
         <br>
         <div class="row">
             <div class="col-md-4 col-md-offset-4">
-                {% trans %}Not a member?{% endtrans %}        
+                {% trans %}Not a member?{% endtrans %}
                 <a class="btn btn-default" href="/signup{% if locale %}?locale={{ locale }}{% endif %}">{% trans %}Sign Up!{% endtrans %}</a>
             </div>
             <div class="col-md-4">
@@ -85,7 +85,7 @@ class="landingwrap"
         </div>
         <br>
         <div class="row">
-            <div class="col-md-12 col-md-offset-4">
+            <div class="col-md-8 col-md-offset-4">
                 {% trans %}Want your band on the Gig-o?{% endtrans %} {% trans %}Click{% endtrans %} <a href="/help_band_request.html{% if locale %}?locale={{ locale }}{% endif %}">{% trans %}here{% endtrans %}</a>.
                 {% trans %}What is the Gig-o-Matic, anyway?{% endtrans %} {% trans %}Click{% endtrans %} <a href="/whatis.html{% if locale %}?locale={{ locale }}{% endif %}">{% trans %}here{% endtrans %}</a>!
             </div>
