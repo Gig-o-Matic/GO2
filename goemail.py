@@ -148,6 +148,21 @@ def announce_new_gig(the_gig, the_gig_url, is_edit=False, is_reminder=False, cha
             params={'the_params': the_params
             })
 
+def queue_new_gig_member_email(an_assoc, the_shared_params):
+    if an_assoc.email_me:
+        the_member_key = an_assoc.member
+
+        the_member_params = pickle.dumps({
+            'the_member_key': the_member_key
+        })
+
+        task = taskqueue.add(
+            queue_name='emailqueue',
+            url='/email_new_gig_handler',
+            params={'the_shared_params': the_shared_params,
+                    'the_member_params': the_member_params
+            })
+
 class AnnounceNewGigHandler(webapp2.RequestHandler):
 
     def post(self):
@@ -184,20 +199,7 @@ class AnnounceNewGigHandler(webapp2.RequestHandler):
         })
 
         for an_assoc in recipient_assocs:
-            if an_assoc.email_me:
-                the_member_key = an_assoc.member
-
-                the_member_params = pickle.dumps({
-                    'the_member_key': the_member_key
-                })
-
-                task = taskqueue.add(
-                    queue_name='emailqueue',
-                    url='/send_new_gig_handler',
-                    params={'the_shared_params': the_shared_params,
-                            'the_member_params': the_member_params
-                    })
-        
+            queue_new_gig_member_email(an_assoc, the_shared_params)
         logging.info('announced gig {0}'.format(the_gig_key))
 
         self.response.write( 200 )
