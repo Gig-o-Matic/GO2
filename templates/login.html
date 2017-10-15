@@ -13,14 +13,14 @@ class="landingwrap"
 {% block content %}
     <div id="landingpage_content">
         <div class="row">
-            <div class="page-header col-md-5 col-md-offset-2">
+            <div class="page-header col-lg-10 col-md-12 ml-auto">
                 <h3>{% trans %}Welcome to Gig-o-Matic!{% endtrans %}</h3>
             </div>
         </div>
 
         {% if failed %}
             <div class="row">
-                <div class="col-md-5 col-md-offset-2">
+                <div class="col-md-10 col-sm-12 ml-auto">
                     <strong>{% trans %}Login failed!{% endtrans %}</strong> {% trans %}Check your credentials and try again.{% endtrans %}
                 </div>
             </div>
@@ -28,47 +28,47 @@ class="landingwrap"
 
         {% if unverified %}
             <div class="row">
-                <div class="col-md-5 col-md-offset-2">
+                <div class="col-md-10 col-sm-12 ml-auto">
                     <strong>{% trans %}Login failed!{% endtrans %}</strong> {% trans %}Check your email to verify your account.{% endtrans %}
                 </div>
             </div>
         {% endif %}
 
-        <form class="form form-horizontal" role="form" action= "/login" method="POST">
-            <div class="row">
-                <div class="form-group">
-                    <label for="email" class="control-label col-md-2 col-md-offset-2">{% trans %}Email Address{% endtrans %}</label>
-                    <div class="col-md-6">
-                        <input type="text" class="form-control" value="{{ username }}" name="email"/>
+        <div class="row">
+            <div class="col-lg-10 col-md-12 ml-auto">
+                <form class="form" role="form" action= "/login" method="POST">
+                    <div class="form-group row">
+                        <label for="email" class="col-form-label col-lg-3 text-lg-right">{% trans %}Email Address{% endtrans %}</label>
+                        <div class="col-lg-8 col-md-12">
+                            <input type="text" class="form-control" value="{{ username }}" name="email" id="email"/>
+                        </div>
                     </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group">
-                    <label for="password" class="control-label col-md-2 col-md-offset-2">{% trans %}Password{% endtrans %}</label>
-                    <div class="col-md-6">
-                        <input type="password" class="form-control" name="password"/>
+                    <div class="form-group row">
+                        <label for="password" class="col-form-label col-lg-3 text-lg-right">{% trans %}Password{% endtrans %}</label>
+                        <div class="col-lg-8 col-md-12">
+                            <input type="password" class="form-control" name="password"/>
+                        </div>
                     </div>
-                </div>
-            </div>
-            {% if originalurl %}
-                <input type="hidden" name="originalurl" value="{{originalurl}}">
-            {% endif %}
-            <div class="row">
-                <div class="col-md-4 col-md-offset-4">
-                    <button type="submit" class="btn btn-primary">{% trans %}Login{% endtrans %}</button>
-                    <a href="/forgot{% if locale %}?locale={{ locale }}{% endif %}">{% trans %}Forgot password?{% endtrans %}</a>
-                </div>
-                <div class="col-md-4">
-                    <div class="checkbox">
-                        <input type="checkbox" name="remember">{% trans %}Remember me{% endtrans %}</input>
+                    {% if originalurl %}
+                        <input type="hidden" name="originalurl" value="{{originalurl}}">
+                    {% endif %}
+                    <div class="row">
+                        <div class="col-md-5 ml-auto">
+                            <button type="submit" class="btn btn-primary">{% trans %}Login{% endtrans %}</button>
+                            <a href="/forgot{% if locale %}?locale={{ locale }}{% endif %}">{% trans %}Forgot password?{% endtrans %}</a>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="checkbox">
+                                <input type="checkbox" name="remember">{% trans %}Remember me{% endtrans %}</input>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                    {% if locale %}
+                        <input type='hidden' name='locale' value='{{ locale }}'>
+                    {% endif %}
+                </form>
             </div>
-            {% if locale %}
-                <input type='hidden' name='locale' value='{{ locale }}'>
-            {% endif %}
-        </form>
+        </div>
         <br>
         <div class="row">
             <div class="col-md-4 col-md-offset-4">
