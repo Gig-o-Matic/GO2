@@ -169,6 +169,7 @@ else:
         webapp2.Route('/search',forum.SearchHandler),
         webapp2.Route('/announce_new_gig_handler',goemail.AnnounceNewGigHandler),
         webapp2.Route('/email_new_gig_handler',goemail.EmailNewGigHandler),
+        webapp2.Route('/slack_new_gig_handler',goemail.SlackNewGigHandler),
         webapp2.Route('/rss/<bk:.+>',rss.GetRssHandler),
         webapp2.Route('/make_rss_feed_handler',rss.MakeRssFeedHandler)
     ], config=CONFIG, debug=True)

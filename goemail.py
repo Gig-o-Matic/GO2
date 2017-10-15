@@ -11,6 +11,8 @@ import re
 import pickle
 import os
 
+from slack_client import SlackClient
+
 from webapp2_extras import i18n
 from webapp2_extras.i18n import gettext as _
 
@@ -163,6 +165,20 @@ def queue_new_gig_member_email(an_assoc, the_shared_params):
                     'the_member_params': the_member_params
             })
 
+def queue_new_gig_member_slack_message(an_assoc, the_shared_params):
+    the_member_key = an_assoc.member
+
+    the_member_params = pickle.dumps({
+        'the_member_key': the_member_key
+    })
+
+    task = taskqueue.add(
+        queue_name='slackqueue',
+        url='/slack_new_gig_handler',
+        params={'the_shared_params': the_shared_params,
+                'the_member_params': the_member_params
+        })
+
 class AnnounceNewGigHandler(webapp2.RequestHandler):
 
     def post(self):
@@ -200,10 +216,11 @@ class AnnounceNewGigHandler(webapp2.RequestHandler):
 
         for an_assoc in recipient_assocs:
             queue_new_gig_member_email(an_assoc, the_shared_params)
+            queue_new_gig_member_slack_message(an_assoc, the_shared_params)
+
         logging.info('announced gig {0}'.format(the_gig_key))
 
         self.response.write( 200 )
-
 
 class EmailNewGigHandler(webapp2.RequestHandler):
 
@@ -223,6 +240,30 @@ class EmailNewGigHandler(webapp2.RequestHandler):
 
         self.response.write( 200 )
 
+
+class SlackNewGigHandler(webapp2.RequestHandler):
+
+    def post(self):
+        the_shared_params = pickle.loads(self.request.get('the_shared_params'))
+        the_member_params = pickle.loads(self.request.get('the_member_params'))
+
+        the_member_key  = the_member_params['the_member_key']
+        the_gig_key = the_shared_params['the_gig_key']
+        the_band_key = the_shared_params['the_band_key']
+        the_gig_url = the_shared_params['the_gig_url']
+        is_edit = the_shared_params['is_edit']
+        is_reminder = the_shared_params['is_reminder']
+        change_string = the_shared_params['change_string']
+
+        the_gig = the_gig_key.get()
+
+        sc = SlackClient(os.environ['SLACK_TOKEN'])
+        sc.post_message(
+            "#general",
+            "New Gig! {0} {1}".format(the_gig.title, the_gig_url)
+            )
+
+        self.response.write( 200 )
 
 def send_new_member_email(band,new_member):
     members=assoc.get_admin_members_from_band_key(band.key)
