@@ -21,10 +21,10 @@ Interested in contributing to the development of Gig-o-matic? Great!
 
 ## License
 
-Copyright 2013-2017 (years incluslive)
-Aaron Oppenheimer
-Mike Blaguszewski
-Ben Klang
+Copyright 2013-2017 (years incluslive)  
+Aaron Oppenheimer  
+Mike Blaguszewski  
+Ben Klang  
 
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 
