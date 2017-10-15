@@ -70,22 +70,22 @@ def send_forgot_email(the_email, the_url):
 
 # send an email announcing a new gig
 def send_newgig_email(the_member, the_gig, the_band, the_gig_url, is_edit=False, is_reminder=False, change_string=""):
- 
+
     the_locale=the_member.preferences.locale
     the_email_address = the_member.email_address
-    
+
     if not mail.is_email_valid(the_email_address):
         return False
 
     i18n.get_i18n().set_locale(the_locale)
-        
+
     contact_key=the_gig.contact
     if contact_key:
         contact = contact_key.get()
         contact_name=contact.name
     else:
         contact = None
-        contact_name="??"        
+        contact_name="??"
 
     # get the special URLs for "yes" and "no" answers
     the_yes_url, the_no_url, the_snooze_url = gig.get_confirm_urls(the_member, the_gig)
@@ -113,7 +113,7 @@ def send_newgig_email(the_member, the_gig, the_band, the_gig_url, is_edit=False,
         if the_time_string:
             the_time_string = u'{0}, '.format(the_time_string)
         the_time_string = u'{0}{1} ({2})'.format(the_time_string,the_gig.endtime, _('End Time'))
-        
+
     the_status_string = [_('Unconfirmed'), _('Confirmed!'), _('Cancelled!')][the_gig.status]
 
     def format_body(body_format_str):
@@ -226,8 +226,8 @@ def send_new_member_email(band,new_member):
     members=assoc.get_admin_members_from_band_key(band.key)
     for the_member in members:
         send_the_new_member_email(the_member.preferences.locale, the_member.email_address, new_member=new_member, the_band=band)
-        
- 
+
+
 def send_the_new_member_email(the_locale, the_email_address, new_member, the_band):
 
     i18n.get_i18n().set_locale(the_locale)
