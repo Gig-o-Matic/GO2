@@ -168,7 +168,7 @@ else:
         webapp2.Route('/forum_delete', forum.DeleteForumHandler),
         webapp2.Route('/search',forum.SearchHandler),
         webapp2.Route('/announce_new_gig_handler',goemail.AnnounceNewGigHandler),
-        webapp2.Route('/send_new_gig_handler',goemail.SendNewGigHandler),
+        webapp2.Route('/email_new_gig_handler',goemail.EmailNewGigHandler),
         webapp2.Route('/rss/<bk:.+>',rss.GetRssHandler),
         webapp2.Route('/make_rss_feed_handler',rss.MakeRssFeedHandler)
     ], config=CONFIG, debug=True)

@@ -205,7 +205,7 @@ class AnnounceNewGigHandler(webapp2.RequestHandler):
         self.response.write( 200 )
 
 
-class SendNewGigHandler(webapp2.RequestHandler):
+class EmailNewGigHandler(webapp2.RequestHandler):
 
     def post(self):
         the_shared_params = pickle.loads(self.request.get('the_shared_params'))
