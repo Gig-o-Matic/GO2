@@ -21,7 +21,7 @@ Interested in contributing to the development of Gig-o-matic? Great!
 
 ## License
 
-Copyright 2013-2017 (years incluslive)  
+Copyright 2013-2017 (years inclusive)  
 Aaron Oppenheimer  
 Mike Blaguszewski  
 Ben Klang  
