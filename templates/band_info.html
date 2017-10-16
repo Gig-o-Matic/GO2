@@ -16,7 +16,7 @@
                 <br>
                 ({% trans %}a.k.a.{% endtrans %}&nbsp;{{ the_band.shortname }})
             {% endif %}
-        </div> 
+        </div>
     </div>
 
     <div class="row">
@@ -24,16 +24,11 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div class="panel-title">
-                        <div class="row">
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                {% trans %}Info{% endtrans %}
-                            </div>
-                            {% if the_user_is_band_admin or the_user_is_superuser %}
-                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-right">
-                                    <a class="btn btn-primary btn-xs" href="band_edit.html?bk={{ the_band.key.urlsafe() }}">{% trans %}Edit{% endtrans %}</a>
-                                </div>
-                            {% endif %}
-                        </div>
+                      {% trans %}Info{% endtrans %}
+
+                      {% if the_user_is_band_admin or the_user_is_superuser %}
+                        <button type="button" class="btn btn-primary btn-xs pull-right" href="band_edit.html?bk={{ the_band.key.urlsafe() }}">{% trans %}Edit{% endtrans %}</button>
+                      {% endif %}
                     </div>
                 </div>
                 <div class="panel-body">
@@ -203,7 +198,7 @@
                             <div class="panel-title">
                                 {% trans %}Pending Members{% endtrans %} <span class="badge">{{the_pending_members|length}}</span>
                             </div>
-                        </div>        
+                        </div>
                         <div class="panel-body">
                             {% for m in the_pending_members %}
                             <div class="row" style="padding-top: 5px; padding-bottom: 5px; {{ loop.cycle('', 'background:#f5f5f5;') }}">
@@ -220,16 +215,16 @@
                             </div>
                             {% endfor %}
                         </div>
-                    </div> <!-- panel -->        
+                    </div> <!-- panel -->
                 {% endif %}
-                
+
                 {% if the_invited_members %}
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <div class="panel-title">
                                 {% trans %}Invited Members{% endtrans %} <span class="badge">{{the_invited_members|length}}</span>
                             </div>
-                        </div>        
+                        </div>
                         <div class="panel-body">
                             {% for m in the_invited_members %}
                             <div class="row">
@@ -242,7 +237,7 @@
                             </div>
                             {% endfor %}
                         </div>
-                    </div> <!-- panel -->        
+                    </div> <!-- panel -->
                 {% endif %}
 
                 <div class="row">
@@ -251,19 +246,27 @@
                     <div class="panel-heading">
                         <div class="row">
                             {% if num_sections == 0 %}
-                                <div class="col-md-10 col-sm-10 col-xs-10">
-                                    <div class="panel-title">{% trans %}Members{% endtrans %}</div>
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <div class="panel-title">
+                                      {% trans %}Members{% endtrans %}
+                                      {% if the_user_is_band_admin or the_user_is_superuser %}
+                                        <button type="button" class="btn btn-primary btn-sm pull-right" href="band_invite.html?bk={{ the_band.key.urlsafe() }}">{% trans %}Invite Members{% endtrans %}</button>
+                                      {% endif %}
+                                    </div>
                                 </div>
                             {% else %}
-                                <div class="col-md-2 col-sm-2 col-xs-3 panel-title">
+                                <div class="col-md-3 col-sm-3 col-xs-3 panel-title">
                                     {% trans %}Sections{% endtrans %}
                                 </div>
-                                <div class="col-md-8 col-sm-8 col-xs-7 panel-title">
+                                <div class="col-md-9 col-sm-9 col-xs-9 panel-title">
                                     {% trans %}Members{% endtrans %}
+                                    {% if the_user_is_band_admin or the_user_is_superuser %}
+                                      <button type="button" class="btn btn-primary btn-sm pull-right" href="band_invite.html?bk={{ the_band.key.urlsafe() }}">{% trans %}Invite Members{% endtrans %}</button>
+                                    {% endif %}
                                 </div>
                             {% endif %}
                         </div>
-                    </div>        
+                    </div>
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-12 col-md-offset-0" id="sectionlist">
@@ -291,12 +294,12 @@
                         </div>
                     </div>
                 </div> <!-- panel -->
-                        
+
                     </div>
                 </div>
 
-                {% if the_user_is_band_admin or the_user_is_superuser %}   
-                <div class="panel-group" id="accordion"> 
+                {% if the_user_is_band_admin or the_user_is_superuser %}
+                <div class="panel-group" id="accordion">
                     <div class="panel panel-default panel-overflowable">
                         <div class="panel-heading">
                             <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
@@ -330,7 +333,7 @@
 {% endif %}
 {% endblock content %}
 
-{% block modal %}		
+{% block modal %}
 {% endblock modal %}
 
 {% block localscripts %}
@@ -474,11 +477,11 @@ function move(dir,sk) {
 function delete_section(name, sk) {
     $('#deletesectionname').html(name);
     $('#delsectionmodal').data('sectionkey',sk);
-    $('#delsectionmodal').modal('show');    
+    $('#delsectionmodal').modal('show');
 }
 
 function do_delete() {
-    $('#delsectionmodal').modal('hide');    
+    $('#delsectionmodal').modal('hide');
     sk=$('#delsectionmodal').data('sectionkey');
 
     $.post("/band_delete_section",
@@ -498,14 +501,14 @@ function do_delete() {
 function rename_section(name, sk) {
     $('#renamesectioninput').attr('value',name);
     $('#renamesectionmodal').data('sectionkey',sk);
-    $('#renamesectionmodal').modal('show');    
+    $('#renamesectionmodal').modal('show');
 }
 
 function handle_rename_section() {
-    $('#renamesectionmodal').modal('hide');    
+    $('#renamesectionmodal').modal('hide');
     sk=$('#renamesectionmodal').data('sectionkey');
     newname=$('#renamesectioninput').val();
-    
+
     $.post("/band_rename_section",
             {
                 sk: sk,
@@ -585,7 +588,7 @@ $(document).ready(function() {
     updateSections();
     updateUpcoming();
     updatePublic();
-    
+
     $("#newsection-modal-form").validate({
         rules: {
             new_section: {
@@ -594,9 +597,9 @@ $(document).ready(function() {
         },
         messages: {
             new_section: {
-                required: "{% trans %}This field is required!{% endtrans %}"                
-            }            
-        },        
+                required: "{% trans %}This field is required!{% endtrans %}"
+            }
+        },
         submitHandler: handle_new_section
     });
 
@@ -608,9 +611,9 @@ $(document).ready(function() {
         },
         messages: {
             new_section_name: {
-                required: "{% trans %}This field is required!{% endtrans %}"                
-            }            
-        },        
+                required: "{% trans %}This field is required!{% endtrans %}"
+            }
+        },
         submitHandler: handle_rename_section
     });
 
