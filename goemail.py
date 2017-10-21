@@ -172,19 +172,11 @@ def queue_new_gig_member_email(an_assoc, the_shared_params):
                     'the_member_params': the_member_params
             })
 
-def queue_new_gig_member_slack_message(an_assoc, the_shared_params):
-    the_member_key = an_assoc.member
-
-    the_member_params = pickle.dumps({
-        'the_member_key': the_member_key
-    })
-
+def queue_new_gig_slack_message(the_gig_key):
     task = taskqueue.add(
         queue_name='slackqueue',
         url='/slack_new_gig_handler',
-        params={'the_shared_params': the_shared_params,
-                'the_member_params': the_member_params
-        })
+        params={'the_gig_key': pickle.dumps(the_gig_key)})
 
 class AnnounceNewGigHandler(webapp2.RequestHandler):
 
@@ -210,6 +202,8 @@ class AnnounceNewGigHandler(webapp2.RequestHandler):
         else:
             recipient_assocs = the_assocs
 
+        queue_new_gig_slack_message(the_gig_key)
+
         logging.info('announcing gig {0} to {1} people'.format(the_gig_key,len(recipient_assocs)))
 
         the_shared_params = pickle.dumps({
@@ -223,7 +217,6 @@ class AnnounceNewGigHandler(webapp2.RequestHandler):
 
         for an_assoc in recipient_assocs:
             queue_new_gig_member_email(an_assoc, the_shared_params)
-            queue_new_gig_member_slack_message(an_assoc, the_shared_params)
 
         logging.info('announced gig {0}'.format(the_gig_key))
 
@@ -251,23 +244,49 @@ class EmailNewGigHandler(webapp2.RequestHandler):
 class SlackNewGigHandler(webapp2.RequestHandler):
 
     def post(self):
-        the_shared_params = pickle.loads(self.request.get('the_shared_params'))
-        the_member_params = pickle.loads(self.request.get('the_member_params'))
-
-        the_member_key  = the_member_params['the_member_key']
-        the_gig_key = the_shared_params['the_gig_key']
-        the_band_key = the_shared_params['the_band_key']
-        the_gig_url = the_shared_params['the_gig_url']
-        is_edit = the_shared_params['is_edit']
-        is_reminder = the_shared_params['is_reminder']
-        change_string = the_shared_params['change_string']
-
+        the_gig_key = pickle.loads(self.request.get('the_gig_key'))
         the_gig = the_gig_key.get()
+        the_band_key = the_gig_key.parent()
+        the_band = the_band_key.get()
+        the_gig_url = self.uri_for('gig_info', _full=True, gk=the_gig.key.urlsafe())
+        the_channel = "#general"
+
+        # We need a member to localize the date string. Pick the first admin
+        # for the band to determine localization. If no admin is found, pick
+        # the first invited member.
+        admins = assoc.get_admin_members_from_band_key(the_band_key)
+        if len(admins) > 0:
+            a_member = admins[0]
+        else:
+            a_member = assoc.get_invited_member_assocs_from_band_key(the_band_key)[0]
+
+        logging.info("Found member {0} and gig date {1}".format(a_member, the_gig.date))
+
+        the_date_string = format_date_string(the_gig.date, a_member)
+        the_time_string = format_time_string(the_gig)
+        the_status_string = [_('Unconfirmed'), _('Confirmed!'), _('Cancelled!')][the_gig.status]
+
+        logging.info('announcing gig {0} to {1} Slack channel {2} '.format(
+            the_gig.title,
+            the_band.name,
+            the_channel
+            ))
+
 
         sc = SlackClient(os.environ['SLACK_TOKEN'])
         sc.post_message(
-            "#general",
-            "New Gig! {0} {1}".format(the_gig.title, the_gig_url)
+            the_channel,
+            "New Gig: \"{0}\" ({1})\n"
+            "{2} at {3}\n"
+            "\n"
+            "RSVP: {4}".format(
+                the_gig.title,
+                the_status_string,
+                the_date_string,
+                the_time_string,
+                the_gig_url
+                ),
+            False # as_user
             )
 
         self.response.write( 200 )
