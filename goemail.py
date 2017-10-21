@@ -70,6 +70,25 @@ def send_band_accepted_email(the_email, the_band):
 def send_forgot_email(the_email, the_url):
     return _send_admin_mail(the_email, _('Gig-o-Matic Password Reset'), _('forgot_password_email').format(the_url))
 
+def format_date_string(the_date, the_member):
+    return "{0} ({1})".format(member.format_date_for_member(the_member, the_date),
+                              member.format_date_for_member(the_member, the_date, "day"))
+
+def format_time_string(the_gig):
+    the_time_string = ""
+    if the_gig.calltime:
+        the_time_string = u'{0} ({1})'.format(the_gig.calltime, _('Call Time'))
+    if the_gig.settime:
+        if the_time_string:
+            the_time_string = u'{0}, '.format(the_time_string)
+        the_time_string = u'{0}{1} ({2})'.format(the_time_string,the_gig.settime, _('Set Time'))
+    if the_gig.endtime:
+        if the_time_string:
+            the_time_string = u'{0}, '.format(the_time_string)
+        the_time_string = u'{0}{1} ({2})'.format(the_time_string,the_gig.endtime, _('End Time'))
+    return the_time_string
+
+
 # send an email announcing a new gig
 def send_newgig_email(the_member, the_gig, the_band, the_gig_url, is_edit=False, is_reminder=False, change_string=""):
 
@@ -101,21 +120,9 @@ def send_newgig_email(the_member, the_gig, the_band, the_gig_url, is_edit=False,
         title_string='Gig Reminder:'
     else:
         title_string=_('New Gig:')
-    the_date_string = "{0} ({1})".format(member.format_date_for_member(the_member, the_gig.date),
-                                       member.format_date_for_member(the_member, the_gig.date, "day"))
 
-    the_time_string = ""
-    if the_gig.calltime:
-        the_time_string = u'{0} ({1})'.format(the_gig.calltime, _('Call Time'))
-    if the_gig.settime:
-        if the_time_string:
-            the_time_string = u'{0}, '.format(the_time_string)
-        the_time_string = u'{0}{1} ({2})'.format(the_time_string,the_gig.settime, _('Set Time'))
-    if the_gig.endtime:
-        if the_time_string:
-            the_time_string = u'{0}, '.format(the_time_string)
-        the_time_string = u'{0}{1} ({2})'.format(the_time_string,the_gig.endtime, _('End Time'))
-
+    the_date_string = format_date_string(the_gig.date, the_member)
+    the_time_string = format_time_string(the_gig)
     the_status_string = [_('Unconfirmed'), _('Confirmed!'), _('Cancelled!')][the_gig.status]
 
     def format_body(body_format_str):
