@@ -21,7 +21,7 @@
 {%- endmacro %}
 
 {% macro icon_button(plan, simple_planning) -%}
-<div class="droopdown">
+<div class="dropdown mr-2">
     <button type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle text-center plan-button" data-toggle="dropdown" id="{{plan.key.urlsafe()}}" data-init="{{plan.value}}" aria-haspopup="true" aria-expanded="false">
         <i class="fa fa-spinner fa-spin fa-lg"></i>
     </button>
@@ -44,7 +44,7 @@
 {%- endmacro %}
 
 {% macro feedback_button(plan, feedback_strings) -%}
-<div class="dropdown">
+<div class="dropdown mr-2">
     <button type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle text-center feedback-button" data-toggle="dropdown" id="ef-{{plan.key.urlsafe()}}" data-init="{% if plan.feedback_value %}{{feedback_strings[plan.feedback_value-1]}}{%endif%}" aria-haspopup="true" aria-expanded="false">
         <i class="fa fa-spinner fa-spin fa-lg"></i>
     </button>

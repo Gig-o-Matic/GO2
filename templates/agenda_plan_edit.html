@@ -37,6 +37,91 @@
 {% endif %}
 
 <div class="row" style="border-left:solid thick {{ colors[the_assoc.color] }};">
+    <div class="col-sm-12 col-md-2">
+        {{ the_date_formatter(the_user, the_gig.date, 'short') }} {{ the_date_formatter(the_user, the_gig.date, 'day') }}
+        {% if the_user.preferences.agenda_show_time and the_gig.gigtime() %}
+            {{ the_gig.gigtime() }}
+        {% endif %}
+        {% if the_gig.status==1 %}
+            <i class="fa fa-check-circle" style="color:green"></i>
+        {% elif the_gig.status==2 %}
+            <i class="fa fa-times-circle" style="color:red"></i>
+        {% else %}
+            <i class="fa fa-question-circle" style="color:orange"></i>
+        {% endif %}
+    </div>
+    <div class="col-sm-12 col-md-6">
+        <a href="gig_info.html?gk={{ the_gig_key.urlsafe() }}" ><strong>{{ the_gig.title|e }}</strong></a>
+        {% if show_band==True %}
+            <a href="band_info.html?bk={{ the_band.key.urlsafe()}}">
+            {% if the_band.shortname %}
+                ({{ the_band.shortname|e }})
+            {% else %}
+                ({{ the_band.name|e }})
+            {% endif %}
+            </a>
+        {% endif %}
+    </div>
+
+
+    {% if the_gig.status != 2 %}
+    <div class="col-12 col-md-4 btn-group" role="group">
+            {% if the_member_key == the_user.key or the_user_is_superuser %}
+                {{ plan_icon.icon_button(the_plan, the_band.simple_planning ) }}
+                {% if the_band.plan_feedback %}
+                    {{ plan_icon.feedback_button(the_plan, the_band.plan_feedback.split('\n') ) }}
+                {% endif %}
+                <a href="#" class="comment-thing" id="username" data-type="text" data-pk="{{the_plan_key.urlsafe()}}" data-url="/updateplancomment" data-title="">{{the_plan.comment}}</a>
+            {% else %}
+                {{ plan_icon.icon_display(the_plan.value) }}
+                {% if the_band.plan_feedback and the_plan.feedback_value %}
+                    the_band.plan_feedback.split('\n')[the_plan.feedback_value-1]
+                {% endif %}
+                {{the_plan.comment}}
+            {% endif %}
+            {% if show_section %}
+                <div class="col-md-{{section_lg}} col-md-offset-0 col-sm-{{section_sm}} col-sm-offset-0 col-xs-{{section_sm}} col-xs-offset-0">
+                    {% if get_the_section_keys %}
+                        {% set the_section_keys = get_the_section_keys(the_band.key) %}
+                    {% endif %}
+                    {% set the_section_keys = the_band.sections %}
+                    {% if the_section_keys and the_section_keys|length > 1 and (the_plan.member == the_user.key or the_user_is_superuser)%}
+                    <div class="dropdown">
+                        <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" id='sel-{{the_plan_key.urlsafe()}}'>
+                            {% if the_section_key == None %}
+                                {% trans %}section{% endtrans %}...  <span class="caret"></span>
+                            {% else %}
+                                {{the_section_key.get().name}} <span class="caret"></span>
+                            {% endif %}
+                        </button>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                            {% for section_key in the_section_keys %}
+                                {% set a_section = section_key.get() %}
+                                <li><a onclick="section_select('{{the_plan_key.urlsafe()}}','{{section_key.urlsafe()}}','{{a_section.name}}')">{{ a_section.name }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    {% else %}
+    <div class="col-lg-{{grp2_lg}} col-md-{{grp2_lg}} col-sm-{{grp2_sm}} col-xs-{{grp2_sm}}">
+        <strong>{% trans %}Cancelled!{% endtrans %}</strong>
+    </div>
+    {% endif %}
+
+
+
+
+</div>
+
+{#
+
+<div class="row" style="border-left:solid thick {{ colors[the_assoc.color] }};">
     <div class="col-2">
         {{ the_date_formatter(the_user, the_gig.date, 'short') }} {{ the_date_formatter(the_user, the_gig.date, 'day') }}
         {% if the_user.preferences.agenda_show_time and the_gig.gigtime() %}
@@ -140,4 +225,5 @@
         </div>
     </div>
 </div>
+#}
 {%- endmacro %}
