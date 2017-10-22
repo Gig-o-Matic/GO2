@@ -27,7 +27,7 @@
                       {% trans %}Info{% endtrans %}
 
                       {% if the_user_is_band_admin or the_user_is_superuser %}
-                        <div class="btn-group pull-right">
+                        <div class="btn-group float-right">
                           <a class="btn btn-primary btn-xs" href="band_edit.html?bk={{ the_band.key.urlsafe() }}">{% trans %}Edit{% endtrans %}</a>
                         </div>
                       {% endif %}
@@ -252,7 +252,7 @@
                                     <div class="panel-title">
                                       {% trans %}Members{% endtrans %}
                                       {% if the_user_is_band_admin or the_user_is_superuser %}
-                                        <div class="btn-group pull-right">
+                                        <div class="btn-group float-right">
                                           <a class="btn btn-primary btn-xs" href="band_invite.html?bk={{ the_band.key.urlsafe() }}">{% trans %}Invite Members{% endtrans %}</a>
                                         </div>
                                       {% endif %}
@@ -265,7 +265,7 @@
                                 <div class="col-md-9 col-sm-9 col-xs-9 panel-title">
                                     {% trans %}Members{% endtrans %}
                                     {% if the_user_is_band_admin or the_user_is_superuser %}
-                                      <div class="btn-group pull-right">
+                                      <div class="btn-group float-right">
                                         <a class="btn btn-primary btn-xs" href="band_invite.html?bk={{ the_band.key.urlsafe() }}">{% trans %}Invite Members{% endtrans %}</a>
                                       </div>
                                     {% endif %}
