@@ -41,73 +41,54 @@
     {% set comment_sm = 9 %}
 {% endif %}
 
-<div class="row {% if (the_plan.value and the_plan.value < 3) or the_member_key == the_user.key %}planattending{% else %}plannotattending{% endif %}">
-    <div class="col-lg-{{grp1_lg}} col-md-{{grp1_lg}} col-sm-{{grp1_sm}} col-xs-{{grp1_sm}}">
+<div class="row">
+    <div class="col-4">
          <a href='/member_info.html?mk={{the_member_key.urlsafe()}}'>{{ the_member.display_name }}</a>
     </div>
-    <div class="col-lg-{{grp2_lg}} col-md-{{grp2_lg}} col-md-offset-0 col-sm-{{grp2_sm}} col-sm-offset-0 col-xs-{{grp2_sm}} col-xs-offset-0">
-        <div class="row">
-            {% if the_member_key == the_user.key or the_user_is_superuser or the_user_is_band_admin %}
-                <div class="col-md-2 col-sm-2 col-xs-3">
-                    {{ plan_icon.icon_button(the_plan, the_band.simple_planning) }}
-                </div>
-                    {% if the_band.plan_feedback %}
-                        <div class="col-md-3 col-sm-3 col-xs-3">
-                                {{ plan_icon.feedback_button(the_plan, the_band.plan_feedback.split('\n') ) }}
-                        </div>
-                        <div class="col-md-{{comment_2_md}} col-sm-{{comment_2_sm}} col-xs-{{comment_2_sm}}">
-                    {% else %}
-                        <div class="col-md-{{comment_md}} col-sm-{{comment_sm}} col-xs-{{comment_sm}}">
-                    {% endif %}
-                            <a href="#" class="comment-thing" id="username" data-type="text" data-pk="{{the_plan_key.urlsafe()}}" data-url="/updateplancomment" data-title="">{{the_plan.comment}}</a>
-                        </div>
-            {% else %}
-                <div class="col-md-2 col-sm-2 col-xs-3">
-                    {{ plan_icon.icon_display(the_plan.value) }}
-                </div>
-                    {% if the_band.plan_feedback and the_plan.feedback_value %}
-                        <div class="col-md-3 col-sm-3 col-xs-3">
-                            {{ the_band.plan_feedback.split('\n')[the_plan.feedback_value-1] }}
-                        </div>
-                        <div class="col-md-{{comment_2_md}} col-sm-{{comment_2_sm}} col-xs-{{comment_2_sm}}">
-                    {% else %}
-                        <div class="col-md-{{comment_md}} col-sm-{{comment_sm}} col-xs-{{comment_sm}}">
-                    {% endif %}
-                    {% if the_plan.comment %}
-                        {{ the_plan.comment }}
-                    {% endif %}
-                </div>
+    <div class="col-6 btn-group" role="group">
+
+
+        {% if the_member_key == the_user.key or the_user_is_superuser or the_user_is_band_admin %}
+            {{ plan_icon.icon_button(the_plan, the_band.simple_planning) }}
+            {% if the_band.plan_feedback %}
+                {{ plan_icon.feedback_button(the_plan, the_band.plan_feedback.split('\n') ) }}
             {% endif %}
             {% if show_section %}
-                <div class="col-md-{{section_lg}} col-sm-{{section_sm}} col-xs-{{section_sm}}">
-                    {% if the_plan.member == the_user.key or the_user_is_superuser or the_user_is_band_admin %}
-                        {% if get_the_section_keys %}
-                            {% set the_section_keys = get_the_section_keys(the_band_key) %}
-                        {% endif %}
-                        {% set the_section_keys = the_band_key.get().sections %}
-                        {% if the_sections and the_sections|length > 1 %}
-
-                        <div class="dropdown">
-                            <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" id='sel-{{the_plan_key.urlsafe()}}'>
+                {% if the_plan.member == the_user.key or the_user_is_superuser or the_user_is_band_admin %}
+                    {% if get_the_section_keys %}
+                        {% set the_section_keys = get_the_section_keys(the_band_key) %}
+                    {% endif %}
+                    {% set the_section_keys = the_band_key.get().sections %}
+                    {% if the_sections and the_sections|length > 1 %}
+                        <div class="dropdown mr-2">
+                            <a class="btn btn-outline-secondary btn-sm dropdown-toggle" href="#" role="button" data-toggle="dropdown" id="sel-{{the_plan_key.urlsafe()}}" aria-haspopup="true" aria-expanded="false">
                                 {% if the_plan.section == None %}
-                                    section...  <span class="caret"></span>
+                                    {% trans %}section{% endtrans %}...  <span class="caret"></span>
                                 {% else %}
                                     {{the_plan.section.get().name}} <span class="caret"></span>
                                 {% endif %}
-                            </button>
-                            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="sel-{{the_plan_key.urlsafe()}}">
                                 {% for a_section in the_sections %}
                                     {% if a_section %}
-                                        <li><a onclick="section_select('{{the_plan_key.urlsafe()}}','{{a_section.key.urlsafe()}}','{{a_section.name}}')">{{ a_section.name }}</a></li>
+                                        <a class="dropdown-item" onclick="section_select('{{the_plan_key.urlsafe()}}','{{a_section.key.urlsafe()}}','{{a_section.name}}')">{{ a_section.name }}</a>
                                     {% endif %}
                                 {% endfor %}
-                            </ul>
+                            </div>
                         </div>
-                        {% endif %}
                     {% endif %}
-                </div>
+                {% endif %}
             {% endif %}
-        </div>
+            <a href="#" class="comment-thing" id="username" data-type="text" data-pk="{{the_plan_key.urlsafe()}}" data-url="/updateplancomment" data-title="">{{the_plan.comment}}</a>
+        {% else %}
+            {{ plan_icon.icon_display(the_plan.value) }}
+            {% if the_band.plan_feedback and the_plan.feedback_value %}
+                {{ the_band.plan_feedback.split('\n')[the_plan.feedback_value-1] }}
+            {% endif %}
+            {% if the_plan.comment %}
+                {{ the_plan.comment }}
+            {% endif %}
+        {% endif %}
     </div>
 </div>
 {%- endmacro %}

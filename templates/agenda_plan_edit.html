@@ -45,11 +45,34 @@
 
 
     {% if the_gig.status != 2 %}
-    <div class="col-12 col-md-4 btn-group" role="group">
+        <div class="col-12 col-md-4 btn-group" role="group">
         {% if the_member_key == the_user.key or the_user_is_superuser %}
             {{ plan_icon.icon_button(the_plan, the_band.simple_planning ) }}
             {% if the_band.plan_feedback %}
                 {{ plan_icon.feedback_button(the_plan, the_band.plan_feedback.split('\n') ) }}
+            {% endif %}
+            {% if show_section %}
+                {% if get_the_section_keys %}
+                    {% set the_section_keys = get_the_section_keys(the_band.key) %}
+                {% endif %}
+                {% set the_section_keys = the_band.sections %}
+                {% if the_section_keys and the_section_keys|length > 1 and (the_plan.member == the_user.key or the_user_is_superuser)%}
+                    <div class="dropdown mr-2">
+                        <a class="btn btn-outline-secondary btn-sm dropdown-toggle" href="#" role="button" data-toggle="dropdown" id="sel-{{the_plan_key.urlsafe()}}" aria-haspopup="true" aria-expanded="false">
+                            {% if the_section_key == None %}
+                                {% trans %}section{% endtrans %}...  <span class="caret"></span>
+                            {% else %}
+                                {{the_section_key.get().name}} <span class="caret"></span>
+                            {% endif %}
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="sel-{{the_plan_key.urlsafe()}}">
+                            {% for section_key in the_section_keys %}
+                                {% set a_section = section_key.get() %}
+                                <a class="dropdown-item" onclick="section_select('{{the_plan_key.urlsafe()}}','{{section_key.urlsafe()}}','{{a_section.name}}')">{{ a_section.name }}</a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
             {% endif %}
             <a href="#" class="comment-thing" id="username" data-type="text" data-pk="{{the_plan_key.urlsafe()}}" data-url="/updateplancomment" data-title="">{{the_plan.comment}}</a>
         {% else %}
@@ -59,35 +82,11 @@
             {% endif %}
             {{the_plan.comment}}
         {% endif %}
-        {% if show_section %}
-            {% if get_the_section_keys %}
-                {% set the_section_keys = get_the_section_keys(the_band.key) %}
-            {% endif %}
-            {% set the_section_keys = the_band.sections %}
-            {% if the_section_keys and the_section_keys|length > 1 and (the_plan.member == the_user.key or the_user_is_superuser)%}
-                <div class="dropdown">
-                    <a class="btn btn-outline-secondary btn-sm dropdown-toggle" href="#" role="button" data-toggle="dropdown" id="sel-{{the_plan_key.urlsafe()}}" aria-haspopup="true" aria-expanded="false">
-                        {% if the_section_key == None %}
-                            {% trans %}section{% endtrans %}...  <span class="caret"></span>
-                        {% else %}
-                            {{the_section_key.get().name}} <span class="caret"></span>
-                        {% endif %}
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="sel-{{the_plan_key.urlsafe()}}">
-                        {% for section_key in the_section_keys %}
-                            {% set a_section = section_key.get() %}
-                            <a class="dropdown-item" onclick="section_select('{{the_plan_key.urlsafe()}}','{{section_key.urlsafe()}}','{{a_section.name}}')">{{ a_section.name }}</a>
-                        {% endfor %}
-                    </div>
-                </div>
-            {% endif %}
-            </div>
-        {% endif %}
-    </div>
+        </div>
     {% else %}
-    <div class="col-12 col-md-4">
-        <strong>{% trans %}Cancelled!{% endtrans %}</strong>
-    </div>
+        <div class="col-12 col-md-4">
+            <strong>{% trans %}Cancelled!{% endtrans %}</strong>
+        </div>
     {% endif %}
 
 </div>

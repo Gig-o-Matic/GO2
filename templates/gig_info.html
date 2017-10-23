@@ -219,6 +219,7 @@
                 </div>
                 <div class="card-body">
                     {% if the_user_is_superuser or the_user_is_band_admin %}
+                    {#
                         <div class="row">
                             <div class="col-12">
                                 {% for p in the_plan_counts %}
@@ -229,6 +230,23 @@
                                 <span class="badge badge-light">{{ plan_icon.icon(0) }}{{ the_plan_counts[0] }}</span>
                             </div>
                         </div>
+                    #}
+                    {% endif %}
+
+                    {% if the_user_is_superuser or the_user_is_band_admin %}
+                        <div class="row">
+                            {% for p in the_plan_counts %}
+                                <div class="mx-auto">
+                                {% if p > 0 %}
+                                    <span class="badge badge-light">{{ plan_icon.icon(p) }}{{ the_plan_counts[p] }}</span>
+                                {% endif %}
+                                </div>
+                            {% endfor %}
+                            <div class="mx-auto">
+                                <span class="badge badge-light">{{ plan_icon.icon(0) }}{{ the_plan_counts[0] }}</span>
+                            </div>
+                        </div>
+                        <br>
                     {% endif %}
 
                     {% import 'gig_plan_edit.html' as plan_edit with context %}                
