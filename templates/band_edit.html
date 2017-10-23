@@ -4,7 +4,7 @@
 
 {% block content %}
     <div class="row">
-        {% if newband_is_active %}
+        {% if is_new %}
             <div class="page-header col-md-8 col-md-offset-2">{% trans %}New Band{% endtrans %}</div>
         {% else %}
             <div class="page-header col-md-8 col-md-offset-2">{% trans %}Edit Band{% endtrans %}</div>
@@ -136,6 +136,7 @@
                     {% endif %}
                     >{% trans %}Use simple planning pop-up (yes/maybe/no){% endtrans %}   
                 </label>  
+            {% if not is_new %}
             <div class="row">
               <div class="col-md-8 col-md-offset-2">
                 <a href="https://slack.com/oauth/authorize?&client_id=257346562790.256386318259&scope=bot,chat:write:bot,channels:history&redirect_uri=FIXME">
@@ -144,6 +145,7 @@
                 <br><br>
               </div>
             </div>
+            {% endif %}
             <div class="row">
                 <div class="form-group col-md-8 col-md-offset-2">
                     <label for="bandfeedback" class="control-label">{% trans %}Extra Feedback{% endtrans %}</label>
