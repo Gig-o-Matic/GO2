@@ -11,6 +11,7 @@ import assoc
 import band
 import gig
 import goannouncements
+import crypto_db
 
 from webapp2_extras import i18n
 from webapp2_extras.i18n import gettext as _
@@ -26,9 +27,11 @@ class SlackOAuthComplete(webapp2.RequestHandler):
             self.response.write('Error: did not find a band!')
             return
 
+        secrets = crypto_db.get_cryptokey_object()
+
         oauth_info = slack_client.get_oauth_info(
-            os.environ["SLACK_CLIENT_ID"],
-            os.environ["SLACK_CLIENT_SECRET"],
+            secrets.slack_client_id,
+            secrets.slack_client_secret,
             self.request.get('code'),
             self.uri_for('slack_oauth_complete', _full=True, bk=the_band.key.urlsafe())
             )
