@@ -62,6 +62,9 @@ class Band(ndb.Model):
     enable_forum = ndb.BooleanProperty(default=True)
     rss_feed = ndb.BooleanProperty(default=False)
 
+    slack_bot_user_id = ndb.StringProperty(default=None)
+    slack_bot_access_token = ndb.StringProperty(default=None)
+
 
     @classmethod
     def lquery(cls, *args, **kwargs):
@@ -342,7 +345,8 @@ class EditPage(BaseHandler):
             'the_band' : the_band,
             'timezones' : pytz.common_timezones,
             'newmember_is_active' : is_new,
-            'is_new' : is_new
+            'is_new' : is_new,
+            'slack_redirect_uri' : self.uri_for('slack_oauth_complete', _full=True, bk=the_band.key.urlsafe())
         }
         self.render_template('band_edit.html', template_args)
                     

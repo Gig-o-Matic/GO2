@@ -5,6 +5,31 @@ import logging
 
 from google.appengine.api import urlfetch
 
+def get_oauth_info(client_id, client_secret, code, redirect_uri=None):
+    headers = {
+        'Content-Type': 'application/x-www-form-urlencoded'
+    }
+    form_fields = {
+        'client_id': client_id,
+        'client_secret': client_secret,
+        'code': code,
+    }
+    if redirect_uri:
+        form_fields['redirect_uri'] = redirect_uri
+
+    form_data = urllib.urlencode(form_fields)
+    result = urlfetch.fetch(url="https://slack.com/api/oauth.access",
+                            payload=form_data,
+                            method=urlfetch.POST,
+                            headers=headers)
+
+    json_response = json.loads(result.content)
+    if json_response['ok']:
+        return json_response
+    else:
+        raise Exception("Unable to retrieve OAuth access token due to '{}' error".format(
+            json_response['error']))
+
 class SlackClient(object):
     def __init__(self, access_token):
         self.access_token = access_token

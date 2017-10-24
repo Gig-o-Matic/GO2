@@ -21,6 +21,7 @@ import jinja2ext
 import os
 import cryptoutil
 import goemail
+import goslack
 import rss
 
 CONFIG = {
@@ -120,7 +121,7 @@ else:
         webapp2.Route('/member_spreadsheet', band.MemberSpreadsheet),
         webapp2.Route('/sendreminder', gig.SendReminder),
         webapp2.Route('/band_info.html', band.InfoPage),
-        webapp2.Route('/band_edit.html', band.EditPage),
+        webapp2.Route('/band_edit.html', band.EditPage, name="edit_band"),
         webapp2.Route('/band_delete.html', band.DeleteBand),
         webapp2.Route('/band_get_members', band.BandGetMembers, name='getmembers'),
         webapp2.Route('/band_get_sections', band.BandGetSections, name='getsections'),
@@ -170,6 +171,7 @@ else:
         webapp2.Route('/announce_new_gig_handler',goemail.AnnounceNewGigHandler),
         webapp2.Route('/email_new_gig_handler',goemail.EmailNewGigHandler),
         webapp2.Route('/slack_new_gig_handler',goemail.SlackNewGigHandler),
+        webapp2.Route('/slack_oauth_complete', goslack.SlackOAuthComplete, name='slack_oauth_complete'),
         webapp2.Route('/rss/<bk:.+>',rss.GetRssHandler),
         webapp2.Route('/make_rss_feed_handler',rss.MakeRssFeedHandler)
     ], config=CONFIG, debug=True)
