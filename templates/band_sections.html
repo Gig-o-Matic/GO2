@@ -1,5 +1,5 @@
 {% if has_sections %}
-    <div class="col-md-2 col-sm-2 col-xs-3 gomlabel">
+    <div class="col-3 gomlabel">
         {% if the_section %}
             {{the_section.name}}
         {% else %}
@@ -7,11 +7,11 @@
         {% endif %}
     </div>
 {% endif %}
-<div class="col-md-6 col-sm-6 col-xs-9">
+    <div class="col-9">
     {% for the_member in the_members %}
         {% set the_assoc = the_assocs[loop.index0] %}
         <div class="row">
-        	<div class="col-md-6">
+        	<div class="col-md-3 col-sm-12">
                 <a href='/member_info.html?mk={{the_member.key.urlsafe()}}'>{% if the_member.nickname %}{{the_member.nickname}}{% else %}{{ the_member.name }}{% endif %}</a>
                 {% if the_assoc.is_occasional %}
                     ({% trans %}occasional{% endtrans %})
@@ -20,7 +20,7 @@
                     <i class="fa fa-star" style="color:green"></i>
                 {% endif %}
             </div>
-        	<div class="col-md-6 col-md-offset-0 col-sm-5 col-sm-offset-1 col-xs-5 col-xs-offset-1">
+        	<div class="col-md-9 ml-md-0 col-10 ml-2">
         		<a href="mailto:{{the_member.email_address}}">{{ the_member.email_address }}</a>
         	</div>
         </div>

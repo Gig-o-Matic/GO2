@@ -10,7 +10,7 @@
 
 {% block content %}
     <div class="row">
-        <div class="page-header col-md-8 col-md-offset-2">
+        <div class="page-header mx-auto col-lg-8 col-md-10 col-sm-12">
             {{ the_band.name }}
             {% if the_user_is_associated and the_band.shortname %}
                 <br>
@@ -18,24 +18,24 @@
             {% endif %}
         </div>
     </div>
-
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <div class="panel-title">
-                      {% trans %}Info{% endtrans %}
-
-                      {% if the_user_is_band_admin or the_user_is_superuser %}
-                        <div class="btn-group float-right">
-                          <a class="btn btn-primary btn-xs" href="band_edit.html?bk={{ the_band.key.urlsafe() }}">{% trans %}Edit{% endtrans %}</a>
+        <div class="mx-auto col-lg-8 col-md-10 col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-4">
+                            <h4>{% trans %}Info{% endtrans %}</h4>
                         </div>
-                      {% endif %}
+                        {% if the_user_is_band_admin or the_user_is_superuser %}
+                            <div class="ml-auto">
+                                <a class="btn btn-primary btn-sm" href="band_edit.html?bk={{ the_band.key.urlsafe() }}">{% trans %}Edit{% endtrans %}</a>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <div class="row">
-                        <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="col-12">
                             {% if the_band.description %}
                                 {{ the_band.description | html_content | safe  }}
                             {% else %}
@@ -45,7 +45,7 @@
                     </div>
                     {% if the_band.hometown %}
                         <div class="row">
-                            <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="col-12">
                                 &nbsp;
                             </div>
                         </div>
@@ -151,42 +151,39 @@
                 </div>
             </div> <!-- panel -->
             {% if the_band.images %}
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <div class="panel-title">
-                                {% trans %}Pictures Of Us{% endtrans %}
-                            </div>
-                        </div>
-                        <div class="panel-body" id="pictures">
-                            <ul class="bxslider">
-                                {% for i in the_band.images %}
-                                      <li><img src="{{i}}" /></li>
-                                {% endfor %}
-                            </ul>
-                        </div>
+                <div class="row">&nbsp;</div>
+                <div class="card">
+                    <div class="card-header">
+                        <h4>{% trans %}Pictures Of Us{% endtrans %}</h4>
                     </div>
+                    <div class="card-body" id="pictures">
+                        <ul class="bxslider">
+                            {% for i in the_band.images %}
+                                  <li><img src="{{i}}" /></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
             {% endif %}
             {% if the_user_is_associated == False and ( the_user_is_superuser == False ) %}
                 {% if the_band.share_gigs %}
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <div class="panel-title">
-                                {% trans %}Upcoming Gigs{% endtrans %}
-                            </div>
+                    <div class="row">&nbsp;</div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>{% trans %}Upcoming Gigs{% endtrans %}</h4>
                         </div>
-                        <div class="panel-body" id="upcoming-gigs">
+                        <div class="card-body" id="upcoming-gigs">
                             <i class="fa fa-spinner fa-spin fa-lg"></i>
                         </div>
                     </div>
                 {% endif %}
                 {% if the_user %}
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <div class="panel-title">
-                                {% trans %}Members With Public Profiles{% endtrans %}
-                            </div>
+                    <div class="row">&nbsp;</div>
+                    <div class="card">
+                        <div class="card-header">
+                                <h4>{% trans %}Members With Public Profiles{% endtrans %}</h4>
                         </div>
-                        <div class="panel-body" id="public-members">
+                        <div class="card-body" id="public-members">
                             <i class="fa fa-spinner fa-spin fa-lg"></i>
                         </div>
                     </div>
@@ -195,13 +192,12 @@
                 {% trans %}Your membership is pending - ask a band member to confirm you!{% endtrans %}
             {% else %}
                 {% if the_pending_members %}
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <div class="panel-title">
-                                {% trans %}Pending Members{% endtrans %} <span class="badge">{{the_pending_members|length}}</span>
-                            </div>
+                    <div class="row">&nbsp;</div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>{% trans %}Pending Members{% endtrans %} <span class="badge">{{the_pending_members|length}}</span></h4>
                         </div>
-                        <div class="panel-body">
+                        <div class="card-body">
                             {% for m in the_pending_members %}
                             <div class="row" style="padding-top: 5px; padding-bottom: 5px; {{ loop.cycle('', 'background:#f5f5f5;') }}">
                                 <div class="col-md-2 col-sm-2 col-xs-12">
@@ -221,13 +217,12 @@
                 {% endif %}
 
                 {% if the_invited_members %}
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <div class="panel-title">
-                                {% trans %}Invited Members{% endtrans %} <span class="badge">{{the_invited_members|length}}</span>
-                            </div>
+                    <div class="row">&nbsp;</div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>{% trans %}Invited Members{% endtrans %} <span class="badge">{{the_invited_members|length}}</span></h4>
                         </div>
-                        <div class="panel-body">
+                        <div class="card-body">
                             {% for m in the_invited_members %}
                             <div class="row">
                                 <div class="col-md-4 col-sm-4 col-xs-4">
@@ -242,49 +237,46 @@
                     </div> <!-- panel -->
                 {% endif %}
 
-                <div class="row">
-                    <div class="col-md-12 col-md-offset-0">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
+                <div class="row">&nbsp;</div>
+                <div class="card">
+                    <div class="card-header">
                         <div class="row">
                             {% if num_sections == 0 %}
-                                <div class="col-md-12 col-sm-12 col-xs-12">
-                                    <div class="panel-title">
-                                      {% trans %}Members{% endtrans %}
-                                      {% if the_user_is_band_admin or the_user_is_superuser %}
-                                        <div class="btn-group float-right">
-                                          <a class="btn btn-primary btn-xs" href="band_invite.html?bk={{ the_band.key.urlsafe() }}">{% trans %}Invite Members{% endtrans %}</a>
-                                        </div>
-                                      {% endif %}
-                                    </div>
+                                <div class="col-4">
+                                      <h4>{% trans %}Members{% endtrans %}</h4>
                                 </div>
-                            {% else %}
-                                <div class="col-md-3 col-sm-3 col-xs-3 panel-title">
-                                    {% trans %}Sections{% endtrans %}
-                                </div>
-                                <div class="col-md-9 col-sm-9 col-xs-9 panel-title">
-                                    {% trans %}Members{% endtrans %}
-                                    {% if the_user_is_band_admin or the_user_is_superuser %}
-                                      <div class="btn-group float-right">
+                                {% if the_user_is_band_admin or the_user_is_superuser %}
+                                    <div class="ml-auto">
                                         <a class="btn btn-primary btn-xs" href="band_invite.html?bk={{ the_band.key.urlsafe() }}">{% trans %}Invite Members{% endtrans %}</a>
-                                      </div>
-                                    {% endif %}
+                                    </div>
+                                {% endif %}
+                            {% else %}
+                                <div class="col-3">
+                                    <h4>{% trans %}Sections{% endtrans %}</h4>
                                 </div>
+                                <div class="col-3">
+                                    <h4>{% trans %}Members{% endtrans %}</h4>
+                                </div>
+                                {% if the_user_is_band_admin or the_user_is_superuser %}
+                                    <div class="ml-auto">
+                                        <a class="btn btn-primary btn-sm" href="band_invite.html?bk={{ the_band.key.urlsafe() }}">{% trans %}Invite Members{% endtrans %}</a>
+                                    </div>
+                                {% endif %}
                             {% endif %}
                         </div>
                     </div>
-                    <div class="panel-body">
+                    <div class="card-body">
                         <div class="row">
-                            <div class="col-md-12 col-md-offset-0" id="sectionlist">
+                            <div class="col-12" id="sectionlist">
                             	{% for s in the_band.sections %}
                             	    <div class="row" id="section{{loop.index0}}" style="padding-top: 5px; padding-bottom: 5px; {{ loop.cycle('', 'background:#f5f5f5;') }}">
-                                		<div class="col-md-12 col-md-offset-0">
+                                		<div class="col-12">
                                 			<i class="fa fa-spinner fa-spin fa-lg"></i>
                                 		</div>
                                	    </div>
                             	{% endfor %}
                         	    <div class="row" id="sectionNone" style="padding-top: 5px; padding-bottom: 5px; {% if the_band.sections | length is odd %}background:#f5f5f5;{% endif %}">
-                            		<div class="col-md-12 col-md-offset-0">
+                            		<div class="col-12">
                             			<i class="fa fa-spinner fa-spin fa-lg"></i>
                             		</div>
                            	    </div>
@@ -292,7 +284,7 @@
                         </div>
                         <div class="row">
                             {% if the_user_is_superuser or the_user_is_band_admin %}
-                                <div class="col-md-4 col-md-offset-0">
+                                <div class="col-md-4">
                                     <br>
                                     <a href='/band_setup_sections?bk={{the_band.key.urlsafe()}}' class="btn btn-primary btn-sm" >{% trans %}Set Up Sections{% endtrans %}</a>
                                 </div>
@@ -300,38 +292,33 @@
                         </div>
                     </div>
                 </div> <!-- panel -->
-
-                    </div>
-                </div>
-
                 {% if the_user_is_band_admin or the_user_is_superuser %}
-                <div class="panel-group" id="accordion">
-                    <div class="panel panel-default panel-overflowable">
-                        <div class="panel-heading">
-                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-                                <div class="panel-title">
-                                    {% trans %}Member Admin{% endtrans %}
-                                </div>
-                            </a>
-                        </div>
-                        <div id="collapseOne" class="panel-collapse collapse">
-                            <div class="panel-body">
-                                <div class="row">
-                                    <div class="col-md-12 col-md-offset-0">
-                                        <a class="btn btn-primary btn-sm" href="band_invite.html?bk={{ the_band.key.urlsafe() }}">{% trans %}Invite Members{% endtrans %}</a>
-                                        <a class="btn btn-primary btn-sm" href="member_spreadsheet?bk={{the_band.key.urlsafe()}}">{% trans %}Download Member List{% endtrans %}</a>
-                                    </div>
-                                    <hr>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12 col-md-offset-0" id="memberlist">
-                                        <i class="fa fa-spinner fa-spin fa-lg"></i>
-                                    </div>
-                                </div>
+                    <div class="row">&nbsp;</div>
+                    <div class="accordion" id="accordion">
+                        <div class="card">
+                            <div class="card-header">
+                                <a class="collapsed" data-toggle="collapse" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                    <h4>{% trans %}Member Admin{% endtrans %}</h4>
+                                </a>
                             </div>
-                        <//div>
+                            <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <a class="btn btn-primary btn-sm" href="band_invite.html?bk={{ the_band.key.urlsafe() }}">{% trans %}Invite Members{% endtrans %}</a>
+                                            <a class="btn btn-primary btn-sm" href="member_spreadsheet?bk={{the_band.key.urlsafe()}}">{% trans %}Download Member List{% endtrans %}</a>
+                                        </div>
+                                        <hr>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12" id="memberlist">
+                                            <i class="fa fa-spinner fa-spin fa-lg"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            <//div>
+                        </div>
                     </div>
-                </div>
                 {% endif %}
             </div>
         </div>
