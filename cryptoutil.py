@@ -68,7 +68,7 @@ class AdminPage(BaseHandler):
         template_args = {
             'current' : crypto_db.get_cryptokey()
         }
-        self.render_template('crypto_admin.html', template_args)
+        self.render_template('secrets_admin.html', template_args)
 
 
     @user_required
@@ -82,6 +82,5 @@ class AdminPage(BaseHandler):
         # testing
         str1=encrypt_string('boom!!!')
         str2=decrypt_string(str1)
-        
-        self.redirect(self.uri_for('crypto_admin'))
 
+        self.redirect(self.uri_for('secrets_admin'))
