@@ -87,14 +87,15 @@ class SlackGigHandler(webapp2.RequestHandler):
         sc.post_message(
             the_channel,
             "{}: \"{}\" ({})\n"
-            "{} at {}\n"
+            "{} {}\n"
             "\n"
-            "RSVP: {}".format(
+            "{}: {}".format(
                 title_string,
                 the_gig.title,
                 the_status_string,
                 the_date_string,
                 the_time_string,
+                _("Details"),
                 the_gig_url
                 ),
             False # as_user
