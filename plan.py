@@ -18,7 +18,7 @@ import member
 import assoc
 import datetime
 import logging
-import goemail
+import goannouncements
 
 plan_text = ["No Plan", "Definitely", "Probably", "Don't Know", "Probably Not", "Can't Do It", "Not Interested"]
 
@@ -233,7 +233,7 @@ class SendReminders(BaseHandler):
             the_gig = p.key.parent().get()
             if the_gig.date > datetime.datetime.now():
                 stragglers = [p.member]
-                goemail.announce_new_gig(the_gig, self.uri_for('gig_info', _full=True, gk=the_gig.key.urlsafe()), is_edit=False, is_reminder=True, the_members=stragglers)
+                goannouncements.announce_gig(the_gig, self.uri_for('gig_info', _full=True, gk=the_gig.key.urlsafe()), is_edit=False, is_reminder=True, the_members=stragglers)
             p.snooze_until = None
             p.put()
         logging.info("send {0} gig reminders".format(len(the_plans)))

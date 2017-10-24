@@ -22,6 +22,7 @@ import os
 import cryptoutil
 import goemail
 import goslack
+import goannouncements
 import rss
 
 CONFIG = {
@@ -168,9 +169,9 @@ else:
         webapp2.Route('/forum_add', forum.AddForumHandler),
         webapp2.Route('/forum_delete', forum.DeleteForumHandler),
         webapp2.Route('/search',forum.SearchHandler),
-        webapp2.Route('/announce_new_gig_handler',goemail.AnnounceNewGigHandler),
-        webapp2.Route('/email_new_gig_handler',goemail.EmailNewGigHandler),
-        webapp2.Route('/slack_new_gig_handler',goemail.SlackNewGigHandler),
+        webapp2.Route('/announce_gig_handler',goannouncements.AnnounceGigHandler),
+        webapp2.Route('/email_gig_handler',goemail.EmailGigHandler),
+        webapp2.Route('/slack_gig_handler',goslack.SlackGigHandler),
         webapp2.Route('/slack_oauth_complete', goslack.SlackOAuthComplete, name='slack_oauth_complete'),
         webapp2.Route('/rss/<bk:.+>',rss.GetRssHandler),
         webapp2.Route('/make_rss_feed_handler',rss.MakeRssFeedHandler)

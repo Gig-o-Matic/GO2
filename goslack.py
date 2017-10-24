@@ -2,9 +2,18 @@ import webapp2
 from google.appengine.ext import ndb
 
 import logging
+import pickle
 import os
 
 import slack_client
+from slack_client import SlackClient
+import assoc
+import band
+import gig
+import goannouncements
+
+from webapp2_extras import i18n
+from webapp2_extras.i18n import gettext as _
 
 class SlackOAuthComplete(webapp2.RequestHandler):
 
@@ -31,3 +40,53 @@ class SlackOAuthComplete(webapp2.RequestHandler):
 
 
         return self.redirect(self.uri_for('edit_band', bk=self.request.get("bk")))
+
+class SlackGigHandler(webapp2.RequestHandler):
+
+    def post(self):
+        the_shared_params = pickle.loads(self.request.get('the_shared_params'))
+        the_gig = the_shared_params['the_gig_key'].get()
+        the_band_key = the_shared_params['the_band_key']
+        the_band = the_band_key.get()
+        the_gig_url = self.uri_for('gig_info', _full=True, gk=the_gig.key.urlsafe())
+        the_channel = the_band.slack_announcements_channel or "#general"
+
+        # We need a member to localize the date string. Pick the first admin
+        # for the band to determine localization. If no admin is found, pick
+        # the first invited member.
+        admins = assoc.get_admin_members_from_band_key(the_band_key)
+        if len(admins) > 0:
+            a_member = admins[0]
+        else:
+            a_member = assoc.get_invited_member_assocs_from_band_key(the_band_key)[0]
+
+        logging.info("Found member {0} and gig date {1}".format(a_member, the_gig.date))
+
+        the_date_string = goannouncements.format_date_string(the_gig.date, a_member)
+        the_time_string = goannouncements.format_time_string(the_gig)
+        the_status_string = [_('Unconfirmed'), _('Confirmed!'), _('Cancelled!')][the_gig.status]
+
+        logging.info('announcing gig {0} to {1} Slack channel {2} '.format(
+            the_gig.title,
+            the_band.name,
+            the_channel
+            ))
+
+
+        sc = SlackClient(os.environ['SLACK_TOKEN'])
+        sc.post_message(
+            the_channel,
+            "New Gig: \"{0}\" ({1})\n"
+            "{2} at {3}\n"
+            "\n"
+            "RSVP: {4}".format(
+                the_gig.title,
+                the_status_string,
+                the_date_string,
+                the_time_string,
+                the_gig_url
+                ),
+            False # as_user
+            )
+
+        self.response.write( 200 )

@@ -1,7 +1,6 @@
 import webapp2
 from google.appengine.api import mail
 from google.appengine.api import users
-from google.appengine.api.taskqueue import taskqueue
 
 import gig
 import member
@@ -11,10 +10,10 @@ import re
 import pickle
 import os
 
-from slack_client import SlackClient
-
 from webapp2_extras import i18n
 from webapp2_extras.i18n import gettext as _
+
+import goannouncements
 
 # need this for sending stuff to the superuser - can't use the decorated version
 _bare_admin_email_address = 'gigomatic.superuser@gmail.com'
@@ -70,27 +69,8 @@ def send_band_accepted_email(the_email, the_band):
 def send_forgot_email(the_email, the_url):
     return _send_admin_mail(the_email, _('Gig-o-Matic Password Reset'), _('forgot_password_email').format(the_url))
 
-def format_date_string(the_date, the_member):
-    return "{0} ({1})".format(member.format_date_for_member(the_member, the_date),
-                              member.format_date_for_member(the_member, the_date, "day"))
-
-def format_time_string(the_gig):
-    the_time_string = ""
-    if the_gig.calltime:
-        the_time_string = u'{0} ({1})'.format(the_gig.calltime, _('Call Time'))
-    if the_gig.settime:
-        if the_time_string:
-            the_time_string = u'{0}, '.format(the_time_string)
-        the_time_string = u'{0}{1} ({2})'.format(the_time_string,the_gig.settime, _('Set Time'))
-    if the_gig.endtime:
-        if the_time_string:
-            the_time_string = u'{0}, '.format(the_time_string)
-        the_time_string = u'{0}{1} ({2})'.format(the_time_string,the_gig.endtime, _('End Time'))
-    return the_time_string
-
-
 # send an email announcing a new gig
-def send_newgig_email(the_member, the_gig, the_band, the_gig_url, is_edit=False, is_reminder=False, change_string=""):
+def send_gig_email(the_member, the_gig, the_band, the_gig_url, is_edit=False, is_reminder=False, change_string=""):
 
     the_locale=the_member.preferences.locale
     the_email_address = the_member.email_address
@@ -121,8 +101,8 @@ def send_newgig_email(the_member, the_gig, the_band, the_gig_url, is_edit=False,
     else:
         title_string=_('New Gig:')
 
-    the_date_string = format_date_string(the_gig.date, the_member)
-    the_time_string = format_time_string(the_gig)
+    the_date_string = goannouncements.format_date_string(the_gig.date, the_member)
+    the_time_string = goannouncements.format_time_string(the_gig)
     the_status_string = [_('Unconfirmed'), _('Confirmed!'), _('Cancelled!')][the_gig.status]
 
     def format_body(body_format_str):
@@ -143,86 +123,7 @@ def send_newgig_email(the_member, the_gig, the_band, the_gig_url, is_edit=False,
 
     return _send_admin_mail(the_email_address, u'{0} {1}'.format(title_string, the_gig.title), body, html=html, reply_to=reply_to)
 
-def announce_new_gig(the_gig, the_gig_url, is_edit=False, is_reminder=False, change_string="", the_members=[]):
-
-    the_params = pickle.dumps({'the_gig_key':   the_gig.key,
-                               'the_gig_url':   the_gig_url,
-                               'is_edit':       is_edit,
-                               'is_reminder':   is_reminder,
-                               'change_string': change_string,
-                               'the_members':   the_members})
-
-    taskqueue.add(
-            url='/announce_new_gig_handler',
-            params={'the_params': the_params
-            })
-
-def queue_new_gig_member_email(an_assoc, the_shared_params):
-    if an_assoc.email_me:
-        the_member_key = an_assoc.member
-
-        the_member_params = pickle.dumps({
-            'the_member_key': the_member_key
-        })
-
-        task = taskqueue.add(
-            queue_name='emailqueue',
-            url='/email_new_gig_handler',
-            params={'the_shared_params': the_shared_params,
-                    'the_member_params': the_member_params
-            })
-
-def queue_new_gig_slack_message(the_gig_key):
-    task = taskqueue.add(
-        queue_name='slackqueue',
-        url='/slack_new_gig_handler',
-        params={'the_gig_key': pickle.dumps(the_gig_key)})
-
-class AnnounceNewGigHandler(webapp2.RequestHandler):
-
-    def post(self):
-        the_params = pickle.loads(self.request.get('the_params'))
-
-        the_gig_key  = the_params['the_gig_key']
-        the_gig_url = the_params['the_gig_url']
-        is_edit = the_params['is_edit']
-        is_reminder = the_params['is_reminder']
-        change_string = the_params['change_string']
-        the_members = the_params['the_members']
-
-        the_gig = the_gig_key.get()
-        the_band_key = the_gig_key.parent()
-        the_assocs = assoc.get_confirmed_assocs_of_band_key(the_band_key, include_occasional=the_gig.invite_occasionals)
-
-        if is_reminder and the_members:
-            recipient_assocs=[]
-            for a in the_assocs:
-                if a.member in the_members:
-                    recipient_assocs.append(a)
-        else:
-            recipient_assocs = the_assocs
-
-        queue_new_gig_slack_message(the_gig_key)
-
-        logging.info('announcing gig {0} to {1} people'.format(the_gig_key,len(recipient_assocs)))
-
-        the_shared_params = pickle.dumps({
-            'the_gig_key': the_gig_key,
-            'the_band_key': the_band_key,
-            'the_gig_url': the_gig_url,
-            'is_edit': is_edit,
-            'is_reminder': is_reminder,
-            'change_string': change_string
-        })
-
-        for an_assoc in recipient_assocs:
-            queue_new_gig_member_email(an_assoc, the_shared_params)
-
-        logging.info('announced gig {0}'.format(the_gig_key))
-
-        self.response.write( 200 )
-
-class EmailNewGigHandler(webapp2.RequestHandler):
+class EmailGigHandler(webapp2.RequestHandler):
 
     def post(self):
         the_shared_params = pickle.loads(self.request.get('the_shared_params'))
@@ -236,58 +137,7 @@ class EmailNewGigHandler(webapp2.RequestHandler):
         is_reminder = the_shared_params['is_reminder']
         change_string = the_shared_params['change_string']
 
-        send_newgig_email(the_member_key.get(), the_gig_key.get(), the_band_key.get(), the_gig_url, is_edit, is_reminder, change_string)
-
-        self.response.write( 200 )
-
-
-class SlackNewGigHandler(webapp2.RequestHandler):
-
-    def post(self):
-        the_gig_key = pickle.loads(self.request.get('the_gig_key'))
-        the_gig = the_gig_key.get()
-        the_band_key = the_gig_key.parent()
-        the_band = the_band_key.get()
-        the_gig_url = self.uri_for('gig_info', _full=True, gk=the_gig.key.urlsafe())
-        the_channel = "#general"
-
-        # We need a member to localize the date string. Pick the first admin
-        # for the band to determine localization. If no admin is found, pick
-        # the first invited member.
-        admins = assoc.get_admin_members_from_band_key(the_band_key)
-        if len(admins) > 0:
-            a_member = admins[0]
-        else:
-            a_member = assoc.get_invited_member_assocs_from_band_key(the_band_key)[0]
-
-        logging.info("Found member {0} and gig date {1}".format(a_member, the_gig.date))
-
-        the_date_string = format_date_string(the_gig.date, a_member)
-        the_time_string = format_time_string(the_gig)
-        the_status_string = [_('Unconfirmed'), _('Confirmed!'), _('Cancelled!')][the_gig.status]
-
-        logging.info('announcing gig {0} to {1} Slack channel {2} '.format(
-            the_gig.title,
-            the_band.name,
-            the_channel
-            ))
-
-
-        sc = SlackClient(os.environ['SLACK_TOKEN'])
-        sc.post_message(
-            the_channel,
-            "New Gig: \"{0}\" ({1})\n"
-            "{2} at {3}\n"
-            "\n"
-            "RSVP: {4}".format(
-                the_gig.title,
-                the_status_string,
-                the_date_string,
-                the_time_string,
-                the_gig_url
-                ),
-            False # as_user
-            )
+        send_gig_email(the_member_key.get(), the_gig_key.get(), the_band_key.get(), the_gig_url, is_edit, is_reminder, change_string)
 
         self.response.write( 200 )
 

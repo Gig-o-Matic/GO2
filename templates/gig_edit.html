@@ -162,11 +162,11 @@
                     {% if newgig_is_active or is_dupe %}
                         <input type="checkbox" id="newgig_notifymembers" name="gig_notifymembers" 
                         {% if the_band.send_updates_by_default %}checked{% endif %}
-                        >{% trans %}Email members about this new gig{% endtrans %}  
+                        >{% trans %}Notify members about this new gig{% endtrans %}
                     {% else %}
                         <input type="checkbox" id="newgig_notifymembers" name="gig_notifymembers"
                         {% if the_band.send_updates_by_default %}checked{% endif %}
-                        >{% trans %}Email members about change{% endtrans %}  
+                        >{% trans %}Notify members about these changes{% endtrans %}  
                     {% endif %}
                 </label>  
                 <label class="checkbox">  
