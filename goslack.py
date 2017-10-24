@@ -50,6 +50,9 @@ class SlackGigHandler(webapp2.RequestHandler):
         the_band = the_band_key.get()
         the_gig_url = self.uri_for('gig_info', _full=True, gk=the_gig.key.urlsafe())
         the_channel = the_band.slack_announcements_channel or "#general"
+        is_edit = the_shared_params['is_edit']
+        is_reminder = the_shared_params['is_reminder']
+        change_string = the_shared_params['change_string']
 
         # We need a member to localize the date string. Pick the first admin
         # for the band to determine localization. If no admin is found, pick
@@ -62,6 +65,13 @@ class SlackGigHandler(webapp2.RequestHandler):
 
         logging.info("Found member {0} and gig date {1}".format(a_member, the_gig.date))
 
+        if is_edit:
+            title_string='{0} ({1})'.format(_('Gig Edit'), change_string)
+        elif is_reminder:
+            title_string=_("Gig Reminder")
+        else:
+            title_string=_("New Gig")
+
         the_date_string = goannouncements.format_date_string(the_gig.date, a_member)
         the_time_string = goannouncements.format_time_string(the_gig)
         the_status_string = [_('Unconfirmed'), _('Confirmed!'), _('Cancelled!')][the_gig.status]
@@ -73,13 +83,14 @@ class SlackGigHandler(webapp2.RequestHandler):
             ))
 
 
-        sc = SlackClient(os.environ['SLACK_TOKEN'])
+        sc = SlackClient(the_band.slack_bot_access_token)
         sc.post_message(
             the_channel,
-            "New Gig: \"{0}\" ({1})\n"
-            "{2} at {3}\n"
+            "{}: \"{}\" ({})\n"
+            "{} at {}\n"
             "\n"
-            "RSVP: {4}".format(
+            "RSVP: {}".format(
+                title_string,
                 the_gig.title,
                 the_status_string,
                 the_date_string,
