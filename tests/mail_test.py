@@ -84,12 +84,12 @@ class MailTestCase(unittest.TestCase):
 
         return (the_band, the_member)
 
-    def test_newgig_email(self):
+    def test_gig_email(self):
         # Create band with member and instantiate a gig
         the_band, the_member = self._create_test_band_with_member()
         the_gig = gig.new_gig(the_band, "Parade", the_member.key)
 
-        goemail.send_newgig_email(the_member, the_gig, the_band, self.TEST_URL, True, True)
+        goemail.send_gig_email(the_member, the_gig, the_band, self.TEST_URL, True, True)
         message = self._get_single_message()
         self.assertEqual(message.to, self.TEST_RECIPIENT)
         self.assertNotEmpty(message.subject)
