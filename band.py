@@ -28,6 +28,8 @@ import rss
 import gigoexceptions
 from pytz.gae import pytz
 
+from slack_client import SlackClient
+
 def band_key(band_name='band_key'):
     """Constructs a Datastore key for a Guestbook entity with guestbook_name."""
     return ndb.Key('Band', band_name)
@@ -64,6 +66,7 @@ class Band(ndb.Model):
 
     slack_bot_user_id = ndb.StringProperty(default=None)
     slack_bot_access_token = ndb.StringProperty(default=None)
+    slack_announcements_channel = ndb.StringProperty(default=None)
 
 
     @classmethod
@@ -348,6 +351,11 @@ class EditPage(BaseHandler):
             'is_new' : is_new,
             'slack_redirect_uri' : self.uri_for('slack_oauth_complete', _full=True, bk=the_band.key.urlsafe())
         }
+
+        if the_band.slack_bot_access_token:
+            sc = SlackClient(the_band.slack_bot_access_token)
+            template_args['slack_channel_list'] = sc.channel_list()
+
         self.render_template('band_edit.html', template_args)
                     
     def post(self):
@@ -452,7 +460,9 @@ class EditPage(BaseHandler):
         if band_timezone is not None and band_timezone != '':
             the_band.timezone=band_timezone
 
-        the_band.put()            
+        the_band.slack_announcements_channel=self.request.get("band_slack_announcements_channel",None)
+
+        the_band.put()
 
         if rss_change:
             rss.make_rss_feed_for_band(the_band)

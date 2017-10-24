@@ -54,6 +54,25 @@ class SlackClient(object):
             raise Exception("Unable to send message due to '{}' error".format(
                 json_response['error']))
 
+    def channel_list(self, exclude_members=True, exclude_archived=True):
+        form_fields = {
+            'token': self.access_token,
+            'exclude_members': exclude_members,
+            'exclude_archived': exclude_archived
+        }
+        form_data = urllib.urlencode(form_fields)
+        result = urlfetch.fetch(url="https://slack.com/api/channels.list",
+                                payload=form_data,
+                                method=urlfetch.POST,
+                                headers=self.headers)
+
+        json_response = json.loads(result.content)
+        if json_response['ok']:
+            return json_response['channels']
+        else:
+            raise Exception("Unable to list channels due to '{}' error".format(
+                json_response['error']))
+
     def auth_test(self):
         form_fields = {
             'token': self.access_token
