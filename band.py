@@ -349,10 +349,12 @@ class EditPage(BaseHandler):
             'timezones' : pytz.common_timezones,
             'newmember_is_active' : is_new,
             'is_new' : is_new,
-            'slack_redirect_uri' : self.uri_for('slack_oauth_complete', _full=True, bk=the_band.key.urlsafe())
         }
 
-        if the_band.slack_bot_access_token:
+        if not is_new:
+            template_args['slack_redirect_uri'] = self.uri_for('slack_oauth_complete', _full=True, bk=the_band.key.urlsafe())
+
+        if (not is_new) and the_band.slack_bot_access_token:
             sc = SlackClient(the_band.slack_bot_access_token)
             template_args['slack_channel_list'] = sc.channel_list()
 
