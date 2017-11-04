@@ -64,7 +64,8 @@ class SlackGigHandler(webapp2.RequestHandler):
         if len(admins) > 0:
             a_member = admins[0]
         else:
-            a_member = assoc.get_invited_member_assocs_from_band_key(the_band_key)[0]
+            # TODO: This will blow up if the band has no confirmed members
+            a_member = assoc.get_confirmed_assocs_of_band_key(the_band_key)[0].member.get()
 
         logging.info("Found member {0} and gig date {1}".format(a_member, the_gig.date))
 
