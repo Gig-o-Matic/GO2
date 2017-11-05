@@ -13,8 +13,13 @@ from google.appengine.ext import ndb
 # class for cryptokey
 #
 class CryptoKey(ndb.Model):
-    """ Models a crypto key """
+    """ Stores application secrets """
+
+    # for legacy reasons, this is the container for the crypto key
     value = ndb.TextProperty()
+
+    slack_client_id = ndb.TextProperty()
+    slack_client_secret = ndb.TextProperty()
 
 def set_cryptokey(value):
     """ sets the crypto key """
@@ -25,8 +30,7 @@ def set_cryptokey(value):
     else:
         the_cryptokey = CryptoKey(value=value)
         the_cryptokey.put()
-    
-        
+
 def get_cryptokey_object():
     """ Return the cryptokey if there is one """
     cryptokey_query = CryptoKey.query()

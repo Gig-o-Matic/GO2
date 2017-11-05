@@ -64,24 +64,35 @@ class AdminPage(BaseHandler):
             return self.redirect('/')            
             
     def _make_page(self,the_user):
-    
+
+        secrets = crypto_db.get_cryptokey_object()
+
         template_args = {
-            'current' : crypto_db.get_cryptokey()
+            'cryptokey' : crypto_db.get_cryptokey(),
+            'slack_client_id': secrets.slack_client_id,
+            'slack_client_secret': secrets.slack_client_secret
         }
-        self.render_template('crypto_admin.html', template_args)
+
+        self.render_template('secrets_admin.html', template_args)
 
 
     @user_required
     def post(self):
-        the_cryptokey=self.request.get('cryptokey_content','')
+        the_cryptokey=self.request.get('cryptokey','')
         # pad out the string to 32 characters
         the_cryptokey = '{:_<32}'.format(the_cryptokey)
 
         crypto_db.set_cryptokey(the_cryptokey)
-        
-        # testing
-        str1=encrypt_string('boom!!!')
-        str2=decrypt_string(str1)
-        
-        self.redirect(self.uri_for('crypto_admin'))
 
+        secrets = crypto_db.get_cryptokey_object()
+        secrets.slack_client_id = self.request.get('slack_client_id')
+        secrets.slack_client_secret = self.request.get('slack_client_secret')
+        secrets.put()
+
+        # testing
+        input_str = 'boom!!!'
+        encrypted_str=encrypt_string(input_str)
+        if decrypt_string(encrypted_str).strip() != input_str:
+            raise RuntimeError("Crypto error!")
+
+        self.redirect(self.uri_for('secrets_admin'))

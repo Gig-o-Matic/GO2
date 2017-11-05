@@ -4,7 +4,7 @@
 
 {% block content %}
     <div class="row">
-        {% if newband_is_active %}
+        {% if is_new %}
             <div class="page-header col-md-8 col-md-offset-2">{% trans %}New Band{% endtrans %}</div>
         {% else %}
             <div class="page-header col-md-8 col-md-offset-2">{% trans %}Edit Band{% endtrans %}</div>
@@ -137,6 +137,29 @@
                     >{% trans %}Use simple planning pop-up (yes/maybe/no){% endtrans %}   
                 </label>  
             </div>
+            {% if not is_new %}
+              <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                  {% if slack_channel_list %}
+                    <label for="bandslackannouncementschannel" class="control-label">{% trans %}Slack Channel for announcements{% endtrans %}</label>
+                    <div class="pull-right">
+                      <a class="btn btn-danger btn-xs" href="/band_deauthenticate_slack?bk={{the_band.key.urlsafe()}}">{% trans %}Disconnect Slack{% endtrans %}</a>
+                    </div>
+                    <select class="form-control" id="bandslackannouncementschannel" name="band_slack_announcements_channel">
+                        {% for channel in slack_channel_list %}
+                            <option value="{{channel["id"]}}" {% if the_band.slack_announcements_channel==channel["id"] %}selected{% endif %}>#{{ channel["name"] }}</option>
+                        {% endfor %}
+                    </select>
+                    <br>
+                  {% else %}
+                    <a href="https://slack.com/oauth/authorize?&client_id=257346562790.256386318259&scope=bot,chat:write:bot,channels:history&redirect_uri={{ slack_redirect_uri|urlencode }}">
+                      <img alt="Add to Slack" height="40" width="139" src="https://platform.slack-edge.com/img/add_to_slack.png" srcset="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x" />
+                    </a>
+                    <br><br>
+                  {% endif %}
+                </div>
+              </div>
+            {% endif %}
             <div class="row">
                 <div class="form-group col-md-8 col-md-offset-2">
                     <label for="bandfeedback" class="control-label">{% trans %}Extra Feedback{% endtrans %}</label>

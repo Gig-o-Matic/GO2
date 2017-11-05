@@ -28,6 +28,8 @@ import rss
 import gigoexceptions
 from pytz.gae import pytz
 
+from slack_client import SlackClient
+
 def band_key(band_name='band_key'):
     """Constructs a Datastore key for a Guestbook entity with guestbook_name."""
     return ndb.Key('Band', band_name)
@@ -62,6 +64,20 @@ class Band(ndb.Model):
     enable_forum = ndb.BooleanProperty(default=True)
     rss_feed = ndb.BooleanProperty(default=False)
 
+    slack_access_token = ndb.StringProperty(default=None)
+    slack_bot_user_id = ndb.StringProperty(default=None)
+    slack_bot_access_token = ndb.StringProperty(default=None)
+    slack_announcements_channel = ndb.StringProperty(default=None)
+
+    def deauthenticate_slack(self):
+        if self.slack_access_token:
+            SlackClient(self.slack_access_token).auth_revoke()
+            self.slack_access_token = None
+            self.slack_bot_user_id = None
+            self.slack_bot_access_token = None
+            self.slack_announcements_channel = None
+            self.put()
+            logging.info("Slack removed from band {}".format(self.name))
 
     @classmethod
     def lquery(cls, *args, **kwargs):
@@ -342,8 +358,16 @@ class EditPage(BaseHandler):
             'the_band' : the_band,
             'timezones' : pytz.common_timezones,
             'newmember_is_active' : is_new,
-            'is_new' : is_new
+            'is_new' : is_new,
         }
+
+        if not is_new:
+            template_args['slack_redirect_uri'] = self.uri_for('slack_oauth_complete', _full=True, bk=the_band.key.urlsafe())
+
+        if (not is_new) and the_band.slack_bot_access_token:
+            sc = SlackClient(the_band.slack_bot_access_token)
+            template_args['slack_channel_list'] = sc.channel_list()
+
         self.render_template('band_edit.html', template_args)
                     
     def post(self):
@@ -448,7 +472,9 @@ class EditPage(BaseHandler):
         if band_timezone is not None and band_timezone != '':
             the_band.timezone=band_timezone
 
-        the_band.put()            
+        the_band.slack_announcements_channel=self.request.get("band_slack_announcements_channel",None)
+
+        the_band.put()
 
         if rss_change:
             rss.make_rss_feed_for_band(the_band)
@@ -496,6 +522,21 @@ class InvitePage(BaseHandler):
         the_band_key=ndb.Key(urlsafe=the_band_key_url)
         if not assoc.get_admin_status_for_member_for_band_key(the_user, the_band_key) and not the_user.is_superuser:  
             return self.redirect('/band_info.html?bk={0}'.format(the_band.key.urlsafe()))
+
+        return self.redirect('/band_info.html?bk={0}'.format(the_band.key.urlsafe()))
+
+class DeauthenticateSlack(BaseHandler):
+    """ Disassociate this band's Slack team """
+
+    @user_required
+    def get(self):
+        the_band_keyurl=self.request.get('bk','0')
+
+        if the_band_keyurl=='0':
+            return # todo figure out what to do
+
+        the_band=ndb.Key(urlsafe=the_band_keyurl).get()
+        the_band.deauthenticate_slack()
 
         return self.redirect('/band_info.html?bk={0}'.format(the_band.key.urlsafe()))
 

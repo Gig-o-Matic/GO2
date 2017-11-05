@@ -21,6 +21,8 @@ import jinja2ext
 import os
 import cryptoutil
 import goemail
+import goslack
+import goannouncements
 import rss
 
 CONFIG = {
@@ -120,7 +122,8 @@ else:
         webapp2.Route('/member_spreadsheet', band.MemberSpreadsheet),
         webapp2.Route('/sendreminder', gig.SendReminder),
         webapp2.Route('/band_info.html', band.InfoPage),
-        webapp2.Route('/band_edit.html', band.EditPage),
+        webapp2.Route('/band_edit.html', band.EditPage, name="edit_band"),
+        webapp2.Route('/band_deauthenticate_slack', band.DeauthenticateSlack),
         webapp2.Route('/band_delete.html', band.DeleteBand),
         webapp2.Route('/band_get_members', band.BandGetMembers, name='getmembers'),
         webapp2.Route('/band_get_sections', band.BandGetSections, name='getsections'),
@@ -146,7 +149,7 @@ else:
         webapp2.Route('/updateplansection', plan.UpdatePlanSection),
         webapp2.Route('/send_reminders', plan.SendReminders),
         webapp2.Route('/motd_admin', motd.AdminPage),
-        webapp2.Route('/crypto_admin', cryptoutil.AdminPage, name='crypto_admin'),
+        webapp2.Route('/secrets_admin', cryptoutil.AdminPage, name='secrets_admin'),
         webapp2.Route('/whatis.html', login.WhatisPageHandler),
         webapp2.Route('/stats', stats.StatsPage),
         webapp2.Route('/generate_stats', stats.AutoGenerateStats),
@@ -167,8 +170,10 @@ else:
         webapp2.Route('/forum_add', forum.AddForumHandler),
         webapp2.Route('/forum_delete', forum.DeleteForumHandler),
         webapp2.Route('/search',forum.SearchHandler),
-        webapp2.Route('/announce_new_gig_handler',goemail.AnnounceNewGigHandler),
-        webapp2.Route('/send_new_gig_handler',goemail.SendNewGigHandler),
+        webapp2.Route('/announce_gig_handler',goannouncements.AnnounceGigHandler),
+        webapp2.Route('/email_gig_handler',goemail.EmailGigHandler),
+        webapp2.Route('/slack_gig_handler',goslack.SlackGigHandler),
+        webapp2.Route('/slack_oauth_complete', goslack.SlackOAuthComplete, name='slack_oauth_complete'),
         webapp2.Route('/rss/<bk:.+>',rss.GetRssHandler),
         webapp2.Route('/make_rss_feed_handler',rss.MakeRssFeedHandler)
     ], config=CONFIG, debug=True)

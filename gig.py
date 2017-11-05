@@ -16,7 +16,7 @@ import webapp2
 import member
 import band
 import plan
-import goemail
+import goannouncements
 import gigarchive
 import gigcomment
 import assoc
@@ -787,7 +787,7 @@ class EditPage(BaseHandler):
 
         if gig_notify is not None:
             if gig_is_new:
-                goemail.announce_new_gig(the_gig, self.uri_for('gig_info', _full=True, gk=the_gig.key.urlsafe()), is_edit=False)
+                goannouncements.announce_gig(the_gig, self.uri_for('gig_info', _full=True, gk=the_gig.key.urlsafe()), is_edit=False)
             else:
                 if edit_time_change or edit_date_change or edit_status_change:
                     change_strings=[]
@@ -800,7 +800,7 @@ class EditPage(BaseHandler):
                     change_str = ', '.join(change_strings)
                 else:
                     change_str = _('Details')
-                goemail.announce_new_gig(the_gig, self.uri_for('gig_info', _full=True, gk=the_gig.key.urlsafe()), is_edit=True, change_string=change_str)
+                goannouncements.announce_gig(the_gig, self.uri_for('gig_info', _full=True, gk=the_gig.key.urlsafe()), is_edit=True, change_string=change_str)
 
         if (the_band.rss_feed):
             rss.make_rss_feed_for_band(the_band)
@@ -1091,7 +1091,7 @@ class SendReminder(BaseHandler):
                 stragglers.append(p.member)
 
         if len(stragglers) > 0:
-            goemail.announce_new_gig(the_gig, self.uri_for('gig_info', _full=True, gk=the_gig.key.urlsafe()), is_edit=False, is_reminder=True, the_members=stragglers)
+            goannouncements.announce_gig(the_gig, self.uri_for('gig_info', _full=True, gk=the_gig.key.urlsafe()), is_edit=False, is_reminder=True, the_members=stragglers)
 
 
         # OK, we sent the reminder.
