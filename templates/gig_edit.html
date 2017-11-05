@@ -7,46 +7,43 @@
 {% endblock headcontent %}
 
 {% block content %}
-    <div class="row">
-        <div class="page-header col-md-8 mx-auto">
-        {% if newgig_is_active %}
-            {% trans %}New Gig for {% endtrans %}{{ the_band.name }}
-        {% else %}
-            {% trans %}Gig Edit{% endtrans %}
-        {% endif %}
-        </div>
-    </div>
-    <div class="row">
+<div class="row">
     <div class="mx-auto col-lg-8 col-md-10 col-sm-12">
-    <form class="form" id="infoform" role="form" method="post" action="gig_edit.html">
-        <input type="hidden" name="gig_band" value="{{the_band.key.urlsafe()}}">
-        <div class="row">
-            <div class="form-group col-md-12">
-                <label for="gigtitleinput" class="control-label">{% trans %}Gig Title{% endtrans %}</label>
+        <div class="page-header">
+            {% if newgig_is_active %}
+                {% trans %}New Gig for {% endtrans %}{{ the_band.name }}
+            {% else %}
+                {% trans %}Gig Edit{% endtrans %}
+            {% endif %}
+        </div>
+        <form class="form" id="infoform" role="form" method="post" action="gig_edit.html">
+            <input type="hidden" name="gig_band" value="{{the_band.key.urlsafe()}}">
+            <div class="form-group">
+                <label for="gigtitleinput" class="col-form-label">{% trans %}Gig Title{% endtrans %}</label>
                 <input type="text" class="form-control" id="gigtitleinput" placeholder="({%trans%}required{%endtrans%})" value="{% if is_dupe %}{%trans%}Copy of{%endtrans%} {% endif %}{{gig.title|e}}" name="gig_title">
             </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-6">
-                <label for="gigcontact" class="control-label">{% trans %}Contact{% endtrans %}</label>
-                <select class="form-control" name="gig_contact" id="gig-contacts">
-                </select>
-            </div>
-            <div class="form-group col-4">
-                <label for="gigstatusinput" class="control-label">{% trans %}Status{% endtrans %}</label>
-                    <select class="form-control" id="gigstatusinput" name="gig_status">
-                        <option value="0"
-                        {% if gig.status==0 %}selected{% endif %}
-                        >{% trans %}Unconfirmed{% endtrans %}</option>
-                        <option value="1"
-                        {% if gig.status==1 %}selected{% endif %}
-                        >{% trans %}Confirmed!{% endtrans %}</option>
-                        <option value="2"
-                        {% if gig.status==2 %}selected{% endif %}
-                        >{% trans %}Cancelled!{% endtrans %}</option>
+            <div class="row">
+                <div class="form-group col-6">
+                    <label for="gigcontact" class="col-form-label">{% trans %}Contact{% endtrans %}</label>
+                    <select class="form-control" name="gig_contact" id="gig-contacts">
                     </select>
+                </div>
+                <div class="form-group col-6">
+                    <label for="gigstatusinput" class="col-form-label">{% trans %}Status{% endtrans %}</label>
+                        <select class="form-control" id="gigstatusinput" name="gig_status">
+                            <option value="0"
+                            {% if gig.status==0 %}selected{% endif %}
+                            >{% trans %}Unconfirmed{% endtrans %}</option>
+                            <option value="1"
+                            {% if gig.status==1 %}selected{% endif %}
+                            >{% trans %}Confirmed!{% endtrans %}</option>
+                            <option value="2"
+                            {% if gig.status==2 %}selected{% endif %}
+                            >{% trans %}Cancelled!{% endtrans %}</option>
+                        </select>
+                </div>
             </div>
-            <div class="form-group col-2">
+            <div class="form-group">
                 <label class="checkbox">  
                     <input type="checkbox" id="gig_private" name="gig_private"
                     {% if gig.is_private %}
@@ -56,30 +53,28 @@
                 </label>  
             </div>
              
-        </div>
-        <div class="row">
-            <div class="form-group col-4">
-                <label for="gigdateinput" class="control-label">{% trans %}Date{% endtrans %}</label>
-                <input type="text" class="datepicker form-control" id="gigdateinput" name="gig_date" placeholder="({%trans%}required{%endtrans%})" 
-                {% if gig != None %} value="{{ the_date_formatter(the_user, gig.date, 'datepicker')}}" {% endif %}
-                name="gig_date">
-            </div>
-            <div class="form-group col-4">
-                <label for="gigenddateinput" class="control-label">{% trans %}End Date{% endtrans %}</label>
-                <input type="text" class="datepicker form-control" id="gigenddateinput" name="gig_enddate" placeholder="({% trans %}if multi-day{% endtrans %})" 
-                {% if gig != None  and gig.enddate != None %} value="{{ the_date_formatter(the_user, gig.enddate, 'datepicker')}}" {% endif %}
-                name="gig_enddate">
-            </div>
-        </div>
-        {% if newgig_is_active %}
             <div class="row">
-                <div class="form-group col-12">
-                    <label for="gignumberinseriesinput" class="checkbox">  
-                        <input type="checkbox" id="newgig-isseries" name="newgig_isseries" onClick="setSeries();">{% trans %}Add A Series Of Copies{% endtrans %}</label>
+                <div class="form-group col-4">
+                    <label for="gigdateinput" class="col-form-label">{% trans %}Date{% endtrans %}</label>
+                    <input type="text" class="datepicker form-control" id="gigdateinput" name="gig_date" placeholder="({%trans%}required{%endtrans%})" 
+                    {% if gig != None %} value="{{ the_date_formatter(the_user, gig.date, 'datepicker')}}" {% endif %}
+                    name="gig_date">
+                </div>
+                <div class="form-group col-4">
+                    <label for="gigenddateinput" class="col-form-label">{% trans %}End Date{% endtrans %}</label>
+                    <input type="text" class="datepicker form-control" id="gigenddateinput" name="gig_enddate" placeholder="({% trans %}if multi-day{% endtrans %})" 
+                    {% if gig != None  and gig.enddate != None %} value="{{ the_date_formatter(the_user, gig.enddate, 'datepicker')}}" {% endif %}
+                    name="gig_enddate">
+                </div>
+            </div>
+            {% if newgig_is_active %}
+                <div class="form-group">
+                    <label for="gignumberinseriesinput" class="checkbox"></label>
+                    <input type="checkbox" id="newgig-isseries" name="newgig_isseries" onClick="setSeries();">{% trans %}Add A Series Of Copies{% endtrans %}</label>
                     <div id="gignumberseriesinput" hidden="true">
                         <div class="row">
                             <div class="col-md-6">
-                                <label for="newgig_seriescount" class="control-label">{% trans %}Total Number Of Gigs{% endtrans %}</label>
+                                <label for="newgig_seriescount" class="col-form-label">{% trans %}Total Number Of Gigs{% endtrans %}</label>
                                 <select class="form-control" id="newgigseriescount" name="newgig_seriescount">
                                     <option value="2" selected>2</option>
                                     {% for num in range(3,11) %}
@@ -88,7 +83,7 @@
                                 </select>
                             </div>
                             <div class="col-md-6">
-                                <label for="newgig_seriesperiod" class="control-label">{% trans %}Repeat Every{% endtrans %}</label>
+                                <label for="newgig_seriesperiod" class="col-form-label">{% trans %}Repeat Every{% endtrans %}</label>
                                 <select class="form-control" id="newgigseriesperiod" name="newgig_seriesperiod">
                                     <option value="day">{% trans %}day{% endtrans %}</option>
                                     <option value="week" selected>{% trans %}week{% endtrans %}</option>
@@ -98,68 +93,60 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        {% endif %}        
-        <div class="row">
-            <div class="form-group col-4">
-                <label for="gigcallinput" class="control-label">{% trans %}Call Time{% endtrans %}</label>
-                <input type="text" class="form-control" id="gigcallinput" placeholder="4:20" value="{{gig.calltime}}" name="gig_call">
-            </div>
-            <div class="form-group col-4">
-                <label for="gigsetinput" class="control-label">{% trans %}Set Time{% endtrans %}</label>
-                <input type="text" class="form-control" id="gigsetinput" placeholder="" value="{{gig.settime}}" name="gig_set">
-            </div>
-            <div class="form-group col-4">
-                <label for="gigendinput" class="control-label">{% trans %}End Time{% endtrans %}</label>
-                <input type="text" class="form-control" id="gigendinput" placeholder="" value="{{gig.endtime}}" name="gig_end">
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-lg-4 col-md-4 col-12">
-                <label for="gigaddressinput" class="control-label">{% trans %}Address{% endtrans %}</label>
-                <input type="text" class="form-control" id="gigaddressinput" placeholder="{% trans %}location_placeholder{% endtrans %}" value="{{gig.address|e}}" name="gig_address">
-            </div>
-            <div class="form-group col-4">
-                <label for="gigdressinput" class="control-label">{% trans %}What To Wear{% endtrans %}</label>
-                <input type="text" class="form-control" id="gigdressinput" placeholder="{% trans %}Pants Optional{% endtrans %}" value="{{gig.dress|e}}" name="gig_dress">
-            </div>
-            <div class="form-group col-4">
-                <label for="gigpaidinput" class="control-label">{% trans %}Pay Deal{% endtrans %}</label>
-                <input type="text" class="form-control" id="gigpaidinput" placeholder="{% trans %}As If{% endtrans %}" value="{{gig.paid|e}}" name="gig_paid">
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-lg-4 col-md-4 col-12">
-                <label for="gigleaderinput" class="control-label">{% trans %}Leader{% endtrans %}</label>
-                <input type="text" class="form-control" id="gigleaderinput" placeholder="{% trans %}leader_placeholder{% endtrans %}" value="{{gig.leader|e}}" name="gig_leader">
-            </div>
-            <div class="form-group col-lg-8 col-md-8 col-12">
-                <label for="gigpostgiginput" class="control-label">{% trans %}Post-gig Plans{% endtrans %}</label>
-                <input type="text" class="form-control" id="gigpostgiginput" placeholder="{% trans %}postgig_placeholder{% endtrans %}" value="{{gig.postgig|e}}" name="gig_postgig">
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-12">
-                <label for="gigdetailsinput" class="control-label">{% trans %}More Details{% endtrans %}</label>
-                <textarea class="form-control" rows="10" id="gigdetailsinput" placeholder="{% trans %}who? what? where? when? why?{% endtrans %}" name="gig_details">{{gig.details}}</textarea>
-            </div>
-        </div>            
-        <div class="row">
-            <div class="form-group col-12">
-                <label for="gigsetlistinput" class="control-label">{% trans %}Setlist{% endtrans %}</label>
-                <textarea class="form-control" rows="10" id="gigsetlistinput" placeholder="{% trans %}setlist here{% endtrans %}" name="gig_setlist">{{gig.setlist}}</textarea>
-            </div>
-        </div>
-        {% if the_band.rss_feed %}
+            {% endif %}        
             <div class="row">
-                <div class="form-group col-12">
-                    <label for="gigrssdescriptioninput" class="control-label">{% trans %}Description for RSS feed{% endtrans %}</label>
-                    <textarea class="form-control" rows="10" id="gigrssdescriptioninput" placeholder="{% trans %}description here{% endtrans %}" name="gig_rssdescription">{{gig.rss_description}}</textarea>
+                <div class="form-group col-4">
+                    <label for="gigcallinput" class="col-form-label">{% trans %}Call Time{% endtrans %}</label>
+                    <input type="text" class="form-control" id="gigcallinput" placeholder="4:20" value="{{gig.calltime}}" name="gig_call">
+                </div>
+                <div class="form-group col-4">
+                    <label for="gigsetinput" class="col-form-label">{% trans %}Set Time{% endtrans %}</label>
+                    <input type="text" class="form-control" id="gigsetinput" placeholder="" value="{{gig.settime}}" name="gig_set">
+                </div>
+                <div class="form-group col-4">
+                    <label for="gigendinput" class="col-form-label">{% trans %}End Time{% endtrans %}</label>
+                    <input type="text" class="form-control" id="gigendinput" placeholder="" value="{{gig.endtime}}" name="gig_end">
                 </div>
             </div>
-        {% endif %}
-        <div class="row">
-            <div class="form-group col-md-12">
+            <div class="row">
+                <div class="form-group col-lg-4 col-md-4 col-12">
+                    <label for="gigaddressinput" class="col-form-label">{% trans %}Address{% endtrans %}</label>
+                    <input type="text" class="form-control" id="gigaddressinput" placeholder="{% trans %}location_placeholder{% endtrans %}" value="{{gig.address|e}}" name="gig_address">
+                </div>
+                <div class="form-group col-4">
+                    <label for="gigdressinput" class="col-form-label">{% trans %}What To Wear{% endtrans %}</label>
+                    <input type="text" class="form-control" id="gigdressinput" placeholder="{% trans %}Pants Optional{% endtrans %}" value="{{gig.dress|e}}" name="gig_dress">
+                </div>
+                <div class="form-group col-4">
+                    <label for="gigpaidinput" class="col-form-label">{% trans %}Pay Deal{% endtrans %}</label>
+                    <input type="text" class="form-control" id="gigpaidinput" placeholder="{% trans %}As If{% endtrans %}" value="{{gig.paid|e}}" name="gig_paid">
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-lg-4 col-md-4 col-12">
+                    <label for="gigleaderinput" class="col-form-label">{% trans %}Leader{% endtrans %}</label>
+                    <input type="text" class="form-control" id="gigleaderinput" placeholder="{% trans %}leader_placeholder{% endtrans %}" value="{{gig.leader|e}}" name="gig_leader">
+                </div>
+                <div class="form-group col-lg-8 col-md-8 col-12">
+                    <label for="gigpostgiginput" class="col-form-label">{% trans %}Post-gig Plans{% endtrans %}</label>
+                    <input type="text" class="form-control" id="gigpostgiginput" placeholder="{% trans %}postgig_placeholder{% endtrans %}" value="{{gig.postgig|e}}" name="gig_postgig">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="gigdetailsinput" class="col-form-label">{% trans %}More Details{% endtrans %}</label>
+                <textarea class="form-control" rows="10" id="gigdetailsinput" placeholder="{% trans %}who? what? where? when? why?{% endtrans %}" name="gig_details">{{gig.details}}</textarea>
+            </div>
+            <div class="form-group">
+                <label for="gigsetlistinput" class="col-form-label">{% trans %}Setlist{% endtrans %}</label>
+                <textarea class="form-control" rows="10" id="gigsetlistinput" placeholder="{% trans %}setlist here{% endtrans %}" name="gig_setlist">{{gig.setlist}}</textarea>
+            </div>
+            {% if the_band.rss_feed %}
+                <div class="form-group">
+                    <label for="gigrssdescriptioninput" class="col-form-label">{% trans %}Description for RSS feed{% endtrans %}</label>
+                    <textarea class="form-control" rows="10" id="gigrssdescriptioninput" placeholder="{% trans %}description here{% endtrans %}" name="gig_rssdescription">{{gig.rss_description}}</textarea>
+                </div>
+            {% endif %}
+            <div class="form-group">
                 <label class="checkbox">  
                     {% if newgig_is_active or is_dupe %}
                         <input type="checkbox" id="newgig_notifymembers" name="gig_notifymembers" 
@@ -188,35 +175,34 @@
                     >{% trans %}Hide gig from calendars{% endtrans %}  
                 </label>  
             </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-6 col-12">
-                {% if gig!=None and not is_dupe%}
-                    {% if not gig.is_in_trash %}
-                        <a data-toggle="modal" href="#deleteModal" class="btn btn-secondary">{% trans %}Move To Trash{% endtrans %}</a>
-                    {% else %}
-                        <a class="btn btn-secondary" href="/gig_restore_trashed?gk={{ gig.key.urlsafe() }}">{% trans %}Restore Gig{% endtrans %}</a>
-                    {% endif %}
-                    <a data-toggle="modal" href="#archiveModal" class="btn btn-secondary">{% trans %}Archive{% endtrans %}</a>
-                {% endif %}   
+            <div class="row">
+                <div class="form-group col-md-6 col-12">
+                    {% if gig!=None and not is_dupe%}
+                        {% if not gig.is_in_trash %}
+                            <a data-toggle="modal" href="#deleteModal" class="btn btn-secondary">{% trans %}Move To Trash{% endtrans %}</a>
+                        {% else %}
+                            <a class="btn btn-secondary" href="/gig_restore_trashed?gk={{ gig.key.urlsafe() }}">{% trans %}Restore Gig{% endtrans %}</a>
+                        {% endif %}
+                        <a data-toggle="modal" href="#archiveModal" class="btn btn-secondary">{% trans %}Archive{% endtrans %}</a>
+                    {% endif %}   
+                </div>
+                <div class="form-group col-md-5 col-12 ml-auto">                
+                        {% if gig==None %}
+                            <a class="btn btn-secondary" href="/">{% trans %}Cancel{% endtrans %}</a>
+                        {% else %}
+                            <a class="btn btn-secondary" href="gig_info.html?gk={{ gig.key.urlsafe() }}">{% trans %}Cancel{% endtrans %}</a>
+                        {% endif %}
+                        <button type="submit" class="btn btn-primary">{% trans %}Save{% endtrans %}</button>
+                </div>
             </div>
-            <div class="form-group col-md-5 col-12 ml-auto">                
-                    {% if gig==None %}
-                        <a class="btn btn-secondary" href="/">{% trans %}Cancel{% endtrans %}</a>
-                    {% else %}
-                        <a class="btn btn-secondary" href="gig_info.html?gk={{ gig.key.urlsafe() }}">{% trans %}Cancel{% endtrans %}</a>
-                    {% endif %}
-                    <button type="submit" class="btn btn-primary">{% trans %}Save{% endtrans %}</button>
-            </div>
-        </div>
-        {% if gig==None or is_dupe %}
-            <input type="hidden" name="gk" value="0">
-        {% else %}
-            <input type="hidden" name="gk" value="{{gig.key.urlsafe()}}">
-        {% endif %}
-    </form>
+            {% if gig==None or is_dupe %}
+                <input type="hidden" name="gk" value="0">
+            {% else %}
+                <input type="hidden" name="gk" value="{{gig.key.urlsafe()}}">
+            {% endif %}
+        </form>
     </div>
-    </div>
+</div>
 {% endblock content %}        
 
 {% block modal %}

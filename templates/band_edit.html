@@ -3,87 +3,62 @@
 {% block title %}{% trans %}Band Edit{% endtrans %}{% endblock title %}
 
 {% block content %}
-    <div class="row">
-        {% if newband_is_active %}
-            <div class="page-header col-md-8 col-md-offset-2">{% trans %}New Band{% endtrans %}</div>
-        {% else %}
-            <div class="page-header col-md-8 col-md-offset-2">{% trans %}Edit Band{% endtrans %}</div>
-        {% endif %}
-    </div>
-    <form id="infoform" class="form" role="form" method="post" action="band_edit.html">
-        <div class="row">
-            <div class="form-group col-md-8 col-md-offset-2">
-                <label for="bandnameinput" class="control-label">{% trans %}Name{% endtrans %}</label>
+<div class="row">
+    <div class="mx-auto col-lg-8 col-md-10 col-sm-12">    
+        <div class="page-header">
+            {% if newband_is_active %}
+                {% trans %}New Band{% endtrans %}
+            {% else %}
+                {% trans %}Edit Band{% endtrans %}
+            {% endif %}
+        </div>
+        <form id="infoform" class="form" role="form" method="post" action="band_edit.html">
+            <div class="form-group">
+                <label for="bandnameinput" class="col-form-label">{% trans %}Name{% endtrans %}</label>
                 <input type="text" class="form-control" id="bandnameinput" placeholder="{% trans %}what's it called?{% endtrans %}" value="{{the_band.name}}" name="band_name">
             </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-8 col-md-offset-2">
-                <label for="bandshortnameinput" class="control-label">{% trans %}Short Name{% endtrans %}</label>
+            <div class="form-group">
+                <label for="bandshortnameinput" class="col-form-label">{% trans %}Short Name{% endtrans %}</label>
                 <input type="text" class="form-control" id="bandshortnameinput" placeholder="{% trans %}whts it clld?{% endtrans %}" value="{{the_band.shortname}}" name="band_shortname">
             </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-8 col-md-offset-2">
-                <label for="bandhometowninput" class="control-label">{% trans %}Hometown{% endtrans %}</label>
+            <div class="form-group">
+                <label for="bandhometowninput" class="col-form-label">{% trans %}Hometown{% endtrans %}</label>
                 <input type="text" class="form-control" id="bandhometowninput" placeholder="{% trans %}where are you?{% endtrans %}" name="band_hometown" value="{{the_band.hometown}}">
             </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-8 col-md-offset-2">
-                <label for="banddescriptioninput" class="control-label">{% trans %}Description{% endtrans %}</label>
+            <div class="form-group">
+                <label for="banddescriptioninput" class="col-form-label">{% trans %}Description{% endtrans %}</label>
                 <textarea class="form-control" rows="10" id="banddescriptioninput" placeholder="{% trans %}tell us a little about the band{% endtrans %}" name="band_description">{% if the_band.description %}{{the_band.description}}{% endif %}</textarea>
             </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-8 col-md-offset-2">
-                <label for="bandmemberlinksinput" class="control-label">{% trans %}Member Links{% endtrans %}</label>
+            <div class="form-group">
+                <label for="bandmemberlinksinput" class="col-form-label">{% trans %}Member Links{% endtrans %}</label>
                 <textarea class="form-control" rows="10" id="bandmemberlinksinput" placeholder="{% trans %}Links to member resources, one per line, like this -> label: http://link_to_thing"{% endtrans %}" name="band_member_links">{% if the_band.member_links %}{{the_band.member_links}}{% endif %}</textarea>
             </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-8 col-md-offset-2">
-                <label for="bandwebsiteinput" class="control-label">{% trans %}Website{% endtrans %}</label>
+            <div class="form-group">
+                <label for="bandwebsiteinput" class="col-form-label">{% trans %}Website{% endtrans %}</label>
                 <input type="text" class="form-control" id="bandwebsiteinput" placeholder="www.yourband.org" value="{% if the_band.website %}{{the_band.website}}{% endif %}" name="band_website">
             </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-8 col-md-offset-2">
-                <label for="bandthumbnailinput" class="control-label">{% trans %}Thumbnail Image for Band Navigator Page{% endtrans %}</label>
+            <div class="form-group">
+                <label for="bandthumbnailinput" class="col-form-label">{% trans %}Thumbnail Image for Band Navigator Page{% endtrans %}</label>
                 <input type="text" class="form-control" id="bandthumbnailinput" placeholder="{% trans %}url of 200x300 picture for band navigtor page{% endtrans %}" value="{% if the_band.thumbnail_img %}{{the_band.thumbnail_img}}{% endif %}" name="band_thumbnail">
                 ({% trans %}thumbnail_instructions{% endtrans %})
             </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-8 col-md-offset-2">
-                <label for="bandimageinput" class="control-label">{% trans %}Public Page Images{% endtrans %}</label>
+            <div class="form-group">
+                <label for="bandimageinput" class="col-form-label">{% trans %}Public Page Images{% endtrans %}</label>
                 <textarea class="form-control" rows="10" id="bandimageinput" placeholder="{% trans %}put urls to images on their own lines...{% endtrans %}" name="band_images">{% if the_band.images %}
 {% for i in the_band.images %}{{i}}
 {% endfor %}
                 {% endif %}</textarea>
                 ({% trans %}imagelink_instructions{% endtrans %})
             </div>
-        </div>
-{##        
-        <div class="row">
-            <div class="form-group col-md-8 col-md-offset-2">
-                <label for="bandtzinput" class="control-label">{% trans %}Time Zone{% endtrans %}</label>
-                <input type="text" class="form-control" id="bandtzinput" placeholder="{% trans %}UTC offset{% endtrans %}" value="{{the_band.time_zone_correction}}" name="band_tz">
-            </div>
-        </div>
-##}
-        <div class="row">
-            <div class="form-group col-md-8 col-md-offset-2">
-                <label for="bandtimezoneinput" class="control-label">{% trans %}Time Zone{% endtrans %}</label>
+            <div class="form-group">
+                <label for="bandtimezoneinput" class="col-form-label">{% trans %}Time Zone{% endtrans %}</label>
                 <select class="form-control" id="bandtimezoneinput" name="band_timezone">
                     {% for tz in timezones %}
                         <option value="{{tz}}" {% if the_band.timezone==tz %}selected{% endif %}>{{ tz }}</option>
                     {% endfor %}
                 </select>
             </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-8 col-md-offset-2">
+            <div class="form-group">
                 <label class="checkbox">  
                     <input type="checkbox" id="bandanyonecancreategigs" name="band_anyonecancreategigs"
                     {% if the_band.anyone_can_create_gigs %}
@@ -92,7 +67,7 @@
                     >{% trans %}Let any member create gigs{% endtrans %}   
                 </label>  
             </div>
-            <div class="form-group col-md-8 col-md-offset-2">
+            <div class="form-group">
                 <label class="checkbox">  
                     <input type="checkbox" id="bandanyonecanmanagegigs" name="band_anyonecanmanagegigs"
                     {% if the_band.anyone_can_manage_gigs %}
@@ -101,7 +76,7 @@
                     >{% trans %}Let any member edit and delete gigs{% endtrans %}   
                 </label>  
             </div>
-            <div class="form-group col-md-8 col-md-offset-2">
+            <div class="form-group">
                 <label class="checkbox">  
                     <input type="checkbox" id="bandsharegigs" name="band_sharegigs"
                     {% if the_band.share_gigs %}
@@ -110,7 +85,7 @@
                     >{% trans %}Let non-members see upcoming gigs{% endtrans %}   
                 </label>  
             </div>
-            <div class="form-group col-md-8 col-md-offset-2">
+            <div class="form-group">
                 <label class="checkbox">  
                     <input type="checkbox" id="bandsendupdatesbydefault" name="band_sendupdatesbydefault"
                     {% if the_band.send_updates_by_default %}
@@ -119,7 +94,7 @@
                     >{% trans %}Send gig updates by default{% endtrans %}   
                 </label>  
             </div>
-            <div class="form-group col-md-8 col-md-offset-2">
+            <div class="form-group">
                 <label class="checkbox">  
                     <input type="checkbox" id="bandenablerss" name="band_enablerss"
                     {% if the_band.rss_feed %}
@@ -128,7 +103,7 @@
                     >{% trans %}Enable RSS feed{% endtrans %}   
                 </label>  
             </div>
-            <div class="form-group col-md-8 col-md-offset-2">
+            <div class="form-group">
                 <label class="checkbox">  
                     <input type="checkbox" id="bandsimpleplan" name="band_simpleplan"
                     {% if the_band.simple_planning %}
@@ -138,13 +113,13 @@
                 </label>  
             </div>
             <div class="row">
-                <div class="form-group col-md-8 col-md-offset-2">
-                    <label for="bandfeedback" class="control-label">{% trans %}Extra Feedback{% endtrans %}</label>
+                <div class="form-group">
+                    <label for="bandfeedback" class="col-form-label">{% trans %}Extra Feedback{% endtrans %}</label>
                     <textarea class="form-control" rows="10" id="bandfeedback" placeholder="{% trans %}items for second planning popup (BETA!){% endtrans %}" name="band_feedback">{% if the_band.plan_feedback %}{{the_band.plan_feedback }}{% endif %}</textarea>
                 </div>
             </div>
             {% if the_user_is_superuser %}
-            <div class="form-group col-md-8 col-md-offset-2">
+            <div class="form-group">
                 <label class="checkbox">  
                     <input type="checkbox" id="bandenableforum" name="band_enableforum"
                     {% if the_band.enable_forum %}
@@ -154,9 +129,7 @@
                 </label>  
             </div>
             {% endif %}            
-        </div>        
-        <div class="row">
-            <div class="form-group col-md-8 col-md-offset-2">
+            <div class="form-group">
                 <div class="text-right">
                     {% if the_member==None or is_new %}
                         <a class="btn btn-default" href="/">{% trans %}Cancel{% endtrans %}</a>
@@ -166,13 +139,14 @@
                     <button type="submit" class="btn btn-primary">{% trans %}Save{% endtrans %}</button>
                 </div>
             </div>
-        </div>            
-    {% if the_member==None or is_new%}
-        <input type="hidden" name="bk" value="0">
-    {% else %}
-        <input type="hidden" name="bk" value="{{the_band.key.urlsafe()}}">
-    {% endif %}
-    </form>
+            {% if the_member==None or is_new%}
+                <input type="hidden" name="bk" value="0">
+            {% else %}
+                <input type="hidden" name="bk" value="{{the_band.key.urlsafe()}}">
+            {% endif %}
+        </form>
+    </div>
+</div>
 {% endblock content %}
 
 {% block localscripts %}
