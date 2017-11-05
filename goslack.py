@@ -37,6 +37,7 @@ class SlackOAuthComplete(webapp2.RequestHandler):
             )
 
         logging.info("Slack credentials successfully retrieved for {0}".format(the_band.name))
+        the_band.slack_access_token = oauth_info['access_token']
         the_band.slack_bot_user_id = oauth_info['bot']['bot_user_id']
         the_band.slack_bot_access_token = oauth_info['bot']['bot_access_token']
         the_band.put()

@@ -83,3 +83,19 @@ class SlackClient(object):
                                 method=urlfetch.POST,
                                 headers=self.headers)
         return json.loads(result.content)
+
+    def auth_revoke(self):
+        form_fields = {
+            'token': self.access_token
+        }
+        form_data = urllib.urlencode(form_fields)
+        result = urlfetch.fetch(url="https://slack.com/api/auth.revoke",
+                                payload=form_data,
+                                method=urlfetch.POST,
+                                headers=self.headers)
+        json_response = json.loads(result.content)
+        if json_response['ok']:
+            return True
+        else:
+            raise Exception("Unable to revoke Slack authentication due to '{}' error".format(
+                json_response['error']))

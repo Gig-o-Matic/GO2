@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-10-24 16:51-0400\n"
+"POT-Creation-Date: 2017-11-04 20:57-0400\n"
 "PO-Revision-Date: 2014-02-01 18:13-0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: it\n"
@@ -32,7 +32,7 @@ msgstr "Data"
 msgid "Status"
 msgstr "Stato"
 
-#: gig.py:802
+#: gig.py:802 goslack.py:103
 msgid "Details"
 msgstr "Dettagli"
 
@@ -98,7 +98,7 @@ msgstr ""
 "Grazie,\n"
 "Il Team Gig-o-Matic"
 
-#: goemail.py:98 goslack.py:69 templates/gig_edit.html:3
+#: goemail.py:98 goslack.py:74 templates/gig_edit.html:3
 #: templates/gig_edit.html:15
 msgid "Gig Edit"
 msgstr "Modifica suonata"
@@ -107,17 +107,17 @@ msgstr "Modifica suonata"
 msgid "New Gig:"
 msgstr "Nuova Suonata:"
 
-#: goemail.py:106 goslack.py:77 templates/gig_edit.html:38
+#: goemail.py:106 goslack.py:82 templates/gig_edit.html:38
 #: templates/gig_info.html:55
 msgid "Unconfirmed"
 msgstr "Da confermare"
 
-#: goemail.py:106 goslack.py:77 templates/gig_edit.html:41
+#: goemail.py:106 goslack.py:82 templates/gig_edit.html:41
 #: templates/gig_info.html:51
 msgid "Confirmed!"
 msgstr "Confermata!"
 
-#: goemail.py:106 goslack.py:77 templates/agenda_plan_edit.html:137
+#: goemail.py:106 goslack.py:82 templates/agenda_plan_edit.html:137
 #: templates/gig_edit.html:44 templates/gig_info.html:53
 msgid "Cancelled!"
 msgstr "Annullata!"
@@ -270,11 +270,11 @@ msgstr ""
 "Grazie,\n"
 "Il Team Gig-o-Matic"
 
-#: goslack.py:71
+#: goslack.py:76
 msgid "Gig Reminder"
 msgstr "Ricordo del Gig"
 
-#: goslack.py:73
+#: goslack.py:78
 msgid "New Gig"
 msgstr "Nuovo Suonata"
 
@@ -453,22 +453,26 @@ msgid "Use simple planning pop-up (yes/maybe/no)"
 msgstr "Utilizza menu adesioni semplificato (sì/forse/no)"
 
 #: templates/band_edit.html:144
-msgid "Slack Channel for Announcements"
+msgid "Slack Channel for announcements"
 msgstr ""
 
-#: templates/band_edit.html:161
+#: templates/band_edit.html:146
+msgid "Disconnect Slack"
+msgstr ""
+
+#: templates/band_edit.html:165
 msgid "Extra Feedback"
 msgstr "Crea secondo menu adesioni/opinioni"
 
-#: templates/band_edit.html:162
+#: templates/band_edit.html:166
 msgid "items for second planning popup (BETA!)"
 msgstr "voci per il secondo menu adesioni/opinioni (elencare una per riga"
 
-#: templates/band_edit.html:172
+#: templates/band_edit.html:176
 msgid "Enable band forum"
 msgstr ""
 
-#: templates/band_edit.html:181 templates/band_edit.html:183
+#: templates/band_edit.html:185 templates/band_edit.html:187
 #: templates/band_invite.html:27 templates/band_setup_sections.html:44
 #: templates/forgot.html:49 templates/forum.html:91 templates/gig_edit.html:203
 #: templates/gig_edit.html:205 templates/gig_edit.html:230
@@ -476,12 +480,12 @@ msgstr ""
 msgid "Cancel"
 msgstr "Annulla"
 
-#: templates/band_edit.html:185 templates/band_setup_sections.html:45
+#: templates/band_edit.html:189 templates/band_setup_sections.html:45
 #: templates/gig_edit.html:207 templates/member_edit.html:149
 msgid "Save"
 msgstr "Salva"
 
-#: templates/band_edit.html:209 templates/band_info.html:597
+#: templates/band_edit.html:213 templates/band_info.html:597
 #: templates/band_info.html:611 templates/forum.html:139
 #: templates/gig_edit.html:334 templates/gig_edit.html:337
 #: templates/gig_edit.html:340 templates/invite_welcome.html:101
@@ -1823,8 +1827,8 @@ msgid "Forum Posts"
 msgstr "Messagi nel forum"
 
 #: templates/secrets_admin.html:8
-msgid "Crypto Key"
-msgstr "Chiave crittografica"
+msgid "Secrets Administration"
+msgstr ""
 
 #: templates/signup.html:3
 msgid "Register!"
@@ -2002,4 +2006,10 @@ msgstr "Che cos’è?"
 
 #~ msgid "Email members about change"
 #~ msgstr "Segnala i cambiamenti ai membri via e-mail"
+
+#~ msgid "Slack Channel for Announcements"
+#~ msgstr ""
+
+#~ msgid "Crypto Key"
+#~ msgstr "Chiave crittografica"
 

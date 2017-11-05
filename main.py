@@ -123,6 +123,7 @@ else:
         webapp2.Route('/sendreminder', gig.SendReminder),
         webapp2.Route('/band_info.html', band.InfoPage),
         webapp2.Route('/band_edit.html', band.EditPage, name="edit_band"),
+        webapp2.Route('/band_deauthenticate_slack', band.DeauthenticateSlack),
         webapp2.Route('/band_delete.html', band.DeleteBand),
         webapp2.Route('/band_get_members', band.BandGetMembers, name='getmembers'),
         webapp2.Route('/band_get_sections', band.BandGetSections, name='getsections'),

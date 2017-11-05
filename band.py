@@ -64,10 +64,20 @@ class Band(ndb.Model):
     enable_forum = ndb.BooleanProperty(default=True)
     rss_feed = ndb.BooleanProperty(default=False)
 
+    slack_access_token = ndb.StringProperty(default=None)
     slack_bot_user_id = ndb.StringProperty(default=None)
     slack_bot_access_token = ndb.StringProperty(default=None)
     slack_announcements_channel = ndb.StringProperty(default=None)
 
+    def deauthenticate_slack(self):
+        if self.slack_access_token:
+            SlackClient(self.slack_access_token).auth_revoke()
+            self.slack_access_token = None
+            self.slack_bot_user_id = None
+            self.slack_bot_access_token = None
+            self.slack_announcements_channel = None
+            self.put()
+            logging.info("Slack removed from band {}".format(self.name))
 
     @classmethod
     def lquery(cls, *args, **kwargs):
@@ -512,6 +522,21 @@ class InvitePage(BaseHandler):
         the_band_key=ndb.Key(urlsafe=the_band_key_url)
         if not assoc.get_admin_status_for_member_for_band_key(the_user, the_band_key) and not the_user.is_superuser:  
             return self.redirect('/band_info.html?bk={0}'.format(the_band.key.urlsafe()))
+
+        return self.redirect('/band_info.html?bk={0}'.format(the_band.key.urlsafe()))
+
+class DeauthenticateSlack(BaseHandler):
+    """ Disassociate this band's Slack team """
+
+    @user_required
+    def get(self):
+        the_band_keyurl=self.request.get('bk','0')
+
+        if the_band_keyurl=='0':
+            return # todo figure out what to do
+
+        the_band=ndb.Key(urlsafe=the_band_keyurl).get()
+        the_band.deauthenticate_slack()
 
         return self.redirect('/band_info.html?bk={0}'.format(the_band.key.urlsafe()))
 

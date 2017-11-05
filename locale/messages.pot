@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-10-24 16:51-0400\n"
+"POT-Creation-Date: 2017-11-04 20:57-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,7 +34,7 @@ msgstr ""
 msgid "Status"
 msgstr ""
 
-#: gig.py:802
+#: gig.py:802 goslack.py:103
 msgid "Details"
 msgstr ""
 
@@ -75,7 +75,7 @@ msgstr ""
 msgid "forgot_password_email"
 msgstr ""
 
-#: goemail.py:98 goslack.py:69 templates/gig_edit.html:3
+#: goemail.py:98 goslack.py:74 templates/gig_edit.html:3
 #: templates/gig_edit.html:15
 msgid "Gig Edit"
 msgstr ""
@@ -84,17 +84,17 @@ msgstr ""
 msgid "New Gig:"
 msgstr ""
 
-#: goemail.py:106 goslack.py:77 templates/gig_edit.html:38
+#: goemail.py:106 goslack.py:82 templates/gig_edit.html:38
 #: templates/gig_info.html:55
 msgid "Unconfirmed"
 msgstr ""
 
-#: goemail.py:106 goslack.py:77 templates/gig_edit.html:41
+#: goemail.py:106 goslack.py:82 templates/gig_edit.html:41
 #: templates/gig_info.html:51
 msgid "Confirmed!"
 msgstr ""
 
-#: goemail.py:106 goslack.py:77 templates/agenda_plan_edit.html:137
+#: goemail.py:106 goslack.py:82 templates/agenda_plan_edit.html:137
 #: templates/gig_edit.html:44 templates/gig_info.html:53
 msgid "Cancelled!"
 msgstr ""
@@ -151,11 +151,11 @@ msgstr ""
 msgid "confirm_email_address_email"
 msgstr ""
 
-#: goslack.py:71
+#: goslack.py:76
 msgid "Gig Reminder"
 msgstr ""
 
-#: goslack.py:73
+#: goslack.py:78
 msgid "New Gig"
 msgstr ""
 
@@ -325,22 +325,26 @@ msgid "Use simple planning pop-up (yes/maybe/no)"
 msgstr ""
 
 #: templates/band_edit.html:144
-msgid "Slack Channel for Announcements"
+msgid "Slack Channel for announcements"
 msgstr ""
 
-#: templates/band_edit.html:161
+#: templates/band_edit.html:146
+msgid "Disconnect Slack"
+msgstr ""
+
+#: templates/band_edit.html:165
 msgid "Extra Feedback"
 msgstr ""
 
-#: templates/band_edit.html:162
+#: templates/band_edit.html:166
 msgid "items for second planning popup (BETA!)"
 msgstr ""
 
-#: templates/band_edit.html:172
+#: templates/band_edit.html:176
 msgid "Enable band forum"
 msgstr ""
 
-#: templates/band_edit.html:181 templates/band_edit.html:183
+#: templates/band_edit.html:185 templates/band_edit.html:187
 #: templates/band_invite.html:27 templates/band_setup_sections.html:44
 #: templates/forgot.html:49 templates/forum.html:91 templates/gig_edit.html:203
 #: templates/gig_edit.html:205 templates/gig_edit.html:230
@@ -348,12 +352,12 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: templates/band_edit.html:185 templates/band_setup_sections.html:45
+#: templates/band_edit.html:189 templates/band_setup_sections.html:45
 #: templates/gig_edit.html:207 templates/member_edit.html:149
 msgid "Save"
 msgstr ""
 
-#: templates/band_edit.html:209 templates/band_info.html:597
+#: templates/band_edit.html:213 templates/band_info.html:597
 #: templates/band_info.html:611 templates/forum.html:139
 #: templates/gig_edit.html:334 templates/gig_edit.html:337
 #: templates/gig_edit.html:340 templates/invite_welcome.html:101
@@ -1612,7 +1616,7 @@ msgid "Forum Posts"
 msgstr ""
 
 #: templates/secrets_admin.html:8
-msgid "Crypto Key"
+msgid "Secrets Administration"
 msgstr ""
 
 #: templates/signup.html:3
