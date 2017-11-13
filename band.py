@@ -1049,13 +1049,14 @@ class SendInvites(BaseHandler):
                 # logging.info("creating new member: {0}".format(user_data))
                 the_user = user_data[1]
                 if the_user:
-                    assoc.new_association(the_user, the_band, confirm=True, invited=True)
                     # send email inviting them to the gig-o
                     token = self.user_model.create_invite_token(the_user.get_id())
                     verification_url = self.uri_for('inviteverification', type='i', user_id=the_user.get_id(),
                         signup_token=token, _full=True)  
                         
                     goemail.send_gigo_invite_email(the_band, the_user, verification_url)                
+
+                    assoc.new_association(the_user, the_band, confirm=True, invited=True, token=token)
 
                     # set the new users's locale to be the same as mine by default.
                     if the_user.preferences.locale != self.user.preferences.locale:

@@ -10,6 +10,7 @@ from google.appengine.ext import ndb
 from requestmodel import *
 import webapp2_extras.appengine.auth.models
 from webapp2_extras.appengine.auth.models import Unique
+from webapp2_extras.appengine.auth.models import UserToken
 from webapp2_extras import security
 from webapp2_extras.i18n import gettext as _
 
@@ -83,7 +84,7 @@ class Member(webapp2_extras.appengine.auth.models.User):
     last_activity = ndb.DateTimeProperty(auto_now=True)
     last_calfetch = ndb.DateTimeProperty(default=None)
     local_email_address = ndb.ComputedProperty(lambda self: self.email_address)
-
+    
     """Password validation class. Accepts .ensure_valid(pwd) and throws if invalid"""
     PasswordValidator = SimplePasswordValidator(minLength=5)
 
@@ -168,6 +169,16 @@ class Member(webapp2_extras.appengine.auth.models.User):
     @classmethod
     def delete_invite_token(cls, user_id, token):
         cls.token_model.get_key(user_id, 'invite', token).delete()
+
+    # delete all of the invite tokens for a user
+    @classmethod
+    def delete_invite_tokens(cls, the_member):
+        the_invite_assocs = assoc.get_inviting_assocs_from_member_key(the_member.key)
+        for a in the_invite_assocs:
+            if a.invite_token:
+                cls.delete_invite_token(the_member.get_id(), a.invite_token)
+            else:
+                raise gigoexceptions.GigoException('invite assoc found without token')
 
     @classmethod
     def get_band_list(cls, req, the_member_key):
@@ -1165,7 +1176,7 @@ class DeleteInvite(BaseHandler):
         the_member_key = the_assoc.member
         assoc.delete_association_from_key(the_assoc_key) 
 
-        invites = assoc.get_inviting_assoc_keys_from_member_key(the_member_key)
+        invites = assoc.get_inviting_assocs_from_member_key(the_member_key, keys_only=True)
         if invites is None or (len(invites)==1 and invites[0]==the_assoc_key):
             logging.error('removed last invite from member; deleteing')
             forget_member_from_key(the_member_key)            

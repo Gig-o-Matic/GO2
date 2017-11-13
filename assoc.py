@@ -37,7 +37,7 @@ class Assoc(ndb.Model):
     email_me = ndb.BooleanProperty (default=True)
     hide_from_schedule = ndb.BooleanProperty (default=False)
     created = ndb.DateTimeProperty(default=None)
-
+    invite_token = ndb.StringProperty( default=None )
 
 
     @classmethod
@@ -101,10 +101,10 @@ def get_invited_member_assocs_from_band_key(the_band_key):
     assocs = assoc_query.fetch()
     return assocs
 
-def get_inviting_assoc_keys_from_member_key(the_member_key):
+def get_inviting_assocs_from_member_key(the_member_key, keys_only=False):
     """ Get all the band invites for a member """
     assoc_query = Assoc.lquery( Assoc.member==the_member_key, Assoc.is_invited==True )
-    assocs = assoc_query.fetch(keys_only=True)
+    assocs = assoc_query.fetch(keys_only=keys_only)
     return assocs
 
 def get_admin_members_from_band_key(the_band_key, keys_only=False):
@@ -193,9 +193,9 @@ def set_admin_for_member_key_and_band_key(the_member_key, the_band_key, the_do):
         a.is_band_admin = True if (the_do==1) else False
         a.put()
 
-def new_association(member, band, confirm=False, invited=False):
+def new_association(member, band, confirm=False, invited=False, token=None):
     """ associate a band and a member """
-    assoc=Assoc(band=band.key, member=member.key, member_name=member.name, is_confirmed=confirm, is_invited=invited)
+    assoc=Assoc(band=band.key, member=member.key, member_name=member.name, is_confirmed=confirm, is_invited=invited, invite_token=token)
     assoc.put()
 
 def delete_association_from_key(the_assoc_key):
@@ -276,7 +276,8 @@ def confirm_invites_for_member_key(the_member_key):
     assoc_query = Assoc.lquery( Assoc.member==the_member_key, Assoc.is_invited==True )
     assocs = assoc_query.fetch()
     for a in assocs:
-        a.is_invited=False
+        a.is_invited = False
+        a.invite_token = None
     ndb.put_multi(assocs)
 
 def default_section_for_band_key(the_member, the_band_key):

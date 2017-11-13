@@ -20,6 +20,44 @@ import gigoexceptions
 
 ENABLE_EMAIL = True
 
+##########
+#
+# helpers
+#
+##########
+
+# If we have a mamber who had an invite token, get rid of the token, set up the 
+def _handle_invited_member(handler, the_member):
+    # store user data in the session
+    handler.auth.set_session(handler.auth.store.user_to_dict(the_member), remember=True)
+
+    #   - invalidate the invite link so they can't use it again
+    num_tokens = handler.user_model.delete_invite_tokens(the_member)
+    logging.error("deleted {0} invite tokens".format(num_tokens))
+
+    #   - turn their 'invite' assocs into real assocs
+    num_assocs = assoc.confirm_invites_for_member_key(the_member.key)
+    logging.error("confirmed {0} invites".format(num_assocs))
+
+    the_member.verified = True
+
+    name = handler.request.get('member_name', '')
+    nickname = handler.request.get('member_nickname', '')
+
+    if name != '':
+        the_member.name=name
+    if nickname  != '':
+        the_member.nickname=nickname
+    
+    the_member.put()
+
+    handler.redirect(handler.uri_for('home'))
+
+##########
+#
+# Login Page Handlers
+#
+##########
 class LoginPage(BaseHandler):
     def get(self):
         the_url = self.request.get('originalurl',None)
@@ -285,30 +323,9 @@ class InviteVerificationHandler(BaseHandler):
             raise gigoexceptions.GigoException('invite verification handler: no mk or st')
             
         the_member = ndb.Key(urlsafe = mk).get()
-
-        # store user data in the session
-        self.auth.set_session(self.auth.store.user_to_dict(the_member), remember=True)
-
-        #   - invalidate the invite link so they can't use it again
-        self.user_model.delete_invite_token(the_member.get_id(), st)
-
-        #   - turn their 'invite' assocs into real assocs
-        assoc.confirm_invites_for_member_key(the_member.key)
-
         the_member.set_password(password)
-        the_member.verified = True
 
-        name = self.request.get('member_name', '')
-        nickname = self.request.get('member_nickname', '')
-
-        if name != '':
-            the_member.name=name
-        if nickname  != '':
-            the_member.nickname=nickname
-        
-        the_member.put()
-
-        self.redirect(self.uri_for('home'))
+        _handle_invited_member(self, the_member)
 
 
         
