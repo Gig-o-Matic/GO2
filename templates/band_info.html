@@ -9,334 +9,332 @@
 {% endblock headcontent %}
 
 {% block content %}
-    <div class="row">
-        <div class="page-header mx-auto col-lg-8 col-md-10 col-sm-12">
-            {{ the_band.name }}
-            {% if the_user_is_associated and the_band.shortname %}
-                <br>
-                ({% trans %}a.k.a.{% endtrans %}&nbsp;{{ the_band.shortname }})
-            {% endif %}
-        </div>
+<div class="row">
+    <div class="page-header mx-auto col-lg-8 col-md-10 col-sm-12">
+        {{ the_band.name }}
+        {% if the_user_is_associated and the_band.shortname %}
+            <br>
+            ({% trans %}a.k.a.{% endtrans %}&nbsp;{{ the_band.shortname }})
+        {% endif %}
     </div>
-    <div class="row">
-        <div class="mx-auto col-lg-8 col-md-10 col-sm-12">
+    <div class="mx-auto col-lg-8 col-md-10 col-sm-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-4">
+                        <h4>{% trans %}Info{% endtrans %}</h4>
+                    </div>
+                    {% if the_user_is_band_admin or the_user_is_superuser %}
+                        <div class="ml-auto">
+                            <a class="btn btn-primary btn-sm" href="band_edit.html?bk={{ the_band.key.urlsafe() }}">{% trans %}Edit{% endtrans %}</a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        {% if the_band.description %}
+                            {{ the_band.description | html_content | safe  }}
+                        {% else %}
+                            {% trans %}A Band of Mystery...{% endtrans %}
+                        {% endif %}
+                    </div>
+                </div>
+                {% if the_band.hometown %}
+                    <div class="row">
+                        <div class="col-12">
+                            &nbsp;
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3 col-12">{% trans %}Hometown{% endtrans %}</div>
+                        <div class="col-sm-9 col-12">
+                            <a href="http://maps.google.com?q={{the_band.hometown | replace(' ','+')}}" target="new">{{ the_band.hometown }}</a>
+                        </div>
+                    </div>
+                {% endif %}
+                {% if the_band.website %}
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-12">
+                            &nbsp;
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3 col-12">{% trans %}Website{% endtrans %}</div>
+                        <div class="col-sm-9 col-12">
+                            <a href="http://{{the_band.website|e}}" target="new">{{ the_band.website|e }}</a>
+                        </div>
+                    </div>
+                {% endif %}
+                {% if the_user_is_associated or the_user_is_superuser %}
+                    <div class="row">
+                        <div class="col-12">
+                            &nbsp;
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3 col-12">{% trans %}Resources{% endtrans %}</div>
+                        <div class="col-sm-9 col-12">
+                                {% if the_member_links %}
+                                    {% for l in the_member_links %}
+                                        <a href="{{l[1]}}" target="_new">{{ l[0] }}</a><br>
+                                    {% endfor %}
+                                {% endif %}
+                                <a href="/band_gig_archive?bk={{ the_band.key.urlsafe() }}">{% trans %}Gig Archive{% endtrans %}</a><br>
+                                {% if the_user_is_superuser or the_user_is_band_admin %}
+                                    <a href="/band_gig_trashcan?bk={{ the_band.key.urlsafe() }}">{% trans %}Gig Trashcan{% endtrans %}</a>
+                                {% endif %}
+                        </div>
+                    </div>
+                    {% if the_user_is_betatester %}
+                        {% if the_band.enable_forum %}
+                            <div class="row">
+                                <div class="col-sm-3 col-3"></div>
+                                <div class="col-md-10 col-sm-10 col-9">
+                                        <a href="/forum?fk={{the_band.key.urlsafe()}}">{% trans %}Band Forum{% endtrans %}</a>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                    <div class="row">
+                        <div class="col-12">
+                            &nbsp;
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3 col-12">{% trans %}Public Profile{% endtrans %}</div>
+                        <div class="col-sm-9 col-12">
+                                <a href="http://gig-o-matic.appspot.com/band/{{the_band.condensed_name}}" target="new">http://gig-o-matic.appspot.com/band/{{ the_band.condensed_name }}</a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            &nbsp;
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3 col-12">{% trans %}Public Gig Calendar Feed{% endtrans %}</div>
+                        <div class="col-sm-9 col-12">
+                                <a href="http://gig-o-matic.appspot.com/cal/p/{{the_band.key.urlsafe()}}" onclick="return false;">{% trans %}Subscribe using this link's URL{% endtrans %}</a>
+                        </div>
+                    </div>
+                    {% if the_band.rss_feed %}
+                        <div class="row">
+                            <div class="col-12">
+                                &nbsp;
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3 col-12">{% trans %}Public Gig RSS{% endtrans %}</div>
+                            <div class="col-sm-9 col-12">
+                                    <a href="http://gig-o-matic.appspot.com/rss/{{the_band.key.urlsafe()}}" onclick="return false;">{% trans %}Subscribe using this link's URL{% endtrans %}</a>
+                            </div>
+                        </div>
+                    {% endif %}
+                    {% if the_user_is_superuser %}
+                        <div class="row">
+                            <div class="col-12">
+                                &nbsp;
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3 col-12">{% trans %}Calendar URL for Members{% endtrans %}</div>
+                            <div class="col-sm-9 col-12">
+                                    <a href="http://gig-o-matic.appspot.com/cal/b/{{the_band.key.urlsafe()}}" onclick="return false;">{% trans %}Copy this link's URL and use it to subscribe in google or iCal or whatever{% endtrans %}</a>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endif %}                    
+            </div>
+        </div> <!-- card -->
+{#            
+        {% if the_band.images %}
+            <div class="row">&nbsp;</div>
+            <div class="card">
+                <div class="card-header">
+                    <h4>{% trans %}Pictures Of Us{% endtrans %}</h4>
+                </div>
+                <div class="card-body" id="pictures">
+                    <ul class="bxslider">
+                        {% for i in the_band.images %}
+                              <li><img src="{{i}}" /></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        {% endif %}
+#}            
+        <div class="row">
+            <div class="col-md-12">
+                <div class="dropdown">
+                    <a class="btn btn-outline-secondary btn-sm dropdown-toggle" href="#" role="button" data-toggle="dropdown" id="dropdownMenu1" aria-haspopup="true" aria-expanded="false">
+                        foo
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                         <a class="dropdown-item">burp</a>
+                         <a class="dropdown-item">cough</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% if the_user_is_associated == False and ( the_user_is_superuser == False ) %}
+            {% if the_band.share_gigs %}
+                <div class="row">&nbsp;</div>
+                <div class="card">
+                    <div class="card-header">
+                        <h4>{% trans %}Upcoming Gigs{% endtrans %}</h4>
+                    </div>
+                    <div class="card-body" id="upcoming-gigs">
+                        <i class="fa fa-spinner fa-spin fa-lg"></i>
+                    </div>
+                </div>
+            {% endif %}
+            {% if the_user %}
+                <div class="row">&nbsp;</div>
+                <div class="card">
+                    <div class="card-header">
+                            <h4>{% trans %}Members With Public Profiles{% endtrans %}</h4>
+                    </div>
+                    <div class="card-body" id="public-members">
+                        <i class="fa fa-spinner fa-spin fa-lg"></i>
+                    </div>
+                </div>
+            {% endif %}
+        {% elif the_user_is_confirmed == False and ( the_user_is_superuser == False ) %}
+            {% trans %}Your membership is pending - ask a band member to confirm you!{% endtrans %}
+        {% else %}
+            {% if the_pending_members %}
+                <div class="row">&nbsp;</div>
+                <div class="card">
+                    <div class="card-header">
+                        <h4>{% trans %}Pending Members{% endtrans %} <span class="badge">{{the_pending_members|length}}</span></h4>
+                    </div>
+                    <div class="card-body">
+                        {% for m in the_pending_members %}
+                        <div class="row" style="padding-top: 5px; padding-bottom: 5px; {{ loop.cycle('', 'background:#f5f5f5;') }}">
+                            <div class="col-md-2 col-sm-2 col-12">
+                                {{ m.name|e }}
+                            </div>
+                            <div class="col-md-4 col-sm-4 col-12">
+                                {{ m.email_address|e }}
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-12">
+                                <a class="btn btn-default btn-sm" href="/band_confirm_member?do=1&mk={{m.key.urlsafe()}}&bk={{the_band.key.urlsafe()}}">{% trans %}yes, confirm member!{% endtrans %}</a>
+                                <a class="btn btn-default btn-sm" href="/band_removemember?mk={{m.key.urlsafe()}}&bk={{the_band.key.urlsafe()}}">{% trans %}no, reject!{% endtrans %}</a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div> <!-- panel -->
+            {% endif %}
+
+            {% if the_invited_members %}
+                <div class="row">&nbsp;</div>
+                <div class="card">
+                    <div class="card-header">
+                        <h4>{% trans %}Invited Members{% endtrans %} <span class="badge">{{the_invited_members|length}}</span></h4>
+                    </div>
+                    <div class="card-body">
+                        {% for m in the_invited_members %}
+                        <div class="row">
+                            <div class="col-md-4 col-sm-4 col-4">
+                                {{ m[1] }}
+                            </div>
+                            <div class="col-md-3 col-sm-3 col-3">
+                                <a href="/member_delete_invite?ak={{m[0].urlsafe()}}">{% trans %}forget the invite{% endtrans %}</a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div> <!-- panel -->
+            {% endif %}
+            <div class="row">&nbsp;</div>
             <div class="card">
                 <div class="card-header">
                     <div class="row">
-                        <div class="col-4">
-                            <h4>{% trans %}Info{% endtrans %}</h4>
-                        </div>
-                        {% if the_user_is_band_admin or the_user_is_superuser %}
-                            <div class="ml-auto">
-                                <a class="btn btn-primary btn-sm" href="band_edit.html?bk={{ the_band.key.urlsafe() }}">{% trans %}Edit{% endtrans %}</a>
+                        {% if num_sections == 0 %}
+                            <div class="col-4">
+                                  <h4>{% trans %}Members{% endtrans %}</h4>
                             </div>
+                            {% if the_user_is_band_admin or the_user_is_superuser %}
+                                <div class="ml-auto">
+                                    <a class="btn btn-primary btn-xs" href="band_invite.html?bk={{ the_band.key.urlsafe() }}">{% trans %}Invite Members{% endtrans %}</a>
+                                </div>
+                            {% endif %}
+                        {% else %}
+                            <div class="col-3">
+                                <h4>{% trans %}Sections{% endtrans %}</h4>
+                            </div>
+                            <div class="col-3">
+                                <h4>{% trans %}Members{% endtrans %}</h4>
+                            </div>
+                            {% if the_user_is_band_admin or the_user_is_superuser %}
+                                <div class="ml-auto">
+                                    <a class="btn btn-primary btn-sm" href="band_invite.html?bk={{ the_band.key.urlsafe() }}">{% trans %}Invite Members{% endtrans %}</a>
+                                </div>
+                            {% endif %}
                         {% endif %}
                     </div>
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-12">
-                            {% if the_band.description %}
-                                {{ the_band.description | html_content | safe  }}
-                            {% else %}
-                                {% trans %}A Band of Mystery...{% endtrans %}
-                            {% endif %}
-                        </div>
-                    </div>
-                    {% if the_band.hometown %}
-                        <div class="row">
-                            <div class="col-12">
-                                &nbsp;
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-2 col-sm-2 col-3">{% trans %}Hometown{% endtrans %}</div>
-                            <div class="col-md-10 col-sm-10 col-9">
-                                <a href="http://maps.google.com?q={{the_band.hometown | replace(' ','+')}}" target="new">{{ the_band.hometown }}</a>
-                            </div>
-                        </div>
-                    {% endif %}
-                    {% if the_band.website %}
-                        <div class="row">
-                            <div class="col-md-12 col-sm-12 col-12">
-                                &nbsp;
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-2 col-sm-2 col-3">{% trans %}Website{% endtrans %}</div>
-                            <div class="col-md-10 col-sm-10 col-9">
-                                    <a href="http://{{the_band.website|e}}" target="new">{{ the_band.website|e }}</a>
-                            </div>
-                        </div>
-                    {% endif %}
-                    {% if the_user_is_associated or the_user_is_superuser %}
-                        <div class="row">
-                            <div class="col-12">
-                                &nbsp;
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-2 col-sm-2 col-3">{% trans %}Resources{% endtrans %}</div>
-                            <div class="col-md-10 col-sm-10 col-9">
-                                    {% if the_member_links %}
-                                        {% for l in the_member_links %}
-                                            <a href="{{l[1]}}" target="_new">{{ l[0] }}</a><br>
-                                        {% endfor %}
-                                    {% endif %}
-                                    <a href="/band_gig_archive?bk={{ the_band.key.urlsafe() }}">{% trans %}Gig Archive{% endtrans %}</a><br>
-                                    {% if the_user_is_superuser or the_user_is_band_admin %}
-                                        <a href="/band_gig_trashcan?bk={{ the_band.key.urlsafe() }}">{% trans %}Gig Trashcan{% endtrans %}</a>
-                                    {% endif %}
-                            </div>
-                        </div>
-                        {% if the_user_is_betatester %}
-                            {% if the_band.enable_forum %}
-                                <div class="row">
-                                    <div class="col-md-2 col-sm-2 col-3"></div>
-                                    <div class="col-md-10 col-sm-10 col-9">
-                                            <a href="/forum?fk={{the_band.key.urlsafe()}}">{% trans %}Band Forum{% endtrans %}</a>
-                                    </div>
-                                </div>
-                            {% endif %}
-                        {% endif %}
-                        <div class="row">
-                            <div class="col-12">
-                                &nbsp;
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-2 col-sm-2 col-3">{% trans %}Public Profile{% endtrans %}</div>
-                            <div class="col-md-10 col-sm-10 col-9">
-                                    <a href="http://gig-o-matic.appspot.com/band/{{the_band.condensed_name}}" target="new">http://gig-o-matic.appspot.com/band/{{ the_band.condensed_name }}</a>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12">
-                                &nbsp;
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-2 col-sm-2 col-3">{% trans %}Public Gig Calendar Feed{% endtrans %}</div>
-                            <div class="col-md-10 col-sm-10 col-9">
-                                    <a href="http://gig-o-matic.appspot.com/cal/p/{{the_band.key.urlsafe()}}" onclick="return false;">{% trans %}Subscribe using this link's URL{% endtrans %}</a>
-                            </div>
-                        </div>
-                        {% if the_band.rss_feed %}
-                            <div class="row">
-                                <div class="col-12">
-                                    &nbsp;
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-2 col-sm-2 col-3">{% trans %}Public Gig RSS{% endtrans %}</div>
-                                <div class="col-md-10 col-sm-10 col-9">
-                                        <a href="http://gig-o-matic.appspot.com/rss/{{the_band.key.urlsafe()}}" onclick="return false;">{% trans %}Subscribe using this link's URL{% endtrans %}</a>
-                                </div>
-                            </div>
-                        {% endif %}
-                        {% if the_user_is_superuser %}
-                            <div class="row">
-                                <div class="col-12">
-                                    &nbsp;
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-2 col-sm-2 col-3">{% trans %}Calendar URL for Members{% endtrans %}</div>
-                                <div class="col-md-10 col-sm-10 col-9">
-                                        <a href="http://gig-o-matic.appspot.com/cal/b/{{the_band.key.urlsafe()}}" onclick="return false;">{% trans %}Copy this link's URL and use it to subscribe in google or iCal or whatever{% endtrans %}</a>
-                                </div>
-                            </div>
-                        {% endif %}
-                    {% endif %}                    
-                </div>
-            </div> <!-- card -->
-{#            
-            {% if the_band.images %}
-                <div class="row">&nbsp;</div>
-                <div class="card">
-                    <div class="card-header">
-                        <h4>{% trans %}Pictures Of Us{% endtrans %}</h4>
-                    </div>
-                    <div class="card-body" id="pictures">
-                        <ul class="bxslider">
-                            {% for i in the_band.images %}
-                                  <li><img src="{{i}}" /></li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                </div>
-            {% endif %}
-#}            
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="dropdown">
-                        <a class="btn btn-outline-secondary btn-sm dropdown-toggle" href="#" role="button" data-toggle="dropdown" id="dropdownMenu1" aria-haspopup="true" aria-expanded="false">
-                            foo
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                             <a class="dropdown-item">burp</a>
-                             <a class="dropdown-item">cough</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {% if the_user_is_associated == False and ( the_user_is_superuser == False ) %}
-                {% if the_band.share_gigs %}
-                    <div class="row">&nbsp;</div>
-                    <div class="card">
-                        <div class="card-header">
-                            <h4>{% trans %}Upcoming Gigs{% endtrans %}</h4>
-                        </div>
-                        <div class="card-body" id="upcoming-gigs">
-                            <i class="fa fa-spinner fa-spin fa-lg"></i>
-                        </div>
-                    </div>
-                {% endif %}
-                {% if the_user %}
-                    <div class="row">&nbsp;</div>
-                    <div class="card">
-                        <div class="card-header">
-                                <h4>{% trans %}Members With Public Profiles{% endtrans %}</h4>
-                        </div>
-                        <div class="card-body" id="public-members">
-                            <i class="fa fa-spinner fa-spin fa-lg"></i>
-                        </div>
-                    </div>
-                {% endif %}
-            {% elif the_user_is_confirmed == False and ( the_user_is_superuser == False ) %}
-                {% trans %}Your membership is pending - ask a band member to confirm you!{% endtrans %}
-            {% else %}
-                {% if the_pending_members %}
-                    <div class="row">&nbsp;</div>
-                    <div class="card">
-                        <div class="card-header">
-                            <h4>{% trans %}Pending Members{% endtrans %} <span class="badge">{{the_pending_members|length}}</span></h4>
-                        </div>
-                        <div class="card-body">
-                            {% for m in the_pending_members %}
-                            <div class="row" style="padding-top: 5px; padding-bottom: 5px; {{ loop.cycle('', 'background:#f5f5f5;') }}">
-                                <div class="col-md-2 col-sm-2 col-12">
-                                    {{ m.name|e }}
-                                </div>
-                                <div class="col-md-4 col-sm-4 col-12">
-                                    {{ m.email_address|e }}
-                                </div>
-                                <div class="col-md-6 col-sm-6 col-12">
-                                    <a class="btn btn-default btn-sm" href="/band_confirm_member?do=1&mk={{m.key.urlsafe()}}&bk={{the_band.key.urlsafe()}}">{% trans %}yes, confirm member!{% endtrans %}</a>
-                                    <a class="btn btn-default btn-sm" href="/band_removemember?mk={{m.key.urlsafe()}}&bk={{the_band.key.urlsafe()}}">{% trans %}no, reject!{% endtrans %}</a>
-                                </div>
-                            </div>
-                            {% endfor %}
-                        </div>
-                    </div> <!-- panel -->
-                {% endif %}
-
-                {% if the_invited_members %}
-                    <div class="row">&nbsp;</div>
-                    <div class="card">
-                        <div class="card-header">
-                            <h4>{% trans %}Invited Members{% endtrans %} <span class="badge">{{the_invited_members|length}}</span></h4>
-                        </div>
-                        <div class="card-body">
-                            {% for m in the_invited_members %}
-                            <div class="row">
-                                <div class="col-md-4 col-sm-4 col-4">
-                                    {{ m[1] }}
-                                </div>
-                                <div class="col-md-3 col-sm-3 col-3">
-                                    <a href="/member_delete_invite?ak={{m[0].urlsafe()}}">{% trans %}forget the invite{% endtrans %}</a>
-                                </div>
-                            </div>
-                            {% endfor %}
-                        </div>
-                    </div> <!-- panel -->
-                {% endif %}
-                <div class="row">&nbsp;</div>
-                <div class="card">
-                    <div class="card-header">
-                        <div class="row">
-                            {% if num_sections == 0 %}
-                                <div class="col-4">
-                                      <h4>{% trans %}Members{% endtrans %}</h4>
-                                </div>
-                                {% if the_user_is_band_admin or the_user_is_superuser %}
-                                    <div class="ml-auto">
-                                        <a class="btn btn-primary btn-xs" href="band_invite.html?bk={{ the_band.key.urlsafe() }}">{% trans %}Invite Members{% endtrans %}</a>
-                                    </div>
-                                {% endif %}
-                            {% else %}
-                                <div class="col-3">
-                                    <h4>{% trans %}Sections{% endtrans %}</h4>
-                                </div>
-                                <div class="col-3">
-                                    <h4>{% trans %}Members{% endtrans %}</h4>
-                                </div>
-                                {% if the_user_is_band_admin or the_user_is_superuser %}
-                                    <div class="ml-auto">
-                                        <a class="btn btn-primary btn-sm" href="band_invite.html?bk={{ the_band.key.urlsafe() }}">{% trans %}Invite Members{% endtrans %}</a>
-                                    </div>
-                                {% endif %}
-                            {% endif %}
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-12" id="sectionlist">
-                            	{% for s in the_band.sections %}
-                            	    <div class="row" id="section{{loop.index0}}" style="padding-top: 5px; padding-bottom: 5px; {{ loop.cycle('', 'background:#f5f5f5;') }}">
-                                		<div class="col-12">
-                                			<i class="fa fa-spinner fa-spin fa-lg"></i>
-                                		</div>
-                               	    </div>
-                            	{% endfor %}
-                        	    <div class="row" id="sectionNone" style="padding-top: 5px; padding-bottom: 5px; {% if the_band.sections | length is odd %}background:#f5f5f5;{% endif %}">
+                        <div class="col-12" id="sectionlist">
+                        	{% for s in the_band.sections %}
+                        	    <div class="row" id="section{{loop.index0}}" style="padding-top: 5px; padding-bottom: 5px; {{ loop.cycle('', 'background:#f5f5f5;') }}">
                             		<div class="col-12">
                             			<i class="fa fa-spinner fa-spin fa-lg"></i>
                             		</div>
                            	    </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            {% if the_user_is_superuser or the_user_is_band_admin %}
-                                <div class="col-md-4">
-                                    <br>
-                                    <a href='/band_setup_sections?bk={{the_band.key.urlsafe()}}' class="btn btn-primary btn-sm" >{% trans %}Set Up Sections{% endtrans %}</a>
-                                </div>
-                            {% endif %}
+                        	{% endfor %}
+                    	    <div class="row" id="sectionNone" style="padding-top: 5px; padding-bottom: 5px; {% if the_band.sections | length is odd %}background:#f5f5f5;{% endif %}">
+                        		<div class="col-12">
+                        			<i class="fa fa-spinner fa-spin fa-lg"></i>
+                        		</div>
+                       	    </div>
                         </div>
                     </div>
-                </div> <!-- panel -->
-                {% if the_user_is_band_admin or the_user_is_superuser %}
-                    <div class="row">&nbsp;</div>
-                    <div class="accordion" id="accordion">
-                        <div class="card">
-                            <div class="card-header">
-                                <a class="collapsed" data-toggle="collapse" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                                    <h4>{% trans %}Member Admin{% endtrans %}</h4>
-                                </a>
+                    <div class="row">
+                        {% if the_user_is_superuser or the_user_is_band_admin %}
+                            <div class="col-md-4">
+                                <br>
+                                <a href='/band_setup_sections?bk={{the_band.key.urlsafe()}}' class="btn btn-primary btn-sm" >{% trans %}Set Up Sections{% endtrans %}</a>
                             </div>
-                            <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <a class="btn btn-primary btn-sm" href="band_invite.html?bk={{ the_band.key.urlsafe() }}">{% trans %}Invite Members{% endtrans %}</a>
-                                            <a class="btn btn-primary btn-sm" href="member_spreadsheet?bk={{the_band.key.urlsafe()}}">{% trans %}Download Member List{% endtrans %}</a>
-                                        </div>
-                                        <hr>
+                        {% endif %}
+                    </div>
+                </div>
+            </div> <!-- panel -->
+            {% if the_user_is_band_admin or the_user_is_superuser %}
+                <div class="row">&nbsp;</div>
+                <div class="accordion" id="accordion">
+                    <div class="card">
+                        <div class="card-header">
+                            <a class="collapsed" data-toggle="collapse" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                <h4>{% trans %}Member Admin{% endtrans %}</h4>
+                            </a>
+                        </div>
+                        <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <a class="btn btn-primary btn-sm" href="band_invite.html?bk={{ the_band.key.urlsafe() }}">{% trans %}Invite Members{% endtrans %}</a>
+                                        <a class="btn btn-primary btn-sm" href="member_spreadsheet?bk={{the_band.key.urlsafe()}}">{% trans %}Download Member List{% endtrans %}</a>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-12" id="memberlist">
-                                            <i class="fa fa-spinner fa-spin fa-lg"></i>
-                                        </div>
+                                    <hr>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12" id="memberlist">
+                                        <i class="fa fa-spinner fa-spin fa-lg"></i>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                {% endif %}
+                </div>
             {% endif %}
-        </div>
+        {% endif %}
     </div>
+</div>
 {% endblock content %}
 
 {% block modal %}

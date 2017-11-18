@@ -112,11 +112,9 @@
                     >{% trans %}Use simple planning pop-up (yes/maybe/no){% endtrans %}   
                 </label>  
             </div>
-            <div class="row">
-                <div class="form-group">
-                    <label for="bandfeedback" class="col-form-label">{% trans %}Extra Feedback{% endtrans %}</label>
-                    <textarea class="form-control" rows="10" id="bandfeedback" placeholder="{% trans %}items for second planning popup (BETA!){% endtrans %}" name="band_feedback">{% if the_band.plan_feedback %}{{the_band.plan_feedback }}{% endif %}</textarea>
-                </div>
+            <div class="form-group">
+                <label for="bandfeedback" class="col-form-label">{% trans %}Extra Feedback{% endtrans %}</label>
+                <textarea class="form-control" rows="10" id="bandfeedback" placeholder="{% trans %}items for second planning popup (BETA!){% endtrans %}" name="band_feedback">{% if the_band.plan_feedback %}{{the_band.plan_feedback }}{% endif %}</textarea>
             </div>
             {% if the_user_is_superuser %}
             <div class="form-group">
@@ -132,9 +130,9 @@
             <div class="form-group">
                 <div class="text-right">
                     {% if the_member==None or is_new %}
-                        <a class="btn btn-default" href="/">{% trans %}Cancel{% endtrans %}</a>
+                        <a class="btn btn-secondary" href="/">{% trans %}Cancel{% endtrans %}</a>
                     {% else %}
-                        <a class="btn btn-default" href="band_info.html?bk={{the_band.key.urlsafe()}}">{% trans %}Cancel{% endtrans %}</a>
+                        <a class="btn btn-secondary" href="band_info.html?bk={{the_band.key.urlsafe()}}">{% trans %}Cancel{% endtrans %}</a>
                     {% endif %}
                     <button type="submit" class="btn btn-primary">{% trans %}Save{% endtrans %}</button>
                 </div>

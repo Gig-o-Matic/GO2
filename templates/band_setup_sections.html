@@ -6,49 +6,52 @@
 {% endblock headcontent %}
 
 {% block content %}
-    <div class="row">
-        <div class="page-header col-md-8 col-md-offset-2">
-            {{ the_band.name }}
-            {% if the_user_is_associated and the_band.shortname %}
-                <br>
-                ({% trans %}a.k.a.{% endtrans %}&nbsp;{{ the_band.shortname }})
-            {% endif %}
-        </div> 
-    </div>
+<div class="row">
+    <div class="page-header mx-auto col-lg-8 col-md-10 col-sm-12">
+        {{ the_band.name }}
+        {% if the_user_is_associated and the_band.shortname %}
+            <br>
+            ({% trans %}a.k.a.{% endtrans %}&nbsp;{{ the_band.shortname }})
+        {% endif %}
+    </div> 
+</div>
 
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-                <div class="row">
-                    <div class="col-md-12 col-md-offset-0">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <div class="row">
-                                        <div class="col-md-10 col-sm-10 col-xs-10">
-                                            <div class="panel-title">{% trans %}Sections{% endtrans %}</div>
-                                        </div>
-                                </div>
-                            </div>        
-                            <div class="panel-body">
-                                <div id="theList">
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-4 col-md-offset-0">
-                                        <br>
-                                        <a class="btn btn-primary btn-sm" onclick="addSection(); return false;">{% trans %}Add a Section{% endtrans %}</a>
-                                    </div>
+<div class="row">
+    <div class="mx-auto col-lg-8 col-md-10 col-sm-12">
+            <div class="row">
+                <div class="col-md-12 col-md-offset-0">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-md-10 col-sm-10 col-xs-10">
+                                    <div class="panel-title">{% trans %}Sections{% endtrans %}</div>
                                 </div>
                             </div>
-                        </div> <!-- panel -->                        
-                    </div>
-                    <div class="col-md-12 col-md-offset-0 text-right">
-                        <a class="btn btn-default" href="band_info.html?bk={{ the_band.key.urlsafe() }}">{% trans %}Cancel{% endtrans %}</a>
-                        <a class="btn btn-primary" href="#" onclick="saveButton(); return false;">{% trans %}Save{% endtrans %}</a>
-                    </div>
+                        </div>        
+                        <div class="card-body">
+                            <div id="theList">
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <br>
+                                    <a class="btn btn-primary btn-sm" onclick="addSection(); return false;">{% trans %}Add a Section{% endtrans %}</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- panel -->                        
                 </div>
-
             </div>
+            <div class="row">&nbsp;</div>
+            <div class="row">
+                <div class="col-md-12 col-md-offset-0 text-right">
+                    <a class="btn btn-secondary" href="band_info.html?bk={{ the_band.key.urlsafe() }}">{% trans %}Cancel{% endtrans %}</a>
+                    <a class="btn btn-primary" href="#" onclick="saveButton(); return false;">{% trans %}Save{% endtrans %}</a>
+                </div>
+            </div>
+
         </div>
     </div>
+</div>
 {% endblock content %}
 
 
@@ -71,20 +74,20 @@ function updateSectionList() {
             }
             theHTML += "'>";
 
-            theHTML += "<div class='col-lg-4 col-md-4 col-sm-5 col-xs-6'>";
+            theHTML += "<div class='col-auto'>";
             theHTML += "<input type='text' value='" + theSectionArray[i][0] + "' placeholder='{% trans %}name of section{% endtrans %}' onchange=sectionChange("+i+",this.value);>";
             theHTML += "</div>"
 
-            theHTML += "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>";
+            theHTML += "<div class='col-1'>";
             theHTML += "<a class='btn btn-default btn-sm' onclick='deleteSection("+i+"); return false;' href='#'><i class='fa fa-times-circle fa-lg'></i></a>";
             theHTML += "</div>";
 
 
-            theHTML += "<div class='col-lg-1 col-md-1 col-sm-1 col-xs-2 text-right'>";
+            theHTML += "<div class='col-1'>";
             theHTML += "<a class='btn btn-default btn-sm' onclick='moveSection("+i+",-1); return false' id='up"+i+"'><i class='fa fa-arrow-circle-up fa-lg'></i></a>";
             theHTML += "</div>";
 
-            theHTML += "<div class='col-lg-1 col-md-1 col-sm-1 col-xs-2 text-left'>";
+            theHTML += "<div class='col-1'>";
             theHTML += "<a class='btn btn-default btn-sm' onclick='moveSection("+i+",1); return false' id='dn"+i+"'><i class='fa fa-arrow-circle-down fa-lg'></i></a>";
             theHTML += "</div>";
 

@@ -5,18 +5,16 @@
 
 {% block content %}
 <div class="row">
-    <div class="row">
-        <div class="page-header col-md-8 col-md-offset-2">
-            {% trans %}Band Navigator{% endtrans %}
-        </div>
+    <div class="page-header mx-auto col-lg-8 col-md-10 col-sm-12">
+        {% trans %}Band Navigator{% endtrans %}
     </div>
 </div>
 {% for b in the_bands %}
     {% if b.show_in_nav %}
         <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <div class="panel panel-default">
-                    <div class="panel-body">
+            <div class="mx-auto col-lg-8 col-md-10 col-sm-12">
+                <div class="card">
+                    <div class="card-body">
                         <div class="row">
                             <div class="col-md-4">
                                 <a href="/band_info.html?bk={{b.key.urlsafe()}}">
