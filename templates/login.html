@@ -13,79 +13,101 @@ class="landingwrap"
 {% block content %}
     <div id="landingpage_content">
         <div class="row">
-            <div class="page-header col-lg-10 col-md-12 ml-auto">
+            <div class="page-header col-lg-10 col-12 ml-auto">
                 <h3>{% trans %}Welcome to Gig-o-Matic!{% endtrans %}</h3>
             </div>
         </div>
+		<div class="row">        
+			<br>
+		</div>
 
         {% if failed %}
             <div class="row">
-                <div class="col-md-10 col-sm-12 ml-auto">
+                <div class="col-md-10 col-12 ml-auto">
                     <strong>{% trans %}Login failed!{% endtrans %}</strong> {% trans %}Check your credentials and try again.{% endtrans %}
                 </div>
             </div>
+			<div class="row">        
+				<br>
+			</div>
         {% endif %}
 
         {% if unverified %}
             <div class="row">
-                <div class="col-md-10 col-sm-12 ml-auto">
+                <div class="col-md-10 col-12 ml-auto">
                     <strong>{% trans %}Login failed!{% endtrans %}</strong> {% trans %}Check your email to verify your account.{% endtrans %}
                 </div>
             </div>
+			<div class="row">        
+				<br>
+			</div>
+
         {% endif %}
 
         <div class="row">
-            <div class="col-lg-10 col-md-12 ml-auto">
+            <div class="col-lg-10 col-12 ml-auto">
                 <form class="form" role="form" action= "/login" method="POST">
+                    {% if originalurl %}
+                        <input type="hidden" name="originalurl" value="{{originalurl}}">
+                    {% endif %}
+                    {% if locale %}
+                        <input type='hidden' name='locale' value='{{ locale }}'>
+                    {% endif %}
+
                     <div class="form-group row">
                         <label for="email" class="col-form-label col-lg-3 text-lg-right">{% trans %}Email Address{% endtrans %}</label>
-                        <div class="col-lg-8 col-md-12">
+                        <div class="col-lg-8 col-12">
                             <input type="text" class="form-control" value="{{ username }}" name="email" id="email"/>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="password" class="col-form-label col-lg-3 text-lg-right">{% trans %}Password{% endtrans %}</label>
-                        <div class="col-lg-8 col-md-12">
+                        <div class="col-lg-8 col-12">
                             <input type="password" class="form-control" name="password"/>
                         </div>
                     </div>
-                    {% if originalurl %}
-                        <input type="hidden" name="originalurl" value="{{originalurl}}">
-                    {% endif %}
-                    <div class="row">
-                        <div class="col-md-5 ml-auto">
-                            <button type="submit" class="btn btn-primary">{% trans %}Login{% endtrans %}</button>
-                            <a href="/forgot{% if locale %}?locale={{ locale }}{% endif %}">{% trans %}Forgot password?{% endtrans %}</a>
-                        </div>
-                        <div class="col-md-4">
+                    <div class="form-group row">
+                        <div class="col-lg-9 ml-auto">
                             <div class="checkbox">
                                 <input type="checkbox" name="remember">{% trans %}Remember me{% endtrans %}</input>
                             </div>
                         </div>
                     </div>
-                    {% if locale %}
-                        <input type='hidden' name='locale' value='{{ locale }}'>
-                    {% endif %}
+
+                    <div class="row">
+                        <div class="col-lg-9 ml-auto">
+                            <button type="submit" class="btn btn-primary">{% trans %}Login{% endtrans %}</button>
+                            <a href="/forgot{% if locale %}?locale={{ locale }}{% endif %}">{% trans %}Forgot password?{% endtrans %}</a>
+                        </div>
+                    </div>
+	    			<div class="row">        
+	    				<br>
+					</div>
+	    			<div class="row">        
+			            <div class="col-lg-9 ml-auto">
+			                {% trans %}Not a member?{% endtrans %}
+			                <a href="/signup{% if locale %}?locale={{ locale }}{% endif %}">{% trans %}Sign Up!{% endtrans %}</a>
+			            </div>
+			        </div>
+
+
                 </form>
+
             </div>
         </div>
         <br>
         <div class="row">
-            <div class="col-md-4 col-md-offset-4">
-                {% trans %}Not a member?{% endtrans %}
-                <a class="btn btn-default" href="/signup{% if locale %}?locale={{ locale }}{% endif %}">{% trans %}Sign Up!{% endtrans %}</a>
-            </div>
-            <div class="col-md-4">
-                {% for lang in languages %}
-                    {% if lang[0] != locale %}
-                        <a href='/login?locale={{lang[0]}}'>{{ lang[1] }}</a>
-                    {% endif %}
-                {% endfor %}
-            </div>
-        </div>
-        <br>
+            <div class="col-lg-10 ml-auto">
+	            {% for lang in languages %}
+	                {% if lang[0] != locale %}
+	                    <a href='/login?locale={{lang[0]}}'>{{ lang[1] }}</a>
+	                    {% if not loop.last %} | {% endif %}
+	                {% endif %}
+	            {% endfor %}
+			</div>
+		</div>
         <div class="row">
-            <div class="col-md-8 col-md-offset-4">
+            <div class="col-lg-10 ml-auto">
                 {% trans %}Want your band on the Gig-o?{% endtrans %} {% trans %}Click{% endtrans %} <a href="/help_band_request.html{% if locale %}?locale={{ locale }}{% endif %}">{% trans %}here{% endtrans %}</a>.
                 {% trans %}What is the Gig-o-Matic, anyway?{% endtrans %} {% trans %}Click{% endtrans %} <a href="/whatis.html{% if locale %}?locale={{ locale }}{% endif %}">{% trans %}here{% endtrans %}</a>!
             </div>
