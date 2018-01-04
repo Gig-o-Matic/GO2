@@ -3,21 +3,21 @@
 {% block title %}{% trans %}Band Info{% endtrans %}{% endblock title %}
 
 {% block headcontent %}
-<!-- bxSlider CSS file -->
-<link href="/css/jquery.bxslider.css" rel="stylesheet" />
 
 {% endblock headcontent %}
 
 {% block content %}
 <div class="row">
-    <div class="page-header mx-auto col-lg-8 col-md-10 col-sm-12">
-        {{ the_band.name }}
-        {% if the_user_is_associated and the_band.shortname %}
-            <br>
-            ({% trans %}a.k.a.{% endtrans %}&nbsp;{{ the_band.shortname }})
-        {% endif %}
-    </div>
-    <div class="mx-auto col-lg-8 col-md-10 col-sm-12">
+    <div class="mx-auto col-lg-8 col-md-10 col-12">
+
+        <div class="page-header">
+            {{ the_band.name }}
+            {% if the_user_is_associated and the_band.shortname %}
+                <br>
+                ({% trans %}a.k.a.{% endtrans %}&nbsp;{{ the_band.shortname }})
+            {% endif %}
+        </div>
+
         <div class="card">
             <div class="card-header">
                 <div class="row">
@@ -42,11 +42,7 @@
                     </div>
                 </div>
                 {% if the_band.hometown %}
-                    <div class="row">
-                        <div class="col-12">
-                            &nbsp;
-                        </div>
-                    </div>
+                    <div>&nbsp;</div>
                     <div class="row">
                         <div class="col-sm-3 col-12">{% trans %}Hometown{% endtrans %}</div>
                         <div class="col-sm-9 col-12">
@@ -55,11 +51,7 @@
                     </div>
                 {% endif %}
                 {% if the_band.website %}
-                    <div class="row">
-                        <div class="col-md-12 col-sm-12 col-12">
-                            &nbsp;
-                        </div>
-                    </div>
+                    <div>&nbsp;</div>
                     <div class="row">
                         <div class="col-sm-3 col-12">{% trans %}Website{% endtrans %}</div>
                         <div class="col-sm-9 col-12">
@@ -68,11 +60,7 @@
                     </div>
                 {% endif %}
                 {% if the_user_is_associated or the_user_is_superuser %}
-                    <div class="row">
-                        <div class="col-12">
-                            &nbsp;
-                        </div>
-                    </div>
+                    <div>&nbsp;</div>
                     <div class="row">
                         <div class="col-sm-3 col-12">{% trans %}Resources{% endtrans %}</div>
                         <div class="col-sm-9 col-12">
@@ -83,7 +71,7 @@
                                 {% endif %}
                                 <a href="/band_gig_archive?bk={{ the_band.key.urlsafe() }}">{% trans %}Gig Archive{% endtrans %}</a><br>
                                 {% if the_user_is_superuser or the_user_is_band_admin %}
-                                    <a href="/band_gig_trashcan?bk={{ the_band.key.urlsafe() }}">{% trans %}Gig Trashcan{% endtrans %}</a>
+                                    <a href="/band_gig_trashcan?bk={{ the_band.key.urlsafe() }}">{% trans %}Gig Trashcan{% endtrans %}</a><br>
                                 {% endif %}
                         </div>
                     </div>
@@ -146,36 +134,50 @@
                         </div>
                     {% endif %}
                 {% endif %}                    
-            </div>
+            </div> <!-- card-body -->
         </div> <!-- card -->
 
         {% if the_band.images %}
-            <div class="row">&nbsp;</div>
+            <div>&nbsp;</div>
             <div class="card">
                 <div class="card-header">
                     <div class="row">
-                        <div class="titlerow">
+                        <div class="col-12 titlerow">
                             <h5>{% trans %}Pictures Of Us{% endtrans %}</h5>
                         </div>
                     </div>
                 </div>
                 <div class="card-body" id="pictures">
-                    <ul class="bxslider">
+
+
+                    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                      <div class="carousel-inner" role="listbox">
                         {% for i in the_band.images %}
-                              <li><img src="{{i}}" /></li>
+                            <div class="carousel-item{% if loop.index == 1 %} active{% endif %}">
+                              <img class="d-block img-fluid" src="{{i}}">
+                            </div>
                         {% endfor %}
-                    </ul>
+                      </div>
+                      <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                        <i class="fa fa-chevron-left fa-2x" style="color:gray;" aria-hidden="true"></i>
+                        <span class="sr-only">Previous</span>
+                      </a>
+                      <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                        <i class="fa fa-chevron-right fa-2x" style="color:gray;" aria-hidden="true"></i>
+                        <span class="sr-only">Next</span>
+                      </a>
+                    </div>
+
                 </div>
             </div>
         {% endif %}
 
-
         {% if the_user_is_associated == False and ( the_user_is_superuser == False ) %}
             {% if the_band.share_gigs %}
-                <div class="row">&nbsp;</div>
+                <div>&nbsp;</div>
                 <div class="card">
                     <div class="card-header">
-                        <div class="row"><div class="titlerow">
+                        <div class="row"><div class="col-12 titlerow">
                             <h5>{% trans %}Upcoming Gigs{% endtrans %}</h5>
                         </div></div>
                     </div>
@@ -185,10 +187,10 @@
                 </div>
             {% endif %}
             {% if the_user %}
-                <div class="row">&nbsp;</div>
+                <div>&nbsp;</div>
                 <div class="card">
                     <div class="card-header">
-                        <div class="row"><div class="titlerow">
+                        <div class="row"><div class="col-12 titlerow">
                             <h5>{% trans %}Members With Public Profiles{% endtrans %}</h5>
                         </div></div>
                     </div>
@@ -201,10 +203,10 @@
             {% trans %}Your membership is pending - ask a band member to confirm you!{% endtrans %}
         {% else %}
             {% if the_pending_members %}
-                <div class="row">&nbsp;</div>
+                <div>&nbsp;</div>
                 <div class="card">
                     <div class="card-header">
-                        <div class="row"><div class="titlerow">
+                        <div class="row"><div class="col-12 titlerow">
                             <h5>{% trans %}Pending Members{% endtrans %} <span class="badge">{{the_pending_members|length}}</span></h5>
                         </div></div>
                     </div>
@@ -228,10 +230,10 @@
             {% endif %}
 
             {% if the_invited_members %}
-                <div class="row">&nbsp;</div>
+                <div>&nbsp;</div>
                 <div class="card">
                     <div class="card-header">
-                        <div class="row"><div class="titlerow">
+                        <div class="row"><div class="col-12 titlerow">
                             <h5>{% trans %}Invited Members{% endtrans %} <span class="badge">{{the_invited_members|length}}</span></h5>
                         </div></div>
                     </div>
@@ -249,7 +251,7 @@
                     </div>
                 </div> <!-- panel -->
             {% endif %}
-            <div class="row">&nbsp;</div>
+            <div>&nbsp;</div>
             <div class="card">
                 <div class="card-header">
                     <div class="row">
@@ -266,7 +268,7 @@
                             <div class="col-3 titlerow">
                                 <h5>{% trans %}Sections{% endtrans %}</h5>
                             </div>
-                            <div class="col-3 titlerow">
+                            <div class="col-5 titlerow">
                                 <h5>{% trans %}Members{% endtrans %}</h5>
                             </div>
                             {% if the_user_is_band_admin or the_user_is_superuser %}
@@ -304,12 +306,13 @@
                     </div>
                 </div>
             </div> <!-- panel -->
+
             {% if the_user_is_band_admin or the_user_is_superuser %}
-                <div class="row">&nbsp;</div>
+                <div>&nbsp;</div>
                 <div class="accordion" id="accordion">
                     <div class="card">
                         <div class="card-header">
-                            <div class="row"><div class="titlerow">
+                            <div class="row"><div class="col-12 titlerow">
                                 <a class="collapsed" data-toggle="collapse" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
                                     <h5>{% trans %}Member Admin{% endtrans %}</h5>
                                 </a>
@@ -344,8 +347,6 @@
 
 {% block localscripts %}
 <script src="/js/jquery.validate.js"></script>
-<!-- bxSlider Javascript file -->
-<script src="/js/jquery.bxslider.min.js"></script>
 <script>
 function updateUpcoming() {
     if (document.getElementById('upcoming-gigs')) {
@@ -623,13 +624,6 @@ $(document).ready(function() {
         submitHandler: handle_rename_section
     });
 
-
-    $('.bxslider').bxSlider({
-        auto: true,
-        controls: true,
-        autoStart: ($(".bxslider>li").length > 1) ? true: false,
-        pager: false
-    });
 });
 </script>
 {% endblock localscripts %}

@@ -25,66 +25,21 @@
         </div>
         {% if the_sections | length > 0 %}
             <div class="col-md-2">
-{# original               
-                <div class="dropdown">
-                    <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
-                        {% if the_assoc['section'] == None %}
-                            {% trans %}section{% endtrans %}...  <span class="caret"></span>
-                        {% else %}
-                            {{ the_assoc['section'] }} <span class="caret"></span>
-                        {% endif %}
-                    </button>
-                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                         {% for a_section in the_sections %}
-                             <li><a onclick="member_section('{{ the_assoc['member_key'].urlsafe()}}','{{a_section.key.urlsafe()}}')">{{ a_section.name }}</a></li>
-                         {% endfor %}
-                    </ul>
-                </div>
 
-#}
-{# NEW
                 <div class="dropdown">
-                    <a class="btn btn-outline-secondary btn-sm dropdown-toggle" href="#" role="button" data-toggle="dropdown" id="dropdownMenu1" aria-haspopup="true" aria-expanded="false">
+                    <a class="btn btn-outline-secondary btn-sm dropdown-toggle" href="#" role="button" data-toggle="dropdown" id="dropdownMenu{{loop.index}}" aria-haspopup="true" aria-expanded="false">
                         {% if the_assoc['section'] == None %}
                             {% trans %}section{% endtrans %}...
                         {% else %}
                             {{ the_assoc['section'] }}
                         {% endif %}
                     </a>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenu{{loop.index}}">
                          {% for a_section in the_sections %}
                              <a class="dropdown-item" onclick="member_section('{{ the_assoc['member_key'].urlsafe()}}','{{a_section.key.urlsafe()}}')">{{ a_section.name }}</a>
                          {% endfor %}
                     </div>
                 </div>
-#}
-                <div class="dropdown">
-                    <a class="btn btn-outline-secondary btn-sm dropdown-toggle" href="#" role="button" data-toggle="dropdown" id="dropdownMenu1" aria-haspopup="true" aria-expanded="false">
-                        foo
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                         <a class="dropdown-item">burp</a>
-                         <a class="dropdown-item">cough</a>
-                    </div>
-                </div>
-
-{#
-                <div class="dropdown mr-2">
-                    <a class="btn btn-outline-secondary btn-sm dropdown-toggle" href="#" role="button" data-toggle="dropdown" id="sel-{{the_plan_key.urlsafe()}}" aria-haspopup="true" aria-expanded="false">
-                        {% if the_section_key == None %}
-                            {% trans %}section{% endtrans %}...  <span class="caret"></span>
-                        {% else %}
-                            {{the_section_key.get().name}} <span class="caret"></span>
-                        {% endif %}
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="sel-{{the_plan_key.urlsafe()}}">
-                        {% for section_key in the_section_keys %}
-                            {% set a_section = section_key.get() %}
-                            <a class="dropdown-item" onclick="section_select('{{the_plan_key.urlsafe()}}','{{section_key.urlsafe()}}','{{a_section.name}}')">{{ a_section.name }}</a>
-                        {% endfor %}
-                    </div>
-                </div>
-#}
 
 
             </div>
