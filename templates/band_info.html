@@ -21,8 +21,8 @@
         <div class="card">
             <div class="card-header">
                 <div class="row">
-                    <div class="col-4">
-                        <h4>{% trans %}Info{% endtrans %}</h4>
+                    <div class="col-4 titlerow">
+                        <h5>{% trans %}Info{% endtrans %}</h5>
                     </div>
                     {% if the_user_is_band_admin or the_user_is_superuser %}
                         <div class="ml-auto">
@@ -148,12 +148,16 @@
                 {% endif %}                    
             </div>
         </div> <!-- card -->
-{#            
+
         {% if the_band.images %}
             <div class="row">&nbsp;</div>
             <div class="card">
                 <div class="card-header">
-                    <h4>{% trans %}Pictures Of Us{% endtrans %}</h4>
+                    <div class="row">
+                        <div class="titlerow">
+                            <h5>{% trans %}Pictures Of Us{% endtrans %}</h5>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-body" id="pictures">
                     <ul class="bxslider">
@@ -164,26 +168,16 @@
                 </div>
             </div>
         {% endif %}
-#}            
-        <div class="row">
-            <div class="col-md-12">
-                <div class="dropdown">
-                    <a class="btn btn-outline-secondary btn-sm dropdown-toggle" href="#" role="button" data-toggle="dropdown" id="dropdownMenu1" aria-haspopup="true" aria-expanded="false">
-                        foo
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                         <a class="dropdown-item">burp</a>
-                         <a class="dropdown-item">cough</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+
+
         {% if the_user_is_associated == False and ( the_user_is_superuser == False ) %}
             {% if the_band.share_gigs %}
                 <div class="row">&nbsp;</div>
                 <div class="card">
                     <div class="card-header">
-                        <h4>{% trans %}Upcoming Gigs{% endtrans %}</h4>
+                        <div class="row"><div class="titlerow">
+                            <h5>{% trans %}Upcoming Gigs{% endtrans %}</h5>
+                        </div></div>
                     </div>
                     <div class="card-body" id="upcoming-gigs">
                         <i class="fa fa-spinner fa-spin fa-lg"></i>
@@ -194,7 +188,9 @@
                 <div class="row">&nbsp;</div>
                 <div class="card">
                     <div class="card-header">
-                            <h4>{% trans %}Members With Public Profiles{% endtrans %}</h4>
+                        <div class="row"><div class="titlerow">
+                            <h5>{% trans %}Members With Public Profiles{% endtrans %}</h5>
+                        </div></div>
                     </div>
                     <div class="card-body" id="public-members">
                         <i class="fa fa-spinner fa-spin fa-lg"></i>
@@ -208,7 +204,9 @@
                 <div class="row">&nbsp;</div>
                 <div class="card">
                     <div class="card-header">
-                        <h4>{% trans %}Pending Members{% endtrans %} <span class="badge">{{the_pending_members|length}}</span></h4>
+                        <div class="row"><div class="titlerow">
+                            <h5>{% trans %}Pending Members{% endtrans %} <span class="badge">{{the_pending_members|length}}</span></h5>
+                        </div></div>
                     </div>
                     <div class="card-body">
                         {% for m in the_pending_members %}
@@ -233,7 +231,9 @@
                 <div class="row">&nbsp;</div>
                 <div class="card">
                     <div class="card-header">
-                        <h4>{% trans %}Invited Members{% endtrans %} <span class="badge">{{the_invited_members|length}}</span></h4>
+                        <div class="row"><div class="titlerow">
+                            <h5>{% trans %}Invited Members{% endtrans %} <span class="badge">{{the_invited_members|length}}</span></h5>
+                        </div></div>
                     </div>
                     <div class="card-body">
                         {% for m in the_invited_members %}
@@ -254,8 +254,8 @@
                 <div class="card-header">
                     <div class="row">
                         {% if num_sections == 0 %}
-                            <div class="col-4">
-                                  <h4>{% trans %}Members{% endtrans %}</h4>
+                            <div class="col-4 titlerow">
+                                  <h5>{% trans %}Members{% endtrans %}</h5>
                             </div>
                             {% if the_user_is_band_admin or the_user_is_superuser %}
                                 <div class="ml-auto">
@@ -263,11 +263,11 @@
                                 </div>
                             {% endif %}
                         {% else %}
-                            <div class="col-3">
-                                <h4>{% trans %}Sections{% endtrans %}</h4>
+                            <div class="col-3 titlerow">
+                                <h5>{% trans %}Sections{% endtrans %}</h5>
                             </div>
-                            <div class="col-3">
-                                <h4>{% trans %}Members{% endtrans %}</h4>
+                            <div class="col-3 titlerow">
+                                <h5>{% trans %}Members{% endtrans %}</h5>
                             </div>
                             {% if the_user_is_band_admin or the_user_is_superuser %}
                                 <div class="ml-auto">
@@ -309,9 +309,11 @@
                 <div class="accordion" id="accordion">
                     <div class="card">
                         <div class="card-header">
-                            <a class="collapsed" data-toggle="collapse" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                                <h4>{% trans %}Member Admin{% endtrans %}</h4>
-                            </a>
+                            <div class="row"><div class="titlerow">
+                                <a class="collapsed" data-toggle="collapse" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                    <h5>{% trans %}Member Admin{% endtrans %}</h5>
+                                </a>
+                            </div></div>
                         </div>
                         <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
                             <div class="card-body">

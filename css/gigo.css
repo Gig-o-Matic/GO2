@@ -124,3 +124,17 @@ code {
 .fc-event { /* non-theme */
 	border: 2px solid;
 }
+
+.card-header {
+  padding-top: .2rem;
+  padding-bottom: .2rem;
+}
+
+.card-header h5 {
+  margin-bottom: 0px;
+}
+
+.card-header .titlerow {
+  margin-top:auto;
+  margin-bottom:auto;
+}
