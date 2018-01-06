@@ -1,103 +1,112 @@
 {% if the_assoc_info %}
     {% for the_info in the_assoc_info %}
         {% set the_band_name = the_info.assoc.band.get().name %}
-        <div class="row" style="padding-top: 5px; {{ loop.cycle('', 'background:#f5f5f5;') }}">
-            <div class="col-4">
-                <a href="/band_info.html?bk={{the_info.assoc.band.urlsafe()}}">{{the_band_name}}</a>
-                {% if the_info.assoc.is_confirmed == 0 %}
+        <div class="row" style="padding-top: 5px; padding-bottom: 5px; {{ loop.cycle('', 'background:#f5f5f5;') }}">
+            {% if the_info.assoc.is_confirmed == 0 %}
+                <div class="col-12">
+                    <a href="/band_info.html?bk={{the_info.assoc.band.urlsafe()}}">{{the_band_name}}</a>
                     ({% trans %}pending{% endtrans %})
-                {% endif %}
-            </div>
-            {% if the_info.sections|length == 0 %}
-                <div class="col-8">
                 </div>
             {% else %}
-                <div class="col-4">
-                    <div class="dropdown">
-                        <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" id='sbk-{{the_info.assoc.band.urlsafe()}}'>
-                            {% if the_info.assoc.default_section == None %}
-                                {% trans %}section{% endtrans %}...  <span class="caret"></span>
-                            {% else %}
-                                {{the_info.assoc.default_section.get().name}} <span class="caret"></span>
+                <div class="col-3">
+                    <a href="/band_info.html?bk={{the_info.assoc.band.urlsafe()}}">{{the_band_name}}</a>
+                </div>
+                <div class="col-9">
+                    {% if the_info.sections|length > 0 %}
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="dropdown">
+                                    <button type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle" data-toggle="dropdown" id='sbk-{{the_info.assoc.band.urlsafe()}}'>
+                                        {% if the_info.assoc.default_section == None %}
+                                            {% trans %}section{% endtrans %}...  <span class="caret"></span>
+                                        {% else %}
+                                            {{the_info.assoc.default_section.get().name}} <span class="caret"></span>
+                                        {% endif %}
+                                    </button>
+                                    <div class="dropdown-menu" role="menu" aria-labelledby="sbk-{{the_info.assoc.band.urlsafe()}}">
+                                        {% for section_key in the_info.sections %}
+                                            <a class="dropdown-item" onclick="section_select('{{the_info.assoc.band.urlsafe()}}','{{section_key.urlsafe()}}','{{section_key.get().name}}')">{{ section_key.get().name }}</a>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <input type="checkbox" id='msbk-{{the_info.assoc.band.urlsafe()}}' onclick="multi_select('{{the_info.assoc.band.urlsafe()}}')"
+                                {% if the_info.assoc.is_multisectional %}
+                                    checked
+                                {% endif %}
+                                > {% trans %}other sections, too{% endtrans %}
+                            </div>
+                        </div>
+                    {% endif %}
+                    <div class="row">
+                        <div class="col-6">
+                            <input type="checkbox" id='oak-{{the_info.assoc.key.urlsafe()}}' onclick="occ_select('{{the_info.assoc.key.urlsafe()}}')"
+                            {% if the_info.assoc.is_occasional %}
+                                checked
                             {% endif %}
-                        </button>
-                        <ul class="dropdown-menu" role="menu" aria-labelledby="sbk-{{the_info.assoc.band.urlsafe()}}">
-                            {% for section_key in the_info.sections %}
-                                <li><a onclick="section_select('{{the_info.assoc.band.urlsafe()}}','{{section_key.urlsafe()}}','{{section_key.get().name}}')">{{ section_key.get().name }}</a></li>
-                            {% endfor %}
-                        </ul>
+                            > {% trans %}occasional{% endtrans %}
+                        </div>
+                        <div class="col-6">
+                            <input type="checkbox" id='hideak-{{the_info.assoc.key.urlsafe()}}' onclick="hide_select('{{the_info.assoc.key.urlsafe()}}')"
+                            {% if the_info.assoc.hide_from_schedule %}
+                                checked
+                            {% endif %}
+                            > {% trans %}hide from calendar{% endtrans %}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="dropdown">
+                                        <button type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle" data-toggle="dropdown" id='mailbk-{{the_info.assoc.key.urlsafe()}}'>
+                                            {% if the_info.assoc.email_me == True %}
+                                                <i class="far fa-envelope"></i>
+                                            {% else %}
+                                                <i class="fas fa-ban" style="color:Tomato"></i>
+                                            {% endif %}
+                                            <span class="caret"></span>
+                                        </button>
+                                        <div class="dropdown-menu" role="menu" aria-labelledby="mailbk-{{the_info.assoc.band.urlsafe()}}" style="min-width:10px">
+                                            <a class="dropdown-item" onclick="email_select('{{the_info.assoc.key.urlsafe()}}',true)", id="mail_true">
+                                                <i class="far fa-envelope"></i>
+                                            </a>
+                                            <a class="dropdown-item" onclick="email_select('{{the_info.assoc.key.urlsafe()}}',false)", id="mail_false">
+                                                    <i class="fas fa-ban" style="color:Tomato"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="dropdown">
+                                        <button type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle" data-toggle="dropdown" id='cbk-{{the_info.assoc.key.urlsafe()}}'>
+                                            {% if the_info.assoc.color == 0 %}
+                                                <i class="fa fa-square-o"></i>
+                                            {% else %}
+                                                <i class="fa fa-square" style="color:{{the_colors[the_info.assoc.color]}};"></i>
+                                            {% endif %}
+                                            <span class="caret"></span>
+                                        </button>
+                                        <div class="dropdown-menu" role="menu" aria-labelledby="cbk-{{the_info.assoc.band.urlsafe()}}" style="min-width:10px">
+                                            {% for c in the_colors %}
+                                                {% if c == '#ffffff' %}
+                                                    <a class="dropdown-item" onclick="color_select('{{the_info.assoc.key.urlsafe()}}',{{loop.index0}})", id="color-{{loop.index0}}"><i class="far fa-square"></i></a>
+                                                {% else %}
+                                                    <a class="dropdown-item" onclick="color_select('{{the_info.assoc.key.urlsafe()}}',{{loop.index0}})", id="color-{{loop.index0}}"><i class="fas fa-square" style="color:{{c}};"></i></a>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <button class="btn btn-secondary btn-sm" onclick="leave_band('{{the_info.assoc.key.urlsafe()}}','{{the_info.assoc.band.get().name|safe_name}}')">{% trans %}Leave Band{% endtrans %}</button>
+                        </div>
                     </div>
                 </div>
-                <div class="col-4">
-                    <input type="checkbox" id='msbk-{{the_info.assoc.band.urlsafe()}}' onclick="multi_select('{{the_info.assoc.band.urlsafe()}}')"
-                    {% if the_info.assoc.is_multisectional %}
-                        checked
-                    {% endif %}
-                    > {% trans %}other sections, too{% endtrans %}
-                </div>
             {% endif %}
-        </div>
-        <div class="row" style="padding-bottom: 5px; {{ loop.cycle('', 'background:#f5f5f5;') }}">
-            <div class="col-4 ml-auto">
-                <input type="checkbox" id='oak-{{the_info.assoc.key.urlsafe()}}' onclick="occ_select('{{the_info.assoc.key.urlsafe()}}')"
-                {% if the_info.assoc.is_occasional %}
-                    checked
-                {% endif %}
-                > {% trans %}occasional{% endtrans %}
-            </div>
-            <div class="col-4">
-                <input type="checkbox" id='hideak-{{the_info.assoc.key.urlsafe()}}' onclick="hide_select('{{the_info.assoc.key.urlsafe()}}')"
-                {% if the_info.assoc.hide_from_schedule %}
-                    checked
-                {% endif %}
-                > {% trans %}hide from calendar{% endtrans %}
-            </div>
-        </div>
-        <div class="row" style="padding-bottom: 5px; {{ loop.cycle('', 'background:#f5f5f5;') }}">
-            <div class="col-2 ml-auto">
-                <div class="dropdown">
-                    <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" id='mailbk-{{the_info.assoc.key.urlsafe()}}'>
-                        {% if the_info.assoc.email_me == True %}
-                            <i class="fa fa-envelope-o"></i>
-                        {% else %}
-                            <i class="fa fa-ban text-danger"></i>
-                        {% endif %}
-                        <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu" role="menu" aria-labelledby="mailbk-{{the_info.assoc.band.urlsafe()}}" style="min-width:10px">
-                        <li><a onclick="email_select('{{the_info.assoc.key.urlsafe()}}',true)", id="mail_true">
-                            <i class="fa fa-envelope-o"></i></a>
-                        </li>
-                        <li><a onclick="email_select('{{the_info.assoc.key.urlsafe()}}',false)", id="mail_false">
-                                <i class="fa fa-ban text-danger"></i></a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-2">
-                <div class="dropdown">
-                    <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" id='cbk-{{the_info.assoc.key.urlsafe()}}'>
-                        {% if the_info.assoc.color == 0 %}
-                            <i class="fa fa-square-o"></i>
-                        {% else %}
-                            <i class="fa fa-square" style="color:{{the_colors[the_info.assoc.color]}};"></i>
-                        {% endif %}
-                        <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu" role="menu" aria-labelledby="cbk-{{the_info.assoc.band.urlsafe()}}" style="min-width:10px">
-                        {% for c in the_colors %}
-                            {% if c == '#ffffff' %}
-                                <li><a onclick="color_select('{{the_info.assoc.key.urlsafe()}}',{{loop.index0}})", id="color-{{loop.index0}}"><i class="fa fa-square-o"></i></a></li>
-                            {% else %}
-                                <li><a onclick="color_select('{{the_info.assoc.key.urlsafe()}}',{{loop.index0}})", id="color-{{loop.index0}}"><i class="fa fa-square" style="color:{{c}};"></i></a></li>
-                            {% endif %}
-                        {% endfor %}
-                    </ul>
-                </div>
-            </div>
-            <div class="col-4">
-                <button class="btn btn-secondary btn-sm" onclick="leave_band('{{the_info.assoc.key.urlsafe()}}','{{the_info.assoc.band.get().name|safe_name}}')">{% trans %}Leave Band{% endtrans %}</button>
-            </div>
         </div>
     {% endfor %}
 {% else %}
