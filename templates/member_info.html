@@ -271,7 +271,7 @@ function color_select(ak, c) {
 }
 
 function email_select(ak, em) {
-    $('#mailbk-'+ak).html("<i class=\"fa fa-spinner fa-spin fa-lg\"></i>");
+    $('#mailbk-'+ak).html("<i class=\"fas fa-spinner fa-pulse fa-lg\"></i>");
     $.post('/member_set_get_email',
             {
                 ak: ak,
@@ -350,7 +350,7 @@ function setupClick() {
                     },
                     function(responseTxt,statusTxt,xhr){
                         if(statusTxt=="success")
-                            $('#bandlist').html('<i class="fa fa-spinner fa-spin"></i>');
+                            $('#bandlist').html('<i class="fas fa-spinner fa-pulse"></i>');
                             $('#bandpopup').html('');
                             setTimeout(function() {
                                 updateBands()

@@ -182,7 +182,7 @@
                         </div></div>
                     </div>
                     <div class="card-body" id="upcoming-gigs">
-                        <i class="fa fa-spinner fa-spin fa-lg"></i>
+                        <i class="fas fa-spinner fa-pulse fa-lg"></i>
                     </div>
                 </div>
             {% endif %}
@@ -195,7 +195,7 @@
                         </div></div>
                     </div>
                     <div class="card-body" id="public-members">
-                        <i class="fa fa-spinner fa-spin fa-lg"></i>
+                        <i class="fas fa-spinner fa-pulse fa-lg"></i>
                     </div>
                 </div>
             {% endif %}
@@ -285,13 +285,13 @@
                         	{% for s in the_band.sections %}
                         	    <div class="row" id="section{{loop.index0}}" style="padding-top: 5px; padding-bottom: 5px; {{ loop.cycle('', 'background:#f5f5f5;') }}">
                             		<div class="col-12">
-                            			<i class="fa fa-spinner fa-spin fa-lg"></i>
+                            			<i class="fas fa-spinner fa-pulse fa-lg"></i>
                             		</div>
                            	    </div>
                         	{% endfor %}
                     	    <div class="row" id="sectionNone" style="padding-top: 5px; padding-bottom: 5px; {% if the_band.sections | length is odd %}background:#f5f5f5;{% endif %}">
                         		<div class="col-12">
-                        			<i class="fa fa-spinner fa-spin fa-lg"></i>
+                        			<i class="fas fa-spinner fa-pulse fa-lg"></i>
                         		</div>
                        	    </div>
                         </div>
@@ -329,7 +329,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-12" id="memberlist">
-                                        <i class="fa fa-spinner fa-spin fa-lg"></i>
+                                        <i class="fas fa-spinner fa-pulse fa-lg"></i>
                                     </div>
                                 </div>
                             </div>
