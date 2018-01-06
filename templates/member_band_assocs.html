@@ -13,7 +13,7 @@
                 </div>
                 <div class="col-9">
                     {% if the_info.sections|length > 0 %}
-                        <div class="row">
+                        <div class="row" style="padding-bottom: 5px;">
                             <div class="col-6">
                                 <div class="dropdown">
                                     <button type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle" data-toggle="dropdown" id='sbk-{{the_info.assoc.band.urlsafe()}}'>
@@ -39,7 +39,7 @@
                             </div>
                         </div>
                     {% endif %}
-                    <div class="row">
+                    <div class="row" style="padding-bottom: 5px;">
                         <div class="col-6">
                             <input type="checkbox" id='oak-{{the_info.assoc.key.urlsafe()}}' onclick="occ_select('{{the_info.assoc.key.urlsafe()}}')"
                             {% if the_info.assoc.is_occasional %}
