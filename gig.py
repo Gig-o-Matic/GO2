@@ -235,11 +235,13 @@ def get_gigs_for_band_key_for_dates(the_band_key, start_date, end_date, get_canc
         gig_query = Gig.query(ndb.AND(Gig.date >= start_date, \
                                       Gig.date <= end_date), \
                                       Gig.is_in_trash == False, \
+                                      Gig.is_archived == False, \
                                       ancestor=the_band_key).order(Gig.date)
     else:
         gig_query = Gig.query(ndb.AND(Gig.date >= start_date, \
                                       Gig.date <= end_date,
                                       Gig.is_in_trash == False, \
+                                      Gig.is_archived == False, \
                                       Gig.is_canceled == False), \
                                       ancestor=the_band_key).order(Gig.date)
     gigs = gig_query.fetch()
