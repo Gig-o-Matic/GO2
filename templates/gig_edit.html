@@ -185,6 +185,12 @@
                     {% if gig.hide_from_calendar %}checked{% endif %}                        
                     >{% trans %}Hide gig from calendars{% endtrans %}  
                 </label>  
+                {% if newgig_is_active %}
+	                <label class="checkbox">  
+	                    <input type="checkbox" id="default_to_attend" name="default_to_attend">
+	                    {% trans %}Default to definitely attending{% endtrans %}  
+	                </label>  
+	            {% endif %}
             </div>
         </div>
         <div class="row">

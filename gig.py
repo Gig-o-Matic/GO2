@@ -73,6 +73,7 @@ class Gig(ndb.Model):
     rss_description = ndb.TextProperty( default=None )
     trashed_date = ndb.DateTimeProperty( default=None )
     is_in_trash = ndb.ComputedProperty(lambda self: self.trashed_date is not None )
+    default_to_attending = ndb.BooleanProperty( default=False )
     
     def gigtime(self):
         if self.calltime:
@@ -471,7 +472,12 @@ class InfoPage(BaseHandler):
                         the_plan = p
                         break
                 else:
-                    the_plan = plan.Plan(parent=gig_key, member=a_member_key, value=0, comment="", section=None)
+                    # no plan? make a new one
+                    planval = 0
+                    if ( the_gig.default_to_attending ):
+                        planval = 1
+
+                    the_plan = plan.Plan(parent=gig_key, member=a_member_key, value=planval, comment="", section=None)
                     the_new_plans.append(the_plan)
                     new_plan = True
 
@@ -733,6 +739,11 @@ class EditPage(BaseHandler):
             the_gig.is_private = True
         else:
             the_gig.is_private = False
+
+        gig_default_to_attending = self.request.get("default_to_attend",None)
+        if (gig_default_to_attending):
+            logging.info("\n\nattending!\n\n")
+            the_gig.default_to_attending = True
 
         the_gig.put()            
 

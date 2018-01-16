@@ -71,6 +71,8 @@ def get_plans_for_gig_key(the_gig_key, keys_only = False):
     return plans
 
 def get_plan_for_member_key_for_gig_key(the_member_key, the_gig_key, keys_only=False):
+
+    logging.info("\n\ntest\n\n")
     plan_query = Plan.lquery(Plan.member==the_member_key, ancestor=the_gig_key)
     plans = plan_query.fetch(keys_only=keys_only)
     if len(plans)>1:
@@ -89,7 +91,13 @@ def get_plan_for_member_key_for_gig_key(the_member_key, the_gig_key, keys_only=F
         return plans[0]
     else:
         # no plan? make a new one
-        return new_plan(the_gig_key, the_member_key, 0)
+        the_gig = the_gig_key.get()
+        planval = 0
+        if ( the_gig.default_to_attending ):
+            planval = 1
+
+        logging.info("\n\nmaking plan: {0}\n\n".format(planval))
+        return new_plan(the_gig_key, the_member_key, planval)
 
 def get_plan_for_member_for_gig(the_member, the_gig):
     return get_plan_for_member_key_for_gig_key(the_member_key=the_member.key, the_gig_key=the_gig.key)
