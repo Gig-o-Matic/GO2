@@ -3,64 +3,54 @@
 {% block title %}{% trans %}Edit Profile{% endtrans %}{% endblock title %}
 
 {% block content %}
-    <div class="row">
-        <div class="page-header col-md-5 col-md-offset-2">
+<div class="row">
+    <div class="mx-auto col-lg-8 col-md-10 col-sm-12">    
+        <div class="page-header">
             {% trans %}Edit Profile{% endtrans %}
         </div>
+        
+        {% if validate_error is not none %}
+            <div class="validation-error"><span class="fa fa-exclamation-triangle"></span> {{ validate_error }}</div>
+        {%  endif %}
 
-    </div>
-
-    {%- if validate_error is not none %}
-    <div class="row col-md-5 col-md-offset-2">
-        <div class="validation-error"><span class="fa fa-exclamation-triangle"></span> {{ validate_error }}</div>
-    </div>
-    {%  endif %}
-
-    <form class="form" id="infoform" role="form" method="post" action="member_edit.html">
-        <div class="row">
-            <div class="form-group col-md-5 col-md-offset-2">
+        <form class="form" id="infoform" role="form" method="post" action="member_edit.html">
+            <div class="form-group">
                 <label for="membernameinput" class="control-label">{% trans %}Full Name{% endtrans %}</label>
                 <input type="text" class="form-control" id="membernameinput" placeholder="{% trans %}(required){% endtrans %}" value="{{the_member.name}}" name="member_name">
             </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-5 col-md-offset-2">
+            <div class="form-group">
                 <label for="membernameinput" class="control-label">{% trans %}Nickname{% endtrans %}</label>
                 <input type="text" class="form-control" id="membernicknameinput" placeholder="{% trans %}call me...{% endtrans %}" value="{% if the_member.nickname %}{{the_member.nickname}}{% endif %}" name="member_nickname">
             </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-5 col-md-offset-2">
-                <label for="memberemailinput" class="control-label">{% trans %}Password{% endtrans %}</label>
-                <input type="password" class="form-control" id="member_password1" name="member_password1">
+
+            <div class="row">
+                <div class="form-group col-12 col-md-6">
+                    <label for="memberemailinput" class="control-label">{% trans %}Password{% endtrans %}</label>
+                    <input type="password" class="form-control" id="member_password1" name="member_password1">
+                </div>
+                <div class="form-group col-12 col-md-6">
+                    <label for="memberemailinput" class="control-label">{% trans %}Password (again!){% endtrans %}</label>
+                    <input type="password" class="form-control" id="member_password2" name="member_password2">
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-5 col-md-offset-2">
-                <label for="memberemailinput" class="control-label">{% trans %}Password (again!){% endtrans %}</label>
-                <input type="password" class="form-control" id="member_password2" name="member_password2">
+
+            <div class="row">
+                <div class="form-group col-12 col-md-6">
+                    <label for="memberemailinput" class="control-label">{% trans %}Email{% endtrans %}</label>
+                    <input type="email" class="form-control" id="memberemailnput" placeholder="{% trans %}(required){% endtrans %}" value="{{the_member.email_address}}" name="member_email">
+                </div>
+                <div class="form-group col-12 col-md-6">
+                    <label for="memberphoneinput" class="control-label">{% trans %}Phone{% endtrans %}</label>
+                    <input type="text" class="form-control" id="memberphonenput" placeholder="{% trans %}ring ring{% endtrans %}" value="{{the_member.phone}}" name="member_phone">
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-5 col-md-offset-2">
-                <label for="memberemailinput" class="control-label">{% trans %}Email{% endtrans %}</label>
-                <input type="email" class="form-control" id="memberemailnput" placeholder="{% trans %}(required){% endtrans %}" value="{{the_member.email_address}}" name="member_email">
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-5 col-md-offset-2">
-                <label for="memberphoneinput" class="control-label">{% trans %}Phone{% endtrans %}</label>
-                <input type="text" class="form-control" id="memberphonenput" placeholder="{% trans %}ring ring{% endtrans %}" value="{{the_member.phone}}" name="member_phone">
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-5 col-md-offset-2">
+
+            <div class="form-group">
                 <label for="memberstatementinput" class="control-label">{% trans %}Statement{% endtrans %}</label>
                 <input type="text" class="form-control" id="memberstatementinput" placeholder="{% trans %}I have naturally curly hair and enjoy long walks on the beach.{% endtrans %}" value="{{the_member.statement}}" name="member_statement">
             </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-8 col-md-offset-2">
+
+            <div class="form-group">
                 <label for="memberimageinput" class="control-label">{% trans %}Images Of Me{% endtrans %}</label>
                 <textarea class="form-control" rows="10" id="memberimageinput" placeholder="{% trans %}put urls to images on their own lines...{% endtrans %}" name="member_images">{% if the_member.images %}
 {% for i in the_member.images %}{{i}}
@@ -72,57 +62,55 @@
                 paste it here.)
  -->
             </div>
-        </div>
-        
-        <div class="row">
-            <div class="form-group col-md-5 col-md-offset-2">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <strong>{% trans %}Preferences{% endtrans %}</strong>
+
+            <div class="card">
+                <div class="card-header">
+                    <strong>{% trans %}Preferences{% endtrans %}</strong>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <input type="checkbox" id="memberprefhidecanceledgigs" name="member_prefhidecanceledgigs"
+                        {% if the_member.preferences.hide_canceled_gigs %}
+                            checked
+                        {% endif %}
+                        > {% trans %}Hide canceled gigs on my agenda page{% endtrans %}
                     </div>
-                    <div class="panel-body">
-                        <label class="checkbox">  
-                            <input type="checkbox" id="memberprefhidecanceledgigs" name="member_prefhidecanceledgigs"
-                            {% if the_member.preferences.hide_canceled_gigs %}
-                                checked
-                            {% endif %}
-                            >{% trans %}Hide canceled gigs on my agenda page{% endtrans %}  
-                        </label>  
-                        <label class="checkbox">  
-                            <input type="checkbox" id="memberprefagendashowtime" name="member_prefagendashowtime"
-                            {% if the_member.preferences.agenda_show_time %}
-                                checked
-                            {% endif %}
-                            >{% trans %}Show gig time my agenda page{% endtrans %}  
-                        </label>  
-                        <label class="checkbox">  
-                            <input type="checkbox" id="memberprefshareprofile" name="member_prefshareprofile"
-                            {% if the_member.preferences.share_profile %}
-                                checked
-                            {% endif %}
-                            >{% trans %}Share my profile outside of my bands{% endtrans %}  
-                        </label>  
-                        <label class="checkbox">  
-                            <input type="checkbox" id="memberprefshareemail" name="member_prefshareemail"
-                            {% if the_member.preferences.share_email %}
-                                checked
-                            {% endif %}
-                            >{% trans %}Share my email outside of my bands{% endtrans %}  
-                        </label>  
-                        <label class="checkbox">  
-                            <input type="checkbox" id="memberprefcalconfirmedonly" name="member_prefcalconfirmedonly"
-                            {% if the_member.preferences.calendar_show_only_confirmed %}
-                                checked
-                            {% endif %}
-                            >{% trans %}Show only confirmed gigs on calendar view{% endtrans %}  
-                        </label>  
-                        <label class="checkbox">  
-                            <input type="checkbox" id="memberprefcalcommittedonly" name="member_prefcalcommittedonly"
-                            {% if the_member.preferences.calendar_show_only_committed %}
-                                checked
-                            {% endif %}
-                            >{% trans %}Show only gigs I can do (or maybe can do) on calendar view{% endtrans %}  
-                        </label>  
+                    <div class="form-group">                    
+                        <input type="checkbox" id="memberprefagendashowtime" name="member_prefagendashowtime"
+                        {% if the_member.preferences.agenda_show_time %}
+                            checked
+                        {% endif %}
+                        > {% trans %}Show gig time my agenda page{% endtrans %}  
+                    </div>
+                    <div class="form-group">                    
+                        <input type="checkbox" id="memberprefshareprofile" name="member_prefshareprofile"
+                        {% if the_member.preferences.share_profile %}
+                            checked
+                        {% endif %}
+                        > {% trans %}Share my profile outside of my bands{% endtrans %}  
+                    </div>
+                    <div class="form-group">                    
+                        <input type="checkbox" id="memberprefshareemail" name="member_prefshareemail"
+                        {% if the_member.preferences.share_email %}
+                            checked
+                        {% endif %}
+                        > {% trans %}Share my email outside of my bands{% endtrans %}  
+                    </div>
+                    <div class="form-group">                    
+                        <input type="checkbox" id="memberprefcalconfirmedonly" name="member_prefcalconfirmedonly"
+                        {% if the_member.preferences.calendar_show_only_confirmed %}
+                            checked
+                        {% endif %}
+                        > {% trans %}Show only confirmed gigs on calendar view{% endtrans %}  
+                    </div>
+                    <div class="form-group">                    
+                        <input type="checkbox" id="memberprefcalcommittedonly" name="member_prefcalcommittedonly"
+                        {% if the_member.preferences.calendar_show_only_committed %}
+                            checked
+                        {% endif %}
+                        > {% trans %}Show only gigs I can do (or maybe can do) on calendar view{% endtrans %}  
+                    </div>
+                    <div class="form-group">                    
                         <label for="memberpreflocale" class="control-label">{% trans %}Language{% endtrans %}</label>
                             <select class="form-control" id="memberpreflocale" name="member_preflocale">
                                 {% for locale in lang.LOCALES %}
@@ -133,44 +121,44 @@
                             </select>
                         </label>
                     </div>
-                </div>  
+                </div>
             </div>
-        </div>
-        <div class="row">
-            {% if the_user_is_superuser %}
-                <div class="form-group col-md-2 col-md-offset-2">
-                    <a data-toggle="modal" href="#deleteModal" class="btn btn-default">{% trans %}Delete{% endtrans %}</a>
-                </div>        
-                <div class="form-group col-md-3 text-right">
+            <div>&nbsp;</div>
+            <div class="row">
+                {% if the_user_is_superuser %}
+                    <div class="form-group col-12 col-md-6">
+                        <a data-toggle="modal" href="#deleteModal" class="btn btn-secondary">{% trans %}Delete{% endtrans %}</a>
+                    </div>
+                {% endif %}
+                <div class="form-group col-12 col-md-6 ml-auto text-right">
+                    <a class="btn btn-secondary" href="{{the_cancel_url}}">{% trans %}Cancel{% endtrans %}</a>
+                    <button type="submit" class="btn btn-primary">{% trans %}Save{% endtrans %}</button>
+                </div>
+            </div>        
+            {% if the_member==None %}
+                <input type="hidden" name="mk" value="0">
             {% else %}
-                <div class="form-group col-md-5 col-md-offset-2 text-right">
+                <input type="hidden" name="mk" value="{{the_member.key.urlsafe()}}">
             {% endif %}
-                <a class="btn btn-default" href="{{the_cancel_url}}">{% trans %}Cancel{% endtrans %}</a>
-                <button type="submit" class="btn btn-primary">{% trans %}Save{% endtrans %}</button>
-            </div>
-        </div>            
-    {% if the_member==None %}
-        <input type="hidden" name="mk" value="0">
-    {% else %}
-        <input type="hidden" name="mk" value="{{the_member.key.urlsafe()}}">
-    {% endif %}
-    </form>
+        </form>
+    </div>
+</div>
 {% endblock content %}
 
 {% block modal %}
     {% if the_user_is_superuser %}
         <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                         <h4 class="modal-title">{% trans %}Confirm Delete{% endtrans %}</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     </div>
                     <div class="modal-body">
                         {% trans %}Do you really want to delete this member?{% endtrans %}
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">{% trans %}Don't Delete{% endtrans %}</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans %}Don't Delete{% endtrans %}</button>
                         {% if the_member %}
                             <a class="btn btn-primary" id="opener" href="/member_delete?mk={{the_member.key.urlsafe()}}">{% trans %}Delete{% endtrans %}</a>
                         {% endif %}
