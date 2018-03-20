@@ -1,18 +1,18 @@
 {% macro icon(plan_value=-1) -%}
     {% if plan_value == 1 %}
-        <i class="fa fa-circle fa-lg" style="color:green"></i>
+        <i class="fas fa-circle fa-lg" style="color:green"></i>
     {% elif plan_value == 2 %}
-        <i class="fa fa-circle-o fa-lg" style="color:green"></i>
+        <i class="far fa-circle fa-lg" style="color:green"></i>
     {% elif plan_value == 3 %}
-        <i class="fa fa-question fa-lg" style="color:gray"></i>
+        <i class="fas fa-question fa-lg" style="color:gray"></i>
     {% elif plan_value == 4 %}
-        <i class="fa fa-square-o fa-lg" style="color:red"></i>
+        <i class="far fa-square fa-lg" style="color:red"></i>
     {% elif plan_value == 5 %}
-        <i class="fa fa-square fa-lg" style="color:red"></i>                
+        <i class="fas fa-square fa-lg" style="color:red"></i>                
     {% elif plan_value == 6 %}
-        <i class="fa fa-times fa-lg" style="color:black"></i>                
+        <i class="fas fa-times fa-lg" style="color:black"></i>                
     {% else %}
-        <i class="fa fa-minus fa-sm" style="color:black"></i>
+        <i class="fas fa-minus fa-sm" style="color:black"></i>
     {% endif %}
 {%- endmacro %}
 
@@ -28,7 +28,7 @@
     <div class="dropdown-menu" aria-labelledby="{{plan.key.urlsafe()}}">
         <a class="dropdown-item" onclick="update_plan('{{plan.key.urlsafe()}}','1')">{{ icon(1) }} {% trans %}Definitely{% endtrans %}</a>
         {% if not simple_planning %}
-            <a class="dropdown-item" nclick="update_plan('{{plan.key.urlsafe()}}','2')">{{ icon(2) }} {% trans %}Probably{% endtrans %}</a>
+            <a class="dropdown-item" onclick="update_plan('{{plan.key.urlsafe()}}','2')">{{ icon(2) }} {% trans %}Probably{% endtrans %}</a>
         {% endif %}
         <a class="dropdown-item" onclick="update_plan('{{plan.key.urlsafe()}}','3')">{{ icon(3) }} {% trans %}Don't Know{% endtrans %}</a>
         {% if not simple_planning %}
