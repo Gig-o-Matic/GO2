@@ -22,6 +22,7 @@
         {% if the_user.preferences.agenda_show_time and the_gig.gigtime() %}
             {{ the_gig.gigtime() }}
         {% endif %}
+        <span style="display: inline-block; vertical-align: middle;">
         {% if the_gig.status==1 %}
             <i class="fas fa-check-circle float-md-right" style="color:green"></i>
         {% elif the_gig.status==2 %}
@@ -29,6 +30,7 @@
         {% else %}
             <i class="fas fa-question-circle float-md-right" style="color:orange"></i>
         {% endif %}
+        </span>
     </div>
     <div class="col-sm-12 col-md-5">
         <a href="gig_info.html?gk={{ the_gig_key.urlsafe() }}" ><strong>{{ the_gig.title|e }}</strong></a>
