@@ -34,7 +34,7 @@
                             <div class="row">
                                 <div class="col-12">
                                     <br>
-                                    <a class="btn btn-primary btn-sm" onclick="addSection(); return false;">{% trans %}Add a Section{% endtrans %}</a>
+                                    <button class="btn btn-primary btn-sm" onclick="addSection(); return false;">{% trans %}Add a Section{% endtrans %}</button>
                                 </div>
                             </div>
                         </div>
@@ -79,16 +79,16 @@ function updateSectionList() {
             theHTML += "</div>"
 
             theHTML += "<div class='col-1'>";
-            theHTML += "<a class='btn btn-default btn-sm' onclick='deleteSection("+i+"); return false;' href='#'><i class='fa fa-times-circle fa-lg'></i></a>";
+            theHTML += "<a class='btn btn-default btn-sm' onclick='deleteSection("+i+"); return false;' href='#'><i class='fas fa-times-circle fa-lg'></i></a>";
             theHTML += "</div>";
 
 
             theHTML += "<div class='col-1'>";
-            theHTML += "<a class='btn btn-default btn-sm' onclick='moveSection("+i+",-1); return false' id='up"+i+"'><i class='fa fa-arrow-circle-up fa-lg'></i></a>";
+            theHTML += "<a class='btn btn-default btn-sm' onclick='moveSection("+i+",-1); return false' id='up"+i+"'><i class='fas fa-arrow-circle-up fa-lg'></i></a>";
             theHTML += "</div>";
 
             theHTML += "<div class='col-1'>";
-            theHTML += "<a class='btn btn-default btn-sm' onclick='moveSection("+i+",1); return false' id='dn"+i+"'><i class='fa fa-arrow-circle-down fa-lg'></i></a>";
+            theHTML += "<a class='btn btn-default btn-sm' onclick='moveSection("+i+",1); return false' id='dn"+i+"'><i class='fas fa-arrow-circle-down fa-lg'></i></a>";
             theHTML += "</div>";
 
 

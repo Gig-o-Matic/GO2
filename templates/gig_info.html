@@ -48,11 +48,11 @@
                     </div>
                     <div class="col-md-10 col-sm-10 col-xs-9 col-8">
                         {% if gig.status==1 %}
-                            <i class="fa fa-check-circle" style="color:green"></i> {% trans %}Confirmed!{% endtrans %}
+                            <i class="fas fa-check-circle" style="color:green"></i> {% trans %}Confirmed!{% endtrans %}
                         {% elif gig.status==2 %}
-                            <i class="fa fa-times-circle" style="color:red"></i> <strong>{% trans %}Cancelled!{% endtrans %}</strong>
+                            <i class="fas fa-times-circle" style="color:red"></i> <strong>{% trans %}Cancelled!{% endtrans %}</strong>
                         {% else %}
-                            <i class="fa fa-question-circle" style="color:orange"></i> <strong>{% trans %}Unconfirmed{% endtrans %}</strong>
+                            <i class="fas fa-question-circle" style="color:orange"></i> <strong>{% trans %}Unconfirmed{% endtrans %}</strong>
                         {% endif %}
                         {% if gig.is_private %}
                             ({% trans %}Hidden From Public Page{% endtrans %})
@@ -85,11 +85,11 @@
                 </div>                    
                 <div class="row">&nbsp;</div>
                 <div class="row">
-                    <div class="col-md-2 col-sm-2 col-xs-3 col-12"><i class="fa fa-calendar"></i></div>
+                    <div class="col-md-2 col-sm-2 col-xs-3 col-12"><i class="fas fa-calendar"></i></div>
                     <div class="col-md-10 col-sm-10 col-xs-9 col-12">{{ date_str }}{{ enddate_str }}</div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 col-12"><i class="fa fa-clock-o"></i></div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 col-12"><i class="fas fa-clock"></i></div>
                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 col-3">{% trans %}Call Time{% endtrans %}: 
                     {% if gig.calltime %}
                         {{ gig.calltime }}
@@ -171,7 +171,7 @@
                             <h5>{% trans %}Setlist{% endtrans %}</h5>
                         </div>
                         <div class="ml-auto">
-                            <a class="btn btn-primary btn-sm" href="print_setlist?gk={{gig.key.urlsafe()}}" target="new"><i class="fa fa-print"></i>
+                            <a class="btn btn-primary btn-sm" href="print_setlist?gk={{gig.key.urlsafe()}}" target="new"><i class="fas fa-print"></i>
                             {% trans %}Print{% endtrans %}</a>
                         </div>
                     </div>
@@ -194,20 +194,20 @@
                         <h5>{% trans %}Member Plans{% endtrans %}</h5>
                     </div>
                     <div class="ml-auto"">
-                        <span id="printall"><a href="print_planlist?gk={{gig.key.urlsafe()}}&printall=1" target="new" class="btn btn-sm btn-secondary"><i class="fa fa-print"></i>
+                        <span id="printall"><a href="print_planlist?gk={{gig.key.urlsafe()}}&printall=1" target="new" class="btn btn-sm btn-secondary"><i class="fas fa-print"></i>
                         {% trans %}Print{% endtrans %}
                         </a></span>
                         <span id="printcomm">
-                        <a href="print_planlist?gk={{gig.key.urlsafe()}}&printall=0" target="new" class="btn btn-sm btn-secondary"><i class="fa fa-print"></i>
+                        <a href="print_planlist?gk={{gig.key.urlsafe()}}&printall=0" target="new" class="btn btn-sm btn-secondary"><i class="fas fa-print"></i>
                         {% trans %}Print{% endtrans %}
                         </a></span>
-                        <a href="#" onclick="simpleswitch(); return false;" class="btn btn-sm btn-secondary"><i class="fa fa-refresh fs-lg"></i>
+                        <a href="#" onclick="simpleswitch(); return false;" class="btn btn-sm btn-secondary"><i class="fas fa-sync fs-lg"></i>
                         <span id="simpleoff">{% trans %}Show All{% endtrans %}</span>
                         <span id="simpleon">{% trans %}Show Committed{% endtrans %}</span>
                         </a>
 
                         {% if user_can_edit %}
-                            <span id="showremind"><a href="#" onclick="sendreminder('{{gig.key.urlsafe()}}'); return false;" class="btn btn-sm btn-secondary"><i class="fa fa-envelope"></i>
+                            <span id="showremind"><a href="#" onclick="sendreminder('{{gig.key.urlsafe()}}'); return false;" class="btn btn-sm btn-secondary"><i class="fas fa-envelope"></i>
                             	{% trans %}Remind{% endtrans %}
                             </a></span>
                         	<span id="hideremind">

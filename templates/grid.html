@@ -35,10 +35,10 @@
 </div>
 <div class="row">
     <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-0" style="white-space: nowrap;">
-        <a class="btn btn-default btn-sm" href="/grid.html?bk={{the_band_key.urlsafe()}}&m={{the_month}}&y={{the_year}}&d=-1"><i class="fa fa-arrow-left"></i></a>
+        <a class="btn btn-default btn-sm" href="/grid.html?bk={{the_band_key.urlsafe()}}&m={{the_month}}&y={{the_year}}&d=-1"><i class="fas fa-arrow-left"></i></a>
         {{ the_month_string }}
-        <a class="btn btn-default btn-sm" href="/grid.html?bk={{the_band_key.urlsafe()}}&m={{the_month}}&y={{the_year}}&d=1"><i class="fa fa-arrow-right"></i></a>
-        <i class="fa fa-calendar datepicker" id="grid_date"></i>
+        <a class="btn btn-default btn-sm" href="/grid.html?bk={{the_band_key.urlsafe()}}&m={{the_month}}&y={{the_year}}&d=1"><i class="fas fa-arrow-right"></i></a>
+        <i class="fas fa-calendar datepicker" id="grid_date"></i>
     </div>
 </div>
 {% if the_gigs %}
@@ -61,9 +61,11 @@
                         ({% trans %}archived{% endtrans %})
                     {% else %}
                         {% if gig.status==1 %}
-                            <i class="fa fa-check-circle" style="color:green"></i>
+                            <i class="fas fa-check-circle" style="color:green"></i>
                         {% elif gig.status==2 %}
-                            <i class="fa fa-times-circle" style="color:red"></i>
+                            <i class="fas fa-times-circle" style="color:red"></i>
+                        {% else %}
+                            <i class="fas fa-question-circle" style="color:orange"></i>
                         {% endif %}                    
                     {% endif %}</td>
                 {% endfor %}
