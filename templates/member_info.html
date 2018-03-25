@@ -51,86 +51,27 @@
                         </div>
                     {% endif %}
                 {% endif %}
-                <div>&nbsp;</div>
                 {% if the_member.statement %}
+	                <div>&nbsp;</div>
                     <div class="row">
                         <div class="col-sm-3 col-12">{% trans %}Personal Statement{% endtrans %}</div>
                         <div class="col-sm-9 col-12">{{ the_member.statement|e }}</div>
                     </div>
-                    <div class="row"><br></div>
                 {% endif %}
-            <div class="row">
-                <div class="col-sm-3 col-12">{% trans %}My Bands{% endtrans %}</div>
-                <div class="col-sm-9 col-12">
-                    {% for band_key in the_band_keys %}
-                        {% set the_band = band_key.get() %}
-                        <a href="/band_info.html?bk={{ the_band.key.urlsafe() }}">{{ the_band.name }}</a>{% if loop.last == False %}, {% endif %}
-                    {% endfor %}
-                </div>
-            </div>
-                {% if member_is_me or the_user_is_superuser %}
-                    <br>
-                    <div class="row">
-                        <div class="d-none d-sm-inline col-sm-3">{% trans %}Hide canceled gigs{% endtrans %}:</div>
-                        <div class="d-none d-sm-inline col-sm-9">{{ truefalse(the_member.preferences.hide_canceled_gigs) }}</div>
-                        <div class="col-12 d-sm-none">{% trans %}Hide canceled gigs{% endtrans %}: {{ truefalse(the_member.preferences.hide_canceled_gigs) }}</div>
-                    </div>
-                    <br>
-                    <div class="row">
-                        <div class="d-none d-sm-inline col-sm-3">{% trans %}Share my profile{% endtrans %}:</div>
-                        <div class="d-none d-sm-inline col-sm-3">{{ truefalse(the_member.preferences.share_profile) }}</div>
-                        <div class="col-12 d-sm-none">{% trans %}Share my profile{% endtrans %}: {{ truefalse(the_member.preferences.share_profile) }}</div>
-                    </div>
-                    <div class="row">
-                        <div class="d-none d-sm-inline col-sm-3">{% trans %}Share my email{% endtrans %}:</div>
-                        <div class="d-none d-sm-inline col-sm-3">{{ truefalse(the_member.preferences.share_email) }}</div>
-                        <div class="col-12 d-sm-none">{% trans %}Share my email{% endtrans %}: {{ truefalse(the_member.preferences.share_email) }}</div>
-                    </div>
-                    <br>
-                    <div class="row">
-                        <div class="col-sm-3 col-12">{% trans %}Calendar URL for My Bands{% endtrans %}</div>
-                        <div class="col-sm-9 col-12">
-                                <a href="http://gig-o-matic.appspot.com/cal/m/{{the_member.key.urlsafe()}}" onclick="return false;">{% trans %}Subscribe using this link's URL{% endtrans %}</a> [<a href="/calhelp">{% trans %}click here for help{% endtrans %}</a>]
-                        </div>
-                    </div>
-                    <br>
-                    <div class="row">
-                        <div class="d-none d-sm-inline col-sm-3">{% trans %}Calendar shows only confirmed gigs{% endtrans %}:</div>
-                        <div class="d-none d-sm-inline col-sm-3">{{ truefalse(the_member.preferences.calendar_show_only_confirmed) }}</div>
-                        <div class="col-12 d-sm-none">{% trans %}Calendar shows only confirmed gigs{% endtrans %}: {{ truefalse(the_member.preferences.calendar_show_only_confirmed) }}</div>
-                    </div>
-                    <div class="row">
-                        <div class="d-none d-sm-inline col-sm-3">{% trans %}Calendar shows only gigs I can do (or maybe can do){% endtrans %}:</div>
-                        <div class="d-none d-sm-inline col-sm-3">{{ truefalse(the_member.preferences.calendar_show_only_committed) }}</div>
-                        <div class="col-12 d-sm-none">{% trans %}Calendar shows only gigs I can do (or maybe can do){% endtrans %}: {{ truefalse(the_member.preferences.calendar_show_only_committed) }}</div>
-                    </div>
-                    {% if the_user_is_superuser %}
-                    <br>
-                    <div class="row">
-                        <div class="col-sm-3 col-12">Verified:</div>
-                        <div class="col-sm-9 col-12">
-                        	{{ the_member.verified }}
-                        	{% if the_member.verified == False %}
-                        		<a class="btn btn-primary btn-sm" href="/verify_member?mk={{ the_member.key.urlsafe() }}">verify</a>
-                        	{% endif %}
-                        </div>
-                    </div>
-                    <br>
-                    <div class="row">
-                        <div class="col-sm-3 col-12">Last Activity:</div>
-                        <div class="col-sm-9 col-12">
-                            {% if the_member.last_activity %}
-                                {{ the_member.last_activity.strftime('%Y-%m-%d') }}
-                            {% else %}
-                                None since 2014-10-18
-                            {% endif %}
-                        </div>
-                    </div>
-                    {% endif %}
-                {% endif %}
-            </div>
-        </div> <!-- card -->
-        <div>&nbsp;</div>
+                {% if not member_is_me %}
+	                <div>&nbsp;</div>
+		            <div class="row">
+		                <div class="col-sm-3 col-12">{% trans %}My Bands{% endtrans %}</div>
+		                <div class="col-sm-9 col-12">
+		                    {% for band_key in the_band_keys %}
+		                        {% set the_band = band_key.get() %}
+		                        <a href="/band_info.html?bk={{ the_band.key.urlsafe() }}">{{ the_band.name }}</a>{% if loop.last == False %}, {% endif %}
+		                    {% endfor %}
+		                </div>
+		            </div>
+		        {% endif %}
+		    </div>
+		</div>
 
         {% if the_member.images %}
             <div class="card">
@@ -166,24 +107,99 @@
         {% endif %}            
 
         {% if member_is_me or the_user_is_superuser %}
+	        <div>&nbsp;</div>
             <div class="card">
-                    <div class="card-header">
-                        <div class="row">
-                            <div class="col-12 titlerow">
-                                <h5>{% trans %}Bands{% endtrans %}</h5>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body">        
-                        <div id="bandlist">
-                            <i class="fas fa-spinner fa-pulse"></i>
-                        </div>
-                        <div id="bandpopup">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-12 titlerow">
+                            <h5>{% trans %}Bands{% endtrans %}</h5>
                         </div>
                     </div>
                 </div>
-            </div> <!-- panel-body -->
-        {% endif %}
+                <div class="card-body">        
+                    <div id="bandlist">
+                        <i class="fas fa-spinner fa-pulse"></i>
+                    </div>
+                    <div id="bandpopup">
+                    </div>
+                </div>
+            </div>
+
+	        <div>&nbsp;</div>
+            <div class="card">
+	            <div class="card-header">
+	                <div class="row">
+	                    <div class="col-4 titlerow">
+	                        <h5>{% trans %}Preferences{% endtrans %}</h5>
+	                    </div>
+                        {% if member_is_me or the_user_is_superuser %}
+	                        <div class="ml-auto">
+	                            <a class="btn btn-primary btn-sm" href="member_edit.html?mk={{ the_member.key.urlsafe() }}">{% trans %}Edit{% endtrans %}</a>
+	                        </div>
+	                    {% endif %}
+	                </div>
+	            </div>
+	            <div class="card-body">
+                    <div class="row">
+                        <div class="d-none d-sm-inline col-sm-3">{% trans %}Hide canceled gigs{% endtrans %}:</div>
+                        <div class="d-none d-sm-inline col-sm-9">{{ truefalse(the_member.preferences.hide_canceled_gigs) }}</div>
+                        <div class="col-12 d-sm-none">{% trans %}Hide canceled gigs{% endtrans %}: {{ truefalse(the_member.preferences.hide_canceled_gigs) }}</div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="d-none d-sm-inline col-sm-3">{% trans %}Share my profile{% endtrans %}:</div>
+                        <div class="d-none d-sm-inline col-sm-3">{{ truefalse(the_member.preferences.share_profile) }}</div>
+                        <div class="col-12 d-sm-none">{% trans %}Share my profile{% endtrans %}: {{ truefalse(the_member.preferences.share_profile) }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="d-none d-sm-inline col-sm-3">{% trans %}Share my email{% endtrans %}:</div>
+                        <div class="d-none d-sm-inline col-sm-3">{{ truefalse(the_member.preferences.share_email) }}</div>
+                        <div class="col-12 d-sm-none">{% trans %}Share my email{% endtrans %}: {{ truefalse(the_member.preferences.share_email) }}</div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-sm-3 col-12">{% trans %}Calendar URL for My Bands{% endtrans %}</div>
+                        <div class="col-sm-9 col-12">
+                                <a href="http://gig-o-matic.appspot.com/cal/m/{{the_member.key.urlsafe()}}" onclick="return false;">{% trans %}Subscribe using this link's URL{% endtrans %}</a> [<a href="/calhelp">{% trans %}click here for help{% endtrans %}</a>]
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="d-none d-sm-inline col-sm-3">{% trans %}Calendar shows only confirmed gigs{% endtrans %}:</div>
+                        <div class="d-none d-sm-inline col-sm-3">{{ truefalse(the_member.preferences.calendar_show_only_confirmed) }}</div>
+                        <div class="col-12 d-sm-none">{% trans %}Calendar shows only confirmed gigs{% endtrans %}: {{ truefalse(the_member.preferences.calendar_show_only_confirmed) }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="d-none d-sm-inline col-sm-3">{% trans %}Calendar shows only gigs I can do (or maybe can do){% endtrans %}:</div>
+                        <div class="d-none d-sm-inline col-sm-3">{{ truefalse(the_member.preferences.calendar_show_only_committed) }}</div>
+                        <div class="col-12 d-sm-none">{% trans %}Calendar shows only gigs I can do (or maybe can do){% endtrans %}: {{ truefalse(the_member.preferences.calendar_show_only_committed) }}</div>
+                    </div>
+                    {% if the_user_is_superuser %}
+	                    <br>
+	                    <div class="row">
+	                        <div class="col-sm-3 col-12">Verified:</div>
+	                        <div class="col-sm-9 col-12">
+	                        	{{ the_member.verified }}
+	                        	{% if the_member.verified == False %}
+	                        		<a class="btn btn-primary btn-sm" href="/verify_member?mk={{ the_member.key.urlsafe() }}">verify</a>
+	                        	{% endif %}
+	                        </div>
+	                    </div>
+	                    <br>
+	                    <div class="row">
+	                        <div class="col-sm-3 col-12">Last Activity:</div>
+	                        <div class="col-sm-9 col-12">
+	                            {% if the_member.last_activity %}
+	                                {{ the_member.last_activity.strftime('%Y-%m-%d') }}
+	                            {% else %}
+	                                None since 2014-10-18
+	                            {% endif %}
+	                        </div>
+	                    </div>
+                    {% endif %}
+	            </div>
+	        </div> <!-- card -->
+	    {% endif %}
     </div>
 </div>
 {% endblock content %}
