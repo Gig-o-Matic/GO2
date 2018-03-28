@@ -31,28 +31,31 @@
                                 </div>
                             </div>
                             <div class="col-6">
-                                <input type="checkbox" id='msbk-{{the_info.assoc.band.urlsafe()}}' onclick="multi_select('{{the_info.assoc.band.urlsafe()}}')"
+                                <input class="form-check-input" type="checkbox" id='msbk-{{the_info.assoc.band.urlsafe()}}' onclick="multi_select('{{the_info.assoc.band.urlsafe()}}')"
                                 {% if the_info.assoc.is_multisectional %}
                                     checked
                                 {% endif %}
-                                > {% trans %}other sections, too{% endtrans %}
+                                >
+                                <label class="form-check-label" for="msbk-{{the_info.assoc.band.urlsafe()}}">{% trans %}other sections, too{% endtrans %}</label>
                             </div>
                         </div>
                     {% endif %}
                     <div class="row" style="padding-bottom: 5px;">
                         <div class="col-6">
-                            <input type="checkbox" id='oak-{{the_info.assoc.key.urlsafe()}}' onclick="occ_select('{{the_info.assoc.key.urlsafe()}}')"
+                            <input class="form-check-input" type="checkbox" id='oak-{{the_info.assoc.key.urlsafe()}}' onclick="occ_select('{{the_info.assoc.key.urlsafe()}}')"
                             {% if the_info.assoc.is_occasional %}
                                 checked
                             {% endif %}
-                            > {% trans %}occasional{% endtrans %}
+                            >
+                            <label class="form-check-label" for="oak-{{the_info.assoc.key.urlsafe()}}">{% trans %}occasional{% endtrans %}</label>
                         </div>
                         <div class="col-6">
-                            <input type="checkbox" id='hideak-{{the_info.assoc.key.urlsafe()}}' onclick="hide_select('{{the_info.assoc.key.urlsafe()}}')"
+                            <input ss="form-check-input" type="checkbox" id='hideak-{{the_info.assoc.key.urlsafe()}}' onclick="hide_select('{{the_info.assoc.key.urlsafe()}}')"
                             {% if the_info.assoc.hide_from_schedule %}
                                 checked
                             {% endif %}
-                            > {% trans %}hide from calendar{% endtrans %}
+                            >
+                            <label class="form-check-label" for="hideak-{{the_info.assoc.key.urlsafe()}}">{% trans %}hide from calendar{% endtrans %}</label>
                         </div>
                     </div>
                     <div class="row">

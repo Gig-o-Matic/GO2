@@ -59,72 +59,79 @@
                 </select>
             </div>
             <div class="form-group">
-                <label class="checkbox">  
-                    <input type="checkbox" id="bandanyonecancreategigs" name="band_anyonecancreategigs"
+                <div class="form-check">  
+                    <input class="form-check-input" type="checkbox" id="bandanyonecancreategigs" name="band_anyonecancreategigs"
                     {% if the_band.anyone_can_create_gigs %}
                         checked
                     {% endif %}
-                    >{% trans %}Let any member create gigs{% endtrans %}   
-                </label>  
+                    >
+                    <label class="form-check-label" for="bandanyonecancreategigs">{% trans %}Let any member create gigs{% endtrans %}</label>
+                </div>  
             </div>
             <div class="form-group">
-                <label class="checkbox">  
-                    <input type="checkbox" id="bandanyonecanmanagegigs" name="band_anyonecanmanagegigs"
+                <div class="form-check">  
+                    <input class="form-check-input" type="checkbox" id="bandanyonecanmanagegigs" name="band_anyonecanmanagegigs"
                     {% if the_band.anyone_can_manage_gigs %}
                         checked
                     {% endif %}
-                    >{% trans %}Let any member edit and delete gigs{% endtrans %}   
-                </label>  
+                    >
+                    <label class="form-check-label" for="bandanyonecanmanagegigs">{% trans %}Let any member edit and delete gigs{% endtrans %}</label>
+                </div>  
             </div>
             <div class="form-group">
-                <label class="checkbox">  
-                    <input type="checkbox" id="bandsharegigs" name="band_sharegigs"
+                <div class="form-check">  
+                    <input class="form-check-input" type="checkbox" id="bandsharegigs" name="band_sharegigs"
                     {% if the_band.share_gigs %}
                         checked
                     {% endif %}
-                    >{% trans %}Let non-members see upcoming gigs{% endtrans %}   
-                </label>  
+                    >
+                    <label class="form-check-label" for="bandsharegigs">{% trans %}Let non-members see upcoming gigs{% endtrans %}</label>  
+                </div>  
             </div>
             <div class="form-group">
-                <label class="checkbox">  
-                    <input type="checkbox" id="bandsendupdatesbydefault" name="band_sendupdatesbydefault"
+                <div class="form-check">  
+                    <input class="form-check-input" type="checkbox" id="bandsendupdatesbydefault" name="band_sendupdatesbydefault"
                     {% if the_band.send_updates_by_default %}
                         checked
                     {% endif %}
-                    >{% trans %}Send gig updates by default{% endtrans %}   
-                </label>  
+                    >
+                    <label class="form-check-label" for="bandsendupdatesbydefault">{% trans %}Send gig updates by default{% endtrans %}<label class="form-check-label" for="bandanyonecanmanagegigs"> 
+                </div>  
             </div>
             <div class="form-group">
-                <label class="checkbox">  
-                    <input type="checkbox" id="bandenablerss" name="band_enablerss"
+                <div class="form-check">  
+                    <input class="form-check-input" type="checkbox" id="bandenablerss" name="band_enablerss"
                     {% if the_band.rss_feed %}
                         checked
                     {% endif %}
-                    >{% trans %}Enable RSS feed{% endtrans %}   
-                </label>  
+                    >
+                    <label class="form-check-label" for="bandenablerss">{% trans %}Enable RSS feed{% endtrans %}</label>  
+                </div>  
             </div>
             <div class="form-group">
-                <label class="checkbox">  
-                    <input type="checkbox" id="bandsimpleplan" name="band_simpleplan"
+                <div class="form-check">  
+                    <input class="form-check-input" type="checkbox" id="bandsimpleplan" name="band_simpleplan"
                     {% if the_band.simple_planning %}
                         checked
                     {% endif %}
-                    >{% trans %}Use simple planning pop-up (yes/maybe/no){% endtrans %}   
-                </label>  
+                    >
+                    <label class="form-check-label" for="bandsimpleplan">{% trans %}Use simple planning pop-up (yes/maybe/no){% endtrans %}</label>   
+                </div>  
             </div>
             <div class="form-group">
                 <label for="bandfeedback" class="col-form-label">{% trans %}Extra Feedback{% endtrans %}</label>
                 <textarea class="form-control" rows="10" id="bandfeedback" placeholder="{% trans %}items for second planning popup (BETA!){% endtrans %}" name="band_feedback">{% if the_band.plan_feedback %}{{the_band.plan_feedback }}{% endif %}</textarea>
             </div>
-            {% if the_user_is_superuser %}
+            {% if the_user_is_superuser and false %}
             <div class="form-group">
-                <label class="checkbox">  
-                    <input type="checkbox" id="bandenableforum" name="band_enableforum"
+                <div class="form-check">  
+                    <input class="form-check-input" type="checkbox" id="bandenableforum" name="band_enableforum"
                     {% if the_band.enable_forum %}
                         checked
                     {% endif %}
-                    >{% trans %}Enable band forum{% endtrans %}   
-                </label>  
+                    >
+                    <label class="form-check-label" for="bandenableforum">{% trans %}Enable band forum{% endtrans %}</label>
+                </div>  
             </div>
             {% endif %}            
             <div class="form-group">

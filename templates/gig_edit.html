@@ -44,13 +44,14 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="checkbox">  
-                    <input type="checkbox" id="gig_private" name="gig_private"
+                <div class="form-check">  
+                    <input class="form-check-input" type="checkbox" id="gig_private" name="gig_private"
                     {% if gig.is_private %}
                     checked
                     {% endif %}
-                    >{% trans %}Hide From Public Page{% endtrans %}  
-                </label>  
+                    >
+                    <label class="form-check-label" for="gig_private">{% trans %}Hide From Public Page{% endtrans %}</label>
+                </div>  
             </div>
              
             <div class="row">
@@ -69,8 +70,10 @@
             </div>
             {% if newgig_is_active %}
                 <div class="form-group">
-                    <label for="gignumberinseriesinput" class="checkbox"></label>
-                    <input type="checkbox" id="newgig-isseries" name="newgig_isseries" onClick="setSeries();">{% trans %}Add A Series Of Copies{% endtrans %}</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="newgig-isseries" name="newgig_isseries" onClick="setSeries();">
+                        <label class="form-check-label" for="newgig-isseries">{% trans %}Add A Series Of Copies{% endtrans %}</label>
+                    </div>
                     <div id="gignumberseriesinput" hidden="true">
                         <div class="row">
                             <div class="col-md-6">
@@ -246,12 +249,13 @@
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 {% endblock modal %}
+
 {% block localscripts %}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.css"></script> -->
 {% if the_user.preferences.locale=='en_GB' %}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/locales/bootstrap-datepicker.en-GB.min.js"></script>
-{% else %}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/locales/bootstrap-datepicker.{{ the_user.preferences.locale }}.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/locales/bootstrap-datepicker.en-GB.min.js"></script>
+{% elif the_user.preferences.locale!='en' %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/locales/bootstrap-datepicker.{{ the_user.preferences.locale }}.min.js"></script>
 {% endif %}
 <script src="/js/jquery.validate.js"></script>
 <script src="/timepicker/jquery.timepicker.min.js"></script>
@@ -402,6 +406,7 @@ function handleBandChange(sel) {
 };
 
 function setSeries() {
+    console.log('woo');
     if($('#newgig-isseries').prop('checked'))
        $('#gignumberseriesinput').show();
     else
