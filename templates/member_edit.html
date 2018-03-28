@@ -69,11 +69,14 @@
                 </div>
                 <div class="card-body">
                     <div class="form-group">
-                        <input type="checkbox" id="memberprefhidecanceledgigs" name="member_prefhidecanceledgigs"
-                        {% if the_member.preferences.hide_canceled_gigs %}
-                            checked
-                        {% endif %}
-                        > {% trans %}Hide canceled gigs on my agenda page{% endtrans %}
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="memberprefhidecanceledgigs" name="member_prefhidecanceledgigs"
+                            {% if the_member.preferences.hide_canceled_gigs %}
+                                checked
+                            {% endif %}
+                            >
+                            <label class="form-check-label" for="memberprefhidecalceledgigs"> {% trans %}Hide canceled gigs on my agenda page{% endtrans %}</label>
+                        </div>
                     </div>
                     <div class="form-group">                    
                         <input type="checkbox" id="memberprefagendashowtime" name="member_prefagendashowtime"

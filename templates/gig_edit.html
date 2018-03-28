@@ -150,33 +150,39 @@
                 </div>
             {% endif %}
             <div class="form-group">
-                <label class="checkbox">  
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="newgig_notifymembers" name="gig_notifymembers" 
+                    {% if the_band.send_updates_by_default %}checked{% endif %}>
+                    <label class="form-check-label" for="newgig_notifymembers"> 
+                        {% if newgig_is_active or is_dupe %}
+                            {% trans %}Email members about this new gig{% endtrans %}
+                        {% else %}
+                            {% trans %}Email members about change{% endtrans %}  
+                        {% endif %}
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="gig_invite_occasionals" name="gig_invite_occasionals" 
                     {% if newgig_is_active or is_dupe %}
-                        <input type="checkbox" id="newgig_notifymembers" name="gig_notifymembers" 
                         {% if the_band.send_updates_by_default %}checked{% endif %}
-                        >{% trans %}Email members about this new gig{% endtrans %}  
                     {% else %}
-                        <input type="checkbox" id="newgig_notifymembers" name="gig_notifymembers"
-                        {% if the_band.send_updates_by_default %}checked{% endif %}
-                        >{% trans %}Email members about change{% endtrans %}  
-                    {% endif %}
-                </label><br>
-                <label class="checkbox">  
-                    {% if newgig_is_active or is_dupe %}
-                        <input type="checkbox" id="gig_invite_occasionals" name="gig_invite_occasionals" 
-                        {% if the_band.send_updates_by_default %}checked{% endif %}                        
-                        >{% trans %}Invite occasional members{% endtrans %}  
-                    {% else %}
-                        <input type="checkbox" id="gig_invite_occasionals" name="gig_invite_occasionals" 
-                        {% if gig.invite_occasionals and the_band.send_updates_by_default %}checked{% endif %}
-                        >{% trans %}Also send update to occasional members{% endtrans %}  
-                    {% endif %}
-                </label><br>
-                <label class="checkbox">  
-                    <input type="checkbox" id="gig_hide_from_calendar" name="gig_hide_from_calendar" 
-                    {% if gig.hide_from_calendar %}checked{% endif %}                        
-                    >{% trans %}Hide gig from calendars{% endtrans %}  
-                </label>  
+                        {% if gig_invite_occasionals and the_band_send_updates_by_default %}checked{% endif %}
+                    {% endif %}>
+                    <label class="form-check-label" for="gig_invite_occasionals">  
+                            {% if newgig_is_active or is_dupe %}
+                                {% trans %}Invite occasional members{% endtrans %}  
+                            {% else %}
+                                {% trans %}Also send update to occasional members{% endtrans %}  
+                            {% endif %}
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="gig_hide_from_calendar" name="gig_hide_from_calendar" 
+                    {% if gig.hide_from_calendar %}checked{% endif %}>
+                    <label class="form-check-label" for="gig_hide_from_calendar">  
+                        {% trans %}Hide gig from calendars{% endtrans %}  
+                    </label>  
+                </div>
             </div>
             <div class="row">
                 <div class="form-group col-md-6 col-12">
