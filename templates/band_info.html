@@ -205,21 +205,21 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="row"><div class="col-12 titlerow">
-                            <h5>{% trans %}Pending Members{% endtrans %} <span class="badge">{{the_pending_members|length}}</span></h5>
+                            <h5>{% trans %}Pending Members{% endtrans %} <span class="badge badge-primary">{{the_pending_members|length}}</span></h5>
                         </div></div>
                     </div>
                     <div class="card-body">
                         {% for m in the_pending_members %}
                         <div class="row" style="padding-top: 5px; padding-bottom: 5px; {{ loop.cycle('', 'background:#f5f5f5;') }}">
                             <div class="col-md-2 col-sm-2 col-12">
-                                {{ m.name|e }}
+                                <a href="/member_info.html?mk={{m.key.urlsafe()}}">{{ m.name|e }}</a>
                             </div>
                             <div class="col-md-4 col-sm-4 col-12">
                                 {{ m.email_address|e }}
                             </div>
                             <div class="col-md-6 col-sm-6 col-12">
-                                <a class="btn btn-default btn-sm" href="/band_confirm_member?do=1&mk={{m.key.urlsafe()}}&bk={{the_band.key.urlsafe()}}">{% trans %}yes, confirm member!{% endtrans %}</a>
-                                <a class="btn btn-default btn-sm" href="/band_removemember?mk={{m.key.urlsafe()}}&bk={{the_band.key.urlsafe()}}">{% trans %}no, reject!{% endtrans %}</a>
+                                <a class="btn btn-primary btn-sm" href="/band_confirm_member?do=1&mk={{m.key.urlsafe()}}&bk={{the_band.key.urlsafe()}}">{% trans %}yes, confirm member!{% endtrans %}</a>
+                                <a class="btn btn-secondary btn-sm" href="/band_removemember?mk={{m.key.urlsafe()}}&bk={{the_band.key.urlsafe()}}">{% trans %}no, reject!{% endtrans %}</a>
                             </div>
                         </div>
                         {% endfor %}
@@ -259,7 +259,7 @@
                             </div>
                             {% if the_user_is_band_admin or the_user_is_superuser %}
                                 <div class="ml-auto">
-                                    <a class="btn btn-primary btn-xs" href="band_invite.html?bk={{ the_band.key.urlsafe() }}">{% trans %}Invite Members{% endtrans %}</a>
+                                    <a class="btn btn-primary btn-sm" href="band_invite.html?bk={{ the_band.key.urlsafe() }}">{% trans %}Invite Members{% endtrans %}</a>
                                 </div>
                             {% endif %}
                         {% else %}
