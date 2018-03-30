@@ -28,36 +28,31 @@ class="landingwrap"
         {% endif %}
         
         <form id="infoform" class="form-horizontal" role="form" action="/signup" method="POST">
-            <div class="row">
-                <div class="form-group">
-                    <label for="email" class="control-label col-md-2 col-md-offset-2">{% trans %}Email Address{% endtrans %}</label>
-                    <div class="col-md-5">
-                        <input type="text" class="form-control" name="email" />
-                    </div>
+            <div class="form-group row">
+                <label for="email" class="col-form-label col-lg-3 text-lg-right">{% trans %}Email Address{% endtrans %}</label>
+                <div class="col-lg-8 col-12">
+                    <input type="text" class="form-control" name="email" />
                 </div>
             </div>
-            <div class="row">
-                <div class="form-group">
-                    <label for="password" class="control-label col-md-2 col-md-offset-2">{% trans %}Password{% endtrans %}</label>
-                    <div class="col-md-5">
-                        <input type="password" class="form-control" name="password" />
-                    </div>
+            <div class="form-group row">
+                <label for="password" class="col-form-label col-lg-3 text-lg-right">{% trans %}Password{% endtrans %}</label>
+                <div class="col-lg-8 col-12">
+                    <input type="password" class="form-control" name="password" />
                 </div>
             </div>
-            <div class="row">
-                <div class="form-group">
-                    <label for="name" class="control-label col-md-2 col-md-offset-2">{% trans %}Name{% endtrans %}</label>
-                    <div class="col-md-5">
-                        <input type="text" class="form-control" name="name" />
-                    </div>
+            <div class="form-group row">
+                <label for="name" class="col-form-label col-lg-3 text-lg-right">{% trans %}Name{% endtrans %}</label>
+                <div class="col-lg-8 col-12">
+                    <input type="text" class="form-control" name="name" />
                 </div>
             </div>
             
-            <div class="row">
-                <div class="col-md-5 col-md-offset-4 text-right">
+            <div class="form-group row">
+                <div class="ml-auto">
                     <a class="btn btn-default" href="/{% if locale %}?locale={{ locale }}{% endif %}">{% trans %}Cancel{% endtrans %}</a>
                     <input type="submit" class="btn btn-primary" value="{% trans %}Sign me up!{% endtrans %}" />
                 </div>
+                <div class="col-1"></div>
             </div>
             {% if locale %}
                 <input type='hidden' name='locale' value='{{ locale }}'>
