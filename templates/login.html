@@ -13,7 +13,7 @@ class="landingwrap"
 {% block content %}
     <div id="landingpage_content">
         <div class="row">
-            <div class="page-header col-lg-10 col-12 ml-auto">
+            <div class="page-header col-md-11 col-12 ml-auto">
                 <h3>{% trans %}Welcome to Gig-o-Matic!{% endtrans %}</h3>
             </div>
         </div>
@@ -23,7 +23,7 @@ class="landingwrap"
 
         {% if failed %}
             <div class="row">
-                <div class="col-md-10 col-12 ml-auto">
+                <div class="col-md-11 col-12 ml-auto">
                     <strong>{% trans %}Login failed!{% endtrans %}</strong> {% trans %}Check your credentials and try again.{% endtrans %}
                 </div>
             </div>
@@ -34,7 +34,7 @@ class="landingwrap"
 
         {% if unverified %}
             <div class="row">
-                <div class="col-md-10 col-12 ml-auto">
+                <div class="col-md-11 col-12 ml-auto">
                     <strong>{% trans %}Login failed!{% endtrans %}</strong> {% trans %}Check your email to verify your account.{% endtrans %}
                 </div>
             </div>
@@ -45,7 +45,7 @@ class="landingwrap"
         {% endif %}
 
         <div class="row">
-            <div class="col-lg-10 col-12 ml-auto">
+            <div class="col-md-11 col-12 ml-auto">
                 <form class="form" role="form" action= "/login" method="POST">
                     {% if originalurl %}
                         <input type="hidden" name="originalurl" value="{{originalurl}}">
@@ -98,7 +98,7 @@ class="landingwrap"
         </div>
         <br>
         <div class="row">
-            <div class="col-lg-10 ml-auto">
+            <div class="col-md-11 ml-auto">
 	            {% for lang in languages %}
 	                {% if lang[0] != locale %}
 	                    <a href='/login?locale={{lang[0]}}'>{{ lang[1] }}</a>
@@ -108,7 +108,7 @@ class="landingwrap"
 			</div>
 		</div>
         <div class="row">
-            <div class="col-lg-10 ml-auto">
+            <div class="col-md-11 ml-auto">
                 {% trans %}Want your band on the Gig-o?{% endtrans %} {% trans %}Click{% endtrans %} <a href="/help_band_request.html{% if locale %}?locale={{ locale }}{% endif %}">{% trans %}here{% endtrans %}</a>.
                 {% trans %}What is the Gig-o-Matic, anyway?{% endtrans %} {% trans %}Click{% endtrans %} <a href="/whatis.html{% if locale %}?locale={{ locale }}{% endif %}">{% trans %}here{% endtrans %}</a>!
             </div>

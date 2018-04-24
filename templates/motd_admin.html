@@ -3,13 +3,17 @@
 {% block title %}{% trans %}MOTD Admin{% endtrans %}{% endblock title %}
 
 {% block content %}
+
     <div class="row">
-        <div class="page-header col-md-8 col-md-offset-2">
+        <div class="page-header page-header mx-auto col-lg-8 col-md-10 col-sm-12">
             {% trans %}Message of the Day{% endtrans %}
         </div>
     </div>
+
+
+
     <div class="row">
-        <div class="col-md-8 col-md-offset-2 well">
+        <div class="mx-auto col-lg-8 col-md-10 col-sm-12 well">
             {% if current %}
                 {{ current  | html_content | safe }}
             {% else %}
@@ -20,12 +24,12 @@
     <br><br>
     <form class="form" role="form" method="post" action="motd_admin">    
         <div class="row">
-            <div class="form-group col-md-8 col-md-offset-2">
+            <div class="form-group mx-auto col-lg-8 col-md-10 col-sm-12">
                 <label for="motdinput" class="control-label">New Message</label>
                 <textarea class="form-control" id="motdinput" placeholder="save a blank message to clear current motd" name="motd_content"></textarea>
             </div>
         </div>        
-        <div class="form-group col-md-8 col-md-offset-2 text-right">                
+        <div class="form-group col-lg-8 col-md-10 col-sm-12 text-right mx-auto">
                 <a class="btn btn-default" href="/">Cancel</a>
                 <button type="submit" class="btn btn-primary">Save</button>
         </div>
