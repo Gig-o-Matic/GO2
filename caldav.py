@@ -34,6 +34,13 @@ X-PUBLISHED-TTL:PT2H
 
     return header.format(the_title, "Gig-o-Matic calendar for {0}".format(the_title))
 
+def make_ical_file_header():
+	header = """BEGIN:VCALENDAR
+PRODID:-//Gig-o-Matic//Gig-o-Matic 2//EN
+VERSION:2.0
+"""
+	return header	
+
 def make_cal_footer():
     return "END:VCALENDAR\n"
 
@@ -126,6 +133,7 @@ STATUS:CONFIRMED
 SUMMARY:{0}
 TRANSP:OPAQUE
 URL:{5}
+UID: {6}
 END:VEVENT
 """
     the_details = details_format.format(
@@ -135,10 +143,20 @@ END:VEVENT
                             )
                         )
 
+    the_uid = "{0}@gig-o-matic.com".format(the_gig.key.urlsafe())
+
     event = event.format(title_format.format(summary), start_string, end_string,
                          the_details,
-                         the_gig.address, the_url)
+                         the_gig.address, the_url, the_uid)
     return event
+
+
+def make_ical_file(the_gig, the_band):
+    info = u'{0}'.format(make_ical_file_header())
+    info = u'{0}{1}'.format(info, make_event(the_gig, the_band))
+    info = u'{0}{1}'.format(info, make_cal_footer())
+    return info
+
 
 #####
 #

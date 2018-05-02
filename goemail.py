@@ -10,6 +10,7 @@ import logging
 import re
 import pickle
 import os
+import caldav
 
 from webapp2_extras import i18n
 from webapp2_extras.i18n import gettext as _
@@ -35,7 +36,7 @@ def validate_email(to):
     else:
         return True
 
-def _send_admin_mail(to, subject, body, html=None, reply_to=None):
+def _send_admin_mail(to, subject, body, html=None, reply_to=None, attachment=None):
 
     if validate_email(to) is False:
         return False
@@ -49,6 +50,8 @@ def _send_admin_mail(to, subject, body, html=None, reply_to=None):
         message.reply_to = reply_to
     if html is not None:
         message.html = html
+    if attachment is not None:
+        message.attachments = [attachment]
 
     try:
         message.send()
@@ -132,7 +135,10 @@ def send_newgig_email(the_member, the_gig, the_band, the_gig_url, is_edit=False,
         body = format_body(_('new_gig_email'))
         html = format_body(_('new_gig_email_html'))
 
-    return _send_admin_mail(the_email_address, u'{0} {1}'.format(title_string, the_gig.title), body, html=html, reply_to=reply_to)
+    the_ics_body = caldav.make_ical_file(the_gig, the_band)
+    the_ics = mail.Attachment('gig.ics',the_ics_body)
+
+    return _send_admin_mail(the_email_address, u'{0} {1}'.format(title_string, the_gig.title), body, html=html, reply_to=reply_to, attachment=the_ics)
 
 def announce_new_gig(the_gig, the_gig_url, is_edit=False, is_reminder=False, change_string="", the_members=[]):
 
