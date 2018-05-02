@@ -204,7 +204,7 @@ class MemberRequestHandler(BaseHandler):
         the_member_key = ndb.Key(urlsafe=mk)
         the_member = the_member_key.get()
         
-        limit=datetime.datetime.now()-datetime.timedelta(hours=1)
+        limit=datetime.datetime.now()-datetime.timedelta(hours=3)
         if the_member.last_calfetch is not None and the_member.last_calfetch > limit:
             # too often - just return 503
             self.response.headers.add_header("Retry-After", "3600")
