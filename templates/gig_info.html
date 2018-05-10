@@ -190,7 +190,7 @@
         <div class="card">
             <div class="card-header">
                 <div class="row">
-                    <div class="col-6 titlerow">
+                    <div class="col-4 titlerow">
                         <h5>{% trans %}Member Plans{% endtrans %}</h5>
                     </div>
                     <div class="ml-auto"">
@@ -223,12 +223,12 @@
                         {% for p in the_plan_counts %}
                             <div class="mx-auto">
                             {% if p > 0 %}
-                                <span class="badge badge-light">{{ plan_icon.icon(p) }}{{ the_plan_counts[p] }}</span>
+                                <span class="">{{ plan_icon.icon(p) }}{{ the_plan_counts[p] }}</span>
                             {% endif %}
                             </div>
                         {% endfor %}
                         <div class="mx-auto">
-                            <span class="badge badge-light">{{ plan_icon.icon(0) }}{{ the_plan_counts[0] }}</span>
+                            <span class="">{{ plan_icon.icon(0) }}{{ the_plan_counts[0] }}</span>
                         </div>
                     </div>
                     <div>&nbsp;</div>
