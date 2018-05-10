@@ -1,18 +1,18 @@
 {% macro icon(plan_value=-1) -%}
     {% if plan_value == 1 %}
-        <i class="fa fa-circle fa-lg" style="color:green"></i>
+        <i class="fas fa-circle" style="color:green"></i>
     {% elif plan_value == 2 %}
-        <i class="fa fa-circle-o fa-lg" style="color:green"></i>
+        <i class="far fa-circle" style="color:green"></i>
     {% elif plan_value == 3 %}
-        <i class="fa fa-question fa-lg" style="color:gray"></i>
+        <i class="fas fa-question" style="color:gray"></i>
     {% elif plan_value == 4 %}
-        <i class="fa fa-square-o fa-lg" style="color:red"></i>
+        <i class="far fa-square" style="color:red"></i>
     {% elif plan_value == 5 %}
-        <i class="fa fa-square fa-lg" style="color:red"></i>                
+        <i class="fas fa-square" style="color:red"></i>                
     {% elif plan_value == 6 %}
-        <i class="fa fa-times fa-lg" style="color:black"></i>                
+        <i class="fas fa-times" style="color:black"></i>                
     {% else %}
-        <i class="fa fa-minus fa-sm" style="color:black"></i>
+        <i class="fas fa-minus fa-sm" style="color:black"></i>
     {% endif %}
 {%- endmacro %}
 
@@ -21,39 +21,39 @@
 {%- endmacro %}
 
 {% macro icon_button(plan, simple_planning) -%}
-<div class="btn-group">
-    <button type="button" class="btn btn-default btn-sm dropdown-toggle text-center plan-button" data-toggle="dropdown" id="{{plan.key.urlsafe()}}" data-init="{{plan.value}}">
-        <i class="fa fa-spinner fa-spin fa-lg"></i>
+<div class="dropdown mr-2">
+    <button type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle text-center plan-button" data-toggle="dropdown" id="{{plan.key.urlsafe()}}" data-init="{{plan.value}}" aria-haspopup="true" aria-expanded="false">
+        <i class="fas fa-spinner fa-pulse fa-lg"></i>
     </button>
-    <ul class="dropdown-menu" role="menu">
-        <li role="presentation"><a onclick="update_plan('{{plan.key.urlsafe()}}','1')">{{ icon(1) }} {% trans %}Definitely{% endtrans %}</a></li>
+    <div class="dropdown-menu" aria-labelledby="{{plan.key.urlsafe()}}">
+        <a class="dropdown-item" onclick="update_plan('{{plan.key.urlsafe()}}','1')">{{ icon(1) }} {% trans %}Definitely{% endtrans %}</a>
         {% if not simple_planning %}
-            <li role="presentation"><a onclick="update_plan('{{plan.key.urlsafe()}}','2')">{{ icon(2) }} {% trans %}Probably{% endtrans %}</a></li>
+            <a class="dropdown-item" onclick="update_plan('{{plan.key.urlsafe()}}','2')">{{ icon(2) }} {% trans %}Probably{% endtrans %}</a>
         {% endif %}
-        <li role="presentation"><a onclick="update_plan('{{plan.key.urlsafe()}}','3')">{{ icon(3) }} {% trans %}Don't Know{% endtrans %}</a></li>
+        <a class="dropdown-item" onclick="update_plan('{{plan.key.urlsafe()}}','3')">{{ icon(3) }} {% trans %}Don't Know{% endtrans %}</a>
         {% if not simple_planning %}
-            <li role="presentation"><a onclick="update_plan('{{plan.key.urlsafe()}}','4')">{{ icon(4) }} {% trans %}Probably Not{% endtrans %}</a></li>
+            <a class="dropdown-item" onclick="update_plan('{{plan.key.urlsafe()}}','4')">{{ icon(4) }} {% trans %}Probably Not{% endtrans %}</a>
         {% endif %}
-        <li role="presentation"><a onclick="update_plan('{{plan.key.urlsafe()}}','5')">{{ icon(5) }} {% trans %}Can't Do It{% endtrans %}</a></li>
+        <a class="dropdown-item" onclick="update_plan('{{plan.key.urlsafe()}}','5')">{{ icon(5) }} {% trans %}Can't Do It{% endtrans %}</a>
         {% if not simple_planning %}
-            <li role="presentation" class="divider"></li>
-            <li role="presentation"><a onclick="update_plan('{{plan.key.urlsafe()}}','6')">{{ icon(6) }} {% trans %}Not Interested{% endtrans %}</a></li>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" onclick="update_plan('{{plan.key.urlsafe()}}','6')">{{ icon(6) }} {% trans %}Not Interested{% endtrans %}</a>
         {% endif %}
-    </ul>
+    </div>
 </div>
 {%- endmacro %}
 
 {% macro feedback_button(plan, feedback_strings) -%}
-<div class="btn-group">
-    <button type="button" class="btn btn-default btn-sm dropdown-toggle text-center feedback-button" data-toggle="dropdown" id="ef-{{plan.key.urlsafe()}}" data-init="{% if plan.feedback_value %}{{feedback_strings[plan.feedback_value-1]}}{%endif%}">
-        <i class="fa fa-spinner fa-spin fa-lg"></i>
+<div class="dropdown mr-2">
+    <button type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle text-center feedback-button" data-toggle="dropdown" id="ef-{{plan.key.urlsafe()}}" data-init="{% if plan.feedback_value %}{{feedback_strings[plan.feedback_value-1]}}{%endif%}" aria-haspopup="true" aria-expanded="false">
+        <i class="fas fa-spinner fa-pulse fa-lg"></i>
     </button>
-    <ul class="dropdown-menu" role="menu">
-        <li role="presentation"><a onclick="update_feedback('{{plan.key.urlsafe()}}','0')">-</a></li>
+    <div class="dropdown-menu" aria-labelledby="ef-{{plan.key.urlsafe()}}">
+        <a class="dropdown-item" onclick="update_feedback('{{plan.key.urlsafe()}}','0')">-</a>
         {% for string in feedback_strings %}
-            <li role="presentation"><a onclick="update_feedback('{{plan.key.urlsafe()}}','{{ loop.index }}')">{{string}}</a></li>
+            <a class="dropdown-item" onclick="update_feedback('{{plan.key.urlsafe()}}','{{ loop.index }}')">{{string}}</a>
         {% endfor %}
-    </ul>
+    </div>
 </div>
 {%- endmacro %}
 

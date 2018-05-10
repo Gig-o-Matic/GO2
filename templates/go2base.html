@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="description" content="">
         <meta name="author" content="">
         <link rel="icon" type="image/png" href="/images/gigo.png" />
@@ -10,11 +10,15 @@
 
         <title>Gig-o-Matic | {% block title %}{% endblock title %}</title>
 
+
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
         <!-- Bootstrap core CSS -->
-        <link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+        <!-- <link href="/bootstrap/css/bootstrap.css" rel="stylesheet"> -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
 
         <!-- Custom styles for datepicker -->
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css" rel="stylesheet">
+        <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.css" rel="stylesheet"> -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.css" rel="stylesheet">
 
         <!-- Custom styles for calendar -->
         <link href='/fullcalendar/fullcalendar.css' rel='stylesheet' />
@@ -22,17 +26,21 @@
 
         <!-- font awesome -->
         <!--         <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">      <!~~ HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries ~~> -->
-        <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+
+        <!-- <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css"> -->
+        <script defer src="https://use.fontawesome.com/releases/v5.0.2/js/all.js"></script>
 
         <!--[if lt IE 9]>
             <script src="../../assets/js/html5shiv.js"></script>
             <script src="../../assets/js/respond.min.js"></script>
         <![endif]-->
 
-        <link href="/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet">
-
+        <!-- <link href="/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"> -->
+        <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/jqueryui-editable/css/jqueryui-editable.css" rel="stylesheet"/>
 {% block headcontent %}
 {% endblock headcontent %}
+
+        <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
         <!-- Custom styles for this template -->
         <link href="/css/gigo.css" rel="stylesheet">
@@ -78,7 +86,7 @@
         {% block footer %}
             {% if the_user %}
                 <div id="footer">
-                    <div class="container text-right">
+                    <div class="container">
                         <div class="row">
                             <div class="col-lg-6 col-md-6 col-sm-12 text-left">
                                 <a href="/privacy"><p class="text-muted credit">{% trans %}Privacy & Security{% endtrans %}</p></a>
@@ -96,11 +104,14 @@
         {% endblock modal %}
     </body>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.js"></script>
-    <script>window.jQuery || document.write('<script src="/jquery/jquery-1.10.2.js"><\/script>')</script>
-    <!--     <script src="http://code.jquery.com/jquery.js"></script> -->
-    <script src="/bootstrap/js/bootstrap.min.js"></script>
-    <script src="/bootstrap3-editable/js/bootstrap-editable.js"></script>    
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
+
+
+    <!-- <script src="/bootstrap3-editable/js/bootstrap-editable.js"></script>     -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/jqueryui-editable/js/jqueryui-editable.min.js"></script>
     {% block localscripts %}
     {% endblock localscripts %}
     {% block navbarscripts %}

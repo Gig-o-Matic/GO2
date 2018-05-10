@@ -4,7 +4,7 @@
 
 {% block content %}
     <div class="row">
-        <div class="page-header col-md-8 col-md-offset-1">
+        <div class="page-header page-header mx-auto col-md-10 col-12">
             {% trans %}Calendar{% endtrans %}
             {% if the_user.preferences.default_view != 1 %}
             <small>(<a href="/?default=1">{% trans %}Make this my default view!{% endtrans %}</a>)</small>
@@ -12,7 +12,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-offset-0 col-md-10 col-md-offset-1">
+        <div class="mx-auto col-md-10 col-12">
             <div id='calendar'></div>
         </div>
     </div>

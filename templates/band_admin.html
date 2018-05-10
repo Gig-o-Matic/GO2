@@ -4,12 +4,12 @@
 
 {% block content %}
     <div class="row">
-        <div class="page-header col-md-8 col-md-offset-2">
+        <div class="page-header page-header mx-auto col-lg-8 col-md-10 col-sm-12">
             {% trans %}Band Admin{% endtrans %}
         </div>
     </div>
     <div class="row">
-        <div class="panel-group col-md-8 col-md-offset-2" id="accordion">
+        <div class="panel-group mx-auto col-lg-8 col-md-10 col-sm-12" id="accordion">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4 class="panel-title">
@@ -18,26 +18,24 @@
                         </a>
                     </h4>
                 </div>
-                <div id="collapseOne" class="panel-collapse collapse in">
-                    <div class="panel-body" id="memberlist">    
-                        {% for band in the_bands %}
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <a href="/band_info.html?bk={{band.key.urlsafe()}}">{{ band.name|e }}</a>
-                                </div>
-                                <div class="col-md-2">
-                                    <a href="/band_delete.html?bk={{band.key.urlsafe()}}">delete</a>
-                                </div>
-                            </div>
-                        {% endfor %}
-                        <br>
+                <div class="panel-body" id="memberlist">    
+                    {% for band in the_bands %}
                         <div class="row">
-                            {% if the_user_is_superuser %}
-                                <div class="col-md-4">
-                                    <a class="btn btn-primary btn-sm" href="/band_edit.html?new=1">Add a Band</a>
-                                </div>
-                            {% endif %}
+                            <div class="col-md-4">
+                                <a href="/band_info.html?bk={{band.key.urlsafe()}}">{{ band.name|e }}</a>
+                            </div>
+                            <div class="col-md-2">
+                                <a href="/band_delete.html?bk={{band.key.urlsafe()}}">delete</a>
+                            </div>
                         </div>
+                    {% endfor %}
+                    <br>
+                    <div class="row">
+                        {% if the_user_is_superuser %}
+                            <div class="col-md-4">
+                                <a class="btn btn-primary btn-sm" href="/band_edit.html?new=1">Add a Band</a>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>

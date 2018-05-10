@@ -12,285 +12,296 @@
 {% endif %}
 
 {% block content %}
-    {% set the_band_key = gig.key.parent() %}
-    <div class="row">
-        <div class="page-header col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0">
+{% set the_band_key = gig.key.parent() %}
+<div class="row">
+    <div class="mx-auto col-lg-8 col-md-10 col-12">
+
+        <div class="page-header">
             {% trans %}Gig Info{% endtrans %}
         </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <div class="panel-title">
-                        <div class="row">
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                {% trans %}Info{% endtrans %}
-                            </div>
+
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-4 titlerow">
+                        <h5>{% trans %}Info{% endtrans %}</h5>
+                    </div>
+                    {% if user_can_edit %}
+                        <div class="ml-auto">
                             {% if user_can_edit %}
-                                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-right">
-                                        {% if user_can_edit %}
-                                            <a class="btn btn-primary btn-xs" href="gig_edit.html?gk={{ gig.key.urlsafe() }}">{% trans %}Edit{% endtrans %}</a>
-                                        {% endif %}
-                                        {% if user_can_create %}
-                                            <a class="btn btn-primary btn-xs" href="gig_edit.html?gk={{ gig.key.urlsafe() }}&dupe=1">{% trans %}Duplicate{% endtrans %}</a>
-                                        {% endif %}
-                                    </div>
+                                <a class="btn btn-primary btn-sm" href="gig_edit.html?gk={{ gig.key.urlsafe() }}">{% trans %}Edit{% endtrans %}</a>
+                            {% endif %}
+                            {% if user_can_create %}
+                                <a class="btn btn-primary btn-sm" href="gig_edit.html?gk={{ gig.key.urlsafe() }}&dupe=1">{% trans %}Duplicate{% endtrans %}</a>
                             {% endif %}
                         </div>
-                    </div>
+                {% endif %}
                 </div>
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-md-2 col-sm-2 col-xs-3">{% trans %}Gig{% endtrans %}</div>
-                        <div class="col-md-10 col-sm-10 col-xs-9"><strong>{{ gig.title|e }}</strong></div>
-                    </div>                    
-                    <div class="row">
-                        <div class="col-md-10 col-md-offset-2 col-sm-10 col-sm-offset-2 col-xs-9 col-xs-offset-3 ">
-                            {% if gig.status==1 %}
-                                <i class="fa fa-check-circle" style="color:green"></i> {% trans %}Confirmed!{% endtrans %}
-                            {% elif gig.status==2 %}
-                                <i class="fa fa-times-circle" style="color:red"></i> <strong>{% trans %}Cancelled!{% endtrans %}</strong>
-                            {% else %}
-                                <i class="fa fa-question-circle" style="color:orange"></i> <strong>{% trans %}Unconfirmed{% endtrans %}</strong>
-                            {% endif %}
-                            {% if gig.is_private %}
-                                ({% trans %}Hidden From Public Page{% endtrans %})
-                            {% endif %}
-                        </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-2 col-sm-2 col-xs-3 col-4">{% trans %}Gig{% endtrans %}</div>
+                    <div class="col-md-10 col-sm-10 col-xs-9 col-8"><strong>{{ gig.title|e }}</strong></div>
+                </div>                    
+                <div class="row">
+                    <div class="col-md-2 col-sm-2 col-xs-3 col-4">
                     </div>
-                    {% if gig.is_in_trash %}
-                        <div class="row">
-                            <div class="col-md-10 col-md-offset-2 col-sm-10 col-sm-offset-2 col-xs-9 col-xs-offset-3" style="color:red">
-                                <strong>{% trans %}THIS GIG IS IN THE TRASH!{% endtrans %}</strong>  
-                                {% if the_user_is_superuser or the_user_is_band_admin %}
-                                    <a class="btn btn-default" href="/gig_restore_trashed?gk={{ gig.key.urlsafe() }}">{% trans %}Restore Gig{% endtrans %}</a>
-                                {% endif %}
-                            </div>
-                        </div>
-                    {% endif %}
-                    <div class="row">
-                        <div class="col-md-2 col-sm-2 col-xs-3">{% trans %}Band{% endtrans %}</div>
-                        <div class="col-md-10 col-sm-10 col-xs-9"><a href="band_info.html?bk={{the_band_key.urlsafe()}}">{{ the_band_key.get().name }}</a></div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-2 col-sm-2 col-xs-3">{% trans %}Contact{% endtrans %}</div>
-                        <div class="col-md-10 col-sm-10 col-xs-9">
-                            {% if gig.contact %}
-                                <a href="/member_info.html?mk='{{gig.contact.urlsafe()}}'">{{ gig.contact.get().display_name }}</a>
-                            {% endif %}
-                        </div>
-                    </div>                    
-                    <div class="row">&nbsp;</div>
-                    <div class="row">
-                        <div class="col-md-2 col-sm-2 col-xs-3"><i class="fa fa-calendar"></i></div>
-                        <div class="col-md-10 col-sm-10 col-xs-9">{{ date_str }}{{ enddate_str }}</div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-3"><i class="fa fa-clock-o"></i></div>
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-9">{% trans %}Call Time{% endtrans %}: 
-                        {% if gig.calltime %}
-                            {{ gig.calltime }}
+                    <div class="col-md-10 col-sm-10 col-xs-9 col-8">
+                        {% if gig.status==1 %}
+                            <i class="fas fa-check-circle" style="color:green"></i> {% trans %}Confirmed!{% endtrans %}
+                        {% elif gig.status==2 %}
+                            <i class="fas fa-times-circle" style="color:red"></i> <strong>{% trans %}Cancelled!{% endtrans %}</strong>
                         {% else %}
-                            ??
+                            <i class="fas fa-question-circle" style="color:orange"></i> <strong>{% trans %}Unconfirmed{% endtrans %}</strong>
                         {% endif %}
-                        </div>
-                        {% if gig.settime %}
-                            <div class="col-lg-3 col-md-3 col-sm-3 col-sm-offset-0 col-xs-9 col-xs-offset-3">{% trans %}Set Time{% endtrans %}: {{ gig.settime }}</div>
+                        {% if gig.is_private %}
+                            ({% trans %}Hidden From Public Page{% endtrans %})
                         {% endif %}
-                        {% if gig.endtime %}
-                            <div class="col-lg-3 col-md-3 col-sm-3 col-sm-offset-0 col-xs-9 col-xs-offset-3">{% trans %}End Time{% endtrans %}: {{ gig.endtime }}</div>
-                        {% endif %}
-                    </div>
-                    <div class="row">&nbsp;</div>
-                    {% if gig.address %}
-                        <div class="row">
-                            <div class="col-md-2 col-sm-2 col-xs-3">{% trans %}Address{% endtrans %}</div>
-                            <div class="col-md-10 col-sm-10 col-xs-9"><a href="http://maps.google.com?q={{gig.address | replace(' ','+')}}" target="new">{{ gig.address }}</a></div>
-                        </div>
-                        <div class="row">&nbsp;</div>
-                    {% endif %}
-                    {% if gig.dress %}
-                        <div class="row">
-                            <div class="col-md-2 col-sm-2 col-xs-3">{% trans %}What to Wear{% endtrans %}</div>
-                            <div class="col-md-10 col-sm-10 col-xs-9">{{ gig.dress }}</div>
-                        </div>
-                        <div class="row">&nbsp;</div>
-                    {% endif %}
-                    {% if gig.paid %}
-                        <div class="row">
-                            <div class="col-md-2 col-sm-2 col-xs-3">{% trans %}Pay Deal{% endtrans %}</div>
-                            <div class="col-md-10 col-sm-10 col-xs-9">{{ gig.paid }}</div>
-                        </div>
-                        <div class="row">&nbsp;</div>
-                    {% endif %}
-                    {% if gig.leader %}
-                        <div class="row">
-                            <div class="col-md-2 col-sm-2 col-xs-3">{% trans %}Leader{% endtrans %}</div>
-                            <div class="col-md-10 col-sm-10 col-xs-9">{{ gig.leader }}</div>
-                        </div>                    
-                        <div class="row">&nbsp;</div>
-                    {% endif %}
-                    {% if gig.postgig %}
-                        <div class="row">
-                            <div class="col-md-2 col-sm-2 col-xs-3">{% trans %}Post-gig Plans{% endtrans %}</div>
-                            <div class="col-md-10 col-sm-10 col-xs-9 trunc">{{ gig.postgig }}</div>
-                        </div>
-                        <div class="row">&nbsp;</div>
-                    {% endif %}
-                    {% if gig.details %}
-                        <div class="row">
-                            <div class="col-md-2 col-sm-2 col-xs-3">{% trans %}More Details{% endtrans %}</div>
-                            <div class="col-md-10 col-sm-10 col-xs-9 trunc">{{ gig.details | urlize(20, true) | good_breaks | safe }}</div>
-                        </div>
-                        <div class="row">&nbsp;</div>
-                    {% endif %}
-                    {% if not gig.invite_occasionals %}
-                        <div class="row">
-                            <div class="col-md-12 col-sm-12 col-xs-12">{% trans %}Occasional members were not invited.{% endtrans %}</div>
-                        </div>
-                        <div class="row">&nbsp;</div>
-                    {% endif %}
-                    {% if gig.hide_from_calendar %}
-                        <div class="row">
-                            <div class="col-md-12 col-sm-12 col-xs-12">{% trans %}Gig is hidden from calendar.{% endtrans %}</div>
-                        </div>
-                        <div class="row">&nbsp;</div>
-                    {% endif %}
-                </div>  <!-- panel body -->
-            </div> <!-- panel -->
-            {% if gig.setlist %}
-                <div class="row">&nbsp;</div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <div class="panel-title">
-                            <div class="row">
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                    {% trans %}Setlist{% endtrans %}
-                                </div>
-                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-right">
-                                    <a class="btn btn-default btn-xs" href="print_setlist?gk={{gig.key.urlsafe()}}" target="new"><i class="fa fa-print"></i>
-                                    {% trans %}Print{% endtrans %}</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="panel-body">
-                        <div class="row">                        
-                            <div class="col-md-12 col-sm-12 col-xs-12">
-                                {{ gig.setlist | urlize(20, true) | good_breaks | safe }}
-                            </div>
-                        </div>
-                    </div>
-                </div> <!-- panel -->
-            {% endif %}
-            <div class="row">&nbsp;</div>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <div class="panel-title">
-                        <div class="row">
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                {% trans %}Member Plans{% endtrans %}
-                                {% if the_user_is_superuser or the_user_is_band_admin %}
-                                    {% for p in the_plan_counts %}
-                                        {% if p > 0 %}
-                                            <span class="badge badge-pill badge-primary" style="background-color: #ffffff; color: #000000;">{{ plan_icon.icon(p) }}{{ the_plan_counts[p] }}</span>
-                                        {% endif %}
-                                    {% endfor %}
-                                    <span class="badge badge-pill badge-primary" style="background-color: #ffffff; color: #000000;">{{ plan_icon.icon(0) }}{{ the_plan_counts[0] }}</span>
-                                {% endif %}
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 text-right">
-                                <span id="printall"><a href="print_planlist?gk={{gig.key.urlsafe()}}&printall=1" target="new" class="btn btn-xs btn-default"><i class="fa fa-print"></i>
-                                {% trans %}Print{% endtrans %}
-                                </a></span>
-                                <span id="printcomm">
-                                <a href="print_planlist?gk={{gig.key.urlsafe()}}&printall=0" target="new" class="btn btn-xs btn-default"><i class="fa fa-print"></i>
-                                {% trans %}Print{% endtrans %}
-                                </a></span>
-                                <a href="#" onclick="simpleswitch(); return false;" class="btn btn-xs btn-default"><i class="fa fa-refresh fs-lg"></i>
-                                <span id="simpleoff">{% trans %}Show All{% endtrans %}</span>
-                                <span id="simpleon">{% trans %}Show Committed{% endtrans %}</span>
-                                </a>
-
-                                {% if user_can_edit %}
-                                    <span id="showremind"><a href="#" onclick="sendreminder('{{gig.key.urlsafe()}}'); return false;" class="btn btn-xs btn-default"><i class="fa fa-envelope"></i>
-                                    	{% trans %}Remind{% endtrans %}
-                                    </a></span>
-                                	<span id="hideremind">
-                                    	<small>{% trans %}Reminder Sent{% endtrans %}</small>
-                                	</span>
-                                {% endif %}
-                            </div>
-                        </div>
                     </div>
                 </div>
-                <div class="panel-body">
-                    {% import 'gig_plan_edit.html' as plan_edit with context %}                
-                    {% for the_section in the_sections %}
-                        <div class="row" style="padding-top: 5px; padding-bottom: 5px; {{ loop.cycle('', 'background:#f5f5f5;') }}">
-                            {% if band_has_sections %}
-                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 gomlabel">
-                                    {% if the_section %}
-                                        {{the_section.name}}
-                                    {% elif the_sections | length > 1 %}
-                                        {% trans %}No Section{% endtrans %}
-                                    {% endif %}
-                                </div>
+                {% if gig.is_in_trash %}
+                    <div class="col-md-2 col-sm-2 col-xs-3 col-4">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-10 col-sm-10 col-xs-9 col-8" style="color:red">
+                            <strong>{% trans %}THIS GIG IS IN THE TRASH!{% endtrans %}</strong>  
+                            {% if the_user_is_superuser or the_user_is_band_admin %}
+                                <a class="btn btn-default" href="/gig_restore_trashed?gk={{ gig.key.urlsafe() }}">{% trans %}Restore Gig{% endtrans %}</a>
                             {% endif %}
-                            <div class="col-lg-{{plan_size_lg}} col-md-{{plan_size_lg}} col-sm-{{plan_size_sm}} col-xs-{{plan_size_sm}}">
-                                {% for member_plan in the_plans %}
-                                    {% if (the_section == None and member_plan['the_section'] == None) or
-                                          (the_section != None and the_section.key == member_plan['the_section']) %}
-                                        {{ plan_edit.plan_edit(member_plan) }}
-                                    {% endif %}
-                                {% endfor %}
-                            </div>
                         </div>
-                    {% endfor %}
-                </div> <!-- panel body -->
-            </div> <!-- panel -->
-            <div class="row">&nbsp;</div>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <div class="panel-title">{% trans %}Comments{% endtrans %}</div>
+                    </div>
+                {% endif %}
+                <div class="row">
+                    <div class="col-md-2 col-sm-2 col-xs-3 col-4">{% trans %}Band{% endtrans %}</div>
+                    <div class="col-md-10 col-sm-10 col-xs-9 col-8"><a href="band_info.html?bk={{the_band_key.urlsafe()}}">{{ the_band_key.get().name }}</a></div>
                 </div>
-                <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-2 col-sm-2 col-xs-3 col-4">{% trans %}Contact{% endtrans %}</div>
+                    <div class="col-md-10 col-sm-10 col-xs-9 col-8">
+                        {% if gig.contact %}
+                            <a href="/member_info.html?mk='{{gig.contact.urlsafe()}}'">{{ gig.contact.get().display_name }}</a>
+                        {% endif %}
+                    </div>
+                </div>                    
+                <div class="row">&nbsp;</div>
+                <div class="row">
+                    <div class="col-md-2 col-sm-2 col-xs-3 col-12"><i class="fas fa-calendar"></i></div>
+                    <div class="col-md-10 col-sm-10 col-xs-9 col-12">{{ date_str }}{{ enddate_str }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 col-12"><i class="fas fa-clock"></i></div>
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 col-3">{% trans %}Call Time{% endtrans %}: 
+                    {% if gig.calltime %}
+                        {{ gig.calltime }}
+                    {% else %}
+                        ??
+                    {% endif %}
+                    </div>
+                    {% if gig.settime %}
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 col-3">{% trans %}Set Time{% endtrans %}: {{ gig.settime }}</div>
+                    {% endif %}
+                    {% if gig.endtime %}
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 col-3">{% trans %}End Time{% endtrans %}: {{ gig.endtime }}</div>
+                    {% endif %}
+                </div>
+                <div class="row">&nbsp;</div>
+                {% if gig.address %}
                     <div class="row">
-                        <div class="col-lg-12 col-md-12" id="gig_comment">
-                            <i class="fa fa-spinner fa-spin fa-lg"></i>
-                        </div>
+                        <div class="col-md-2 col-sm-2 col-xs-3 col-4">{% trans %}Address{% endtrans %}</div>
+                        <div class="col-md-10 col-sm-10 col-xs-9 col-8"><a href="http://maps.google.com?q={{gig.address | replace(' ','+')}}" target="new">{{ gig.address }}</a></div>
                     </div>
                     <div class="row">&nbsp;</div>
+                {% endif %}
+                {% if gig.dress %}
                     <div class="row">
-                        <div class="col-lg-10 col-md-10">
-                            <textarea class="form-control" id="commentinput" placeholder="{% trans %}say your piece!{% endtrans %}" name="comment_input" rows="2"></textarea>
-                        </div>
-                        <div class="col-lg-2 col-md-2">
-                            <button type="button" class="btn btn-primary btn-sm" onclick="add_comment('{{gig.key.urlsafe()}}');">{% trans %}Say it!{% endtrans %}</button>
-                        </div>
-                    </div>                    
-                </div> <!-- panel body -->
-            </div> <!-- panel -->
-            
-            {% if the_user_is_betatester and False %}
-                <div class="row">&nbsp;</div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <div class="panel-title">{% trans %}Forum{% endtrans %}</div>
+                        <div class="col-md-2 col-sm-2 col-xs-3 col-4">{% trans %}What to Wear{% endtrans %}</div>
+                        <div class="col-md-10 col-sm-10 col-xs-9 col-8">{{ gig.dress }}</div>
                     </div>
-                    <div class="panel-body" id="gig_forum">
-                        <div class="row">
-                            <div class="col-lg-12 col-md-12" id="forum_posts">
-                                <i class="fa fa-spinner fa-spin fa-lg"></i>
-                            </div>
-                        </div>
-                    </div> <!-- panel body -->
-                </div> <!-- panel -->
-            {% endif %}
+                    <div class="row">&nbsp;</div>
+                {% endif %}
+                {% if gig.paid %}
+                    <div class="row">
+                        <div class="col-md-2 col-sm-2 col-xs-3 col-4">{% trans %}Pay Deal{% endtrans %}</div>
+                        <div class="col-md-10 col-sm-10 col-xs-9 col-8">{{ gig.paid }}</div>
+                    </div>
+                    <div class="row">&nbsp;</div>
+                {% endif %}
+                {% if gig.leader %}
+                    <div class="row">
+                        <div class="col-md-2 col-sm-2 col-xs-3 col-4">{% trans %}Leader{% endtrans %}</div>
+                        <div class="col-md-10 col-sm-10 col-xs-9 col-8">{{ gig.leader }}</div>
+                    </div>                    
+                    <div class="row">&nbsp;</div>
+                {% endif %}
+                {% if gig.postgig %}
+                    <div class="row">
+                        <div class="col-md-2 col-sm-2 col-xs-3 col-4">{% trans %}Post-gig Plans{% endtrans %}</div>
+                        <div class="col-md-10 col-sm-10 col-xs-9 col-8 trunc">{{ gig.postgig }}</div>
+                    </div>
+                    <div class="row">&nbsp;</div>
+                {% endif %}
+                {% if gig.details %}
+                    <div class="row">
+                        <div class="col-md-2 col-sm-2 col-xs-3 col-4">{% trans %}More Details{% endtrans %}</div>
+                        <div class="col-md-10 col-sm-10 col-xs-9 col-8 trunc">{{ gig.details | urlize(20, true) | good_breaks | safe }}</div>
+                    </div>
+                    <div class="row">&nbsp;</div>
+                {% endif %}
+                {% if not gig.invite_occasionals %}
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-xs-12 col-12">{% trans %}Occasional members were not invited.{% endtrans %}</div>
+                    </div>
+                    <div class="row">&nbsp;</div>
+                {% endif %}
+                {% if gig.hide_from_calendar %}
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-xs-12 col-12">{% trans %}Gig is hidden from calendar.{% endtrans %}</div>
+                    </div>
+                    <div class="row">&nbsp;</div>
+                {% endif %}
+            </div>  <!-- card body -->
+        </div> <!-- card -->
 
-        </div>
-    </div> <!-- row -->
+        {% if gig.setlist %}
+            <div>&nbsp;</div>
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-4 titlerow">
+                            <h5>{% trans %}Setlist{% endtrans %}</h5>
+                        </div>
+                        <div class="ml-auto">
+                            <a class="btn btn-primary btn-sm" href="print_setlist?gk={{gig.key.urlsafe()}}" target="new"><i class="fas fa-print"></i>
+                            {% trans %}Print{% endtrans %}</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">                        
+                        <div class="col-12">
+                            {{ gig.setlist | urlize(20, true) | good_breaks | safe }}
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- card -->
+        {% endif %}
+
+        <div>&nbsp;</div>
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-4 titlerow">
+                        <h5>{% trans %}Member Plans{% endtrans %}</h5>
+                    </div>
+                    <div class="ml-auto"">
+                        <span id="printall"><a href="print_planlist?gk={{gig.key.urlsafe()}}&printall=1" target="new" class="btn btn-sm btn-secondary"><i class="fas fa-print"></i>
+                        {% trans %}Print{% endtrans %}
+                        </a></span>
+                        <span id="printcomm">
+                        <a href="print_planlist?gk={{gig.key.urlsafe()}}&printall=0" target="new" class="btn btn-sm btn-secondary"><i class="fas fa-print"></i>
+                        {% trans %}Print{% endtrans %}
+                        </a></span>
+                        <a href="#" onclick="simpleswitch(); return false;" class="btn btn-sm btn-secondary"><i class="fas fa-sync fs-lg"></i>
+                        <span id="simpleoff">{% trans %}Show All{% endtrans %}</span>
+                        <span id="simpleon">{% trans %}Show Committed{% endtrans %}</span>
+                        </a>
+
+                        {% if user_can_edit %}
+                            <span id="showremind"><a href="#" onclick="sendreminder('{{gig.key.urlsafe()}}'); return false;" class="btn btn-sm btn-secondary"><i class="fas fa-envelope"></i>
+                            	{% trans %}Remind{% endtrans %}
+                            </a></span>
+                        	<span id="hideremind">
+                            	<small>{% trans %}Reminder Sent{% endtrans %}</small>
+                        	</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                {% if the_user_is_superuser or the_user_is_band_admin %}
+                    <div class="row">
+                        {% for p in the_plan_counts %}
+                            <div class="mx-auto">
+                            {% if p > 0 %}
+                                <span class="">{{ plan_icon.icon(p) }}{{ the_plan_counts[p] }}</span>
+                            {% endif %}
+                            </div>
+                        {% endfor %}
+                        <div class="mx-auto">
+                            <span class="">{{ plan_icon.icon(0) }}{{ the_plan_counts[0] }}</span>
+                        </div>
+                    </div>
+                    <div>&nbsp;</div>
+                {% endif %}
+
+                {% import 'gig_plan_edit.html' as plan_edit with context %}                
+                {% for the_section in the_sections %}
+                    <div class="row" style="padding-top: 5px; padding-bottom: 5px; {{ loop.cycle('', 'background:#f5f5f5;') }}">
+                        {% if band_has_sections %}
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 gomlabel">
+                                {% if the_section %}
+                                    {{the_section.name}}
+                                {% elif the_sections | length > 1 %}
+                                    {% trans %}No Section{% endtrans %}
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                        <div class="col-lg-{{plan_size_lg}} col-md-{{plan_size_lg}} col-sm-{{plan_size_sm}} col-xs-{{plan_size_sm}}">
+                            {% for member_plan in the_plans %}
+                                {% if (the_section == None and member_plan['the_section'] == None) or
+                                      (the_section != None and the_section.key == member_plan['the_section']) %}
+                                    {{ plan_edit.plan_edit(member_plan) }}
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div> <!-- card body -->
+        </div> <!-- card -->
+
+        <div>&nbsp;</div>
+        <div class="card">
+            <div class="card-header">
+                <div class="row"><div class="col-12 titlerow">
+                    <h5>{% trans %}Comments{% endtrans %}</h5>
+                </div></div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12" id="gig_comment">
+                        <i class="fas fa-spinner fa-pulse fa-lg"></i>
+                    </div>
+                </div>
+                <div>&nbsp;</div>
+                <div class="row">
+                    <div class="col-md-10 col-12">
+                        <textarea class="form-control" id="commentinput" placeholder="{% trans %}say your piece!{% endtrans %}" name="comment_input" rows="2"></textarea>
+                    </div>
+                    <div class="mx-auto">
+                        <button type="button" class="btn btn-primary btn-sm" onclick="add_comment('{{gig.key.urlsafe()}}');">{% trans %}Say it!{% endtrans %}</button>
+                    </div>
+                </div>                    
+            </div> <!-- card body -->
+        </div> <!-- card -->
+            
+        {% if the_user_is_betatester and False %}
+            <div class="row">&nbsp;</div>
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">{% trans %}Forum{% endtrans %}</div>
+                </div>
+                <div class="card-body" id="gig_forum">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12" id="forum_posts">
+                            <i class="fas fa-spinner fa-pulse fa-lg"></i>
+                        </div>
+                    </div>
+                </div> <!-- card body -->
+            </div> <!-- card -->
+        {% endif %}
+
+    </div>
+</div> <!-- row -->
 {% endblock content %}
 
 {% block localscripts %}

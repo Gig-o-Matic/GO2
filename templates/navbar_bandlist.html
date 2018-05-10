@@ -1,9 +1,9 @@
 {% if the_bands %}
     {% for band in the_bands %}
-        <li role="presentation"><a href="/band_info.html?bk={{ band.key.urlsafe() }}">{{ band.name }}</a></li>
+        <a class="dropdown-item" href="/band_info.html?bk={{ band.key.urlsafe() }}">{{ band.name }}</a>
     {% endfor %}
-    <li role="presentation" class="divider"></li>
-    <li role="presentation"><a href="/band_nav.html">{% trans %}Band Navigator{% endtrans %}</a></li>
+    <div class="dropdown-divider"></div>
+    <a class="dropdown-item" href="/band_nav.html">{% trans %}Band Navigator{% endtrans %}</a>
 {% else %}
-    <li><a href="#">{% trans %}No bands yet!{% endtrans %}</a></li>
+	<a class="dropdown-item" href="#">{% trans %}No bands yet!{% endtrans %}</a>
 {% endif %}
