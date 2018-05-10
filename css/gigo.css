@@ -89,6 +89,10 @@ code {
 /* Custom page CSS
 -------------------------------------------------- */
 
+a {
+    color: #428bca;
+}
+
 .navbar {
   padding-top: 0px;
   padding-bottom: 0px;
@@ -160,4 +164,13 @@ code {
   margin-bottom:auto;
 }
 
+.btn-group-sm>.btn, .btn-sm {
+    padding: .0rem .5rem;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #428bca;
+    border-color: #007bff;
+}
 
