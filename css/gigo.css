@@ -6,6 +6,7 @@ body {
   height: 100%;
   /* The html and body elements cannot have any padding or margin. */
   font-family: 'Nunito', sans-serif;
+  font-size: 1rem;
 }
 
 /* Wrapper for page content to push down footer */
@@ -88,8 +89,16 @@ code {
 /* Custom page CSS
 -------------------------------------------------- */
 
+.h5, h5 {
+    font-size: 1.2rem;
+}
+
+.h3, h3 {
+    font-size: 1.1rem;
+}
+
 .page-header {
-    font-size: 200%;
+    font-size: 150%;
     border-bottom: none;
 }
 
