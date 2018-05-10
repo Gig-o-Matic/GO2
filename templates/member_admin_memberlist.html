@@ -1,39 +1,40 @@
 {% for member in the_members %}
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-3">
             <a href="/member_info.html?mk={{member.key.urlsafe()}}">{{ member.name }}</a>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-5">
             <a href="/member_info.html?mk={{member.key.urlsafe()}}">{{ member.email_address }}</a>
         </div>
+        {% if member!=the_user %}
+            <div class="col-md-2">
+                {% if member.is_betatester==False %}
+                    <a class="btn btn-secondary btn-sm" href="/member_makebeta?do=1&mk={{member.key.urlsafe()}}">make beta</a>
+                {% else %}    
+                    <a class="btn btn-secondary btn-sm" href="/member_makebeta?do=0&mk={{member.key.urlsafe()}}">remove beta</a>
+                {% endif %}
+            </div>
+            <div class="col-md-2">
+                {% if member.is_superuser==False %}
+                    <a class="btn btn-secondary btn-sm" href="/member_makeadmin?do=1&mk={{member.key.urlsafe()}}">make admin</a>
+                {% else %}    
+                    <a class="btn btn-secondary btn-sm" href="/member_makeadmin?do=0&mk={{member.key.urlsafe()}}">remove admin</a>
+                {% endif %}
+            </div>
+        {% endif %}
     </div>
     <div class="row">
-        <div class="col-md-offset-4 col-md-2">
+        <div class="col-md-4 ml-auto">
             {% for an_assoc in the_band_info[member.key] %}
                 {% set the_band = an_assoc.band.get() %}
                 <a href="/band_info.html?bk={{the_band.key.urlsafe()}}">{{ the_band.name }}</a>{% if not an_assoc.is_confirmed %}&nbsp;(pending){% endif %}{% if not loop.last %}, {% endif %}
             {% endfor %}
         </div>
-        <div class="col-md-2">
+        <div class="col-md-4">
             {% if member.last_activity %}
                 {{ member.last_activity.strftime('%Y-%m-%d') }}
             {% endif %}
         </div>
-        {% if member!=the_user %}
-            <div class="col-md-2">
-                {% if member.is_betatester==False %}
-                    <a href="/member_makebeta?do=1&mk={{member.key.urlsafe()}}">make beta</a>
-                {% else %}    
-                    <a href="/member_makebeta?do=0&mk={{member.key.urlsafe()}}">remove beta</a>
-                {% endif %}
-            </div>
-            <div class="col-md-2">
-                {% if member.is_superuser==False %}
-                    <a href="/member_makeadmin?do=1&mk={{member.key.urlsafe()}}">make admin</a>
-                {% else %}    
-                    <a href="/member_makeadmin?do=0&mk={{member.key.urlsafe()}}">remove admin</a>
-                {% endif %}
-            </div>
-        {% endif %}
     </div>
+    <div>&nbsp;</div>
 {% endfor %}

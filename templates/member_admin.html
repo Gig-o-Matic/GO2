@@ -4,91 +4,81 @@
 
 {% block content %}
     <div class="row">
-        <div class="page-header col-md-8 col-md-offset-2">
+        <div class="page-header page-header mx-auto col-md-10 col-12">
             {% trans %}Member Admin{% endtrans %}
         </div>
     </div>
     <div class="row">
-        <div class="panel-group col-md-8 col-md-offset-2" id="accordion">
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h4 class="panel-title">
-                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-                  All Members
-                </a>
-              </h4>
-            </div>
-            <div id="collapseOne" class="panel-collapse collapse in">
-                <div class="panel-body">
-                  <div id="memberlist">
-                    <i class="fas fa-spinner fa-pulse fa-lg"></i>
-                  </div>
-                    <a class="btn btn-default" onclick="prevMembers()"><i class="fas fa-chevron-left"></i></a>
-                    <a class="btn btn-default" onclick="nextMembers()"><i class="fas fa-chevron-right"></i></a>
-                    <input type="text" class="form-control" id="searchinput" placeholder="search string" value="" name="search_input">
-                    <a class="btn btn-default" onclick="searchMembers()">Search</a>
+        <div class="panel-group mx-auto col-md-10 col-12" id="accordion">
+            <div class="card">
+                <div class="card-header titlerow">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                          All Members
+                        </a>
+                </div>
+                <div id="collapseOne" class="collapse collapse-show">
+                    <div class="card-body">
+                        <div id="memberlist">
+                            <i class="fas fa-spinner fa-pulse fa-lg"></i>
+                        </div>
+                        <a class="btn btn-default" onclick="prevMembers()"><i class="fas fa-chevron-left"></i></a>
+                        <a class="btn btn-default" onclick="nextMembers()"><i class="fas fa-chevron-right"></i></a>
+                        <input type="text" class="form-control" id="searchinput" placeholder="search string" value="" name="search_input">
+                        <a class="btn btn-default" onclick="searchMembers()">Search</a>
+                    </div>
                 </div>
             </div>
-          </div>
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h4 class="panel-title">
-                <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
-                  Pending Signups
-                </a>
-              </h4>
+            <div class="card">
+                <div class="card-header titlerow">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                            Pending Signups
+                        </a>
+                </div>
+                <div id="collapseTwo" class="collapse">
+                  <div class="card-body" id="signuplist">
+                        <i class="fas fa-spinner fa-pulse fa-lg"></i>
+                  </div>
+                </div>
             </div>
-            <div id="collapseTwo" class="panel-collapse collapse">
-              <div class="panel-body" id="signuplist">
-                    <i class="fas fa-spinner fa-pulse fa-lg"></i>
-              </div>
+            <div class="card">
+                <div class="card-header titlerow">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+                            Pending Invites
+                        </a>
+                </div>
+                <div id="collapseThree" class="collapse">
+                    <div class="card-body" id="invitelist">
+                        <i class="fas fa-spinner fa-pulse fa-lg"></i>
+                    </div>
+                </div>
             </div>
-          </div>
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h4 class="panel-title">
-                <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
-                  Pending Invites
-                </a>
-              </h4>
+            <div class="card">
+                <div class="card-header titlerow">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour">
+                            Special Controls
+                        </a>
+                </div>
+                <div id="collapseFour" class="collapse">
+                    <div class="card-body">
+                        Rewrite all member and assoc objects to update structure
+                        <a class="btn btn-primary" href="/member_rewrite">Do it!</a>
+                    </div>
+                </div>
             </div>
-            <div id="collapseThree" class="panel-collapse collapse">
-              <div class="panel-body" id="invitelist">
-                    <i class="fas fa-spinner fa-pulse fa-lg"></i>
-              </div>
+            <div class="card">
+                <div class="card-header titlerow">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseFive">
+                            Admin Emails
+                        </a>
+                </div>
+                <div id="collapseFive" class="collapse">
+                    <div class="card-body">
+                        {% for a in all_admin_emails %}
+                            {{a}}{% if not loop.last %}, {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
             </div>
-          </div>
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h4 class="panel-title">
-                <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour">
-                  Special Controls
-                </a>
-              </h4>
-            </div>
-            <div id="collapseFour" class="panel-collapse collapse">
-              <div class="panel-body">
-                    Rewrite all member and assoc objects to update structure
-                    <a class="btn btn-primary" href="/member_rewrite">Do it!</a>
-              </div>
-            </div>
-          </div>
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h4 class="panel-title">
-                <a data-toggle="collapse" data-parent="#accordion" href="#collapseFive">
-                  Admin Emails
-                </a>
-              </h4>
-            </div>
-            <div id="collapseFive" class="panel-collapse collapse">
-              <div class="panel-body">
-                {% for a in all_admin_emails %}
-                    {{a}}{% if not loop.last %}, {% endif %}
-                {% endfor %}
-              </div>
-            </div>
-          </div>
         </div>    
     </div>    
 {% endblock content %}
