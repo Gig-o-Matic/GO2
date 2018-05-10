@@ -1,16 +1,16 @@
 {% macro icon(plan_value=-1) -%}
     {% if plan_value == 1 %}
-        <i class="fas fa-circle fa-lg" style="color:green"></i>
+        <i class="fas fa-circle" style="color:green"></i>
     {% elif plan_value == 2 %}
-        <i class="far fa-circle fa-lg" style="color:green"></i>
+        <i class="far fa-circle" style="color:green"></i>
     {% elif plan_value == 3 %}
-        <i class="fas fa-question fa-lg" style="color:gray"></i>
+        <i class="fas fa-question" style="color:gray"></i>
     {% elif plan_value == 4 %}
-        <i class="far fa-square fa-lg" style="color:red"></i>
+        <i class="far fa-square" style="color:red"></i>
     {% elif plan_value == 5 %}
-        <i class="fas fa-square fa-lg" style="color:red"></i>                
+        <i class="fas fa-square" style="color:red"></i>                
     {% elif plan_value == 6 %}
-        <i class="fas fa-times fa-lg" style="color:black"></i>                
+        <i class="fas fa-times" style="color:black"></i>                
     {% else %}
         <i class="fas fa-minus fa-sm" style="color:black"></i>
     {% endif %}

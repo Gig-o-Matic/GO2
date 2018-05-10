@@ -5,117 +5,118 @@
 
 {% block content %}
 <div class="row">
-    <div class="page-header col-lg-8 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0">
-        {% trans %}Grid o'Gigs{% endtrans %}
-        {% if the_user.preferences.default_view != 2 %}
-        <small>(<a href="/?default=2">{% trans %}Make this my default view!{% endtrans %}</a>)</small>
-        {% endif %}
-    </div>
-</div>
-<div class="row">
-    <div class="col-lg-8 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0">
-    </div>
-</div>
-<div class="row">
-    <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-0">
-        {% if all_band_keys|length > 1 %}
-            <div class="dropdown">
-                <button type="button" class="btn btn-sm btn-default dropdown-toggle text-center" data-toggle="dropdown">
-                    {{ the_band_key.get().name }} <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                    {% for a_band_key in all_band_keys %}
-                    <li role="presentation"><a href="/grid.html?bk={{a_band_key.urlsafe()}}&m={{the_month}}&y={{the_year}}">{{a_band_key.get().name}}</a></li>
+    <div class="mx-auto col-md-10 col-12">
+        <div class="page-header">
+            {% trans %}Grid o'Gigs{% endtrans %}
+            {% if the_user.preferences.default_view != 2 %}
+            <small>(<a href="/?default=2">{% trans %}Make this my default view!{% endtrans %}</a>)</small>
+            {% endif %}
+        </div>
+        <div>&nbsp;</div>
+        <div class="row">
+            <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-0">
+                {% if all_band_keys|length > 1 %}
+                    <div class="dropdown">
+                        <a class="btn btn-sm btn-outline-secondary dropdown-toggle text-center" href="#" role="button" data-toggle="dropdown" id="dropdownMenu1">
+                            {{ the_band_key.get().name }} <span class="caret"></span>
+                        </a>
+                        <div class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                            {% for a_band_key in all_band_keys %}
+                                <a class="dropdown-item" href="/grid.html?bk={{a_band_key.urlsafe()}}&m={{the_month}}&y={{the_year}}">{{a_band_key.get().name}}</a>
+                            {% endfor %}
+                        </div>
+                    </div> <!-- dropdown -->
+                {% endif %}
+                <br>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <a class="btn btn-default btn-sm" href="/grid.html?bk={{the_band_key.urlsafe()}}&m={{the_month}}&y={{the_year}}&d=-1"><i class="fas fa-arrow-left"></i></a>
+                    {{ the_month_string }}
+                <a class="btn btn-default btn-sm" href="/grid.html?bk={{the_band_key.urlsafe()}}&m={{the_month}}&y={{the_year}}&d=1"><i class="fas fa-arrow-right"></i></a>
+
+                <span id="dateicon"><i class="fas fa-calendar"></i></span>
+            </div>
+        </div>
+        {% if the_gigs %}
+            <table class="table">
+                <tr>
+                    <td colspan=2 style="white-space: nowrap;">
+                    </td>
+                    {% for gig in the_gigs %}
+                        <td align="middle">{{ the_date_formatter(the_user,gig.date,'short') }}<br>({{ the_date_formatter(the_user,gig.date,'day') }})</td>
                     {% endfor %}
-                </ul>
-            </div> <!-- dropdown -->
-        {% endif %}
-        <br>
-    </div>
-</div>
-<div class="row">
-    <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-0" style="white-space: nowrap;">
-        <a class="btn btn-default btn-sm" href="/grid.html?bk={{the_band_key.urlsafe()}}&m={{the_month}}&y={{the_year}}&d=-1"><i class="fas fa-arrow-left"></i></a>
-        {{ the_month_string }}
-        <a class="btn btn-default btn-sm" href="/grid.html?bk={{the_band_key.urlsafe()}}&m={{the_month}}&y={{the_year}}&d=1"><i class="fas fa-arrow-right"></i></a>
-        <i class="fas fa-calendar datepicker" id="grid_date"></i>
-    </div>
-</div>
-{% if the_gigs %}
-<div class="row">
-    <div class="col-sm-offset-0 col-md-10 col-md-offset-1">
-        <table class="table">
-            <tr>
-                <td colspan=2 style="white-space: nowrap;">
-                </td>
-                {% for gig in the_gigs %}
-                    <td align="middle">{{ the_date_formatter(the_user,gig.date,'short') }}<br>({{ the_date_formatter(the_user,gig.date,'day') }})</td>
-                {% endfor %}
-                <td width="100%"></td>
-            </tr>
-            <tr>
-                <td colspan=2></td>
-                {% for gig in the_gigs %}
-                    <td align="middle"><a href="/gig_info.html?gk={{gig.key.urlsafe()}}">{{ gig.title }}</a>
-                    {% if gig.is_archived %}
-                        ({% trans %}archived{% endtrans %})
-                    {% else %}
-                        {% if gig.status==1 %}
-                            <i class="fas fa-check-circle" style="color:green"></i>
-                        {% elif gig.status==2 %}
-                            <i class="fas fa-times-circle" style="color:red"></i>
+                    <td width="100%"></td>
+                </tr>
+                <tr>
+                    <td colspan=2></td>
+                    {% for gig in the_gigs %}
+                        <td align="middle"><a href="/gig_info.html?gk={{gig.key.urlsafe()}}">{{ gig.title }}</a>
+                        {% if gig.is_archived %}
+                            ({% trans %}archived{% endtrans %})
                         {% else %}
-                            <i class="fas fa-question-circle" style="color:orange"></i>
-                        {% endif %}                    
-                    {% endif %}</td>
-                {% endfor %}
-            </tr>
-            {% for section in the_member_assocs_by_section %}
-                {% for assoc in section[1] %}
-                    {% set member = assoc.member %}
-                    <tr>
-                        {% if loop.first %}
-                            <td rowspan="{{section[1]|length}}">
-                                {% if section[0] %}
-                                    {{ section[0].get().name }}
-                                {% else %}
-                                    {% trans %}No Section{% endtrans %}
-                                {% endif %}
-                            </td>
-                        {% endif %}
-                        <td  style="white-space: nowrap;
-                            {% if member == the_user.key %}
-                                background:#f5f5f5;"
+                            {% if gig.status==1 %}
+                                <i class="fas fa-check-circle" style="color:green"></i>
+                            {% elif gig.status==2 %}
+                                <i class="fas fa-times-circle" style="color:red"></i>
+                            {% else %}
+                                <i class="fas fa-question-circle" style="color:orange"></i>
+                            {% endif %}                    
+                        {% endif %}</td>
+                    {% endfor %}
+                </tr>
+                {% for section in the_member_assocs_by_section %}
+                    {% for assoc in section[1] %}
+                        {% set member = assoc.member %}
+                        <tr>
+                            {% if loop.first %}
+                                <td rowspan="{{section[1]|length}}">
+                                    {% if section[0] %}
+                                        {{ section[0].get().name }}
+                                    {% else %}
+                                        {% trans %}No Section{% endtrans %}
+                                    {% endif %}
+                                </td>
                             {% endif %}
-                        ">
-                            {% set the_member = member.get() %}
-                            <a href="/member_info.html?mk={{member.urlsafe()}}">{% if the_member.nickname %}{{the_member.nickname}}{% else %}{{ the_member.name }}{% endif %}</a>
-                        </td>
-                        {% for gig in the_gigs %}
                             <td  style="white-space: nowrap;
-                            {% if member == the_user.key %}
-                                background:#f5f5f5;
-                            {% endif %}
-                            " align="middle">{% if gig.is_archived == False and gig.status != 2 %}{{ plan_icon.icon(the_plans[member][gig.key]) }}{% endif %}</td>
-                        {% endfor %}
-                    </tr>
+                                {% if member == the_user.key %}
+                                    background:#f5f5f5;"
+                                {% endif %}
+                            ">
+                                {% set the_member = member.get() %}
+                                <a href="/member_info.html?mk={{member.urlsafe()}}">{% if the_member.nickname %}{{the_member.nickname}}{% else %}{{ the_member.name }}{% endif %}</a>
+                            </td>
+                            {% for gig in the_gigs %}
+                                <td  style="white-space: nowrap;
+                                {% if member == the_user.key %}
+                                    background:#f5f5f5;
+                                {% endif %}
+                                " align="middle">{% if gig.is_archived == False and gig.status != 2 %}{{ plan_icon.icon(the_plans[member][gig.key]) }}{% endif %}</td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
                 {% endfor %}
-            {% endfor %}
-        </table>
+            </table>
+        {% else %}
+            <div class="row">
+                <div class="mx-auto">
+                    {% trans %}No Gigs!{% endtrans %}
+                </div>
+            </div>
+        {% endif %}
     </div>
 </div>
-{% else %}
-<div class="row">
-    <div class="page-header col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0">
-        {% trans %}No Gigs!{% endtrans %}
-    </div>
-</div>
-{% endif %}
 {% endblock content %}
 
 {% block localscripts %}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/locales/bootstrap-datepicker.{{ the_user.preferences.locale }}.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.js"></script>
+{% if the_user.preferences.locale=='en_GB' %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/locales/bootstrap-datepicker.en-GB.min.js"></script>
+{% elif the_user.preferences.locale!='en' %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/locales/bootstrap-datepicker.{{ the_user.preferences.locale }}.min.js"></script>
+{% endif %}
+
 
 {% if the_user.preferences.locale == 'en' %}
     <script src='/js/moment.min.js'></script>
@@ -124,17 +125,25 @@
 {% endif %}
 
 <script>
-$('#grid_date').datepicker({
-                                todayBtn: 'linked',
-                                todayHighlight: true,
-                                language: '{{ the_user.preferences.locale }}',
-                                viewMode: 'months',
-                                minViewMode: 'months'
-                            }).on('changeDate', function(ev){
-                                                                window.location.assign("/grid.html?bk={{the_band_key.urlsafe()}}&m="+(ev.date.getMonth()+1)+"&y="+(ev.date.getFullYear()))
-                                                            });
-d=new Date({{the_year}},{{the_month-1}});
-$('#grid_date').datepicker('update', d);
+$('#dateicon').datepicker({
+    startView: 1,
+    minViewMode: 1,
+    maxViewMode: 2
+}).on('changeDate', function(ev){
+    window.location.assign("/grid.html?bk={{the_band_key.urlsafe()}}&m="+(ev.date.getMonth()+1)+"&y="+(ev.date.getFullYear()))
+});
+
+// $('#grid_date').datepicker({
+//                                 todayBtn: 'linked',
+//                                 todayHighlight: true,
+//                                 language: '{{ the_user.preferences.locale }}',
+//                                 viewMode: 'months',
+//                                 minViewMode: 'months'
+//                             }).on('changeDate', function(ev){
+//                                                                 window.location.assign("/grid.html?bk={{the_band_key.urlsafe()}}&m="+(ev.date.getMonth()+1)+"&y="+(ev.date.getFullYear()))
+//                                                             });
+// d=new Date({{the_year}},{{the_month-1}});
+// $('#grid_date').datepicker('update', d);
 
 </script>
 {% endblock localscripts %}
