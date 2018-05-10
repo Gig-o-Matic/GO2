@@ -4,28 +4,27 @@
 
 {% block content %}
     <div class="row">
-        <div class="page-header col-md-8 col-md-offset-2">
-            <h2>{{ the_band.name }}</h2>
-        </div> 
-    </div>
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+        <div class="mx-auto col-lg-8 col-md-10 col-12">
+	        <div class="page-header">
+	            <h2>{{ the_band.name }}</h2>
+	        </div> 
+	    </div>
+        <div class="mx-auto col-lg-8 col-md-10 col-12">
             {% trans %}invite_instructions{% endtrans %}
         </div> 
-    </div>
-    <div class="row">
-        <br><br>
-    </div>
-    <div class="row">
-        <div class="form-group col-md-8 col-md-offset-2">
+        <div class="mx-auto col-lg-8 col-md-10 col-12">
+        	&nbsp;
+	    </div>
+       <div class="mx-auto col-lg-8 col-md-10 col-sm-12">
             <label for="banddescriptioninput" class="control-label">{% trans %}Emails:{% endtrans %}</label>
             <textarea class="form-control" rows="10" id="inviteinput" placeholder="{% trans %}foo@bar.org{% endtrans %}" name="invite_input"></textarea>
         </div>
-    </div>
-    <div class="row">
-        <div class="form-group col-md-8 col-md-offset-2 text-right">
-            <a class="btn btn-default" href="band_info.html?bk={{the_band.key.urlsafe()}}">{% trans %}Cancel{% endtrans %}</a>
-            <a class="btn btn-primary" onclick="do_invite('{{the_band.key.urlsafe()}}');">{% trans %}Send Invites{% endtrans %}</a>
+        <div class="mx-auto col-lg-8 col-md-10 col-12">
+        	&nbsp;
+	    </div>
+		<div class="mx-auto col-lg-8 col-md-10 col-sm-12 text-right">
+            <a class="btn btn-secondary" href="band_info.html?bk={{the_band.key.urlsafe()}}">{% trans %}Cancel{% endtrans %}</a>
+            <button class="btn btn-primary" onclick="do_invite('{{the_band.key.urlsafe()}}');">{% trans %}Send Invites{% endtrans %}</button>
         </div>
     </div>
     
