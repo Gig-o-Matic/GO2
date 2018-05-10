@@ -161,55 +161,43 @@
                         {% endif %}
                     </label>
                 </div>
+            </div>
+            <div class="form-group">
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" id="gig_invite_occasionals" name="gig_invite_occasionals" 
-                    {% if newgig_is_active or is_dupe %}
-                        {% if the_band.send_updates_by_default %}checked{% endif %}
-                    {% else %}
-
-                        <input type="checkbox" id="newgig_notifymembers" name="gig_notifymembers"
-                        {% if the_band.send_updates_by_default %}checked{% endif %}
-                        >{% trans %}Email members about change{% endtrans %}  
-                    {% endif %}
-                </label>  
-                <label class="checkbox">  
-                    {% if newgig_is_active or is_dupe %}
-                        <input type="checkbox" id="gig_invite_occasionals" name="gig_invite_occasionals" 
                         {% if the_band.send_updates_by_default %}checked{% endif %}                        
-                        >{% trans %}Invite occasional members{% endtrans %}  
-                    {% else %}
-                        <input type="checkbox" id="gig_invite_occasionals" name="gig_invite_occasionals" 
-                        {% if gig.invite_occasionals and the_band.send_updates_by_default %}checked{% endif %}
-                        >{% trans %}Also send update to occasional members{% endtrans %}  
-                    {% endif %}
-                </label>  
-                <label class="checkbox">  
-                    <input type="checkbox" id="gig_hide_from_calendar" name="gig_hide_from_calendar" 
-                    {% if gig.hide_from_calendar %}checked{% endif %}                        
-                    >{% trans %}Hide gig from calendars{% endtrans %}  
-                </label>  
-                {% if newgig_is_active %}
-	                <label class="checkbox">  
-	                    <input type="checkbox" id="default_to_attend" name="default_to_attend">
-	                    {% trans %}Default to definitely attending{% endtrans %}  
-	                </label>  
-	            {% endif %}
+                        >
+                    <label class="form-check-label" for="gig_invite_occasionals">
+                        {% if newgig_is_active or is_dupe %}
+                            {% trans %}Invite occasional members{% endtrans %}
+                        {% else %}
+                            {% trans %}Also send update to occasional members{% endtrans %}  
+                        {% endif %}
+                    </label>  
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-4 col-md-offset-2 col-sm-6 col-sm-offset-0 col-xs-6 col-xs-offset-0">
-                {% if gig!=None and not is_dupe%}
-                    {% if not gig.is_in_trash %}
-                        <a data-toggle="modal" href="#deleteModal" class="btn btn-default">{% trans %}Move To Trash{% endtrans %}</a>
-                    {% else %}
-                        <a class="btn btn-default" href="/gig_restore_trashed?gk={{ gig.key.urlsafe() }}">{% trans %}Restore Gig{% endtrans %}</a>
-                    {% endif %}
-                    <a data-toggle="modal" href="#archiveModal" class="btn btn-default">{% trans %}Archive{% endtrans %}</a>
-                {% endif %}   
-
+            <div class="form-group">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="gig_hide_from_calendar" name="gig_hide_from_calendar" 
+                        {% if gig.hide_from_calendar %}checked{% endif %}                        
+                        >
+                    <label class="form-check-label" for="gig_hide_from_calendar">
+                        {% trans %}Hide gig from calendars{% endtrans %}
+                    </label>
+                </div>
             </div>
+            {% if newgig_is_active %}
+                <div class="form-group">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="default_to_attend" name="default_to_attend">
+                        <label class="form-check-label" for="default_to_attend">
+                            {% trans %}Default to definitely attending{% endtrans %}
+                        </label>
+                    </div>
+                </div>
+            {% endif %}
             <div class="row">
-                <div class="form-group col-md-6 col-12">
+                <div class="form-group col-md-6 col-12 ml-auto text-left">
                     {% if gig!=None and not is_dupe%}
                         {% if not gig.is_in_trash %}
                             <a data-toggle="modal" href="#deleteModal" class="btn btn-secondary">{% trans %}Move To Trash{% endtrans %}</a>
@@ -250,7 +238,7 @@
                     {% trans %}Do you really want to move this gig to the trash?{% endtrans %}
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">{% trans %}Cancel{% endtrans %}</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans %}Cancel{% endtrans %}</button>
                     {% if gig %}
                         <a class="btn btn-primary" id="opener" href="gig_delete?&gk={{ gig.key.urlsafe() }}">{% trans %}Trash it!{% endtrans %}</a>
                     {% endif %}
@@ -270,7 +258,7 @@
                     {% trans %}Do you really want to archive this gig?{% endtrans %}
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">{% trans %}Don't Archive{% endtrans %}</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans %}Don't Archive{% endtrans %}</button>
                     {% if gig %}
                         <a class="btn btn-primary" id="opener" href="gig_archive?&gk={{ gig.key.urlsafe() }}">{% trans %}Archive{% endtrans %}</a>
                     {% endif %}
