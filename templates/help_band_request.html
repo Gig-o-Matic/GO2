@@ -13,50 +13,39 @@ class="landingwrap"
 {% block content %}
     <div id="landingpage_content">
         <div class="row">
-            <div class="page-header col-md-5 col-md-offset-2">
-                <h3>Sign Up Your Band!</h3>
-            </div>
-        </div> 
+            <div class="mx-auto col-md-10 col-12">    
+                <div class="page-header">
+                    Sign Up Your Band!
+                </div>
 
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
                 Getting your band on the Gig-O-Matic is easy-peasy. Fill out the form below 
                 and the Gig-O-Matic Overlords will get right back to you.<br><br>
-            </div>
-        </div>
 
-        <form class="form form-horizontal" id="infoform" role="form" action= "/help_band_request.html" method="POST">
-            <div class="row">
-                <div class="form-group">
-                    <label for="email" class="control-label col-md-2 col-md-offset-2">Your Email</label>
-                    <div class="col-md-5">
+                <form class="form form-horizontal" id="infoform" role="form" action= "/help_band_request.html" method="POST">
+                    <div class="form-group">
+                        <label for="email" class="control-label">Your Email</label>
                         <input type="text" class="form-control" id="email" name="email" />
                     </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group">
-                    <label for="name" class="control-label col-md-2 col-md-offset-2">Your Name</label>
-                    <div class="col-md-5">
+
+                    <div class="form-group">
+                        <label for="name" class="control-label">Your Name</label>
                         <input type="text" class="form-control" id="name" name="name" />
                     </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group">
-                    <label for="info" class="control-label col-md-2 col-md-offset-2">Tell Us A Little About The Band</label>
-                    <div class="col-md-5">
+
+                    <div class="form-group">
+                        <label for="info" class="control-label">Tell Us A Little About The Band</label>
                         <textarea class="form-control" id="info" name="info" rows="10" /></textarea>
                     </div>
-                </div>
+
+                    <div class="row">
+                        <div class="col-12 text-right">
+                            <input type="submit" class="btn btn-primary" value="Make It So!"/>
+                        </div>
+                    </div>
+
+                </form>
             </div>
-            <div class="row">
-                <div class="col-md-3 col-md-offset-6 text-right">
-                    <input type="submit" class="btn btn-primary" value="Make It So!"/>
-                </div>
-            </div>
-            
-        </form>
+        </div>
     </div>
 
 {% endblock content %}
