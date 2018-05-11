@@ -24,3 +24,8 @@ def good_breaks(value):
     # so that the <br> tags don't get escaped.
     return jinja2.Markup(value.replace('\n', '<br>'))
 
+def shorten(value):
+    if len(value) > 8:
+        return value[:8]+'...'
+    else:
+        return value

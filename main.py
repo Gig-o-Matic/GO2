@@ -37,7 +37,9 @@ CONFIG = {
         'filters': {
             'html_content': jinja2ext.html_content,
             'safe_name': jinja2ext.safe_name,
-            'good_breaks': jinja2ext.good_breaks}
+            'good_breaks': jinja2ext.good_breaks,
+            'shorten': jinja2ext.shorten,
+        }
     },
     'webapp2_extras.i18n': {
         'translations_path': os.path.join(os.path.dirname(__file__), 'locale')
