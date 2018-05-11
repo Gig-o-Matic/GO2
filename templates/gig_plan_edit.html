@@ -41,7 +41,7 @@
     {% set comment_sm = 9 %}
 {% endif %}
 
-<div class="row">
+<div class="row {% if the_plan.value != 1 and the_plan.value != 2 %}plannotattending{% endif %}">
     <div class="col-4">
          <a href='/member_info.html?mk={{the_member_key.urlsafe()}}'>{{ the_member.display_name }}</a>
     </div>
