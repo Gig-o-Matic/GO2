@@ -42,13 +42,11 @@
 {% endif %}
 
 <div class="row {% if the_plan.value != 1 and the_plan.value != 2 %}plannotattending{% endif %}">
-    <div class="col-4">
-         <a href='/member_info.html?mk={{the_member_key.urlsafe()}}'>{{ the_member.display_name }}</a>
+    <div class="col-4" style="display:flex; align-items:center;" >
+        <a href='/member_info.html?mk={{the_member_key.urlsafe()}}'>{{ the_member.display_name }}</a>
     </div>
-    <div class="col-6 btn-group" role="group">
-
-
-        {% if the_member_key == the_user.key or the_user_is_superuser or the_user_is_band_admin %}
+    {% if the_member_key == the_user.key or the_user_is_superuser or the_user_is_band_admin %}
+	    <div class="col-6 btn-group" role="group">
             {{ plan_icon.icon_button(the_plan, the_band.simple_planning) }}
             {% if the_band.plan_feedback %}
                 {{ plan_icon.feedback_button(the_plan, the_band.plan_feedback.split('\n') ) }}
@@ -80,7 +78,9 @@
                 {% endif %}
             {% endif %}
             <a href="#" class="comment-thing" id="username" data-type="text" data-pk="{{the_plan_key.urlsafe()}}" data-url="/updateplancomment" data-title="">{{the_plan.comment}}</a>
-        {% else %}
+        </div>
+    {% else %}
+	    <div class="col-6" style="display:flex; align-items:center;" >
             {{ plan_icon.icon_display(the_plan.value) }}
             {% if the_band.plan_feedback and the_plan.feedback_value %}
                 {{ the_band.plan_feedback.split('\n')[the_plan.feedback_value-1] }}
@@ -88,7 +88,7 @@
             {% if the_plan.comment %}
                 {{ the_plan.comment }}
             {% endif %}
-        {% endif %}
-    </div>
+	    </div>
+    {% endif %}
 </div>
 {%- endmacro %}
