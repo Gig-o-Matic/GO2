@@ -91,7 +91,7 @@ class CalEvents(BaseHandler):
                         the_band_name = the_band.name
                     band_names[band_key] = the_band_name
 
-                    the_title = u'{0}:\n{1}'.format(the_band_name, the_title)
+                the_title = u'{0}:\n{1}'.format(the_band_name, the_title)
             
 
             events.append({
