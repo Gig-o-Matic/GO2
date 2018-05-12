@@ -46,7 +46,7 @@
         <a href='/member_info.html?mk={{the_member_key.urlsafe()}}'>{{ the_member.display_name }}</a>
     </div>
     {% if the_member_key == the_user.key or the_user_is_superuser or the_user_is_band_admin %}
-	    <div class="col-8 btn-group" role="group">
+	    <div class="col-8 btn-group" role="group" style="display:flex; align-items:center;" >
             {{ plan_icon.icon_button(the_plan, the_band.simple_planning) }}
             {% if the_band.plan_feedback %}
                 {{ plan_icon.feedback_button(the_plan, the_band.plan_feedback.split('\n') ) }}
