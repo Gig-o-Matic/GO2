@@ -46,7 +46,7 @@
         <a href='/member_info.html?mk={{the_member_key.urlsafe()}}'>{{ the_member.display_name }}</a>
     </div>
     {% if the_member_key == the_user.key or the_user_is_superuser or the_user_is_band_admin %}
-	    <div class="col-6 btn-group" role="group">
+	    <div class="col-8 btn-group" role="group">
             {{ plan_icon.icon_button(the_plan, the_band.simple_planning) }}
             {% if the_band.plan_feedback %}
                 {{ plan_icon.feedback_button(the_plan, the_band.plan_feedback.split('\n') ) }}
@@ -63,13 +63,13 @@
                                 {% if the_plan.section == None %}
                                     {% trans %}section{% endtrans %}...  <span class="caret"></span>
                                 {% else %}
-                                    {{the_plan.section.get().name}} <span class="caret"></span>
+                                    {{the_plan.section.get().name | shorten}} <span class="caret"></span>
                                 {% endif %}
                             </a>
                             <div class="dropdown-menu" aria-labelledby="sel-{{the_plan_key.urlsafe()}}">
                                 {% for a_section in the_sections %}
                                     {% if a_section %}
-                                        <a class="dropdown-item" onclick="section_select('{{the_plan_key.urlsafe()}}','{{a_section.key.urlsafe()}}','{{a_section.name}}')">{{ a_section.name }}</a>
+                                        <a class="dropdown-item" onclick="section_select('{{the_plan_key.urlsafe()}}','{{a_section.key.urlsafe()}}','{{a_section.name | shorten}}')">{{ a_section.name }}</a>
                                     {% endif %}
                                 {% endfor %}
                             </div>
@@ -80,7 +80,7 @@
             <a href="#" class="comment-thing" id="username" data-type="text" data-pk="{{the_plan_key.urlsafe()}}" data-url="/updateplancomment" data-title="">{{the_plan.comment}}</a>
         </div>
     {% else %}
-	    <div class="col-6" style="display:flex; align-items:center;" >
+	    <div class="col-8" style="display:flex; align-items:center;" >
             {{ plan_icon.icon_display(the_plan.value) }}
             {% if the_band.plan_feedback and the_plan.feedback_value %}
                 {{ the_band.plan_feedback.split('\n')[the_plan.feedback_value-1] }}
