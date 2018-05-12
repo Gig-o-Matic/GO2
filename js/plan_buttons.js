@@ -99,13 +99,33 @@ function section_select(pk, sk, name) {
                 });
 }
 
+
+// CODE FOR COMMENTS ON AGENDA PAGE
+function show_comment(the_plan) {
+    $('#comment-init-'+the_plan).hide();
+    $('#comment-row-'+the_plan).show();
+    setTimeout(function(){
+        $('#comment-'+the_plan).click();
+    }, 100);
+}
+
+function closed_comment(thing) {
+    if ($('#comment-'+thing).text()=='') {
+        $('#comment-init-'+thing).show();
+        $('#comment-row-'+thing).hide();
+    }
+}
+
+
 $(document).ready(function() {
     init_plan_buttons();
     init_feedback_buttons();
     $('.comment-thing').editable({
         emptytext: '<i class="far fa-comment"></i>',
         emptyclass: 'empty-comment',
-        mode: 'inline'
-    });
+        mode: 'inline',
+    }).on('hidden', function(e, reason) {
+        closed_comment(e.target.getAttribute('data-pk'));
+    })
 });
 

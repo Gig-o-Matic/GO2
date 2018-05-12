@@ -76,7 +76,9 @@
                     </div>
                 {% endif %}
             {% endif %}
-            <a href="#" class="comment-thing" id="username" data-type="text" data-pk="{{the_plan_key.urlsafe()}}" data-url="/updateplancomment" data-title="">{{the_plan.comment}}</a>
+            {% if not the_plan.comment %}
+                <a style="color:black; text-decoration: none; border-bottom: dashed 1px #0088cc;" href="#" id="comment-init-{{the_plan_key.urlsafe()}}" onclick='show_comment("{{the_plan_key.urlsafe()}}")'><i class="far fa-comment"></i></a>
+            {% endif %}
         {% else %}
             {{ plan_icon.icon_display(the_plan.value) }}
             {% if the_band.plan_feedback and the_plan.feedback_value %}
@@ -90,8 +92,21 @@
             <strong>{% trans %}Cancelled!{% endtrans %}</strong>
         </div>
     {% endif %}
-
 </div>
-
+{% if the_gig.status != 2 %}
+    {% if the_member_key == the_user.key or the_user_is_superuser %}
+        <div class="row" style="border-left:solid thick {{ colors[the_assoc.color] }};{% if not the_plan.comment %}display:none;{% endif %}" id="comment-row-{{the_plan_key.urlsafe()}}">
+            <div class="ml-auto col-12 col-md-9">
+                <a href="#" class="comment-thing" id="comment-{{the_plan_key.urlsafe()}}" data-type="text" data-pk="{{the_plan_key.urlsafe()}}" data-url="/updateplancomment" data-title="">{{the_plan.comment}}</a>
+            </div>
+        </div>
+    {% elif the_plan.comment %}
+        <div class="row" style="border-left:solid thick {{ colors[the_assoc.color] }};" id="comment-row-{{the_plan_key.urlsafe()}}">
+            <div class="ml-auto col-12 col-md-9">
+                {{ the_plan.comment }}
+            </div>
+        </div>
+    {% endif %}
+{% endif %}
 
 {%- endmacro %}
