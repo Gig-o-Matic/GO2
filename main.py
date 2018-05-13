@@ -16,7 +16,6 @@ import maintenance
 import stats
 import caldav
 import activity
-import forum
 import jinja2ext
 import os
 import cryptoutil
@@ -156,19 +155,6 @@ else:
         webapp2.Route('/cal/m/<mk:.+>', caldav.MemberRequestHandler),
         webapp2.Route('/cal/p/<bk:.+>', caldav.PublicBandGigRequestHandler),
         webapp2.Route('/calhelp', caldav.HelpHandler),
-        webapp2.Route('/topic_add_forumpost', forum.AddForumPostHandler),
-        webapp2.Route('/topic_get_forumpost', forum.GetForumPostHandler),
-        webapp2.Route('/open_post_reply', forum.OpenPostReplyHandler),
-        webapp2.Route('/forum', forum.ForumHandler),
-        webapp2.Route('/forum_topic', forum.ForumTopicHandler),
-        webapp2.Route('/forum_new_topic', forum.NewTopicHandler),
-        webapp2.Route('/forum_get_topics', forum.ForumGetTopicsHandler),
-        webapp2.Route('/topic_toggle_open', forum.TopicToggleOpenHandler),
-        webapp2.Route('/forum_toggle_pin', forum.TogglePinHandler),
-        webapp2.Route('/forum_admin', forum.ForumAdminHandler),
-        webapp2.Route('/forum_add', forum.AddForumHandler),
-        webapp2.Route('/forum_delete', forum.DeleteForumHandler),
-        webapp2.Route('/search',forum.SearchHandler),
         webapp2.Route('/announce_new_gig_handler',goemail.AnnounceNewGigHandler),
         webapp2.Route('/send_new_gig_handler',goemail.SendNewGigHandler),
         webapp2.Route('/rss/<bk:.+>',rss.GetRssHandler),

@@ -202,28 +202,6 @@ class Member(webapp2_extras.appengine.auth.models.User):
             req.session['member_addgigbandlist'] = the_manage_bands
         return the_manage_bands
 
-    @classmethod
-    def get_forums(cls, req, the_member_key):
-        import forum
-        """ check to see if this is in the session - if so, just use it """
-        if 'member_forumlist' in req.session.keys() and not req.member_cache_is_dirty(the_member_key):
-            the_forums = req.session['member_forumlist']
-        else:
-            band_keys=assoc.get_band_keys_of_member_key(the_member_key, confirmed_only=True)                    
-            if band_keys:
-                # only do this if we're a member of a band            
-                bands = ndb.get_multi(band_keys)
-                band_forums=[]
-                for b in bands:
-                    if b.enable_forum:
-                        band_forums.append(b)            
-                public_forum_keys=forum.get_public_forums(keys_only=True)
-                public_forums=ndb.get_multi(public_forum_keys)
-                the_forums = band_forums + public_forums
-                req.session['member_forumlist'] = the_forums
-            else:
-                the_forums=[]
-        return the_forums
 
 
     @classmethod

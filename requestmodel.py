@@ -136,7 +136,6 @@ class BaseHandler(webapp2.RequestHandler):
         params['the_user_is_betatester'] = is_betatester
         if self.user:
             params['the_user_addgigbandlist'] = self.user.get_add_gig_band_list(self, self.user.key)
-            params['the_user_forumslist'] = self.user.get_forums(self, self.user.key)
         params['logout_link'] = self.uri_for('logout')
         if self.user is not None and not self.user.seen_welcome:
             params['welcome'] = True

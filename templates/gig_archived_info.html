@@ -89,34 +89,16 @@
                         </div>
                     </div>                    
                 </div> <!-- panel body -->
-            </div> <!-- panel -->
-            {% if the_user_is_betatester %}
-                <div class="row">&nbsp;</div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <div class="panel-title">{% trans %}Forum{% endtrans %}</div>
-                    </div>
-                    <div class="panel-body" id="gig_forum">
-                        <div class="row">
-                            <div class="col-lg-12 col-md-12" id="forum_posts">
-                                <i class="fas fa-spinner fa-pulse fa-lg"></i>
-                            </div>
-                        </div>
-                    </div> <!-- panel body -->
-                </div> <!-- panel -->
-            {% endif %}
-            
+            </div> <!-- panel -->            
         </div>
     </div>    
 {% endblock content %}
 
 {% block localscripts %}
 <script src="/js/comments.js"></script>
-<script src="/js/forum.js"></script>
 <script>
 $(document).ready(function() {
     update_comment('{{gig.key.urlsafe()}}');
-    update_forum_posts('{{gig.key.urlsafe()}}');    
 });
 </script>
 {% endblock localscripts %}

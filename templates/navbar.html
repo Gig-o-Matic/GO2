@@ -45,21 +45,6 @@
         {% endif %}
       {% endif %}
               
-      {% if the_user_is_betatester %}
-        {% if the_user_forumslist %}
-          <li class="nav-item dropdown mr-2">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarForumsMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              {% trans %}Forums{% endtrans %}
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarForumsMenuLink" id="forumlinks">
-              {% for f in the_user_forumslist %}
-                <a class="dropdown-item" href="/forum?fk={{ f.key.urlsafe() }}">{{ f.name }}</a>
-              {% endfor %}
-            </div>
-          </li>
-        {% endif %}
-      {% endif %}
-
       {% if the_user_is_superuser %}
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarAdminMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -68,7 +53,6 @@
           <div class="dropdown-menu" aria-labelledby="navbarAdminMenuLink">
             <a class="dropdown-item" href="/member_admin">{% trans %}Member Admin{% endtrans %}</a>
             <a class="dropdown-item" href="/band_admin">{% trans %}Band Admin{% endtrans %}</a>
-            <a class="dropdown-item" href="/forum_admin">{% trans %}Forum Admin{% endtrans %}</a>
             <a class="dropdown-item" href="/motd_admin">{% trans %}MOTD Admin{% endtrans %}</a>
             <a class="dropdown-item" href="/crypto_admin">{% trans %}CryptoKey Admin{% endtrans %}</a>
             <a class="dropdown-item" href="/stats">{% trans %}Stats Page{% endtrans %}</a>

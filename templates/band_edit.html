@@ -122,18 +122,6 @@
                 <label for="bandfeedback" class="col-form-label">{% trans %}Extra Feedback{% endtrans %}</label>
                 <textarea class="form-control" rows="10" id="bandfeedback" placeholder="{% trans %}items for second planning popup (BETA!){% endtrans %}" name="band_feedback">{% if the_band.plan_feedback %}{{the_band.plan_feedback }}{% endif %}</textarea>
             </div>
-            {% if the_user_is_superuser and false %}
-            <div class="form-group">
-                <div class="form-check">  
-                    <input class="form-check-input" type="checkbox" id="bandenableforum" name="band_enableforum"
-                    {% if the_band.enable_forum %}
-                        checked
-                    {% endif %}
-                    >
-                    <label class="form-check-label" for="bandenableforum">{% trans %}Enable band forum{% endtrans %}</label>
-                </div>  
-            </div>
-            {% endif %}            
             <div class="form-group">
                 <div class="text-right">
                     {% if the_member==None or is_new %}

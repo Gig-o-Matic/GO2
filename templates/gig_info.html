@@ -283,23 +283,6 @@
                 </div>                    
             </div> <!-- card body -->
         </div> <!-- card -->
-            
-        {% if the_user_is_betatester and False %}
-            <div class="row">&nbsp;</div>
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">{% trans %}Forum{% endtrans %}</div>
-                </div>
-                <div class="card-body" id="gig_forum">
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12" id="forum_posts">
-                            <i class="fas fa-spinner fa-pulse fa-lg"></i>
-                        </div>
-                    </div>
-                </div> <!-- card body -->
-            </div> <!-- card -->
-        {% endif %}
-
     </div>
 </div> <!-- row -->
 {% endblock content %}
@@ -307,7 +290,6 @@
 {% block localscripts %}
 <script src="/js/plan_buttons.js"></script>
 <script src="/js/comments.js"></script>
-<script src="/js/forum.js"></script>
 <script src="/js/jquery.truncator.js"></script>
 <script>
 var simple=false;
@@ -365,7 +347,6 @@ $(document).ready(function() {
     $('.trunc').truncate({max_length: 500, more:"...{% trans %}more{% endtrans %}", less:"{% trans %}less{% endtrans %}"});
     $('.popcomment').tooltip({ 'trigger':'hover click' });    
     update_comment('{{gig.key.urlsafe()}}');
-    update_forum_posts('{{gig.key.urlsafe()}}',0,0,true);
 });
 </script>
 {% endblock localscripts %}

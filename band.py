@@ -59,7 +59,6 @@ class Band(ndb.Model):
     plan_feedback = ndb.TextProperty()
     show_in_nav = ndb.BooleanProperty(default=True)
     send_updates_by_default = ndb.BooleanProperty(default=True)
-    enable_forum = ndb.BooleanProperty(default=True)
     rss_feed = ndb.BooleanProperty(default=False)
 
 
@@ -433,12 +432,6 @@ class EditPage(BaseHandler):
             the_band.simple_planning = True
         else:
             the_band.simple_planning = False
-
-        enable_forum=self.request.get("band_enableforum",None)
-        if (enable_forum):
-            the_band.enable_forum = True
-        else:
-            the_band.enable_forum = False
 
         plan_feedback=self.request.get("band_feedback",None)
         if (plan_feedback is not None):
