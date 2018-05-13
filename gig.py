@@ -1067,6 +1067,7 @@ class AnswerLinkHandler(BaseHandler):
             elif parts[2] == '1':
                 plan.update_plan(the_plan,1)
             elif parts[2] == '2':
+                plan.update_plan(the_plan,3)
                 # snooze!
                 the_gig = the_plan.key.parent().get()
                 snooze_days = 7
