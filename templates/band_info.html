@@ -246,7 +246,9 @@
                         {% if num_sections == 0 %}
                             <div class="col-4 titlerow">
                                 <h5>{% trans %}Members{% endtrans %}
-                                <button class="btn btn-primary btn-sm" onclick="toggle_names(); return false;"><i class="fas fa-sync fs-lg"></i></button>
+                                    {% if the_user_is_band_admin or the_user_is_superuser %}
+                                        <button class="btn btn-primary btn-sm" onclick="toggle_names(); return false;"><i class="fas fa-sync fs-lg"></i></button>
+                                    {% endif %}
                                 </h5>
                             </div>
                             {% if the_user_is_band_admin or the_user_is_superuser %}
@@ -260,7 +262,9 @@
                             </div>
                             <div class="col-5 titlerow">
                                 <h5>{% trans %}Members{% endtrans %}
-                                <a class="btn btn-primary btn-sm" href="#" onclick="toggle_names(); return false;"><i class="fas fa-sync fs-lg"></i></a>
+                                    {% if the_user_is_band_admin or the_user_is_superuser %}
+                                        <a class="btn btn-primary btn-sm" href="#" onclick="toggle_names(); return false;"><i class="fas fa-sync fs-lg"></i></a>
+                                    {% endif %}
                                 </h5>
                             </div>
                             {% if the_user_is_band_admin or the_user_is_superuser %}
