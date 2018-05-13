@@ -12,7 +12,11 @@
         {% set the_assoc = the_assocs[loop.index0] %}
         <div class="row">
         	<div class="col-md-5 col-sm-12">
-                <a href='/member_info.html?mk={{the_member.key.urlsafe()}}'>{% if the_member.nickname %}{{the_member.nickname}}{% else %}{{ the_member.name }}{% endif %}</a>
+                {% if the_user_is_band_admin or the_user_is_superuser %}
+                    <a href='/member_info.html?mk={{the_member.key.urlsafe()}}'>{% if the_member.nickname %}<span class="the_nickname">{{the_member.nickname}}</span><span class="the_longname" style="display:none;">{{ the_member.name }}</span>{% else %}{{ the_member.name }}{% endif %}</a>
+                {% else %}
+                    <a href='/member_info.html?mk={{the_member.key.urlsafe()}}'>{% if the_member.nickname %}{{the_member.nickname}}{% else %}{{ the_member.name }}{% endif %}</a>
+                {% endif %}
                 {% if the_assoc.is_occasional %}
                     ({% trans %}occasional{% endtrans %})
                 {% endif %}

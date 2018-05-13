@@ -245,7 +245,9 @@
                     <div class="row">
                         {% if num_sections == 0 %}
                             <div class="col-4 titlerow">
-                                  <h5>{% trans %}Members{% endtrans %}</h5>
+                                <h5>{% trans %}Members{% endtrans %}
+                                <button class="btn btn-primary btn-sm" onclick="toggle_names(); return false;"><i class="fas fa-sync fs-lg"></i></button>
+                                </h5>
                             </div>
                             {% if the_user_is_band_admin or the_user_is_superuser %}
                                 <div class="ml-auto">
@@ -257,7 +259,9 @@
                                 <h5>{% trans %}Sections{% endtrans %}</h5>
                             </div>
                             <div class="col-5 titlerow">
-                                <h5>{% trans %}Members{% endtrans %}</h5>
+                                <h5>{% trans %}Members{% endtrans %}
+                                <a class="btn btn-primary btn-sm" href="#" onclick="toggle_names(); return false;"><i class="fas fa-sync fs-lg"></i></a>
+                                </h5>
                             </div>
                             {% if the_user_is_band_admin or the_user_is_superuser %}
                                 <div class="ml-auto">
@@ -577,6 +581,18 @@ function occasional_select(ak) {
             });
 }
 
+
+var nicknames=true;
+function toggle_names() {
+    nicknames = !nicknames;
+    if (nicknames) {
+        $('.the_nickname').show();
+        $('.the_longname').hide();
+    } else {
+        $('.the_nickname').hide();
+        $('.the_longname').show();
+    };
+}
 
 $(document).ready(function() {
     updateMembers();
