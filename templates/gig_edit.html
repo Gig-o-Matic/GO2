@@ -74,7 +74,7 @@
                         <input class="form-check-input" type="checkbox" id="newgig-isseries" name="newgig_isseries" onClick="setSeries();">
                         <label class="form-check-label" for="newgig-isseries">{% trans %}Add A Series Of Copies{% endtrans %}</label>
                     </div>
-                    <div id="gignumberseriesinput" hidden="true">
+                    <div id="gignumberseriesinput" style="display:none;">
                         <div class="row">
                             <div class="col-md-6">
                                 <label for="newgig_seriescount" class="col-form-label">{% trans %}Total Number Of Gigs{% endtrans %}</label>
@@ -424,9 +424,8 @@ function handleBandChange(sel) {
 };
 
 function setSeries() {
-    console.log('woo');
     if($('#newgig-isseries').prop('checked'))
-       $('#gignumberseriesinput').show();
+        $('#gignumberseriesinput').show();
     else
         $('#gignumberseriesinput').hide();
 };
