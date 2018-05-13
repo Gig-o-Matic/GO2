@@ -115,7 +115,9 @@ function moveSection(which,where) {
 }
 
 function deleteSection(which) {
-    theDeletedSections.push(theSectionArray[which][1]);
+    if( theSectionArray[which][1] ) {
+        theDeletedSections.push(theSectionArray[which][1]);
+    }
     theSectionArray.splice(which,1);
     updateSectionList();
 }
