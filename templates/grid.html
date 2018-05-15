@@ -3,6 +3,35 @@
 
 {% block title %}{% trans %}Grid o'Gigs{% endtrans %}{% endblock title %}
 
+{% block headcontent %}
+
+<style>
+div.scrollmenu {
+    background-color: #ff0;
+    overflow: auto;
+    white-space: nowrap;
+    overflow-x: scroll;
+}
+
+div.scrollmenu a {
+    display: inline-block;
+    color: white;
+    text-align: center;
+    padding: 14px;
+    text-decoration: none;
+}
+
+div.scrollthing {
+    display: inline-block; 
+    padding: 5px;
+    width: 100px;
+}
+
+</style>
+
+{% endblock headcontent %}
+
+
 {% block content %}
 <div class="row">
     <div class="mx-auto col-md-10 col-12">
@@ -107,6 +136,38 @@
         {% endif %}
     </div>
 </div>
+
+<div class="row">
+    <div class="mx-auto col-md-10 col-12">
+        <div class="scrollmenu">
+            <div class="scrollthing">
+                <div class="row"><div class="col-12">hey</div></div>
+                <div class="row"><div class="col-12">hey</div></div>
+                <div class="row"><div class="col-12">hey</div></div>
+                <div class="row"><div class="col-12">hey</div></div>
+                <div class="row"><div class="col-12">hey</div></div>
+            </div>
+            <div class="scrollthing">bar</div>
+            <div class="scrollthing">foo</div>
+            <div class="scrollthing">bar</div>
+            <div class="scrollthing">foo</div>
+            <div class="scrollthing">bar</div>
+            <div class="scrollthing">foo</div>
+            <div class="scrollthing">bar</div>
+            <div class="scrollthing">foo</div>
+            <div class="scrollthing">bar</div>
+            <div class="scrollthing">foo</div>
+            <div class="scrollthing">bar</div>
+            <div class="scrollthing">foo</div>
+            <div class="scrollthing">bar</div>
+            <div class="scrollthing">foo</div>
+            <div class="scrollthing">bar</div>
+            <div class="scrollthing">foo</div>
+            <div class="scrollthing">bar</div>
+        </div>
+    </div>
+</div>
+
 {% endblock content %}
 
 {% block localscripts %}
