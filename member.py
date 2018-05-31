@@ -83,6 +83,7 @@ class Member(webapp2_extras.appengine.auth.models.User):
     last_activity = ndb.DateTimeProperty(auto_now=True)
     last_calfetch = ndb.DateTimeProperty(default=None)
     local_email_address = ndb.ComputedProperty(lambda self: self.email_address)
+    is_deleted = ndb.BooleanProperty(default=False)
 
     """Password validation class. Accepts .ensure_valid(pwd) and throws if invalid"""
     PasswordValidator = SimplePasswordValidator(minLength=5)
@@ -279,8 +280,35 @@ def reset_motd():
         m.seen_motd=False
     ndb.put_multi(members)
 
-    
 def forget_member_from_key(the_member_key):
+    """ set a member as forgotten by deleting all identifying information """
+    the_member = the_member_key.get()
+
+    if the_member:
+
+        # delete any unconfirmed associations and set the rest to 'is_deleted'
+        assoc.set_associations_to_delete_from_member_key(the_member_key)
+
+        # now strip out any identifying info
+        the_member.name = 'deleted'
+        the_member.nickname = None
+        the_member.email_address = None
+        the_member.phone = None
+        the_member.statement = None
+        the_member.is_superuser = False
+        the_member.is_betatester = False
+        the_member.is_band_editor = False
+        the_member.images = [""]
+        the_member.last_calfetch = None
+        the_member.is_deleted = True
+        # delete email and unique keys so they could be reused in future
+        Unique.delete_multi(['Member.auth_id:%s'%the_member.email_address,
+                             'Member.email_address:%s'%the_member.email_address])
+        the_member.put()
+
+
+    
+def forget_member_from_keyX(the_member_key):
     """ deletes a member, including all gig plans """
 
     # first find all of the assocs to bands
