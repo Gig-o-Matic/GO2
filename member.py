@@ -31,6 +31,7 @@ from babel.dates import format_date, format_datetime, format_time
 
 import json
 from debug import debug_print
+from gigoexceptions import GigoException
 
 def member_key(member_name='member_key'):
     """Constructs a Datastore key for a Guestbook entity with guestbook_name."""
@@ -48,7 +49,7 @@ class MemberPreferences(ndb.Model):
     default_view = ndb.IntegerProperty(default=0) # 0 = agenda, 1 = calendar, 2 = grid
     agenda_show_time = ndb.BooleanProperty(default=False)
 
-class MemberError(Exception):
+class MemberError(GigoException):
     def __init__(self, value):
         self.value = value
     def __str__(self):
@@ -995,17 +996,16 @@ class DeleteMember(BaseHandler):
 
         the_member_key=ndb.Key(urlsafe=the_member_keyurl)
 
-        # The only way to get here is to manually paste your key into the url;
-        # someone doing that is a troublemaker.
-        if not self.user.is_superuser:
-            raise MemberError("Cannot delete user because {0} is not a superuser".format(self.user.name))
-
-        if (self.user.key != the_member_key):
-            forget_member_from_key(the_member_key)
+        if (not self.user.is_superuser) and (self.user.key != the_member_key):
+            # The only way to get here is to manually paste your key into the url;
+            # someone doing that is a troublemaker.
+            raise MemberError("Cannot delete user because not authorized mk={0}".format(self.user.key.urlsafe()))
         else:
-            print 'cannot delete yourself, people'
+            forget_member_from_key(the_member_key)
+            if self.user.is_superuser:
+                return self.redirect('/member_admin')
 
-        return self.redirect('/member_admin')
+        return self.redirect('/logout')
         
 class AdminMember(BaseHandler):
     """ grant or revoke admin rights """

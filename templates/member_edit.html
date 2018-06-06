@@ -128,7 +128,7 @@
             </div>
             <div>&nbsp;</div>
             <div class="row">
-                {% if the_user_is_superuser %}
+                {% if the_user_is_superuser or member_is_me %}
                     <div class="form-group col-12 col-md-6">
                         <a data-toggle="modal" href="#deleteModal" class="btn btn-secondary">{% trans %}Delete{% endtrans %}</a>
                     </div>
@@ -149,7 +149,7 @@
 {% endblock content %}
 
 {% block modal %}
-    {% if the_user_is_superuser %}
+    {% if the_user_is_superuser or member_is_me %}
         <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
