@@ -69,7 +69,12 @@ class MainPage(BaseHandler):
                 info_block['the_band'] = a_band_key.get()
                 info_block['the_assoc'] = assoc.get_assoc_for_band_key_and_member_key(the_user.key, a_band_key)
                 if the_plan.section is None:
-                    info_block['the_section'] = info_block['the_assoc'].default_section
+                    if info_block['the_assoc']:
+                        info_block['the_section'] = info_block['the_assoc'].default_section
+                    else:
+                        logging.error('agenda page: plan exists but no assoc: {0}'.format(the_plan.key.urlsafe()))
+                        info_block['the_section'] = None
+
                 else:
                     info_block['the_section'] = the_plan.section
                 if num_to_put_in_upcoming and i<num_to_put_in_upcoming and (the_plan.value or a_gig.status == 2): #include gigs for which we've weighed in or have been cancelled
