@@ -16,61 +16,56 @@ class="landingwrap"
 {% endblock wrapclass %}
 
 {% block content %}
-    <div id="landingpage_bigcontent">
+    <div id="landingpage_content">
         <div class="row">
-            <div class="page-header col-md-5 col-md-offset-2">
+            <div class="page-header col-md-11 col-12 ml-auto">
                 <h3>{% trans %}Welcome To Gig-o-Matic{% endtrans %}</h3>
             </div>
-        </div> 
 
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                {% trans %}invite_welcome_text{% endtrans %}<br><br>
+            <div class="row">
+                <div class="col-md-10 col-12 ml-auto">
+                    {% trans %}invite_welcome_text{% endtrans %}<br><br>
+                </div>
             </div>
         </div>
 
-        <form class="form form-horizontal" id="infoform" role="form" action= "/invitepassword" method="POST">
-            <div class="row">
-                <div class="form-group">
-                    <label for="membernameinput" class="control-label col-md-2 col-md-offset-2">{% trans %}Full Name{% endtrans %}</label>
-                    <div class="col-md-3">
-                        <input type="text" class="form-control" id="membernameinput" name="member_name">
+        <div class="row">
+            <div class="col-md-11 col-12 ml-auto">
+
+                <form class="form" id="infoform" role="form" action= "/invitepassword" method="POST">
+                    <div class="form-group row">
+                        <label for="membernameinput" class="col-form-label col-lg-3 text-lg-right">{% trans %}Full Name{% endtrans %}</label>
+                        <div class="col-lg-8 col-12">
+                            <input type="text" class="form-control" id="membernameinput" name="member_name">
+                        </div>
                     </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group">
-                    <label for="membernicknameinput" class="control-label col-md-2 col-md-offset-2">{% trans %}Nickname{% endtrans %}</label>
-                    <div class="col-md-3">                     
-                        <input type="text" class="form-control" id="membernicknameinput" name="member_nickname">
+                    <div class="form-group row">
+                        <label for="membernicknameinput" class="col-form-label col-lg-3 text-lg-right">{% trans %}Nickname{% endtrans %}</label>
+                        <div class="col-lg-8 col-12">
+                            <input type="text" class="form-control" id="membernicknameinput" name="member_nickname">
+                        </div>
                     </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group">
-                    <label for="password" class="control-label col-md-2 col-md-offset-2">{% trans %}Enter Password{% endtrans %}</label>
-                    <div class="col-md-3">
-                        <input type="password" class="form-control" id="password" name="password" />
+                    <div class="form-group row">
+                        <label for="password" class="col-form-label col-lg-3 text-lg-right">{% trans %}Enter Password{% endtrans %}</label>
+                        <div class="col-lg-8 col-12">
+                            <input type="password" class="form-control" id="password" name="password" />
+                        </div>
                     </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group">
-                    <label for="confirm_password" class="control-label col-md-2 col-md-offset-2">{% trans %}And Again{% endtrans %}</label>
-                    <div class="col-md-3">
-                        <input type="password" class="form-control" id="confirm_password" name="confirm_password" />
+                    <div class="form-group row">
+                        <label for="confirm_password" class="col-form-label col-lg-3 text-lg-right">{% trans %}And Again{% endtrans %}</label>
+                        <div class="col-lg-8 col-12">
+                            <input type="password" class="form-control" id="confirm_password" name="confirm_password" />
+                        </div>
                     </div>
-                </div>
+                    <input type="hidden" name="t" value="{{ token }}" />
+                    <div>
+                        <input type="submit" class="btn btn-primary" value="{% trans %}Set Password{% endtrans %}"/>
+                    </div>
+                    <input type='hidden' name='mk' value='{{mk}}'>
+                    <input type='hidden' name='st' value='{{st}}'>
+                </form>
             </div>
-            <input type="hidden" name="t" value="{{ token }}" />
-            <div class="row">
-                <div class="col-md-3 col-md-offset-4 text-right">
-                    <input type="submit" class="btn btn-primary" value="{% trans %}Set Password{% endtrans %}"/>
-                </div>
-            </div>
-            <input type='hidden' name='mk' value='{{mk}}'>
-            <input type='hidden' name='st' value='{{st}}'>
-        </form>
+        </div>
     </div>
 {% endblock content %}
 
@@ -85,10 +80,12 @@ $(document).ready(function() {
     $("#infoform").validate({
         rules: {
             password: {
-                required: true
+                required: true,
+                minlength: 5
             },
             confirm_password: {
-                equalTo: "#password"
+                equalTo: "#password",
+                minlength: 5
             },
             member_name: {
                 required: true
