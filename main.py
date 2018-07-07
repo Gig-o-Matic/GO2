@@ -119,6 +119,7 @@ else:
         webapp2.Route('/print_setlist', gig.PrintSetlist),
         webapp2.Route('/print_planlist', gig.PrintPlanlist),
         webapp2.Route('/member_spreadsheet', band.MemberSpreadsheet),
+        webapp2.Route('/archive_spreadsheet', band.ArchiveSpreadsheet),
         webapp2.Route('/sendreminder', gig.SendReminder),
         webapp2.Route('/band_info.html', band.InfoPage),
         webapp2.Route('/band_edit.html', band.EditPage),

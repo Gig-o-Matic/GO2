@@ -1111,6 +1111,44 @@ class MemberSpreadsheet(BaseHandler):
         self.response.write(data)
 
 
+class ArchiveSpreadsheet(BaseHandler):
+
+    def get(self):
+        the_user = self.user
+        the_band_keyurl=self.request.get('bk','0')
+
+        the_band_key = ndb.Key(urlsafe=the_band_keyurl)
+
+        if not is_authorized_to_edit_band(the_band_key, the_user):
+            return
+
+        self.response.headers['Content-Type'] = 'application/x-gzip'
+        self.response.headers['Content-Disposition'] = 'attachment; filename=archive.csv'
+        
+        the_band_key_url=self.request.get("bk",None)
+        if the_band_key_url is None:
+            raise gigoexceptions.GigoException('no band key passed to GigArchivePage handler')
+        else:
+            the_band_key = ndb.Key(urlsafe=the_band_key_url)
+        
+        # make sure this member is actually in the band
+        if assoc.confirm_user_is_member(the_user.key, the_band_key) is None:
+            raise gigoexceptions.GigoException('user called GigArchivePage handler but is not member')
+
+        the_band = the_band_key.get()
+        if the_band is None:
+            raise gigoexceptions.GigoException('GigArchivePage handler called without a band')
+
+        the_gigs = gig.get_gigs_for_band_keys(the_band_key, show_past=True)
+
+        data="date,name,status,committed,pay"
+        for g in the_gigs:
+            plans = plan.get_plans_for_gig_key(g.key)
+            num=len([p for p in plans if p.value in [1,2]])
+            data=u"{0}\n{1},{2},{3},{4},{5}".format(data, member.format_date_for_member(the_user, g.date, 'short'),g.title,gig.Gig.status_names[g.status],num,g.paid)
+
+        self.response.write(data)
+
 
 def is_authorized_to_edit_band(the_band_key, the_user):
     if assoc.get_admin_status_for_member_for_band_key(the_user, the_band_key) or the_user.is_superuser:
