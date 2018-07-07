@@ -868,7 +868,7 @@ class GigArchivePage(BaseHandler):
             the_band_key = ndb.Key(urlsafe=the_band_key_url)
         
         # make sure this member is actually in the band
-        if assoc.confirm_user_is_member(the_user.key, the_band_key) is None:
+        if assoc.confirm_user_is_member(the_user.key, the_band_key) is None and the_user.is_superuser is not True:
             raise gigoexceptions.GigoException('user called GigArchivePage handler but is not member')
 
         the_band = the_band_key.get()
@@ -1132,7 +1132,7 @@ class ArchiveSpreadsheet(BaseHandler):
             the_band_key = ndb.Key(urlsafe=the_band_key_url)
         
         # make sure this member is actually in the band
-        if assoc.confirm_user_is_member(the_user.key, the_band_key) is None:
+        if assoc.confirm_user_is_member(the_user.key, the_band_key) is None and the_user.is_superuser is not True:
             raise gigoexceptions.GigoException('user called GigArchivePage handler but is not member')
 
         the_band = the_band_key.get()
@@ -1148,7 +1148,7 @@ class ArchiveSpreadsheet(BaseHandler):
             stat=0
             if (g.status and g.status in [0,1,2]):
                 stat = g.status
-            data=u"{0}\n{1},{2},{3},{4},{5}".format(data, member.format_date_for_member(the_user, g.date, 'short'),g.title,gig.Gig.status_names[stat],num,g.paid)
+            data=u"{0}\n{1},\"{2}\",{3},{4},\"{5}\"".format(data, member.format_date_for_member(the_user, g.date, 'short'),g.title,gig.Gig.status_names[stat],num,g.paid)
 
         self.response.write(data)
 
