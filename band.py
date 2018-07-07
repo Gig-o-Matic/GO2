@@ -1145,7 +1145,10 @@ class ArchiveSpreadsheet(BaseHandler):
         for g in the_gigs:
             plans = plan.get_plans_for_gig_key(g.key)
             num=len([p for p in plans if p.value in [1,2]])
-            data=u"{0}\n{1},{2},{3},{4},{5}".format(data, member.format_date_for_member(the_user, g.date, 'short'),g.title,gig.Gig.status_names[g.status],num,g.paid)
+            stat=0
+            if (g.status and g.status in [0,1,2]):
+                stat = g.status
+            data=u"{0}\n{1},{2},{3},{4},{5}".format(data, member.format_date_for_member(the_user, g.date, 'short'),g.title,gig.Gig.status_names[stat],num,g.paid)
 
         self.response.write(data)
 
