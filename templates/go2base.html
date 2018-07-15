@@ -122,6 +122,19 @@
 
     <!-- <script src="/bootstrap3-editable/js/bootstrap-editable.js"></script>     -->
     <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/jqueryui-editable/js/jqueryui-editable.min.js"></script>
+
+<script type="text/javascript">
+
+function stopRKey(evt) {
+  var evt = (evt) ? evt : ((event) ? event : null);
+  var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null);
+  if (evt.keyCode == 13 && (node.type != "textarea") && (node.type != "submit"))  {return false;}
+}
+
+document.onkeypress = stopRKey;
+
+</script> 
+
     {% block localscripts %}
     {% endblock localscripts %}
     {% block navbarscripts %}
