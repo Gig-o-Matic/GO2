@@ -5,6 +5,13 @@
 -------------------------------------------------- */
 /* Not required for template or sticky footer method. */
 
+html,
+body {
+  font-family: 'Nunito', sans-serif;
+  font-size: 1.25rem;
+}
+
+
 .table tbody > tr > td.plan-cell {
     vertical-align: middle;
 }

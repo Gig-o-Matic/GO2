@@ -20,10 +20,10 @@
 {% import 'plan_icon.html' as plan_icon %}
 
 <div class="row">
-    <h3 style="margin-top:0px">Setlist For {{the_gig.title}}</h3>
+    Setlist For {{the_gig.title}}
 </div>
 <div class="row">
-    {{ the_gig.date }} {{ the_gig.calltime }}
+    {{ the_date_formatter(the_user, the_gig.date, 'short') }} {{ the_gig.calltime }}
 </div>
 <br>
 <div class="row">

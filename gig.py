@@ -880,6 +880,7 @@ class PrintSetlist(BaseHandler):
 
         template_args = {
             'the_gig' : the_gig,
+            'the_date_formatter' : member.format_date_for_member
         }
         self.render_template('print_setlist.html', template_args)
         
