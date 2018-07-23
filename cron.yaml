@@ -1,13 +1,13 @@
 cron:
 - description: auto-archiving
-  url: /gig_autoarchive
+  url: /admin_gig_autoarchive
   schedule: every day 05:00
 - description: scour for old signup tokens
-  url: /login_auto_old_token
+  url: /admin_login_auto_old_token
   schedule: every day 05:30
 - description: generate stats
-  url: /generate_stats
+  url: /admin_generate_stats
   schedule: every day 05:15
 - description: send reminders
-  url: /send_reminders
+  url: /admin_send_reminders
   schedule: every day 05:10
