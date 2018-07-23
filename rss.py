@@ -32,7 +32,7 @@ def make_gig_feed(the_band):
 """
 
     feed=u"{0}\n<title>{1} Gigs</title>".format(feed, the_band.name)
-    feed=u"{0}\n<link>{1}{2}</link>".format(feed, "http://gig-o-matic.appspot.com/feeds/",the_band.key.urlsafe())
+    feed=u"{0}\n<link>{1}{2}</link>".format(feed, "http://www.gig-o-matic.com/feeds/",the_band.key.urlsafe())
     feed=u"{0}\n<description>{1} Gigs</description>".format(feed, the_band.name)
 
     for a_gig in the_gigs:

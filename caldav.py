@@ -112,7 +112,7 @@ def make_event(the_gig, the_band, title_format=u'{0}', details_format=u'{0}', sh
                                       end_dt.astimezone(pytz.utc).strftime("%H%M00Z"))
 
     if show_url:
-        the_url = 'http://gig-o-matic.appspot.com/gig_info.html?gk={0}'.format(the_gig.key.urlsafe())
+        the_url = 'http://www.gig-o-matic.com/gig_info.html?gk={0}'.format(the_gig.key.urlsafe())
     else:
         the_url = ''
 
