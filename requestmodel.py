@@ -161,6 +161,26 @@ class BaseHandler(webapp2.RequestHandler):
 
     # this is needed for webapp2 sessions to work
     def dispatch(self):
+
+        request = self.request
+        if request.host.startswith("localhost:8080") and request.get("foo") != "bar":
+            import urlparse
+            scheme, netloc, path, query, fragment = urlparse.urlsplit(request.url)
+
+            if query:
+                query += '&foo=bar'
+            else:
+                query='foo=bar'
+
+            url = urlparse.urlunsplit([scheme, "localhost:8080", path, query, fragment])
+            print("\n\nnewurl: {0}\n\n".format(url))
+            print("\n\nquery: {0}\n\n".format(query))
+            # Send redirect
+            self.redirect(url)
+        else:
+            print("\n\nno redirect\n\n")
+
+
         # Get a session store for this request.
         self.session_store = sessions.get_store(request=self.request)
 
