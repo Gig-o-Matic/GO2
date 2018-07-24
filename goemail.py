@@ -15,14 +15,14 @@ from webapp2_extras import i18n
 from webapp2_extras.i18n import gettext as _
 
 # need this for sending stuff to the superuser - can't use the decorated version
-_bare_admin_email_address = 'superuser@gig-o-matic.com'
+_bare_admin_email_address = 'gigomatic.superuser@gmail.com'
 
 # The MailServiceStub class used by dev_appserver can't handle a sender address that's more
 # than a raw email address, but production GAE doesn't have this limitation.
 if os.getenv('SERVER_SOFTWARE', '').startswith('Google App Engine/'):
-    _admin_email_address = 'Gig-o-matic <superuser@gig-o-matic.com>'
+    _admin_email_address = 'Gig-o-matic <gigomatic.superuser@gmail.com>'
 else:
-    _admin_email_address = 'superuser@gig-o-matic.com'
+    _admin_email_address = 'gigomatic.superuser@gmail.com'
 
 
 def validate_email(to):
