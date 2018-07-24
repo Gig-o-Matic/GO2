@@ -884,7 +884,7 @@ msgstr ""
 msgid "error_message"
 msgstr ""
 "There has been an internal error! Please email <a "
-"href=\"mailto:gigomatic.superuser@gmail.com\">gigomatic.superuser@gmail.com</a>"
+"href=\"mailto:superuser@gig-o-matic.com\">superuser@gig-o-matic.com</a>"
 " to let us know about it!"
 
 #: templates/error.html:19
@@ -1328,7 +1328,7 @@ msgstr "...make a suggestion?"
 #: templates/help.html:18
 msgid "help_answer_3"
 msgstr ""
-"I want to <a href=\"mailto:gigomatic.superuser@gmail.com\">hear about "
+"I want to <a href=\"mailto:superuser@gig-o-matic.com\">hear about "
 "it</a>."
 
 #: templates/help.html:19
@@ -1337,7 +1337,7 @@ msgstr "...contact the administator?"
 
 #: templates/help.html:19
 msgid "help_answer_4"
-msgstr "<a href=\"mailto:gigomatic.superuser@gmail.com\">Email Here!</a>"
+msgstr "<a href=\"mailto:superuser@gig-o-matic.com\">Email Here!</a>"
 
 #: templates/help_band_request.html:3
 msgid "New Band!"
@@ -1811,7 +1811,7 @@ msgstr ""
 "confirmation. Which will be awesome.<br><br>Need help? Click <a "
 "href=\"/help\" class=\"alert-link\">here</a> and hopefully you'll get "
 "what you need.<br><br>Need even more help? Contact the <a "
-"href=\"mailto:gigomatic.superuser@gmail.com\" class=\"alert-"
+"href=\"mailto:superuser@gig-o-matic.com\" class=\"alert-"
 "link\">Gig-o-Matic Overlords</a>."
 
 #: templates/welcome.html:12
