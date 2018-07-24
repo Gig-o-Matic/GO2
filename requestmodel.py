@@ -172,7 +172,7 @@ class BaseHandler(webapp2.RequestHandler):
             if not path.startswith("/admin_"):
                 url = urlparse.urlunsplit([scheme, "www.gig-o-matic.com", path, query, fragment])
                 # Send redirect
-                self.redirect(url, permanent=True)
+                self.redirect(url, permanent=True, abort=True)
 
         if request.host.startswith("127.0.0.1"):
             import urlparse
@@ -182,7 +182,7 @@ class BaseHandler(webapp2.RequestHandler):
             if not path.startswith("/admin_"):
                 url = urlparse.urlunsplit([scheme, "localhost:8080", path, query, fragment])
                 # Send redirect
-                self.redirect(url, permanent=True)
+                self.redirect(url, permanent=True, abort=True)
 
 
 
