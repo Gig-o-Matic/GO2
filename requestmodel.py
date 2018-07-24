@@ -174,6 +174,18 @@ class BaseHandler(webapp2.RequestHandler):
                 # Send redirect
                 self.redirect(url, permanent=True)
 
+        if request.host.startswith("127.0.0.1"):
+            import urlparse
+            scheme, netloc, path, query, fragment = urlparse.urlsplit(request.url)
+
+            # the cron stuff should not redirect
+            if not path.startswith("/admin_"):
+                url = urlparse.urlunsplit([scheme, "localhost:8080", path, query, fragment])
+                # Send redirect
+                self.redirect(url, permanent=True)
+
+
+
         # Get a session store for this request.
         self.session_store = sessions.get_store(request=self.request)
 
