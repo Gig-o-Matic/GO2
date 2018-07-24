@@ -164,7 +164,7 @@ class BaseHandler(webapp2.RequestHandler):
 
         # for requests still going to appspot, redirect
         request = self.request
-        if request.host.startswith("gig-o-matic.appspot.com"):
+        if request.host.startswith("gig-o-matic.appspot.com") or request.host.startswith("gig-o-matic.com"):
             import urlparse
             scheme, netloc, path, query, fragment = urlparse.urlsplit(request.url)
 
@@ -172,7 +172,7 @@ class BaseHandler(webapp2.RequestHandler):
             if not path.startswith("/admin_"):
                 url = urlparse.urlunsplit([scheme, "www.gig-o-matic.com", path, query, fragment])
                 # Send redirect
-                self.redirect(url)
+                self.redirect(url, permanent=True)
 
         # Get a session store for this request.
         self.session_store = sessions.get_store(request=self.request)
