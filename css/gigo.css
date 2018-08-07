@@ -174,3 +174,14 @@ a {
     border-color: #007bff;
 }
 
+.accordion .card-header:after {
+    font-family: 'FontAwesome';  
+    content: "\f068";
+    padding-right: .5rem;
+    float: left; 
+}
+.accordion .card-header.collapsed:after {
+    /* symbol for "collapsed" panels */
+    content: "\f067"; 
+}
+

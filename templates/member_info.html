@@ -15,9 +15,9 @@
 
         <div class="card">
             <div class="card-header">
-                <div class="row">
-                    <div class="col-4 titlerow">
-                        <h5>{% trans %}Info{% endtrans %}</h5>
+                <div class="row titlerow">
+                    <div class="col-4">
+                        {% trans %}Info{% endtrans %}
                     </div>
                     {% if member_is_me or the_user_is_superuser %}
                         <div class="ml-auto">
@@ -76,9 +76,9 @@
         {% if the_member.images %}
             <div class="card">
                 <div class="card-header">
-                    <div class="row">
-                        <div class="col-12 titlerow">
-                            <h5>{% trans %}Pictures Of Me{% endtrans %}</h5>
+                    <div class="row titlerow">
+                        <div class="col-12">
+                            {% trans %}Pictures Of Me{% endtrans %}
                         </div>
                     </div>
                 </div>
@@ -110,9 +110,9 @@
 	        <div>&nbsp;</div>
             <div class="card">
                 <div class="card-header">
-                    <div class="row">
-                        <div class="col-12 titlerow">
-                            <h5>{% trans %}Bands{% endtrans %}</h5>
+                    <div class="row titlerow">
+                        <div class="col-12">
+                            {% trans %}Bands{% endtrans %}
                         </div>
                     </div>
                 </div>
@@ -128,9 +128,9 @@
 	        <div>&nbsp;</div>
             <div class="card">
 	            <div class="card-header">
-	                <div class="row">
-	                    <div class="col-4 titlerow">
-	                        <h5>{% trans %}Preferences{% endtrans %}</h5>
+	                <div class="row titlerow">
+	                    <div class="col-4">
+	                        {% trans %}Preferences{% endtrans %}
 	                    </div>
                         {% if member_is_me or the_user_is_superuser %}
 	                        <div class="ml-auto">

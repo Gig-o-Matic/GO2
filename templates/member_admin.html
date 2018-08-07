@@ -9,77 +9,81 @@
         </div>
     </div>
     <div class="row">
-        <div class="panel-group mx-auto col-md-10 col-12" id="accordion">
-            <div class="card">
-                <div class="card-header titlerow">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-                          All Members
+        <div class="mx-auto col-md-10 col-12">
+            <div class="accordion" id="accordion">
+                <div class="card">
+                    <div class="card-header collapsed" data-toggle="collapse" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                        <a class="card-title titlerow">
+                            {% trans %}All Members{% endtrans %}
                         </a>
-                </div>
-                <div id="collapseOne" class="collapse collapse-show">
-                    <div class="card-body">
-                        <div id="memberlist">
-                            <i class="fas fa-spinner fa-pulse fa-lg"></i>
+                    </div>
+                    <div id="collapseOne" class="collapse collapse-show">
+                        <div class="card-body">
+                            <div>
+                                <input type="text" class="form-control" id="searchinput" placeholder="search string" value="" name="search_input">
+                                <a class="btn btn-light" onclick="searchMembers()">Search</a>
+                            </div>
+                            <div id="memberlist">
+                                <i class="fas fa-spinner fa-pulse fa-lg"></i>
+                            </div>
+                            <a class="btn btn-light" onclick="prevMembers()"><i class="fas fa-chevron-left"></i></a>
+                            <a class="btn btn-light" onclick="nextMembers()"><i class="fas fa-chevron-right"></i></a>
                         </div>
-                        <a class="btn btn-default" onclick="prevMembers()"><i class="fas fa-chevron-left"></i></a>
-                        <a class="btn btn-default" onclick="nextMembers()"><i class="fas fa-chevron-right"></i></a>
-                        <input type="text" class="form-control" id="searchinput" placeholder="search string" value="" name="search_input">
-                        <a class="btn btn-default" onclick="searchMembers()">Search</a>
                     </div>
                 </div>
-            </div>
-            <div class="card">
-                <div class="card-header titlerow">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                <div class="card">
+                    <div class="card-header collapsed" data-toggle="collapse" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        <a class="card-title titlerow">
                             Pending Signups
                         </a>
+                    </div>
+                    <div id="collapseTwo" class="collapse">
+                      <div class="card-body" id="signuplist">
+                            <i class="fas fa-spinner fa-pulse fa-lg"></i>
+                      </div>
+                    </div>
                 </div>
-                <div id="collapseTwo" class="collapse">
-                  <div class="card-body" id="signuplist">
-                        <i class="fas fa-spinner fa-pulse fa-lg"></i>
-                  </div>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-header titlerow">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+                <div class="card">
+                    <div class="card-header collapsed" data-toggle="collapse" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                        <a class="card-title titlerow">
                             Pending Invites
                         </a>
-                </div>
-                <div id="collapseThree" class="collapse">
-                    <div class="card-body" id="invitelist">
-                        <i class="fas fa-spinner fa-pulse fa-lg"></i>
+                    </div>
+                    <div id="collapseThree" class="collapse">
+                        <div class="card-body" id="invitelist">
+                            <i class="fas fa-spinner fa-pulse fa-lg"></i>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="card">
-                <div class="card-header titlerow">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour">
+                <div class="card">
+                    <div class="card-header collapsed" data-toggle="collapse" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                        <a class="card-title titlerow">
                             Special Controls
                         </a>
-                </div>
-                <div id="collapseFour" class="collapse">
-                    <div class="card-body">
-                        Rewrite all member and assoc objects to update structure
-                        <a class="btn btn-primary" href="/member_rewrite">Do it!</a>
+                    </div>
+                    <div id="collapseFour" class="collapse">
+                        <div class="card-body">
+                            Rewrite all member and assoc objects to update structure
+                            <a class="btn btn-primary" href="/member_rewrite">Do it!</a>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="card">
-                <div class="card-header titlerow">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseFive">
+                <div class="card">
+                    <div class="card-header collapsed" data-toggle="collapse" href="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                        <a class="card-title titlerow">
                             Admin Emails
                         </a>
-                </div>
-                <div id="collapseFive" class="collapse">
-                    <div class="card-body">
-                        {% for a in all_admin_emails %}
-                            {{a}}{% if not loop.last %}, {% endif %}
-                        {% endfor %}
+                    </div>
+                    <div id="collapseFive" class="collapse">
+                        <div class="card-body">
+                            {% for a in all_admin_emails %}
+                                {{a}}{% if not loop.last %}, {% endif %}
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>    
+            </div>    
+        </div>
     </div>    
 {% endblock content %}
 

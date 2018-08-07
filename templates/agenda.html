@@ -17,9 +17,9 @@
         {% if weighin_plans %}
             <div class="card">
                 <div class="card-header">
-                    <div class="row">
-                        <div class="col-6 titlerow">
-                            <h5>{% trans %}Future Gigs: Weigh In!{% endtrans %}</h5>
+                    <div class="row titlerow">
+                        <div class="col-6">
+                            {% trans %}Future Gigs: Weigh In!{% endtrans %}
                         </div>
                     </div>
                 </div>
@@ -40,12 +40,12 @@
 
         <div class="card">
             <div class="card-header">
-                <div class="row">
-                    <div class="col-6 titlerow">
+                <div class="row titlerow">
+                    <div class="col-6">
                         {% if the_user.show_long_agenda %}
-                            <h5>{% trans %}All Upcoming Gigs{% endtrans %}</h5>
+                            {% trans %}All Upcoming Gigs{% endtrans %}
                         {% else %}
-                            <h5>{% trans %}My Next Few Gigs{% endtrans %}</h5>
+                            {% trans %}My Next Few Gigs{% endtrans %}
                         {% endif %}
                     </div>
                     <div class="ml-auto">

@@ -22,9 +22,9 @@
 
         <div class="card">
             <div class="card-header">
-                <div class="row">
-                    <div class="col-4 titlerow">
-                        <h5>{% trans %}Info{% endtrans %}</h5>
+                <div class="row titlerow">
+                    <div class="col-4">
+                        {% trans %}Info{% endtrans %}
                     </div>
                     {% if user_can_edit %}
                         <div class="ml-auto">
@@ -166,9 +166,9 @@
             <div>&nbsp;</div>
             <div class="card">
                 <div class="card-header">
-                    <div class="row">
-                        <div class="col-4 titlerow">
-                            <h5>{% trans %}Setlist{% endtrans %}</h5>
+                    <div class="row titlerow">
+                        <div class="col-4">
+                            {% trans %}Setlist{% endtrans %}
                         </div>
                         <div class="ml-auto">
                             <a class="btn btn-primary btn-sm" href="print_setlist?gk={{gig.key.urlsafe()}}" target="new"><i class="fas fa-print"></i>
@@ -189,9 +189,9 @@
         <div>&nbsp;</div>
         <div class="card">
             <div class="card-header">
-                <div class="row">
-                    <div class="col-4 titlerow">
-                        <h5>{% trans %}Member Plans{% endtrans %}</h5>
+                <div class="row titlerow">
+                    <div class="col-4">
+                        {% trans %}Member Plans{% endtrans %}
                     </div>
                     <div class="ml-auto"">
                         <span id="printall"><a href="print_planlist?gk={{gig.key.urlsafe()}}&printall=1" target="new" class="btn btn-sm btn-secondary"><i class="fas fa-print"></i>
@@ -262,8 +262,8 @@
         <div>&nbsp;</div>
         <div class="card">
             <div class="card-header">
-                <div class="row"><div class="col-12 titlerow">
-                    <h5>{% trans %}Comments{% endtrans %}</h5>
+                <div class="row titlerow"><div class="col-12">
+                    {% trans %}Comments{% endtrans %}
                 </div></div>
             </div>
             <div class="card-body">

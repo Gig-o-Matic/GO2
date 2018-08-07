@@ -20,9 +20,9 @@
 
         <div class="card">
             <div class="card-header">
-                <div class="row">
-                    <div class="col-4 titlerow">
-                        <h5>{% trans %}Info{% endtrans %}</h5>
+                <div class="row titlerow">
+                    <div class="col-4">
+                        {% trans %}Info{% endtrans %}
                     </div>
                     {% if the_user_is_band_admin or the_user_is_superuser %}
                         <div class="ml-auto">
@@ -131,9 +131,9 @@
             <div>&nbsp;</div>
             <div class="card">
                 <div class="card-header">
-                    <div class="row">
-                        <div class="col-12 titlerow">
-                            <h5>{% trans %}Pictures Of Us{% endtrans %}</h5>
+                    <div class="row titlerow">
+                        <div class="col-12">
+                            {% trans %}Pictures Of Us{% endtrans %}
                         </div>
                     </div>
                 </div>
@@ -165,9 +165,11 @@
                 <div>&nbsp;</div>
                 <div class="card">
                     <div class="card-header">
-                        <div class="row"><div class="col-12 titlerow">
-                            <h5>{% trans %}Upcoming Gigs{% endtrans %}</h5>
-                        </div></div>
+                        <div class="row titlerow">
+                            <div class="col-12">
+                                {% trans %}Upcoming Gigs{% endtrans %}
+                            </div>
+                        </div>
                     </div>
                     <div class="card-body" id="upcoming-gigs">
                         <i class="fas fa-spinner fa-pulse fa-lg"></i>
@@ -178,8 +180,8 @@
                 <div>&nbsp;</div>
                 <div class="card">
                     <div class="card-header">
-                        <div class="row"><div class="col-12 titlerow">
-                            <h5>{% trans %}Members With Public Profiles{% endtrans %}</h5>
+                        <div class="row titlerow"><div class="col-12">
+                            {% trans %}Members With Public Profiles{% endtrans %}
                         </div></div>
                     </div>
                     <div class="card-body" id="public-members">
@@ -194,8 +196,8 @@
                 <div>&nbsp;</div>
                 <div class="card">
                     <div class="card-header">
-                        <div class="row"><div class="col-12 titlerow">
-                            <h5>{% trans %}Pending Members{% endtrans %} <span class="badge badge-pill badge-secondary">{{the_pending_members|length}}</span></h5>
+                        <div class="row titlerow"><div class="col-12">
+                            {% trans %}Pending Members{% endtrans %} <span class="badge badge-pill badge-secondary">{{the_pending_members|length}}</span>
                         </div></div>
                     </div>
                     <div class="card-body">
@@ -221,8 +223,8 @@
                 <div>&nbsp;</div>
                 <div class="card">
                     <div class="card-header">
-                        <div class="row"><div class="col-12 titlerow">
-                            <h5>{% trans %}Invited Members{% endtrans %} <span class="badge badge-pill badge-secondary">{{the_invited_members|length}}</span></h5>
+                        <div class="row titlerow"><div class="col-12">
+                            {% trans %}Invited Members{% endtrans %} <span class="badge badge-pill badge-secondary">{{the_invited_members|length}}</span>
                         </div></div>
                     </div>
                     <div class="card-body">
@@ -242,14 +244,13 @@
             <div>&nbsp;</div>
             <div class="card">
                 <div class="card-header">
-                    <div class="row">
+                    <div class="row titlerow">
                         {% if num_sections == 0 %}
-                            <div class="col-4 titlerow">
-                                <h5>{% trans %}Members{% endtrans %}
-                                    {% if the_user_is_band_admin or the_user_is_superuser %}
-                                        <button class="btn btn-primary btn-sm" onclick="toggle_names(); return false;"><i class="fas fa-sync fs-lg"></i></button>
-                                    {% endif %}
-                                </h5>
+                            <div class="col-4">
+                                {% trans %}Members{% endtrans %}
+                                {% if the_user_is_band_admin or the_user_is_superuser %}
+                                    <button class="btn btn-primary btn-sm" onclick="toggle_names(); return false;"><i class="fas fa-sync fs-lg"></i></button>
+                                {% endif %}
                             </div>
                             {% if the_user_is_band_admin or the_user_is_superuser %}
                                 <div class="ml-auto">
@@ -257,15 +258,14 @@
                                 </div>
                             {% endif %}
                         {% else %}
-                            <div class="col-3 titlerow">
-                                <h5>{% trans %}Sections{% endtrans %}</h5>
+                            <div class="col-3">
+                                {% trans %}Sections{% endtrans %}
                             </div>
-                            <div class="col-5 titlerow">
-                                <h5>{% trans %}Members{% endtrans %}
+                            <div class="col-5">
+                                {% trans %}Members{% endtrans %}
                                     {% if the_user_is_band_admin or the_user_is_superuser %}
                                         <a class="btn btn-primary btn-sm" href="#" onclick="toggle_names(); return false;"><i class="fas fa-sync fs-lg"></i></a>
                                     {% endif %}
-                                </h5>
                             </div>
                             {% if the_user_is_band_admin or the_user_is_superuser %}
                                 <div class="ml-auto">
@@ -307,12 +307,10 @@
                 <div>&nbsp;</div>
                 <div class="accordion" id="accordion">
                     <div class="card">
-                        <div class="card-header">
-                            <div class="row"><div class="col-12 titlerow">
-                                <a class="collapsed" data-toggle="collapse" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                                    <h5>{% trans %}Member Admin{% endtrans %}</h5>
-                                </a>
-                            </div></div>
+                        <div class="card-header collapsed" data-toggle="collapse" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                            <a class="card-title titlerow">
+                                {% trans %}Member Admin{% endtrans %}
+                            </a>
                         </div>
                         <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
                             <div class="card-body">
