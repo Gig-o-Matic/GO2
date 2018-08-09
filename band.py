@@ -60,6 +60,8 @@ class Band(ndb.Model):
     show_in_nav = ndb.BooleanProperty(default=True)
     send_updates_by_default = ndb.BooleanProperty(default=True)
     rss_feed = ndb.BooleanProperty(default=False)
+    band_cal_feed_dirty = ndb.BooleanProperty(default=True)
+    pub_cal_feed_dirty = ndb.BooleanProperty(default=True)
 
 
     @classmethod
@@ -194,6 +196,16 @@ def delete_section_key(the_section_key):
 
 def get_feedback_strings(the_band):
     return the_band.plan_feedback.split('\n')
+
+def make_band_cal_dirty(the_band):
+    the_band.band_cal_feed_dirty = True
+    the_band.pub_cal_feed_dirty = True
+    the_assocs = assoc.get_confirmed_assocs_of_band_key(the_band.key, include_occasional=True)
+    the_member_keys = [a.member for a in the_assocs]
+    the_members = ndb.get_multi(the_member_keys)
+    for m in the_members:
+        m.cal_feed_dirty = True
+    ndb.put_multi(the_members+[the_band])
 
 #
 # class for section

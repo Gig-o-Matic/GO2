@@ -83,6 +83,7 @@ class Member(webapp2_extras.appengine.auth.models.User):
     last_activity = ndb.DateTimeProperty(auto_now=True)
     last_calfetch = ndb.DateTimeProperty(default=None)
     local_email_address = ndb.ComputedProperty(lambda self: self.email_address)
+    cal_feed_dirty = ndb.BooleanProperty(default=True)
 
     """Password validation class. Accepts .ensure_valid(pwd) and throws if invalid"""
     PasswordValidator = SimplePasswordValidator(minLength=5)
@@ -443,6 +444,11 @@ def lookup_member_key(request):
         raise MemberError("Couldn't find member")
 
     return the_member_key
+
+def make_member_cal_dirty(the_member_key):
+    the_member = the_member_key.get()
+    the_member.cal_feed_dirty = True
+    the_member.put()
 
 #####
 #

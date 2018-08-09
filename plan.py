@@ -57,6 +57,7 @@ def new_plan(the_gig_key, the_member_key, value):
     	return None
     the_plan = Plan(parent=the_gig_key, member=the_member_key, value=value, comment="", section=None)
     the_plan.put()
+    member.make_member_cal_dirty(the_member_key)
 
     return the_plan
 
@@ -117,6 +118,8 @@ def get_plan_reminders():
 def update_plan(the_plan, the_value):
     the_plan.value=the_value
     the_plan.put()
+    member.make_member_cal_dirty(the_plan.member)
+
 
 def update_plan_feedback(the_plan, the_value):
     the_plan.feedback_value=the_value

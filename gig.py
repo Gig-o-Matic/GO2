@@ -747,7 +747,7 @@ class EditPage(BaseHandler):
             logging.info("\n\nattending!\n\n")
             the_gig.default_to_attending = True
 
-        the_gig.put()            
+        the_gig.put()
 
         # Is this a series?
         is_series = self.request.get("newgig_isseries", False)
@@ -821,6 +821,8 @@ class EditPage(BaseHandler):
 
         if (the_band.rss_feed):
             rss.make_rss_feed_for_band(the_band)
+
+        band.make_band_cal_dirty(the_band)
 
         return self.redirect(\
             '/gig_info.html?&gk={0}'.format(the_gig.key.urlsafe()))
