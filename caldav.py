@@ -198,6 +198,7 @@ class PublicBandGigRequestHandler(BaseHandler):
             calfeed = get_calfeed_for_key("p",the_band.key)
 
         if calfeed is None:
+            logging.info("band cal feed is dirty")
             the_band.pub_cal_feed_dirty = False
             the_band.put()
 
@@ -231,6 +232,7 @@ class MemberRequestHandler(BaseHandler):
             calfeed = get_calfeed_for_key("m",the_member.key)
 
         if calfeed is None:
+            logging.info("member cal feed is dirty")
             the_member.cal_feed_dirty = False
             the_member.put()
 
@@ -303,16 +305,16 @@ def get_calfeed_for_key(prefix, the_key):
 
     try:
         gcs_file = gcs.open(filename)
-        print("\n\nfound file\n\n")
     except:
         gcs_file = None
-        print("\n\ndid not find file\n\n")
 
     if gcs_file:
         feed = gcs_file.read()
         gcs_file.close()
+        logging.info("found file")
     else:
         feed = None
+        logging.info("did not find file")
 
     return feed
 
