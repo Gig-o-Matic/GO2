@@ -50,6 +50,7 @@ if False: # maintenance mode?
     APPLICATION = webapp2.WSGIApplication([(r'/.*', maintenance.MaintenancePage)], config=CONFIG, debug=True)
 else:
     APPLICATION = webapp2.WSGIApplication([
+        ('/api/authenticate', ReSTify.Auth),
         ('/api/.*', ReSTify.ReST),
         webapp2.Route('/', member.DefaultPage, name='home'),
         webapp2.Route('/band/<band_name:.+>', band.InfoPage),
