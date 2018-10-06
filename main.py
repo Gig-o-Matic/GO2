@@ -21,6 +21,7 @@ import os
 import cryptoutil
 import goemail
 import rss
+import ReSTify
 
 CONFIG = {
     'webapp2_extras.auth': {
@@ -49,6 +50,7 @@ if False: # maintenance mode?
     APPLICATION = webapp2.WSGIApplication([(r'/.*', maintenance.MaintenancePage)], config=CONFIG, debug=True)
 else:
     APPLICATION = webapp2.WSGIApplication([
+        ('/api/.*', ReSTify.ReST),
         webapp2.Route('/', member.DefaultPage, name='home'),
         webapp2.Route('/band/<band_name:.+>', band.InfoPage),
         webapp2.Route('/login', login.LoginPage, name='login'),
