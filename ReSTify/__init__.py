@@ -41,8 +41,11 @@ import settings
 
 def get_model_from_URL(node_name):
     
+    print('woo: {0}'.settings)
+
     # Get the corresponding model name from URL
     model_alias = settings.MODEL_NAME_ALIAS[node_name]
+    print('\n\nmodel={0}\n\n'.format(model.Member))
     return getattr(model, model_alias)
 
 def CSOR_Jsonify(func):
@@ -78,7 +81,7 @@ def CSOR_Jsonify(func):
 
     return wrapper
 
-class ReST(webapp2.RequestHandler):
+class ReST(BaseHandler):
     """ Class to handle requests (GET, POST, DELETE, PUT) to the route /api/ """
 
 
@@ -153,14 +156,15 @@ class ReST(webapp2.RequestHandler):
 
         """
 
-        try:
-            token = self.request.headers['Authorization']
-            userkey = token[8:][:-1]
-            print(userkey)
-            user = decode_jwt(userkey)
-            print(user)
-        except:
-            self.abort(401)
+        # code to require JWT
+        # try:
+        #     token = self.request.headers['Authorization']
+        #     userkey = token[8:][:-1]
+        #     print(userkey)
+        #     user = decode_jwt(userkey)
+        #     print(user)
+        # except:
+        #     self.abort(401)
 
         qry = None
         Object_by_id = None
@@ -174,13 +178,18 @@ class ReST(webapp2.RequestHandler):
         if len(node) - 1 >= 2:
             if node[2]:
                 try:
+                    print('getting model {0}'.format(node[2]))
                     _model = get_model_from_URL(node[2])
+                    print("and it's {0}".format(_model))
                 except:
                     _model = None
+
+            print('\n\nmodel is \n\n'.format(_model))
 
             if len(node) -1 > 2 and _model:
                 # Object_by_id = _model.get_by_id(int(node[3]))
                 Object_by_id = ndb.Key(urlsafe=node[3]).get()
+                print("\n\nboo: {0} {1}\n\n".format(node[3],Object_by_id))
             elif node[2] and _model:
                 qry = _model.query().filter(_model.author == users.get_current_user())
             else:

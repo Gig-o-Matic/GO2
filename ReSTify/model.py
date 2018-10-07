@@ -1,8 +1,5 @@
 # Define your database model over here
 
-from google.appengine.api import users
-from google.appengine.ext import ndb
-
 # class HashStore(ndb.Model):
 #     """Sample Model
 #     Models an individual HashStore entry with hastag, tile, and date.
@@ -16,4 +13,3 @@ from google.appengine.ext import ndb
 
 Gig = __import__('gig').Gig
 Member = __import__('member').Member
-
