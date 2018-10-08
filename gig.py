@@ -416,6 +416,17 @@ def delete_gig_completely(the_gig):
 
 #
 #
+# routines for turning gig into info for REST api
+#
+#
+def RestGigInfo(the_gig):
+    obj = { k:getattr(the_gig,k) for k in ('title','date','calltime','settime','endtime') }
+    return obj
+
+
+
+#
+#
 # Handlers
 #
 #

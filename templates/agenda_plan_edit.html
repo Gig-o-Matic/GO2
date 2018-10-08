@@ -2,14 +2,14 @@
 
 {% macro plan_edit(plan_info) -%}
 
-{% set the_gig_key = plan_info['the_gig_key'] %}
-{% set the_gig = the_gig_key.get() %}
-{% set the_plan_key = plan_info['the_plan_key'] %}
-{% set the_plan = the_plan_key.get() %}
-{% set the_member_key = plan_info['the_member_key'] %}
+{% set the_gig_key = plan_info['the_gig'].key %}
+{% set the_gig = plan_info['the_gig'] %}
+{% set the_plan_key = plan_info['the_plan'].key %}
+{% set the_plan = plan_info['the_plan'] %}
+{% set the_member_key = plan_info['the_member'].key %}
 {% set the_band = plan_info['the_band'] %}
 {% set the_assoc = plan_info['the_assoc'] %}
-{% set the_section_key = plan_info['the_section'] %}
+{% set the_section_key = plan_info['the_section_key'] %}
 {% if the_assoc and the_assoc.is_multisectional %}
     {% set show_section = True %}
 {% else %}
