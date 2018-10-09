@@ -15,6 +15,7 @@ from google.appengine.ext import ndb
 class Motd(ndb.Model):
     """ Models a message of the day """
     value = ndb.TextProperty()
+    last_update = ndb.DateTimeProperty(auto_now=True)
 
 def set_motd(value):
     """ sets the MOTD """

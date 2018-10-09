@@ -37,7 +37,7 @@ class AdminPage(BaseHandler):
     def post(self):
         the_motd=self.request.get('motd_content','')
         motd_db.set_motd(the_motd)
-        member.reset_motd()
+        # member.reset_motd()
         self.redirect(self.uri_for('home'))
 
 
