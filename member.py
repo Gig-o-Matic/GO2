@@ -74,7 +74,8 @@ class Member(webapp2_extras.appengine.auth.models.User):
     is_band_editor = ndb.BooleanProperty(default=False)
     created = ndb.DateTimeProperty(auto_now_add=True)
     preferences = ndb.StructuredProperty(MemberPreferences)
-    seen_motd = ndb.BooleanProperty(default=False)
+    seen_motd = ndb.BooleanProperty(default=False) # deprecated
+    seen_motd_time = ndb.DateTimeProperty(default=None)
     seen_welcome = ndb.BooleanProperty(default=False)
     show_long_agenda = ndb.BooleanProperty(default=True)
     pending_change_email = ndb.TextProperty(default='', indexed=False)
@@ -325,7 +326,8 @@ def member_is_superuser(the_member):
 
 def set_seen_motd_for_member_key(the_member_key):
     the_member = the_member_key.get()
-    the_member.seen_motd = True
+    # the_member.seen_motd = True
+    the_member.seen_motd_time = datetime.datetime.now()
     the_member.put()
 
 def set_seen_welcome_for_member_key(the_member_key):

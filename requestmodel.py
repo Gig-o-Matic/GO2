@@ -139,8 +139,13 @@ class BaseHandler(webapp2.RequestHandler):
         params['logout_link'] = self.uri_for('logout')
         if self.user is not None and not self.user.seen_welcome:
             params['welcome'] = True
-        if self.user is not None and not self.user.seen_motd:
-            params['motd'] = motd_db.get_motd()
+
+        # handle MOTD
+        if self.user is not None:
+            motd = motd_db.get_motd_object()
+            if self.user.seen_motd_time is None or self.user.seen_motd_time < motd.last_update:
+                params['motd'] = motd.value
+
         self.render_response(filename, params)
 
     def render_nouser_template(self, filename, params=None):
