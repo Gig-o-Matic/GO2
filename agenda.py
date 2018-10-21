@@ -68,7 +68,7 @@ def _get_agenda_contents_for_member(the_user):
                     info_block['the_section_key'] = None
 
             else:
-                info_block['the_section_key'] = the_plan.section.key
+                info_block['the_section_key'] = the_plan.section
             if num_to_put_in_upcoming and i<num_to_put_in_upcoming and (the_plan.value or a_gig.status == 2): #include gigs for which we've weighed in or have been cancelled
                 upcoming_plans.append( info_block )
             else:            
