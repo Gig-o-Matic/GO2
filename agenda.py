@@ -21,9 +21,9 @@ def _get_agenda_contents_for_member(the_user):
     # find the bands this member is associated with
     the_assocs = assoc.get_confirmed_assocs_of_member(the_user, include_hidden=False)
     the_band_keys = [a.band for a in the_assocs]
-    
+
     if the_band_keys is None or len(the_band_keys)==0:
-        return self.redirect('/member_info.html?mk={0}'.format(the_user.key.urlsafe()))
+        raise Exception("no agenda")
 
     if the_user.show_long_agenda:
         num_to_put_in_upcoming=1000
@@ -90,7 +90,10 @@ class MainPage(BaseHandler):
     def _make_page(self,the_user):
         """ construct page for agenda view """
         
-        (upcoming_plans, weighin_plans, number_of_bands) = _get_agenda_contents_for_member(the_user)
+        try:
+            (upcoming_plans, weighin_plans, number_of_bands) = _get_agenda_contents_for_member(the_user)
+        except:
+            return self.redirect('/member_info.html?mk={0}'.format(the_user.key.urlsafe()))
 
         template_args = {
             'upcoming_plans' : upcoming_plans,
@@ -119,13 +122,23 @@ class SwitchView(BaseHandler):
 
 
 # For the REST agenda interface, just return list of gigs
-def RestGetAgenda(request):
-    (upcoming_plans, weighin_plans, number_of_bands) = _get_agenda_contents_for_member(request.user)
+def _RestGetAgenda(user):
+    try:
+        (upcoming_plans, weighin_plans, number_of_bands) = _get_agenda_contents_for_member(user)
+    except:
+        return {
+            'upcoming_plans' : [],
+            'weighin_plans' : [],
+        }
+
     obj = {
         'upcoming_plans' : [gig.RestGigInfo(g['the_gig']) for g in upcoming_plans],
         'weighin_plans' : [gig.RestGigInfo(g['the_gig']) for g in weighin_plans],
     }
     return obj
+
+def RestGetAgenda(request):
+    return _RestGetAgenda(request.user)
 
 
 
