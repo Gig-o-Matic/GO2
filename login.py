@@ -67,13 +67,19 @@ class LoginPage(BaseHandler):
         }
         self.render_template('login.html', params=params)
 
+def _doLogout(handler):
+    handler.session.clear()
+    handler.auth.unset_session()
+
 class LogoutHandler(BaseHandler):
+
     def get(self):
         # if you actually log out, we'll clear the session to reset band lists and stuff
-        self.session.clear()
-        self.auth.unset_session()
+        _doLogout(self)
         self.redirect(self.uri_for('home'))
 
+def RestLogout(handler):
+    return _doLogout(handler)
 
 ##########
 #

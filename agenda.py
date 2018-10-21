@@ -138,6 +138,7 @@ def _RestGetAgenda(user):
     return obj
 
 def RestGetAgenda(request):
+    print("USER IS {0}".format(request.user))
     return _RestGetAgenda(request.user)
 
 
