@@ -212,6 +212,7 @@ class BaseHandler(webapp2.RequestHandler):
             self.render_template('error.html', [])
         except gigoexceptions.GigoRestException as error:
             logging.error( "Rest Exception: %s" % error )
+            self.abort(401)
         finally:
             # Save all sessions.
             self.session_store.save_sessions(self.response)
