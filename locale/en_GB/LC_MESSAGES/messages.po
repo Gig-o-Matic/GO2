@@ -1214,7 +1214,7 @@ msgstr ""
 #: templates/gig_edit.html:345 templates/gig_edit.html:346
 #: templates/gig_edit.html:347
 msgid "time_format"
-msgstr "g:ia"
+msgstr "G:i"
 
 #: templates/gig_edit.html:364
 msgid "Must be later than start date!"
