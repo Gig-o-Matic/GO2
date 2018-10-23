@@ -229,6 +229,11 @@ class UpdatePlanSection(webapp2.RequestHandler):
             pass # todo figure out why there was no plan
         
 
+def RestPlanInfo(the_plan):
+    obj = { k:getattr(the_plan,k) for k in ('value','comment','section') }
+    obj['id'] = the_plan.key.urlsafe()
+    return obj
+
 ##########
 #
 # auto send reminders
