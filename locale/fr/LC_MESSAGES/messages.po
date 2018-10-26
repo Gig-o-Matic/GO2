@@ -675,108 +675,107 @@ msgstr "retirer du groupe"
 #: templates/band_nav.html:4 templates/band_nav.html:10
 #: templates/navbar_bandlist.html:6
 msgid "Band Navigator"
-msgstr ""
+msgstr "Liste des groupes"
 
 #: templates/band_nav.html:73 templates/gig_info.html:343
 msgid "more"
-msgstr ""
+msgstr "plus"
 
 #: templates/band_nav.html:73 templates/gig_info.html:343
 msgid "less"
-msgstr ""
+msgstr "moins"
 
 #: templates/band_public_members.html:2
 msgid "None!"
-msgstr ""
+msgstr "Aucun !"
 
 #: templates/band_sections.html:6 templates/gig_info.html:226
 #: templates/grid.html:80
 msgid "No Section"
-msgstr ""
+msgstr "Pas de sections"
 
 #: templates/band_setup_sections.html:3
 msgid "Band Sections"
-msgstr ""
+msgstr "Sections d'instruments'"
 
 #: templates/band_setup_sections.html:37
 msgid "Add a Section"
-msgstr ""
+msgstr "Ajouter une section"
 
 #: templates/band_setup_sections.html:75
 msgid "name of section"
-msgstr ""
+msgstr "nom de la section"
 
 #: templates/band_setup_sections.html:101
 msgid "No Sections!"
-msgstr ""
+msgstr "Pas de sections !"
 
 #: templates/band_setup_sections.html:121
 msgid "New Section"
-msgstr ""
+msgstr "Nouvelle section"
 
 #: templates/band_setup_sections.html:145 templates/gig_edit.html:405
 msgid "Error"
-msgstr ""
+msgstr "Erreur"
 
 #: templates/calhelp.html:3 templates/calhelp.html:8
 msgid "Calendar Help!"
-msgstr ""
+msgstr "Aide du calendrier"
 
 #: templates/calhelp.html:13
 msgid "calhelp_1"
 msgstr ""
-"The Gig-o-Matic can provide calendar information to Google Calendar, "
-"Apple Calendar, and other calendar tools that work with the \"CalDav\" "
-"protocol. Here's how to do it!"
+"Le Gig-o-Matic peut exporter son calendrier vers Google Agenda, "
+"Apple Calendar, et les autres gestionnaires de calendrier compatibles avec le "
+" protocole \"CalDav\" "
+" Voilà comment il faut s'y prendre !"
 
 #: templates/calhelp.html:15
 msgid "calhelp_2"
-msgstr "First, copy the subscription address. Your personalized address is:"
+msgstr "Tout d'abord, copier le lien personnalisé ci-dessous :"
 
 #: templates/calhelp.html:19
 msgid "Subscribing in Google Calendar"
-msgstr ""
+msgstr "Synchroniser avec Google Agenda"
 
 #: templates/calhelp.html:19
 msgid "calhelp_3"
 msgstr ""
-"In the \"Other Calendars\" menu select \"Add by URL\" - paste the "
-"calendar address into the dialog, and the Gig-o calendar will appear in "
-"your calendar list. Note that Google Calendar updates subscriptions every"
-" few hours, so changes you make in the Gig-o will take a while to be "
-"reflected there."
+"Dans les Paramètres, sélectionner le menu \"Ajouter un calendrier\" puis\"A partir de l'URL\" - coller "
+"le lien personnalisé et ajouter le calendrier. L'agendadu Gig-o apparaîtra alors dans la liste de vos agendas. "
+"A savoir: Google Agenda met à jour les calendriers externes toutes les 2-3 heures. Les changements effectués dans"
+" le Gig-o peuvent donc mettre un peu de temps avant d'apparaître dans le Google Agenda."
 
 #: templates/calhelp.html:21
 msgid "Subscribing in Apple Calendar"
-msgstr ""
+msgstr "Synchroniser avec Apple Agenda"
 
 #: templates/calhelp.html:21
 msgid "calhelp_4"
 msgstr ""
-"Select \"New Calendar Subscription\" from the \"File\" menu - paste the "
-"calendar address into the dialog, and a new dialog will open where you "
-"can give the calendar a useful name, etc."
+"Séléectionner \"Ajouter un nouvel agenda\" dans le menu \"Fichier\" - coller le lien ci-dessus "
+", et une nouvelle fenêtre va s'ouvrir pour gérer l'ajout (nom du nouveau calendrier, etc ...)."
 
 #: templates/calhelp.html:23
 msgid "Subscribing in Outlook"
-msgstr ""
+msgstr "Synchroniser avec Outlook"
 
 #: templates/calhelp.html:23
 msgid "calhelp_5"
 msgstr ""
-"<br>1) Go to Tools - Account Settings...<br>2) Select the Internet "
-"Calendars tab<br>3) Click New...<br>4) Paste in the subscription address "
-"from above<br>5) Click Add<br>6) Change the Folder Name to "
-"'Gig-o-Matic<br>7) Click OK<br>The Gig-o calendar will show up under "
-"'Other Calendars.'"
+"<br>1) Aller dans Outils - Paramètres du compte...<br>2) Sélectionner l'onglet Agendas Internet "
+"<br>3) Cliquer sur Nouveau...<br>4) Coller l'adresse ci-dessus "
+"<br>5) Cliquer sur ajouter<br>6) Changer le nom de dossier en "
+"'Gig-o-Matic<br>7) Cliquer sur OK<br>L'agenda du Gig-o apparaître dans "
+"'Autres Agendas.'"
 
 #: templates/calhelp.html:25
 msgid "Return to profile"
-msgstr ""
+msgstr "Retourner au profil"
 
 #: templates/calview.html:3 templates/calview.html:8 templates/navbar.html:18
 msgid "Calendar"
-msgstr ""
+msgstr "Agenda"
 
 #: templates/changelog.html:3
 msgid "Changelog!"
@@ -788,76 +787,75 @@ msgstr ""
 
 #: templates/comments.html:11 templates/forum_posts.html:12
 msgid "Somebody"
-msgstr ""
+msgstr "Quelqu'un'"
 
 #: templates/comments.html:13 templates/forum_posts.html:14
 msgid "said on"
-msgstr ""
+msgstr "le"
 
 #: templates/confirm_answer.html:3
 msgid "Answered!"
-msgstr ""
+msgstr "Réponse !"
 
 #: templates/confirm_answer.html:15
 msgid "OK!"
-msgstr ""
+msgstr "OK !"
 
 #: templates/confirm_answer.html:17
 msgid "answer_confirm_message"
-msgstr "Your answer has been submitted - thanks!"
+msgstr "Votre réponse a été envoyée - merci !"
 
 #: templates/confirm_band_request.html:3
 msgid "Request Received!"
-msgstr ""
+msgstr "Demande reçue"
 
 #: templates/confirm_forgot.html:3
 msgid "Password Reset!"
-msgstr ""
+msgstr "Réinitialisation de mot de passe !"
 
 #: templates/confirm_signup.html:3 templates/confirm_signup.html:15
 msgid "Signed Up!"
-msgstr ""
+msgstr "Enregistré !"
 
 #: templates/confirm_signup.html:17
 msgid "signup_confirm_message"
 msgstr ""
-"Great job - you've signed up. Check your inbox for a confirmation email, "
-"and follow the directions to continue the process."
+"Bravo - vous vous êtes enregistré. Vous allez recevoir un email de confirmation "
+"afin de confirmer votre inscription."
 
 #: templates/credits.html:3
 msgid "Credits"
-msgstr "Who made this thing?"
+msgstr "Qui a fait ce truc ?"
 
 #: templates/credits.html:7
 msgid "Gig-O-Matic Credits"
-msgstr ""
+msgstr "Gig-o-Matic : crédits"
 
 #: templates/credits.html:16
 msgid "Gig-O-Matic, version 2!"
-msgstr ""
+msgstr "Gig-O-Matic, version 2 !"
 
 #: templates/credits.html:22
 msgid "credits_text"
 msgstr ""
-"Written by Aaron Oppenheimer, Second Line Social Aid & Pleasure Society "
-"Brass Band. Beta-tested by several intrepid members of the band. Guinea-"
-"pigged by the whole band. WOO!<br><br>Italian translation by Marcello "
-"Jatosti. Meraviglioso!<br>German translation by Christian Neumayer. "
-"Ausgezeichnet!"
+"Créé par Aaron Oppenheimer, du Second Line Social Aid& Pleasure Society"
+"Brass Band. Beta-testé par quelques membres intrépides du groupe. Testé et approuvé par "
+"tout le groupe.  WOO!<br><br>Traduction Italienne de Marcello "
+"Jatosti. Meraviglioso!<br>Traduction Allemande de Christian Neumayer. "
+"Ausgezeichnet!<br>Traduction Française de Benoît Rosa. Incroyable!"
 
 #: templates/credits.html:33
 msgid "credits_text2"
-msgstr "Uses the following awesome (and open!) technology:"
+msgstr "Le Gig-o-Matic utilise les logiciels fantastiques (et open source) suivants:"
 
 #: templates/credits.html:59
 msgid "credits_text3"
 msgstr ""
-"The project is on <a "
-"href=\"https://github.com/SecondLiners/GO2.git\">github</a> - feel free "
-"to fork and/or contribute!"
+"Le code source se trouve sur <a "
+"href=\"https://github.com/SecondLiners/GO2.git\">github</a> - fork et contributions encouragés ! "
 
 #: templates/credits.html:59
-msgid "Look <a href=\"/changelog\">here</a> for the change log."
+msgid "Le changelog se trouve <a href=\"/changelog\">ici</a>."
 msgstr ""
 
 #: templates/crypto_admin.html:3 templates/navbar.html:61
@@ -870,167 +868,167 @@ msgstr ""
 
 #: templates/error.html:3
 msgid "Error!"
-msgstr ""
+msgstr "Erreur !"
 
 #: templates/error.html:15 templates/no_band_gig.html:3
 #: templates/no_gig_found.html:3
 msgid "Uh oh!"
-msgstr ""
+msgstr "Hum ..."
 
 #: templates/error.html:17
 msgid "error_message"
 msgstr ""
-"There has been an internal error! Please email <a "
+"Une errur interne est apparue ! Merci d'envoyer un email à' <a "
 "href=\"mailto:superuser@gig-o-matic.com\">superuser@gig-o-matic.com</a>"
-" to let us know about it!"
+" pour nous dire ce qui s'est passé !"
 
 #: templates/error.html:19
 msgid "Go back to the Gig-o-Matic"
-msgstr ""
+msgstr "Retourner au Gig-o-Matic"
 
 #: templates/forgot.html:3 templates/forgot.html:17
 #: templates/resetpassword.html:3 templates/resetpassword.html:17
 msgid "Reset Password"
-msgstr ""
+msgstr "Réinitialiser le mot de passe"
 
 #: templates/forgot.html:23
 msgid "forgot_message"
 msgstr ""
-"Forgot your password? Don't feel bad! Enter your email to receive a link "
-"to make a new, better, easier-to-remember one."
+"Vous avez oublié votre mot de passe ? Pas de souci ! Renseignez votre email pour en recevoir "
+"un autre, mieux et plus simple à retenir !"
 
 #: templates/forgot.html:33
 msgid "Not found!"
-msgstr ""
+msgstr "Utilisateur inconnu !"
 
 #: templates/forgot.html:33
 msgid "We could not found any user with the given username."
-msgstr ""
+msgstr "Nous n'avons pas trouvé d'utilisateur avec ce login"
 
 #: templates/forgot.html:41 templates/login.html:40 templates/signup.html:33
 #, fuzzy
 msgid "Email Address"
-msgstr ""
+msgstr "Adresse email"
 
 #: templates/forgot.html:50
 msgid "Send password reset link"
-msgstr ""
+msgstr "Envoyer un email de réinitialisation de mot passe"
 
 #: templates/forum.html:12
 msgid "Forum for"
-msgstr ""
+msgstr "Forum de"
 
 #: templates/forum.html:21 templates/forum.html:81
 msgid "Add A Topic"
-msgstr ""
+msgstr "Ajouter un sujet"
 
 #: templates/forum.html:27
 msgid "search!"
-msgstr ""
+msgstr "rechercher !"
 
 #: templates/forum.html:34
 msgid "This Forum"
-msgstr ""
+msgstr "Ce forum"
 
 #: templates/forum.html:35
 msgid "All Forums"
-msgstr ""
+msgstr "Tous les forums"
 
 #: templates/forum.html:52
 msgid "Topic"
-msgstr ""
+msgstr "Sujet"
 
 #: templates/forum.html:55
 msgid "Last Update"
-msgstr ""
+msgstr "Dernière activité"
 
 #: templates/forum.html:85
 msgid "Topic Title"
-msgstr ""
+msgstr "Titre"
 
 #: templates/forum.html:92
 msgid "Create"
-msgstr ""
+msgstr "Créer"
 
 #: templates/forum_admin.html:3 templates/forum_admin.html:8
 #: templates/navbar.html:59
 msgid "Forum Admin"
-msgstr ""
+msgstr "Admin du forum"
 
 #: templates/forum_posts.html:24 templates/forum_topics.html:15
 msgid "unpin"
-msgstr ""
+msgstr "détacher"
 
 #: templates/forum_posts.html:28 templates/forum_topics.html:17
 msgid "pin"
-msgstr ""
+msgstr "épingler"
 
 #: templates/forum_posts.html:49 templates/forumpostreply.html:3
 #: templates/gig_info.html:256
 msgid "say your piece!"
-msgstr ""
+msgstr "quelque chose à dire ?"
 
 #: templates/forum_posts.html:52 templates/forumpostreply.html:6
 #: templates/gig_info.html:259
 msgid "Say it!"
-msgstr ""
+msgstr "Publier"
 
 #: templates/forum_posts.html:56
 msgid "This topic is closed."
-msgstr ""
+msgstr "Ce sujet est clos."
 
 #: templates/forum_topic.html:21
 msgid "Back to "
-msgstr ""
+msgstr "Retour à"
 
 #: templates/forum_topic.html:36
 msgid "Close Topic"
-msgstr ""
+msgstr "Fermer le sujet"
 
 #: templates/forum_topic.html:38
 msgid "Reopen Topic"
-msgstr ""
+msgstr "Rouvrir le sujet"
 
 #: templates/forum_topics.html:33
 msgid "Nothing to talk about!"
-msgstr ""
+msgstr "Rien à dire !"
 
 #: templates/gig_archived_info.html:3 templates/gig_archived_info.html:8
 msgid "Archived Gig Info"
-msgstr ""
+msgstr "Infos du concert (archive)"
 
 #: templates/gig_archived_info.html:19 templates/gig_info.html:70
 msgid "Band"
-msgstr ""
+msgstr "Groupe"
 
 #: templates/gig_archived_info.html:30 templates/gig_edit.html:117
 #: templates/gig_info.html:105
 msgid "Address"
-msgstr ""
+msgstr "Adresse"
 
 #: templates/gig_archived_info.html:37 templates/gig_info.html:112
 msgid "What to Wear"
-msgstr ""
+msgstr "Constume"
 
 #: templates/gig_archived_info.html:44 templates/gig_edit.html:125
 #: templates/gig_info.html:119
 msgid "Pay Deal"
-msgstr ""
+msgstr "Cachet"
 
 #: templates/gig_archived_info.html:51 templates/gig_edit.html:131
 #: templates/gig_info.html:126
 msgid "Leader"
-msgstr ""
+msgstr "Chef d'orchestre'"
 
 #: templates/gig_archived_info.html:58 templates/gig_edit.html:141
 #: templates/gig_info.html:140
 msgid "More Details"
-msgstr ""
+msgstr "Plus de détails"
 
 #: templates/gig_archived_info.html:63 templates/gig_edit.html:147
 #: templates/gig_info.html:166
 msgid "Setlist"
-msgstr ""
+msgstr "Set liste"
 
 #: templates/gig_archived_info.html:68 templates/gig_info.html:190
 msgid "Member Plans"
@@ -1038,7 +1036,7 @@ msgstr "Plans"
 
 #: templates/gig_archived_info.html:74 templates/gig_info.html:245
 msgid "Comments"
-msgstr ""
+msgstr "Commentaires"
 
 #: templates/gig_archived_info.html:97 templates/gig_info.html:269
 msgid "Forum"
@@ -1046,19 +1044,19 @@ msgstr ""
 
 #: templates/gig_edit.html:13
 msgid "New Gig for "
-msgstr ""
+msgstr "Nouveau concert de"
 
 #: templates/gig_edit.html:23
 msgid "Gig Title"
-msgstr ""
+msgstr "Titre"
 
 #: templates/gig_edit.html:24 templates/gig_edit.html:61
 msgid "required"
-msgstr ""
+msgstr "obligatoire"
 
 #: templates/gig_edit.html:24
 msgid "Copy of"
-msgstr ""
+msgstr "Copie de"
 
 #: templates/gig_edit.html:29 templates/gig_info.html:74
 msgid "Contact"
@@ -1066,55 +1064,55 @@ msgstr ""
 
 #: templates/gig_edit.html:53
 msgid "Hide From Public Page"
-msgstr ""
+msgstr "N'apparaîtra pas sur la page publique"
 
 #: templates/gig_edit.html:66
 msgid "End Date"
-msgstr ""
+msgstr "Date de fin"
 
 #: templates/gig_edit.html:67
 msgid "if multi-day"
-msgstr ""
+msgstr "si multi-jour"
 
 #: templates/gig_edit.html:76
 msgid "Add A Series Of Copies"
-msgstr ""
+msgstr "Ajouter plusieurs copies"
 
 #: templates/gig_edit.html:80
 msgid "Total Number Of Gigs"
-msgstr ""
+msgstr "Nombre total de concerts"
 
 #: templates/gig_edit.html:89
 msgid "Repeat Every"
-msgstr ""
+msgstr "Répeter tous les"
 
 #: templates/gig_edit.html:91
 msgid "day"
-msgstr ""
+msgstr "jours"
 
 #: templates/gig_edit.html:92
 msgid "week"
-msgstr ""
+msgstr "semaines"
 
 #: templates/gig_edit.html:93
 msgid "month (on same day of month)"
-msgstr ""
+msgstr "mois (le même jour du mois)"
 
 #: templates/gig_edit.html:118
 msgid "location_placeholder"
-msgstr "Cloudcuckooland"
+msgstr "Pétaouchnok"
 
 #: templates/gig_edit.html:121
 msgid "What To Wear"
-msgstr ""
+msgstr "Costume"
 
 #: templates/gig_edit.html:122
 msgid "Pants Optional"
-msgstr ""
+msgstr "Pantalon en option"
 
 #: templates/gig_edit.html:126
 msgid "As If"
-msgstr ""
+msgstr "Et la marmotte ..."
 
 #: templates/gig_edit.html:132
 msgid "leader_placeholder"
@@ -1122,83 +1120,83 @@ msgstr "Leonard Bernstein"
 
 #: templates/gig_edit.html:135 templates/gig_info.html:133
 msgid "Post-gig Plans"
-msgstr ""
+msgstr "Après soirée"
 
 #: templates/gig_edit.html:136
 msgid "postgig_placeholder"
-msgstr "Hit the streets!"
+msgstr "Une manche ?"
 
 #: templates/gig_edit.html:142
 msgid "who? what? where? when? why?"
-msgstr ""
+msgstr "qui ? quoi ? ou ? quand ? comment ?"
 
 #: templates/gig_edit.html:148
 msgid "setlist here"
-msgstr ""
+msgstr "mettre une setliste ici"
 
 #: templates/gig_edit.html:154
 msgid "Description for RSS feed"
-msgstr ""
+msgstr "Descrription pour le flux RSS"
 
 #: templates/gig_edit.html:155
 msgid "description here"
-msgstr ""
+msgstr "description"
 
 #: templates/gig_edit.html:165
 msgid "Email members about this new gig"
-msgstr ""
+msgstr "Envoyer un email aux membres"
 
 #: templates/gig_edit.html:169
 msgid "Email members about change"
-msgstr ""
+msgstr "Envoyer un email de mise à jour"
 
 #: templates/gig_edit.html:176
 msgid "Invite occasional members"
-msgstr ""
+msgstr "Inviter les membres occasionnels"
 
 #: templates/gig_edit.html:180
 msgid "Also send update to occasional members"
-msgstr ""
+msgstr "Envoyer la mise à jour aux membres occasionnels"
 
 #: templates/gig_edit.html:186
 msgid "Hide gig from calendars"
-msgstr ""
+msgstr "Ne pas ajouer dans les agendas"
 
 #: templates/gig_edit.html:194
 msgid "Move To Trash"
-msgstr ""
+msgstr "Mettre à la poubelle"
 
 #: templates/gig_edit.html:196 templates/gig_info.html:65
 msgid "Restore Gig"
-msgstr ""
+msgstr "Restaurer"
 
 #: templates/gig_edit.html:198 templates/gig_edit.html:252
 msgid "Archive"
-msgstr ""
+msgstr "Archiver"
 
 #: templates/gig_edit.html:224
 msgid "Confirm Trash"
-msgstr ""
+msgstr "Confirmer"
 
 #: templates/gig_edit.html:227
 msgid "Do you really want to move this gig to the trash?"
-msgstr ""
+msgstr "Voulez-vous vraiment mettre ce concert à la poubelle ?"
 
 #: templates/gig_edit.html:232
 msgid "Trash it!"
-msgstr ""
+msgstr "Oui !"
 
 #: templates/gig_edit.html:244
 msgid "Confirm archive"
-msgstr ""
+msgstr "Confirmer"
 
 #: templates/gig_edit.html:247
 msgid "Do you really want to archive this gig?"
-msgstr ""
+msgstr "Voulez-vous vraiment archiver ce concert ?"
 
 #: templates/gig_edit.html:250
 msgid "Don't Archive"
-msgstr ""
+msgstr "Ne pas archiver"
 
 #: templates/gig_edit.html:307 templates/gig_edit.html:309
 msgid "date_separator"
@@ -1206,139 +1204,140 @@ msgstr "/"
 
 #: templates/gig_edit.html:314
 msgid "Please enter a date in the format mm/dd/yyyy."
-msgstr ""
+msgstr "Merci d'entrer une date au format mm/dd/yyyy"
 
 #: templates/gig_edit.html:345 templates/gig_edit.html:346
 #: templates/gig_edit.html:347
 msgid "time_format"
-msgstr "g:ia"
+msgstr "G:i"
 
 #: templates/gig_edit.html:364
 msgid "Must be later than start date!"
-msgstr ""
+msgstr "La date de fin doit être après la date de début !"
 
 #: templates/gig_edit.html:376
 msgid "Must be in the future!"
-msgstr ""
+msgstr "Doit être une date dans le futur !"
 
 #: templates/gig_info.html:3 templates/gig_info.html:17
 msgid "Gig Info"
-msgstr ""
+msgstr "Informations sur le concert"
 
 #: templates/gig_info.html:35
 msgid "Duplicate"
-msgstr ""
+msgstr "Copie"
 
 #: templates/gig_info.html:57
 msgid "Hidden From Public Page"
-msgstr ""
+msgstr "N'appparaît pas sur la page publique"
 
 #: templates/gig_info.html:64
 msgid "THIS GIG IS IN THE TRASH!"
-msgstr ""
+msgstr "CE CONCERT EST A LA POUBELLE !"
 
 #: templates/gig_info.html:147
 msgid "Occasional members were not invited."
-msgstr ""
+msgstr "Les membres occasionnels ne sont pas invités"
 
 #: templates/gig_info.html:153
 msgid "Gig is hidden from calendar."
-msgstr ""
+msgstr "Le concert n'apparît pas dans l'agenda"
 
 #: templates/gig_info.html:170 templates/gig_info.html:194
 #: templates/gig_info.html:198
 msgid "Print"
-msgstr ""
+msgstr "Imprimer"
 
 #: templates/gig_info.html:201
 msgid "Show All"
-msgstr ""
+msgstr "Tous les membres"
 
 #: templates/gig_info.html:202
 msgid "Show Committed"
-msgstr ""
+msgstr "Membres présents"
 
 #: templates/gig_info.html:207
 msgid "Remind"
-msgstr ""
+msgstr "E-mail de rappel"
 
 #: templates/gig_info.html:210
 msgid "Reminder Sent"
-msgstr ""
+msgstr "Rappel Envoyé"
 
 #: templates/go2base.html:84
 msgid "Privacy & Security"
-msgstr ""
+msgstr "Vie privée et confidentialité"
 
 #: templates/go2base.html:87
 msgid "Who made this thing?"
-msgstr ""
+msgstr "Qui a créé ce truc ?"
 
 #: templates/grid.html:4 templates/grid.html:9
 msgid "Grid o'Gigs"
-msgstr ""
+msgstr "Grille des concerts"
 
 #: templates/grid.html:61
 msgid "archived"
-msgstr ""
+msgstr "archivé"
 
 #: templates/grid.html:108
 msgid "No Gigs!"
-msgstr ""
+msgstr "Pas de concerts !"
 
 #: templates/help.html:3 templates/help.html:8
 msgid "Help!"
-msgstr ""
+msgstr "Aide"
 
 #: templates/help.html:14
-msgid "How do I..."
+msgid "Comment fais-je pour ..."
 msgstr ""
 
 #: templates/help.html:16
 msgid "help_question_1"
-msgstr "...join a band?"
+msgstr "...rejoindre un groupe ?"
 
 #: templates/help.html:16
 msgid "help_answer_1"
 msgstr ""
-"Click your name in the upper-right of this window, and select \"My "
-"Profile.\" In the \"Bands\" section, click \"Add Band\" and select the "
-"band of your choice! You'll be a pending member until the administrator "
-"for that band confirms your membership. You'll get an email about it."
+"Cliquer sur votre nom dans le coin supérieur droit de cette fenêtre, "
+"et sélectionner \"Mon profil\". Dans la section \"Groupes\", cliquer sur"
+" \"Ajouter un groupe\", et sélectionner le groupe de votre choix !"
+" Vous recevrez un email de confirmation lorsqu'un admin du groupe aura confirmé"
+" que vous êtes bien un membre de ce groupe."
 
 #: templates/help.html:17
 msgid "help_question_2"
-msgstr "...change my section?"
+msgstr "... change de section ?"
 
 #: templates/help.html:17
 msgid "help_answer_2"
 msgstr ""
-"Click your name in the upper-right of this window, and select \"My "
-"Profile.\" In the \"Bands\" section, select your section from the pop-up "
-"next to the band. Note that some bands aren't organized by section, so "
-"there might not be anything to select. So relax and enjoy the anarchy."
+"Cliquer sur votre nom dans le coin supérieur droit de cette fenêtre, "
+"et sélectionner \"Mon profil\". Dans la section \"Groupes\", vous pouvez sélectionner votre"
+"section dans le menu apparaissant à droite du nom de chaque groupe. "
+"Certains groupes ne sont pas organisés en section, il se peut qu'il n'y ait donc rien à sélectionner."
+"Dans ce cas là, relaxez-vous et profitez de l'anarchie !"
 
 #: templates/help.html:18
 msgid "help_question_3"
-msgstr "...make a suggestion?"
+msgstr "...faire une suggestion ?"
 
 #: templates/help.html:18
 msgid "help_answer_3"
 msgstr ""
-"I want to <a href=\"mailto:superuser@gig-o-matic.com\">hear about "
-"it</a>."
+"Nous sommes à l'écoute de ce que vous avez à <a href=\"mailto:superuser@gig-o-matic.com\">dire</a>."
 
 #: templates/help.html:19
 msgid "help_question_4"
-msgstr "...contact the administator?"
+msgstr "...contacter l'administateur ?"
 
 #: templates/help.html:19
 msgid "help_answer_4"
-msgstr "<a href=\"mailto:superuser@gig-o-matic.com\">Email Here!</a>"
+msgstr "<a href=\"mailto:superuser@gig-o-matic.com\">Par email !</a>"
 
 #: templates/help_band_request.html:3
 msgid "New Band!"
-msgstr ""
+msgstr "Nouveau groupe !"
 
 #: templates/invite_welcome.html:3
 msgid "Setup Password"
