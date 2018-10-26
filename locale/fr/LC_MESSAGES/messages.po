@@ -1341,113 +1341,113 @@ msgstr "Nouveau groupe !"
 
 #: templates/invite_welcome.html:3
 msgid "Setup Password"
-msgstr ""
+msgstr "Choisir un mot de passe"
 
 #: templates/invite_welcome.html:22
 msgid "Welcome To Gig-o-Matic"
-msgstr ""
+msgstr "Bienvenue sur le Gig-o-Matic"
 
 #: templates/invite_welcome.html:28
 msgid "invite_welcome_text"
 msgstr ""
-"Welcome to the Gig-o-Matic! Your account has been set up - all you need "
-"to do is set up a password and you're in business."
+"Bienvenue sur le Gig-o-Matic ! Votre compte a été créé - vous avez seulement besoin"
+"de choisir un mot de passe pour pouvoir utiliser le Gig-o."
 
 #: templates/invite_welcome.html:37 templates/member_edit.html:22
 msgid "Full Name"
-msgstr ""
+msgstr "Nom entier"
 
 #: templates/invite_welcome.html:45 templates/member_edit.html:28
 msgid "Nickname"
-msgstr ""
+msgstr "Surnom"
 
 #: templates/invite_welcome.html:53
 msgid "Enter Password"
-msgstr ""
+msgstr "Mot de passe"
 
 #: templates/invite_welcome.html:61 templates/resetpassword.html:38
 msgid "And Again"
-msgstr ""
+msgstr "Confirmation du mot de passe"
 
 #: templates/invite_welcome.html:70
 msgid "Set Password"
-msgstr ""
+msgstr "Créer le mot de passe"
 
 #: templates/invite_welcome.html:104
 msgid "Passwords must match!"
-msgstr ""
+msgstr "Les mots de passe ne coïncident pas !"
 
 #: templates/link_error.html:3 templates/link_error.html:15
 msgid "Link Error!"
-msgstr ""
+msgstr "Erreur de lien !"
 
 #: templates/link_error.html:17
 msgid "link_error_message"
 msgstr ""
-"You have clicked on a link that no longer works - you have already "
-"verified your identity. Now you can just log in at"
+"Vous avez cliqué sur un lien qui ne fonctionnee pas - vous avez déjà vérifié votre"
+"adresse e-mail. Il suffit de se conecter à l'adresse suivante "
 
 #: templates/login.html:3 templates/login.html:59
 msgid "Login"
-msgstr ""
+msgstr "Login"
 
 #: templates/login.html:17
 msgid "Welcome to Gig-o-Matic!"
-msgstr ""
+msgstr "Bienvenue sur le Gig-o-Matic"
 
 #: templates/login.html:24 templates/login.html:32
 msgid "Login failed!"
-msgstr ""
+msgstr "Problème de connection !"
 
 #: templates/login.html:24
 msgid "Check your credentials and try again."
-msgstr ""
+msgstr "Vérifiez votre email et mot de passe."
 
 #: templates/login.html:32
 msgid "Check your email to verify your account."
-msgstr ""
+msgstr "Vérifiez vos information dans vos emails"
 
 #: templates/login.html:48 templates/member_edit.html:34
 #: templates/signup.html:41
 msgid "Password"
-msgstr ""
+msgstr "Mot de passe"
 
 #: templates/login.html:60
 #, fuzzy
 msgid "Forgot password?"
-msgstr ""
+msgstr "Mot de passe oublié ?"
 
 #: templates/login.html:64
 msgid "Remember me"
-msgstr ""
+msgstr "Rester connecté"
 
 #: templates/login.html:75
 msgid "Not a member?"
-msgstr ""
+msgstr "Pas encore membre ?"
 
 #: templates/login.html:76
 msgid "Sign Up!"
-msgstr ""
+msgstr "S'inscrire !'"
 
 #: templates/login.html:89
 msgid "Want your band on the Gig-o?"
-msgstr ""
+msgstr "Vous voulez ajouter votre groupe dans le Gig-o ? "
 
 #: templates/login.html:89 templates/login.html:90
 msgid "Click"
-msgstr ""
+msgstr "Cliquez"
 
 #: templates/login.html:89 templates/login.html:90
 msgid "here"
-msgstr ""
+msgstr "ici"
 
 #: templates/login.html:90
 msgid "What is the Gig-o-Matic, anyway?"
-msgstr ""
+msgstr "D'ailleurs, c'est quoi le Gig-o-Matic ?"
 
 #: templates/maintenance.html:3
 msgid "Maintenance!"
-msgstr ""
+msgstr "Maintenance !"
 
 #: templates/member_band_assocs.html:15
 msgid "pending"
