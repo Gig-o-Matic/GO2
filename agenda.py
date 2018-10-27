@@ -130,7 +130,7 @@ def _RestGetInfo(info_block):
     return info
 
 
-def _RestGetAgenda(user):
+def _RestMakeAgenda(user):
     try:
         (upcoming_plans, weighin_plans, number_of_bands) = _get_agenda_contents_for_member(user)
     except:
@@ -144,9 +144,8 @@ def _RestGetAgenda(user):
         'weighin_plans' : [_RestGetInfo(g) for g in weighin_plans],
     }
 
-def RestGetAgenda(request):
-    print("USER IS {0}".format(request.user))
-    return _RestGetAgenda(request.user)
+def RestAgendaGet(request, *args, **kwargs):
+    return _RestMakeAgenda(request.user)
 
 
 
