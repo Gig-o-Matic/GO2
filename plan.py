@@ -276,7 +276,7 @@ def RestPlanPut(the_handler, *args, **kwargs):
 
 def RestPlanGet(the_handler, *args, **kwargs):
     values = kwargs['values'].split("/") if kwargs['values'] else []
-    if len(values) != 2:
+    if len(values) != 1:
         the_handler.abort(code=400)
 
     try:
@@ -284,12 +284,9 @@ def RestPlanGet(the_handler, *args, **kwargs):
     except:
         the_handler.abort(404)
 
-    try:
-        the_param = values[1]
-        return getattr(the_plan,the_param)
-    except:
-        the_handler.abort(400)
-
+    info = RestPlanInfo(the_plan)
+    del info["id"]
+    return info
 
 ##########
 #
