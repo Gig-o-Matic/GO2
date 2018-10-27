@@ -236,6 +236,61 @@ def RestPlanInfo(the_plan):
     obj['id'] = the_plan.key.urlsafe()
     return obj
 
+def _RestValidateValue(the_val):
+    the_value = int(the_val)
+    if the_value < 0 or the_value >= len(plan_text):
+        raise
+    return the_value
+
+def _RestValidateFeedbackValue(the_val):
+    the_value = int(the_val)
+    if the_value < 0:
+        raise
+    return the_value
+
+def RestPlanPut(the_handler, *args, **kwargs):
+    values = kwargs['values'].split("/") if kwargs['values'] else []
+    if len(values) != 3:
+        the_handler.abort(code=400)
+
+    try:
+        the_plan = ndb.Key(urlsafe=values[0]).get()
+    except:
+        the_handler.abort(404)
+
+    validators = {
+        "value" : _RestValidateValue,
+        "feedback_value" : _RestValidateFeedbackValue,
+    }
+
+    try:
+        the_param = values[1]
+        if hasattr(the_plan,the_param):
+            the_value = validators[the_param](values[2]) if the_param in validators.keys() else values[2]
+            setattr(the_plan, the_param, the_value)
+            the_plan.put()
+        else:
+            raise
+    except:
+        the_handler.abort(400)
+
+def RestPlanGet(the_handler, *args, **kwargs):
+    values = kwargs['values'].split("/") if kwargs['values'] else []
+    if len(values) != 2:
+        the_handler.abort(code=400)
+
+    try:
+        the_plan = ndb.Key(urlsafe=values[0]).get()
+    except:
+        the_handler.abort(404)
+
+    try:
+        the_param = values[1]
+        return getattr(the_plan,the_param)
+    except:
+        the_handler.abort(400)
+
+
 ##########
 #
 # auto send reminders
