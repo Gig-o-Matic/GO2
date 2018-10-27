@@ -230,7 +230,9 @@ class UpdatePlanSection(webapp2.RequestHandler):
         
 
 def RestPlanInfo(the_plan):
-    obj = { k:getattr(the_plan,k) for k in ('value','comment','section') }
+    obj = { k:getattr(the_plan,k) for k in ('value','comment') }
+    obj['feedback_value'] = the_plan.feedback_value if the_plan.feedback_value else ""
+    obj['section'] = the_plan.section.urlsafe() if the_plan.section else ""
     obj['id'] = the_plan.key.urlsafe()
     return obj
 
