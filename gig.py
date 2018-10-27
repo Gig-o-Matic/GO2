@@ -420,7 +420,7 @@ def delete_gig_completely(the_gig):
 #
 #
 def RestGigInfo(the_gig):
-    obj = { k:getattr(the_gig,k) for k in ('title','date') }
+    obj = { k:getattr(the_gig,k) for k in ('title','date','status') }
     obj['id'] = the_gig.key.urlsafe()
     obj['time'] = the_gig.calltime if the_gig.calltime else the_gig.settime
     obj['band'] =  the_gig.key.parent().urlsafe()
