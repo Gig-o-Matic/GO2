@@ -122,6 +122,14 @@ class SwitchView(BaseHandler):
 
 
 # For the REST agenda interface, just return list of gigs
+def _RestGetInfo(info_block):
+    info = {}
+    info['gig'] = gig.RestGigInfo(info_block['the_gig'])
+    info['plan'] = plan.RestPlanInfo(info_block['the_plan'])
+
+    return info
+
+
 def _RestGetAgenda(user):
     try:
         (upcoming_plans, weighin_plans, number_of_bands) = _get_agenda_contents_for_member(user)
@@ -131,13 +139,13 @@ def _RestGetAgenda(user):
             'weighin_plans' : [],
         }
 
-    obj = {
-        'upcoming_plans' : [gig.RestGigInfo(g['the_gig']) for g in upcoming_plans],
-        'weighin_plans' : [gig.RestGigInfo(g['the_gig']) for g in weighin_plans],
+    return {
+        'upcoming_plans' : [_RestGetInfo(g) for g in upcoming_plans],
+        'weighin_plans' : [_RestGetInfo(g) for g in weighin_plans],
     }
-    return obj
 
 def RestGetAgenda(request):
+    print("USER IS {0}".format(request.user))
     return _RestGetAgenda(request.user)
 
 
