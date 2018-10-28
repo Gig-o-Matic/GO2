@@ -9,6 +9,8 @@
 
 from google.appengine.ext import ndb
 from requestmodel import *
+from restify import rest_user_required, CSOR_Jsonify
+
 import webapp2_extras.appengine.auth.models
 
 import webapp2
@@ -1130,3 +1132,35 @@ class SendReminder(BaseHandler):
         # OK, we sent the reminder.
         the_gig.was_reminded = True
         the_gig.put()
+
+##########
+#
+# REST endpoint stuff
+#
+##########
+
+def _RestGigInfo(the_gig, include_id=True):
+    obj = { k:getattr(the_gig,k) for k in ('title','details','setlist','date','calltime','settime',
+                                            'endtime','address','paid','dress','leader','postgig','status','is_in_trash') }
+    obj['contact'] = the_gig.contact.urlsafe() if the_gig.contact else ""
+    if include_id:
+        obj['id'] = the_gig.key.urlsafe()
+    return obj
+
+
+class RestEndpoint(BaseHandler):
+
+    @rest_user_required
+    @CSOR_Jsonify
+    def get(self, *args, **kwargs):
+        try:
+            gig_id = kwargs["gig_id"]
+            the_gig = ndb.Key(urlsafe=gig_id).get()
+        except:
+            self.abort(404)
+
+        # are we authorized to see the gig?
+        if assoc.get_assoc_for_band_key_and_member_key(self.user.key, the_gig.key.parent(), confirmed_only=False) is None:
+            self.abort(401)
+
+        return _RestGigInfo(the_gig, include_id=False)
