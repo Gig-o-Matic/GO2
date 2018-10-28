@@ -1182,7 +1182,8 @@ def is_authorized_to_edit_band(the_band_key, the_user):
 ##########
 
 def _RestBandInfo(the_band, include_id=True):
-    obj = { k:getattr(the_band,k) for k in ('name','shortname','description','simple_planning','plan_feedback') }
+    obj = { k:getattr(the_band,k) for k in ('name','shortname','description','simple_planning') }
+    obj['plan_feedback'] = map(str.strip,str(the_band.plan_feedback).split("\n")) if the_band.plan_feedback else ""
     the_sections = ndb.get_multi(the_band.sections)
     obj['sections'] = [{'name':s.name, 'id':s.key.urlsafe()} for s in the_sections]
     if include_id:
