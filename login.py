@@ -5,6 +5,7 @@ Handlers for user-related pages: login, logout, signup, verify
 from google.appengine.api import users
 from webapp2_extras.auth import *
 from requestmodel import *
+from restify import CSOR_Jsonify, rest_user_required
 from webapp2_extras.appengine.auth.models import UserToken
 from webapp2_extras.appengine.auth.models import User
 from google.appengine.ext import ndb
@@ -77,9 +78,6 @@ class LogoutHandler(BaseHandler):
         # if you actually log out, we'll clear the session to reset band lists and stuff
         _doLogout(self)
         self.redirect(self.uri_for('home'))
-
-def RestLogout(handler):
-    return _doLogout(handler)
 
 ##########
 #
@@ -515,4 +513,34 @@ class WhatisPageHandler(BaseHandler):
     def get(self):
         params = {}
         self.render_template('whatis.html', params=params)
+
+
+
+##########
+#
+# REST authentication endpoint
+#
+##########
+class RestLoginEndpoint(BaseHandler):
+    @CSOR_Jsonify
+    def post(self, *args, **kwargs):
+        try:
+            email = self.request.get('email').lower()
+            password = self.request.get('password')
+            u = self.auth.get_user_by_password(email, password, save_session=True)
+            the_user = self.user_model.get_by_id(u['user_id'])
+
+        except (InvalidAuthIdError, InvalidPasswordError) as e:
+            self.abort(401)
+
+        # jwt = make_jwt(the_user.key.urlsafe())
+
+        # return jwt
+        return ""
+
     
+class RestLogoutEndpoint(BaseHandler):
+    @rest_user_required
+    @CSOR_Jsonify
+    def post(self, *args, **kwargs):
+        return _doLogout(self)

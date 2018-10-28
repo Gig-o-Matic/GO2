@@ -8,6 +8,7 @@
 import debug
 from google.appengine.ext import ndb
 from requestmodel import *
+from restify import rest_user_required, CSOR_Jsonify
 
 from debug import debug_print
 import webapp2
@@ -248,45 +249,49 @@ def _RestValidateFeedbackValue(the_val):
         raise
     return the_value
 
-def RestPlanPut(the_handler, *args, **kwargs):
-    values = kwargs['values'].split("/") if kwargs['values'] else []
-    if len(values) != 3:
-        the_handler.abort(code=400)
+class RestEndpoint(BaseHandler):
 
-    try:
-        the_plan = ndb.Key(urlsafe=values[0]).get()
-    except:
-        the_handler.abort(404)
+    @rest_user_required
+    @CSOR_Jsonify
+    def get(self, *args, **kwargs):
+        try:
+            plan_id = kwargs["plan_id"]
+            the_plan = ndb.Key(urlsafe=plan_id).get()
+        except:
+            self.abort(404)
 
-    validators = {
-        "value" : _RestValidateValue,
-        "feedback_value" : _RestValidateFeedbackValue,
-    }
+        info = RestPlanInfo(the_plan)
+        del info["id"]
+        return info
 
-    try:
-        the_param = values[1]
-        if hasattr(the_plan,the_param):
-            the_value = validators[the_param](values[2]) if the_param in validators.keys() else values[2]
-            setattr(the_plan, the_param, the_value)
-            the_plan.put()
-        else:
-            raise
-    except:
-        the_handler.abort(400)
+    @rest_user_required
+    @CSOR_Jsonify
+    def put(self,  *args, **kwargs):
+        print(kwargs)
 
-def RestPlanGet(the_handler, *args, **kwargs):
-    values = kwargs['values'].split("/") if kwargs['values'] else []
-    if len(values) != 1:
-        the_handler.abort(code=400)
+        try:
+            plan_id = kwargs['plan_id']
+            plan_attribute = kwargs['plan_attribute']
+            new_value = kwargs['new_value']
+            the_plan = ndb.Key(urlsafe=plan_id).get()
+        except:
+            self.abort(404)
 
-    try:
-        the_plan = ndb.Key(urlsafe=values[0]).get()
-    except:
-        the_handler.abort(404)
+        validators = {
+            "value" : _RestValidateValue,
+            "feedback_value" : _RestValidateFeedbackValue,
+        }
 
-    info = RestPlanInfo(the_plan)
-    del info["id"]
-    return info
+        try:
+            if hasattr(the_plan,plan_attribute):
+                the_value = validators[plan_attribute](new_value) if plan_attribute in validators.keys() else new_value
+                setattr(the_plan, plan_attribute, the_value)
+                the_plan.put()
+            else:
+                raise
+        except:
+            self.abort(400)
+
 
 ##########
 #

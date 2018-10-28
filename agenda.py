@@ -1,6 +1,7 @@
 from google.appengine.api import users
 
 from requestmodel import *
+from restify import rest_user_required, CSOR_Jsonify
 
 import webapp2
 import member
@@ -129,23 +130,23 @@ def _RestGetInfo(info_block):
 
     return info
 
+class RestEndpoint(BaseHandler):
 
-def _RestMakeAgenda(user):
-    try:
-        (upcoming_plans, weighin_plans, number_of_bands) = _get_agenda_contents_for_member(user)
-    except:
+    @rest_user_required
+    @CSOR_Jsonify
+    def get(self):
+        try:
+            (upcoming_plans, weighin_plans, number_of_bands) = _get_agenda_contents_for_member(self.user)
+        except:
+            return {
+                'upcoming_plans' : [],
+                'weighin_plans' : [],
+            }
+
         return {
-            'upcoming_plans' : [],
-            'weighin_plans' : [],
+            'upcoming_plans' : [_RestGetInfo(g) for g in upcoming_plans],
+            'weighin_plans' : [_RestGetInfo(g) for g in weighin_plans],
         }
-
-    return {
-        'upcoming_plans' : [_RestGetInfo(g) for g in upcoming_plans],
-        'weighin_plans' : [_RestGetInfo(g) for g in weighin_plans],
-    }
-
-def RestAgendaGet(request, *args, **kwargs):
-    return _RestMakeAgenda(request.user)
 
 
 
