@@ -125,8 +125,8 @@ class SwitchView(BaseHandler):
 # For the REST agenda interface, just return list of gigs
 def _RestGetInfo(info_block):
     info = {}
-    info['gig'] = gig.RestGigInfo(info_block['the_gig'])
-    info['plan'] = plan.RestPlanInfo(info_block['the_plan'])
+    info['gig'] = gig._RestGigInfo(info_block['the_gig'])
+    info['plan'] = plan._RestPlanInfo(info_block['the_plan'])
 
     return info
 

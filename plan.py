@@ -230,11 +230,12 @@ class UpdatePlanSection(webapp2.RequestHandler):
             pass # todo figure out why there was no plan
         
 
-def RestPlanInfo(the_plan):
+def _RestPlanInfo(the_plan, include_id = True):
     obj = { k:getattr(the_plan,k) for k in ('value','comment') }
     obj['feedback_value'] = the_plan.feedback_value if the_plan.feedback_value else ""
     obj['section'] = the_plan.section.urlsafe() if the_plan.section else ""
-    obj['id'] = the_plan.key.urlsafe()
+    if include_id:
+        obj['id'] = the_plan.key.urlsafe()
     return obj
 
 def _RestValidateValue(the_val):
@@ -260,8 +261,7 @@ class RestEndpoint(BaseHandler):
         except:
             self.abort(404)
 
-        info = RestPlanInfo(the_plan)
-        del info["id"]
+        info = _RestPlanInfo(the_plan, include_id = False)
         return info
 
     @rest_user_required

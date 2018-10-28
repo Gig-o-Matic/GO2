@@ -7,6 +7,8 @@
 
 from google.appengine.ext import ndb
 from requestmodel import *
+from restify import rest_user_required, CSOR_Jsonify
+
 import webapp2_extras.appengine.auth.models
 
 import webapp2
@@ -1173,5 +1175,35 @@ def is_authorized_to_edit_band(the_band_key, the_user):
         return False
         
 
+##########
+#
+# REST endpoint stuff
+#
+##########
+
+def _RestBandInfo(the_band, include_id=True):
+    obj = { k:getattr(the_band,k) for k in ('name','shortname','description','simple_planning','plan_feedback') }
+    the_sections = ndb.get_multi(the_band.sections)
+    obj['sections'] = [{'name':s.name, 'id':s.key.urlsafe()} for s in the_sections]
+    if include_id:
+        obj['id'] = the_band.key.urlsafe()
+    return obj
 
 
+class RestEndpoint(BaseHandler):
+
+    @rest_user_required
+    @CSOR_Jsonify
+    def get(self, *args, **kwargs):
+        try:
+            band_id = kwargs["band_id"]
+            the_band = ndb.Key(urlsafe=band_id).get()
+        except:
+            self.abort(404)
+
+        # are we authorized to see the band?
+        if assoc.get_assoc_for_band_key_and_member_key(self.user.key, the_band.key, confirmed_only=False) is None:
+            self.abort(401)
+
+        info = _RestBandInfo(the_band, include_id=False)
+        return info
