@@ -267,8 +267,6 @@ class RestEndpoint(BaseHandler):
     @rest_user_required
     @CSOR_Jsonify
     def put(self,  *args, **kwargs):
-        print(kwargs)
-
         try:
             plan_id = kwargs['plan_id']
             plan_attribute = kwargs['plan_attribute']
@@ -276,6 +274,40 @@ class RestEndpoint(BaseHandler):
             the_plan = ndb.Key(urlsafe=plan_id).get()
         except:
             self.abort(404)
+
+        validators = {
+            "value" : _RestValidateValue,
+            "feedback_value" : _RestValidateFeedbackValue,
+        }
+
+        try:
+            if hasattr(the_plan,plan_attribute):
+                the_value = validators[plan_attribute](new_value) if plan_attribute in validators.keys() else new_value
+                setattr(the_plan, plan_attribute, the_value)
+                the_plan.put()
+            else:
+                raise
+        except:
+            self.abort(400)
+
+    @rest_user_required
+    @CSOR_Jsonify
+    def post(self,  *args, **kwargs):
+        try:
+            plan_id = kwargs['plan_id']
+            the_plan = ndb.Key(urlsafe=plan_id).get()
+            plan_attribute = kwargs['plan_attribute']
+            try:
+                new_value = self.request.get(plan_attribute,None)
+                if new_value is None:
+                    raise
+            except:
+                self.abort(400)
+        except webapp2.HTTPException:
+            raise
+        except:
+            self.abort(404)
+
 
         validators = {
             "value" : _RestValidateValue,

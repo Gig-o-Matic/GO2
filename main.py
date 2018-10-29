@@ -56,8 +56,11 @@ else:
         webapp2.Route('/api/authenticate', login.RestLoginEndpoint),
         webapp2.Route('/api/logout', login.RestLogoutEndpoint),
         webapp2.Route('/api/agenda', agenda.RestEndpoint),
+
+        webapp2.Route('/api/plan/<plan_id:.+>/<plan_attribute:.+>', plan.RestEndpoint, methods=['POST']),
         webapp2.Route('/api/plan/<plan_id:.+>/<plan_attribute:.+>/<new_value:.+>', plan.RestEndpoint),
         webapp2.Route('/api/plan/<plan_id:.+>', plan.RestEndpoint),
+
         webapp2.Route('/api/band/<band_id:.+>', band.RestEndpoint),
         webapp2.Route('/api/gig/<gig_id:.+>', gig.RestEndpoint),
 
