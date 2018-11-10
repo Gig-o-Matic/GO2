@@ -44,7 +44,8 @@ def rest_user_required(handler):
     def check_login(self, *args, **kwargs):
         user = self.user
         if user is None:
-            raise gigoexceptions.GigoRestException('rest api hit without user')
+            # raise gigoexceptions.GigoRestException('rest api hit without user')
+            self.abort(401)
         else:
             return handler(self, *args, **kwargs)
 
