@@ -1,6 +1,7 @@
 from google.appengine.api import users
 
 from requestmodel import *
+from restify import rest_user_required, CSOR_Jsonify
 
 import webapp2
 import member
@@ -122,23 +123,30 @@ class SwitchView(BaseHandler):
 
 
 # For the REST agenda interface, just return list of gigs
-def _RestGetAgenda(user):
-    try:
-        (upcoming_plans, weighin_plans, number_of_bands) = _get_agenda_contents_for_member(user)
-    except:
+def _RestGetInfo(info_block):
+    info = {}
+    info['gig'] = gig._RestGigInfo(info_block['the_gig'])
+    info['plan'] = plan._RestPlanInfo(info_block['the_plan'])
+
+    return info
+
+class RestEndpoint(BaseHandler):
+
+    @rest_user_required
+    @CSOR_Jsonify
+    def get(self):
+        try:
+            (upcoming_plans, weighin_plans, number_of_bands) = _get_agenda_contents_for_member(self.user)
+        except:
+            return {
+                'upcoming_plans' : [],
+                'weighin_plans' : [],
+            }
+
         return {
-            'upcoming_plans' : [],
-            'weighin_plans' : [],
+            'upcoming_plans' : [_RestGetInfo(g) for g in upcoming_plans],
+            'weighin_plans' : [_RestGetInfo(g) for g in weighin_plans],
         }
-
-    obj = {
-        'upcoming_plans' : [gig.RestGigInfo(g['the_gig']) for g in upcoming_plans],
-        'weighin_plans' : [gig.RestGigInfo(g['the_gig']) for g in weighin_plans],
-    }
-    return obj
-
-def RestGetAgenda(request):
-    return _RestGetAgenda(request.user)
 
 
 

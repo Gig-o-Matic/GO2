@@ -50,9 +50,25 @@ if False: # maintenance mode?
     APPLICATION = webapp2.WSGIApplication([(r'/.*', maintenance.MaintenancePage)], config=CONFIG, debug=True)
 else:
     APPLICATION = webapp2.WSGIApplication([
-        ('/api/authenticate', restify.Auth),
-        webapp2.Route('/api/<endpoint>', restify.Endpoint),
-        # ('/api/.*', restify.ReST),
+
+        # REST endpoints
+
+        webapp2.Route('/api/authenticate', login.RestLoginEndpoint),
+        webapp2.Route('/api/logout', login.RestLogoutEndpoint),
+        webapp2.Route('/api/agenda', agenda.RestEndpoint),
+
+        webapp2.Route('/api/plan/<plan_id:.+>/<plan_attribute:.+>', plan.RestEndpoint, methods=['POST']),
+        webapp2.Route('/api/plan/<plan_id:.+>/<plan_attribute:.+>/<new_value:.+>', plan.RestEndpoint),
+        webapp2.Route('/api/plan/<plan_id:.+>', plan.RestEndpoint),
+
+        webapp2.Route('/api/band/<band_id:.+>', band.RestEndpoint),
+        webapp2.Route('/api/gig/<gig_id:.+>', gig.RestEndpoint),
+
+
+        # webapp2.Route('/apiX/<endpoint><:/*><values:.*>', restify.Endpoint),
+
+        # Standard endpoints
+
         webapp2.Route('/', member.DefaultPage, name='home'),
         webapp2.Route('/band/<band_name:.+>', band.InfoPage),
         webapp2.Route('/login', login.LoginPage, name='login'),

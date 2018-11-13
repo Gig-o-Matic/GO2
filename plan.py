@@ -8,6 +8,7 @@
 import debug
 from google.appengine.ext import ndb
 from requestmodel import *
+from restify import rest_user_required, CSOR_Jsonify
 
 from debug import debug_print
 import webapp2
@@ -228,6 +229,101 @@ class UpdatePlanSection(webapp2.RequestHandler):
         else:
             pass # todo figure out why there was no plan
         
+
+def _RestPlanInfo(the_plan, include_id = True):
+    obj = { k:getattr(the_plan,k) for k in ('value','comment') }
+    obj['feedback_value'] = the_plan.feedback_value if the_plan.feedback_value else ""
+    obj['section'] = the_plan.section.urlsafe() if the_plan.section else ""
+    if include_id:
+        obj['id'] = the_plan.key.urlsafe()
+    return obj
+
+def _RestValidateValue(the_val):
+    the_value = int(the_val)
+    if the_value < 0 or the_value >= len(plan_text):
+        raise
+    return the_value
+
+def _RestValidateFeedbackValue(the_val):
+    the_value = int(the_val)
+    if the_value < 0:
+        raise
+    return the_value
+
+class RestEndpoint(BaseHandler):
+
+    @rest_user_required
+    @CSOR_Jsonify
+    def get(self, *args, **kwargs):
+        try:
+            plan_id = kwargs["plan_id"]
+            the_plan = ndb.Key(urlsafe=plan_id).get()
+        except:
+            self.abort(404)
+
+        info = _RestPlanInfo(the_plan, include_id = False)
+        return info
+
+    @rest_user_required
+    @CSOR_Jsonify
+    def put(self,  *args, **kwargs):
+        try:
+            plan_id = kwargs['plan_id']
+            plan_attribute = kwargs['plan_attribute']
+            new_value = kwargs['new_value']
+            the_plan = ndb.Key(urlsafe=plan_id).get()
+        except:
+            self.abort(404)
+
+        validators = {
+            "value" : _RestValidateValue,
+            "feedback_value" : _RestValidateFeedbackValue,
+        }
+
+        try:
+            if hasattr(the_plan,plan_attribute):
+                the_value = validators[plan_attribute](new_value) if plan_attribute in validators.keys() else new_value
+                setattr(the_plan, plan_attribute, the_value)
+                the_plan.put()
+            else:
+                raise
+        except:
+            self.abort(400)
+
+    @rest_user_required
+    @CSOR_Jsonify
+    def post(self,  *args, **kwargs):
+        try:
+            plan_id = kwargs['plan_id']
+            the_plan = ndb.Key(urlsafe=plan_id).get()
+            plan_attribute = kwargs['plan_attribute']
+            try:
+                new_value = self.request.get(plan_attribute,None)
+                if new_value is None:
+                    raise
+            except:
+                self.abort(400)
+        except webapp2.HTTPException:
+            raise
+        except:
+            self.abort(404)
+
+
+        validators = {
+            "value" : _RestValidateValue,
+            "feedback_value" : _RestValidateFeedbackValue,
+        }
+
+        try:
+            if hasattr(the_plan,plan_attribute):
+                the_value = validators[plan_attribute](new_value) if plan_attribute in validators.keys() else new_value
+                setattr(the_plan, plan_attribute, the_value)
+                the_plan.put()
+            else:
+                raise
+        except:
+            self.abort(400)
+
 
 ##########
 #
