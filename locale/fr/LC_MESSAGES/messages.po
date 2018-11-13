@@ -1389,7 +1389,7 @@ msgstr ""
 
 #: templates/login.html:3 templates/login.html:59
 msgid "Login"
-msgstr "Login"
+msgstr "Connexion"
 
 #: templates/login.html:17
 msgid "Welcome to Gig-o-Matic!"
@@ -1397,7 +1397,7 @@ msgstr "Bienvenue sur le Gig-o-Matic"
 
 #: templates/login.html:24 templates/login.html:32
 msgid "Login failed!"
-msgstr "Problème de connection !"
+msgstr "Problème de connexion !"
 
 #: templates/login.html:24
 msgid "Check your credentials and try again."
@@ -1427,7 +1427,7 @@ msgstr "Pas encore membre ?"
 
 #: templates/login.html:76
 msgid "Sign Up!"
-msgstr "S'inscrire !'"
+msgstr "S'inscrire !"
 
 #: templates/login.html:89
 msgid "Want your band on the Gig-o?"
