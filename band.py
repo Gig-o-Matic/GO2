@@ -1208,3 +1208,16 @@ class RestEndpoint(BaseHandler):
 
         info = _RestBandInfo(the_band, include_id=False)
         return info
+
+class RestEndpointBands(BaseHandler):
+
+    @rest_user_required
+    @CSOR_Jsonify
+    def get(self, *args, **kwargs):
+
+        the_assocs = assoc.get_assocs_of_member_key(self.user.key, confirmed_only=True, include_hidden=True, keys_only=False)
+
+        band_keys = set([a.band for a in the_assocs])
+        bands = ndb.get_multi([k for k in band_keys])
+        info = [_RestBandInfo(b) for b in bands]
+        return info
