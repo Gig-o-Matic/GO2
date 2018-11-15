@@ -320,3 +320,10 @@ def update_all_assocs():
         a.hide_from_schedule=False
     ndb.put_multi(assocs)
     logging.info("updated {0} assocs".format(len(assocs)))
+
+
+def _RestAssocInfo(the_assoc, abort_fn, include_id=True):
+    obj = { k:getattr(the_assoc,k) for k in ('is_confirmed','is_multisectional','hide_from_schedule','is_occasional') }
+    if the_assoc.default_section:
+        obj['default_section'] = the_assoc.default_section.urlsafe()
+    return obj

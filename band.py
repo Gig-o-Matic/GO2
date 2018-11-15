@@ -1181,13 +1181,25 @@ def is_authorized_to_edit_band(the_band_key, the_user):
 #
 ##########
 
-def _RestBandInfo(the_band, include_id=True):
+def _RestBandInfo(the_assoc, abort_fn, include_id=True):
+
+    try:
+        the_band_key = the_assoc.band
+        the_band = the_band_key.get()
+    except webapp2.HTTPException:
+            raise
+    except:
+        abort_fn(404)
+
     obj = { k:getattr(the_band,k) for k in ('name','shortname','description','simple_planning') }
     obj['plan_feedback'] = map(str.strip,str(the_band.plan_feedback).split("\n")) if the_band.plan_feedback else ""
     the_sections = ndb.get_multi(the_band.sections)
     obj['sections'] = [{'name':s.name, 'id':s.key.urlsafe()} for s in the_sections]
     if include_id:
         obj['id'] = the_band.key.urlsafe()
+
+    obj.update( assoc._RestAssocInfo(the_assoc, abort_fn) )
+
     return obj
 
 
@@ -1198,15 +1210,18 @@ class RestEndpoint(BaseHandler):
     def get(self, *args, **kwargs):
         try:
             band_id = kwargs["band_id"]
-            the_band = ndb.Key(urlsafe=band_id).get()
+            the_band_key = ndb.Key(urlsafe=band_id)
+        except webapp2.HTTPException:
+            raise
         except:
             self.abort(404)
 
         # are we authorized to see the band?
-        if assoc.get_assoc_for_band_key_and_member_key(self.user.key, the_band.key, confirmed_only=False) is None:
+        the_assoc = assoc.get_assoc_for_band_key_and_member_key(self.user.key, the_band_key, confirmed_only=False)
+        if the_assoc is None:
             self.abort(401)
 
-        info = _RestBandInfo(the_band, include_id=False)
+        info = _RestBandInfo(the_assoc, self.abort, include_id=False)
         return info
 
 class RestEndpointBands(BaseHandler):
@@ -1217,7 +1232,5 @@ class RestEndpointBands(BaseHandler):
 
         the_assocs = assoc.get_assocs_of_member_key(self.user.key, confirmed_only=True, include_hidden=True, keys_only=False)
 
-        band_keys = set([a.band for a in the_assocs])
-        bands = ndb.get_multi([k for k in band_keys])
-        info = [_RestBandInfo(b) for b in bands]
+        info = [_RestBandInfo(a, self.abort) for a in the_assocs]
         return info
