@@ -33,7 +33,7 @@ class Assoc(ndb.Model):
     member_name = ndb.StringProperty() # need this for ordering
     commitment_number = ndb.IntegerProperty(default=0)
     commitment_total = ndb.IntegerProperty(default=0)
-    color = ndb.IntegerProperty(default=0) # (1=red, 2=green, 3=blue, 4=orange, 5=yellow)
+    color = ndb.IntegerProperty(default=0) # see colors.py
     email_me = ndb.BooleanProperty (default=True)
     hide_from_schedule = ndb.BooleanProperty (default=False)
     created = ndb.DateTimeProperty(default=None)
@@ -323,7 +323,7 @@ def update_all_assocs():
 
 
 def _RestAssocInfo(the_assoc, abort_fn, include_id=True):
-    obj = { k:getattr(the_assoc,k) for k in ('is_confirmed','is_multisectional','hide_from_schedule','is_occasional') }
+    obj = { k:getattr(the_assoc,k) for k in ('is_confirmed','is_multisectional','hide_from_schedule','is_occasional','color') }
     if the_assoc.default_section:
         obj['default_section'] = the_assoc.default_section.urlsafe()
     return obj
