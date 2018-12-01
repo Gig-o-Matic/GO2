@@ -63,6 +63,8 @@ else:
 
         webapp2.Route('/api/bands', band.RestEndpointBands),
         webapp2.Route('/api/band/<band_id:.+>', band.RestEndpoint),
+
+        webapp2.Route('/api/gig/plans/<gig_id:.+>', gig.RestEndpointPlans),
         webapp2.Route('/api/gig/<gig_id:.+>', gig.RestEndpoint),
 
 

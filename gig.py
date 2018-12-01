@@ -1165,3 +1165,20 @@ class RestEndpoint(BaseHandler):
             self.abort(401)
 
         return _RestGigInfo(the_gig, include_id=False)
+
+class RestEndpointPlans(BaseHandler):
+
+    @rest_user_required
+    @CSOR_Jsonify
+    def get(self, *args, **kwargs):
+        try:
+            gig_id = kwargs["gig_id"]
+            the_gig = ndb.Key(urlsafe=gig_id).get()
+        except:
+            self.abort(404)
+
+        # are we authorized to see the gig?
+        if assoc.get_assoc_for_band_key_and_member_key(self.user.key, the_gig.key.parent(), confirmed_only=False) is None:
+            self.abort(401)
+
+        return _RestGigInfo(the_gig, include_id=False)
