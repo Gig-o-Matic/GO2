@@ -1180,10 +1180,9 @@ def _RestGigPlanInfo(the_plans):
         info = {}
         info['the_plan'] = plan._RestPlanInfo(info_block['the_plan'])
         info['the_member_key'] = info_block['the_member_key'].urlsafe()
-        if info_block['the_assoc'].default_section:
-            info['the_default_section'] = info_block['the_assoc'].default_section.urlsafe()
-        else:
-            info['the_default_section'] = ""
+        if info['the_plan']['section'] == '':
+            if info_block['the_assoc'].default_section:
+                info['the_plan']['section'] = info_block['the_assoc'].default_section.urlsafe()
         plans.append(info)
     return plans
 
