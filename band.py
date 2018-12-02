@@ -1195,10 +1195,12 @@ def _RestBandInfo(the_assoc, abort_fn, include_id=True):
     obj['plan_feedback'] = map(str.strip,str(the_band.plan_feedback).split("\n")) if the_band.plan_feedback else ""
     the_sections = ndb.get_multi(the_band.sections)
     obj['sections'] = [{'name':s.name, 'id':s.key.urlsafe()} for s in the_sections]
+
     if include_id:
         obj['id'] = the_band.key.urlsafe()
 
     obj.update( assoc._RestAssocInfo(the_assoc, abort_fn) )
+
 
     return obj
 

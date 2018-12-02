@@ -13,6 +13,8 @@ from webapp2_extras.appengine.auth.models import Unique
 from webapp2_extras import security
 from webapp2_extras.i18n import gettext as _
 
+from restify import rest_user_required, CSOR_Jsonify
+
 import time
 
 import webapp2
@@ -1185,6 +1187,27 @@ class VerifyMember(BaseHandler):
         return self.redirect('/member_info.html?mk={0}'.format(the_member_keyurl))
 
 
+##########
+#
+# REST endpoint stuff
+#
+##########
 
+def _RestMemberInfo(the_member, include_id=True):
+    obj = { k:getattr(the_member,k) for k in ['display_name'] }
+    return obj
 
+class RestEndpoint(BaseHandler):
 
+    @rest_user_required
+    @CSOR_Jsonify
+    def get(self, *args, **kwargs):
+        try:
+            member_id = kwargs["member_id"]
+            the_member = ndb.Key(urlsafe=member_id).get()
+        except:
+            self.abort(404)
+
+        # are we authorized to see the member? TODO
+
+        return _RestMemberInfo(the_member, include_id=False)

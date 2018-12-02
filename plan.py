@@ -233,6 +233,7 @@ class UpdatePlanSection(webapp2.RequestHandler):
 def _RestPlanInfo(the_plan, include_id = True):
     obj = { k:getattr(the_plan,k) for k in ('value','comment') }
     obj['feedback_value'] = the_plan.feedback_value if the_plan.feedback_value else ""
+    print(the_plan.section)
     obj['section'] = the_plan.section.urlsafe() if the_plan.section else ""
     if include_id:
         obj['id'] = the_plan.key.urlsafe()

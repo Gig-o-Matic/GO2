@@ -434,6 +434,77 @@ def _RestGigInfo(the_gig):
 #
 #
 
+def _makeInfoPageInfo(the_gig, the_band_key):
+    gig_key = the_gig.key
+
+    the_assocs = assoc.get_assocs_of_band_key(the_band_key, confirmed_only=True, keys_only=False)
+
+    
+    # get all the plans for this gig - might actually not be any yet.
+    all_plans = plan.get_plans_for_gig_key(gig_key, keys_only=False)
+    
+    # now, for each associated member, find or make a plan
+    the_plans = []
+    the_new_plans = [] # in case we need to make new ones
+
+    the_plan_counts={}
+    for i in range(len(plan.plan_text)):
+        the_plan_counts[i]=0
+                                
+    need_empty_section = False
+    for the_assoc in the_assocs:
+        a_member_key = the_assoc.member
+        new_plan = False
+        
+        for p in all_plans:
+            if p.member == a_member_key:
+                the_plan = p
+                break
+        else:
+            # no plan? make a new one
+            planval = 0
+            if ( the_gig.default_to_attending ):
+                planval = 1
+
+            the_plan = plan.Plan(parent=gig_key, member=a_member_key, value=planval, comment="", section=None)
+            the_new_plans.append(the_plan)
+            new_plan = True
+
+        if (not the_assoc.is_occasional) or \
+           (the_assoc.is_occasional and the_plan.value != 0) or \
+           (a_member_key == the_user.key) or \
+           the_user.is_superuser:
+            if the_plan.section==None and the_assoc.default_section==None:
+                need_empty_section = True
+            info_block={}
+            info_block['the_gig_key'] = the_gig.key
+            info_block['the_plan'] = the_plan
+            info_block['the_member_key'] = a_member_key
+            info_block['the_band_key'] = the_band_key
+            info_block['the_assoc'] = the_assoc
+            if the_plan.section is not None:
+                info_block['the_section'] = the_plan.section
+            else:
+                info_block['the_section'] = the_assoc.default_section            
+            the_plans.append(info_block)
+            the_plan_counts[the_plan.value] += 1
+
+    if the_new_plans:
+        ndb.put_multi(the_new_plans)
+
+    the_section_keys = band.get_section_keys_of_band_key(the_band_key)
+    the_sections = ndb.get_multi(the_section_keys)
+    if need_empty_section:
+        the_sections.append(None)
+        
+    if len(the_section_keys)==0:
+        band_has_sections = False
+    else:
+        band_has_sections = True
+
+    return the_plans, the_plan_counts, the_sections, band_has_sections
+
+
 class InfoPage(BaseHandler):
     """ class to serve the gig info page """
 
@@ -462,72 +533,9 @@ class InfoPage(BaseHandler):
             the_comment_text = gigcomment.get_comment(the_gig.comment_id)
 
         if not the_gig.is_archived:
+
             the_band_key = the_gig.key.parent()
-
-            the_assocs = assoc.get_assocs_of_band_key(the_band_key, confirmed_only=True, keys_only=False)
-
-            
-            # get all the plans for this gig - might actually not be any yet.
-            all_plans = plan.get_plans_for_gig_key(gig_key, keys_only=False)
-            
-            # now, for each associated member, find or make a plan
-            the_plans = []
-            the_new_plans = [] # in case we need to make new ones
-
-            the_plan_counts={}
-            for i in range(len(plan.plan_text)):
-                the_plan_counts[i]=0
-                                        
-            need_empty_section = False
-            for the_assoc in the_assocs:
-                a_member_key = the_assoc.member
-                new_plan = False
-                
-                for p in all_plans:
-                    if p.member == a_member_key:
-                        the_plan = p
-                        break
-                else:
-                    # no plan? make a new one
-                    planval = 0
-                    if ( the_gig.default_to_attending ):
-                        planval = 1
-
-                    the_plan = plan.Plan(parent=gig_key, member=a_member_key, value=planval, comment="", section=None)
-                    the_new_plans.append(the_plan)
-                    new_plan = True
-
-                if (not the_assoc.is_occasional) or \
-                   (the_assoc.is_occasional and the_plan.value != 0) or \
-                   (a_member_key == the_user.key) or \
-                   the_user.is_superuser:
-                    if the_plan.section==None and the_assoc.default_section==None:
-                        need_empty_section = True
-                    info_block={}
-                    info_block['the_gig_key'] = the_gig.key
-                    info_block['the_plan'] = the_plan
-                    info_block['the_member_key'] = a_member_key
-                    info_block['the_band_key'] = the_band_key
-                    info_block['the_assoc'] = the_assoc
-                    if the_plan.section is not None:
-                        info_block['the_section'] = the_plan.section
-                    else:
-                        info_block['the_section'] = the_assoc.default_section            
-                    the_plans.append(info_block)
-                    the_plan_counts[the_plan.value] += 1
-        
-            if the_new_plans:
-                ndb.put_multi(the_new_plans)
-
-            the_section_keys = band.get_section_keys_of_band_key(the_band_key)
-            the_sections = ndb.get_multi(the_section_keys)
-            if need_empty_section:
-                the_sections.append(None)
-                
-            if len(the_section_keys)==0:
-                band_has_sections = False
-            else:
-                band_has_sections = True
+            the_plans, the_plan_counts, the_sections, band_has_sections = _makeInfoPageInfo(the_gig, the_band_key)
 
             # is the current user a band admin?
             the_user_is_band_admin = assoc.get_admin_status_for_member_for_band_key(the_user, the_band_key)
@@ -1166,6 +1174,19 @@ class RestEndpoint(BaseHandler):
 
         return _RestGigInfo(the_gig, include_id=False)
 
+def _RestGigPlanInfo(the_plans):
+    plans = []
+    for info_block in the_plans:
+        info = {}
+        info['the_plan'] = plan._RestPlanInfo(info_block['the_plan'])
+        info['the_member_key'] = info_block['the_member_key'].urlsafe()
+        if info_block['the_assoc'].default_section:
+            info['the_default_section'] = info_block['the_assoc'].default_section.urlsafe()
+        else:
+            info['the_default_section'] = ""
+        plans.append(info)
+    return plans
+
 class RestEndpointPlans(BaseHandler):
 
     @rest_user_required
@@ -1181,4 +1202,7 @@ class RestEndpointPlans(BaseHandler):
         if assoc.get_assoc_for_band_key_and_member_key(self.user.key, the_gig.key.parent(), confirmed_only=False) is None:
             self.abort(401)
 
-        return _RestGigInfo(the_gig, include_id=False)
+        the_band_key = the_gig.key.parent()
+        the_plans, the_plan_counts, the_sections, band_has_sections = _makeInfoPageInfo(the_gig, the_band_key)
+
+        return _RestGigPlanInfo(the_plans)

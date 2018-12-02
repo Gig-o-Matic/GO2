@@ -67,6 +67,8 @@ else:
         webapp2.Route('/api/gig/plans/<gig_id:.+>', gig.RestEndpointPlans),
         webapp2.Route('/api/gig/<gig_id:.+>', gig.RestEndpoint),
 
+        webapp2.Route('/api/member/<member_id:.+>', member.RestEndpoint),
+
 
         # webapp2.Route('/apiX/<endpoint><:/*><values:.*>', restify.Endpoint),
 
