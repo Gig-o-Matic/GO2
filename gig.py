@@ -434,7 +434,7 @@ def _RestGigInfo(the_gig):
 #
 #
 
-def _makeInfoPageInfo(the_gig, the_band_key):
+def _makeInfoPageInfo(the_user, the_gig, the_band_key):
     gig_key = the_gig.key
 
     the_assocs = assoc.get_assocs_of_band_key(the_band_key, confirmed_only=True, keys_only=False)
@@ -535,7 +535,7 @@ class InfoPage(BaseHandler):
         if not the_gig.is_archived:
 
             the_band_key = the_gig.key.parent()
-            the_plans, the_plan_counts, the_sections, band_has_sections = _makeInfoPageInfo(the_gig, the_band_key)
+            the_plans, the_plan_counts, the_sections, band_has_sections = _makeInfoPageInfo(the_user, the_gig, the_band_key)
 
             # is the current user a band admin?
             the_user_is_band_admin = assoc.get_admin_status_for_member_for_band_key(the_user, the_band_key)
@@ -1202,6 +1202,6 @@ class RestEndpointPlans(BaseHandler):
             self.abort(401)
 
         the_band_key = the_gig.key.parent()
-        the_plans, the_plan_counts, the_sections, band_has_sections = _makeInfoPageInfo(the_gig, the_band_key)
+        the_plans, the_plan_counts, the_sections, band_has_sections = _makeInfoPageInfo(self.user, the_gig, the_band_key)
 
         return _RestGigPlanInfo(the_plans)
