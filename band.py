@@ -1236,3 +1236,28 @@ class RestEndpointBands(BaseHandler):
 
         info = [_RestBandInfo(a, self.abort) for a in the_assocs]
         return info
+
+class RestEndpointMembers(BaseHandler):
+
+    @rest_user_required
+    @CSOR_Jsonify
+    def get(self, *args, **kwargs):
+
+        try:
+            band_id = kwargs["band_id"]
+            the_band_key = ndb.Key(urlsafe=band_id)
+        except webapp2.HTTPException:
+            raise
+        except:
+            self.abort(404)
+
+        # are we authorized to see the band?
+        the_assoc = assoc.get_assoc_for_band_key_and_member_key(self.user.key, the_band_key, confirmed_only=False)
+        if the_assoc is None:
+            self.abort(401)
+
+        the_assocs = assoc.get_confirmed_assocs_of_band_key(the_band_key, include_occasional=True)
+        member_keys = [a.member for a in the_assocs]
+        members = ndb.get_multi(member_keys)
+        info = [member._RestMemberInfo(m, True) for m in members]
+        return info
