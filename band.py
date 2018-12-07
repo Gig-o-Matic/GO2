@@ -1087,7 +1087,7 @@ class MemberSpreadsheet(BaseHandler):
         the_band_key = ndb.Key(urlsafe=the_band_keyurl)
 
         if not is_authorized_to_edit_band(the_band_key, the_user):
-            return
+            raise gigoexceptions.GigoException('user {0} trying to download users for band {1}'.format(self.user.key.urlsafe(),the_band_key.urlsafe()))
 
         self.response.headers['Content-Type'] = 'application/x-gzip'
         self.response.headers['Content-Disposition'] = 'attachment; filename=members.csv'
