@@ -1133,9 +1133,6 @@ class ArchiveSpreadsheet(BaseHandler):
 
         the_band_key = ndb.Key(urlsafe=the_band_keyurl)
 
-        if not is_authorized_to_edit_band(the_band_key, the_user):
-            return
-
         self.response.headers['Content-Type'] = 'application/x-gzip'
         self.response.headers['Content-Disposition'] = 'attachment; filename=archive.csv'
         
