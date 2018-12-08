@@ -127,6 +127,7 @@ def _RestGetInfo(info_block):
     info = {}
     info['gig'] = gig._RestGigInfo(info_block['the_gig'])
     info['plan'] = plan._RestPlanInfo(info_block['the_plan'])
+    info['band'] = band._RestBandInfo(info_block['the_band'], include_id=False, name_only=True)
 
     return info
 

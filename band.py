@@ -1178,26 +1178,25 @@ def is_authorized_to_edit_band(the_band_key, the_user):
 #
 ##########
 
-def _RestBandInfo(the_assoc, abort_fn, include_id=True):
+def _RestBandInfo(the_band, the_assoc=None, include_id=True, name_only=False):
 
-    try:
-        the_band_key = the_assoc.band
-        the_band = the_band_key.get()
-    except webapp2.HTTPException:
-            raise
-    except:
-        abort_fn(404)
 
-    obj = { k:getattr(the_band,k) for k in ('name','shortname','description','simple_planning') }
-    obj['plan_feedback'] = map(str.strip,str(the_band.plan_feedback).split("\n")) if the_band.plan_feedback else ""
-    the_sections = ndb.get_multi(the_band.sections)
-    obj['sections'] = [{'name':s.name, 'id':s.key.urlsafe()} for s in the_sections]
+    obj = { k:getattr(the_band,k) for k in ('name','shortname') }
 
-    if include_id:
-        obj['id'] = the_band.key.urlsafe()
+    if name_only==False:
+        for k in ('description','simple_planning'):
+            obj[k] = getattr(the_band,k) 
 
-    obj.update( assoc._RestAssocInfo(the_assoc, abort_fn) )
+        # obj = { k:getattr(the_band,k) for k in ('name','shortname','description','simple_planning') }
+        obj['plan_feedback'] = map(str.strip,str(the_band.plan_feedback).split("\n")) if the_band.plan_feedback else ""
+        the_sections = ndb.get_multi(the_band.sections)
+        obj['sections'] = [{'name':s.name, 'id':s.key.urlsafe()} for s in the_sections]
 
+        if include_id:
+            obj['id'] = the_band.key.urlsafe()
+
+        if the_assoc:
+            obj.update( assoc._RestAssocInfo(the_assoc) )
 
     return obj
 
@@ -1220,7 +1219,12 @@ class RestEndpoint(BaseHandler):
         if the_assoc is None:
             self.abort(401)
 
-        info = _RestBandInfo(the_assoc, self.abort, include_id=False)
+        try:
+            print("**WOO")
+            info = _RestBandInfo(the_assoc.band.get(), the_assoc=the_assoc, include_id=False)
+            print("**WOO")
+        except:
+            self.abort(404)
         return info
 
 class RestEndpointBands(BaseHandler):
