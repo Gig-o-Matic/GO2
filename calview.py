@@ -23,10 +23,18 @@ class MainPage(BaseHandler):
         self._make_page(the_user=self.user)
             
     def _make_page(self,the_user):
-                
+        
+        m = self.request.get('m',None)
+        y = self.request.get('y',None)
+
         template_args = {
             'calview_is_active' : True
         }
+
+        if m and y:
+            template_args['m'] = m
+            template_args['y'] = y
+            
         self.render_template('calview.html', template_args)
 
 
@@ -94,13 +102,17 @@ class CalEvents(BaseHandler):
                 the_title = u'{0}:\n{1}'.format(the_band_name, the_title)
             
 
-            events.append({
-                            'title':the_title,
-                            'start':str(a_gig.date.date()),
-                            'end': str(a_gig.enddate+datetime.timedelta(days=1)) if a_gig.enddate else None,
-                            'url':'/gig_info.html?gk={0}'.format(a_gig.key.urlsafe()),
-                            'borderColor':colors[cindex]
-                            })
+            options= {
+                'title':the_title,
+                'start':str(a_gig.date.date()),
+                'end': str(a_gig.enddate+datetime.timedelta(days=1)) if a_gig.enddate else None,
+                'url':'/gig_info.html?gk={0}'.format(a_gig.key.urlsafe()),
+                'color':colors[cindex],
+            }
+            if cindex == 0:
+                options['textColor'] = '#000000'
+                options['borderColor'] = '#aaaaaa'
+            events.append(options)
         
         testevent=json.dumps(events)
                     
