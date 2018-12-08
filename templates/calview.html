@@ -20,13 +20,23 @@
 
 {% block localscripts %}
     <script src='/js/moment.min.js'></script>
-    <script src='/fullcalendar/fullcalendar.min.js'></script>
-    <script src='/fullcalendar/lang/{{the_user.preferences.locale}}.js'></script>
+    <script src='/fullcalendar/fullcalendar.js'></script>
+    {% if the_user.preferences.locale != "en" %}
+        <script src='/fullcalendar/locale/{{the_user.preferences.locale}}.js'></script>
+    {% endif %}
     <script>
+
+    function calCallback(view) {
+        mo = $('#calendar').fullCalendar('getDate')
+        var stateObj = { foo: "bar" };
+        window.history.replaceState(stateObj, "", window.location.origin+window.location.pathname+"?y="+mo.year()+"&m="+mo.month());
+    }
+
     $(document).ready(function() {
         // page is now ready, initialize the calendar...
         $('#calendar').fullCalendar({
             // put your options and callbacks here
+            themeSystem: 'bootstrap4',
             events: {
                 url: '/calevents',
                 type: 'POST',
@@ -36,9 +46,11 @@
                 error: function() {
                     alert('there was an error while fetching events!');
                 },
-                color: 'white',   // a non-ajax option
-                textColor: 'black' // a non-ajax option
-            }
+            },
+            eventAfterAllRender: calCallback,
+            {% if m and y %}
+                defaultDate: moment( [ {{ y }}, {{ m }} ] ),
+            {% endif %}
         })
     });
     </script>
