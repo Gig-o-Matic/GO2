@@ -1175,11 +1175,16 @@ class RestEndpoint(BaseHandler):
         return _RestGigInfo(the_gig, include_id=False)
 
 def _RestGigPlanInfo(the_plans):
+    member_keys = [i['the_member_key'] for i in the_plans]
+    members = ndb.get_multi(member_keys)
+    member_names = dict(zip(member_keys,[m.display_name for m in members]))
+
     plans = []
     for info_block in the_plans:
         info = {}
         info['the_plan'] = plan._RestPlanInfo(info_block['the_plan'])
         info['the_member_key'] = info_block['the_member_key'].urlsafe()
+        info['the_member_name'] = member_names[info_block['the_member_key']]
         if info['the_plan']['section'] == '':
             if info_block['the_assoc'].default_section:
                 info['the_plan']['section'] = info_block['the_assoc'].default_section.urlsafe()
