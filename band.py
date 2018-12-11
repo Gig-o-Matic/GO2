@@ -1154,8 +1154,9 @@ class ArchiveSpreadsheet(BaseHandler):
 
         data="date,name,status,committed,pay"
         for g in the_gigs:
-            plans = plan.get_plans_for_gig_key(g.key)
-            num=len([p for p in plans if p.value in [1,2]])
+            plans = plan.get_plans_for_gig_key(g.key, keys_only=True, plan_values=[1,2])
+            # num=len([p for p in plans if p.value in [1,2]])
+            num = len(plans)
             stat=0
             if (g.status and g.status in [0,1,2]):
                 stat = g.status

@@ -66,10 +66,17 @@ def get_plan_from_id(the_gig, id):
     """ Return plan object by id; needs the key for the parent, which is the band for this plan"""
     return Plan.get_by_id(int(id), parent=the_gig.key)
 
-def get_plans_for_gig_key(the_gig_key, keys_only = False):
+def get_plans_for_gig_key(the_gig_key, keys_only = False, plan_values=None):
     """ Return plan objects by gig"""
-    plan_query = Plan.lquery(ancestor=the_gig_key)
+    params=[]
+    print("woo")
+    if plan_values:
+        params=[ndb.OR(*[(Plan.value==v) for v in plan_values])]
+
+    plan_query = Plan.lquery(*params, ancestor=the_gig_key)
+
     plans = plan_query.fetch(keys_only=keys_only)
+    print("got {0} plans".format(len(plans)))
     return plans
 
 def get_plan_for_member_key_for_gig_key(the_member_key, the_gig_key, keys_only=False):
