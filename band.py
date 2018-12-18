@@ -1221,9 +1221,7 @@ class RestEndpoint(BaseHandler):
             self.abort(401)
 
         try:
-            print("**WOO")
             info = _RestBandInfo(the_assoc.band.get(), the_assoc=the_assoc, include_id=False)
-            print("**WOO")
         except:
             self.abort(404)
         return info
