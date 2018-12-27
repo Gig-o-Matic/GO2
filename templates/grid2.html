@@ -22,8 +22,10 @@ section {
     background: hsl(0, 0%, 80%);
     display: inline-block;
     padding: 4px;
+{#
     height: 100%;
-    width: 100%;
+#}
+    width: 100px;
     box-sizing: border-box;
     
 }
@@ -36,9 +38,7 @@ article {
 }
 article > * {
     margin: auto;
-    border: 2px solid hsl(45, 100%, 60%);
     padding: 36px;
-    background: hsl(0, 100%, 96%);
 }
 
 
@@ -90,30 +90,15 @@ article > * {
             </div>
         </div>
         <div class="row">
-            <div class="col-12" style="height:200px">
-                <main id="foo">
-                    <section id="section-1">
+            <div class="col-12">
+                <main id="slideworld"><section id="rightloader" style="width:50px;">
                         <article>
-                            One
+                        	&nbsp;
+                        	<div style="padding-right:0px; padding-left:0px;">
+                            <i class="fas fa-spinner fa-pulse fa-lg"></i>
+                        	</div>
                         </article>
-                    </section><section id="section-2">
-                        <article>
-                            Two
-                        </article>
-                    </section><section id="section-3">
-                        <article>
-                            Three
-                        </article>
-                    </section><section id="section-4">
-                        <article>
-                            Four
-                        </article>
-                    </section><section id="loader" style="width:50px">
-                        <article>
-                            loading!
-                        </article>
-                    </section>
-                </main>
+                    </section></main>
             </div>
         </div>
     </div>
@@ -144,18 +129,127 @@ article > * {
 <script src='https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.6/plugins/debug.addIndicators.js'></script>
 
 <script>
-var controller = new ScrollMagic.Controller({container: "#foo", vertical: false});
-var scene = new ScrollMagic.Scene({triggerElement: "#loader", triggerHook: 1})
+
+jQuery.expr.filters.offscreen = function(el) {
+  var rect = el.getBoundingClientRect();
+  console.log(rect)
+  return (
+           (rect.x + rect.width) < 0 
+             || (rect.y + rect.height) < 0
+             || (rect.x > window.innerWidth || rect.y > window.innerHeight)
+         );
+};
+
+
+var controller = new ScrollMagic.Controller({container: "#slideworld", vertical: false});
+var rightfetching = false;
+var leftfetching = false;
+var leftsetup = false;
+var rightscene = new ScrollMagic.Scene({triggerElement: "#rightloader", triggerHook: 1})
     .on("enter", function(e) {
-        console.log("woo");
+    	if (!rightfetching) {
+    		rightfetching = true;
+	    	setTimeout(function() {fetchInfo('right')}, 1000);
+	        console.log("asking right");
+    	}
     })
     .addIndicators()
     .addTo(controller);
 
-function onEnter() {
-    console.log("foo");
+var leftscene = null;
+function setUpLeft() {
+	if (rightfetching) {
+		setTimeout(function() {setUpLeft();}, 500);
+	} else {
+		$("#slideworld").prepend(
+			`<section id="leftloader" style="width:50px">
+                <article>
+                	&nbsp;
+                	<div style="padding-right:0px; padding-left:0px;">
+                    <i class="fas fa-spinner fa-pulse fa-lg"></i>
+                	</div>
+                </article>
+	        </section>`
+	    );
+	    controller.scrollTo($('#leftloader').width()+10)
+		leftscene = new ScrollMagic.Scene({triggerElement: "#leftloader", triggerHook: 0.01, offset: $("#leftloader").width()})
+		    .on("start", function(e) {
+		    	if (!leftfetching) {
+		    		leftfetching = true;
+			    	setTimeout(function() {fetchInfo('left');}, 500);
+			        console.log("asking left");
+		    	}
+		    })
+		    .addIndicators()
+		    .addTo(controller);
+	}
 }
 
+function fetchInfo(side) {
+    console.log("telling " + side);
+	if (side == 'right') {
+{#
+	    data = `<section id="section-1">
+                        <article>
+                            One
+                        </article>
+                    </section><section id="section-2">
+                        <article>
+                            Two
+                        </article>
+                    </section>`;
+#}
+
+		data = `<section id="section-1">
+                        <article>
+                            <table>
+                            	<tr><td>foo</td></tr><tr><td>foo</td></tr><tr><td>foo</td></tr>
+                            	<tr><td>foo</td></tr><tr><td>foo</td></tr><tr><td>foo</td></tr>
+                            	<tr><td>foo</td></tr><tr><td>foo</td></tr><tr><td>foo</td></tr>
+                            </table>
+                        </article>
+                    </section><section id="section-2">
+                        <article>
+                            <table>
+                            	<tr><td>foo</td></tr><tr><td>foo</td></tr><tr><td>foo</td></tr>
+                            	<tr><td>foo</td></tr><tr><td>foo</td></tr><tr><td>foo</td></tr>
+                            	<tr><td>foo</td></tr><tr><td>foo</td></tr><tr><td>foo</td></tr>
+                            </table>
+                        </article>
+                    </section>`;
+
+	    $("#rightloader").before(data);
+	    rightscene.update();
+	    if (!$('#rightloader').is(':offscreen')) {
+	    	setTimeout(function() {fetchInfo('right');}, 500);
+	        console.log("asking right");
+	    } else {
+			rightfetching = false;
+	    }  
+	} else {
+		if (leftsetup) {
+	    	data = `<section id="section-3">
+	                        <article>
+	                            Three
+	                        </article>
+	                    </section><section id="section-4">
+	                        <article>
+	                            Four
+	                        </article>
+	                    </section>`;
+
+
+		    $("#leftloader").after(data);
+		    leftscene.update();
+		    controller.scrollTo($('#leftloader').width()+10);
+	    	leftfetching = false;
+	    } else {
+	    	console.log("done")
+	    	leftsetup = true;
+	    	leftfetching = false;
+	    }
+	}                
+}
 
 $('#dateicon').datepicker({
     startView: 1,
@@ -176,6 +270,13 @@ $('#dateicon').datepicker({
 //                                                             });
 // d=new Date({{the_year}},{{the_month-1}});
 // $('#grid_date').datepicker('update', d);
+
+
+$( document ).ready(function() {
+    console.log( "ready!" );
+    setUpLeft();
+});
+
 
 </script>
 {% endblock localscripts %}
