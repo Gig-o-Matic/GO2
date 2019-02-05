@@ -1079,7 +1079,7 @@ class SendInvites(BaseHandler):
         self.render_template('band_invite_result.html', template_args)
 
 class MemberSpreadsheet(BaseHandler):
-
+    @user_required
     def get(self):
         the_user = self.user
         the_band_keyurl=self.request.get('bk','0')
@@ -1123,6 +1123,29 @@ class MemberSpreadsheet(BaseHandler):
             data=u"{0}\n{1},{2},{3},{4},{5}".format(data,m.name,nick,m.email_address,m.phone,sec)
 
         self.response.write(data)
+
+
+class MemberEmails(BaseHandler):
+    @user_required
+    def get(self):
+        the_user = self.user
+        the_band_keyurl=self.request.get('bk','0')
+
+        the_band_key = ndb.Key(urlsafe=the_band_keyurl)
+
+        if not is_authorized_to_edit_band(the_band_key, the_user):
+            raise gigoexceptions.GigoException('user {0} trying to download emails for band {1}'.format(self.user.key.urlsafe(),the_band_key.urlsafe()))
+        
+        the_assocs = assoc.get_assocs_of_band_key(the_band_key)
+        the_member_keys = [a.member for a in the_assocs]
+        the_members = ndb.get_multi(the_member_keys)
+        the_emails = [x.email_address for x in the_members if x.email_address is not None]
+
+        template_args = {
+            'the_band' : the_band_key.get(),
+            'the_emails' : ', '.join(the_emails)
+        }
+        self.render_template('band_emails.html', template_args)
 
 
 class ArchiveSpreadsheet(BaseHandler):

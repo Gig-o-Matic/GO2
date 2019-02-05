@@ -1,0 +1,23 @@
+{% extends 'go2base.html' %}
+
+{% block title %}{% trans %}Band Emails{% endtrans %}{% endblock title %}
+
+{% block headcontent %}
+
+{% endblock headcontent %}
+
+{% block content %}
+<div class="row">
+    <div class="mx-auto col-lg-8 col-md-10 col-12">
+
+        <div class="page-header">
+            {{ the_band.name }} {% trans %}email addresses{% endtrans %}
+            {% if the_user_is_associated and the_band.shortname %}
+                <br>
+                ({% trans %}a.k.a.{% endtrans %}&nbsp;{{ the_band.shortname }})
+            {% endif %}
+        </div>
+        {{the_emails}}
+    </div>
+</div>
+{% endblock content %}
