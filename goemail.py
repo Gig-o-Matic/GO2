@@ -61,9 +61,19 @@ def send_registration_email(the_email, the_url):
 
     return _send_admin_mail(the_email, _('Welcome to Gig-o-Matic'), _('welcome_msg_email').format(the_url))
 
-def send_band_accepted_email(the_email, the_band):
-    return _send_admin_mail(the_email, _('Gig-o-Matic: Confirmed!'),
-                            _('member_confirmed_email').format(the_band.name, the_band.key.urlsafe()))
+def send_band_accepted_email(the_email, the_band, the_message=None):
+    if the_message:
+        the_text = "\n\n--\n\n" + the_message
+    elif the_band.new_member_message:
+        the_text = "\n\n--\n\n" + the_band.new_member_message
+    else:
+        the_text = ""
+
+    whole_message = "{0}{1}".format(
+                                        _('member_confirmed_email').format(the_band.name, the_band.key.urlsafe()),
+                                        the_text
+                                        )
+    return _send_admin_mail(the_email, _('Gig-o-Matic: Confirmed!'), whole_message)
 
 def send_forgot_email(the_email, the_url):
     return _send_admin_mail(the_email, _('Gig-o-Matic Password Reset'), _('forgot_password_email').format(the_url))
@@ -237,21 +247,36 @@ def send_the_new_member_email(the_locale, the_email_address, new_member, the_ban
                             _('new_member_email').format('{0} ({1})'.format(new_member.name, new_member.email_address),
                                                         the_band.name, the_band.key.urlsafe()))
 
-def send_new_band_via_invite_email(the_band, the_member):
-    return _send_admin_mail(the_member.email_address, _('Gig-o-Matic New Band Invite'),
-                            _('new_band_via_invite_email').format(the_band.name))
+
+def send_new_band_via_invite_email(the_band, the_member, the_message=None):
+    if the_message:
+        the_text = "\n\n--\n\n" + the_message
+    elif the_band.new_member_message:
+        the_text = "\n\n--\n\n" + the_band.new_member_message
+    else:
+        the_text = ""
+
+    whole_message = "{0}{1}".format(
+                                    _('new_band_via_invite_email').format(the_band.name),
+                                    the_text,
+                                    )
+    return _send_admin_mail(the_member.email_address, _('Gig-o-Matic New Band Invite'), whole_message)
+
 
 def send_gigo_invite_email(the_band, the_member, the_url):
     return _send_admin_mail(the_member.email_address, _('Invitation to Join Gig-o-Matic'),
                             _('gigo_invite_email').format(the_band.name, the_url))
 
+
 def send_the_pending_email(the_email_address, the_confirm_link):
     return _send_admin_mail(the_email_address, _('Gig-o-Matic Confirm Email Address'),
                             _('confirm_email_address_email').format(the_confirm_link))
 
+
 def notify_superuser_of_archive(the_num):
     return _send_admin_mail(_bare_admin_email_address, 'Gig-o-Matic Auto-Archiver'
                            "Yo! The Gig-o-Matic archived {0} gigs last night.".format(the_num))
+
 
 def notify_superuser_of_old_tokens(the_num):
     return _send_admin_mail(_bare_admin_email_address, 'Gig-o-Matic Old Tokens',

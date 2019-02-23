@@ -64,6 +64,7 @@ class Band(ndb.Model):
     rss_feed = ndb.BooleanProperty(default=False)
     band_cal_feed_dirty = ndb.BooleanProperty(default=True)
     pub_cal_feed_dirty = ndb.BooleanProperty(default=True)
+    new_member_message = ndb.TextProperty(default=None)
 
 
     @classmethod
@@ -389,6 +390,10 @@ class EditPage(BaseHandler):
             the_band.website = website[7:]
         else:
             the_band.website = website
+
+        new_member_message=self.request.get("new_member_message", None)
+        if new_member_message is not None:
+            the_band.new_member_message = new_member_message.strip()
 
         the_band.thumbnail_img=self.request.get("band_thumbnail",None)
         
@@ -1048,7 +1053,7 @@ class SendInvites(BaseHandler):
                     # create assoc for this member - they're already on the gig-o
                     # send email letting them know they're in the band
                     assoc.new_association(existing_member, the_band, confirm=True)
-                    goemail.send_new_band_via_invite_email(the_band, existing_member)
+                    goemail.send_new_band_via_invite_email(the_band, existing_member, the_band.new_member_message)
             else:
                 # create assoc for this member - but because they're not verified, will just show up as 'invited'
                 # logging.info("creating new member")
@@ -1186,6 +1191,20 @@ class ArchiveSpreadsheet(BaseHandler):
             data=u"{0}\n{1},\"{2}\",{3},{4},\"{5}\"".format(data, member.format_date_for_member(the_user, g.date, 'short'),g.title,gig.Gig.status_names[stat],num,g.paid)
 
         self.response.write(data)
+
+
+class TestNewMemberMessage(BaseHandler):
+    @user_required
+    def post(self):
+        the_user = self.user
+        the_band_keyurl = self.request.get('bk','0')
+        the_message = self.request.get('msg', '').strip()
+        if the_message is None or the_message == '':
+            the_message = "(no message)"
+
+        the_band = ndb.Key(urlsafe=the_band_keyurl).get()
+        goemail.send_new_band_via_invite_email(the_band, the_user, the_message)
+
 
 
 def is_authorized_to_edit_band(the_band_key, the_user):
