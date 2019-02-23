@@ -8,6 +8,7 @@ import gig
 import plan
 import band
 import assoc
+import json
 
 from debug import debug_print
     
@@ -118,3 +119,77 @@ class MainPage(BaseHandler):
             'grid_is_active' : True
         }
         self.render_template('grid.html', template_args)
+
+
+class NewGrid(BaseHandler):
+
+    @user_required
+    def get(self):    
+        """ get handler for grid view """
+        self._make_page(the_user=self.user)
+            
+    def _make_page(self,the_user):
+        # find the bands this member is associated with
+        if not the_user.is_superuser:
+            the_assocs = assoc.get_confirmed_assocs_of_member(the_user)
+            the_band_keys = [a.band for a in the_assocs]
+        else:
+            the_band_keys = band.get_all_bands(keys_only=True)
+        
+        if the_band_keys is None or len(the_band_keys)==0:
+            return self.redirect('/member_info.html?mk={0}'.format(the_user.key.urlsafe()))
+            
+        # find the band we're interested in
+        band_key_str=self.request.get("bk", None)
+        if band_key_str is None:
+            the_band_key = the_band_keys[0]
+        else:
+            the_band_key = ndb.Key(urlsafe=band_key_str)
+
+        # find the members by section
+        the_member_assocs = band.get_assocs_of_band_key_by_section_key(the_band_key, include_occasional=False)
+
+        columndefs = []
+        for section_def in the_member_assocs:
+            column = {}
+            if section_def[0]:
+                section = section_def[0].get()
+                column["headerName"] = section.name
+            else:
+                column["headerName"] = "No Section" #todo i18n
+            column["field"] = column["headerName"]
+            members = ndb.get_multi([a.member for a in section_def[1]])
+            column["children"] = [{"headerName":m.name,
+                                   "field":m.key.urlsafe()
+                                   } for m in members]
+            columndefs.append(column)
+
+        template_args = {
+            'band_key': the_band_key.urlsafe(),
+            'columndefs': json.dumps(columndefs)
+        }
+        self.render_template('newgrid.html', template_args)
+
+class NewGridGetRows(BaseHandler):
+
+    @user_required
+    def get(self):
+        band_key_str=self.request.get("bk", None)
+        if band_key_str:
+            the_band_key = ndb.Key(urlsafe=band_key_str)            
+
+        the_member_assocs = band.get_assocs_of_band_key_by_section_key(the_band_key, include_occasional=False)
+
+        allmembers = []
+        for s in the_member_assocs:
+            for a in s[1]:
+                allmembers.append(a.member)
+
+        row = []
+        r = {m.urlsafe():2 for m in allmembers}
+        r['gig']="foo"
+        row.append(r)
+        print(row)
+
+        self.response.write(json.dumps(row))
+

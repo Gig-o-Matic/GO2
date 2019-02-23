@@ -1,0 +1,89 @@
+{% extends 'go2base.html' %}
+{% import 'plan_icon.html' as plan_icon %}
+
+{% block title %}{% trans %}Grid o'Gigs{% endtrans %}{% endblock title %}
+
+{% block headcontent %}
+<link rel="stylesheet" href="https://unpkg.com/ag-grid-community/dist/styles/ag-grid.css">
+<link rel="stylesheet" href="https://unpkg.com/ag-grid-community/dist/styles/ag-theme-balham.css">
+{% endblock headcontent %}
+
+
+{% block content %}
+<div class="row">
+    <div class="mx-auto col-md-10 col-12">
+        <div class="page-header">
+            {% trans %}Grid o'Gigs{% endtrans %}
+            {% if the_user.preferences.default_view != 2 %}
+            <small>(<a href="/?default=2">{% trans %}Make this my default view!{% endtrans %}</a>)</small>
+            {% endif %}
+        </div>
+        <div>&nbsp;</div>
+        <div class="row">
+            <div class="mx-auto col-12">
+                 <div id="myGrid" style="height: 600px" class="ag-theme-balham"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+{% block localscripts %}
+<script src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.noStyle.js"></script>
+<script type="text/javascript" charset="utf-8">
+
+
+    var myDataSource = new function() {
+        this.getRows = function(params) {
+            $.get("/newgrid_get_rows",
+                        {
+                            bk: "{{ band_key }}"
+                        },
+                        function(responseTxt,statusTxt,xhr){
+                            if(statusTxt=="success")
+                                alert(responseTxt)
+                                params.successCallback(JSON.parse(responseTxt));
+                            if(statusTxt=="error")
+                              alert("Error: "+xhr.status+": "+xhr.statusText);
+                        }
+            );
+        };
+    }
+
+
+    // specify the columns
+    var columnDefs = [
+      {headerName: "Make", field: "make"},
+      {headerName: "Model", field: "model"},
+      {headerName: "Price", field: "price"}
+    ];
+    
+    // specify the data
+    var rowData = [
+      {make: "Toyota", model: "Celica", price: 35000},
+      {make: "Ford", model: "Mondeo", price: 32000},
+      {make: "Porsche", model: "Boxter", price: 72000}
+    ];
+
+    columnDefs = JSON.parse('{{ columndefs }}');
+    columnDefs.unshift({headerName: "Gig", field: "gig", pinned:"left"});
+    columnDefs.unshift({headerName: "Date", field: "date", pinned:"left"});
+
+    // let the grid know which columns and what data to use
+    var gridOptions = {
+      columnDefs: columnDefs,
+      rowData: rowData
+    };
+
+    gridOptions.rowModelType = 'infinite';
+    gridOptions.datasource = myDataSource;
+
+    // lookup the container we want the Grid to use
+    var eGridDiv = document.querySelector('#myGrid');
+
+    // create the grid passing in the div to use together with the columns & data we want to use
+    new agGrid.Grid(eGridDiv, gridOptions);
+
+</script>
+{% endblock localscripts %}
