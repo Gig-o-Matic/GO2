@@ -38,6 +38,11 @@
                 <input type="text" class="form-control" id="bandwebsiteinput" placeholder="www.yourband.org" value="{% if the_band.website %}{{the_band.website}}{% endif %}" name="band_website">
             </div>
             <div class="form-group">
+                <label for="bandnewmembermessageinput" class="col-form-label">{% trans %}New Member Message{% endtrans %}</label>
+                <textarea class="form-control" rows="10" id="bandnewmembermessageinput" placeholder="{% trans %}Welcome!{% endtrans %}"
+                name="new_member_message">{% if the_band.new_member_message %}{{the_band.new_member_message}}{% endif %}</textarea>
+            </div>
+            <div class="form-group">
                 <label for="bandthumbnailinput" class="col-form-label">{% trans %}Thumbnail Image for Band Navigator Page{% endtrans %}</label>
                 <input type="text" class="form-control" id="bandthumbnailinput" placeholder="{% trans %}url of 200x300 picture for band navigtor page{% endtrans %}" value="{% if the_band.thumbnail_img %}{{the_band.thumbnail_img}}{% endif %}" name="band_thumbnail">
                 ({% trans %}thumbnail_instructions{% endtrans %})

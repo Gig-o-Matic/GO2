@@ -64,6 +64,7 @@ class Band(ndb.Model):
     rss_feed = ndb.BooleanProperty(default=False)
     band_cal_feed_dirty = ndb.BooleanProperty(default=True)
     pub_cal_feed_dirty = ndb.BooleanProperty(default=True)
+    new_member_message = ndb.TextProperty(default=None)
 
 
     @classmethod
@@ -389,6 +390,10 @@ class EditPage(BaseHandler):
             the_band.website = website[7:]
         else:
             the_band.website = website
+
+        new_member_message=self.request.get("new_member_message", None)
+        if new_member_message is not None:
+            the_band.new_member_message = new_member_message
 
         the_band.thumbnail_img=self.request.get("band_thumbnail",None)
         
@@ -1048,7 +1053,7 @@ class SendInvites(BaseHandler):
                     # create assoc for this member - they're already on the gig-o
                     # send email letting them know they're in the band
                     assoc.new_association(existing_member, the_band, confirm=True)
-                    goemail.send_new_band_via_invite_email(the_band, existing_member)
+                    goemail.send_new_band_via_invite_email(the_band, existing_member, the_band.new_member_message)
             else:
                 # create assoc for this member - but because they're not verified, will just show up as 'invited'
                 # logging.info("creating new member")
