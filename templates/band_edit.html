@@ -39,6 +39,7 @@
             </div>
             <div class="form-group">
                 <label for="bandnewmembermessageinput" class="col-form-label">{% trans %}New Member Message{% endtrans %}</label>
+                <button type="button" class="btn btn-secondary btn-sm" onclick="test_new_member_email();">test</button> <span id="testedtext"></span>
                 <textarea class="form-control" rows="10" id="bandnewmembermessageinput" placeholder="{% trans %}Welcome!{% endtrans %}"
                 name="new_member_message">{% if the_band.new_member_message %}{{the_band.new_member_message}}{% endif %}</textarea>
             </div>
@@ -150,6 +151,22 @@
 {% block localscripts %}
 <script src="/js/jquery.validate.js"></script>
 <script>
+function test_new_member_email() {
+    $('#testedtext').html('<i class="fa fa-spinner fa-spin"></i>');
+    $.post('/band_edit_test_new_member_message',
+        {
+            bk: "{{the_band.key.urlsafe()}}",
+            msg: $('#bandnewmembermessageinput').val()
+        },
+        function(responseTxt,statusTxt,xhr){
+            if(statusTxt=="success")
+                $('#testedtext').html('<i class="fa fa-check"></i>');
+            if(statusTxt=="error")
+                alert("Error: "+xhr.status+": "+xhr.statusText);
+        });
+
+}
+
 $(document).ready(function() {
     $("#infoform").validate({
         rules: {

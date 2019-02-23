@@ -61,10 +61,17 @@ def send_registration_email(the_email, the_url):
 
     return _send_admin_mail(the_email, _('Welcome to Gig-o-Matic'), _('welcome_msg_email').format(the_url))
 
-def send_band_accepted_email(the_email, the_band, new_member_message=""):
+def send_band_accepted_email(the_email, the_band, the_message=None):
+    if the_message:
+        the_text = "\n\n--\n\n" + the_message
+    elif the_band.new_member_message:
+        the_text = "\n\n--\n\n" + the_band.new_member_message
+    else:
+        the_text = ""
+
     whole_message = "{0}\n\n{1}".format(
                                         _('member_confirmed_email').format(the_band.name, the_band.key.urlsafe()),
-                                        ("\n\n----\n\n" + new_member_message) if new_member_message else ""
+                                        the_text
                                         )
     return _send_admin_mail(the_email, _('Gig-o-Matic: Confirmed!'), whole_message)
 
@@ -241,10 +248,17 @@ def send_the_new_member_email(the_locale, the_email_address, new_member, the_ban
                                                         the_band.name, the_band.key.urlsafe()))
 
 
-def send_new_band_via_invite_email(the_band, the_member, new_member_message=None):
+def send_new_band_via_invite_email(the_band, the_member, the_message=None):
+    if the_message:
+        the_text = "\n\n--\n\n" + the_message
+    elif the_band.new_member_message:
+        the_text = "\n\n--\n\n" + the_band.new_member_message
+    else:
+        the_text = ""
+
     whole_message = "{0}{1}".format(
                                     _('new_band_via_invite_email').format(the_band.name),
-                                    ("\n\n----\n\n" + new_member_message) if new_member_message else ""
+                                    the_text,
                                     )
     return _send_admin_mail(the_member.email_address, _('Gig-o-Matic New Band Invite'), whole_message)
 
