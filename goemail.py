@@ -69,7 +69,7 @@ def send_band_accepted_email(the_email, the_band, the_message=None):
     else:
         the_text = ""
 
-    whole_message = "{0}\n\n{1}".format(
+    whole_message = "{0}{1}".format(
                                         _('member_confirmed_email').format(the_band.name, the_band.key.urlsafe()),
                                         the_text
                                         )
