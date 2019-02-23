@@ -33,10 +33,10 @@
 </div>
 <div class="modal-footer">
     {% if the_ok %}
-        <a class="btn btn-default" href="band_info.html?bk={{the_band_keyurl}}">{% trans %}Done!{% endtrans %}</a>
+        <a class="btn btn-primary" href="band_info.html?bk={{the_band_keyurl}}">{% trans %}Done!{% endtrans %}</a>
     {% else %}
         {% if the_not_ok %}
-            <a class="btn btn-default" href="band_info.html?bk={{the_band_keyurl}}">{% trans %}Done!{% endtrans %}</a>
+            <a class="btn btn-secondary" href="band_info.html?bk={{the_band_keyurl}}">{% trans %}Done!{% endtrans %}</a>
             <button type="button" class="btn btn-primary" data-dismiss="modal">{% trans %}Try Again{% endtrans %}</button>
         {% else %}
             <button type="button" class="btn btn-primary" data-dismiss="modal">{% trans %}Try Again{% endtrans %}</button>
