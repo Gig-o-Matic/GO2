@@ -170,13 +170,51 @@ class NewGrid(BaseHandler):
         }
         self.render_template('newgrid.html', template_args)
 
+
 class NewGridGetRows(BaseHandler):
 
     @user_required
     def get(self):
+        the_user=self.user
         band_key_str=self.request.get("bk", None)
         if band_key_str:
             the_band_key = ndb.Key(urlsafe=band_key_str)            
+
+        month_str=self.request.get("m",None)
+        year_str=self.request.get("y",None)
+        if month_str==None or year_str==None:
+            start_date = datetime.datetime.now().replace(day=1)
+        else:
+            delta=0
+            delta_str=self.request.get("d",None)
+            if delta_str != None:
+                delta=int(delta_str)
+            year=int(year_str)
+            month=int(month_str)
+            month=month+delta
+            if month>12:
+                month = 1
+                year = year+1
+            if month<1:
+                month=12
+                year = year-1
+            start_date = datetime.datetime(year=year, month=month, day=1)
+        
+        end_date = start_date
+        if (end_date.month < 12):
+            end_date = end_date.replace(month = end_date.month + 1, day = 1)
+        else:
+            end_date = end_date.replace(year = end_date.year + 1, month=1, day=1)
+
+        show_canceled=True
+        if the_user.preferences and the_user.preferences.hide_canceled_gigs:
+            show_canceled=False
+
+        the_gigs = gig.get_gigs_for_band_key_for_dates(the_band_key, start_date, end_date, get_canceled=show_canceled)
+
+        all_plans = []
+        for g in the_gigs:
+            all_plans.append(plan.get_plans_for_gig_key(g.key))
 
         the_member_assocs = band.get_assocs_of_band_key_by_section_key(the_band_key, include_occasional=False)
 

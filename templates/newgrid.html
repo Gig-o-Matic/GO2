@@ -37,16 +37,15 @@
     var myDataSource = new function() {
         this.getRows = function(params) {
             $.get("/newgrid_get_rows",
-                        {
-                            bk: "{{ band_key }}"
-                        },
-                        function(responseTxt,statusTxt,xhr){
-                            if(statusTxt=="success")
-                                alert(responseTxt)
-                                params.successCallback(JSON.parse(responseTxt));
-                            if(statusTxt=="error")
-                              alert("Error: "+xhr.status+": "+xhr.statusText);
-                        }
+                  {
+                      bk: "{{ band_key }}"
+                  },
+                  function(responseTxt,statusTxt,xhr){
+                      if(statusTxt=="success")
+                          params.successCallback(JSON.parse(responseTxt),1);
+                      if(statusTxt=="error")
+                        alert("Error: "+xhr.status+": "+xhr.statusText);
+                  }
             );
         };
     }
