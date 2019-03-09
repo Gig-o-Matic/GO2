@@ -251,13 +251,13 @@ def send_the_new_member_email(the_locale, the_email_address, new_member, the_ban
 def send_new_band_via_invite_email(the_band, the_member, the_message=None):
     if the_message:
         the_text = "\n\n--\n\n" + the_message
-    elif the_band.new_member_message:
+    elif the_band and the_band.new_member_message:
         the_text = "\n\n--\n\n" + the_band.new_member_message
     else:
         the_text = ""
 
     whole_message = "{0}{1}".format(
-                                    _('new_band_via_invite_email').format(the_band.name),
+                                    _('new_band_via_invite_email').format(the_band.name if the_band else "new band"),
                                     the_text,
                                     )
     return _send_admin_mail(the_member.email_address, _('Gig-o-Matic New Band Invite'), whole_message)

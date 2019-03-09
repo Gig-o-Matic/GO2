@@ -155,7 +155,9 @@ function test_new_member_email() {
     $('#testedtext').html('<i class="fa fa-spinner fa-spin"></i>');
     $.post('/band_edit_test_new_member_message',
         {
-            bk: "{{the_band.key.urlsafe()}}",
+        	{% if the_band %}
+	            bk: "{{the_band.key.urlsafe()}}",
+	        {% endif %}
             msg: $('#bandnewmembermessageinput').val()
         },
         function(responseTxt,statusTxt,xhr){

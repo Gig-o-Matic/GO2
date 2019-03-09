@@ -142,7 +142,11 @@ def get_all_bands(keys_only=False):
     return all_bands
 
 def get_section_keys_of_band_key(the_band_key):
-    return the_band_key.get().sections
+    the_band = the_band_key.get()
+    if the_band:
+        return the_band.sections
+    else:
+        return []
 
 def get_assocs_of_band_key_by_section_key(the_band_key, include_occasional=True):
     the_band = the_band_key.get()
@@ -529,7 +533,7 @@ class DeleteBand(BaseHandler):
         if (the_user.is_superuser):
             forget_band_from_key(the_band_key)
 
-        return self.redirect('/band_admin.html')
+        return self.redirect('/band_admin')
         
 class BandGetMembers(BaseHandler):
     """ returns the members related to a band """                   
@@ -1197,12 +1201,15 @@ class TestNewMemberMessage(BaseHandler):
     @user_required
     def post(self):
         the_user = self.user
-        the_band_keyurl = self.request.get('bk','0')
+        the_band_keyurl = self.request.get('bk',None)
         the_message = self.request.get('msg', '').strip()
         if the_message is None or the_message == '':
             the_message = "(no message)"
 
-        the_band = ndb.Key(urlsafe=the_band_keyurl).get()
+        if the_band_keyurl:
+            the_band = ndb.Key(urlsafe=the_band_keyurl).get()
+        else:
+            the_band = None
         goemail.send_new_band_via_invite_email(the_band, the_user, the_message)
 
 
