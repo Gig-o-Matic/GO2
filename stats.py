@@ -87,16 +87,19 @@ class StatsPage(BaseHandler):
             a_stat = get_band_stats(a_band.key)
             
             the_count_data=[]
-            for s in a_stat:
+
+            if len(a_stat) > 0:
+                s = a_stat[0]
                 if s.number_upcoming_gigs > 0:
                     is_band_active = True
-                the_count_data.append([s.date.year, s.date.month-1, s.date.day, s.number_members, s.number_upcoming_gigs])
+                for s in a_stat:
+                    the_count_data.append([s.date.year, s.date.month-1, s.date.day, s.number_members, s.number_upcoming_gigs])
 
-            if is_band_active:
-                the_count_data_json=json.dumps(the_count_data)
-                stats.append([a_band, the_count_data_json])
-            else:
-                inactive_bands.append(a_band)
+                if is_band_active:
+                    the_count_data_json=json.dumps(the_count_data)
+                    stats.append([a_band, the_count_data_json])
+                else:
+                    inactive_bands.append(a_band)
         
         template_args = {
             'the_stats' : stats,
