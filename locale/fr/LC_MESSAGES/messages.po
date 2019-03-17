@@ -65,7 +65,7 @@ msgstr ""
 #, fuzzy
 msgid "member_confirmed_email"
 msgstr ""
-"BOnjour! Vous avez été confirmé comme membre de {0}. Vous pouvez maintenant utiliser le"
+"Bonjour! Vous avez été confirmé comme membre de {0}. Vous pouvez maintenant utiliser le"
 " Gig-o-Matic pour gérer votre groupe.\n"
 "\n"
 "http://www.gig-o-matic.com/band_info.html?bk={1}\n"
@@ -476,7 +476,7 @@ msgstr "Pas de concerts dans l'archive !"
 
 #: templates/band_gig_trashcan.html:3 templates/band_info.html:91
 msgid "Gig Trashcan"
-msgstr "Poubelles des concerts"
+msgstr "Poubelle des concerts"
 
 #: templates/band_gig_trashcan.html:11
 msgid "trashcan_title"
@@ -878,7 +878,7 @@ msgstr "Hum ..."
 #: templates/error.html:17
 msgid "error_message"
 msgstr ""
-"Une errur interne est apparue ! Merci d'envoyer un email à' <a "
+"Une erreur interne est apparue ! Merci d'envoyer un email à' <a "
 "href=\"mailto:superuser@gig-o-matic.com\">superuser@gig-o-matic.com</a>"
 " pour nous dire ce qui s'est passé !"
 
@@ -1384,7 +1384,7 @@ msgstr "Erreur de lien !"
 #: templates/link_error.html:17
 msgid "link_error_message"
 msgstr ""
-"Vous avez cliqué sur un lien qui ne fonctionnee pas - vous avez déjà vérifié votre"
+"Vous avez cliqué sur un lien qui ne fonctionne pas - vous avez déjà vérifié votre"
 "adresse e-mail. Il suffit de se conecter à l'adresse suivante "
 
 #: templates/login.html:3 templates/login.html:59
@@ -1455,7 +1455,7 @@ msgstr "confirmation en attente"
 
 #: templates/member_band_assocs.html:42
 msgid "other sections, too"
-msgstr "dans plusieurs sections"
+msgstr "plusieurs sections"
 
 #: templates/member_band_assocs.html:56
 msgid "hide from calendar"
@@ -1775,15 +1775,15 @@ msgstr "Posts du Forum"
 
 #: templates/signup.html:3
 msgid "Register!"
-msgstr "S'enregistrer !"
+msgstr "S'inscrire !"
 
 #: templates/signup.html:18
 msgid "Register with the Gig-o-Matic"
-msgstr "S'enregistrer sur le Gig-o-Matic"
+msgstr "S'inscrire sur le Gig-o-Matic"
 
 #: templates/signup.html:59
 msgid "Sign me up!"
-msgstr "S'enregistrer !"
+msgstr "Je m'inscris !"
 
 #: templates/stats.html:3 templates/stats.html:8
 msgid "Stats!"
@@ -1791,11 +1791,11 @@ msgstr "Statistiques !"
 
 #: templates/tf.html:3
 msgid "True"
-msgstr "Vrai"
+msgstr "Oui"
 
 #: templates/tf.html:5
 msgid "False"
-msgstr "Faux"
+msgstr "Non"
 
 #: templates/welcome.html:3
 msgid "welcome_message"
