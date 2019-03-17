@@ -58,8 +58,8 @@ msgstr ""
 "L'équipe du Gig-o-Matic"
 
 #: goemail.py:61
-msgid "Gig-o-Matic: Confirmé!"
-msgstr ""
+msgid "Gig-o-Matic: Confirmed!"
+msgstr "Gig-o-Matic: Confirmé!"
 
 #: goemail.py:62
 #, fuzzy
@@ -74,8 +74,8 @@ msgstr ""
 "L'équipe du Gig-o-Matic"
 
 #: goemail.py:65
-msgid "Gig-o-Matic - Réinitialser votre mot de passe"
-msgstr ""
+msgid "Gig-o-Matic Password Reset"
+msgstr "Gig-o-Matic - Réinitialser votre mot de passe"
 
 #: goemail.py:65
 msgid "forgot_password_email"
@@ -87,37 +87,37 @@ msgstr ""
 "L'équipe du Gig-o-Matic"
 
 #: goemail.py:93 templates/gig_edit.html:3 templates/gig_edit.html:15
-msgid "Mettre à jour un concert"
-msgstr ""
+msgid "Gig Edit"
+msgstr "Mettre à jour un concert"
 
 #: goemail.py:97
-msgid "Nouveau Concert :"
-msgstr ""
+msgid "New Gig:"
+msgstr "Nouveau Concert :"
 
 #: goemail.py:103 templates/gig_edit.html:103 templates/gig_info.html:88
-msgid "Heure de rassemblement"
-msgstr ""
+msgid "Call Time"
+msgstr "Heure de rassemblement"
 
 #: goemail.py:107 templates/gig_edit.html:107 templates/gig_info.html:96
-msgid "Heure du concert"
-msgstr ""
+msgid "Set Time"
+msgstr "Heure du concert"
 
 #: goemail.py:111 templates/gig_edit.html:111 templates/gig_info.html:99
-msgid "Heure de fin"
-msgstr ""
+msgid "End Time"
+msgstr "Heure de fin"
 
 #: goemail.py:113 templates/gig_edit.html:38 templates/gig_info.html:54
-msgid "Non confirmé"
-msgstr ""
+msgid "Unconfirmed"
+msgstr "Non confirmé"
 
 #: goemail.py:113 templates/gig_edit.html:41 templates/gig_info.html:50
-msgid "Confirmé !"
-msgstr ""
+msgid "Confirmed!"
+msgstr "Confirmé !"
 
 #: goemail.py:113 templates/agenda_plan_edit.html:137
 #: templates/gig_edit.html:44 templates/gig_info.html:52
-msgid "Annulé !"
-msgstr ""
+msgid "Cancelled!"
+msgstr "Annulé !"
 
 #: goemail.py:121
 msgid "edited_gig_email"
@@ -269,7 +269,7 @@ msgstr "Le mot de passe doit comporter au moins {0} caractères"
 
 #: templates/agenda.html:4 templates/agenda.html:10 templates/navbar.html:17
 msgid "Schedule"
-msgstr "Agenda"
+msgstr "Liste des concerts "
 
 #: templates/agenda.html:12 templates/calview.html:10 templates/grid.html:11
 msgid "Make this my default view!"
@@ -787,7 +787,7 @@ msgstr ""
 
 #: templates/comments.html:11 templates/forum_posts.html:12
 msgid "Somebody"
-msgstr "Quelqu'un'"
+msgstr "Quelqu'un"
 
 #: templates/comments.html:13 templates/forum_posts.html:14
 msgid "said on"
@@ -838,15 +838,15 @@ msgstr "Gig-O-Matic, version 2 !"
 #: templates/credits.html:22
 msgid "credits_text"
 msgstr ""
-"Créé par Aaron Oppenheimer, du Second Line Social Aid& Pleasure Society"
+"Créé par Aaron Oppenheimer, Second Line Social Aid & Pleasure Society "
 "Brass Band. Beta-testé par quelques membres intrépides du groupe. Testé et approuvé par "
 "tout le groupe.  WOO!<br><br>Traduction Italienne de Marcello "
 "Jatosti. Meraviglioso!<br>Traduction Allemande de Christian Neumayer. "
-"Ausgezeichnet!<br>Traduction Française de Benoît Rosa. Incroyable!"
+"Ausgezeichnet!<br>Traduction Française de Benoît Rosa. Incroyable !"
 
 #: templates/credits.html:33
 msgid "credits_text2"
-msgstr "Le Gig-o-Matic utilise les logiciels fantastiques (et open source) suivants:"
+msgstr "Le Gig-o-Matic utilise les fantastiques logiciels (open source) suivants :"
 
 #: templates/credits.html:59
 msgid "credits_text3"
@@ -855,8 +855,8 @@ msgstr ""
 "href=\"https://github.com/SecondLiners/GO2.git\">github</a> - fork et contributions encouragés ! "
 
 #: templates/credits.html:59
-msgid "Le changelog se trouve <a href=\"/changelog\">ici</a>."
-msgstr ""
+msgid "Look <a href=\"/changelog\">here</a> for the change log."
+msgstr "Le changelog se trouve <a href=\"/changelog\">ici</a>."
 
 #: templates/crypto_admin.html:3 templates/navbar.html:61
 msgid "CryptoKey Admin"
@@ -1018,7 +1018,7 @@ msgstr "Cachet"
 #: templates/gig_archived_info.html:51 templates/gig_edit.html:131
 #: templates/gig_info.html:126
 msgid "Leader"
-msgstr "Chef d'orchestre'"
+msgstr "Chef"
 
 #: templates/gig_archived_info.html:58 templates/gig_edit.html:141
 #: templates/gig_info.html:140
@@ -1044,7 +1044,7 @@ msgstr ""
 
 #: templates/gig_edit.html:13
 msgid "New Gig for "
-msgstr "Nouveau concert de"
+msgstr "Nouveau concert de "
 
 #: templates/gig_edit.html:23
 msgid "Gig Title"
@@ -1160,7 +1160,7 @@ msgstr "Envoyer la mise à jour aux membres occasionnels"
 
 #: templates/gig_edit.html:186
 msgid "Hide gig from calendars"
-msgstr "Ne pas ajouer dans les agendas"
+msgstr "Ne pas ajouter dans les agendas"
 
 #: templates/gig_edit.html:194
 msgid "Move To Trash"
@@ -1289,8 +1289,8 @@ msgid "Help!"
 msgstr "Aide"
 
 #: templates/help.html:14
-msgid "Comment fais-je pour ..."
-msgstr ""
+msgid "How do I..."
+msgstr "Comment fais-je pour ..."
 
 #: templates/help.html:16
 msgid "help_question_1"
@@ -1307,7 +1307,7 @@ msgstr ""
 
 #: templates/help.html:17
 msgid "help_question_2"
-msgstr "... change de section ?"
+msgstr "... changer de section ?"
 
 #: templates/help.html:17
 msgid "help_answer_2"
