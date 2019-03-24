@@ -68,72 +68,63 @@ div.scrollthing {
                 <span id="dateicon"><i class="fas fa-calendar"></i></span>
             </div>
         </div>
-        {% if the_gigs %}
-            <table class="table">
-                <tr>
-                    <td colspan=2 style="white-space: nowrap;">
-                    </td>
-                    {% for gig in the_gigs %}
-                        <td align="middle">{{ the_date_formatter(the_user,gig.date,'short') }}<br>({{ the_date_formatter(the_user,gig.date,'day') }})</td>
-                    {% endfor %}
-                    <td width="100%"></td>
-                </tr>
-                <tr>
-                    <td colspan=2></td>
-                    {% for gig in the_gigs %}
-                        <td align="middle"><a href="/gig_info.html?gk={{gig.key.urlsafe()}}">{{ gig.title }}</a>
-                        {% if gig.is_archived %}
-                            ({% trans %}archived{% endtrans %})
-                        {% else %}
-                            {% if gig.status==1 %}
-                                <i class="fas fa-check-circle" style="color:green"></i>
-                            {% elif gig.status==2 %}
-                                <i class="fas fa-times-circle" style="color:red"></i>
-                            {% else %}
-                                <i class="fas fa-question-circle" style="color:orange"></i>
-                            {% endif %}                    
-                        {% endif %}</td>
-                    {% endfor %}
-                </tr>
-                {% for section in the_member_assocs_by_section %}
-                    {% for assoc in section[1] %}
-                        {% set member = assoc.member %}
-                        <tr>
-                            {% if loop.first %}
-                                <td rowspan="{{section[1]|length}}">
-                                    {% if section[0] %}
-                                        {{ section[0].get().name }}
-                                    {% else %}
-                                        {% trans %}No Section{% endtrans %}
-                                    {% endif %}
-                                </td>
-                            {% endif %}
-                            <td  style="white-space: nowrap;
-                                {% if member == the_user.key %}
-                                    background:#f5f5f5;"
-                                {% endif %}
-                            ">
-                                {% set the_member = member.get() %}
-                                <a href="/member_info.html?mk={{member.urlsafe()}}">{% if the_member.nickname %}{{the_member.nickname}}{% else %}{{ the_member.name }}{% endif %}</a>
-                            </td>
-                            {% for gig in the_gigs %}
-                                <td  style="white-space: nowrap;
-                                {% if member == the_user.key %}
-                                    background:#f5f5f5;
-                                {% endif %}
-                                " align="middle">{% if gig.is_archived == False and gig.status != 2 %}{{ plan_icon.icon(the_plans[member][gig.key]) }}{% endif %}</td>
-                            {% endfor %}
-                        </tr>
-                    {% endfor %}
+        <table class="table" id="thetable">
+            <tr id="title1">
+                <td colspan=2 style="white-space: nowrap;">
+                </td>
+                {% for gig in the_gigs %}
+                    <td align="middle">{{ the_date_formatter(the_user,gig.date,'short') }}<br>({{ the_date_formatter(the_user,gig.date,'day') }})</td>
                 {% endfor %}
-            </table>
-        {% else %}
-            <div class="row">
-                <div class="mx-auto">
-                    {% trans %}No Gigs!{% endtrans %}
-                </div>
-            </div>
-        {% endif %}
+            </tr>
+            <tr id="title2">
+                <td colspan=2></td>
+                {% for gig in the_gigs %}
+                    <td align="middle"><a href="/gig_info.html?gk={{gig.key.urlsafe()}}">{{ gig.title }}</a>
+                    {% if gig.is_archived %}
+                        ({% trans %}archived{% endtrans %})
+                    {% else %}
+                        {% if gig.status==1 %}
+                            <i class="fas fa-check-circle" style="color:green"></i>
+                        {% elif gig.status==2 %}
+                            <i class="fas fa-times-circle" style="color:red"></i>
+                        {% else %}
+                            <i class="fas fa-question-circle" style="color:orange"></i>
+                        {% endif %}                    
+                    {% endif %}</td>
+                {% endfor %}
+            </tr>
+            {% for section in the_member_assocs_by_section %}
+                {% for assoc in section[1] %}
+                    {% set member = assoc.member %}
+                    <tr id={{member.urlsafe()}}>
+                        {% if loop.first %}
+                            <td rowspan="{{section[1]|length}}">
+                                {% if section[0] %}
+                                    {{ section[0].get().name }}
+                                {% else %}
+                                    {% trans %}No Section{% endtrans %}
+                                {% endif %}
+                            </td>
+                        {% endif %}
+                        <td  style="white-space: nowrap;
+                            {% if member == the_user.key %}
+                                background:#f5f5f5;"
+                            {% endif %}
+                        ">
+                            {% set the_member = member.get() %}
+                            <a href="/member_info.html?mk={{member.urlsafe()}}">{% if the_member.nickname %}{{the_member.nickname}}{% else %}{{ the_member.name }}{% endif %}</a>
+                        </td>
+                        {% for gig in the_gigs %}
+                            <td  style="white-space: nowrap;
+                            {% if member == the_user.key %}
+                                background:#f5f5f5;
+                            {% endif %}
+                            " align="middle">{% if gig.is_archived == False and gig.status != 2 %}{{ plan_icon.icon(the_plans[member][gig.key]) }}{% endif %}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            {% endfor %}
+        </table>
     </div>
 </div>
 
@@ -162,6 +153,52 @@ $('#dateicon').datepicker({
 }).on('changeDate', function(ev){
     window.location.assign("/grid.html?bk={{the_band_key.urlsafe()}}&m="+(ev.date.getMonth()+1)+"&y="+(ev.date.getFullYear()))
 });
+
+function loadGigs() {
+    $.post('/gridgigs',
+        {
+            m : {{ the_month }},
+            y : {{ the_year }},
+            bk : "{{the_band_key.urlsafe()}}"
+        },
+        function(responseTxt,statusTxt,xhr){
+            if(statusTxt=="success")
+                updateGigs(JSON.parse(responseTxt))
+            if(statusTxt=="error")
+                alert("Error: "+xhr.status+": "+xhr.statusText);
+        });
+};
+
+function updateGigs(gigs) {
+    titlerow=document.querySelector("#title1");
+    daterow=document.querySelector("#title2");
+    memberrows=document.querySelector("#thetable").children[0].children
+    for (var i=0; i<gigs.length; i++) {
+        gig = gigs[i];
+        var newel = document.createElement('td');
+        newel.setAttribute('id',gig.key);
+        newel.innerHTML = gig.title;
+        titlerow.appendChild(newel);
+
+        newel = document.createElement('td');
+        newel.innerHTML = gig.date;
+        daterow.appendChild(newel)        
+
+        for (var j=2; j<memberrows.length; j++) {
+            newel = document.createElement('td');
+            newel.innerHTML = '?';
+            memberrows[j].appendChild(newel);
+        }
+    }
+    var newel = document.createElement('td');
+    newel.setAttribute('width','100%');
+    titlerow.appendChild(newel);
+}
+
+$(document).ready(function() {
+    loadGigs();
+});
+
 
 // $('#grid_date').datepicker({
 //                                 todayBtn: 'linked',

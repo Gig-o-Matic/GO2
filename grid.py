@@ -8,6 +8,7 @@ import gig
 import plan
 import band
 import assoc
+import json
 
 from debug import debug_print
     
@@ -70,7 +71,8 @@ class MainPage(BaseHandler):
         if the_user.preferences and the_user.preferences.hide_canceled_gigs:
             show_canceled=False
 
-        the_gigs = gig.get_gigs_for_band_key_for_dates(the_band_key, start_date, end_date, get_canceled=show_canceled)
+        the_gigs=[]
+        # the_gigs = gig.get_gigs_for_band_key_for_dates(the_band_key, start_date, end_date, get_canceled=show_canceled)
 
         all_plans = []
         for g in the_gigs:
@@ -79,17 +81,17 @@ class MainPage(BaseHandler):
         the_member_assocs = band.get_assocs_of_band_key_by_section_key(the_band_key, include_occasional=False)
 
         the_plans = {}
-        for section in the_member_assocs:
-            for an_assoc in section[1]:
-                member_key = an_assoc.member
-                member_plans = {}
-                for i in range(0,len(the_gigs)):
-                    gig_plans = all_plans[i]
-                    for p in gig_plans:
-                        if p.member == member_key:
-                            member_plans[p.key.parent()] = p.value
-                            break
-                the_plans[member_key] = member_plans
+        # for section in the_member_assocs:
+        #     for an_assoc in section[1]:
+        #         member_key = an_assoc.member
+        #         member_plans = {}
+        #         for i in range(0,len(the_gigs)):
+        #             gig_plans = all_plans[i]
+        #             for p in gig_plans:
+        #                 if p.member == member_key:
+        #                     member_plans[p.key.parent()] = p.value
+        #                     break
+        #         the_plans[member_key] = member_plans
 
 
 
@@ -118,3 +120,58 @@ class MainPage(BaseHandler):
             'grid_is_active' : True
         }
         self.render_template('grid.html', template_args)
+
+
+class GridGigs(BaseHandler):
+
+    @user_required
+    def post(self):    
+        """ get handler for grid view """
+        self._get_gigs(the_user=self.user)
+
+    def _get_gigs(self, the_user):
+        # find the band we're interested in
+        band_key_str=self.request.get("bk", None)
+        if band_key_str is None:
+            the_band_key = the_band_keys[0]
+        else:
+            the_band_key = ndb.Key(urlsafe=band_key_str)
+
+        month_str=self.request.get("m",None)
+        year_str=self.request.get("y",None)
+        if month_str==None or year_str==None:
+            start_date = datetime.datetime.now().replace(day=1)
+        else:
+            delta=0
+            delta_str=self.request.get("d",None)
+            if delta_str != None:
+                delta=int(delta_str)
+            year=int(year_str)
+            month=int(month_str)
+            month=month+delta
+            if month>12:
+                month = 1
+                year = year+1
+            if month<1:
+                month=12
+                year = year-1
+            start_date = datetime.datetime(year=year, month=month, day=1)
+        
+        end_date = start_date
+        if (end_date.month < 12):
+            end_date = end_date.replace(month = end_date.month + 1, day = 1)
+        else:
+            end_date = end_date.replace(year = end_date.year + 1, month=1, day=1)
+
+        show_canceled=True
+
+        the_gigs = gig.get_gigs_for_band_key_for_dates(the_band_key, start_date, end_date, get_canceled=show_canceled)
+        ret = []
+        for g in the_gigs:
+            giginfo={}
+            giginfo['key'] = g.key.urlsafe()
+            giginfo['title'] = g.title
+            giginfo['date'] = str(g.date)
+            ret.append(giginfo)
+
+        self.response.write(json.dumps(ret))
