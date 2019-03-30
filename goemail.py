@@ -112,6 +112,11 @@ def send_newgig_email(the_member, the_gig, the_band, the_gig_url, is_edit=False,
     the_date_string = "{0} ({1})".format(member.format_date_for_member(the_member, the_gig.date),
                                        member.format_date_for_member(the_member, the_gig.date, "day"))
 
+    if the_gig.enddate:
+        the_date_string = "{0} - {1} ({2})".format( the_date_string,
+                                                    member.format_date_for_member(the_member, the_gig.enddate),
+                                                    member.format_date_for_member(the_member, the_gig.enddate, "day"))
+
     the_time_string = ""
     if the_gig.calltime:
         the_time_string = u'{0} ({1})'.format(the_gig.calltime, _('Call Time'))
