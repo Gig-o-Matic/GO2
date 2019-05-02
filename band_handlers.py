@@ -544,11 +544,11 @@ class ConfirmMember(BaseHandler):
         the_member_keyurl=self.request.get('mk','0')
         the_band_keyurl=self.request.get('bk','0')
         
-        if the_member_keyurl=='0' or the_band_keyurl=='0':
+        if the_member_keyurl == '0' or the_band_keyurl == '0':
             return # todo what to do?
             
-        the_member_key=ndb.Key(urlsafe=the_member_keyurl)
-        the_band_key=ndb.Key(urlsafe=the_band_keyurl)
+        the_member_key = ndb.Key(urlsafe=the_member_keyurl)
+        the_band_key = band.band_key_from_urlsafe(the_band_keyurl)
 
         if not is_authorized_to_edit_band(the_band_key,the_user):
             return                
