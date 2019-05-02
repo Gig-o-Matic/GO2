@@ -131,20 +131,23 @@ def get_band_from_condensed_name(band_name):
     else:
         return None
 
+
 def get_band_from_key(key):
     """ Return band objects by key"""
     return key.get()
 
+
 def get_band_from_id(id):
     """ Return band object by id"""
-
     return Band.get_by_id(int(id), parent=band_key()) # todo more efficient if we use the band because it's the parent?
-    
+
+
 def get_all_bands(keys_only=False):
     """ Return all objects"""
     bands_query = Band.lquery(ancestor=band_key()).order(Band.lower_name)
     all_bands = bands_query.fetch(keys_only=keys_only)
     return all_bands
+
 
 def get_section_keys_of_band_key(the_band_key):
     the_band = the_band_key.get()
@@ -152,6 +155,7 @@ def get_section_keys_of_band_key(the_band_key):
         return the_band.sections
     else:
         return []
+
 
 def get_assocs_of_band_key_by_section_key(the_band_key, include_occasional=True):
     the_band = the_band_key.get()
