@@ -46,8 +46,6 @@ def get_band_stats(the_band_key, today=False):
     stats_query = BandStats.query( *args).order(-BandStats.date)
     the_stats = stats_query.fetch(limit=30)
 
-    print("found {0} stats for band {1}".format(len(the_stats), the_band_key.get().name))
-
     return the_stats
 
 def get_today_stats(the_band_key):
