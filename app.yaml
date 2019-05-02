@@ -41,6 +41,9 @@ handlers:
 - url: /font-awesome
   static_dir: font-awesome
   
+- url: /.well-known
+  static_dir: .well-known
+  
 - url: /signup
   script: main.APPLICATION
   secure: always
