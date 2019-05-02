@@ -54,6 +54,7 @@ else:
         # REST endpoints
 
         webapp2.Route('/api/authenticate', login.RestLoginEndpoint),
+        webapp2.Route('/api/session', login.RestSessionEndpoint),
         webapp2.Route('/api/logout', login.RestLogoutEndpoint),
         webapp2.Route('/api/agenda', agenda.RestEndpoint),
 

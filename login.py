@@ -544,3 +544,10 @@ class RestLogoutEndpoint(BaseHandler):
     @CSOR_Jsonify
     def post(self, *args, **kwargs):
         return _doLogout(self)
+
+
+class RestSessionEndpoint(BaseHandler):
+    @rest_user_required
+    @CSOR_Jsonify
+    def post(self, *args, **kwargs):
+        return 0
