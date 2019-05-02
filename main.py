@@ -15,7 +15,6 @@ import credits
 import maintenance
 import stats
 import caldav
-import activity
 import jinja2ext
 import os
 import cryptoutil
@@ -167,7 +166,6 @@ else:
         webapp2.Route('/band_get_public_members', band.GetPublicMembers),
         webapp2.Route('/band_invite.html', band.InvitePage),
         webapp2.Route('/band_send_invites', band.SendInvites),
-        webapp2.Route('/band_activity', activity.MainPage),
         webapp2.Route('/band_gig_archive', band.GigArchivePage),
         webapp2.Route('/band_gig_trashcan', band.GigTrashcanPage),
         webapp2.Route('/calevents', calview.CalEvents),
