@@ -30,6 +30,7 @@ import rss
 import jinja2ext
 import logging
 import gigoexceptions
+import stats
 
 from pytz.gae import pytz
 from webapp2_extras.i18n import gettext as _
@@ -135,6 +136,8 @@ def new_gig(the_band, title, creator, date=None, contact=None, details="", setli
                     details=details, setlist=setlist, date=date, calltime=call, \
                     creator=creator)
     the_gig.put()
+    stats.update_band_gigs_created_stats(the_band.key)
+    
     return the_gig
                 
 def get_gig_from_key(key):

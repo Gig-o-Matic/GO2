@@ -10,6 +10,7 @@ import logging
 import re
 import pickle
 import os
+import stats
 
 from webapp2_extras import i18n
 from webapp2_extras.i18n import gettext as _
@@ -214,6 +215,8 @@ class AnnounceNewGigHandler(webapp2.RequestHandler):
                     })
         
         logging.info('announced gig {0}'.format(the_gig_key))
+
+        stats.update_band_email_stats(the_band_key, len(recipient_assocs))
 
         self.response.write( 200 )
 

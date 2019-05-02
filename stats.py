@@ -18,6 +18,7 @@ import member
 
 import logging
 import json
+import datetime
 
 def stats_key(member_name='stats_key'):
     """Constructs a Datastore key for a Stats entity with stats_name."""
@@ -27,19 +28,41 @@ class BandStats(ndb.Model):
     """ class to hold statistics """
     band = ndb.KeyProperty()
     date = ndb.DateProperty(auto_now_add=True)
-    number_members = ndb.IntegerProperty()
-    number_upcoming_gigs = ndb.IntegerProperty()
-    number_gigs_created_today = ndb.IntegerProperty()
+    number_members = ndb.IntegerProperty(default=0)
+    number_upcoming_gigs = ndb.IntegerProperty(default=0)
+    number_gigs_created_today = ndb.IntegerProperty( default = 0)
+    number_emails_sent_today = ndb.IntegerProperty(default = 0)
     
-def get_band_stats(the_band_key):
+def get_band_stats(the_band_key, today=False):
     """ Return all the stats we have for a band """
-    stats_query = BandStats.query( BandStats.band==the_band_key).order(-BandStats.date)
+    args = [
+        BandStats.band==the_band_key
+    ]
+
+    if today:
+        date = datetime.datetime.today() - datetime.timedelta(days=1)
+        args.append( BandStats.date > date )
+
+    stats_query = BandStats.query( *args).order(-BandStats.date)
     the_stats = stats_query.fetch(limit=30)
+
+    print("found {0} stats for band {1}".format(len(the_stats), the_band_key.get().name))
+
     return the_stats
-    
+
+def get_today_stats(the_band_key):
+    today_stats = get_band_stats(the_band_key = the_band_key, today = True)
+    if len(today_stats) == 0:
+        the_stats = BandStats(band=the_band_key)
+        print("making new stats")
+    else:
+        the_stats = today_stats[0]
+        print("updating today's stats")
+    return the_stats    
+
 def make_band_stats(the_band_key):
     """ make a stats object for a band key and return it """
-    the_stats = BandStats(band=the_band_key)
+    the_stats = get_today_stats(the_band_key)
 
     all_member_keys = assoc.get_member_keys_of_band_key(the_band_key)
     the_stats.number_members = len(all_member_keys)
@@ -54,11 +77,22 @@ def make_band_stats(the_band_key):
     
     the_stats.put()
 
+def update_band_gigs_created_stats(the_band_key):
+    the_stats = get_today_stats(the_band_key)
+    the_stats.number_gigs_created_today += 1
+    the_stats.put()
+
+def update_band_email_stats(the_band_key, number_sent):
+    the_stats = get_today_stats(the_band_key)
+    the_stats.number_emails_sent_today += number_sent
+    the_stats.put()
+
 def delete_band_stats(the_band_key):
     """ delete all stats for a band """
     stats_query = BandStats.query( BandStats.band==the_band_key)
     the_stats = stats_query.fetch(keys_only=True)
     ndb.delete_multi(the_stats)
+
 
 #####
 #
@@ -84,7 +118,7 @@ class StatsPage(BaseHandler):
         for a_band in the_bands:
             is_band_active=False
                 
-            a_stat = get_band_stats(a_band.key)
+            a_stat = get_band_stats(a_band.key, today=False)
             
             the_count_data=[]
 
@@ -93,7 +127,8 @@ class StatsPage(BaseHandler):
                 if s.number_upcoming_gigs > 0:
                     is_band_active = True
                 for s in a_stat:
-                    the_count_data.append([s.date.year, s.date.month-1, s.date.day, s.number_members, s.number_upcoming_gigs])
+                    print("EMAIL: {0} {1}".format(s.number_emails_sent_today,s.number_gigs_created_today))
+                    the_count_data.append([s.date.year, s.date.month-1, s.date.day, s.number_members, s.number_upcoming_gigs, s.number_gigs_created_today, s.number_emails_sent_today])
 
                 if is_band_active:
                     the_count_data_json=json.dumps(the_count_data)
