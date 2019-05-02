@@ -4,31 +4,34 @@
 
 {% block content %}
     <div class="row">
-        <div class="page-header col-md-8 col-md-offset-2">
+        <div class="page-header col-md-11 col-12">
             {% trans %}Stats!{% endtrans %}
         </div>
     </div>
     <div class="row">
-        <div class="col-md-5 col-md-offset-2">{{ num_members }} members in {{ num_active_bands }} active bands!</div>
+        <div class="col-md-11 col-12">{{ num_members }} members in {{ num_active_bands }} active bands!</div>
         <br><br>
     </div> 
     {% for stat in the_stats %}
         <div class="row">
-            <div class="col-md-8 col-md-offset-2">
+            <div class="col-md-11 col-12">
                 <hr>
             </div>
         </div>            
         <div class="row">
-            <div class="col-md-8 col-md-offset-2">
+            <div class="col-12">
                 <a href="/band_info.html?bk={{stat[0].key.urlsafe()}}">{{ stat[0].name }}</a> ( created {{ stat[0].created }} )
             </div>
         </div>
         <div class="row">
-            <div class="col-md-4 col-md-offset-2">
+            <div class="col-4">
                 <div id="memberstats-{{stat[0].key.urlsafe()}}"></div>
             </div>
-            <div class="col-md-4">
+            <div class="col-4">
                 <div id="gigstats-{{stat[0].key.urlsafe()}}" style="width:100%;"></div>
+            </div>
+            <div class="col-4">
+                <div id="createstats-{{stat[0].key.urlsafe()}}" style="width:100%;"></div>
             </div>
         </div>
     {% endfor %}
@@ -123,6 +126,51 @@ function makegigchart(which,counts) {
     });
 }
 
+function makecreatechart(which,createcounts,emailcounts) { 
+    $('#createstats-'+which).highcharts({
+        chart: {
+            type: 'line',
+            height: 200,
+            width: 300
+        },
+        title: {
+            text: 'Number of Gigs Creates + Emails Sent'
+        },
+        plotOptions: {
+            line: {
+                marker: {
+                    enabled: false
+                }
+            }
+        },
+        xAxis: {
+            type: 'datetime'
+        },
+        yAxis: {
+            allowDecimals: false,
+            min: 0,
+            title: {
+                text: 'Count'}
+        },
+        series: [
+            {
+                data: createcounts,
+                name: 'gigs'
+            },
+            {
+                data: emailcounts,
+                name: 'email'
+            }
+        ],
+        legend: {
+            enabled: false
+        },
+        credits: {
+            enabled: false
+        }
+    });
+}
+
 $(function () {
     {% for s in the_stats %}
         var stats=jQuery.parseJSON('{{s[1]|safe}}')
@@ -137,6 +185,16 @@ $(function () {
             the_gig_data.push(new Array(Date.UTC(stats[i][0],stats[i][1],stats[i][2]),stats[i][4]))
         }
         makegigchart('{{s[0].key.urlsafe()}}',the_gig_data)
+
+        var the_create_data=new Array()
+        var the_email_data=new Array()
+        for (var i=0; i<stats.length; i++) {
+            the_create_data.push(new Array(Date.UTC(stats[i][0],stats[i][1],stats[i][2]),stats[i][5]))
+            the_email_data.push(new Array(Date.UTC(stats[i][0],stats[i][1],stats[i][2]),stats[i][6]))
+        }
+        makecreatechart('{{s[0].key.urlsafe()}}',the_create_data, the_email_data)
+
+
     {% endfor %} 
 });
 
