@@ -12,25 +12,19 @@ from restify import rest_user_required, CSOR_Jsonify
 import webapp2_extras.appengine.auth.models
 
 import webapp2
-from debug import *
-
-import debug
 import band
 import member
 import goemail
 import assoc
 import gig
 import plan
-import json
 import logging
 import datetime
-import stats
 import json
 import string
 import rss
 import gigoexceptions
 from pytz.gae import pytz
-
 
 
 class InfoPage(BaseHandler):
@@ -42,7 +36,7 @@ class InfoPage(BaseHandler):
         
         if 'band_name' in kwargs:
             band_name = kwargs['band_name']
-            the_band = get_band_from_condensed_name(band_name)
+            the_band = band.get_band_from_condensed_name(band_name)
             if the_band:
                 self._make_page(None, the_band)
             else:
@@ -58,12 +52,12 @@ class InfoPage(BaseHandler):
         
         # find the band we're interested in
         if the_band is None:
-            band_key_str=self.request.get("bk", None)
+            band_key_str = self.request.get("bk", None)
             if band_key_str is None:
                 self.response.write('no band key passed in!')
                 return # todo figure out what to do if there's no ID passed in
             the_band_key = band.band_key_from_urlsafe(band_key_str)
-            the_band=the_band_key.get()
+            the_band = the_band_key.get()
 
         if the_band is None:
             self.response.write('did not find a band!')
@@ -83,7 +77,7 @@ class InfoPage(BaseHandler):
         if the_user_admin_status or the_user_is_superuser:
             the_pending = assoc.get_pending_members_from_band_key(the_band_key)
             the_invited_assocs = assoc.get_invited_member_assocs_from_band_key(the_band_key)
-            the_invited=[(x.key, x.member.get().name) for x in the_invited_assocs]
+            the_invited = [(x.key, x.member.get().name) for x in the_invited_assocs]
         else:
             the_pending = []
             the_invited = []
@@ -94,24 +88,25 @@ class InfoPage(BaseHandler):
             link_list = the_band.member_links.split('\n')
             for l in link_list:
                 link_info = l.split(':',1)
-                if len(link_info)==2:
+                if len(link_info) == 2:
                     member_links.append([link_info[0].strip(), link_info[1].strip()])
 
         template_args = {
             'the_band' : the_band,
-            'the_user_is_associated' : the_user_is_associated,
-            'the_user_is_confirmed' : the_user_is_confirmed,
-            'the_user_is_band_admin' : the_user_admin_status,
-            'the_pending_members' : the_pending,
-            'the_invited_members' : the_invited,
-            'the_member_links' : member_links,
-            'num_sections' : len(the_band.sections)
+            'the_user_is_associated': the_user_is_associated,
+            'the_user_is_confirmed': the_user_is_confirmed,
+            'the_user_is_band_admin': the_user_admin_status,
+            'the_pending_members': the_pending,
+            'the_invited_members': the_invited,
+            'the_member_links': member_links,
+            'num_sections': len(the_band.sections)
 
         }
         self.render_template('band_info.html', template_args)
 
         # todo make sure the admin is really there
-        
+
+
 class EditPage(BaseHandler):
 
     @user_required
@@ -131,9 +126,9 @@ class EditPage(BaseHandler):
             is_new=True
         else:
             is_new=False
-            the_band_key_str=self.request.get("bk",'0')
+            the_band_key_str=self.request.get("bk", '0')
 
-            if the_band_key_str=='0':
+            if the_band_key_str == '0':
                 return
             else:
                 the_band_key = band.band_key_from_urlsafe(the_band_key_str)
@@ -148,10 +143,10 @@ class EditPage(BaseHandler):
                     return # todo figure out what to do if we didn't find it
 
         template_args = {
-            'the_band' : the_band,
-            'timezones' : pytz.common_timezones,
-            'newmember_is_active' : is_new,
-            'is_new' : is_new
+            'the_band': the_band,
+            'timezones': pytz.common_timezones,
+            'newmember_is_active': is_new,
+            'is_new': is_new
         }
         self.render_template('band_edit.html', template_args)
                     

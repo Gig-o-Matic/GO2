@@ -20,7 +20,6 @@ import os
 import cryptoutil
 import goemail
 import rss
-import restify
 
 CONFIG = {
     'webapp2_extras.auth': {
@@ -45,7 +44,7 @@ CONFIG = {
     }
 }
 
-if False: # maintenance mode?
+if False:  # maintenance mode?
     APPLICATION = webapp2.WSGIApplication([(r'/.*', maintenance.MaintenancePage)], config=CONFIG, debug=True)
 else:
     APPLICATION = webapp2.WSGIApplication([
@@ -141,7 +140,7 @@ else:
         webapp2.Route('/gig_restore_trashed', gig.RestoreHandler),
         webapp2.Route('/gig_add_comment', gig.CommentHandler),
         webapp2.Route('/gig_get_comment', gig.GetCommentHandler),
-        webapp2.Route('/gig_answerlink',gig.AnswerLinkHandler, name="gig_answerlink"),
+        webapp2.Route('/gig_answerlink', gig.AnswerLinkHandler, name="gig_answerlink"),
         webapp2.Route('/print_setlist', gig.PrintSetlist),
         webapp2.Route('/print_planlist', gig.PrintPlanlist),
         webapp2.Route('/member_spreadsheet', band_handlers.MemberSpreadsheet),
@@ -183,8 +182,8 @@ else:
         webapp2.Route('/cal/m/<mk:.+>', caldav.MemberRequestHandler),
         webapp2.Route('/cal/p/<bk:.+>', caldav.PublicBandGigRequestHandler),
         webapp2.Route('/calhelp', caldav.HelpHandler),
-        webapp2.Route('/announce_new_gig_handler',goemail.AnnounceNewGigHandler),
-        webapp2.Route('/send_new_gig_handler',goemail.SendNewGigHandler),
-        webapp2.Route('/rss/<bk:.+>',rss.GetRssHandler),
-        webapp2.Route('/make_rss_feed_handler',rss.MakeRssFeedHandler)
+        webapp2.Route('/announce_new_gig_handler', goemail.AnnounceNewGigHandler),
+        webapp2.Route('/send_new_gig_handler', goemail.SendNewGigHandler),
+        webapp2.Route('/rss/<bk:.+>', rss.GetRssHandler),
+        webapp2.Route('/make_rss_feed_handler', rss.MakeRssFeedHandler)
     ], config=CONFIG, debug=True)
