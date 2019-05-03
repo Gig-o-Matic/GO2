@@ -231,8 +231,12 @@ def create_new_member(email, name, password):
         email_address=email, name=name, password_raw=password,
         verified=False, preferences=MemberPreferences())
     return user_data
-        
-        
+
+
+def member_key_from_urlsafe(urlsafe):
+    return ndb.Key(urlsafe=urlsafe)
+
+
 def get_all_members(order=True, keys_only=False, verified_only=False, pagelen=0, page=0):
     """ Return all member objects """
 

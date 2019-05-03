@@ -547,7 +547,7 @@ class ConfirmMember(BaseHandler):
         if the_member_keyurl == '0' or the_band_keyurl == '0':
             return # todo what to do?
             
-        the_member_key = ndb.Key(urlsafe=the_member_keyurl)
+        the_member_key = member.member_key_from_urlsafe(the_member_keyurl)
         the_band_key = band.band_key_from_urlsafe(the_band_keyurl)
 
         if not is_authorized_to_edit_band(the_band_key,the_user):
@@ -579,7 +579,7 @@ class AdminMember(BaseHandler):
         if the_assoc_keyurl=='0' or the_do is None:
             return # todo figure out what to do
 
-        the_assoc = ndb.Key(urlsafe=the_assoc_keyurl).get()
+        the_assoc = assoc.assoc_key_from_urlsafe(the_assoc_keyurl).get()
 
         if not is_authorized_to_edit_band(the_assoc.band,the_user):
             return                
@@ -606,7 +606,7 @@ class MakeOccasionalMember(BaseHandler):
         if the_assoc_keyurl=='0' or the_do is None:
             return # todo figure out what to do
 
-        the_assoc = ndb.Key(urlsafe=the_assoc_keyurl).get()
+        the_assoc = assoc.assoc_key_from_urlsafe(the_assoc_keyurl).get()
         
         if is_authorized_to_edit_band(the_assoc.band,the_user) or the_user.key == the_assoc.member:
             the_assoc.is_occasional = (the_do=='true')
@@ -627,7 +627,7 @@ class RemoveMember(BaseHandler):
         if the_member_keyurl=='0' or the_band_keyurl=='0':
             return # todo figure out what to do
 
-        the_member_key = ndb.Key(urlsafe=the_member_keyurl)
+        the_member_key = member.member_key_from_urlsafe(the_member_keyurl)
         the_band_key = band.band_key_from_urlsafe(the_band_keyurl)
         
         if not is_authorized_to_edit_band(the_band_key,the_user):

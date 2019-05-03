@@ -46,6 +46,11 @@ class Assoc(ndb.Model):
             print('{0} query: {1}'.format(cls.__name__,args))
         return cls.query(*args, **kwargs)
 
+
+def assoc_key_from_urlsafe(urlsafe):
+    return ndb.Key(urlsafe=urlsafe)
+
+
 def get_member_keys_of_band_key(the_band_key):
     """ Return member objects by band"""        
     assoc_query = Assoc.lquery( Assoc.band==the_band_key, Assoc.is_confirmed==True ).order(Assoc.member_name)
