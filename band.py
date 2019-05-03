@@ -142,6 +142,14 @@ def get_section_keys_of_band_key(the_band_key):
         return []
 
 
+def get_sections_from_keys(the_section_keys):
+    return ndb.get_multi(the_section_keys)
+
+
+def delete_section_keys(the_sections):
+    ndb.delete_multi(the_sections)
+
+
 def get_assocs_of_band_key_by_section_key(the_band_key, include_occasional=True):
     the_band = the_band_key.get()
     the_info=[]

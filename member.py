@@ -237,6 +237,10 @@ def member_key_from_urlsafe(urlsafe):
     return ndb.Key(urlsafe=urlsafe)
 
 
+def get_members_from_keys(the_member_keys):
+    return ndb.get_multi(the_member_keys)
+
+
 def get_all_members(order=True, keys_only=False, verified_only=False, pagelen=0, page=0):
     """ Return all member objects """
 

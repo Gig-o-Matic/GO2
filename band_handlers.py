@@ -5,7 +5,6 @@
 # 24 August 2013
 #
 
-from google.appengine.ext import ndb
 from requestmodel import *
 from restify import rest_user_required, CSOR_Jsonify
 
@@ -320,7 +319,8 @@ class DeleteBand(BaseHandler):
             band.forget_band_from_key(the_band_key)
 
         return self.redirect('/band_admin')
-        
+
+
 class BandGetMembers(BaseHandler):
     """ returns the members related to a band """                   
 
@@ -330,13 +330,13 @@ class BandGetMembers(BaseHandler):
 
         the_band_key_str=self.request.get('bk','0')
         
-        if the_band_key_str=='0':
+        if the_band_key_str == '0':
             return # todo figure out what to do
             
         the_band_key = band.band_key_from_urlsafe(the_band_key_str)
 
         assocs = assoc.get_assocs_of_band_key(the_band_key=the_band_key, confirmed_only=True)
-        the_members = ndb.get_multi([a.member for a in assocs])
+        the_members = member.get_members_from_keys([a.member for a in assocs])
         
         the_members = sorted(the_members,key=lambda member: member.lower_name)
         # now sort the assocs to be in the same order as the member list
@@ -364,7 +364,7 @@ class BandGetMembers(BaseHandler):
                 the_user_is_band_admin = a.is_band_admin
                         
         the_section_keys = the_band_key.get().sections
-        the_sections = ndb.get_multi(the_section_keys)
+        the_sections = band.get_sections_from_keys(the_section_keys)
 
         template_args = {
             'the_band_key' : the_band_key,
@@ -390,7 +390,7 @@ class BandGetSections(BaseHandler):
 
         the_band = the_band_key.get()
 
-        the_section_index_str=self.request.get('ski',None)
+        the_section_index_str = self.request.get('ski',None)
         if the_section_index_str is None:
             the_section is None
         else:
@@ -408,19 +408,11 @@ class BandGetSections(BaseHandler):
             return
 
         member_keys = [a.member for a in the_assocs]
-        the_members=ndb.get_multi(member_keys)
+        the_members = member.get_members_from_keys(member_keys)
 
         # make sure members and assocs are in the right order
         the_members = sorted(the_members, key=lambda m: member_keys.index(m.key))
 
-        # someone_is_new = False
-        # lately = datetime.datetime.now() - datetime.timedelta(days=4)
-        # for a_section in the_members_by_section:
-        #     if a_section[1]:
-        #         for a in a_section[1]:
-        #             if a.created and a.created > lately:
-        #                 a.is_new=True
-        #                 someone_is_new = True
         someone_is_new = False
 
         the_user_is_band_admin = assoc.get_admin_status_for_member_for_band_key(the_user, the_band_key)
@@ -455,8 +447,7 @@ class SetupSections(BaseHandler):
             return        
 
         the_band = the_band_key.get()
-        the_sections = ndb.get_multi(the_band.sections)
-
+        the_sections = band.get_sections_from_keys(the_band.sections)
 
         the_info = []
         for s in the_sections:
@@ -516,16 +507,16 @@ class SetupSections(BaseHandler):
             the_deleted_sections = json.loads(deleted_section_info)
             if the_deleted_sections:
                 assoc_keys = []
-                dels = [band.section_key_from_urlsafe(x) for x in the_deleted_sections]
-                for d in dels:
+                section_keys_to_delete = [band.section_key_from_urlsafe(x) for x in the_deleted_sections]
+                for d in section_keys_to_delete:
                     assoc_keys += assoc.get_assocs_for_section_key(d, keys_only=True)
 
                 if assoc_keys:
-                    assocs = ndb.get_multi(assoc_keys)
+                    assocs = assoc.get_assocs_from_keys(assoc_keys)
                     for a in assocs:
                         a.default_section = None
-                    ndb.put_multi(assocs)
-                ndb.delete_multi(dels)
+                    assoc.save_assocs(assocs)
+                band.delete_section_keys(section_keys_to_delete)
 
         band.set_section_indices(the_band)
 
@@ -779,6 +770,7 @@ class GetUpcoming(BaseHandler):
         }
         self.render_template('band_upcoming.html', template_args)
 
+
 class GetPublicMembers(BaseHandler):
 
     def post(self):
@@ -790,7 +782,7 @@ class GetPublicMembers(BaseHandler):
         the_band_key = band.band_key_from_urlsafe(the_band_keyurl)
 
         the_member_keys = assoc.get_member_keys_of_band_key(the_band_key)
-        the_members = ndb.get_multi(the_member_keys)
+        the_members = member.get_members_from_keys(the_member_keys)
         the_public_members = [x for x in the_members if x.preferences and x.preferences.share_profile and x.verified]        
         
         template_args = {
@@ -891,10 +883,10 @@ class MemberSpreadsheet(BaseHandler):
         the_assocs = assoc.get_assocs_of_band_key(the_band_key)
 
         the_member_keys = [a.member for a in the_assocs]
-        the_members = ndb.get_multi(the_member_keys)
+        the_members = member.get_members_from_keys(the_member_keys)
 
-        section_keys = get_section_keys_of_band_key(the_band_key)
-        sections = ndb.get_multi(section_keys)
+        section_keys = band.get_section_keys_of_band_key(the_band_key)
+        sections = band.get_sections_from_keys(section_keys)
 
         section_map={}
         for s in sections:
@@ -934,7 +926,7 @@ class MemberEmails(BaseHandler):
         
         the_assocs = assoc.get_assocs_of_band_key(the_band_key)
         the_member_keys = [a.member for a in the_assocs]
-        the_members = ndb.get_multi(the_member_keys)
+        the_members = member.get_members_from_keys(the_member_keys)
         the_emails = [x.email_address for x in the_members if x.email_address is not None]
 
         template_args = {
@@ -1017,7 +1009,6 @@ def is_authorized_to_edit_band(the_band_key, the_user):
 
 def _RestBandInfo(the_band, the_assoc=None, include_id=True, name_only=False):
 
-
     obj = { k:getattr(the_band,k) for k in ('name','shortname') }
 
     if name_only==False:
@@ -1026,7 +1017,7 @@ def _RestBandInfo(the_band, the_assoc=None, include_id=True, name_only=False):
 
         # obj = { k:getattr(the_band,k) for k in ('name','shortname','description','simple_planning') }
         obj['plan_feedback'] = map(str.strip,str(the_band.plan_feedback).split("\n")) if the_band.plan_feedback else ""
-        the_sections = ndb.get_multi(the_band.sections)
+        the_sections = band.get_sections_from_keys(the_band.sections)
         obj['sections'] = [{'name':s.name, 'id':s.key.urlsafe()} for s in the_sections]
 
         if include_id:
@@ -1094,6 +1085,6 @@ class RestEndpointMembers(BaseHandler):
 
         the_assocs = assoc.get_confirmed_assocs_of_band_key(the_band_key, include_occasional=True)
         member_keys = [a.member for a in the_assocs]
-        members = ndb.get_multi(member_keys)
+        members = member.get_members_from_keys(member_keys)
         info = [member._RestMemberInfo(m, True) for m in members]
         return info
