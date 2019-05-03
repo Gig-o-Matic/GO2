@@ -8,8 +8,6 @@
 from requestmodel import *
 from restify import rest_user_required, CSOR_Jsonify
 
-import webapp2_extras.appengine.auth.models
-
 import webapp2
 import band
 import member
