@@ -5,7 +5,6 @@
 # 24 August 2013
 #
 
-from google.appengine.ext import ndb
 from requestmodel import *
 
 from restify import rest_user_required, CSOR_Jsonify
@@ -307,8 +306,8 @@ class ManageBandsNewAssoc(BaseHandler):
         if the_band_key=='0':
             raise Exception("Band not specified")
             
-        the_member=the_member_key.get()
-        the_band=ndb.Key(urlsafe=the_band_key).get()
+        the_member = the_member_key.get()
+        the_band = band.band_key_from_urlsafe(the_band_key).get()
         
         if assoc.get_assoc_for_band_key_and_member_key(the_band_key = the_band.key, the_member_key = the_member_key) is None:
             assoc.new_association(the_member, the_band)        
@@ -329,7 +328,7 @@ class ManageBandsDeleteAssoc(BaseHandler):
         if the_assoc_keyurl == '0':
             return # todo figure out what to do
         
-        the_assoc=ndb.Key(urlsafe=the_assoc_keyurl).get()
+        the_assoc = assoc.assoc_key_from_urlsafe(the_assoc_keyurl).get()
         
         the_member_key=the_assoc.member
         the_band_key=the_assoc.band
@@ -359,9 +358,9 @@ class SetSection(BaseHandler):
         if the_section_keyurl=='0' or the_member_keyurl=='0' or the_band_keyurl=='0':
             raise Exception("Section, member and band must all be specified.")
 
-        the_section_key=ndb.Key(urlsafe=the_section_keyurl)
-        the_member_key=ndb.Key(urlsafe=the_member_keyurl)
-        the_band_key=ndb.Key(urlsafe=the_band_keyurl)
+        the_section_key = band.section_key_from_urlsafe(the_section_keyurl)
+        the_member_key = member.member_key_from_urlsafe(the_member_keyurl)
+        the_band_key = band.band_key_from_urlsafe(the_band_keyurl)
 
         oktochange=False
         if (the_user.key == the_member_key or the_user.is_superuser):
@@ -384,7 +383,7 @@ class SetColor(BaseHandler):
         the_assoc_keyurl=self.request.get('ak','0')
         the_color=int(self.request.get('c','0'))
 
-        the_assoc_key = ndb.Key(urlsafe=the_assoc_keyurl)
+        the_assoc_key = assoc.assoc_key_from_urlsafe(the_assoc_keyurl)
         the_assoc = the_assoc_key.get()
 
         if the_assoc.member == the_user.key:
@@ -402,7 +401,7 @@ class SetGetEmail(BaseHandler):
         the_assoc_keyurl=self.request.get('ak','0')
         the_get_email= True if (self.request.get('em','0') == 'true') else False
 
-        the_assoc_key = ndb.Key(urlsafe=the_assoc_keyurl)
+        the_assoc_key = assoc.assoc_key_from_urlsafe(the_assoc_keyurl)
         the_assoc = the_assoc_key.get()
 
         if the_assoc.member == the_user.key or the_user.is_superuser:
@@ -422,7 +421,7 @@ class SetHideFromSchedule(BaseHandler):
 
         the_hide_me= True if (the_do == 'true') else False
 
-        the_assoc_key = ndb.Key(urlsafe=the_assoc_keyurl)
+        the_assoc_key = assoc.assoc_key_from_urlsafe(the_assoc_keyurl)
         the_assoc = the_assoc_key.get()
 
         the_user = self.user
@@ -447,8 +446,8 @@ class SetMulti(BaseHandler):
         if  the_do=='':
             return
 
-        the_band_key=ndb.Key(urlsafe=the_band_keyurl)
-        the_member_key=ndb.Key(urlsafe=the_member_keyurl)
+        the_band_key = band.band_key_from_urlsafe(the_band_keyurl)
+        the_member_key = member.member_key_from_urlsafe(the_member_keyurl)
         
         assoc.set_multi(the_member_key, the_band_key, (the_do=='true'))
 
@@ -474,7 +473,7 @@ class AdminPage(BaseHandler):
                 if not amk in all_admin_keys:
                     all_admin_keys.append(amk)
                     
-        all_admin_members = ndb.get_multi(all_admin_keys)
+        all_admin_members = member.get_members_from_keys(all_admin_keys)
         all_admin_emails = [a.email_address for a in all_admin_members]
         
         template_args = {
@@ -573,7 +572,7 @@ class DeleteMember(BaseHandler):
         if the_member_keyurl=='0':
             return # todo figure out what to do
 
-        the_member_key=ndb.Key(urlsafe=the_member_keyurl)
+        the_member_key = member.member_key_from_urlsafe(the_member_keyurl)
 
         # The only way to get here is to manually paste your key into the url;
         # someone doing that is a troublemaker.
@@ -605,7 +604,7 @@ class AdminMember(BaseHandler):
         if the_do=='':
             return # todo figure out what to do
 
-        the_member_key=ndb.Key(urlsafe=the_member_keyurl)
+        the_member_key = member.member_key_from_urlsafe(the_member_keyurl)
         the_member=the_member_key.get()
 
         if (the_do=='0'):
@@ -636,7 +635,7 @@ class BetaMember(BaseHandler):
         if the_do=='':
             return # todo figure out what to do
 
-        the_member_key=ndb.Key(urlsafe=the_member_keyurl)
+        the_member_key = member.member_key_from_urlsafe(the_member_keyurl)
         the_member=the_member_key.get()
         
         # todo - make sure the user is a superuser
@@ -662,7 +661,7 @@ class GetBandList(BaseHandler):
         the_member_keyurl=self.request.get('mk','0')
         if the_member_keyurl=='0':
             return # todo figure out what to do
-        the_member_key=ndb.Key(urlsafe=the_member_keyurl)
+        the_member_key = member.member_key_from_urlsafe(the_member_keyurl)
         the_bands = self.user.get_band_list(self, the_member_key)
 
         template_args = {
@@ -681,7 +680,7 @@ class GetAddGigBandList(BaseHandler):
         the_member_keyurl=self.request.get('mk','0')
         if the_member_keyurl=='0':
             return # todo figure out what to do
-        the_member_key=ndb.Key(urlsafe=the_member_keyurl)
+        the_member_key = member.member_key_from_urlsafe(the_member_keyurl)
         the_manage_bands = self.user.get_add_gig_band_list(self, the_member_key)
             
         template_args = {
@@ -698,8 +697,7 @@ class RewriteAll(BaseHandler):
     def get(self):
     
         #  update_all_uniques()
-        members=get_all_members()
-        ndb.put_multi(members)
+        member.rewrite_all_members()
 
         self.redirect(self.uri_for('memberadmin'))
         
@@ -716,7 +714,7 @@ class DeleteInvite(BaseHandler):
         if the_assoc_keyurl=='0':
             return # todo figure out what to do
 
-        the_assoc_key = ndb.Key(urlsafe=the_assoc_keyurl)
+        the_assoc_key = assoc.assoc_key_from_urlsafe(the_assoc_keyurl)
         the_assoc = the_assoc_key.get()
         
         # make sure we're a band admin or a superuser
@@ -750,7 +748,7 @@ class VerifyMember(BaseHandler):
         the_member_keyurl=self.request.get('mk','0')
         if the_member_keyurl=='0':
             raise MemberError("Cannot verify user because no member key passed in, user={0}".format(self.user.name))
-        the_member_key=ndb.Key(urlsafe=the_member_keyurl)
+        the_member_key = member.member_key_from_urlsafe(the_member_keyurl)
         the_member = the_member_key.get()
 
         if the_member is None:
@@ -779,7 +777,7 @@ class RestEndpoint(BaseHandler):
     def get(self, *args, **kwargs):
         try:
             member_id = kwargs["member_id"]
-            the_member = ndb.Key(urlsafe=member_id).get()
+            the_member = member.member_key_from_urlsafe(member_id).get()
         except:
             self.abort(404)
 
