@@ -4,7 +4,7 @@
 # Aaron Oppenheimer
 # 29 March 2014
 #
-from google.appengine.ext import ndb
+
 import cloudstorage as gcs
 from google.appengine.api import app_identity
 
@@ -17,6 +17,7 @@ import gig
 import assoc
 import band
 import plan
+import member
 
 import datetime
 import logging
@@ -157,7 +158,7 @@ class BandRequestHandler(BaseHandler):
 
         bk = kwargs['bk']
 
-        the_band_key = ndb.Key(urlsafe=bk)
+        the_band_key = band.section_key_from_urlsafe(bk)
         the_band = the_band_key.get()
 
         calfeed = None
@@ -190,7 +191,7 @@ class PublicBandGigRequestHandler(BaseHandler):
 
         bk = kwargs['bk']
 
-        the_band_key = ndb.Key(urlsafe=bk)
+        the_band_key = band.section_key_from_urlsafe(bk)
         the_band = the_band_key.get()
 
         calfeed = None
@@ -224,7 +225,7 @@ class MemberRequestHandler(BaseHandler):
 
         mk = kwargs['mk']
 
-        the_member_key = ndb.Key(urlsafe=mk)
+        the_member_key = member.member_key_from_urlsafe(mk)
         the_member = the_member_key.get()
         
         calfeed = None
