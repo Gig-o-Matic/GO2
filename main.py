@@ -7,7 +7,7 @@ import grid
 import calview
 import member
 import member_handlers
-import gig
+import gig_handlers
 import plan
 import band_handlers
 import help
@@ -65,8 +65,8 @@ else:
         webapp2.Route('/api/band/members/<band_id:.+>', band_handlers.RestEndpointMembers),
         webapp2.Route('/api/band/<band_id:.+>', band_handlers.RestEndpoint),
 
-        webapp2.Route('/api/gig/plans/<gig_id:.+>', gig.RestEndpointPlans),
-        webapp2.Route('/api/gig/<gig_id:.+>', gig.RestEndpoint),
+        webapp2.Route('/api/gig/plans/<gig_id:.+>', gig_handlers.RestEndpointPlans),
+        webapp2.Route('/api/gig/<gig_id:.+>', gig_handlers.RestEndpoint),
 
         webapp2.Route('/api/member/<member_id:.+>', member_handlers.RestEndpoint),
 
@@ -133,21 +133,21 @@ else:
         webapp2.Route('/member_get_add_gig_bands', member_handlers.GetAddGigBandList),
         webapp2.Route('/member_rewrite', member_handlers.RewriteAll),
         webapp2.Route('/verify_member', member_handlers.VerifyMember),
-        webapp2.Route('/gig_info.html', gig.InfoPage, name="gig_info"),
-        webapp2.Route('/gig_edit.html', gig.EditPage),
-        webapp2.Route('/gig_archive', gig.ArchiveHandler),
-        webapp2.Route('/admin_gig_autoarchive', gig.AutoArchiveHandler),
-        webapp2.Route('/gig_delete', gig.DeleteHandler),
-        webapp2.Route('/gig_restore_trashed', gig.RestoreHandler),
-        webapp2.Route('/gig_add_comment', gig.CommentHandler),
-        webapp2.Route('/gig_get_comment', gig.GetCommentHandler),
-        webapp2.Route('/gig_answerlink', gig.AnswerLinkHandler, name="gig_answerlink"),
-        webapp2.Route('/print_setlist', gig.PrintSetlist),
-        webapp2.Route('/print_planlist', gig.PrintPlanlist),
+        webapp2.Route('/gig_info.html', gig_handlers.InfoPage, name="gig_info"),
+        webapp2.Route('/gig_edit.html', gig_handlers.EditPage),
+        webapp2.Route('/gig_archive', gig_handlers.ArchiveHandler),
+        webapp2.Route('/admin_gig_autoarchive', gig_handlers.AutoArchiveHandler),
+        webapp2.Route('/gig_delete', gig_handlers.DeleteHandler),
+        webapp2.Route('/gig_restore_trashed', gig_handlers.RestoreHandler),
+        webapp2.Route('/gig_add_comment', gig_handlers.CommentHandler),
+        webapp2.Route('/gig_get_comment', gig_handlers.GetCommentHandler),
+        webapp2.Route('/gig_answerlink', gig_handlers.AnswerLinkHandler, name="gig_answerlink"),
+        webapp2.Route('/print_setlist', gig_handlers.PrintSetlist),
+        webapp2.Route('/print_planlist', gig_handlers.PrintPlanlist),
         webapp2.Route('/member_spreadsheet', band_handlers.MemberSpreadsheet),
         webapp2.Route('/member_emails', band_handlers.MemberEmails),
         webapp2.Route('/archive_spreadsheet', band_handlers.ArchiveSpreadsheet),
-        webapp2.Route('/sendreminder', gig.SendReminder),
+        webapp2.Route('/sendreminder', gig_handlers.SendReminder),
         webapp2.Route('/band_info.html', band_handlers.InfoPage),
         webapp2.Route('/band_edit.html', band_handlers.EditPage),
         webapp2.Route('/band_edit_test_new_member_message', band_handlers.TestNewMemberMessage),
