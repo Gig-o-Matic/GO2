@@ -6,6 +6,7 @@ import agenda
 import grid
 import calview
 import member
+import member_handlers
 import gig
 import plan
 import band_handlers
@@ -67,14 +68,14 @@ else:
         webapp2.Route('/api/gig/plans/<gig_id:.+>', gig.RestEndpointPlans),
         webapp2.Route('/api/gig/<gig_id:.+>', gig.RestEndpoint),
 
-        webapp2.Route('/api/member/<member_id:.+>', member.RestEndpoint),
+        webapp2.Route('/api/member/<member_id:.+>', member_handlers.RestEndpoint),
 
 
         # webapp2.Route('/apiX/<endpoint><:/*><values:.*>', restify.Endpoint),
 
         # Standard endpoints
 
-        webapp2.Route('/', member.DefaultPage, name='home'),
+        webapp2.Route('/', member_handlers.DefaultPage, name='home'),
         webapp2.Route('/band/<band_name:.+>', band_handlers.InfoPage),
         webapp2.Route('/login', login.LoginPage, name='login'),
         webapp2.Route('/logout', login.LogoutHandler, name='logout'),
@@ -103,35 +104,35 @@ else:
         webapp2.Route('/agenda_switch', agenda.SwitchView),
         webapp2.Route('/grid.html', grid.MainPage),
         webapp2.Route('/calview.html', calview.MainPage),
-        webapp2.Route('/member_info.html', member.InfoPage, name='memberinfo'),
-        webapp2.Route('/member_edit.html', member.EditPage),
-        webapp2.Route('/member_get_assocs', member.ManageBandsGetAssocs, name='getassocs'),
+        webapp2.Route('/member_info.html', member_handlers.InfoPage, name='memberinfo'),
+        webapp2.Route('/member_edit.html', member_handlers.EditPage),
+        webapp2.Route('/member_get_assocs', member_handlers.ManageBandsGetAssocs, name='getassocs'),
         webapp2.Route(
             '/member_get_other_bands',
-            member.ManageBandsGetOtherBands,
+            member_handlers.ManageBandsGetOtherBands,
             name='getotherbands'),
-        webapp2.Route('/member_new_assoc', member.ManageBandsNewAssoc, name='newassoc'),
+        webapp2.Route('/member_new_assoc', member_handlers.ManageBandsNewAssoc, name='newassoc'),
         webapp2.Route(
             '/member_delete_assoc.html',
-            member.ManageBandsDeleteAssoc,
+            member_handlers.ManageBandsDeleteAssoc,
             name='deleteassoc'),
-        webapp2.Route('/member_admin', member.AdminPage, name="memberadmin"),
-        webapp2.Route('/member_admin_get_all_members', member.AdminPageAllMembers),
-        webapp2.Route('/member_admin_get_signup_members', member.AdminPageSignupMembers),
-        webapp2.Route('/member_admin_get_invite_members', member.AdminPageInviteMembers),
-        webapp2.Route('/member_delete_invite', member.DeleteInvite),
-        webapp2.Route('/member_makeadmin', member.AdminMember),
-        webapp2.Route('/member_makebeta', member.BetaMember),
-        webapp2.Route('/member_delete', member.DeleteMember),
-        webapp2.Route('/member_set_section', member.SetSection),
-        webapp2.Route('/member_set_color', member.SetColor),
-        webapp2.Route('/member_set_get_email', member.SetGetEmail),
-        webapp2.Route('/member_set_hide_from_schedule', member.SetHideFromSchedule),
-        webapp2.Route('/member_set_multi', member.SetMulti),
-        webapp2.Route('/member_get_bands', member.GetBandList),
-        webapp2.Route('/member_get_add_gig_bands', member.GetAddGigBandList),
-        webapp2.Route('/member_rewrite', member.RewriteAll),
-        webapp2.Route('/verify_member', member.VerifyMember),
+        webapp2.Route('/member_admin', member_handlers.AdminPage, name="memberadmin"),
+        webapp2.Route('/member_admin_get_all_members', member_handlers.AdminPageAllMembers),
+        webapp2.Route('/member_admin_get_signup_members', member_handlers.AdminPageSignupMembers),
+        webapp2.Route('/member_admin_get_invite_members', member_handlers.AdminPageInviteMembers),
+        webapp2.Route('/member_delete_invite', member_handlers.DeleteInvite),
+        webapp2.Route('/member_makeadmin', member_handlers.AdminMember),
+        webapp2.Route('/member_makebeta', member_handlers.BetaMember),
+        webapp2.Route('/member_delete', member_handlers.DeleteMember),
+        webapp2.Route('/member_set_section', member_handlers.SetSection),
+        webapp2.Route('/member_set_color', member_handlers.SetColor),
+        webapp2.Route('/member_set_get_email', member_handlers.SetGetEmail),
+        webapp2.Route('/member_set_hide_from_schedule', member_handlers.SetHideFromSchedule),
+        webapp2.Route('/member_set_multi', member_handlers.SetMulti),
+        webapp2.Route('/member_get_bands', member_handlers.GetBandList),
+        webapp2.Route('/member_get_add_gig_bands', member_handlers.GetAddGigBandList),
+        webapp2.Route('/member_rewrite', member_handlers.RewriteAll),
+        webapp2.Route('/verify_member', member_handlers.VerifyMember),
         webapp2.Route('/gig_info.html', gig.InfoPage, name="gig_info"),
         webapp2.Route('/gig_edit.html', gig.EditPage),
         webapp2.Route('/gig_archive', gig.ArchiveHandler),
