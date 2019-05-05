@@ -7,10 +7,7 @@
 
 """
 
-from google.appengine.ext import ndb
 from requestmodel import *
-import webapp2_extras.appengine.auth.models
-import webapp2
 
 import motd_db
 import member
@@ -51,7 +48,7 @@ class SeenHandler(BaseHandler):
         if the_member_keystr=='0':
             return # todo what to do if it's not passed in?
 
-        the_member_key = ndb.Key(urlsafe=the_member_keystr)       
+        the_member_key = member.member_key_from_urlsafe(urlsafe=the_member_keystr)
         if the_member_key:
             member.set_seen_motd_for_member_key(the_member_key)
         else:
@@ -67,7 +64,7 @@ class SeenWelcomeHandler(BaseHandler):
         if the_member_keystr=='0':
             return # todo what to do if it's not passed in?
 
-        the_member_key = ndb.Key(urlsafe=the_member_keystr)       
+        the_member_key = member.member_key_from_urlsafe(the_member_keystr)
         if the_member_key:
             member.set_seen_welcome_for_member_key(the_member_key)
         else:
