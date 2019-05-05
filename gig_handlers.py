@@ -267,7 +267,7 @@ class EditPage(BaseHandler):
         if (the_gig_key == '0'):
             the_gig = None
         else:
-            the_gig = ndb.Key(urlsafe=the_gig_key).get()
+            the_gig = gig.gig_key_from_urlsafe(the_gig_key).get()
 
         edit_date_change = False
         edit_time_change = False
@@ -278,7 +278,7 @@ class EditPage(BaseHandler):
         gig_is_new = False
         gig_band_keyurl = self.request.get("gig_band", None)
         if gig_band_keyurl is not None and gig_band_keyurl != '':
-            the_band = ndb.Key(urlsafe=gig_band_keyurl).get()
+            the_band = band.band_key_from_urlsafe(gig_band_keyurl).get()
             if the_gig is None:
                 the_gig = gig.new_gig(title="tmp", the_band=the_band, creator=self.user.key)
                 gig_is_new = True
@@ -296,7 +296,7 @@ class EditPage(BaseHandler):
         
         gig_contact = self.request.get("gig_contact", None)
         if gig_contact is not None and gig_contact != '':
-            the_gig.contact = ndb.Key(urlsafe=gig_contact)
+            the_gig.contact = member.member_key_from_urlsafe(gig_contact)
         
         gig_details = self.request.get("gig_details", None)
         if gig_details is not None:
@@ -488,7 +488,7 @@ class DeleteHandler(BaseHandler):
         if the_gig_key is None:
             raise gigoexceptions.GigoException('deletehandler did not find a gig in the request')
         else:
-            the_gig = ndb.Key(urlsafe=the_gig_key).get()
+            the_gig = gig.gig_key_from_urlsafe(the_gig_key).get()
             if the_gig:
                 the_gig.trashed_date = datetime.datetime.now()
                 the_gig.put()
@@ -506,7 +506,7 @@ class RestoreHandler(BaseHandler):
         if the_gig_key is None:
             raise gigoexceptions.GigoException('restore did not find a gig in the request')
         else:
-            the_gig = ndb.Key(urlsafe=the_gig_key).get()
+            the_gig = gig.gig_key_from_urlsafe(the_gig_key).get()
             if the_gig:
                 the_gig.trashed_date = None
                 the_gig.put()
@@ -527,7 +527,7 @@ class PrintSetlist(BaseHandler):
         if (the_gig_keyurl == '0'):
             return # todo what else to do?
         else:
-            the_gig = ndb.Key(urlsafe=the_gig_keyurl).get()
+            the_gig = gig.gig_key_from_urlsafe(the_gig_keyurl).get()
 
         template_args = {
             'the_gig' : the_gig,
@@ -549,7 +549,7 @@ class PrintPlanlist(BaseHandler):
         if (the_gig_keyurl == '0'):
             return # todo what else to do?
         else:
-            the_gig_key = ndb.Key(urlsafe=the_gig_keyurl)
+            the_gig_key = gig.gig_key_from_urlsafe(the_gig_keyurl)
             
         the_gig = the_gig_key.get()   
         the_band_key = the_gig_key.parent()
@@ -608,7 +608,7 @@ class ArchiveHandler(BaseHandler):
             self.response.write('no gig key passed in!')
             return # todo figure out what to do if there's no ID passed in
             
-        the_gig_key=ndb.Key(urlsafe=gig_key_str)
+        the_gig_key = gig.gig_key_from_urlsafe(gig_key_str)
         if the_gig_key:
             make_archive_for_gig_key(the_gig_key)
 
@@ -643,31 +643,11 @@ class CommentHandler(BaseHandler):
         if gig_key_str is None:
             return # todo figure out what to do if there's no ID passed in
 
-        the_gig_key = ndb.Key(urlsafe=gig_key_str)
-#         the_gig = the_gig_key.get()
+        the_gig_key = gig.gig_key_from_urlsafe(gig_key_str)
 
         comment_str = self.request.get("c", None)
         if comment_str is None or comment_str=='':
             return
-
-#   OLD COMMENT HANDLING        
-#         dt=datetime.datetime.now()
-# 
-#         offset_str = self.request.get("o", None)
-#         if comment_str is not None:
-#             offset=int(offset_str)
-#             dt = dt - datetime.timedelta(hours=offset)
-# 
-#         user=self.user
-#         timestr=dt.strftime('%-m/%-d/%Y %I:%M%p')
-#         new_comment = u'{0} ({1}) said at {2}:\n{3}'.format(user.name, user.email_address, timestr, comment_str)
-# 
-#         new_id, the_comment_text = gigcomment.add_comment_for_gig(new_comment, the_gig.comment_id)
-#         if new_id != the_gig.comment_id:
-#             the_gig.comment_id = new_id
-#             the_gig.put()
-# 
-#         self.response.write(jinja2ext.html_content(the_comment_text))
 
         comment.new_comment(the_gig_key, self.user.key, comment_str)
         self.response.write('')        
@@ -681,7 +661,7 @@ class GetCommentHandler(BaseHandler):
         gig_key_str = self.request.get("gk", None)
         if gig_key_str is None:
             return # todo figure out what to do if there's no ID passed in
-        the_gig = ndb.Key(urlsafe=gig_key_str).get()
+        the_gig = gig.gig_key_from_urlsafe(gig_key_str).get()
 
         # first, get the old comment text if there is any
         if the_gig.comment_id:
@@ -712,8 +692,8 @@ class AnswerLinkHandler(BaseHandler):
         
         parts=code.split('+')
         
-        member_key = ndb.Key(urlsafe=parts[0])
-        gig_key = ndb.Key(urlsafe=parts[1])
+        member_key = member.member_key_from_urlsafe(parts[0])
+        gig_key = gig.gig_key_from_urlsafe(parts[1])
         the_plan = plan.get_plan_for_member_key_for_gig_key(member_key, gig_key)
         if the_plan:
             if parts[2] == '0':
@@ -751,7 +731,7 @@ class SendReminder(BaseHandler):
         gig_key_str = self.request.get("gk", None)
         if gig_key_str is None:
             return # todo figure out what to do if there's no ID passed in
-        the_gig = ndb.Key(urlsafe=gig_key_str).get()
+        the_gig = gig.gig_key_from_urlsafe(gig_key_str).get()
 
         the_plans = plan.get_plans_for_gig_key(the_gig.key)
 
@@ -791,7 +771,7 @@ class RestEndpoint(BaseHandler):
     def get(self, *args, **kwargs):
         try:
             gig_id = kwargs["gig_id"]
-            the_gig = ndb.Key(urlsafe=gig_id).get()
+            the_gig = gig.gig_key_from_urlsafe(gig_id).get()
         except:
             self.abort(404)
 
@@ -825,7 +805,7 @@ class RestEndpointPlans(BaseHandler):
     def get(self, *args, **kwargs):
         try:
             gig_id = kwargs["gig_id"]
-            the_gig = ndb.Key(urlsafe=gig_id).get()
+            the_gig = gig.gig_key_from_urlsafe(gig_id).get()
         except:
             self.abort(404)
 
