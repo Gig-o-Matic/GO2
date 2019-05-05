@@ -11,14 +11,9 @@ from google.appengine.ext import ndb
 from requestmodel import *
 from restify import rest_user_required, CSOR_Jsonify
 
-import webapp2_extras.appengine.auth.models
-
-import webapp2
-
 import member
 import band
 import gig
-import plan
 import goemail
 import gigarchive
 import gigcomment
@@ -27,19 +22,14 @@ import comment
 import plan
 import cryptoutil
 import rss
-# import jinja2env
-import jinja2ext
 import logging
 import gigoexceptions
-import stats
 
-from pytz.gae import pytz
 from webapp2_extras.i18n import gettext as _
 
 from clone import clone_entity
 
 import datetime
-from dateutil import parser
 import babel
 
 
