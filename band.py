@@ -58,10 +58,30 @@ class Band(ndb.Model):
         return cls.query(*args, **kwargs)
 
 
+def get_band(the_band_key):
+    """ takes a single band key or a list """
+    if isinstance(the_band_key, list):
+        return ndb.get_multi(the_band_key)
+    else:
+        if not isinstance(the_band_key, ndb.Key):
+            raise TypeError("get_band expects a band key")
+        return the_band_key.get()
+
+
+def put_band(the_band):
+    """ takes a single band object or a list """
+    if isinstance(the_band, list):
+        return ndb.put_multi(the_band)
+    else:
+        if not isinstance(the_band, Band):
+            raise TypeError("put_band expects a band")
+        return the_band.put()
+
+
 def new_band(name):
     """ Make and return a new band """
     the_band = Band(parent=band_key(), name=name)
-    the_band.put()
+    put_band(the_band)
     return the_band
 
 
@@ -117,16 +137,6 @@ def get_band_from_condensed_name(band_name):
         return None
 
 
-def get_band_from_key(key):
-    """ Return band objects by key"""
-    return key.get()
-
-
-def get_band_from_id(id):
-    """ Return band object by id"""
-    return Band.get_by_id(int(id), parent=band_key())  # todo more efficient if we use the band because it's the parent?
-
-
 def get_all_bands(keys_only=False):
     """ Return all objects"""
     bands_query = Band.lquery(ancestor=band_key()).order(Band.lower_name)
@@ -134,24 +144,8 @@ def get_all_bands(keys_only=False):
     return all_bands
 
 
-def get_section_keys_of_band_key(the_band_key):
-    the_band = the_band_key.get()
-    if the_band:
-        return the_band.sections
-    else:
-        return []
-
-
-def get_sections_from_keys(the_section_keys):
-    return ndb.get_multi(the_section_keys)
-
-
-def delete_section_keys(the_sections):
-    ndb.delete_multi(the_sections)
-
-
 def get_assocs_of_band_key_by_section_key(the_band_key, include_occasional=True):
-    the_band = the_band_key.get()
+    the_band = get_band(the_band_key)
     the_info=[]
     the_map={}
     count=0
@@ -171,38 +165,6 @@ def get_assocs_of_band_key_by_section_key(the_band_key, include_occasional=True)
         the_info.pop(the_map[None])
 
     return the_info
-
-    
-def new_section_for_band(the_band, the_section_name):
-    the_section = Section(parent=the_band.key, name=the_section_name)
-    the_section.put()
-
-    if the_band.sections:
-        if the_section not in the_band.sections:
-            the_band.sections.append(the_section.key)
-    else:
-        the_band.sections=[the_section.key]
-    the_band.put()
-
-    return the_section
-
-
-def delete_section_key(the_section_key):
-    # todo make sure the section is empty before deleting it
-
-    # get the parent band's list of sections and delete ourselves
-    the_band=the_section_key.parent().get()
-    if the_section_key in the_band.sections:
-        i=the_band.sections.index(the_section_key)
-        the_band.sections.pop(i)
-        the_band.put()
-    the_section_key.delete()
-    
-    # todo The app doesn't let you delete a section unless it's empty. But for any gig,
-    # it's possible that the user has previously specified that he wants to play in the
-    # section to be deleted. So, find plans with the section set, and reset the section
-    # for that plan back to None to use the default.
-    plan.remove_section_from_plans(the_section_key)
 
 
 def get_feedback_strings(the_band):
@@ -249,4 +211,53 @@ def set_section_indices(the_band):
         a.default_section_index = map[a.default_section]
 
     ndb.put_multi(the_assocs)
+
+
+def new_section_for_band(the_band, the_section_name):
+    the_section = Section(parent=the_band.key, name=the_section_name)
+    the_section.put()
+
+    if the_band.sections:
+        if the_section not in the_band.sections:
+            the_band.sections.append(the_section.key)
+    else:
+        the_band.sections=[the_section.key]
+    the_band.put()
+
+    return the_section
+
+
+def delete_section_key(the_section_key):
+    # todo make sure the section is empty before deleting it
+
+    # get the parent band's list of sections and delete ourselves
+    the_band = get_band(the_section_key.parent())
+    if the_section_key in the_band.sections:
+        i = the_band.sections.index(the_section_key)
+        the_band.sections.pop(i)
+        the_band.put()
+    the_section_key.delete()
+
+    # todo The app doesn't let you delete a section unless it's empty. But for any gig,
+    # it's possible that the user has previously specified that he wants to play in the
+    # section to be deleted. So, find plans with the section set, and reset the section
+    # for that plan back to None to use the default.
+    plan.remove_section_from_plans(the_section_key)
+
+
+def get_section_keys_of_band_key(the_band_key):
+    the_band = get_band(the_band_key)
+    if the_band:
+        return the_band.sections
+    else:
+        return []
+
+
+def get_sections_from_keys(the_section_keys):
+    return ndb.get_multi(the_section_keys)
+
+
+def delete_section_keys(the_sections):
+    ndb.delete_multi(the_sections)
+
 
