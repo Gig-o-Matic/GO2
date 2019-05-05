@@ -32,8 +32,6 @@ class Band(ndb.Model):
     hometown = ndb.TextProperty()
     sections = ndb.KeyProperty(repeated=True)  # instrumental sections
     created = ndb.DateTimeProperty(auto_now_add=True)
-#     time_zone_correction = ndb.IntegerProperty(default=0) # NO LONGER IN USE
-    # new, real timezone stuff
     timezone = ndb.StringProperty(default='UTC')
     thumbnail_img = ndb.TextProperty(default=None)
     images = ndb.TextProperty(repeated=True)
@@ -113,17 +111,6 @@ def forget_band_from_key(the_band_key):
     
     # delete the band
     the_band_key.delete()
-
-        
-def get_band_from_name(band_name):
-    """ Return a Band object by name"""
-    bands_query = Band.lquery(Band.name==band_name, ancestor=band_key())
-    band = bands_query.fetch(1)
-
-    if len(band)==1:
-        return band[0]
-    else:
-        return None
 
 
 def get_band_from_condensed_name(band_name):
