@@ -26,7 +26,7 @@ def test_band():
 
 
     def make_if_not_here(name):
-        the_band=band.get_band_from_name(name)
+        the_band=band.get_band_from_condensed_name(name)
         if the_band is None:
             the_band=band.new_band(name=name)
         return the_band
