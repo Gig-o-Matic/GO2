@@ -223,13 +223,21 @@ def delete_section_key(the_section_key):
         i = the_band.sections.index(the_section_key)
         the_band.sections.pop(i)
         the_band.put()
-    the_section_key.delete()
 
-    # todo The app doesn't let you delete a section unless it's empty. But for any gig,
-    # it's possible that the user has previously specified that he wants to play in the
+    # if any member is using this section, reset them to no section
+    assoc_keys = assoc.get_assocs_for_section_key(the_section_key, keys_only=True)
+    if assoc_keys:
+        assocs = assoc.get_assocs_from_keys(assoc_keys)
+        for a in assocs:
+            a.default_section = None
+        assoc.save_assocs(assocs)
+
+    # For any gig, it's possible that the user has previously specified that he wants to play in the
     # section to be deleted. So, find plans with the section set, and reset the section
     # for that plan back to None to use the default.
     plan.remove_section_from_plans(the_section_key)
+
+    the_section_key.delete()
 
 
 def get_section_keys_of_band_key(the_band_key):
@@ -242,9 +250,4 @@ def get_section_keys_of_band_key(the_band_key):
 
 def get_sections_from_keys(the_section_keys):
     return ndb.get_multi(the_section_keys)
-
-
-def delete_section_keys(the_sections):
-    ndb.delete_multi(the_sections)
-
 

@@ -504,17 +504,9 @@ class SetupSections(BaseHandler):
         if deleted_section_info:
             the_deleted_sections = json.loads(deleted_section_info)
             if the_deleted_sections:
-                assoc_keys = []
                 section_keys_to_delete = [band.section_key_from_urlsafe(x) for x in the_deleted_sections]
                 for d in section_keys_to_delete:
-                    assoc_keys += assoc.get_assocs_for_section_key(d, keys_only=True)
-
-                if assoc_keys:
-                    assocs = assoc.get_assocs_from_keys(assoc_keys)
-                    for a in assocs:
-                        a.default_section = None
-                    assoc.save_assocs(assocs)
-                band.delete_section_keys(section_keys_to_delete)
+                    band.delete_section_key(d)
 
         band.set_section_indices(the_band)
 

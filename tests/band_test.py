@@ -79,6 +79,31 @@ class BandTestCase(unittest.TestCase):
         other_band = band.get_band_from_condensed_name(the_band.condensed_name)
         self.assertEqual(the_band.key, other_band.key)
 
+    def test_band_sections(self):
+        the_band = self._make_test_band()
+        section_keys = band.get_section_keys_of_band_key(the_band.key)
+        self.assertEqual(len(section_keys), 0)
+
+        band.new_section_for_band(the_band, "section1")
+        band.new_section_for_band(the_band, "section2")
+
+        section_keys = band.get_section_keys_of_band_key(the_band.key)
+        self.assertEqual(len(section_keys), 2)
+        sections = band.get_sections_from_keys(section_keys)
+        self.assertEqual(len(sections), 2)
+
+        band.delete_section_key(section_keys[1])
+        section_keys = band.get_section_keys_of_band_key(the_band.key)
+        self.assertEqual(len(section_keys), 1)
+
+        band.delete_section_key(section_keys[0])
+        section_keys = band.get_section_keys_of_band_key(the_band.key)
+        self.assertEqual(len(section_keys), 0)
+
+        # todo add tests that show that members who are using a section are
+        # reverted to 'None' section when that section is deletec
+
+
 
 if __name__ == '__main__':
     unittest.main()
