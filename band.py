@@ -262,7 +262,7 @@ def rest_band_info(the_band, the_assoc=None, include_id=True, name_only=False):
 
         # obj = { k:getattr(the_band,k) for k in ('name','shortname','description','simple_planning') }
         obj['plan_feedback'] = map(str.strip,str(the_band.plan_feedback).split("\n")) if the_band.plan_feedback else ""
-        the_sections = band.get_sections_from_keys(the_band.sections)
+        the_sections = get_sections_from_keys(the_band.sections)
         obj['sections'] = [{'name':s.name, 'id':s.key.urlsafe()} for s in the_sections]
 
         if include_id:

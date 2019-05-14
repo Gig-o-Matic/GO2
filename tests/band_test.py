@@ -104,6 +104,16 @@ class BandTestCase(unittest.TestCase):
         # reverted to 'None' section when that section is deletec
 
 
+    def test_band_api(self):
+        the_band = self._make_test_band()
+        the_info = band.rest_band_info(the_band)
+        for x in ['plan_feedback', 'simple_planning', 'description', 'shortname', 'sections', 'name']:
+            tval = the_info[x] if the_info[x] else None
+            bval = getattr(the_band, x)
+            if not bval:
+                bval = None
+            self.assertEqual(tval, bval)
+        self.assertEqual(the_info['id'], the_band.key.urlsafe())
 
 if __name__ == '__main__':
     unittest.main()
