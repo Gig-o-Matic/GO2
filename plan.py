@@ -235,7 +235,7 @@ class UpdatePlanSection(webapp2.RequestHandler):
             pass # todo figure out why there was no plan
         
 
-def _RestPlanInfo(the_plan, include_id = True):
+def rest_plan_info(the_plan, include_id = True):
     obj = { k:getattr(the_plan,k) for k in ('value','comment') }
     obj['feedback_value'] = the_plan.feedback_value if the_plan.feedback_value else ""
     print(the_plan.section)
@@ -244,13 +244,13 @@ def _RestPlanInfo(the_plan, include_id = True):
         obj['id'] = the_plan.key.urlsafe()
     return obj
 
-def _RestValidateValue(the_val):
+def rest_validate_value(the_val):
     the_value = int(the_val)
     if the_value < 0 or the_value >= len(plan_text):
         raise
     return the_value
 
-def _RestValidateFeedbackValue(the_val):
+def rest_validate_feedback_value(the_val):
     the_value = int(the_val)
     if the_value < 0:
         raise
@@ -267,7 +267,7 @@ class RestEndpoint(BaseHandler):
         except:
             self.abort(404)
 
-        info = _RestPlanInfo(the_plan, include_id = False)
+        info = rest_plan_info(the_plan, include_id = False)
         return info
 
     @rest_user_required
@@ -282,8 +282,8 @@ class RestEndpoint(BaseHandler):
             self.abort(404)
 
         validators = {
-            "value" : _RestValidateValue,
-            "feedback_value" : _RestValidateFeedbackValue,
+            "value" : rest_validate_value,
+            "feedback_value" : rest_validate_feedback_value,
         }
 
         try:
@@ -316,8 +316,8 @@ class RestEndpoint(BaseHandler):
 
 
         validators = {
-            "value" : _RestValidateValue,
-            "feedback_value" : _RestValidateFeedbackValue,
+            "value" : rest_validate_value,
+            "feedback_value" : rest_validate_feedback_value,
         }
 
         try:
