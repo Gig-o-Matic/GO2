@@ -5,6 +5,7 @@ import band
 import member
 import assoc
 import gig
+import gig_handlers
 import datetime
 
 from google.appengine.ext import testbed
@@ -101,7 +102,7 @@ class TrashcanTestCase(unittest.TestCase):
         self.assertEqual(len(all_gigs),1)
 
         # sweep for trashed gigs and make sure we didn't lose this one
-        gig._do_autoarchive()
+        gig_handlers._do_autoarchive()
 
         # verify that we have one gig for this band
         all_gigs = gig.get_gigs_for_band_keys([the_band.key])
@@ -113,7 +114,7 @@ class TrashcanTestCase(unittest.TestCase):
         the_gig.put()
 
         # sweep for trashed gigs and make sure we didn't lose this one
-        gig._do_autoarchive()
+        gig_handlers._do_autoarchive()
 
         # verify that we now have no gigs for this band
         all_gigs = gig.get_gigs_for_band_keys([the_band.key])
@@ -132,7 +133,7 @@ class TrashcanTestCase(unittest.TestCase):
         the_gig.put()
 
         # sweep for trashed gigs and make sure we didn't lose this one
-        gig._do_autoarchive()
+        gig_handlers._do_autoarchive()
 
         # verify that we now have no gigs for this band
         all_gigs = gig.get_gigs_for_band_keys([the_band.key])
@@ -169,7 +170,7 @@ class TrashcanTestCase(unittest.TestCase):
         self.assertEqual(len(trash_gigs),2)
 
         # sweep the trash
-        gig._do_autoarchive()
+        gig_handlers._do_autoarchive()
 
         # now should be one in the trash
         trash_gigs = gig.get_old_trashed_gigs(minimum_age = 0)

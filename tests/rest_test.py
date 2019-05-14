@@ -62,22 +62,18 @@ class RestTestCase(unittest.TestCase):
         the_band, the_member = self._create_test_band_with_member()
 
         # verify that we have no gig for this band
-        the_agenda = agenda._RestGetAgenda(the_member)
-        self.assertEqual(len(the_agenda.keys()),2)
-        self.assertEmpty(the_agenda['upcoming_plans'])
-        self.assertEmpty(the_agenda['weighin_plans'])
+        (upcoming_plans, weighin_plans, number_of_bands) = agenda._get_agenda_contents_for_member(the_member)
+        self.assertEmpty(upcoming_plans)
+        self.assertEmpty(weighin_plans)
 
         # add a gig
         the_gig = gig.new_gig(the_band, "Parade", the_member.key, date=datetime.datetime.now() + datetime.timedelta(days=2))
 
         # verify that we now have one gig for this band
-        the_agenda = agenda._RestGetAgenda(the_member)
-        self.assertEmpty(the_agenda['upcoming_plans'])
-        self.assertEqual(len(the_agenda['weighin_plans']),1)
-        self.assertEqual(len(the_agenda['weighin_plans'][0].keys()),5)
-        self.assertEqual(the_agenda['weighin_plans'][0]['title'],"Parade")
-
-
+        (upcoming_plans, weighin_plans, number_of_bands) = agenda._get_agenda_contents_for_member(the_member)
+        self.assertEmpty(upcoming_plans)
+        self.assertEqual(len(weighin_plans),1)
+        self.assertEqual(len(weighin_plans[0].keys()),6)
 
 
 if __name__ == '__main__':

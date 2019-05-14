@@ -46,6 +46,19 @@ class Assoc(ndb.Model):
             print('{0} query: {1}'.format(cls.__name__,args))
         return cls.query(*args, **kwargs)
 
+
+def assoc_key_from_urlsafe(urlsafe):
+    return ndb.Key(urlsafe=urlsafe)
+
+
+def get_assocs_from_keys(assoc_keys):
+    return ndb.get_multi(assoc_keys)
+
+
+def save_assocs(the_assocs):
+    ndb.put_multi(the_assocs)
+
+
 def get_member_keys_of_band_key(the_band_key):
     """ Return member objects by band"""        
     assoc_query = Assoc.lquery( Assoc.band==the_band_key, Assoc.is_confirmed==True ).order(Assoc.member_name)
@@ -171,11 +184,12 @@ def get_confirmed_status_for_member_for_band_key(the_member, the_band_key):
 
 def get_admin_status_for_member_for_band_key(the_member, the_band_key):
     """ find the association between this member and a band, and return the status """
-    a = get_assoc_for_band_key_and_member_key(the_member_key=the_member.key, the_band_key=the_band_key)
-    if a:
-        return a.is_band_admin
-    else:
-        return False
+    if the_member:
+        a = get_assoc_for_band_key_and_member_key(the_member_key=the_member.key, the_band_key=the_band_key)
+        if a:
+            return a.is_band_admin
+    return False
+
 
 def confirm_member_for_band_key(the_member, the_band_key):
     """ assuming this member is pending, confirm them """

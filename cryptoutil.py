@@ -7,10 +7,7 @@
 
 """
 
-from google.appengine.ext import ndb
 from requestmodel import *
-import webapp2_extras.appengine.auth.models
-import webapp2
 
 import crypto_db
 import member

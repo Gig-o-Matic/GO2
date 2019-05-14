@@ -4,13 +4,10 @@
 # Aaron Oppenheimer
 # 10 April 2017
 #
-from google.appengine.ext import ndb
 from requestmodel import *
-import webapp2_extras.appengine.auth.models
 from google.appengine.api.taskqueue import taskqueue
 
 import webapp2
-import logging
 import os
 import cloudstorage as gcs
 from google.appengine.api import app_identity
@@ -20,7 +17,6 @@ import band
 import member
 
 import datetime
-from pytz.gae import pytz
 import pickle
 
 def make_gig_feed(the_band):
@@ -141,7 +137,7 @@ class GetRssHandler(BaseHandler):
         if the_band_keyurl is None:
             return # figure out what to do
         else:
-            the_band = ndb.Key(urlsafe = the_band_keyurl).get()
+            the_band = band.band_key_from_urlsafe(the_band_keyurl).get()
 
         feed = get_feed_for_band_key(the_band.key)
 

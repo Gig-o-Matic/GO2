@@ -1,5 +1,4 @@
 
-from google.appengine.ext import ndb
 from requestmodel import *
 import webapp2_extras.appengine.auth.models
 
@@ -51,12 +50,11 @@ class CalEvents(BaseHandler):
         if the_member_keyurl==0:
             return # todo figure out what to do
             
-        the_member_key=ndb.Key(urlsafe=the_member_keyurl)
+        the_member_key = member.member_key_from_urlsafe(the_member_keyurl)
         the_member = the_member_key.get()
         
         the_assocs = assoc.get_confirmed_assocs_of_member(the_member)
         the_band_keys = [a.band for a in the_assocs]
-        # the_bands = ndb.get_multi(the_band_keys)
 
         cindices={}
         for a in the_assocs:
