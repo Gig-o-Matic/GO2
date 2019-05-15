@@ -178,7 +178,9 @@ class Section(ndb.Model):
 
 
 def new_section(parent, name):
-    return Section(parent=parent, name=name)
+    s = Section(parent=parent, name=name)
+    put_section(s)
+    return s
 
 
 def section_key_from_urlsafe(the_section_keyurl):
@@ -202,14 +204,14 @@ def set_section_indices(the_band):
 
 def new_section_for_band(the_band, the_section_name):
     the_section = Section(parent=the_band.key, name=the_section_name)
-    the_section.put()
+    put_section(the_section)
 
     if the_band.sections:
         if the_section not in the_band.sections:
             the_band.sections.append(the_section.key)
     else:
         the_band.sections=[the_section.key]
-    the_band.put()
+    put_band(the_band)
 
     return the_section
 
@@ -222,7 +224,7 @@ def delete_section_key(the_section_key):
     if the_section_key in the_band.sections:
         i = the_band.sections.index(the_section_key)
         the_band.sections.pop(i)
-        the_band.put()
+        put_band(the_band)
 
     # if any member is using this section, reset them to no section
     assoc_keys = assoc.get_assocs_for_section_key(the_section_key, keys_only=True)
@@ -256,6 +258,16 @@ def get_section(the_section_key):
         if not isinstance(the_section_key, ndb.Key):
             raise TypeError("get_section expects a section key")
         return the_section_key.get()
+
+
+def put_section(the_section):
+    """ takes a single section key or a list """
+    if isinstance(the_section, list):
+        return ndb.put_multi(the_section)
+    else:
+        if not isinstance(the_section, Section):
+            raise TypeError("put_section expects a section")
+        return the_section.put()
 
 
 def rest_band_info(the_band, the_assoc=None, include_id=True, name_only=False):

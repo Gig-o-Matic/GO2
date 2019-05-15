@@ -236,6 +236,16 @@ def get_member(the_member_key):
         return the_member_key.get()
 
 
+def put_member(the_member):
+    """ takes a single member object or a list """
+    if isinstance(the_member, list):
+        return ndb.put_multi(the_member)
+    else:
+        if not isinstance(the_member, Member):
+            raise TypeError("put_member expects a member")
+        return the_member.put()
+
+
 def rewrite_all_members():
     members = get_all_members()
     ndb.put_multi(members)
