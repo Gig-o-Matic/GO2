@@ -473,7 +473,7 @@ class AdminPage(BaseHandler):
                 if not amk in all_admin_keys:
                     all_admin_keys.append(amk)
                     
-        all_admin_members = member.get_members_from_keys(all_admin_keys)
+        all_admin_members = member.get_member(all_admin_keys)
         all_admin_emails = [a.email_address for a in all_admin_members]
         
         template_args = {

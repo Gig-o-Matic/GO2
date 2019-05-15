@@ -334,7 +334,7 @@ class BandGetMembers(BaseHandler):
         the_band_key = band.band_key_from_urlsafe(the_band_key_str)
 
         assocs = assoc.get_assocs_of_band_key(the_band_key=the_band_key, confirmed_only=True)
-        the_members = member.get_members_from_keys([a.member for a in assocs])
+        the_members = member.get_member([a.member for a in assocs])
         
         the_members = sorted(the_members,key=lambda member: member.lower_name)
         # now sort the assocs to be in the same order as the member list
@@ -406,7 +406,7 @@ class BandGetSections(BaseHandler):
             return
 
         member_keys = [a.member for a in the_assocs]
-        the_members = member.get_members_from_keys(member_keys)
+        the_members = member.get_member(member_keys)
 
         # make sure members and assocs are in the right order
         the_members = sorted(the_members, key=lambda m: member_keys.index(m.key))
@@ -534,7 +534,7 @@ class ConfirmMember(BaseHandler):
         if not is_authorized_to_edit_band(the_band_key,the_user):
             return                
                     
-        the_member = the_member_key.get()
+        the_member = member.get_member(the_member_key)
         assoc.confirm_member_for_band_key(the_member, the_band_key)
         # if the user happens to be logged in, invalidate his cached list of bands and
         # bands for which he can edit gigs
@@ -772,7 +772,7 @@ class GetPublicMembers(BaseHandler):
         the_band_key = band.band_key_from_urlsafe(the_band_keyurl)
 
         the_member_keys = assoc.get_member_keys_of_band_key(the_band_key)
-        the_members = member.get_members_from_keys(the_member_keys)
+        the_members = member.get_member(the_member_keys)
         the_public_members = [x for x in the_members if x.preferences and x.preferences.share_profile and x.verified]        
         
         template_args = {
@@ -873,7 +873,7 @@ class MemberSpreadsheet(BaseHandler):
         the_assocs = assoc.get_assocs_of_band_key(the_band_key)
 
         the_member_keys = [a.member for a in the_assocs]
-        the_members = member.get_members_from_keys(the_member_keys)
+        the_members = member.get_member(the_member_keys)
 
         section_keys = band.get_section_keys_of_band_key(the_band_key)
         sections = band.get_sections_from_keys(section_keys)
@@ -916,7 +916,7 @@ class MemberEmails(BaseHandler):
         
         the_assocs = assoc.get_assocs_of_band_key(the_band_key)
         the_member_keys = [a.member for a in the_assocs]
-        the_members = member.get_members_from_keys(the_member_keys)
+        the_members = member.get_member(the_member_keys)
         the_emails = [x.email_address for x in the_members if x.email_address is not None]
 
         template_args = {
@@ -1075,6 +1075,6 @@ class RestEndpointMembers(BaseHandler):
 
         the_assocs = assoc.get_confirmed_assocs_of_band_key(the_band_key, include_occasional=True)
         member_keys = [a.member for a in the_assocs]
-        members = member.get_members_from_keys(member_keys)
+        members = member.get_member(member_keys)
         info = [member._RestMemberInfo(m, True) for m in members]
         return info
