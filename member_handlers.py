@@ -32,7 +32,7 @@ class DefaultPage(BaseHandler):
 
         if the_new_default is not None:
             self.user.preferences.default_view = int(the_new_default)
-            self.user.put()
+            member.put_member(self.user)
     
         view = {
             0: '/agenda.html',
@@ -52,7 +52,7 @@ class InfoPage(BaseHandler):
             
     def _make_page(self,the_user):
         the_member_key = member.lookup_member_key(self.request)
-        the_member = the_member_key.get()
+        the_member = member.get_member(the_member_key)
 
         ok_to_show = False
         same_band = False
@@ -121,7 +121,7 @@ class EditPage(BaseHandler):
 
     def _make_page(self, the_user, validate_error = None):
         the_member_key = member.lookup_member_key(self.request)
-        the_member = the_member_key.get()
+        the_member = member.get_member(the_member_key)
         the_cancel_url=self.uri_for("memberinfo",mk=the_member_key.urlsafe())
 
         template_args = {
@@ -243,10 +243,10 @@ class EditPage(BaseHandler):
         validation_error = None
         try:
             the_member_key = member.lookup_member_key(self.request)
-            the_member = the_member_key.get()
+            the_member = member.get_member(the_member_key)
             self.update_properties(the_member)
             self.update_preferences(the_member)
-            the_member.put()
+            member.put_member(the_member)
         except member.MemberError as e:
             validation_error = e.value
 
@@ -272,7 +272,7 @@ class ManageBandsGetAssocs(BaseHandler):
                             })
 
         template_args = {
-            'the_member' : the_member_key.get(),
+            'the_member' : member.get_member(the_member_key),
             'the_assoc_info' : the_assoc_info,
             'the_colors' : colors
         }
@@ -303,11 +303,11 @@ class ManageBandsNewAssoc(BaseHandler):
 
         the_member_key = member.lookup_member_key(self.request)
         the_band_key=self.request.get('bk','0')
-        if the_band_key=='0':
+        if the_band_key == '0':
             raise Exception("Band not specified")
             
-        the_member = the_member_key.get()
-        the_band = band.band_key_from_urlsafe(the_band_key).get()
+        the_member = member.get_member(the_member_key)
+        the_band = band.get_band(band.band_key_from_urlsafe(the_band_key))
         
         if assoc.get_assoc_for_band_key_and_member_key(the_band_key = the_band.key, the_member_key = the_member_key) is None:
             assoc.new_association(the_member, the_band)        
@@ -328,7 +328,7 @@ class ManageBandsDeleteAssoc(BaseHandler):
         if the_assoc_keyurl == '0':
             return # todo figure out what to do
         
-        the_assoc = assoc.assoc_key_from_urlsafe(the_assoc_keyurl).get()
+        the_assoc = assoc.get_assoc(assoc.assoc_key_from_urlsafe(the_assoc_keyurl))
         
         the_member_key=the_assoc.member
         the_band_key=the_assoc.band
@@ -384,11 +384,11 @@ class SetColor(BaseHandler):
         the_color=int(self.request.get('c','0'))
 
         the_assoc_key = assoc.assoc_key_from_urlsafe(the_assoc_keyurl)
-        the_assoc = the_assoc_key.get()
+        the_assoc = assoc.get_assoc(the_assoc_key)
 
         if the_assoc.member == the_user.key:
             the_assoc.color = the_color
-            the_assoc.put()
+            assoc.put_assoc(the_assoc)
 
 
 class SetGetEmail(BaseHandler):
@@ -402,11 +402,11 @@ class SetGetEmail(BaseHandler):
         the_get_email= True if (self.request.get('em','0') == 'true') else False
 
         the_assoc_key = assoc.assoc_key_from_urlsafe(the_assoc_keyurl)
-        the_assoc = the_assoc_key.get()
+        the_assoc = assoc.get_assoc(the_assoc_key)
 
         if the_assoc.member == the_user.key or the_user.is_superuser:
             the_assoc.email_me= the_get_email
-            the_assoc.put()
+            assoc.put_assoc(the_assoc)
 
 
 class SetHideFromSchedule(BaseHandler):
@@ -422,12 +422,12 @@ class SetHideFromSchedule(BaseHandler):
         the_hide_me= True if (the_do == 'true') else False
 
         the_assoc_key = assoc.assoc_key_from_urlsafe(the_assoc_keyurl)
-        the_assoc = the_assoc_key.get()
+        the_assoc = assoc.get_assoc(the_assoc_key)
 
         the_user = self.user
         if the_assoc.member == the_user.key or the_user.is_superuser:
             the_assoc.hide_from_schedule = the_hide_me
-            the_assoc.put()
+            assoc.put_assoc(the_assoc)
 
 
 class SetMulti(BaseHandler):
@@ -605,7 +605,7 @@ class AdminMember(BaseHandler):
             return # todo figure out what to do
 
         the_member_key = member.member_key_from_urlsafe(the_member_keyurl)
-        the_member=the_member_key.get()
+        the_member = member.get_member(the_member_key)
 
         if (the_do=='0'):
             the_member.is_superuser=False
@@ -614,7 +614,7 @@ class AdminMember(BaseHandler):
         else:
             return # todo figure out what to do
 
-        the_member.put()
+        member.put_member(the_member)
 
         return self.redirect('/member_admin')        
 
@@ -636,7 +636,7 @@ class BetaMember(BaseHandler):
             return # todo figure out what to do
 
         the_member_key = member.member_key_from_urlsafe(the_member_keyurl)
-        the_member=the_member_key.get()
+        the_member = member.get_member(the_member_key)
         
         # todo - make sure the user is a superuser
         if (the_do=='0'):
@@ -646,7 +646,7 @@ class BetaMember(BaseHandler):
         else:
             return # todo figure out what to do
 
-        the_member.put()
+        member.put_member(the_member)
 
         return self.redirect('/member_admin')        
 
@@ -715,7 +715,7 @@ class DeleteInvite(BaseHandler):
             return # todo figure out what to do
 
         the_assoc_key = assoc.assoc_key_from_urlsafe(the_assoc_keyurl)
-        the_assoc = the_assoc_key.get()
+        the_assoc = assoc.get_assoc(the_assoc_key)
         
         # make sure we're a band admin or a superuser
         if not (self.user.is_superuser or assoc.get_admin_status_for_member_for_band_key(self.user, the_assoc.band)):
@@ -749,13 +749,13 @@ class VerifyMember(BaseHandler):
         if the_member_keyurl=='0':
             raise MemberError("Cannot verify user because no member key passed in, user={0}".format(self.user.name))
         the_member_key = member.member_key_from_urlsafe(the_member_keyurl)
-        the_member = the_member_key.get()
+        the_member = member.get_member(the_member_key)
 
         if the_member is None:
             raise MemberError("Cannot verify user because no member found, user={0}".format(self.user.name))
 
         the_member.verified = True
-        the_member.put()
+        member.put_member(the_member)
 
         return self.redirect('/member_info.html?mk={0}'.format(the_member_keyurl))
 
@@ -773,7 +773,7 @@ class RestEndpoint(BaseHandler):
     def get(self, *args, **kwargs):
         try:
             member_id = kwargs["member_id"]
-            the_member = member.member_key_from_urlsafe(member_id).get()
+            the_member = member.get_member(member.member_key_from_urlsafe(member_id))
         except:
             self.abort(404)
 
