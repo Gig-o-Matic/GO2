@@ -38,12 +38,7 @@ import babel
 # routines for turning gig into info for REST api
 #
 #
-def _RestGigInfo(the_gig):
-    obj = { k:getattr(the_gig,k) for k in ('title','date','status') }
-    obj['id'] = the_gig.key.urlsafe()
-    obj['time'] = the_gig.calltime if the_gig.calltime else the_gig.settime
-    obj['band'] =  the_gig.key.parent().urlsafe()
-    return obj
+
 
 #
 #
@@ -744,15 +739,6 @@ class SendReminder(BaseHandler):
 #
 ##########
 
-def _RestGigInfo(the_gig, include_id=True):
-    obj = { k:getattr(the_gig,k) for k in ('title','details','setlist','date','calltime','settime',
-                                            'endtime','address','paid','dress','leader','postgig','status','is_in_trash') }
-    obj['contact'] = the_gig.contact.urlsafe() if the_gig.contact else ""
-    obj['band'] = the_gig.key.parent().urlsafe()
-    if include_id:
-        obj['id'] = the_gig.key.urlsafe()
-    return obj
-
 
 class RestEndpoint(BaseHandler):
 
@@ -769,24 +755,8 @@ class RestEndpoint(BaseHandler):
         if assoc.get_assoc_for_band_key_and_member_key(self.user.key, the_gig.key.parent(), confirmed_only=False) is None:
             self.abort(401)
 
-        return _RestGigInfo(the_gig, include_id=False)
+        return gig.rest_gig_info(the_gig, include_id=False)
 
-def _RestGigPlanInfo(the_plans):
-    member_keys = [i['the_member_key'] for i in the_plans]
-    members = ndb.get_multi(member_keys)
-    member_names = dict(zip(member_keys,[m.display_name for m in members]))
-
-    plans = []
-    for info_block in the_plans:
-        info = {}
-        info['the_plan'] = plan._RestPlanInfo(info_block['the_plan'])
-        info['the_member_key'] = info_block['the_member_key'].urlsafe()
-        info['the_member_name'] = member_names[info_block['the_member_key']]
-        if info['the_plan']['section'] == '':
-            if info_block['the_assoc'].default_section:
-                info['the_plan']['section'] = info_block['the_assoc'].default_section.urlsafe()
-        plans.append(info)
-    return plans
 
 class RestEndpointPlans(BaseHandler):
 
@@ -806,4 +776,4 @@ class RestEndpointPlans(BaseHandler):
         the_band_key = the_gig.key.parent()
         the_plans, the_plan_counts, the_sections, band_has_sections = _makeInfoPageInfo(self.user, the_gig, the_band_key)
 
-        return _RestGigPlanInfo(the_plans)
+        return gig.rest_gig_plan_info(the_plans)

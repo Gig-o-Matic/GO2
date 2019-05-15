@@ -227,7 +227,7 @@ def delete_section_key(the_section_key):
     # if any member is using this section, reset them to no section
     assoc_keys = assoc.get_assocs_for_section_key(the_section_key, keys_only=True)
     if assoc_keys:
-        assocs = assoc.get_assocs_from_keys(assoc_keys)
+        assocs = assoc.get_assoc(assoc_keys)
         for a in assocs:
             a.default_section = None
         assoc.save_assocs(assocs)
@@ -250,4 +250,26 @@ def get_section_keys_of_band_key(the_band_key):
 
 def get_sections_from_keys(the_section_keys):
     return ndb.get_multi(the_section_keys)
+
+
+def rest_band_info(the_band, the_assoc=None, include_id=True, name_only=False):
+
+    obj = { k:getattr(the_band,k) for k in ('name','shortname') }
+
+    if name_only==False:
+        for k in ('description','simple_planning'):
+            obj[k] = getattr(the_band,k)
+
+        # obj = { k:getattr(the_band,k) for k in ('name','shortname','description','simple_planning') }
+        obj['plan_feedback'] = map(str.strip,str(the_band.plan_feedback).split("\n")) if the_band.plan_feedback else ""
+        the_sections = get_sections_from_keys(the_band.sections)
+        obj['sections'] = [{'name':s.name, 'id':s.key.urlsafe()} for s in the_sections]
+
+        if include_id:
+            obj['id'] = the_band.key.urlsafe()
+
+        if the_assoc:
+            obj.update( assoc.rest_assoc_info(the_assoc) )
+
+    return obj
 

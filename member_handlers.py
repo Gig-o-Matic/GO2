@@ -766,10 +766,6 @@ class VerifyMember(BaseHandler):
 #
 ##########
 
-def _RestMemberInfo(the_member, include_id=True):
-    obj = { k:getattr(the_member,k) for k in ['display_name'] }
-    return obj
-
 class RestEndpoint(BaseHandler):
 
     @rest_user_required
@@ -783,4 +779,4 @@ class RestEndpoint(BaseHandler):
 
         # are we authorized to see the member? TODO
 
-        return _RestMemberInfo(the_member, include_id=False)
+        return member.rest_member_info(the_member, include_id=False)

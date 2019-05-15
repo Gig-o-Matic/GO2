@@ -51,6 +51,15 @@ def assoc_key_from_urlsafe(urlsafe):
     return ndb.Key(urlsafe=urlsafe)
 
 
+def get_assoc(the_assoc_key):
+    """ takes a single assoc key or a list """
+    if isinstance(the_assoc_key, list):
+        return ndb.get_multi(the_assoc_key)
+    else:
+        if not isinstance(the_assoc_key, ndb.Key):
+            raise TypeError("get_assoc expects a assoc key")
+        return the_assoc_key.get()
+
 def get_assocs_from_keys(assoc_keys):
     return ndb.get_multi(assoc_keys)
 
@@ -336,7 +345,7 @@ def update_all_assocs():
     logging.info("updated {0} assocs".format(len(assocs)))
 
 
-def _RestAssocInfo(the_assoc, include_id=True):
+def rest_assoc_info(the_assoc, include_id=True):
     obj = { k:getattr(the_assoc,k) for k in ('is_confirmed','is_multisectional','hide_from_schedule','is_occasional','color') }
     if the_assoc.default_section:
         obj['default_section'] = the_assoc.default_section.urlsafe()
