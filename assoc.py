@@ -71,14 +71,6 @@ def put_assoc(the_assoc):
         return the_assoc.put()
 
 
-def get_assocs_from_keys(assoc_keys):
-    return ndb.get_multi(assoc_keys)
-
-
-def save_assocs(the_assocs):
-    ndb.put_multi(the_assocs)
-
-
 def get_member_keys_of_band_key(the_band_key):
     """ Return member objects by band"""        
     assoc_query = Assoc.lquery( Assoc.band==the_band_key, Assoc.is_confirmed==True ).order(Assoc.member_name)

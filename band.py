@@ -232,7 +232,7 @@ def delete_section_key(the_section_key):
         assocs = assoc.get_assoc(assoc_keys)
         for a in assocs:
             a.default_section = None
-        assoc.save_assocs(assocs)
+        assoc.put_assoc(assocs)
 
     # For any gig, it's possible that the user has previously specified that he wants to play in the
     # section to be deleted. So, find plans with the section set, and reset the section
