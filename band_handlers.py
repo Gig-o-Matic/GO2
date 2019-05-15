@@ -247,7 +247,7 @@ class EditPage(BaseHandler):
         if band_timezone is not None and band_timezone != '':
             the_band.timezone=band_timezone
 
-        the_band.put()            
+        band.put_band(the_band)
 
         if rss_change:
             rss.make_rss_feed_for_band(the_band)
@@ -485,19 +485,19 @@ class SetupSections(BaseHandler):
             if n[1] == "":
                 # this is a new section
                 ns = band.new_section(the_band.key, string.replace(string.replace(n[0],"'",""),'"',''))
-                ns.put()
+                band.put_section(ns)
                 s = ns.key
             else:
                 s = band.section_key_from_urlsafe(n[1])
                 old_section = band.get_section(s)
                 if old_section.name != n[0]:
                     old_section.name=string.replace(string.replace(n[0],"'",""),'"','')
-                    old_section.put()
+                    band.put_section(old_section)
 
             new_section_list.append(s)
 
         the_band.sections = new_section_list
-        the_band.put()
+        band.put_band(the_band)
 
         deleted_section_info = self.request.get('deletedSections', None)
 
@@ -567,7 +567,7 @@ class AdminMember(BaseHandler):
             return                
 
         the_assoc.is_band_admin = (the_do=='true')
-        the_assoc.put()
+        assoc.put_assoc(the_assoc)
         
         # if the user happens to be logged in, invalidate his cached list of bands and
         # bands for which he can edit gigs
@@ -592,7 +592,7 @@ class MakeOccasionalMember(BaseHandler):
         
         if is_authorized_to_edit_band(the_assoc.band,the_user) or the_user.key == the_assoc.member:
             the_assoc.is_occasional = (the_do=='true')
-            the_assoc.put()
+            assoc.put_assoc(the_assoc)
 
 class RemoveMember(BaseHandler):
     """ user quits band """
@@ -846,14 +846,14 @@ class SendInvites(BaseHandler):
                     # set the new users's locale to be the same as mine by default.
                     if the_user.preferences.locale != self.user.preferences.locale:
                         the_user.preferences.locale = self.user.preferences.locale
-                        the_user.put()
+                        member.put_member(the_user)
                 else:
                     logging.error("Tried to create new invited member, but failed!")
                 
         template_args = {
             'the_band_keyurl' : the_band_keyurl,
-            'the_ok' : ok_email,
-            'the_not_ok' : not_ok_email
+            'the_ok': ok_email,
+            'the_not_ok': not_ok_email
         }
         self.render_template('band_invite_result.html', template_args)
 

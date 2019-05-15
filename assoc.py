@@ -60,6 +60,17 @@ def get_assoc(the_assoc_key):
             raise TypeError("get_assoc expects a assoc key")
         return the_assoc_key.get()
 
+
+def put_assoc(the_assoc):
+    """ takes a single assoc object or a list """
+    if isinstance(the_assoc, list):
+        return ndb.put_multi(the_assoc)
+    else:
+        if not isinstance(the_assoc, Assoc):
+            raise TypeError("put_assoc expects a assoc")
+        return the_assoc.put()
+
+
 def get_assocs_from_keys(assoc_keys):
     return ndb.get_multi(assoc_keys)
 
@@ -207,19 +218,19 @@ def confirm_member_for_band_key(the_member, the_band_key):
         a.is_confirmed = True
         # update the assoc creation date to now
         a.created=datetime.datetime.now()
-        a.put()
+        put_assoc(a)
 
 def set_admin_for_member_key_and_band_key(the_member_key, the_band_key, the_do):
     """ find the assoc for this member and band, and make the member an admin (or take it away """
     a = get_assoc_for_band_key_and_member_key(the_member_key=the_member_key, the_band_key=the_band_key)
     if a:
         a.is_band_admin = True if (the_do==1) else False
-        a.put()
+        put_assoc(a)
 
 def new_association(member, band, confirm=False, invited=False):
     """ associate a band and a member """
     assoc=Assoc(band=band.key, member=member.key, member_name=member.name, is_confirmed=confirm, is_invited=invited)
-    assoc.put()
+    put_assoc(assoc)
 
 def delete_association_from_key(the_assoc_key):
     """ delete association between member and band """
@@ -238,14 +249,14 @@ def set_default_section(the_member_key, the_band_key, the_section_key):
             logging.error("weird: got a default section that isn't in the band")
             a.default_section_index = None
 
-        a.put()
+        put_assoc(a)
 
 def set_multi(the_member_key, the_band_key, the_do):
     """ find the band in a member's list of assocs, and set default section """
     a = get_assoc_for_band_key_and_member_key(the_member_key, the_band_key)
     if a:
         a.is_multisectional = the_do
-        a.put()
+        put_assoc(a)
 
 def get_assocs_of_band_key(the_band_key, confirmed_only=False, keys_only=False):
     """ go get all the assocs for a band """
