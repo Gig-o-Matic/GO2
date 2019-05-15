@@ -346,7 +346,7 @@ class BandGetMembers(BaseHandler):
             a=assocs[i]
             m=the_members[i]
             if a.default_section:
-                s = a.default_section.get().name
+                s = band.get_section(a.default_section).name
             else:
                 s = None
 
@@ -362,7 +362,7 @@ class BandGetMembers(BaseHandler):
                 the_user_is_band_admin = a.is_band_admin
                         
         the_section_keys = band.get_band(the_band_key).sections
-        the_sections = band.get_sections_from_keys(the_section_keys)
+        the_sections = band.get_section(the_section_keys)
 
         template_args = {
             'the_band_key' : the_band_key,
@@ -397,7 +397,7 @@ class BandGetSections(BaseHandler):
                 the_section_key = None
             else:
                 the_section_key = the_band.sections[int(the_section_index_str)]
-                the_section = the_section_key.get()
+                the_section = band.get_section(the_section_key)
 
         the_assocs = assoc.get_assocs_of_band_key_for_section_key(the_band_key, the_section_key)
 
@@ -445,7 +445,7 @@ class SetupSections(BaseHandler):
             return        
 
         the_band = band.get_band(the_band_key)
-        the_sections = band.get_sections_from_keys(the_band.sections)
+        the_sections = band.get_section(the_band.sections)
 
         the_info = []
         for s in the_sections:
@@ -471,7 +471,7 @@ class SetupSections(BaseHandler):
         if not is_authorized_to_edit_band(the_band_key,the_user):
             return        
 
-        the_band = the_band_key.get()
+        the_band = band.get_band(the_band_key)
 
         the_section_info = self.request.get('sectionInfo', None)
         if the_section_info is None:
@@ -489,7 +489,7 @@ class SetupSections(BaseHandler):
                 s = ns.key
             else:
                 s = band.section_key_from_urlsafe(n[1])
-                old_section = s.get()
+                old_section = band.get_section(s)
                 if old_section.name != n[0]:
                     old_section.name=string.replace(string.replace(n[0],"'",""),'"','')
                     old_section.put()
@@ -571,7 +571,7 @@ class AdminMember(BaseHandler):
         
         # if the user happens to be logged in, invalidate his cached list of bands and
         # bands for which he can edit gigs
-        the_assoc.member.get().invalidate_member_bandlists(self, the_assoc.member)
+        member.get_member(the_assoc.member).invalidate_member_bandlists(self, the_assoc.member)
         
 class MakeOccasionalMember(BaseHandler):
     """ grant or revoke occasional status """
@@ -588,7 +588,7 @@ class MakeOccasionalMember(BaseHandler):
         if the_assoc_keyurl=='0' or the_do is None:
             return # todo figure out what to do
 
-        the_assoc = assoc.assoc_key_from_urlsafe(the_assoc_keyurl).get()
+        the_assoc = assoc.get_assoc(assoc.assoc_key_from_urlsafe(the_assoc_keyurl))
         
         if is_authorized_to_edit_band(the_assoc.band,the_user) or the_user.key == the_assoc.member:
             the_assoc.is_occasional = (the_do=='true')
@@ -663,7 +663,7 @@ class GigArchivePage(BaseHandler):
         if assoc.confirm_user_is_member(the_user.key, the_band_key) is None and the_user.is_superuser is not True:
             raise gigoexceptions.GigoException('user called GigArchivePage handler but is not member')
 
-        the_band = the_band_key.get()
+        the_band = band.get_band(the_band_key)
         if the_band is None:
             raise gigoexceptions.GigoException('GigArchivePage handler called without a band')
 
@@ -696,7 +696,7 @@ class GigTrashcanPage(BaseHandler):
         if not assoc.get_admin_status_for_member_for_band_key(the_user, the_band_key) and not the_user.is_superuser:
             raise gigoexceptions.GigoException('user called GigTrashcanPage handler but is not admin')
 
-        the_band = the_band_key.get()
+        the_band = band.get_band(the_band_key)
         if the_band is None:
             raise gigoexceptions.GigoException('GigTrashcanPage handler calledd without a band')
 
@@ -722,7 +722,7 @@ class GetMemberList(BaseHandler):
         else:
             the_band_key = band.band_key_from_urlsafe(the_band_keyurl)
             the_member_keys = assoc.get_member_keys_of_band_key(the_band_key)
-            response_val = [ [x.get().name, x.urlsafe()] for x in the_member_keys ]
+            response_val = [ [member.get_member(x).name, x.urlsafe()] for x in the_member_keys ]
             
         self.response.write(json.dumps(response_val))
 
@@ -877,7 +877,7 @@ class MemberSpreadsheet(BaseHandler):
         the_members = member.get_member(the_member_keys)
 
         section_keys = band.get_section_keys_of_band_key(the_band_key)
-        sections = band.get_sections_from_keys(section_keys)
+        sections = band.get_section(section_keys)
 
         section_map={}
         for s in sections:
