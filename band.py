@@ -248,8 +248,14 @@ def get_section_keys_of_band_key(the_band_key):
         return []
 
 
-def get_sections_from_keys(the_section_keys):
-    return ndb.get_multi(the_section_keys)
+def get_section(the_section_key):
+    """ takes a single section key or a list """
+    if isinstance(the_section_key, list):
+        return ndb.get_multi(the_section_key)
+    else:
+        if not isinstance(the_section_key, ndb.Key):
+            raise TypeError("get_section expects a section key")
+        return the_section_key.get()
 
 
 def rest_band_info(the_band, the_assoc=None, include_id=True, name_only=False):
