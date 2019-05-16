@@ -62,6 +62,27 @@ def new_plan(the_gig_key, the_member_key, value):
 
     return the_plan
 
+
+def get_plan(the_plan_key):
+    """ takes a single plan key or a list """
+    if isinstance(the_plan_key, list):
+        return ndb.get_multi(the_plan_key)
+    else:
+        if not isinstance(the_plan_key, ndb.Key):
+            raise TypeError("get_plan expects a plan key")
+        return the_plan_key.get()
+
+
+def put_plan(the_plan):
+    """ takes a single plan object or a list """
+    if isinstance(the_plan, list):
+        return ndb.put_multi(the_plan)
+    else:
+        if not isinstance(the_plan, Plan):
+            raise TypeError("put_plan expects a plan")
+        return the_plan.put()
+
+
 def get_plan_from_id(the_gig, id):
     """ Return plan object by id; needs the key for the parent, which is the band for this plan"""
     return Plan.get_by_id(int(id), parent=the_gig.key)

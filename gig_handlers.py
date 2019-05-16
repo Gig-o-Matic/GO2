@@ -212,7 +212,7 @@ class EditPage(BaseHandler):
             if (the_gig_key is None):
                 return # figure out what to do
                 
-            the_gig = gig.get_gig_from_key(gig.gig_key_from_urlsafe(the_gig_key))
+            the_gig = gig.get_gig(gig.gig_key_from_urlsafe(the_gig_key))
             if the_gig is None:
                 self.response.write('did not find a band or gig!')
                 return # todo figure out what to do if we didn't find it
@@ -317,19 +317,19 @@ class EditPage(BaseHandler):
         gig_call = self.request.get("gig_call", '')
         if gig_call is not None:
             if the_gig.calltime != gig_call:
-                the_gig.set_calltime(gig_call)
+                gig.set_calltime(the_gig, gig_call)
                 edit_time_change = True
 
         gig_set = self.request.get("gig_set", '')
         if gig_set is not None:
             if the_gig.settime != gig_set:
-                the_gig.set_settime(gig_set)
+                gig.set_settime(the_gig, gig_set)
                 edit_time_change = True
 
         gig_end = self.request.get("gig_end", '')
         if gig_end is not None:
             if the_gig.endtime != gig_end:
-                the_gig.set_endtime(gig_end)
+                gig.set_endtime(the_gig, gig_end)
                 edit_time_change = True
 
         gig_address = self.request.get("gig_address", '')

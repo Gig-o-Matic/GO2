@@ -18,6 +18,7 @@ import comment
 import plan
 import cryptoutil
 import stats
+import band
 
 from pytz.gae import pytz
 
@@ -60,52 +61,18 @@ class Gig(ndb.Model):
     trashed_date = ndb.DateTimeProperty( default=None )
     is_in_trash = ndb.ComputedProperty(lambda self: self.trashed_date is not None )
     default_to_attending = ndb.BooleanProperty( default=False )
+    gigtime = ndb.ComputedProperty(lambda self: self.calltime if self.calltime else self.settime if self.settime else None)
 
     status_names=["Unconfirmed","Confirmed!","Cancelled!"]
     
-    def gigtime(self):
-        if self.calltime:
-            return self.calltime
-        elif self.settime:
-            return self.settime
-        else:
-            return None
+    # def gigtime(self):
+    #         if self.calltime:
+    #             return self.calltime
+    #         elif self.settime:
+    #             return self.settime
+    #         else:
+    #             return None
 
-    # gig call, start, and end times are strings that may or may not be times
-    def _make_sort_time(self):
-
-        def _time_as_minutes(n):
-            try:
-                t = parser.parse(n).time()
-                return t.hour * 60 + t.minute
-            except ValueError:
-                return 0 # just sort the non-parsable values first
-
-        # do some work to figure out the actual time of the gig
-        timestring = self.calltime if self.calltime else self.settime
-
-        if timestring:
-            self.sorttime = _time_as_minutes(timestring)
-        else:
-            self.sorttime = 0
-        self.put()
-
-    def set_calltime(self, time):
-        self.calltime = time
-        self.sorttime = None
-
-    def set_settime(self, time):
-        self.settime = time
-        self.sorttime = None
-
-    def set_endtime(self, time):
-        self.endtime = time
-
-    # overload the put method to make sure we set the sorting time properly
-    def put(self):
-        if self.sorttime is None:
-            self._make_sort_time()
-        super(Gig, self).put()
 
 #
 # Functions to make and find gigs
@@ -118,20 +85,83 @@ def new_gig(the_band, title, creator, date=None, contact=None, details="", setli
     the_gig = Gig(parent=the_band.key, title=title, contact=contact, \
                     details=details, setlist=setlist, date=date, calltime=call, \
                     creator=creator)
-    the_gig.put()
+    put_gig(the_gig)
     stats.update_band_gigs_created_stats(the_band.key)
     
     return the_gig
+
+
+def get_gig(the_gig_key):
+    """ takes a single gig key or a list """
+    if isinstance(the_gig_key, list):
+        return ndb.get_multi(the_gig_key)
+    else:
+        if not isinstance(the_gig_key, ndb.Key):
+            raise TypeError("get_gig expects a gig key")
+        return the_gig_key.get()
+
+
+def put_gig(the_gig):
+    """ takes a single gig object or a list """
+    if isinstance(the_gig, list):
+        for a_gig in the_gig:
+            if a_gig.sorttime is None:
+                _make_sort_time(a_gig)
+        return ndb.put_multi(the_gig)
+    else:
+        if not isinstance(the_gig, Gig):
+            raise TypeError("put_gig expects a gig")
+        if the_gig.sorttime is None:
+            _make_sort_time(the_gig)
+        return the_gig.put()
 
 
 def gig_key_from_urlsafe(urlsafe):
     return ndb.Key(urlsafe=urlsafe)
 
 
-def get_gig_from_key(key):
-    """ Return gig objects by key"""
-    return key.get()
-        
+def _make_sort_time(the_gig):
+    def _time_as_minutes(n):
+        try:
+            t = parser.parse(n).time()
+            return t.hour * 60 + t.minute
+        except ValueError:
+            return 0 # just sort the non-parsable values first
+
+    # do some work to figure out the actual time of the gig
+    timestring = the_gig.calltime if the_gig.calltime else the_gig.settime
+
+    if timestring:
+        the_gig.sorttime = _time_as_minutes(timestring)
+    else:
+        the_gig.sorttime = 0
+
+    put_gig(the_gig)
+
+
+def set_calltime(the_gig, time):
+    the_gig.calltime = time
+    the_gig.sorttime = None
+
+
+def set_settime(the_gig, time):
+    the_gig.settime = time
+    the_gig.sorttime = None
+
+
+def set_endtime(the_gig, time):
+    the_gig.endtime = time
+
+
+def gigtime(the_gig):
+    if the_gig.calltime:
+        return the_gig.calltime
+    elif the_gig.settime:
+        return the_gig.settime
+    else:
+        return None
+
+
 def adjust_date_for_band(the_band, the_date):
 
 # DON'T THINK WE NEED THIS ANYMORE
@@ -142,7 +172,8 @@ def adjust_date_for_band(the_band, the_date):
 #     the_date = the_date.replace(hour=0, minute=0, second=0, microsecond=0)
     
     return the_date
-    
+
+
 def get_gigs_for_band_keys(the_band_key_list, num=None, start_date=None, end_date=None, show_canceled=True, show_only_public=False, confirmed_only=False, show_past=False, keys_only=False):
     """ Return gig objects by band """
         
@@ -155,11 +186,11 @@ def get_gigs_for_band_keys(the_band_key_list, num=None, start_date=None, end_dat
         params = []
 
     if start_date:
-        start_date = adjust_date_for_band(the_band_key_list[0].get(), start_date)
+        start_date = adjust_date_for_band(band.get_band(the_band_key_list[0]), start_date)
         params.append( Gig.date >= start_date )
         
     if end_date:
-        end_Date = adjust_date_for_band(the_band_key_list[0].get(), end_date)
+        end_Date = adjust_date_for_band(band.get_band(the_band_key_list[0]), end_date)
         params.append( Gig.date <= end_date )
     
     if not show_canceled:
@@ -222,10 +253,10 @@ def get_gigs_for_band_key_for_dates(the_band_key, start_date, end_date, get_canc
     """ Return gig objects by band, past gigs OK """
 
     if start_date:
-        start_date = adjust_date_for_band(the_band_key.get(), start_date)
+        start_date = adjust_date_for_band(band.get_band(the_band_key), start_date)
 
     if end_date:
-        end_date = adjust_date_for_band(the_band_key.get(), end_date)
+        end_date = adjust_date_for_band(band.get_band(the_band_key), end_date)
 
     if get_canceled:
         gig_query = Gig.query(ndb.AND(Gig.date >= start_date, \
@@ -320,7 +351,7 @@ def get_old_trashed_gigs(minimum_age=None):
 def get_sorted_gigs_from_band_keys(the_band_keys=[], include_canceled=False):
     all_gigs=[]
     for bk in the_band_keys:
-        b = bk.get()                       
+        b = band.get_band(bk)
         today_date = datetime.datetime.combine(datetime.datetime.now(tz=pytz.timezone(b.timezone)), datetime.time(0,0,0))
         some_gigs = get_gigs_for_band_keys(bk, show_canceled=include_canceled, start_date=today_date)
         all_gigs = all_gigs + some_gigs
@@ -335,24 +366,24 @@ def set_sections_for_empty_plans(the_gig):
     the_plan_keys = plan.get_plans_for_gig_key(the_gig.key, keys_only=True)
     the_band_key = the_gig.key.parent()
     for a_plan_key in the_plan_keys:
-        a_plan = a_plan_key.get()
+        a_plan = plan.get_plan(a_plan_key)
         if a_plan.section is None:
             the_member_key = a_plan.member
             the_assoc = assoc.get_assoc_for_band_key_and_member_key(the_member_key, the_band_key)
             if the_assoc:
                 a_plan.section = the_assoc.default_section
-                a_plan.put()
+                plan.put_plan(a_plan)
             
 def make_archive_for_gig_key(the_gig_key):
     """ makes an archive for a gig - files away all the plans, then delete them """
     
     archive_id = gigarchive.make_archive_for_gig_key(the_gig_key)
     if archive_id:
-        the_gig = the_gig_key.get()
+        the_gig = get_gig(the_gig_key)
         if the_gig.archive_id:
             gigarchive.delete_archive(the_gig.archive_id)
         the_gig.archive_id = archive_id
-        the_gig.put()
+        put_gig(the_gig)
 
         # keep the old plans around so the gig still shows up on calendar feeds. The plans
         # are no longer editable through the UI, they just linger forever on calendar feeds
