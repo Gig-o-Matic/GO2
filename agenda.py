@@ -93,7 +93,8 @@ class MainPage(BaseHandler):
         
         try:
             (upcoming_plans, weighin_plans, number_of_bands) = _get_agenda_contents_for_member(the_user)
-        except:
+        except Exception as e:
+            print("\n\nerror: {0}\n\n".format(e))
             return self.redirect('/member_info.html?mk={0}'.format(the_user.key.urlsafe()))
 
         template_args = {
@@ -118,7 +119,7 @@ class SwitchView(BaseHandler):
             the_user.show_long_agenda=False
         else:
             the_user.show_long_agenda=True
-        the_user.put()
+        member.put_member(the_user)
         return self.redirect(self.uri_for("home"))
 
 
