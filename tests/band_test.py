@@ -71,8 +71,11 @@ class BandTestCase(unittest.TestCase):
 
     def test_band_from_urlsafe(self):
         the_band = self._make_test_band()
-        other_band_key = band.band_key_from_urlsafe(the_band.key.urlsafe())
-        self.assertEqual(the_band.key, other_band_key)
+        tbk = band.band_from_urlsafe(the_band.key.urlsafe(), key_only=True)
+        self.assertEqual(the_band.key, tbk)
+        tb = band.band_from_urlsafe(the_band.key.urlsafe())
+        self.assertEqual(the_band.key, tb.key)
+
 
     def test_band_from_name(self):
         the_band = self._make_test_band()
@@ -89,7 +92,7 @@ class BandTestCase(unittest.TestCase):
 
         section_keys = band.get_section_keys_of_band_key(the_band.key)
         self.assertEqual(len(section_keys), 2)
-        sections = band.get_sections_from_keys(section_keys)
+        sections = band.get_section(section_keys)
         self.assertEqual(len(sections), 2)
 
         band.delete_section_key(section_keys[1])
@@ -103,7 +106,6 @@ class BandTestCase(unittest.TestCase):
         # todo add tests that show that members who are using a section are
         # reverted to 'None' section when that section is deletec
 
-
     def test_band_api(self):
         the_band = self._make_test_band()
         the_info = band.rest_band_info(the_band)
@@ -115,5 +117,6 @@ class BandTestCase(unittest.TestCase):
             self.assertEqual(tval, bval)
         self.assertEqual(the_info['id'], the_band.key.urlsafe())
 
-if __name__ == '__main__':
-    unittest.main()
+
+    if __name__ == '__main__':
+        unittest.main()

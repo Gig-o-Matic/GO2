@@ -53,8 +53,7 @@ class InfoPage(BaseHandler):
             if band_key_str is None:
                 self.response.write('no band key passed in!')
                 return # todo figure out what to do if there's no ID passed in
-            the_band_key = band.band_key_from_urlsafe(band_key_str)
-            the_band = band.get_band(the_band_key)
+            the_band = band.band_from_urlsafe(band_key_str)
 
         if the_band is None:
             self.response.write('did not find a band!')
@@ -128,7 +127,7 @@ class EditPage(BaseHandler):
             if the_band_key_str == '0':
                 return
             else:
-                the_band_key = band.band_key_from_urlsafe(the_band_key_str)
+                the_band_key = band.band_from_urlsafe(the_band_key_str, key_only=True)
             
                 the_user_admin_status = assoc.get_admin_status_for_member_for_band_key(the_user, the_band_key)   
                 if not the_user_admin_status and not the_user_is_superuser:
@@ -158,7 +157,7 @@ class EditPage(BaseHandler):
             # it's a new band
             the_band = band.new_band('tmp')
         else:
-            the_band = band.get_band(band.band_key_from_urlsafe(the_band_key))
+            the_band = band.band_from_urlsafe(the_band_key)
             
         if the_band is None:
             self.response.write('did not find a band!')
@@ -268,7 +267,7 @@ class InvitePage(BaseHandler):
         if the_band_key_url is None:
             return
         else:
-            the_band_key = band.band_key_from_urlsafe(the_band_key_url)
+            the_band = band.band_from_urlsafe(the_band_key_url)
             the_band = band.get_band(the_band_key)
             if the_band is None:
                 self.response.write('did not find a band!')
@@ -292,7 +291,7 @@ class InvitePage(BaseHandler):
             self.response.write('did not find a band!')
             return # todo figure out what to do if we didn't find it
        
-        the_band_key = band.band_key_from_urlsafe(the_band_key_url)
+        the_band_key = band.band_from_urlsafe(the_band_key_url, key_only=True)
         if not assoc.get_admin_status_for_member_for_band_key(the_user, the_band_key) and not the_user.is_superuser:  
             return self.redirect('/band_info.html?bk={0}'.format(the_band.key.urlsafe()))
 
@@ -310,7 +309,7 @@ class DeleteBand(BaseHandler):
         if the_band_keyurl=='0':
             return # todo figure out what to do
 
-        the_band_key = band.band_key_from_urlsafe(the_band_keyurl)
+        the_band_key = band.band_from_urlsafe(the_band_keyurl, key_only=True)
         
         the_user = self.user # todo - make sure the user is a superuser
         if (the_user.is_superuser):
@@ -331,7 +330,7 @@ class BandGetMembers(BaseHandler):
         if the_band_key_str == '0':
             return # todo figure out what to do
             
-        the_band_key = band.band_key_from_urlsafe(the_band_key_str)
+        the_band_key = band.band_from_urlsafe(the_band_key_str, key_only=True)
 
         assocs = assoc.get_assocs_of_band_key(the_band_key=the_band_key, confirmed_only=True)
         the_members = member.get_member([a.member for a in assocs])
@@ -384,7 +383,7 @@ class BandGetSections(BaseHandler):
         if the_band_key_str=='0':
             return # todo figure out what to do
 
-        the_band_key = band.band_key_from_urlsafe(the_band_key_str)
+        the_band_key = band.band_from_urlsafe(the_band_key_str, key_only=True)
 
         the_band = band.get_band(the_band_key)
 
@@ -439,7 +438,7 @@ class SetupSections(BaseHandler):
         if the_band_key_str=='0':
             return # todo figure out what to do
             
-        the_band_key = band.band_key_from_urlsafe(the_band_key_str)
+        the_band_key = band.band_from_urlsafe(the_band_key_str, key_only=True)
 
         if not is_authorized_to_edit_band(the_band_key,the_user):
             return        
@@ -466,7 +465,7 @@ class SetupSections(BaseHandler):
         if the_band_key_str=='0':
             return # todo figure out what to do
             
-        the_band_key = band.band_key_from_urlsafe(the_band_key_str)
+        the_band_key = band.band_from_urlsafe(the_band_key_str, key_only=True)
 
         if not is_authorized_to_edit_band(the_band_key,the_user):
             return        
@@ -529,7 +528,7 @@ class ConfirmMember(BaseHandler):
             return # todo what to do?
             
         the_member_key = member.member_key_from_urlsafe(the_member_keyurl)
-        the_band_key = band.band_key_from_urlsafe(the_band_keyurl)
+        the_band_key = band.band_from_urlsafe(the_band_keyurl, key_only=True)
 
         if not is_authorized_to_edit_band(the_band_key,the_user):
             return                
@@ -610,7 +609,7 @@ class RemoveMember(BaseHandler):
             return # todo figure out what to do
 
         the_member_key = member.member_key_from_urlsafe(the_member_keyurl)
-        the_band_key = band.band_key_from_urlsafe(the_band_keyurl)
+        the_band_key = band.band_from_urlsafe(the_band_keyurl, key_only=True)
         
         if not is_authorized_to_edit_band(the_band_key,the_user):
             return                
@@ -657,7 +656,7 @@ class GigArchivePage(BaseHandler):
         if the_band_key_url is None:
             raise gigoexceptions.GigoException('no band key passed to GigArchivePage handler')
         else:
-            the_band_key = band.band_key_from_urlsafe(the_band_key_url)
+            the_band_key = band.band_from_urlsafe(the_band_key_url, key_only=True)
 
         # make sure this member is actually in the band
         if assoc.confirm_user_is_member(the_user.key, the_band_key) is None and the_user.is_superuser is not True:
@@ -690,7 +689,7 @@ class GigTrashcanPage(BaseHandler):
         if the_band_key_url is None:
             raise gigoexceptions.GigoException('no band key passed to GigTrashcanPage handler')
         else:
-            the_band_key = band.band_key_from_urlsafe(the_band_key_url)
+            the_band_key = band.band_from_urlsafe(the_band_key_url, key_only=True)
         
         # make sure this member is actually a band admin
         if not assoc.get_admin_status_for_member_for_band_key(the_user, the_band_key) and not the_user.is_superuser:
@@ -720,7 +719,7 @@ class GetMemberList(BaseHandler):
         if the_band_keyurl=='0':
             pass
         else:
-            the_band_key = band.band_key_from_urlsafe(the_band_keyurl)
+            the_band_key = band.band_from_urlsafe(the_band_keyurl, key_only=True)
             the_member_keys = assoc.get_member_keys_of_band_key(the_band_key)
             response_val = [ [member.get_member(x).name, x.urlsafe()] for x in the_member_keys ]
             
@@ -749,7 +748,7 @@ class GetUpcoming(BaseHandler):
         if the_band_keyurl=='0':
             return # todo figure out what to do
 
-        the_band_key = band.band_key_from_urlsafe(the_band_keyurl)
+        the_band_key = band.band_from_urlsafe(the_band_keyurl, key_only=True)
 
         today_date = datetime.datetime.now()
         the_gigs = gig.get_gigs_for_band_keys(the_band_key, start_date=today_date)
@@ -770,7 +769,7 @@ class GetPublicMembers(BaseHandler):
         if the_band_keyurl == '0':
             return # todo figure out what to do
 
-        the_band_key = band.band_key_from_urlsafe(the_band_keyurl)
+        the_band_key = band.band_from_urlsafe(the_band_keyurl, key_only=True)
 
         the_member_keys = assoc.get_member_keys_of_band_key(the_band_key)
         the_members = member.get_member(the_member_keys)
@@ -791,8 +790,7 @@ class SendInvites(BaseHandler):
         if the_band_keyurl=='0':
             return # todo figure out what to do
 
-        the_band_key = band.band_key_from_urlsafe(the_band_keyurl)
-        the_band = band.get_band(the_band_key)
+        the_band = band.band_from_urlsafe(the_band_keyurl)
 
         out=''
         if not assoc.get_admin_status_for_member_for_band_key(the_user, the_band_key) and not the_user.is_superuser:
@@ -863,7 +861,7 @@ class MemberSpreadsheet(BaseHandler):
         the_user = self.user
         the_band_keyurl=self.request.get('bk','0')
 
-        the_band_key = band.band_key_from_urlsafe(the_band_keyurl)
+        the_band_key = band.band_from_urlsafe(the_band_keyurl, key_only=True)
 
         if not is_authorized_to_edit_band(the_band_key, the_user):
             raise gigoexceptions.GigoException('user {0} trying to download users for band {1}'.format(self.user.key.urlsafe(),the_band_key.urlsafe()))
@@ -910,7 +908,7 @@ class MemberEmails(BaseHandler):
         the_user = self.user
         the_band_keyurl=self.request.get('bk','0')
 
-        the_band_key = band.band_key_from_urlsafe(the_band_keyurl)
+        the_band_key = band.band_from_urlsafe(the_band_keyurl, key_only=True)
 
         if not is_authorized_to_edit_band(the_band_key, the_user):
             raise gigoexceptions.GigoException('user {0} trying to download emails for band {1}'.format(self.user.key.urlsafe(),the_band_key.urlsafe()))
@@ -931,18 +929,15 @@ class ArchiveSpreadsheet(BaseHandler):
 
     def get(self):
         the_user = self.user
-        the_band_keyurl=self.request.get('bk','0')
-
-        the_band_key = band.band_key_from_urlsafe(the_band_keyurl)
 
         self.response.headers['Content-Type'] = 'application/x-gzip'
         self.response.headers['Content-Disposition'] = 'attachment; filename=archive.csv'
         
-        the_band_key_url=self.request.get("bk",None)
+        the_band_key_url = self.request.get("bk",None)
         if the_band_key_url is None:
             raise gigoexceptions.GigoException('no band key passed to GigArchivePage handler')
         else:
-            the_band_key = band.band_key_from_urlsafe(the_band_key_url)
+            the_band_key = band.band_from_urlsafe(the_band_key_url, key_only=True)
         
         # make sure this member is actually in the band
         if assoc.confirm_user_is_member(the_user.key, the_band_key) is None and the_user.is_superuser is not True:
@@ -977,7 +972,7 @@ class TestNewMemberMessage(BaseHandler):
             the_message = "(no message)"
 
         if the_band_keyurl:
-            the_band = band.get_band(band.band_key_from_urlsafe(the_band_keyurl))
+            the_band = band.band_from_urlsafe(the_band_keyurl)
         else:
             the_band = None
         goemail.send_new_band_via_invite_email(the_band, the_user, the_message)
@@ -1006,7 +1001,7 @@ class RestEndpoint(BaseHandler):
     def get(self, *args, **kwargs):
         try:
             band_id = kwargs["band_id"]
-            the_band_key = band.band_key_from_urlsafe(band_id)
+            the_band_key = band.band_from_urlsafe(band_id, key_only=True)
         except webapp2.HTTPException:
             raise
         except:
@@ -1042,7 +1037,7 @@ class RestEndpointMembers(BaseHandler):
 
         try:
             band_id = kwargs["band_id"]
-            the_band_key = band.band_key_from_urlsafe(band_id)
+            the_band_key = band.band_from_urlsafe(band_id, key_only=True)
         except webapp2.HTTPException:
             raise
         except:
