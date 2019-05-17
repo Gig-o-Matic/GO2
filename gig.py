@@ -116,8 +116,12 @@ def put_gig(the_gig):
         return the_gig.put()
 
 
-def gig_key_from_urlsafe(urlsafe):
-    return ndb.Key(urlsafe=urlsafe)
+def gig_from_urlsafe(urlsafe, key_only=False):
+    k = ndb.Key(urlsafe=urlsafe)
+    if key_only:
+        return k
+    else:
+        return get_gig(k)
 
 
 def _make_sort_time(the_gig):

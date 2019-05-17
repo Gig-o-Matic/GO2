@@ -83,8 +83,12 @@ def new_band(name):
     return the_band
 
 
-def band_key_from_urlsafe(the_band_keyurl):
-    return ndb.Key(urlsafe=the_band_keyurl)
+def band_from_urlsafe(the_band_keyurl, key_only=False):
+    k = ndb.Key(urlsafe=the_band_keyurl)
+    if key_only:
+        return k
+    else:
+        return get_band(k)
 
 
 def forget_band_from_key(the_band_key):
@@ -280,7 +284,7 @@ def rest_band_info(the_band, the_assoc=None, include_id=True, name_only=False):
 
         # obj = { k:getattr(the_band,k) for k in ('name','shortname','description','simple_planning') }
         obj['plan_feedback'] = map(str.strip,str(the_band.plan_feedback).split("\n")) if the_band.plan_feedback else ""
-        the_sections = get_sections_from_keys(the_band.sections)
+        the_sections = get_section(the_band.sections)
         obj['sections'] = [{'name':s.name, 'id':s.key.urlsafe()} for s in the_sections]
 
         if include_id:

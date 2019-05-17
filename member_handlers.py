@@ -307,7 +307,7 @@ class ManageBandsNewAssoc(BaseHandler):
             raise Exception("Band not specified")
             
         the_member = member.get_member(the_member_key)
-        the_band = band.get_band(band.band_key_from_urlsafe(the_band_key))
+        the_band = band.band_from_urlsafe(the_band_key)
         
         if assoc.get_assoc_for_band_key_and_member_key(the_band_key = the_band.key, the_member_key = the_member_key) is None:
             assoc.new_association(the_member, the_band)        
@@ -360,7 +360,7 @@ class SetSection(BaseHandler):
 
         the_section_key = band.section_key_from_urlsafe(the_section_keyurl)
         the_member_key = member.member_key_from_urlsafe(the_member_keyurl)
-        the_band_key = band.band_key_from_urlsafe(the_band_keyurl)
+        the_band_key = band.band_from_urlsafe(the_band_keyurl, key_only=True)
 
         oktochange=False
         if (the_user.key == the_member_key or the_user.is_superuser):
@@ -446,7 +446,7 @@ class SetMulti(BaseHandler):
         if  the_do=='':
             return
 
-        the_band_key = band.band_key_from_urlsafe(the_band_keyurl)
+        the_band_key = band.band_from_urlsafe(the_band_keyurl, key_only=True)
         the_member_key = member.member_key_from_urlsafe(the_member_keyurl)
         
         assoc.set_multi(the_member_key, the_band_key, (the_do=='true'))

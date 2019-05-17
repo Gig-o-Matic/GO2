@@ -137,7 +137,7 @@ class GetRssHandler(BaseHandler):
         if the_band_keyurl is None:
             return # figure out what to do
         else:
-            the_band = band.band_key_from_urlsafe(the_band_keyurl).get()
+            the_band = band.band_from_urlsafe(the_band_keyurl)
 
         feed = get_feed_for_band_key(the_band.key)
 

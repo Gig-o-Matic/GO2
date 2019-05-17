@@ -133,8 +133,7 @@ class InfoPage(BaseHandler):
             self.response.write('no gig key passed in!')
             return # todo figure out what to do if there's no ID passed in
 
-        gig_key = gig.gig_key_from_urlsafe(gig_key_str)
-        the_gig = gig_key.get()
+        the_gig = gig.gig_from_urlsafe(gig_key_str)
 
         if the_gig is None:
             template_args = {}
@@ -206,13 +205,13 @@ class EditPage(BaseHandler):
             if the_band_keyurl is None:
                 return # figure out what to do
             else:
-                the_band = band.band_key_from_urlsafe(the_band_keyurl).get()
+                the_band = band.band_from_urlsafe(the_band_keyurl)
         else:
             the_gig_key = self.request.get("gk", None)
             if (the_gig_key is None):
                 return # figure out what to do
                 
-            the_gig = gig.get_gig(gig.gig_key_from_urlsafe(the_gig_key))
+            the_gig = gig.gig_from_urlsafe(the_gig_key)
             if the_gig is None:
                 self.response.write('did not find a band or gig!')
                 return # todo figure out what to do if we didn't find it
@@ -253,7 +252,7 @@ class EditPage(BaseHandler):
         if (the_gig_key == '0'):
             the_gig = None
         else:
-            the_gig = gig.gig_key_from_urlsafe(the_gig_key).get()
+            the_gig = gig.gig_from_urlsafe(the_gig_key)
 
         edit_date_change = False
         edit_time_change = False
@@ -264,7 +263,7 @@ class EditPage(BaseHandler):
         gig_is_new = False
         gig_band_keyurl = self.request.get("gig_band", None)
         if gig_band_keyurl is not None and gig_band_keyurl != '':
-            the_band = band.band_key_from_urlsafe(gig_band_keyurl).get()
+            the_band = band.band_from_urlsafe(gig_band_keyurl)
             if the_gig is None:
                 the_gig = gig.new_gig(title="tmp", the_band=the_band, creator=self.user.key)
                 gig_is_new = True
@@ -474,7 +473,7 @@ class DeleteHandler(BaseHandler):
         if the_gig_key is None:
             raise gigoexceptions.GigoException('deletehandler did not find a gig in the request')
         else:
-            the_gig = gig.gig_key_from_urlsafe(the_gig_key).get()
+            the_gig = gig.gig_from_urlsafe(the_gig_key)
             if the_gig:
                 the_gig.trashed_date = datetime.datetime.now()
                 the_gig.put()
@@ -492,7 +491,7 @@ class RestoreHandler(BaseHandler):
         if the_gig_key is None:
             raise gigoexceptions.GigoException('restore did not find a gig in the request')
         else:
-            the_gig = gig.gig_key_from_urlsafe(the_gig_key).get()
+            the_gig = gig.gig_from_urlsafe(the_gig_key)
             if the_gig:
                 the_gig.trashed_date = None
                 the_gig.put()
@@ -513,7 +512,7 @@ class PrintSetlist(BaseHandler):
         if (the_gig_keyurl == '0'):
             return # todo what else to do?
         else:
-            the_gig = gig.gig_key_from_urlsafe(the_gig_keyurl).get()
+            the_gig = gig.gig_from_urlsafe(the_gig_keyurl)
 
         template_args = {
             'the_gig' : the_gig,
@@ -535,9 +534,8 @@ class PrintPlanlist(BaseHandler):
         if (the_gig_keyurl == '0'):
             return # todo what else to do?
         else:
-            the_gig_key = gig.gig_key_from_urlsafe(the_gig_keyurl)
+            the_gig = gig.gig_from_urlsafe(the_gig_keyurl)
             
-        the_gig = the_gig_key.get()   
         the_band_key = the_gig_key.parent()
 
         the_assocs = assoc.get_assocs_of_band_key(the_band_key, confirmed_only=True, keys_only=False)
@@ -594,7 +592,7 @@ class ArchiveHandler(BaseHandler):
             self.response.write('no gig key passed in!')
             return # todo figure out what to do if there's no ID passed in
             
-        the_gig_key = gig.gig_key_from_urlsafe(gig_key_str)
+        the_gig_key = gig.gig_from_urlsafe(gig_key_str, key_only=True)
         if the_gig_key:
             gig.make_archive_for_gig_key(the_gig_key)
 
@@ -629,7 +627,7 @@ class CommentHandler(BaseHandler):
         if gig_key_str is None:
             return # todo figure out what to do if there's no ID passed in
 
-        the_gig_key = gig.gig_key_from_urlsafe(gig_key_str)
+        the_gig_key = gig.gig_from_urlsafe(gig_key_str, key_only=True)
 
         comment_str = self.request.get("c", None)
         if comment_str is None or comment_str=='':
@@ -647,7 +645,7 @@ class GetCommentHandler(BaseHandler):
         gig_key_str = self.request.get("gk", None)
         if gig_key_str is None:
             return # todo figure out what to do if there's no ID passed in
-        the_gig = gig.gig_key_from_urlsafe(gig_key_str).get()
+        the_gig = gig.gig_from_urlsafe(gig_key_str)
 
         # first, get the old comment text if there is any
         if the_gig.comment_id:
@@ -679,7 +677,7 @@ class AnswerLinkHandler(BaseHandler):
         parts=code.split('+')
         
         member_key = member.member_key_from_urlsafe(parts[0])
-        gig_key = gig.gig_key_from_urlsafe(parts[1])
+        gig_key = gig.gig_from_urlsafe(parts[1], key_only=True)
         the_plan = plan.get_plan_for_member_key_for_gig_key(member_key, gig_key)
         if the_plan:
             if parts[2] == '0':
@@ -717,7 +715,7 @@ class SendReminder(BaseHandler):
         gig_key_str = self.request.get("gk", None)
         if gig_key_str is None:
             return # todo figure out what to do if there's no ID passed in
-        the_gig = gig.gig_key_from_urlsafe(gig_key_str).get()
+        the_gig = gig.gig_from_urlsafe(gig_key_str)
 
         the_plans = plan.get_plans_for_gig_key(the_gig.key)
 
@@ -748,7 +746,7 @@ class RestEndpoint(BaseHandler):
     def get(self, *args, **kwargs):
         try:
             gig_id = kwargs["gig_id"]
-            the_gig = gig.gig_key_from_urlsafe(gig_id).get()
+            the_gig = gig.gig_from_urlsafe(gig_id)
         except:
             self.abort(404)
 
@@ -766,7 +764,7 @@ class RestEndpointPlans(BaseHandler):
     def get(self, *args, **kwargs):
         try:
             gig_id = kwargs["gig_id"]
-            the_gig = gig.gig_key_from_urlsafe(gig_id).get()
+            the_gig = gig.gig_from_urlsafe(gig_id)
         except:
             self.abort(404)
 
