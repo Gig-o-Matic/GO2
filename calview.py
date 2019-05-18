@@ -50,22 +50,21 @@ class CalEvents(BaseHandler):
         if the_member_keyurl==0:
             return # todo figure out what to do
             
-        the_member_key = member.member_key_from_urlsafe(the_member_keyurl)
-        the_member = the_member_key.get()
-        
-        the_assocs = assoc.get_confirmed_assocs_of_member(the_member)
+        the_member = member.member_from_urlsafe(the_member_keyurl)
+
+        the_assocs = assoc.get_confirmed_assocs_of_member_key(the_member.key)
         the_band_keys = [a.band for a in the_assocs]
 
         cindices={}
         for a in the_assocs:
-            cindices[a.band]=a.color
+            cindices[a.band] = a.color
 
         gigs = []
 
         all_gigs = gig.get_gigs_for_band_keys(the_band_keys, show_past=True, start_date=start_date, end_date=end_date)
         for a_gig in all_gigs:
             if not a_gig.is_canceled and not a_gig.hide_from_calendar:
-                the_plan = plan.get_plan_for_member_key_for_gig_key(the_member_key, a_gig.key)
+                the_plan = plan.get_plan_for_member_key_for_gig_key(the_member.key, a_gig.key)
                 if the_plan:
                     # check member preferences
                     # include gig if member wants to see all, or if gig is confirmed

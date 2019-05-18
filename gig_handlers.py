@@ -281,7 +281,7 @@ class EditPage(BaseHandler):
         
         gig_contact = self.request.get("gig_contact", None)
         if gig_contact is not None and gig_contact != '':
-            the_gig.contact = member.member_key_from_urlsafe(gig_contact)
+            the_gig.contact = member.member_from_urlsafe(gig_contact, key_only=True)
         
         gig_details = self.request.get("gig_details", None)
         if gig_details is not None:
@@ -676,7 +676,7 @@ class AnswerLinkHandler(BaseHandler):
         
         parts=code.split('+')
         
-        member_key = member.member_key_from_urlsafe(parts[0])
+        member_key = member.member_from_urlsafe(parts[0], key_only=True)
         gig_key = gig.gig_from_urlsafe(parts[1], key_only=True)
         the_plan = plan.get_plan_for_member_key_for_gig_key(member_key, gig_key)
         if the_plan:

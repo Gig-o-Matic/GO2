@@ -268,7 +268,7 @@ class InvitePage(BaseHandler):
             return
         else:
             the_band = band.band_from_urlsafe(the_band_key_url)
-            the_band = band.get_band(the_band_key)
+            # the_band = band.get_band(the_band_key)
             if the_band is None:
                 self.response.write('did not find a band!')
                 return # todo figure out what to do if we didn't find it
@@ -527,10 +527,10 @@ class ConfirmMember(BaseHandler):
         if the_member_keyurl == '0' or the_band_keyurl == '0':
             return # todo what to do?
             
-        the_member_key = member.member_key_from_urlsafe(the_member_keyurl)
+        the_member_key = member.member_from_urlsafe(the_member_keyurl, key_only=True)
         the_band_key = band.band_from_urlsafe(the_band_keyurl, key_only=True)
 
-        if not is_authorized_to_edit_band(the_band_key,the_user):
+        if not is_authorized_to_edit_band(the_band_key, the_user):
             return                
                     
         the_member = member.get_member(the_member_key)
@@ -608,7 +608,7 @@ class RemoveMember(BaseHandler):
         if the_member_keyurl=='0' or the_band_keyurl=='0':
             return # todo figure out what to do
 
-        the_member_key = member.member_key_from_urlsafe(the_member_keyurl)
+        the_member_key = member.member_from_urlsafe(the_member_keyurl, key_only=True)
         the_band_key = band.band_from_urlsafe(the_band_keyurl, key_only=True)
         
         if not is_authorized_to_edit_band(the_band_key,the_user):

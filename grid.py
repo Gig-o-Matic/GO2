@@ -25,7 +25,7 @@ class MainPage(BaseHandler):
         
         # find the bands this member is associated with
         if not the_user.is_superuser:
-            the_assocs = assoc.get_confirmed_assocs_of_member(the_user)
+            the_assocs = assoc.get_confirmed_assocs_of_member_key(the_user.key)
             the_band_keys = [a.band for a in the_assocs]
         else:
             the_band_keys = band.get_all_bands(keys_only=True)

@@ -12,6 +12,7 @@ import assoc
 import gig
 import plan
 import stats
+import logging
 
 
 def band_key(band_name='band_key'):
@@ -84,7 +85,14 @@ def new_band(name):
 
 
 def band_from_urlsafe(the_band_keyurl, key_only=False):
-    k = ndb.Key(urlsafe=the_band_keyurl)
+    try:
+        k = ndb.Key(urlsafe=the_band_keyurl)
+    except Exception as e:
+        if e.__class__.__name__ == 'ProtocolBufferDecodeError':
+            logging.error("invalid urlsafe passed to band_from_urlsafe")
+            return None
+        else:
+            raise
     if key_only:
         return k
     else:

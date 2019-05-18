@@ -359,7 +359,7 @@ class SetSection(BaseHandler):
             raise Exception("Section, member and band must all be specified.")
 
         the_section_key = band.section_key_from_urlsafe(the_section_keyurl)
-        the_member_key = member.member_key_from_urlsafe(the_member_keyurl)
+        the_member_key = member.member_from_urlsafe(the_member_keyurl, key_only=True)
         the_band_key = band.band_from_urlsafe(the_band_keyurl, key_only=True)
 
         oktochange=False
@@ -447,7 +447,7 @@ class SetMulti(BaseHandler):
             return
 
         the_band_key = band.band_from_urlsafe(the_band_keyurl, key_only=True)
-        the_member_key = member.member_key_from_urlsafe(the_member_keyurl)
+        the_member_key = member.member_from_urlsafe(the_member_keyurl, key_only=True)
         
         assoc.set_multi(the_member_key, the_band_key, (the_do=='true'))
 
@@ -572,7 +572,7 @@ class DeleteMember(BaseHandler):
         if the_member_keyurl=='0':
             return # todo figure out what to do
 
-        the_member_key = member.member_key_from_urlsafe(the_member_keyurl)
+        the_member_key = member.member_from_urlsafe(the_member_keyurl, key_only=True)
 
         # The only way to get here is to manually paste your key into the url;
         # someone doing that is a troublemaker.
@@ -604,8 +604,7 @@ class AdminMember(BaseHandler):
         if the_do=='':
             return # todo figure out what to do
 
-        the_member_key = member.member_key_from_urlsafe(the_member_keyurl)
-        the_member = member.get_member(the_member_key)
+        the_member = member.member_from_urlsafe(the_member_keyurl)
 
         if (the_do=='0'):
             the_member.is_superuser=False
@@ -635,9 +634,8 @@ class BetaMember(BaseHandler):
         if the_do=='':
             return # todo figure out what to do
 
-        the_member_key = member.member_key_from_urlsafe(the_member_keyurl)
-        the_member = member.get_member(the_member_key)
-        
+        the_member = member.member_from_urlsafe(the_member_keyurl)
+
         # todo - make sure the user is a superuser
         if (the_do=='0'):
             the_member.is_betatester=False
@@ -661,7 +659,7 @@ class GetBandList(BaseHandler):
         the_member_keyurl=self.request.get('mk','0')
         if the_member_keyurl=='0':
             return # todo figure out what to do
-        the_member_key = member.member_key_from_urlsafe(the_member_keyurl)
+        the_member_key = member.member_from_urlsafe(the_member_keyurl, key_only=True)
         the_bands = self.user.get_band_list(self, the_member_key)
 
         template_args = {
@@ -680,7 +678,7 @@ class GetAddGigBandList(BaseHandler):
         the_member_keyurl=self.request.get('mk','0')
         if the_member_keyurl=='0':
             return # todo figure out what to do
-        the_member_key = member.member_key_from_urlsafe(the_member_keyurl)
+        the_member_key = member.member_from_urlsafe(the_member_keyurl, key_only=True)
         the_manage_bands = self.user.get_add_gig_band_list(self, the_member_key)
             
         template_args = {
@@ -748,8 +746,7 @@ class VerifyMember(BaseHandler):
         the_member_keyurl=self.request.get('mk','0')
         if the_member_keyurl=='0':
             raise MemberError("Cannot verify user because no member key passed in, user={0}".format(self.user.name))
-        the_member_key = member.member_key_from_urlsafe(the_member_keyurl)
-        the_member = member.get_member(the_member_key)
+        the_member = member.member_from_urlsafe(the_member_keyurl)
 
         if the_member is None:
             raise MemberError("Cannot verify user because no member found, user={0}".format(self.user.name))
@@ -773,7 +770,7 @@ class RestEndpoint(BaseHandler):
     def get(self, *args, **kwargs):
         try:
             member_id = kwargs["member_id"]
-            the_member = member.get_member(member.member_key_from_urlsafe(member_id))
+            the_member = member.member_from_urlsafe(member_id)
         except:
             self.abort(404)
 

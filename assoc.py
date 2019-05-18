@@ -292,9 +292,9 @@ def get_confirmed_bands_of_member(the_member):
     bands = ndb.get_multi(band_keys)
     return bands
 
-def get_confirmed_assocs_of_member(the_member, include_hidden=True):
+def get_confirmed_assocs_of_member_key(the_member_key, include_hidden=True):
     """ Return assocs objects by member"""
-    assocs = get_assocs_of_member_key(the_member.key, confirmed_only=True, include_hidden=include_hidden)
+    assocs = get_assocs_of_member_key(the_member_key, confirmed_only=True, include_hidden=include_hidden)
     return assocs
 
 def confirm_invites_for_member_key(the_member_key):
