@@ -47,8 +47,20 @@ class Assoc(ndb.Model):
         return cls.query(*args, **kwargs)
 
 
-def assoc_key_from_urlsafe(urlsafe):
-    return ndb.Key(urlsafe=urlsafe)
+def assoc_from_urlsafe(the_assoc_keyurl, key_only=False):
+    try:
+        k = ndb.Key(urlsafe=the_assoc_keyurl)
+    except Exception as e:
+        if e.__class__.__name__ == 'ProtocolBufferDecodeError':
+            logging.error("invalid urlsafe passed to assoc_from_urlsafe")
+            return None
+        else:
+            raise
+    if key_only:
+        return k
+    else:
+        return get_assoc(k)
+
 
 
 def get_assoc(the_assoc_key):

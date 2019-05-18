@@ -273,7 +273,7 @@ class InvitePage(BaseHandler):
                 self.response.write('did not find a band!')
                 return # todo figure out what to do if we didn't find it
 
-        if not assoc.get_admin_status_for_member_for_band_key(the_user, the_band_key) and not the_user.is_superuser:
+        if not assoc.get_admin_status_for_member_for_band_key(the_user, the_band.key) and not the_user.is_superuser:
             return self.redirect('/band_info.html?bk={0}'.format(the_band.key.urlsafe()))
 
         template_args = {
@@ -487,7 +487,7 @@ class SetupSections(BaseHandler):
                 band.put_section(ns)
                 s = ns.key
             else:
-                s = band.section_key_from_urlsafe(n[1])
+                s = band.section_from_urlsafe(n[1], key_only=True)
                 old_section = band.get_section(s)
                 if old_section.name != n[0]:
                     old_section.name=string.replace(string.replace(n[0],"'",""),'"','')
@@ -503,7 +503,7 @@ class SetupSections(BaseHandler):
         if deleted_section_info:
             the_deleted_sections = json.loads(deleted_section_info)
             if the_deleted_sections:
-                section_keys_to_delete = [band.section_key_from_urlsafe(x) for x in the_deleted_sections]
+                section_keys_to_delete = [band.section_from_urlsafe(x, key_only=True) for x in the_deleted_sections]
                 for d in section_keys_to_delete:
                     band.delete_section_key(d)
 
@@ -560,7 +560,7 @@ class AdminMember(BaseHandler):
         if the_assoc_keyurl=='0' or the_do is None:
             return # todo figure out what to do
 
-        the_assoc = assoc.get_assoc(assoc.assoc_key_from_urlsafe(the_assoc_keyurl))
+        the_assoc = assoc.assoc_from_urlsafe(the_assoc_keyurl)
 
         if not is_authorized_to_edit_band(the_assoc.band,the_user):
             return                
@@ -587,7 +587,7 @@ class MakeOccasionalMember(BaseHandler):
         if the_assoc_keyurl=='0' or the_do is None:
             return # todo figure out what to do
 
-        the_assoc = assoc.get_assoc(assoc.assoc_key_from_urlsafe(the_assoc_keyurl))
+        the_assoc = assoc.assoc_from_urlsafe(the_assoc_keyurl)
         
         if is_authorized_to_edit_band(the_assoc.band,the_user) or the_user.key == the_assoc.member:
             the_assoc.is_occasional = (the_do=='true')
@@ -793,7 +793,7 @@ class SendInvites(BaseHandler):
         the_band = band.band_from_urlsafe(the_band_keyurl)
 
         out=''
-        if not assoc.get_admin_status_for_member_for_band_key(the_user, the_band_key) and not the_user.is_superuser:
+        if not assoc.get_admin_status_for_member_for_band_key(the_user, the_band.key) and not the_user.is_superuser:
             out='not admin'
                     
         the_email_blob = self.request.get('e','')    
@@ -821,7 +821,7 @@ class SendInvites(BaseHandler):
 
             if existing_member:
                 # make sure this person isn't already a member of this band; if not, send invite
-                if not assoc.get_associated_status_for_member_for_band_key(existing_member, the_band_key):
+                if not assoc.get_associated_status_for_member_for_band_key(existing_member, the_band.key):
                     # create assoc for this member - they're already on the gig-o
                     # send email letting them know they're in the band
                     assoc.new_association(existing_member, the_band, confirm=True)
@@ -854,6 +854,7 @@ class SendInvites(BaseHandler):
             'the_not_ok': not_ok_email
         }
         self.render_template('band_invite_result.html', template_args)
+
 
 class MemberSpreadsheet(BaseHandler):
     @user_required

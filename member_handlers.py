@@ -328,7 +328,7 @@ class ManageBandsDeleteAssoc(BaseHandler):
         if the_assoc_keyurl == '0':
             return # todo figure out what to do
         
-        the_assoc = assoc.get_assoc(assoc.assoc_key_from_urlsafe(the_assoc_keyurl))
+        the_assoc = assoc.assoc_from_urlsafe(the_assoc_keyurl)
         
         the_member_key=the_assoc.member
         the_band_key=the_assoc.band
@@ -358,7 +358,7 @@ class SetSection(BaseHandler):
         if the_section_keyurl=='0' or the_member_keyurl=='0' or the_band_keyurl=='0':
             raise Exception("Section, member and band must all be specified.")
 
-        the_section_key = band.section_key_from_urlsafe(the_section_keyurl)
+        the_section_key = band.section_from_urlsafe(the_section_keyurl, key_only=True)
         the_member_key = member.member_from_urlsafe(the_member_keyurl, key_only=True)
         the_band_key = band.band_from_urlsafe(the_band_keyurl, key_only=True)
 
@@ -383,8 +383,7 @@ class SetColor(BaseHandler):
         the_assoc_keyurl=self.request.get('ak','0')
         the_color=int(self.request.get('c','0'))
 
-        the_assoc_key = assoc.assoc_key_from_urlsafe(the_assoc_keyurl)
-        the_assoc = assoc.get_assoc(the_assoc_key)
+        the_assoc = assoc.assoc_from_urlsafe(the_assoc_keyurl)
 
         if the_assoc.member == the_user.key:
             the_assoc.color = the_color
@@ -401,8 +400,7 @@ class SetGetEmail(BaseHandler):
         the_assoc_keyurl=self.request.get('ak','0')
         the_get_email= True if (self.request.get('em','0') == 'true') else False
 
-        the_assoc_key = assoc.assoc_key_from_urlsafe(the_assoc_keyurl)
-        the_assoc = assoc.get_assoc(the_assoc_key)
+        the_assoc = assoc.assoc_from_urlsafe(the_assoc_keyurl)
 
         if the_assoc.member == the_user.key or the_user.is_superuser:
             the_assoc.email_me= the_get_email
@@ -421,8 +419,7 @@ class SetHideFromSchedule(BaseHandler):
 
         the_hide_me= True if (the_do == 'true') else False
 
-        the_assoc_key = assoc.assoc_key_from_urlsafe(the_assoc_keyurl)
-        the_assoc = assoc.get_assoc(the_assoc_key)
+        the_assoc = assoc.assoc_from_urlsafe(the_assoc_keyurl)
 
         the_user = self.user
         if the_assoc.member == the_user.key or the_user.is_superuser:
@@ -712,9 +709,10 @@ class DeleteInvite(BaseHandler):
         if the_assoc_keyurl=='0':
             return # todo figure out what to do
 
-        the_assoc_key = assoc.assoc_key_from_urlsafe(the_assoc_keyurl)
-        the_assoc = assoc.get_assoc(the_assoc_key)
-        
+        the_assoc = assoc.assoc_from_urlsafe(the_assoc_keyurl)
+        if the_assoc is None:
+            return # todo figure out what to do
+
         # make sure we're a band admin or a superuser
         if not (self.user.is_superuser or assoc.get_admin_status_for_member_for_band_key(self.user, the_assoc.band)):
             return self.redirect('/')
@@ -722,12 +720,12 @@ class DeleteInvite(BaseHandler):
         the_band_key = the_assoc.band
 
         the_member_key = the_assoc.member
-        assoc.delete_association_from_key(the_assoc_key) 
+        assoc.delete_association_from_key(the_assoc.key)
 
         invites = assoc.get_inviting_assoc_keys_from_member_key(the_member_key)
-        if invites is None or (len(invites)==1 and invites[0]==the_assoc_key):
+        if invites is None or (len(invites)==1 and invites[0]==the_assoc.key):
             logging.error('removed last invite from member; deleteing')
-            forget_member_from_key(the_member_key)            
+            member.forget_member_from_key(the_member_key)
                     
         return self.redirect('/band_info.html?bk={0}'.format(the_band_key.urlsafe()))
 

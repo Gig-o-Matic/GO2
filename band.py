@@ -195,8 +195,19 @@ def new_section(parent, name):
     return s
 
 
-def section_key_from_urlsafe(the_section_keyurl):
-    return ndb.Key(urlsafe=the_section_keyurl)
+def section_from_urlsafe(the_section_keyurl, key_only=False):
+    try:
+        k = ndb.Key(urlsafe=the_section_keyurl)
+    except Exception as e:
+        if e.__class__.__name__ == 'ProtocolBufferDecodeError':
+            logging.error("invalid urlsafe passed to section_from_urlsafe")
+            return None
+        else:
+            raise
+    if key_only:
+        return k
+    else:
+        return get_section(k)
 
 
 def set_section_indices(the_band):
