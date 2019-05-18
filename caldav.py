@@ -158,8 +158,7 @@ class BandRequestHandler(BaseHandler):
 
         bk = kwargs['bk']
 
-        the_band_key = band.section_key_from_urlsafe(bk)
-        the_band = the_band_key.get()
+        the_band = band.band_from_urlsafe(bk)
 
         calfeed = None
         if the_band.band_cal_feed_dirty is False:
@@ -171,7 +170,7 @@ class BandRequestHandler(BaseHandler):
 
             calfeed = u'{0}'.format(make_cal_header(the_band.name))
 
-            all_gigs = gig.get_gigs_for_band_keys(the_band_key)
+            all_gigs = gig.get_gigs_for_band_keys(the_band.key)
             for a_gig in all_gigs:
                 if a_gig.is_confirmed and not a_gig.hide_from_calendar:
                     calfeed = u'{0}{1}'.format(calfeed, make_event(a_gig, the_band))
@@ -191,8 +190,7 @@ class PublicBandGigRequestHandler(BaseHandler):
 
         bk = kwargs['bk']
 
-        the_band_key = band.section_key_from_urlsafe(bk)
-        the_band = the_band_key.get()
+        the_band = band.band_from_urlsafe(bk)
 
         calfeed = None
         if the_band.pub_cal_feed_dirty is False:
@@ -205,7 +203,7 @@ class PublicBandGigRequestHandler(BaseHandler):
 
             calfeed = u'{0}'.format(make_cal_header(the_band.name))
 
-            all_gigs = gig.get_gigs_for_band_keys(the_band_key, show_only_public=True)
+            all_gigs = gig.get_gigs_for_band_keys(the_band.key, show_only_public=True)
             for a_gig in all_gigs:
                 if a_gig.is_confirmed and not a_gig.hide_from_calendar:
                     calfeed = u'{0}{1}'.format(calfeed, make_event(a_gig, the_band, show_url=False, force_set_time=True))
