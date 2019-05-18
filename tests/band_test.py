@@ -119,5 +119,5 @@ class BandTestCase(unittest.TestCase):
         self.assertEqual(the_info['id'], the_band.key.urlsafe())
 
 
-    if __name__ == '__main__':
-        unittest.main()
+if __name__ == '__main__':
+    unittest.main()
