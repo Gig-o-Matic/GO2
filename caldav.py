@@ -225,9 +225,8 @@ class MemberRequestHandler(BaseHandler):
 
         mk = kwargs['mk']
 
-        the_member_key = member.member_key_from_urlsafe(mk)
-        the_member = the_member_key.get()
-        
+        the_member = member.member_from_urlsafe(mk)
+
         calfeed = None
         if the_member.cal_feed_dirty is False:
             calfeed = get_calfeed_for_key("m",the_member.key)
@@ -248,7 +247,7 @@ class MemberRequestHandler(BaseHandler):
                 all_gigs = gig.get_gigs_for_band_keys(a_band.key, show_past=True)
                 for a_gig in all_gigs:
                     if not a_gig.is_canceled and not a_gig.hide_from_calendar: # and not a_gig.is_archived:
-                        the_plan = plan.get_plan_for_member_key_for_gig_key(the_member_key, a_gig.key)
+                        the_plan = plan.get_plan_for_member_key_for_gig_key(the_member.key, a_gig.key)
                         if the_plan:
                             # check member preferences
                             # include gig if member wants to see all, or if gig is confirmed

@@ -70,12 +70,13 @@ class BandTestCase(unittest.TestCase):
         self.assertTrue(len(all_band_keys)==0)
 
     def test_band_from_urlsafe(self):
+        ugh = band.band_from_urlsafe("foo")
+        self.assertIsNone(ugh)
         the_band = self._make_test_band()
         tbk = band.band_from_urlsafe(the_band.key.urlsafe(), key_only=True)
         self.assertEqual(the_band.key, tbk)
         tb = band.band_from_urlsafe(the_band.key.urlsafe())
         self.assertEqual(the_band.key, tb.key)
-
 
     def test_band_from_name(self):
         the_band = self._make_test_band()

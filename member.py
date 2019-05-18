@@ -222,8 +222,19 @@ def create_new_member(email, name, password):
     return user_data
 
 
-def member_key_from_urlsafe(urlsafe):
-    return ndb.Key(urlsafe=urlsafe)
+def member_from_urlsafe(urlsafe, key_only=False):
+    try:
+        k = ndb.Key(urlsafe=urlsafe)
+    except Exception as e:
+        if e.__class__.__name__ == 'ProtocolBufferDecodeError':
+            logging.error("invalid urlsafe passed to member_from_urlsafe")
+            return None
+        else:
+            raise
+    if key_only:
+        return k
+    else:
+        return get_member(k)
 
 
 def get_member(the_member_key):
@@ -355,12 +366,14 @@ def set_seen_motd_for_member_key(the_member_key):
     the_member = the_member_key.get()
     # the_member.seen_motd = True
     the_member.seen_motd_time = datetime.datetime.now()
-    the_member.put()
+    put_member(the_member)
+
 
 def set_seen_welcome_for_member_key(the_member_key):
     the_member = the_member_key.get()
     the_member.seen_welcome = True
-    the_member.put()
+    put_member(the_member)
+
 
 def format_date_for_member(the_user, the_date, format="short"):
     the_locale='en'
