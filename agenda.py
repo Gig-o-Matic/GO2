@@ -20,7 +20,7 @@ from pytz.gae import pytz
 
 def _get_agenda_contents_for_member(the_user):
     # find the bands this member is associated with
-    the_assocs = assoc.get_confirmed_assocs_of_member(the_user, include_hidden=False)
+    the_assocs = assoc.get_confirmed_assocs_of_member_key(the_user.key, include_hidden=False)
     the_band_keys = [a.band for a in the_assocs]
 
     if the_band_keys is None or len(the_band_keys)==0:
