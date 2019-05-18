@@ -65,14 +65,14 @@ class InfoPage(BaseHandler):
             the_user_admin_status = False
             the_user_is_superuser = False
         else:
-            the_user_is_associated = assoc.get_associated_status_for_member_for_band_key(the_user, the_band_key)
-            the_user_is_confirmed = assoc.get_confirmed_status_for_member_for_band_key(the_user, the_band_key)
-            the_user_admin_status = assoc.get_admin_status_for_member_for_band_key(the_user, the_band_key)   
+            the_user_is_associated = assoc.get_associated_status_for_member_for_band_key(the_user, the_band.key)
+            the_user_is_confirmed = assoc.get_confirmed_status_for_member_for_band_key(the_user, the_band.key)
+            the_user_admin_status = assoc.get_admin_status_for_member_for_band_key(the_user, the_band.key)
             the_user_is_superuser = member.member_is_superuser(the_user)
 
         if the_user_admin_status or the_user_is_superuser:
-            the_pending = assoc.get_pending_members_from_band_key(the_band_key)
-            the_invited_assocs = assoc.get_invited_member_assocs_from_band_key(the_band_key)
+            the_pending = assoc.get_pending_members_from_band_key(the_band.key)
+            the_invited_assocs = assoc.get_invited_member_assocs_from_band_key(the_band.key)
             the_invited = [(x.key, member.get_member(x.member).name) for x in the_invited_assocs]
         else:
             the_pending = []
