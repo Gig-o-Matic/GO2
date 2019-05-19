@@ -335,21 +335,6 @@ def forget_member_from_key(the_member_key):
     # bye!    
     the_member_key.delete()
     
-def get_member_from_urlsafe_key(urlsafe):
-    """take a urlsafe key and cause an ancestor query to happen, to assure previous writes are committed"""
-    untrusted_member=ndb.Key(urlsafe=urlsafe).get()
-    return get_member_from_nickname(untrusted_member.nickname)
-
-
-def get_member(the_member_key):
-    """ takes a single member key or a list """
-    if isinstance(the_member_key, list):
-        return ndb.get_multi(the_member_key)
-    else:
-        if not isinstance(the_member_key, ndb.Key):
-            raise TypeError("get_member expects a member key")
-        return the_member_key.get()
-
 
 def get_member_from_email(the_email, keys_only=False):
     """ Return member object from email address """
