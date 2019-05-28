@@ -165,13 +165,14 @@ class Member(webapp2_extras.appengine.auth.models.User):
     @classmethod
     def get_band_list(cls, req, the_member_key):
         """ check to see if this is in the session - if so, just use it """
-        if 'member_bandlist' in req.session.keys() and not req.member_cache_is_dirty(the_member_key):
+        if req and 'member_bandlist' in req.session.keys() and not req.member_cache_is_dirty(the_member_key):
             the_bands = req.session['member_bandlist']
         else:
             band_keys=assoc.get_band_keys_of_member_key(the_member_key, confirmed_only=True)
             the_bands = [bandkey.get() for bandkey in band_keys]
 
-            req.session['member_bandlist'] = the_bands
+            if req:
+                req.session['member_bandlist'] = the_bands
         return the_bands
 
     @classmethod
@@ -305,6 +306,7 @@ def search_for_members(order=True, keys_only=False, verified_only=False, pagelen
         members = member_query.fetch(keys_only=keys_only, offset=page*pagelen, limit=pagelen)
 
     return members
+
 
 def reset_motd():
     members=get_all_members()
