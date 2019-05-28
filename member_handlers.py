@@ -577,7 +577,7 @@ class DeleteMember(BaseHandler):
             raise MemberError("Cannot delete user because {0} is not a superuser".format(self.user.name))
 
         if (self.user.key != the_member_key):
-            forget_member_from_key(the_member_key)
+            member.forget_member_from_key(the_member_key)
         else:
             print 'cannot delete yourself, people'
 

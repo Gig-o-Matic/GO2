@@ -24,6 +24,7 @@ import cryptoutil
 import rss
 import logging
 import gigoexceptions
+import clone
 
 from webapp2_extras.i18n import gettext as _
 
@@ -402,8 +403,8 @@ class EditPage(BaseHandler):
                 end_delta = None
 
             newgigs=[]                
-            for i in range(0,number_to_copy):
-                copy_gig = clone_entity(the_gig,Gig)
+            for i in range(0, number_to_copy):
+                copy_gig = clone.clone_entity(the_gig, gig.Gig)
                 if period == 'day' or period == 'week':
                     last_date = last_date + delta
                 else:

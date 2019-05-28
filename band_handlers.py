@@ -733,7 +733,7 @@ class BandNavPage(BaseHandler):
         self.make_page(the_user=self.user)
 
     def make_page(self, the_user):
-        the_bands = get_all_bands()
+        the_bands = band.get_all_bands()
     
         template_args = {
             'the_bands' : the_bands,
