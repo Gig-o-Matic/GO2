@@ -596,7 +596,7 @@ class ArchiveHandler(BaseHandler):
             
         the_gig_key = gig.gig_key_from_urlsafe(gig_key_str)
         if the_gig_key:
-            make_archive_for_gig_key(the_gig_key)
+            gig.make_archive_for_gig_key(the_gig_key)
 
         return self.redirect('/gig_info.html?gk={0}'.format(gig_key_str))
 
