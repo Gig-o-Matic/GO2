@@ -871,9 +871,10 @@ msgstr ""
 "Erstellt von Aaron Oppenheimer von der Second Line Social Aid& Pleasure "
 "Society Brass Band. Getestet von mehreren unerschrockenen Mitgliedern der"
 " selben Band. Im Selbstversuch weiterentwickelt von der gesamten Band. "
-"WOO!<br><br>Italienische Übersetzung von Marcello Jatosti. "
-"Meraviglioso!<br>Deutsche Übersetzung von Christian Neumayer. "
-"Ausgezeichnet!"
+"WOO!<br><br>"
+"Traduzione italiana di Marcello Jatosti. Meraviglioso!<br>"
+"Deutsche Übersetzung von Christian Neumayer. Ausgezeichnet!<br>"
+"Traduction Française de Benoît Rosa. Incroyable !"
 
 #: templates/credits.html:25
 msgid "credits_text2"

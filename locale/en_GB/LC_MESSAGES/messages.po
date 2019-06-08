@@ -852,9 +852,10 @@ msgid "credits_text"
 msgstr ""
 "Written by Aaron Oppenheimer, Second Line Social Aid & Pleasure Society "
 "Brass Band. Beta-tested by several intrepid members of the band. Guinea-"
-"pigged by the whole band. WOO!<br><br>Italian translation by Marcello "
-"Jatosti. Meraviglioso!<br>German translation by Christian Neumayer. "
-"Ausgezeichnet!"
+"pigged by the whole band. WOO!<br><br>"
+"Traduzione italiana di Marcello Jatosti. Meraviglioso!<br>"
+"Deutsche Übersetzung von Christian Neumayer. Ausgezeichnet!<br>"
+"Traduction Française de Benoît Rosa. Incroyable !"
 
 #: templates/credits.html:25
 msgid "credits_text2"
