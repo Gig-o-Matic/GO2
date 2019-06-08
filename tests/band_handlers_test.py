@@ -10,7 +10,7 @@ import band_handlers
 from google.appengine.ext import ndb
 
 from google.appengine.ext import testbed
-
+from test_util import _make_test_handler
 
 class BandTestCase(unittest.TestCase):
 
@@ -43,10 +43,16 @@ class BandTestCase(unittest.TestCase):
         return band.new_band("test band")
 
     def test_info_page(self):
+        # be sure we are redirected if the band is wrong
+        handler = _make_test_handler(band_handlers.InfoPage)
+        res = handler.get(band_name="foo")
+        self.assertEqual(handler.response.headers['Location'],'http://localhost/')
+
+        # now be sure we show a real response if the band is real
         the_band = self._make_test_band()
-        handler = band_handlers.InfoPage()
-        res = handler.get(band_name="test band")
-        raise ValueError("fix this")
+        handler = _make_test_handler(band_handlers.InfoPage)
+        res = handler.get(band_name=the_band.condensed_name)
+        print(vars(handler.response))
 
 if __name__ == '__main__':
     unittest.main()
