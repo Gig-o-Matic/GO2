@@ -19,6 +19,7 @@ class HelpHandler(BaseHandler):
         template_args = {
             'help_is_active' : True
         }
+
         self.render_template('help.html', template_args)
 
 class ChangeLogHandler(BaseHandler):

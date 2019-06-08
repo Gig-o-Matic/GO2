@@ -511,8 +511,10 @@ class WhatisPageHandler(BaseHandler):
     """ handle the whatis page """
     
     def get(self):
-        params = {}
-        self.render_template('whatis.html', params=params)
+        template_args = {}
+        if self.request.get("locale"):
+            template_args['locale'] = self.request.get("locale")
+        self.render_template('whatis.html', params=template_args)
 
 
 
