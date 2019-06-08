@@ -187,7 +187,7 @@
 	                    </div>
 	                    <br>
 	                    <div class="row">
-	                        <div class="col-sm-3 col-12">Last Activity:</div>
+	                        <div class="col-sm-3 col-12">{% trans %}Last Activity:{% endtrans %}</div>
 	                        <div class="col-sm-9 col-12">
 	                            {% if the_member.last_activity %}
 	                                {{ the_member.last_activity.strftime('%Y-%m-%d') }}
