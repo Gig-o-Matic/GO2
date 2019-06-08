@@ -52,7 +52,7 @@ class BandTestCase(unittest.TestCase):
         the_band = self._make_test_band()
         handler = _make_test_handler(band_handlers.InfoPage)
         res = handler.get(band_name=the_band.condensed_name)
-        print(vars(handler.response))
+        self.assertFalse('status' in handler.response.__dict__.keys())
 
 if __name__ == '__main__':
     unittest.main()
