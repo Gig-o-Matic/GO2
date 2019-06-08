@@ -14,6 +14,8 @@ from webapp2_extras import sessions
 from webapp2_extras import i18n
 from webapp2_extras import jinja2
 
+from jinja2 import TemplateNotFound
+
 import logging
 import motd_db
 import sys
@@ -112,7 +114,23 @@ class BaseHandler(webapp2.RequestHandler):
 
     def render_response(self, filename, args):
         # Renders a template and writes the result to the response.
-        rv = self.jinja2.render_template(filename, **args)
+
+        if self.request.get("locale"):
+            locale = self.request.get("locale")
+        elif self.user and self.user.preferences.locale:
+            locale = self.user.preferences.locale
+        else:
+            locale = None
+
+        # see if there's a locale-specific version of a template - if so, use it.
+        try:
+            rv = self.jinja2.render_template("{0}{1}{2}".format(locale,
+                                                                '/' if locale else '',
+                                                                filename),
+                                             **args)
+        except TemplateNotFound:
+            rv = self.jinja2.render_template(filename, **args)
+
         self.response.write(rv)
 
     def render_template(self, filename, params=None):
