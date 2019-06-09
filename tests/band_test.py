@@ -10,6 +10,7 @@ from google.appengine.ext import ndb
 
 from google.appengine.ext import testbed
 
+from test_util import make_test_band
 
 class BandTestCase(unittest.TestCase):
 
@@ -38,11 +39,8 @@ class BandTestCase(unittest.TestCase):
     def assertNotEmpty(self, obj):
         self.assertTrue(obj is not None and len(obj) > 0)
 
-    def _make_test_band(self):
-        return band.new_band("test band")
-
     def test_new_band(self):
-        the_band = self._make_test_band()
+        the_band = make_test_band()
         self.assertIsNotNone(the_band)
         self.assertTrue(isinstance(the_band, band.Band))
 
@@ -58,7 +56,7 @@ class BandTestCase(unittest.TestCase):
         self.assertEqual(check2.name, "band testing")
 
     def test_delete_band(self):
-        self._make_test_band()
+        make_test_band()
 
         all_band_keys = band.get_all_bands(keys_only=True)
         self.assertNotEmpty(all_band_keys)
@@ -72,19 +70,19 @@ class BandTestCase(unittest.TestCase):
     def test_band_from_urlsafe(self):
         ugh = band.band_from_urlsafe("foo")
         self.assertIsNone(ugh)
-        the_band = self._make_test_band()
+        the_band = make_test_band()
         tbk = band.band_from_urlsafe(the_band.key.urlsafe(), key_only=True)
         self.assertEqual(the_band.key, tbk)
         tb = band.band_from_urlsafe(the_band.key.urlsafe())
         self.assertEqual(the_band.key, tb.key)
 
     def test_band_from_name(self):
-        the_band = self._make_test_band()
+        the_band = make_test_band()
         other_band = band.get_band_from_condensed_name(the_band.condensed_name)
         self.assertEqual(the_band.key, other_band.key)
 
     def test_band_sections(self):
-        the_band = self._make_test_band()
+        the_band = make_test_band()
         section_keys = band.get_section_keys_of_band_key(the_band.key)
         self.assertEqual(len(section_keys), 0)
 
@@ -108,7 +106,7 @@ class BandTestCase(unittest.TestCase):
         # reverted to 'None' section when that section is deletec
 
     def test_band_api(self):
-        the_band = self._make_test_band()
+        the_band = make_test_band()
         the_info = band.rest_band_info(the_band)
         for x in ['plan_feedback', 'simple_planning', 'description', 'shortname', 'sections', 'name']:
             tval = the_info[x] if the_info[x] else None

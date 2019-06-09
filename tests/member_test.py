@@ -10,6 +10,7 @@ from google.appengine.ext import ndb
 
 from google.appengine.ext import testbed
 
+from test_util import make_test_member
 
 class BandTestCase(unittest.TestCase):
 
@@ -39,18 +40,8 @@ class BandTestCase(unittest.TestCase):
         self.assertTrue(obj is not None and len(obj) > 0)
 
 
-    def _make_test_member(self, name):
-        (success, result1) = member.create_new_member('{0}@bar.com'.format(name), name, '12345')
-        self.assertTrue(success)
-        return result1
-
-
-    def _make_test_band(self):
-        return band.new_band("test band")
-
-
     def test_new_member(self):
-        the_member = self._make_test_member("test1")
+        the_member = make_test_member("test1")
         self.assertIsNotNone(the_member)
         self.assertTrue(isinstance(the_member, member.Member))
 
@@ -66,13 +57,13 @@ class BandTestCase(unittest.TestCase):
         self.assertEqual(check2.name, "testing1")
 
     def test_urlsafe(self):
-        the_member = self._make_test_member("guy")
+        the_member = make_test_member("guy")
         test_member = member.member_from_urlsafe(the_member.key.urlsafe())
         self.assertEqual(the_member.key, test_member.key)
 
     def test_allmembers(self):
-        self._make_test_member("guy1")
-        self._make_test_member("guy2")
+        make_test_member("guy1")
+        make_test_member("guy2")
         the_members = member.get_all_members(order=True, keys_only=True, verified_only=False)
         self.assertEqual(len(the_members), 2)
         self.assertTrue(isinstance(the_members[0], ndb.Key))
@@ -100,7 +91,7 @@ class BandTestCase(unittest.TestCase):
             pass
 
     def test_tokens(self):
-        m = self._make_test_member("guy")
+        m = make_test_member("guy")
         t = member.Member.create_email_token(m.get_id())
         m2 = member.Member.get_by_auth_token(m.get_id(), t, 'email')
         self.assertEqual(m.key, m2[0].key)
@@ -109,7 +100,7 @@ class BandTestCase(unittest.TestCase):
         self.assertIsNone(m2[0])
 
     def test_band_list(self):
-        m = self._make_test_member("joe")
+        m = make_test_member("joe")
         l = member.Member.get_band_list(None, m.key)
         self.assertEqual(len(l), 0)
 
