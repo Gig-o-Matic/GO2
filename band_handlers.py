@@ -42,7 +42,7 @@ class InfoPage(BaseHandler):
             if self.user:
                 self._make_page(the_user=self.user)
             else:
-                return self.redirect('/')            
+                return self.redirect('/')
 
     def _make_page(self,the_user,the_band=None):
         """ produce the info page """
@@ -51,14 +51,12 @@ class InfoPage(BaseHandler):
         if the_band is None:
             band_key_str = self.request.get("bk", None)
             if band_key_str is None:
-                self.response.write('no band key passed in!')
-                return # todo figure out what to do if there's no ID passed in
+                raise gigoexceptions.GigoException('no band key passed to gig InfoPage handler (a)')
             the_band = band.band_from_urlsafe(band_key_str)
 
         if the_band is None:
-            self.response.write('did not find a band!')
-            return # todo figure out what to do if we didn't find it
-            
+            raise gigoexceptions.GigoException('no band key passed to gig InfoPage handler (b)')
+
         if the_user is None:
             the_user_is_associated = False
             the_user_is_confirmed = False
