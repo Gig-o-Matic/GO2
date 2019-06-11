@@ -34,9 +34,22 @@ def make_test_handler(the_class, the_request_args={}, the_user=None):
         """ dummy request class """
         args = {}
         url = 'http://localhost/'
+        path = '/'
 
         def get(self, arg, default):
             return self.args.get(arg, default)
+
+    class Auth:
+        """ dummy auth class """
+        def get_user_by_session(self):
+            return True
+
+    class User_Model:
+        """ dummy user model """
+        member = None
+
+        def get_by_id(self,id):
+            return self.member
 
     handler = the_class()
     handler.response = Response()
@@ -44,7 +57,12 @@ def make_test_handler(the_class, the_request_args={}, the_user=None):
     handler.request = Request()
     handler.request.args = the_request_args
 
+    handler.user_model = User_Model()
+    handler.user_model.member = the_user
+
     handler.user = the_user
+    handler.user_info = {'user_id':the_user.key.id() if the_user else None}
+    handler.auth = Auth()
 
     return handler
 

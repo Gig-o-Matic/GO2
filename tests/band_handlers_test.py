@@ -64,5 +64,19 @@ class BandTestCase(unittest.TestCase):
         res = handler.get()
         self.assertFalse('status' in handler.response.__dict__.keys())
 
+    def test_edit_page(self):
+        # be sure we fail if there's no user
+        handler = make_test_handler(band_handlers.EditPage)
+        with self.assertRaises(Exception): # well, really should figure out exactly why this happens
+            res = handler.get()
+
+        # make sure we get a response if there's a member
+        user = make_test_member('aaron')
+        handler = make_test_handler(band_handlers.EditPage, the_user=user)
+        res = handler.get()
+        self.assertFalse('status' in handler.response.__dict__.keys())
+
+
+
 if __name__ == '__main__':
     unittest.main()
