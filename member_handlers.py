@@ -200,21 +200,21 @@ class EditPage(BaseHandler):
 
         member_name = self.request.get("member_name", None)
         if member_name is not None and member_name != '':
-            the_member.name = member_name
+            the_member.name = member_name.strip()
         else:
             member_name = None
 
         member_nickname = self.request.get("member_nickname", None)
         if member_nickname is not None:
-            the_member.nickname = member_nickname
+            the_member.nickname = member_nickname.strip()
 
         member_phone = self.request.get("member_phone", None)
         if member_phone is not None:
-            the_member.phone = member_phone
+            the_member.phone = member_phone.strip()
 
         member_statement = self.request.get("member_statement", None)
         if member_statement is not None:
-            the_member.statement = member_statement
+            the_member.statement = member_statement.strip()
 
         image_blob = self.request.get("member_images", None)
         image_split = image_blob.split("\n")
