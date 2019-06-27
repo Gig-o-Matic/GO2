@@ -1,0 +1,141 @@
+{% extends 'go2base.html' %}
+
+{% block title %}{% trans %}Grid o'Gigs{% endtrans %}{% endblock title %}
+
+{% block headcontent %}
+
+<link href="css/jquery.dateline.css" rel="stylesheet">
+
+{% endblock headcontent %}
+
+
+{% block content %}
+<div class="row">
+    <div class="mx-auto col-md-10 col-12">
+        <div class="page-header">
+            {% trans %}Grid o'Gigs{% endtrans %}
+            {% if the_user.preferences.default_view != 2 %}
+            <small>(<a href="/?default=2">{% trans %}Make this my default view!{% endtrans %}</a>)</small>
+            {% endif %}
+        </div>
+        <div>&nbsp;</div>
+        <div class="row">
+            <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-0">
+                {% if all_band_keys|length > 1 %}
+                    <div class="dropdown">
+                        <a class="btn btn-sm btn-outline-secondary dropdown-toggle text-center" href="#" role="button" data-toggle="dropdown" id="dropdownMenu1">
+                            {{ the_band_key.get().name }} <span class="caret"></span>
+                        </a>
+                        <div class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                            {% for a_band_key in all_band_keys %}
+                                <a class="dropdown-item" href="/gridnew.html?bk={{a_band_key.urlsafe()}}&m={{the_month}}&y={{the_year}}">{{a_band_key.get().name}}</a>
+                            {% endfor %}
+                        </div>
+                    </div> <!-- dropdown -->
+                {% endif %}
+                <br>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div id="dl" class="d-awesome"></div>
+            </div>
+        </div>
+        {% if has_gigs %}
+            <div class="row">
+                <div class="col-12">
+                    <div id="guts"></div>
+                </div>
+            </div>
+        {% else %}
+            <div class="row">
+                <div class="mx-auto">
+                    {% trans %}No Gigs!{% endtrans %}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock content %}
+
+{% block localscripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.js"></script>
+{% if the_user.preferences.locale=='en_GB' %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/locales/bootstrap-datepicker.en-GB.min.js"></script>
+{% elif the_user.preferences.locale!='en' %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/locales/bootstrap-datepicker.{{ the_user.preferences.locale }}.min.js"></script>
+{% endif %}
+
+
+{% if the_user.preferences.locale == 'en' %}
+    <script src='/js/moment.min.js'></script>
+{% else %}
+    <script src='/js/moment-with-locales.min.js'></script>
+{% endif %}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
+<script src="js/jquery.dateline.js"></script>
+
+
+<script>
+$('#dateicon').datepicker({
+    startView: 1,
+    minViewMode: 1,
+    maxViewMode: 2
+}).on('changeDate', function(ev){
+    window.location.assign("/gridnew.html?bk={{the_band_key.urlsafe()}}&m="+(ev.date.getMonth()+1)+"&y="+(ev.date.getFullYear()))
+});
+
+$('#dl').dateline(
+{
+    size: "50px",
+	bands: [
+		{
+        	size: '100%',
+        	scale: Dateline.MONTH,
+        	interval: 80
+		}
+	],
+	events: [
+        {% for k in date_counts.keys() %}
+            { start: "{{k}}-15", text: "{{date_counts[k]}}", class: "fa-square"},
+        {% endfor %}
+	],
+	/* more options... */
+	}
+);
+
+$("#dl").on("datelinechange", function(evt, data) {
+<!--    $("#somewhere").text(data.cursor.toLocaleDateString());-->
+    date = data.cursor
+    update_date( date.getMonth()+1, date.getFullYear() )
+});
+
+
+function update_date(mo, yr) {
+    $('#guts').html('<div><i class="fas fa-spinner fa-pulse fa-lg"></i></div>');
+    $.get('/grid_guts',
+            {
+                bk: '{{ the_band_key.urlsafe() }}',
+                m: mo,
+                y: yr
+            },
+            function(responseTxt,statusTxt,xhr){
+                if(statusTxt=="success")
+                    $('#guts').html(responseTxt);
+                if(statusTxt=="error")
+                    alert("Error: "+xhr.status+": "+xhr.statusText);
+            });
+    console.log('wahoo');
+}
+
+{% if has_gigs %}
+$(document).ready(function() {
+<!--    today = new Date();-->
+    update_date({{the_month}},{{the_year}});
+});
+{% endif %}
+
+</script>
+{% endblock localscripts %}
