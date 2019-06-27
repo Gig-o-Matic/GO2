@@ -44,6 +44,10 @@ div.scrollthing {
         <div>&nbsp;</div>
         <div class="row">
             <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-0">
+                {% if the_user_is_betatester==True %}
+                    Check out the <a href="/gridnew.html">new grid page</a> (Beta!)
+                    <br><br>
+                {% endif %}
                 {% if all_band_keys|length > 1 %}
                     <div class="dropdown">
                         <a class="btn btn-sm btn-outline-secondary dropdown-toggle text-center" href="#" role="button" data-toggle="dropdown" id="dropdownMenu1">

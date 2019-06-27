@@ -218,7 +218,7 @@ def get_gigs_for_band_keys(the_band_key_list, num=None, start_date=None, end_dat
     
     
     
-def get_gigs_for_band_key_for_dates(the_band_key, start_date, end_date, get_canceled=True):
+def get_gigs_for_band_key_for_dates(the_band_key, start_date, end_date, get_canceled=True, get_archived=False):
     """ Return gig objects by band, past gigs OK """
 
     if start_date:
@@ -227,22 +227,40 @@ def get_gigs_for_band_key_for_dates(the_band_key, start_date, end_date, get_canc
     if end_date:
         end_date = adjust_date_for_band(the_band_key.get(), end_date)
 
-    if get_canceled:
-        gig_query = Gig.query(ndb.AND(Gig.date >= start_date, \
-                                      Gig.date <= end_date), \
-                                      Gig.is_in_trash == False, \
-                                      Gig.is_archived == False, \
-                                      ancestor=the_band_key).order(Gig.date)
-    else:
-        gig_query = Gig.query(ndb.AND(Gig.date >= start_date, \
-                                      Gig.date <= end_date,
-                                      Gig.is_in_trash == False, \
-                                      Gig.is_archived == False, \
-                                      Gig.is_canceled == False), \
-                                      ancestor=the_band_key).order(Gig.date)
+    args = [
+        Gig.date >= start_date,
+        Gig.date < end_date,
+        Gig.is_in_trash == False
+    ]
+
+    if get_canceled == False:
+        args.append(Gig.is_canceled == False)
+
+    if get_archived == False:
+        args.append(Gig.is_archived == False)
+
+    gig_query = Gig.query(*args, ancestor=the_band_key).order(Gig.date)
     gigs = gig_query.fetch()
     
     return gigs
+
+
+def get_all_gig_dates_for_band(the_band_key, get_canceled=True, get_archived=True):
+    args = [
+        Gig.is_in_trash == False
+    ]
+
+    if get_canceled == False:
+        args.append(Gig.is_canceled == False)
+
+    if get_archived == False:
+        args.append(Gig.is_archived == False)
+
+    gig_query = Gig.query(*args, ancestor=the_band_key)
+    gig_dates = gig_query.fetch(projection=[Gig.date])
+    # gig_dates = gig_query.fetch()
+    return gig_dates
+
 
 def get_gigs_for_creation_date(the_band_key, the_creation_date):
     """ return gigs created on a particular date """
