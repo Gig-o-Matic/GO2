@@ -257,8 +257,8 @@ def get_all_gig_dates_for_band(the_band_key, get_canceled=True, get_archived=Tru
         args.append(Gig.is_archived == False)
 
     gig_query = Gig.query(*args, ancestor=the_band_key)
-    # gig_dates = gig_query.fetch(projection=[Gig.date, Gig.title])
-    gig_dates = gig_query.fetch()
+    gig_dates = gig_query.fetch(projection=[Gig.date])
+    # gig_dates = gig_query.fetch()
     return gig_dates
 
 
