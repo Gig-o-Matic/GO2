@@ -103,6 +103,8 @@ else:
         webapp2.Route('/agenda.html', agenda.MainPage, name='agenda'),
         webapp2.Route('/agenda_switch', agenda.SwitchView),
         webapp2.Route('/grid.html', grid.MainPage),
+        webapp2.Route('/gridnew.html', grid.MainPageNew),
+        webapp2.Route('/grid_guts', grid.Guts),
         webapp2.Route('/calview.html', calview.MainPage),
         webapp2.Route('/member_info.html', member_handlers.InfoPage, name='memberinfo'),
         webapp2.Route('/member_edit.html', member_handlers.EditPage),
