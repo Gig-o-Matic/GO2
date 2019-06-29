@@ -195,3 +195,11 @@ a {
     content: "\f067"; 
 }
 
+
+.d-event[class*="fa-"]::before {
+    background-color: transparent;
+    font-family: 'Font Awesome 5 Pro';
+    font-weight: 900;
+    font-size: smaller;
+    content: '\f001';
+}
