@@ -86,6 +86,15 @@ code {
     opacity: .95;
 }
 
+
+.icon::before {
+  display: inline-block;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+}
+
 /* Custom page CSS
 -------------------------------------------------- */
 
@@ -175,7 +184,8 @@ a {
 }
 
 .accordion .card-header:after {
-    font-family: 'FontAwesome';  
+    font-family: 'Font Awesome 5 Pro';  
+    font-weight: 900;
     content: "\f068";
     padding-right: .5rem;
     float: left; 
