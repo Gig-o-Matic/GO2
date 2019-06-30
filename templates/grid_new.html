@@ -87,6 +87,8 @@ $('#dateicon').datepicker({
     window.location.assign("/gridnew.html?bk={{the_band_key.urlsafe()}}&m="+(ev.date.getMonth()+1)+"&y="+(ev.date.getFullYear()))
 });
 
+curdate=new Date();
+curdatestr = String(curdate.getMonth()+1)+"/15/"+(curdate.getFullYear()-2000);
 $('#dl').dateline(
 {
     size: "50px",
@@ -102,14 +104,17 @@ $('#dl').dateline(
             { start: "{{k}}-15", text: "{{date_counts[k]}}", class: "fa-square"},
         {% endfor %}
 	],
+    cursor: curdatestr,
 	/* more options... */
 	}
 );
 
 $("#dl").on("datelinechange", function(evt, data) {
-<!--    $("#somewhere").text(data.cursor.toLocaleDateString());-->
     date = data.cursor
-    update_date( date.getMonth()+1, date.getFullYear() )
+    if ((date.getMonth() != curdate.getMonth()) || (date.getFullYear() != curdate.getFullYear())) {
+        update_date( date.getMonth()+1, date.getFullYear() )
+    }
+    curdate = date;
 });
 
 
@@ -127,13 +132,12 @@ function update_date(mo, yr) {
                 if(statusTxt=="error")
                     alert("Error: "+xhr.status+": "+xhr.statusText);
             });
-    console.log('wahoo');
 }
 
 {% if has_gigs %}
 $(document).ready(function() {
-<!--    today = new Date();-->
-    update_date({{the_month}},{{the_year}});
+    update_date(curdate.getMonth()+1, curdate.getFullYear());
+<!--    update_date({{the_month}},{{the_year}});-->
 });
 {% endif %}
 
