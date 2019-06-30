@@ -38,6 +38,7 @@
         </div>
         <div class="row">
             <div class="col-12">
+                <button id="todaybutton" class="btn btn-sm btn-outline-secondary" onclick="reset_timeline();">Today</button>
                 <div id="dl" class="d-awesome"></div>
             </div>
         </div>
@@ -105,16 +106,20 @@ $('#dl').dateline(
         {% endfor %}
 	],
     cursor: curdatestr,
+    begin: "1/1/10",
 	/* more options... */
 	}
 );
 
-$("#dl").on("datelinechange", function(evt, data) {
-    date = data.cursor
+function set_date(date) {
     if ((date.getMonth() != curdate.getMonth()) || (date.getFullYear() != curdate.getFullYear())) {
         update_date( date.getMonth()+1, date.getFullYear() )
     }
     curdate = date;
+}
+
+$("#dl").on("datelinechange", function(evt, data) {
+    set_date(data.cursor);
 });
 
 
@@ -134,10 +139,14 @@ function update_date(mo, yr) {
             });
 }
 
+function reset_timeline(){
+    $('#dl').dateline("cursor",curdatestr);
+    set_date(new Date());
+}
+
 {% if has_gigs %}
 $(document).ready(function() {
     update_date(curdate.getMonth()+1, curdate.getFullYear());
-<!--    update_date({{the_month}},{{the_year}});-->
 });
 {% endif %}
 
