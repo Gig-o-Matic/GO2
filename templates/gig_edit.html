@@ -291,12 +291,6 @@
     {% set locale_fix = the_user.preferences.locale %}
 {% endif %}
 
-var mybutton = "#savebutton";
-$(mybutton).click(function() {
-    $(mybutton).prop("disabled", true);
-    $(mybutton).html("<i class='fas fa-spinner fa-pulse fa-lg'></i>");
-});
-
 $(document).ready(function () {
     $('#gigdateinput').datepicker({
                 language: '{{ locale_fix }}'
@@ -358,7 +352,15 @@ $(document).ready(function () {
             gig_enddate: {
                 required: "{% trans %}This field is required!{% endtrans %}"                
             }            
-        }
+        },
+        submitHandler: function(form) {
+            // make the save button a spinner
+            var mybutton = "#savebutton";
+            $(mybutton).prop("disabled",true);
+            $(mybutton).html("<i class='fas fa-spinner fa-pulse fa-lg'></i>");
+            form.submit();
+          }
+
     });
 
     $('#gigcallinput').timepicker({'timeFormat':'{% trans %}time_format{% endtrans %}'});
