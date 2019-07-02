@@ -213,7 +213,7 @@
                         {% else %}
                             <a class="btn btn-secondary" href="gig_info.html?gk={{ gig.key.urlsafe() }}">{% trans %}Cancel{% endtrans %}</a>
                         {% endif %}
-                        <button type="submit" class="btn btn-primary">{% trans %}Save{% endtrans %}</button>
+                        <button type="submit" id="savebutton" class="btn btn-primary">{% trans %}Save{% endtrans %}</button>
                 </div>
             </div>
             {% if gig==None or is_dupe %}
@@ -290,6 +290,12 @@
 {% else %}
     {% set locale_fix = the_user.preferences.locale %}
 {% endif %}
+
+var mybutton = "#savebutton";
+$(mybutton).click(function() {
+    $(mybutton).prop("disabled", true);
+    $(mybutton).html("<i class='fas fa-spinner fa-pulse fa-lg'></i>");
+});
 
 $(document).ready(function () {
     $('#gigdateinput').datepicker({
