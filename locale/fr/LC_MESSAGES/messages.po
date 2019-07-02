@@ -1108,7 +1108,7 @@ msgstr "Ne pas ajouter dans les agendas"
 
 #: templates/gig_edit.html:194
 msgid "Default to definitely attending"
-msgstr ""
+msgstr "\"Je serai là\" coché par défaut pour tous les membres"
 
 #: templates/gig_edit.html:203
 msgid "Move To Trash"
