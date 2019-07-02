@@ -52,11 +52,9 @@ def get_today_stats(the_band_key):
     today_stats = get_band_stats(the_band_key = the_band_key, today = True)
     if len(today_stats) == 0:
         the_stats = BandStats(band=the_band_key)
-        print("making new stats")
     else:
         the_stats = today_stats[0]
-        print("updating today's stats")
-    return the_stats    
+    return the_stats
 
 def make_band_stats(the_band_key):
     """ make a stats object for a band key and return it """
