@@ -605,7 +605,7 @@ def _do_autoarchive():
     end_date = date - datetime.timedelta(days=3)
     the_gig_keys = gig.get_old_gig_keys(end_date = end_date)
     for a_gig_key in the_gig_keys:
-        make_archive_for_gig_key(a_gig_key)
+        gig.make_archive_for_gig_key(a_gig_key)
     logging.info("Archived {0} gigs".format(len(the_gig_keys)))
 
     # while we're here, look for gigs that have been trashed more than 30 days ago

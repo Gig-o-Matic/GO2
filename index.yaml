@@ -183,6 +183,11 @@ indexes:
   - name: trashed_date
 
 - kind: Gig
+  properties:
+  - name: is_archived
+  - name: trueenddate
+
+- kind: Gig
   ancestor: yes
   properties:
   - name: date

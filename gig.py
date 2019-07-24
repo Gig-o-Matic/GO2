@@ -309,7 +309,7 @@ def get_old_gig_keys(end_date):
     # todo do we need to adjust the date?
     
     gig_query = Gig.query(ndb.AND(Gig.is_archived == False, \
-                                  Gig.date <= end_date))
+                                  Gig.trueenddate <= end_date))
     gigs = gig_query.fetch(keys_only=True)
     return gigs
 
