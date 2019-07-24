@@ -227,6 +227,15 @@ indexes:
   ancestor: yes
   properties:
   - name: is_archived
+  - name: is_canceled
+  - name: is_private
+  - name: status
+  - name: trueenddate
+
+- kind: Gig
+  ancestor: yes
+  properties:
+  - name: is_archived
   - name: is_in_trash
   - name: date
 
@@ -267,6 +276,12 @@ indexes:
 - kind: Gig
   ancestor: yes
   properties:
+  - name: is_archived
+  - name: trueenddate
+
+- kind: Gig
+  ancestor: yes
+  properties:
   - name: is_canceled
   - name: date
 
@@ -281,6 +296,11 @@ indexes:
   properties:
   - name: is_past
   - name: date
+
+- kind: Gig
+  ancestor: yes
+  properties:
+  - name: trueenddate
 
 - kind: Member
   properties:

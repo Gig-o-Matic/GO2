@@ -36,6 +36,7 @@ class Gig(ndb.Model):
     created_date = ndb.DateProperty( auto_now_add=True )
     date = ndb.DateTimeProperty( default=True)
     enddate = ndb.DateTimeProperty( default=None )
+    trueenddate = ndb.ComputedProperty(lambda self: self.enddate if self.enddate else self.date)
     calltime = ndb.TextProperty( default=None )
     settime = ndb.TextProperty( default=None )
     endtime = ndb.TextProperty( default=None )
@@ -154,14 +155,16 @@ def get_gigs_for_band_keys(the_band_key_list, num=None, start_date=None, end_dat
     else:
         params = []
 
+    orderby = Gig.trueenddate
+
     if start_date:
         start_date = adjust_date_for_band(the_band_key_list[0].get(), start_date)
-        params.append( Gig.date >= start_date )
-        
+        params.append( Gig.trueenddate >= start_date )
+
     if end_date:
         end_Date = adjust_date_for_band(the_band_key_list[0].get(), end_date)
-        params.append( Gig.date <= end_date )
-    
+        params.append( Gig.trueenddate <= end_date )
+        
     if not show_canceled:
         params.append( Gig.is_canceled == False )
     
@@ -175,11 +178,10 @@ def get_gigs_for_band_keys(the_band_key_list, num=None, start_date=None, end_dat
 
     all_gigs = []
     for a_band_key in the_band_key_list:
-        gig_query = Gig.query(*params, ancestor=a_band_key).order(Gig.date)
+        gig_query = Gig.query(*params, ancestor=a_band_key).order(orderby)
         the_gigs = gig_query.fetch()
         the_gigs = [x for x in the_gigs if not (hasattr(x,"trashed_date") and x.is_in_trash)]
         all_gigs.append(the_gigs)
-
 
     # now we have several lists of gigs - merge them
     if len(all_gigs) == 0:
@@ -452,3 +454,10 @@ def rest_gig_plan_info(the_plans):
                 info['the_plan']['section'] = info_block['the_assoc'].default_section.urlsafe()
         plans.append(info)
     return plans
+
+
+def rewrite_all_gigs():
+    gig_query = Gig.query(Gig.is_archived == False)
+    gigs = gig_query.fetch()
+    print("\n\n{} gigs\n\n".format(len(gigs)))
+    ndb.put_multi(gigs)

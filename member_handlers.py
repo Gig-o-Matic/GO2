@@ -697,7 +697,8 @@ class RewriteAll(BaseHandler):
     def get(self):
     
         #  update_all_uniques()
-        member.rewrite_all_members()
+        # member.rewrite_all_members()
+        gig.rewrite_all_gigs()
 
         self.redirect(self.uri_for('memberadmin'))
         
