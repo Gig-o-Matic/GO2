@@ -15,8 +15,8 @@ from colors import colors
 from debug import debug_print
     
 import datetime
-from pytz.gae import pytz
-
+# from pytz.gae import pytz
+import pytz
 
 def _get_agenda_contents_for_member(the_user):
     # find the bands this member is associated with

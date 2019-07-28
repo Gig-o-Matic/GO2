@@ -21,7 +21,8 @@ import member
 
 import datetime
 import logging
-from pytz.gae import pytz
+# from pytz.gae import pytz
+import pytz
 
 def make_cal_header(the_title):
     header = """BEGIN:VCALENDAR

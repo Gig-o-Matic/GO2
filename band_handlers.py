@@ -21,7 +21,8 @@ import json
 import string
 import rss
 import gigoexceptions
-from pytz.gae import pytz
+# from pytz.gae import pytz
+import pytz
 
 
 class InfoPage(BaseHandler):
