@@ -311,7 +311,7 @@ def get_old_gig_keys(end_date):
     
     gig_query = Gig.query(ndb.AND(Gig.is_archived == False, \
                                   Gig.trueenddate <= end_date))
-    gigs = gig_query.fetch(keys_only=True)
+    gigs = gig_query.fetch(10, keys_only=True)
     return gigs
 
 def get_trashed_gigs_for_band_key(the_band_key):
