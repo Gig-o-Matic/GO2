@@ -18,6 +18,7 @@ import comment
 import plan
 import cryptoutil
 import stats
+import band
 
 # from pytz.gae import pytz
 import pytz
@@ -458,7 +459,9 @@ def rest_gig_plan_info(the_plans):
 
 
 def rewrite_all_gigs():
-    gig_query = Gig.query(Gig.is_archived == False)
-    gigs = gig_query.fetch()
-    print("\n\n{} gigs\n\n".format(len(gigs)))
-    ndb.put_multi(gigs)
+    band_keys = band.get_all_bands(keys_only=True)
+    for k in band_keys:
+        gig_query = Gig.query(ancestor=k)
+        g = gig_query.fetch()
+        print("\n\n{} gigs\n\n".format(len(g)))
+        ndb.put_multi(g)
