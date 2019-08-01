@@ -545,7 +545,7 @@ class AdminPageSignupMembers(BaseHandler):
         delta = datetime.timedelta(days=2)
         limit = now - delta
         for a_token in the_tokens:
-            the_member = Member.get_by_id(int(a_token.user))
+            the_member = member.Member.get_by_id(int(a_token.user))
             if the_member:
                 a_token.email = the_member.email_address
             else:
