@@ -43,7 +43,7 @@ X-PUBLISHED-TTL:PT2H
 def make_cal_footer():
     return "END:VCALENDAR\n"
 
-def make_event(the_gig, the_band, title_format=u'{0}', details_format=u'{0}', show_url=True, force_set_time=False):
+def make_event(the_gig, the_band, title_format=u'{0}', details_format=u'{0}', show_url=True, force_set_time=False, is_public=False):
     summary = the_gig.title
 
     # make real gig start time, assuming everything is in local time
@@ -135,11 +135,19 @@ URL:{5}
 END:VEVENT
 """
     the_details = details_format.format(
-                            '{0}\\n\\n{1}'.format(
-                                the_gig.details.encode('ascii','ignore').replace('\r\n', '\\n'),
-                                the_gig.setlist.encode('ascii','ignore').replace('\r\n', '\\n')
+                            '{0}'.format(
+                                the_gig.details.encode('ascii','ignore').replace('\r\n', '\\n')
                             )
                         )
+    print('\n\nxxx\n\n')
+    if not is_public:
+        the_details = details_format.format(
+                                '{0}\\n\\n{1}'.format(
+                                    the_details,
+                                    the_gig.setlist.encode('ascii','ignore').replace('\r\n', '\\n')
+                                )
+                            )
+
 
     event = event.format(title_format.format(summary), start_string, end_string,
                          the_details,
@@ -209,7 +217,7 @@ class PublicBandGigRequestHandler(BaseHandler):
             all_gigs = gig.get_gigs_for_band_keys(the_band_key, show_only_public=True)
             for a_gig in all_gigs:
                 if a_gig.is_confirmed and not a_gig.hide_from_calendar:
-                    calfeed = u'{0}{1}'.format(calfeed, make_event(a_gig, the_band, show_url=False, force_set_time=True))
+                    calfeed = u'{0}{1}'.format(calfeed, make_event(a_gig, the_band, show_url=False, force_set_time=True, is_public=True))
 
             calfeed = u'{0}{1}'.format(calfeed, make_cal_footer())
             store_calfeed_for_key("p",the_band.key,calfeed)
