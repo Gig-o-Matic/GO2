@@ -139,7 +139,6 @@ END:VEVENT
                                 the_gig.details.encode('ascii','ignore').replace('\r\n', '\\n')
                             )
                         )
-    print('\n\nxxx\n\n')
     if not is_public:
         the_details = details_format.format(
                                 '{0}\\n\\n{1}'.format(
