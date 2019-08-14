@@ -174,8 +174,8 @@ class MainPageNew(BaseHandler):
             end_date = end_date.replace(year=end_date.year + 1, month=1, day=1)
 
         show_canceled = True
-        if the_user.preferences and the_user.preferences.hide_canceled_gigs:
-            show_canceled = False
+        # if the_user.preferences and the_user.preferences.hide_canceled_gigs:
+        #     show_canceled = False
 
         the_gigs = gig.get_all_gig_dates_for_band(the_band_key)
         gig_date_counts={}
