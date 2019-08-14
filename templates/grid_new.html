@@ -37,13 +37,13 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-12">
+            <div class="col-12" style="padding:0%">
                 <div id="dl" class="d-awesome"></div>
             </div>
         </div>
         {% if has_gigs %}
             <div class="row">
-                <div class="col-12">
+                <div class="col-12" style="overflow:auto; padding:0%">
                     <div id="guts"></div>
                 </div>
             </div>
@@ -114,7 +114,7 @@ $("#dl").on("datelinechange", function(evt, data) {
 
 
 function update_date(mo, yr) {
-    $('#guts').html('<div><i class="fas fa-spinner fa-pulse fa-lg"></i></div>');
+    $('#guts').html('<div width=100% style="text-align:center; padding:30px"><i class="fas fa-spinner fa-pulse fa-lg"></i></div>');
     $.get('/grid_guts',
             {
                 bk: '{{ the_band_key.urlsafe() }}',
