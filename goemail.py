@@ -132,14 +132,26 @@ def send_newgig_email(the_member, the_gig, the_band, the_gig_url, is_edit=False,
         
     the_status_string = [_('Unconfirmed'), _('Confirmed!'), _('Cancelled!')][the_gig.status]
 
+    if the_gig.details:
+        the_details_string = the_gig.details
+    else:
+        the_details_string = ''
+
+    if the_gig.setlist:
+        the_details_string = "{0}{1}{2}:\n{3}".format(the_details_string,
+                                                   '\n\n' if the_details_string else '', 
+                                                   _('Setlist'), 
+                                                   the_gig.setlist)
+
+
     def format_body(body_format_str):
         return body_format_str.format(the_band.name, the_gig.title, the_date_string, the_time_string, contact_name,
-                                      the_status_string, the_gig.details, the_gig_url, "", the_yes_url, the_no_url,
+                                      the_status_string, the_details_string, the_gig_url, "", the_yes_url, the_no_url,
                                       the_snooze_url)
 
     if is_edit:
         body = _('edited_gig_email').format(the_band.name, the_gig.title, the_date_string, the_time_string, contact_name,
-                                            the_status_string, the_gig.details, the_gig_url, change_string)
+                                            the_status_string, the_details_string, the_gig_url, change_string)
         html = None
     elif is_reminder:
         body = format_body(_('reminder_gig_email'))

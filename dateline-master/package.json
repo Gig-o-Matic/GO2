@@ -1,0 +1,30 @@
+{
+  "name": "@sjaakp/dateline",
+  "version": "1.2.4",
+  "description": "Timeline widget",
+  "browser": "./js/jquery.dateline.min.js",
+  "files": [
+    "css/jquery.dateline.css",
+    "js/*"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "github:sjaakp/dateline",
+  "keywords": [
+    "widget",
+    "timeline"
+  ],
+  "author": "Sjaak Priester <sjaak@sjaakpriester.nl> (https://sjaakpriester.nl)",
+  "bugs": {
+    "url": "https://github.com/sjaakp/dateline/issues",
+    "email": "sjaak@sjaakpriester.nl"
+  },
+  "homepage": "https://www.sjaakpriester.nl/software/dateline",
+  "license": "MIT",
+  "dependencies": {
+    "jquery": "^3.0.0",
+    "jquery-ui": "^1.1.0",
+    "underscore": "^1.7.0"
+  }
+}

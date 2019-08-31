@@ -1,0 +1,5 @@
+TODO:
+
+- add the invite token to the assoc when doing the invite (refactor the code from band into assoc)
+- in member.py, make the delete_invite_tokens function work (find invited assocs for member, set them as verified, set in_invited to False and blank the token)
+- in login.py, if creating a new user fails, see if there are invite tokens

@@ -1,0 +1,560 @@
+@charset "utf-8";
+
+/* 9-12-2014, 12:03 */
+
+@tint: #908060;
+@event-col: #483d8b;  // dark-slate-blue
+
+@band-col: lighten(@tint, 20%);
+@band-4-col: lighten(@band-col, 3%);
+@band-3-col: lighten(@band-4-col, 3%);
+@band-2-col: lighten(@band-3-col, 3%);
+@band-1-col: lighten(@band-2-col, 3%);
+@band-0-col: lighten(@band-1-col, 3%);
+
+
+.dim(@col) when (luma(@col) < 70%) {
+  @dim: lighten(desaturate(@col, 80%), 30%);
+//  @hilgt: #fff;
+//  @hilgt-b: #ccf;
+}
+.dim(@col) when (luma(@col) >= 70%) {
+  @dim: darken(desaturate(@col, 80%), 30%);
+//  @hilgt: #000;
+//  @hilgt-b: #00a;
+}
+
+.def-band(@col) {
+  background-color: @col;
+  .d-range {
+    background-color: lighten(@col, 7%);
+  }
+  .d-indicator {
+    color: lighten(@col, 15%);
+    text-shadow: 0 0 5px darken(@col, 20%);
+    &:hover {
+      color: lighten(@col, 30%);
+    }
+  }
+}
+
+.def-col(@col) {
+  .dim(@col);
+  &:before {
+    background-color: @col;
+  }
+  &[class*="fa-"]:before {
+    background-color: transparent;
+    color: @col;
+  }
+//  &.d-highlight:before {
+//    color: @hilgt;
+//    background-color: @hilgt;
+//  }
+  .d-tape {
+    background-color: @col;
+    border-color: @dim;
+  }
+//  &.d-highlight .d-tape {
+//    background-color: @hilgt;
+//    border-color: @hilgt-b;
+//  }
+}
+
+.d-dateline {
+  position: relative;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  background-color: @band-0-col;
+  text-align: center;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.d-bubble {
+  display: none;
+  position: absolute;
+  text-align: left;
+  width: 240px;
+  background-color: #fff;
+  border: 1px solid lighten(@tint, 20%);
+  border-radius: 12px;
+}
+
+.d-close  {
+  float: right;
+  margin: 0 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  color: lighten(@tint, 20%);
+  &:hover {
+    color: darken(@tint, 20%);
+  }
+}
+
+.d-info {
+  margin: 1em;
+}
+
+.d-inner  {
+  height: 100%;
+  overflow: hidden;
+  text-align: left;
+}
+
+.d-band {
+  position: relative;
+  outline: none;
+  .def-band(@band-col);
+}
+
+.d-input  {
+  position: absolute;
+  left: -12px;
+  width: 0;
+}
+
+.d-range {
+  position: absolute;
+  height: 100%;
+  width: 50%;
+  &.d-before  {
+    right: 50%;
+    border-right: 1px dotted #fff;
+  }
+  &.d-after  {
+    left: 50%;
+    border-left: 1px dotted #fff;
+  }
+}
+
+.d-content  {
+  position: absolute;
+  height: 100%;
+  cursor: ew-resize;
+}
+
+.d-markers, .d-events  {
+  position: absolute;
+  width: 100%;
+}
+
+.d-markers {
+  height: 30px;
+  bottom: 0;
+}
+
+.d-events {
+  height: 100%;
+}
+
+.d-marker {
+  float: left;
+//  text-align: center;
+  font-family: sans-serif;
+  font-size: 12px;
+  line-height: 12px;
+  padding-top: 18px;
+  padding-left: 2px;
+  border-left: 1px dotted;
+  color: @tint;
+  &.d-plus  {
+    font-size: 14px;
+    font-weight: bold;
+    border-left-style: solid;
+    color: darken(@tint, 20%);
+  }
+}
+
+.d-limit {
+  position: absolute;
+  width: 60px;
+  height: 100%;
+  background-color: red;
+  &.d-begin {
+    background: -moz-linear-gradient(right,  rgba(144,128,96,.1) 0%, rgba(0,0,0,0) 100%);
+    background: -webkit-gradient(linear, right top, left top, color-stop(0%,rgba(144,128,96,.1)), color-stop(100%,rgba(0,0,0,0)));
+    background: -webkit-linear-gradient(right,  rgba(144,128,96,.1) 0%,rgba(0,0,0,0) 100%);
+    background: -o-linear-gradient(right,  rgba(144,128,96,.1) 0%,rgba(0,0,0,0) 100%);
+    background: -ms-linear-gradient(right,  rgba(144,128,96,.1) 0%,rgba(0,0,0,0) 100%);
+    background: linear-gradient(to left,  rgba(144,128,96,.1) 0%,rgba(0,0,0,0) 100%);
+  }
+  &.d-end {
+    background: -moz-linear-gradient(left,  rgba(144,128,96,.1) 0%, rgba(0,0,0,0) 100%);
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(144,128,96,.1)), color-stop(100%,rgba(0,0,0,0)));
+    background: -webkit-linear-gradient(left,  rgba(144,128,96,.1) 0%,rgba(0,0,0,0) 100%);
+    background: -o-linear-gradient(left,  rgba(144,128,96,.1) 0%,rgba(0,0,0,0) 100%);
+    background: -ms-linear-gradient(left,  rgba(144,128,96,.1) 0%,rgba(0,0,0,0) 100%);
+    background: linear-gradient(to right,  rgba(144,128,96,.1) 0%,rgba(0,0,0,0) 100%);
+  }
+}
+
+.d-event {
+  position: absolute;
+  line-height: 1;
+  padding-right: 30px;  // defines minimal distance between events on same line
+  margin-left: -6px;    // centers event symbol on correct date
+  cursor: pointer;
+  &:before  {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    content: '';
+    color: #fff;
+    background-color: @event-col;
+    margin-right: 4px;
+  }
+  &[class*="fa-"]:before {
+    background-color: transparent;
+    font-family: FontAwesome;
+    font-weight: normal;
+    color: @event-col;
+  }
+  &.d-highlight:before {
+    color: @tint;
+    background-color: @tint;
+//    color: #ffffff;
+//    background-color: #ffffff;
+  }
+}
+
+.d-indicator {
+  @marg: 12px;
+  display: none;
+  position: absolute;;
+  top: 30%;
+  font-size: 1.6em;
+  font-weight: bold;
+  cursor: pointer;
+  &.d-left {
+    left: @marg;
+    &:after {
+      content: '<';
+    }
+  }
+  &.d-right {
+    right: @marg;
+    &:after {
+      content: '>';
+    }
+  }
+}
+
+.d-glyphicon {
+  .d-indicator {
+    font-family: 'Glyphicons Halflings';
+    font-weight: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-size: 1.2em;
+    &.d-left {
+      &:after {
+        content: '\e079';
+      }
+    }
+    &.d-right {
+      &:after {
+        content: '\e080';
+      }
+    }
+  }
+}
+
+.d-awesome {
+  .d-indicator {
+    font-family: FontAwesome;
+    font-weight: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-size: 1.2em;
+    &.d-left {
+      &:after {
+        content: '\f053';
+      }
+    }
+    &.d-right {
+      &:after {
+        content: '\f054';
+      }
+    }
+  }
+}
+
+.d-material {
+  .d-indicator {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-size: 1.2em;
+    &.d-left {
+      &:after {
+        content: '\e5cb';
+      }
+    }
+    &.d-right {
+      &:after {
+        content: '\e5cc';
+      }
+    }
+  }
+}
+
+.d-tape-event {
+  position: absolute;
+  line-height: 1.2;
+  cursor: pointer;
+  &[class*="fa-"]:before {
+    content: normal;
+  }
+}
+
+.d-tape {
+  height: 4px;
+  background-color: @event-col;
+  .dim(@event-col);
+  border-color: @dim;
+  border-width: 0;
+  border-style: solid;
+}
+
+.d-highlight .d-tape {
+  background-color: @tint !important;
+  border-color: lighten(@tint, 15%) !important;
+//  background-color: #ffffff;
+//  border-color: #ccccff;
+}
+
+.d-pin  {
+  position: absolute;
+  top: 30%;
+  width: 1px;
+  height: 6px;
+  background-color: @event-col;
+}
+
+.d-tape-pin  {
+  position: absolute;
+  top: 30%;
+  height: 2px;
+  background-color: @event-col;
+}
+
+.d-band-0 {
+  .def-band(@band-0-col);
+}
+.d-band-1 {
+  .def-band(@band-1-col);
+}
+.d-band-2 {
+  .def-band(@band-2-col);
+}
+.d-band-3 {
+  .def-band(@band-3-col);
+}
+
+// identical to sjaakp\symbolpicker\assets\symbol-colors.less
+.col-aliceblue {.def-col(#f0f8ff);}
+.col-antiquewhite {.def-col(#faebd7);}
+.col-aqua {.def-col(#00ffff);}
+.col-aquamarine {.def-col(#7fffd4);}
+.col-azure {.def-col(#f0ffff);}
+.col-beige {.def-col(#f5f5dc);}
+.col-bisque {.def-col(#ffe4c4);}
+.col-black {.def-col(#000000);}
+.col-blanchedalmond {.def-col(#ffebcd);}
+.col-blue {.def-col(#0000ff);}
+.col-blueviolet {.def-col(#8a2be2);}
+.col-brown {.def-col(#a52a2a);}
+.col-burlywood {.def-col(#deb887);}
+.col-cadetblue {.def-col(#5f9ea0);}
+.col-chartreuse {.def-col(#7fff00);}
+.col-chocolate {.def-col(#d2691e);}
+.col-coral {.def-col(#ff7f50);}
+.col-cornflowerblue {.def-col(#6495ed);}
+.col-cornsilk {.def-col(#fff8dc);}
+.col-crimson {.def-col(#dc143c);}
+.col-cyan {.def-col(#00ffff);}
+.col-darkblue {.def-col(#00008b);}
+.col-darkcyan {.def-col(#008b8b);}
+.col-darkgoldenrod {.def-col(#b8860b);}
+.col-darkgray {.def-col(#a9a9a9);}
+.col-darkgreen {.def-col(#006400);}
+.col-darkgrey {.def-col(#a9a9a9);}
+.col-darkkhaki {.def-col(#bdb76b);}
+.col-darkmagenta {.def-col(#8b008b);}
+.col-darkolivegreen {.def-col(#556b2f);}
+.col-darkorange {.def-col(#ff8c00);}
+.col-darkorchid {.def-col(#9932cc);}
+.col-darkred {.def-col(#8b0000);}
+.col-darksalmon {.def-col(#e9967a);}
+.col-darkseagreen {.def-col(#8fbc8f);}
+.col-darkslateblue {.def-col(#483d8b);}
+.col-darkslategray {.def-col(#2f4f4f);}
+.col-darkslategrey {.def-col(#2f4f4f);}
+.col-darkturquoise {.def-col(#00ced1);}
+.col-darkviolet {.def-col(#9400d3);}
+.col-deeppink {.def-col(#ff1493);}
+.col-deepskyblue {.def-col(#00bfff);}
+.col-dimgray {.def-col(#696969);}
+.col-dimgrey {.def-col(#696969);}
+.col-dodgerblue {.def-col(#1e90ff);}
+.col-firebrick {.def-col(#b22222);}
+.col-floralwhite {.def-col(#fffaf0);}
+.col-forestgreen {.def-col(#228b22);}
+.col-fuchsia {.def-col(#ff00ff);}
+.col-gainsboro {.def-col(#dcdcdc);}
+.col-ghostwhite {.def-col(#f8f8ff);}
+.col-gold {.def-col(#ffd700);}
+.col-goldenrod {.def-col(#daa520);}
+.col-gray {.def-col(#808080);}
+.col-green {.def-col(#008000);}
+.col-greenyellow {.def-col(#adff2f);}
+.col-grey {.def-col(#808080);}
+.col-honeydew {.def-col(#f0fff0);}
+.col-hotpink {.def-col(#ff69b4);}
+.col-indianred {.def-col(#cd5c5c);}
+.col-indigo {.def-col(#4b0082);}
+.col-ivory {.def-col(#fffff0);}
+.col-khaki {.def-col(#f0e68c);}
+.col-lavender {.def-col(#e6e6fa);}
+.col-lavenderblush {.def-col(#fff0f5);}
+.col-lawngreen {.def-col(#7cfc00);}
+.col-lemonchiffon {.def-col(#fffacd);}
+.col-lightblue {.def-col(#add8e6);}
+.col-lightcoral {.def-col(#f08080);}
+.col-lightcyan {.def-col(#e0ffff);}
+.col-lightgoldenrodyellow {.def-col(#fafad2);}
+.col-lightgray {.def-col(#d3d3d3);}
+.col-lightgreen {.def-col(#90ee90);}
+.col-lightgrey {.def-col(#d3d3d3);}
+.col-lightpink {.def-col(#ffb6c1);}
+.col-lightsalmon {.def-col(#ffa07a);}
+.col-lightseagreen {.def-col(#20b2aa);}
+.col-lightskyblue {.def-col(#87cefa);}
+.col-lightslategray {.def-col(#778899);}
+.col-lightslategrey {.def-col(#778899);}
+.col-lightsteelblue {.def-col(#b0c4de);}
+.col-lightyellow {.def-col(#ffffe0);}
+.col-lime {.def-col(#00ff00);}
+.col-limegreen {.def-col(#32cd32);}
+.col-linen {.def-col(#faf0e6);}
+.col-magenta {.def-col(#ff00ff);}
+.col-maroon {.def-col(#800000);}
+.col-mediumaquamarine {.def-col(#66cdaa);}
+.col-mediumblue {.def-col(#0000cd);}
+.col-mediumorchid {.def-col(#ba55d3);}
+.col-mediumpurple {.def-col(#9370db);}
+.col-mediumseagreen {.def-col(#3cb371);}
+.col-mediumslateblue {.def-col(#7b68ee);}
+.col-mediumspringgreen {.def-col(#00fa9a);}
+.col-mediumturquoise {.def-col(#48d1cc);}
+.col-mediumvioletred {.def-col(#c71585);}
+.col-midnightblue {.def-col(#191970);}
+.col-mintcream {.def-col(#f5fffa);}
+.col-mistyrose {.def-col(#ffe4e1);}
+.col-moccasin {.def-col(#ffe4b5);}
+.col-navajowhite {.def-col(#ffdead);}
+.col-navy {.def-col(#000080);}
+.col-oldlace {.def-col(#fdf5e6);}
+.col-olive {.def-col(#808000);}
+.col-olivedrab {.def-col(#6b8e23);}
+.col-orange {.def-col(#ffa500);}
+.col-orangered {.def-col(#ff4500);}
+.col-orchid {.def-col(#da70d6);}
+.col-palegoldenrod {.def-col(#eee8aa);}
+.col-palegreen {.def-col(#98fb98);}
+.col-paleturquoise {.def-col(#afeeee);}
+.col-palevioletred {.def-col(#db7093);}
+.col-papayawhip {.def-col(#ffefd5);}
+.col-peachpuff {.def-col(#ffdab9);}
+.col-peru {.def-col(#cd853f);}
+.col-pink {.def-col(#ffc0cb);}
+.col-plum {.def-col(#dda0dd);}
+.col-powderblue {.def-col(#b0e0e6);}
+.col-purple {.def-col(#800080);}
+.col-red {.def-col(#ff0000);}
+.col-rosybrown {.def-col(#bc8f8f);}
+.col-royalblue {.def-col(#4169e1);}
+.col-saddlebrown {.def-col(#8b4513);}
+.col-salmon {.def-col(#fa8072);}
+.col-sandybrown {.def-col(#f4a460);}
+.col-seagreen {.def-col(#2e8b57);}
+.col-seashell {.def-col(#fff5ee);}
+.col-sienna {.def-col(#a0522d);}
+.col-silver {.def-col(#c0c0c0);}
+.col-skyblue {.def-col(#87ceeb);}
+.col-slateblue {.def-col(#6a5acd);}
+.col-slategray {.def-col(#708090);}
+.col-slategrey {.def-col(#708090);}
+.col-snow {.def-col(#fffafa);}
+.col-springgreen {.def-col(#00ff7f);}
+.col-steelblue {.def-col(#4682b4);}
+.col-tan {.def-col(#d2b48c);}
+.col-teal {.def-col(#008080);}
+.col-thistle {.def-col(#d8bfd8);}
+.col-tomato {.def-col(#ff6347);}
+.col-turquoise {.def-col(#40e0d0);}
+.col-violet {.def-col(#ee82ee);}
+.col-wheat {.def-col(#f5deb3);}
+.col-white {.def-col(#ffffff);}
+.col-whitesmoke {.def-col(#f5f5f5);}
+.col-yellow {.def-col(#ffff00);}
+.col-yellowgreen {.def-col(#9acd32);}
+
+
+
+.d-dateline  {
+  height: 320px;
+}
+
+.d-band-0 {
+  height: 60%;
+}
+
+.d-band-1 {
+  height: 24%;
+}
+
+.d-band-2 {
+  height: 16%;
+}
+
+.d-content  {
+  //  border: 1px dotted;
+  //  width: 1200px;
+  //  left: -100px;
+}
+
+.d-highlight  {
+  //  width: 300px;
+  //  left: 500px;
+}
+
+.d-marker {
+  left: 780px;
+}
+
+.d-event {
+  top: 40px;
+  left: 480px;
+}
+
+.d-tape-event {
+  top: 80px;
+  left: 490px;
+}
+
+.d-tape {
+  //  width: 160px;
+  //  border-left-width: 40px;
+  //  border-right-width: 20px;
+}

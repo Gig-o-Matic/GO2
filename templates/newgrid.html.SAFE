@@ -1,0 +1,333 @@
+{% extends 'go2base.html' %}
+
+{% block title %}{% trans %}Grid o'Gigs{% endtrans %}{% endblock title %}
+
+{% block headcontent %}
+
+<style>
+div.scrollmenu {
+    overflow: auto;
+    white-space: nowrap;
+}
+
+div.scrollthing {
+    display: inline-block;
+    *display: inline;
+}
+</style>
+
+{% endblock headcontent %}
+
+{% block content %}
+<div class="row">
+    <div class="mx-auto col-md-10 col-12">
+        <div class="page-header">
+            {% trans %}Grid o'Gigs{% endtrans %}
+            {% if the_user.preferences.default_view != 2 %}
+            <small>(<a href="/?default=2">{% trans %}Make this my default view!{% endtrans %}</a>)</small>
+            {% endif %}
+        </div>
+        <div>&nbsp;</div>
+        <div>
+            <a href="/grid.html">back to old grid</a>
+        </div>
+        <div>&nbsp;</div>
+        <div class="row">
+            <div class="col-12">
+                {% if all_band_keys|length > 1 %}
+                    <div class="dropdown">
+                        <a class="btn btn-sm btn-outline-secondary dropdown-toggle text-center" href="#" role="button" data-toggle="dropdown" id="dropdownMenu1">
+                            {{ the_band_key.get().name }} <span class="caret"></span>
+                        </a>
+                        <div class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                            {% for a_band_key in all_band_keys %}
+                                <a class="dropdown-item" href="/newgrid?bk={{a_band_key.urlsafe()}}&m={{the_month}}&y={{the_year}}">{{a_band_key.get().name}}</a>
+                            {% endfor %}
+                        </div>
+                    </div> <!-- dropdown -->
+                {% endif %}
+                <br>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-4">
+                <div class="row" id="toprow">
+                    <div class="col-12 text-right">
+                        <a href="#" onclick="moreleft();"><i class="fas fa-chevron-left fa-2x" style="color:gray;" aria-hidden="true"></i></a>
+                    </div>
+                </div>
+                {% for s in the_member_assocs_by_section %}
+                    {% if s[0] %}
+                        {% set the_section = s[0].get() %}
+                    {% else %}
+                        {% set the_section = None %}
+                    {% endif %}
+                    <div class="row sectionrow" id="{% if the_section %}{{ the_section.key.urlsafe() }}{% else %}nosection{% endif %}">
+                        <div class="col-6">
+                            {% if the_section %}
+                                {{ the_section.name }}
+                            {% else %}
+                                {% trans %}No Section{% endtrans %}
+                            {% endif %}
+                        </div>
+                        <div class="col-6 sectionmembers" style="padding-right:0px;">
+                            {% for a in s[1] %}
+                                <div class="memberrow" id="{{a.member.urlsafe()}}">
+                                    {% set the_member = a.member.get() %}
+	                                <a href="/member_info.html?mk={{a.member.urlsafe()}}">{% if the_member.nickname %}{{the_member.nickname }}{% else %}{{ the_member.name }}{% endif %}</a>
+                                </div>                                            
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="col-7" style="padding-left:0px;">
+                <div class="scrollmenu" id="thegigs" onscroll="scrolled();">
+                    <i class="fas fa-spinner fa-pulse fa-lg"></i>                   
+                </div>
+            </div>
+            <div class="col-1">
+            	<a href="#" onclick="moreright();"><i class="fas fa-chevron-right fa-2x" style="color:gray;" aria-hidden="true"></i></a>
+			</div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block localscripts %}
+<script src="/js/plan_buttons.js"></script>
+<script>
+var the_members = [];
+var the_last_month = {{ start_month }};
+var the_last_year = {{ start_year }};
+var the_first_month = the_last_month;
+var the_first_year = the_last_year;
+
+function fixtitlerows() {
+    // height = $(".titlerow").first().height();
+    // $(".titlerow").height(height);
+    // $("#toprow").height(height);
+
+    height = $("#toprow").height();
+    $(".scrolltitlerow").each( function() {
+        if($(this).height() > height) {
+            height = $(this).height();
+        }
+    });
+    $(".scrolltitlerow").height(height);
+    $("#toprow").height(height);
+}
+
+function handlegigplans(the_plans,atright) {
+
+	the_plans.forEach( function(gig) {
+		the_new_block = 
+			'<div class="scrollthing">'
+				+ '<div class="scrolltitlerow">'
+					+ '<div class="giginfo">'
+						+ gig['date']
+					+ '</div>'
+					+ '<div class="giginfo">'
+						+ '<a href="/gig_info.html?gk='+gig['key']+'">'+gig['title']+'</a>'
+                        + '<br>'
+        if (gig['archived']) {
+            the_new_block += '{% trans %}archived{% endtrans %}';
+        } else {
+            if (gig['status'] == 1) {
+                the_new_block += '<i class="fas fa-check-circle" style="color:green"></i>';
+            } else if (gig['status']==2 ){
+                the_new_block += '<i class="fas fa-times-circle" style="color:red"></i>';
+            } else {
+                the_new_block += '<i class="fas fa-question-circle" style="color:orange"></i>';             
+            }
+        }
+        the_new_block += '</div>'
+				 + '</div>';
+
+		the_members.forEach( function(entry) {
+            if (entry[0]=='m') {
+                mindex = entry[1];
+                var rowheight = $('#'+mindex).height();
+				the_new_block += '<div class="gigplan" style="height: '+rowheight+'px; text-align: center;">';
+                if (!gig['archived']) {
+    				var a_plan = gig['plans'][mindex];
+    				if (a_plan) {
+    					the_new_block += get_plan_button_guts(String(a_plan[0]));
+    				} else {
+    					the_new_block += get_plan_button_guts('0');
+    				}
+                } else {
+                    the_new_block += '&nbsp;';
+                }
+				the_new_block += '</div>';
+            } else {
+                sindex = entry[1];
+                var rowheight = $('#'+sindex).height();
+                the_new_block += '<div class="gigplan" style="height: '+rowheight+'px; text-align: center;"></div>';                    
+            }
+		});
+		the_new_block += '</div>';
+        if (atright) {
+            $('#thegigs').append(the_new_block);
+            scrollRight();
+        } else {
+            $('#thegigs').prepend(the_new_block);        
+            scrollLeft();
+        }
+	});
+}
+
+function handlenogigsformonth(the_month_string,atright) {
+
+    the_new_block='<div class="scrollthing" style="vertical-align: top;">';
+    the_new_block+='<div class="scrolltitlerow">'
+    the_new_block+='<div class="nogiginfo">'
+    the_new_block+=the_month_string;
+    the_new_block+='</div>';
+    the_new_block+='</div>';
+	the_members.forEach( function(entry) {
+        if (entry[0]=='m') {
+            mindex = entry[1];
+            var rowheight = $('#'+mindex).height();
+    		the_new_block += '<div class="gigplan" style="height: '+rowheight+'px; text-align: center;">&nbsp;</div>';
+        } else {
+            sindex = entry[1];
+            var rowheight = $('#'+sindex).height();
+            the_new_block += '<div class="gigplan" style="height: '+rowheight+'px; text-align: center;">&nbsp;</div>';
+        }
+	});
+    the_new_block+='</div>';
+    if (atright) {
+        $('#thegigs').append(the_new_block);
+        scrollRight();
+    } else {
+        $('#thegigs').prepend(the_new_block);        
+        scrollLeft();
+    }
+
+}
+
+function addrightbutton(the_month) {
+	righticon = '<div class="scrollthing" id="rightarrow"><a href="#" onclick="moreright('+the_month+');">Next Month';
+	righticon += '<i class="fas fa-chevron-right fa-2x" style="color:gray;" aria-hidden="true"></i></a>';
+	righticon += '</div>';
+	$('#thegigs').append(righticon);
+
+}
+
+function moreright() {
+	the_last_month += 1;
+	loadgigs(false,true);
+}
+
+function moreleft() {
+    the_first_month -= 1;
+    loadgigs(false,false);
+}
+
+function loadgigs(first,atright) {
+    if (atright) {
+        the_month = the_last_month;
+        the_year = the_last_year;
+    } else {
+        the_month = the_first_month;
+        the_year = the_first_year;        
+    }
+    $.post('/gridgigs',
+            {
+                bk: '{{ the_band_key.urlsafe() }}',
+                month: the_month,
+                year: the_year
+            },
+            function(responseTxt,statusTxt,xhr){
+                if(statusTxt=="success")
+                	if (first) {
+                		$('#thegigs').html('');
+                	}
+                	return_data = JSON.parse(responseTxt)
+                	the_plans = return_data['the_plans']
+                    if(atright) {
+                        the_last_month = return_data['the_month']
+                        the_last_year = return_data['the_year']
+                    } else {
+                        the_first_month = return_data['the_month']
+                        the_first_year = return_data['the_year']
+                    }
+                    // $('#thegigs').html(responseTxt);
+                    if (the_plans.length > 0) {
+                        handlegigplans(the_plans,atright);
+                    } else {
+                        handlenogigsformonth(return_data['the_month_string'],atright)
+                    }
+                    setTimeout(function() {
+                        fixtitlerows();
+                    }, 1000);
+                if(statusTxt=="error")
+                    alert("Error: "+xhr.status+": "+xhr.statusText);
+            });
+}
+
+function setupmemberindex() {
+	{% for s in the_member_assocs_by_section %}
+        {% if s[1] %}
+    		{% for m in s[1] %}
+    			the_members.push(['m','{{m.member.urlsafe()}}']);
+    		{% endfor %}
+        {% else %}
+            the_members.push(['s','{{s[0].urlsafe()}}']);
+        {% endif %}
+	{% endfor %}
+}
+
+{# for each section, if the name of the section is so long that it makes the div taller than the stack of #}
+{# member names, we need to adjust the member name cells to make the last one in the list take up the extra space #}
+function fixmembernameheights() {
+	var sectionrows = $('.sectionrow');
+	sectionrows.each( function() {
+		var section_height = $(this).height();
+		member_cell = $(this).children()[1];
+		var total_children_height = 0;
+		$(member_cell).children().each( function() {
+			total_children_height += $(this).height();
+		});
+		if (section_height > total_children_height) {			
+			cell_to_adjust = $(member_cell).children().last();
+			$(cell_to_adjust).height($(cell_to_adjust).height() + (section_height-total_children_height));
+		}
+	});
+}
+
+function scrolled() {
+    return;
+    thething = $("#thegigs")
+    pos = thething.scrollLeft();
+    max = thething.get(0).scrollWidth - thething.get(0).clientWidth
+    if (pos == max) {
+        moreright();
+    } else if (pos == 0) {
+        moreleft();
+    }
+}
+
+function scrollRight() {
+    thething = $("#thegigs")
+    max = thething.get(0).scrollWidth - thething.get(0).clientWidth;
+    setTimeout(function() {
+        $("#thegigs").animate( {scrollLeft: max}, 1000 );
+    }, 1000);
+}
+
+function scrollLeft() {
+    thething = $("#thegigs")
+    thething.animate( {scrollLeft: 0}, 1000);
+}
+
+$(document).ready(function() {
+	setupmemberindex();
+	fixmembernameheights();
+    loadgigs(true);
+});
+
+</script>
+{% endblock localscripts %}
