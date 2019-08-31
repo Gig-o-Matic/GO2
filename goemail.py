@@ -51,6 +51,9 @@ def _send_admin_mail(to, subject, body, html=None, reply_to=None):
     if html is not None:
         message.html = html
 
+    print('\n\n{0}\n\n'.format(body))
+    print('\n\n{0}\n\n'.format(html))
+
     try:
         message.send()
         return True
@@ -132,33 +135,33 @@ def send_newgig_email(the_member, the_gig, the_band, the_gig_url, is_edit=False,
         
     the_status_string = [_('Unconfirmed'), _('Confirmed!'), _('Cancelled!')][the_gig.status]
 
-    if the_gig.details:
-        the_details_string = the_gig.details
-    else:
-        the_details_string = ''
+    def format_details(details, setlist, newline='\n'):
+        if setlist:
+            the_details_string = "{0}{1}{2}:{3}{4}".format(details if details else '',
+                                                    '{0}{0}'.format(newline) if details else '', 
+                                                    _('Setlist'), 
+                                                    newline,
+                                                    newline.join(setlist.splitlines()))
+        else:
+            the_details_string = details
 
-    if the_gig.setlist:
-        the_details_string = "{0}{1}{2}:\n{3}".format(the_details_string,
-                                                   '\n\n' if the_details_string else '', 
-                                                   _('Setlist'), 
-                                                   the_gig.setlist)
+        return the_details_string
 
-
-    def format_body(body_format_str):
+    def format_body(body_format_str, newline='\n'):
         return body_format_str.format(the_band.name, the_gig.title, the_date_string, the_time_string, contact_name,
-                                      the_status_string, the_details_string, the_gig_url, "", the_yes_url, the_no_url,
+                                      the_status_string, format_details(the_gig.details, the_gig.setlist, newline), the_gig_url, "", the_yes_url, the_no_url,
                                       the_snooze_url)
 
     if is_edit:
         body = _('edited_gig_email').format(the_band.name, the_gig.title, the_date_string, the_time_string, contact_name,
-                                            the_status_string, the_details_string, the_gig_url, change_string)
+                                            the_status_string, format_details(the_gig.details, the_gig.setlist), the_gig_url, change_string)
         html = None
     elif is_reminder:
         body = format_body(_('reminder_gig_email'))
-        html = format_body(_('reminder_gig_email_html'))
+        html = format_body(_('reminder_gig_email_html'), newline='<br>')
     else:
         body = format_body(_('new_gig_email'))
-        html = format_body(_('new_gig_email_html'))
+        html = format_body(_('new_gig_email_html'), newline='<br>')
 
     return _send_admin_mail(the_email_address, u'{0} {1}'.format(title_string, the_gig.title), body, html=html, reply_to=reply_to)
 
