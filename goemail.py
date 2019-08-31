@@ -51,9 +51,6 @@ def _send_admin_mail(to, subject, body, html=None, reply_to=None):
     if html is not None:
         message.html = html
 
-    print('\n\n{0}\n\n'.format(body))
-    print('\n\n{0}\n\n'.format(html))
-
     try:
         message.send()
         return True
