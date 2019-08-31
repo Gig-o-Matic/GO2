@@ -45,7 +45,7 @@ def _send_admin_mail(to, subject, body, html=None, reply_to=None):
     message.sender = _admin_email_address
     message.to = to
     message.subject = subject
-    message.body = body
+    message.body = body.encode('utf-8')
     if reply_to is not None:
         message.reply_to = reply_to
     if html is not None:
