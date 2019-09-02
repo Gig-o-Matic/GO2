@@ -48,7 +48,7 @@ class Gig(ndb.Model):
     paid = ndb.TextProperty( default=None )
     leader = ndb.TextProperty( default=None )
     postgig = ndb.TextProperty( default=None )
-    status = ndb.IntegerProperty( default=0 ) # 1=confirmed, 2=cancelled, 3=asking
+    status = ndb.IntegerProperty( default=0 ) # 0= unconfirmed; 1=confirmed, 2=cancelled; 10=open poll, 11=closed poll
     archive_id = ndb.TextProperty( default=None )
     is_private = ndb.BooleanProperty(default=False )    
     is_archived = ndb.ComputedProperty(lambda self: self.archive_id is not None)
@@ -63,9 +63,12 @@ class Gig(ndb.Model):
     trashed_date = ndb.DateTimeProperty( default=None )
     is_in_trash = ndb.ComputedProperty(lambda self: self.trashed_date is not None )
     default_to_attending = ndb.BooleanProperty( default=False )
+    is_poll = ndb.ComputedProperty(lambda self: self.status >= 10)
 
     status_names=["Unconfirmed","Confirmed!","Cancelled!"]
-    
+
+    poll_status={ 'open' : 10, 'closed' : 11 }
+
     def gigtime(self):
         if self.calltime:
             return self.calltime
@@ -104,11 +107,32 @@ class Gig(ndb.Model):
     def set_endtime(self, time):
         self.endtime = time
 
+    def set_status(self, status):
+        if self.status <= 2 and status <= 2:
+            self.status = status
+        elif self.status >= Gig.poll_status['open'] and status >= Gig.poll_status['open']:
+            self.status = status
+        else:
+            raise ValueError('Setting gig status: old {0}, new{1}'.format(self.status, status))
+
+    def set_poll(self):
+        self.status=Gig.poll_status['open']
+
     # overload the put method to make sure we set the sorting time properly
     def put(self):
         if self.sorttime is None:
             self._make_sort_time()
         super(Gig, self).put()
+
+    # overload the query method to make sure we only query gigs, not polls
+    @classmethod
+    def query(self, *args, **kwargs):
+        if kwargs.has_key('is_poll'):
+            args+=(Gig.is_poll==True,)
+        else:
+            args+=(Gig.is_poll==False,)
+
+        return super(Gig, self).query(*args, **kwargs)
 
 #
 # Functions to make and find gigs
