@@ -1,0 +1,194 @@
+{% extends 'go2base.html' %}
+{% import 'plan_icon.html' as plan_icon %}
+
+{% block title %}{% trans %}poll Info{% endtrans %}{% endblock title %}
+
+{% block content %}
+{% set the_band_key = poll.key.parent() %}
+<div class="row">
+    <div class="mx-auto col-lg-8 col-md-10 col-12">
+
+        <div class="page-header">
+            {% trans %}Poll Info{% endtrans %}
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <div class="row titlerow">
+                    <div class="col-4">
+                        {% trans %}Info{% endtrans %}
+                    </div>
+                    {% if user_can_edit %}
+                        <div class="ml-auto">
+                            {% if user_can_edit %}
+                                <a class="btn btn-primary btn-sm" href="poll_edit.html?gk={{ poll.key.urlsafe() }}">{% trans %}Edit{% endtrans %}</a>
+                            {% endif %}
+                            {% if user_can_create %}
+                                <a class="btn btn-primary btn-sm" href="poll_edit.html?gk={{ poll.key.urlsafe() }}&dupe=1">{% trans %}Duplicate{% endtrans %}</a>
+                            {% endif %}
+                        </div>
+                {% endif %}
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-2 col-sm-2 col-4">{% trans %}Poll{% endtrans %}</div>
+                    <div class="col-md-10 col-sm-10 col-8"><strong>{{ poll.title|e }}</strong></div>
+                </div>                    
+                {% if poll.is_in_trash %}
+                    <div class="col-md-2 col-sm-2 col-4">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-10 col-sm-10 col-8" style="color:red">
+                            <strong>{% trans %}THIS POLL IS IN THE TRASH!{% endtrans %}</strong>  
+                            {% if the_user_is_superuser or the_user_is_band_admin %}
+                                <a class="btn btn-default" href="/poll_restore_trashed?gk={{ poll.key.urlsafe() }}">{% trans %}Restore Poll{% endtrans %}</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endif %}
+                <div class="row">
+                    <div class="col-md-2 col-sm-2 col-4">{% trans %}Band{% endtrans %}</div>
+                    <div class="col-md-10 col-sm-10 col-8"><a href="band_info.html?bk={{the_band_key.urlsafe()}}">{{ the_band_key.get().name }}</a></div>
+                </div>
+                <div class="row">&nbsp;</div>
+                <div class="row">
+                    <div class="col-md-2 col-sm-2 col-12"><i class="fas fa-calendar"></i></div>
+                    <div class="col-md-10 col-sm-10 col-12">{{ date_str }}{{ enddate_str }}</div>
+                </div>
+                <div class="row">&nbsp;</div>
+                {% if poll.details %}
+                    <div class="row">
+                        <div class="col-md-2 col-sm-2 col-4">{% trans %}More Details{% endtrans %}</div>
+                        <div class="col-md-10 col-sm-10 col-8 trunc">{{ poll.details | urlize(20, true) | good_breaks | safe }}</div>
+                    </div>
+                    <div class="row">&nbsp;</div>
+                {% endif %}
+            </div>  <!-- card body -->
+        </div> <!-- card -->
+
+        <div>&nbsp;</div>
+        <div class="card">
+            <div class="card-header">
+                <div class="row titlerow">
+                    <div class="col-4">
+                        {% trans %}Poll Results{% endtrans %}
+                    </div>
+                    <div class="ml-auto"">
+                        {% if user_can_edit %}
+                            <span id="showremind"><a href="#" onclick="sendreminder('{{poll.key.urlsafe()}}'); return false;" class="btn btn-sm btn-secondary"><i class="fas fa-envelope"></i>
+                            	{% trans %}Remind{% endtrans %}
+                            </a></span>
+                        	<span id="hideremind">
+                            	<small>{% trans %}Reminder Sent{% endtrans %}</small>
+                        	</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                {% if the_user_is_superuser or the_user_is_band_admin %}
+                    <div class="row">
+                        {% for p in the_answer_counts %}
+                            <div class="mx-auto">
+                            {% if p > 0 %}
+                                <span class="">{{ plan_icon.icon(p) }}{{ the_answer_counts[p] }}</span>
+                            {% endif %}
+                            </div>
+                        {% endfor %}
+                        <div class="mx-auto">
+                            <span class="">{{ plan_icon.icon(0) }}{{ the_answer_counts[0] }}</span>
+                        </div>
+                    </div>
+                    <div>&nbsp;</div>
+                {% endif %}
+
+                {% import 'gig_plan_edit.html' as plan_edit with context %}                
+                {% for the_section in the_sections %}
+                    <div class="row" style="padding-top: 5px; padding-bottom: 5px; {{ loop.cycle('', 'background:#f5f5f5;') }}">
+                        {% if band_has_sections %}
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-12 gomlabel">
+                                {% if the_section %}
+                                    {{the_section.name}}
+                                {% elif the_sections | length > 1 %}
+                                    {% trans %}No Section{% endtrans %}
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                        <div class="col-lg-{{plan_size_lg}} col-md-{{plan_size_lg}} col-sm-{{plan_size_sm}} col-{{plan_size_sm}}">
+                            {% for member_plan in the_plans %}
+                                {% if (the_section == None and member_plan['the_section'] == None) or
+                                      (the_section != None and the_section.key == member_plan['the_section']) %}
+                                    {{ plan_edit.plan_edit(member_plan) }}
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div> <!-- card body -->
+        </div> <!-- card -->
+
+        <div>&nbsp;</div>
+        <div class="card">
+            <div class="card-header">
+                <div class="row titlerow"><div class="col-12">
+                    {% trans %}Comments{% endtrans %}
+                </div></div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12" id="gig_comment">
+                        <i class="fas fa-spinner fa-pulse fa-lg"></i>
+                    </div>
+                </div>
+                <div>&nbsp;</div>
+                <div class="row">
+                    <div class="col-md-10 col-12">
+                        <textarea class="form-control" id="commentinput" placeholder="{% trans %}say your piece!{% endtrans %}" name="comment_input" rows="2"></textarea>
+                    </div>
+                    <div class="mx-auto">
+                        <button type="button" class="btn btn-primary btn-sm" onclick="add_comment('{{poll.key.urlsafe()}}');">{% trans %}Say it!{% endtrans %}</button>
+                    </div>
+                </div>                    
+            </div> <!-- card body -->
+        </div> <!-- card -->
+    </div>
+</div> <!-- row -->
+{% endblock content %}
+
+{% block localscripts %}
+<script src="/js/plan_buttons.js"></script>
+<script src="/js/comments.js"></script>
+<script src="/js/jquery.truncator.js"></script>
+<script>
+
+
+{% if user_can_edit %}
+function sendreminder(gk) {
+	$('#showremind').hide();
+	$('#hideremind').show();
+
+	$.post("/sendreminder",
+        {
+            gk: gk
+        });
+}
+{% endif %}
+
+$(document).ready(function() {
+    {% if user_can_edit %}
+        {% if not poll.was_reminded or poll.was_reminded==false %}
+        	$('#showremind').show();
+        	$('#hideremind').hide();
+        {% else %}
+        	$('#showremind').hide();
+        	$('#hideremind').show();
+        {% endif %}
+    {% endif %}
+    $('.trunc').truncate({max_length: 500, more:"...{% trans %}more{% endtrans %}", less:"{% trans %}less{% endtrans %}"});
+    $('.popcomment').tooltip({ 'trigger':'hover click' });    
+    update_comment('{{poll.key.urlsafe()}}');
+});
+</script>
+{% endblock localscripts %}
+

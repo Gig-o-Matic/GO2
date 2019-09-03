@@ -1,0 +1,298 @@
+{% extends 'go2base.html' %}
+
+{% block title %}{% trans %}Poll Edit{% endtrans %}{% endblock title %}
+
+{% block headcontent %}
+<link href="/timepicker/jquery.timepicker.css" rel="stylesheet" />
+{% endblock headcontent %}
+
+{% block content %}
+<div class="row">
+    <div class="mx-auto col-lg-8 col-md-10 col-sm-12">
+        <div class="page-header">
+            {% if newpoll_is_active %}
+                {% trans %}New Poll for {% endtrans %}{{ the_band.name }}
+            {% else %}
+                {% trans %}Poll Edit{% endtrans %}
+            {% endif %}
+        </div>
+        <form class="form" id="infoform" role="form" method="post" action="poll_edit.html">
+            <input type="hidden" name="poll_band" value="{{the_band.key.urlsafe()}}">
+            <div class="form-group">
+                <label for="polltitleinput" class="col-form-label">{% trans %}Poll Question{% endtrans %}</label>
+                <input type="text" class="form-control" id="polltitleinput" placeholder="({%trans%}required{%endtrans%})" value="{{poll.title|e}}" name="poll_title">
+            </div>
+             
+            <div class="row">
+                <div class="form-group col-4">
+                    <label for="polldateinput" class="col-form-label">{% trans %}Closing Date{% endtrans %}</label>
+                    <input type="text" class="datepicker form-control" id="polldateinput" name="poll_date" placeholder="({%trans%}required{%endtrans%})" 
+                    {% if poll != None %} value="{{ the_date_formatter(the_user, poll.date, 'datepicker')}}" {% endif %}
+                    name="poll_date">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="polldetailsinput" class="col-form-label">{% trans %}More Details{% endtrans %}</label>
+                <textarea class="form-control" rows="10" id="polldetailsinput" placeholder="{% trans %}tell me more{% endtrans %}" name="poll_details">{{poll.details}}</textarea>
+            </div>
+            <div class="form-group">
+                <label for="pollanswersinput" class="col-form-label">{% trans %}Answers{% endtrans %}</label>
+                <textarea class="form-control" rows="10" id="pollanswersinput" placeholder=
+"{% trans %}answer 1{% endtrans %}
+{% trans %}answer 2{% endtrans %}
+{% trans %}answer 3{% endtrans %}" name="poll_answers">{{poll.answers}}</textarea>
+            </div>
+            <div class="form-group">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="newpoll_notifymembers" name="poll_notifymembers" 
+                    {% if the_band.send_updates_by_default %}checked{% endif %}>
+                    <label class="form-check-label" for="newpoll_notifymembers"> 
+                        {% if newpoll_is_active %}
+                            {% trans %}Email members about this new poll{% endtrans %}
+                        {% else %}
+                            {% trans %}Email members about change{% endtrans %}  
+                        {% endif %}
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="poll_invite_occasionals" name="poll_invite_occasionals" 
+                        {% if the_band.send_updates_by_default %}checked{% endif %}                        
+                        >
+                    <label class="form-check-label" for="poll_invite_occasionals">
+                        {% if newpoll_is_active %}
+                            {% trans %}Invite occasional members to answer{% endtrans %}
+                        {% endif %}
+                    </label>  
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-6 col-12 ml-auto text-left">
+                    {% if poll!=None %}
+                        {% if not poll.is_in_trash %}
+                            <a data-toggle="modal" href="#deleteModal" class="btn btn-secondary">{% trans %}Move To Trash{% endtrans %}</a>
+                        {% else %}
+                            <a class="btn btn-secondary" href="/poll_restore_trashed?pk={{ poll.key.urlsafe() }}">{% trans %}Restore poll{% endtrans %}</a>
+                        {% endif %}
+                        <a data-toggle="modal" href="#archiveModal" class="btn btn-secondary">{% trans %}Archive{% endtrans %}</a>
+                    {% endif %}   
+                </div>
+                <div class="form-group col-12 col-md-6 ml-auto text-right">
+                        {% if poll==None %}
+                            <a class="btn btn-secondary" href="band_info.html?bk={{ the_band.key.urlsafe()}}">{% trans %}Cancel{% endtrans %}</a>
+                        {% else %}
+                            <a class="btn btn-secondary" href="poll_info.html?pk={{ poll.key.urlsafe() }}">{% trans %}Cancel{% endtrans %}</a>
+                        {% endif %}
+                        <button type="submit" id="savebutton" class="btn btn-primary">{% trans %}Save{% endtrans %}</button>
+                </div>
+            </div>
+            {% if poll==None %}
+                <input type="hidden" name="pk" value="0">
+            {% else %}
+                <input type="hidden" name="pk" value="{{poll.key.urlsafe()}}">
+            {% endif %}
+        </form>
+    </div>
+</div>
+{% endblock content %}        
+
+{% block modal %}
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">{% trans %}Confirm Trash{% endtrans %}</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    {% trans %}Do you really want to move this poll to the trash?{% endtrans %}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans %}Cancel{% endtrans %}</button>
+                    {% if poll %}
+                        <a class="btn btn-primary" id="opener" href="poll_delete?&pk={{ poll.key.urlsafe() }}">{% trans %}Trash it!{% endtrans %}</a>
+                    {% endif %}
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="modal fade" id="archiveModal" tabindex="-1" role="dialog" aria-labelledby="archiveModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">{% trans %}Confirm archive{% endtrans %}</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    {% trans %}Do you really want to archive this poll?{% endtrans %}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans %}Don't Archive{% endtrans %}</button>
+                    {% if poll %}
+                        <a class="btn btn-primary" id="opener" href="poll_archive?&pk={{ poll.key.urlsafe() }}">{% trans %}Archive{% endtrans %}</a>
+                    {% endif %}
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+{% endblock modal %}
+
+{% block localscripts %}
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.css"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.js"></script>
+{% if the_user.preferences.locale=='en_GB' %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/locales/bootstrap-datepicker.en-GB.min.js"></script>
+{% elif the_user.preferences.locale!='en' %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/locales/bootstrap-datepicker.{{ the_user.preferences.locale }}.min.js"></script>
+{% endif %}
+<script src="/js/jquery.validate.js"></script>
+<script src="/timepicker/jquery.timepicker.min.js"></script>
+{% if the_user.preferences.locale == 'en' %}
+<script src='/js/moment.min.js'></script>
+{% else %}
+<script src='/js/moment-with-locales.min.js'></script>
+{% endif %}
+<script>
+
+{% if the_user.preferences.locale == 'en_GB' %}
+    {% set locale_fix = 'en-GB' %}
+{% else %}
+    {% set locale_fix = the_user.preferences.locale %}
+{% endif %}
+
+$(document).ready(function () {
+    $('#polldateinput').datepicker({
+                language: '{{ locale_fix }}'
+            });
+    $('#polldateinput')
+      .on('changeDate', function(ev){
+        $('#polldateinput').datepicker('hide')
+      });
+      
+    $('#pollenddateinput').datepicker({
+                language: '{{ locale_fix }}'
+            });
+    $('#pollenddateinput')
+      .on('changeDate', function(ev){
+        $('#pollenddateinput').datepicker('hide')
+      });
+
+
+    $.validator.addMethod(
+        "gigoDate",
+        function(value, element) {
+            if (value=="") {
+                return true;
+            } else {
+                // put your own logic here, this is just a (crappy) example
+                var q = new RegExp("^\\d\\d?\\"+
+                                   "{% trans %}date_separator{% endtrans %}"+
+                                   "\\d\\d?\\"+
+                                   "{% trans %}date_separator{% endtrans %}"+
+                                   "\\d\\d\\d\\d$");
+                return value.match(q);
+            }
+        },
+        "{% trans %}Please enter a date in the format mm/dd/yyyy.{% endtrans %}"
+    );
+      
+    $("#infoform").validate({
+        rules: {
+            poll_title: {
+                required: true
+            },
+            poll_date: {
+                required: true,
+                gigoDate: true,
+                inFuture: true
+            }
+        },
+        messages: {
+            poll_title: {
+                required: "{% trans %}This field is required!{% endtrans %}"                
+            },            
+            poll_date: {
+                required: "{% trans %}This field is required!{% endtrans %}"                
+            }
+        },
+        submitHandler: function(form) {
+            // make the save button a spinner
+            var mybutton = "#savebutton";
+            $(mybutton).prop("disabled",true);
+            $(mybutton).html("<i class='fas fa-spinner fa-pulse fa-lg'></i>");
+            form.submit();
+          }
+
+    });
+      
+    updateContactList('{{the_band.key.urlsafe()}}');
+});
+
+jQuery.validator.addMethod("greaterThan", 
+function(value, element, params) {
+
+    if (value=="") {
+        return true;
+    }
+
+    moment.lang('{{ locale_fix }}');
+    d1 = moment(value,moment.langData('{{ locale_fix }}').longDateFormat("L"));
+    d2 = moment($(params).val(),moment.langData('{{ locale_fix }}').longDateFormat("L"));
+
+    return d1 > d2;
+},'{% trans %}Must be later than start date!{% endtrans %}');
+
+jQuery.validator.addMethod("inFuture", 
+function(value, element, params) {
+    today = moment();
+    today.hour(0);
+    today.minute(0);
+    today.second(0);
+    today.millisecond(0);
+    moment.lang('{{locale_fix}}');
+    d1 = moment(value,moment.langData('{{ locale_fix }}').longDateFormat("L"));
+    return d1 >= today;
+},'{% trans %}Must be in the future!{% endtrans %}');
+
+function updateContactList(bk) {
+    $.post("/band_get_member_list",
+                {
+                    bk: bk
+                },
+                function(responseTxt,statusTxt,xhr){
+                    if(statusTxt=="success")
+                        obj = JSON && JSON.parse(responseTxt) || $.parseJSON(responseTxt);
+                        inner=""
+                        {% if poll.contact==None %}
+                            inner = inner+"<option value=''>??</option>"
+                        {% endif %}
+                        for(i=0; i<obj.length; i++) {
+                            inner=inner+"<option value='"+obj[i][1]+"'"
+                            {% if newpoll_is_active %}
+                                if (obj[i][1] == '{{the_user.key.urlsafe()}}') {
+                                    inner=inner+" SELECTED"
+                                }
+                            {% elif poll.contact %}
+                                if (obj[i][1] == '{{poll.contact.urlsafe()}}') {
+                                    inner=inner+" SELECTED"
+                                }
+                            {% endif %}
+                            inner=inner+">"+obj[i][0]+"</option>"
+                        }
+                        $('#poll-contacts').html(inner);
+                    if(statusTxt=="error")
+                      alert("{% trans %}Error{% endtrans %}: "+xhr.status+": "+xhr.statusText);
+                });
+}
+
+function handleBandChange(sel) {
+    var bk=sel.value;
+    updateContactList(bk);
+};
+
+</script>
+{% endblock localscripts %}
+

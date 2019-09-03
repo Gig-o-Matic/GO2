@@ -138,13 +138,13 @@ class Gig(ndb.Model):
 # Functions to make and find gigs
 #
 
-def new_gig(the_band, title, creator, date=None, contact=None, details="", setlist="", call=None):
+def new_gig(the_band, title, creator, date=None, contact=None, details="", setlist="", call=None, status=0):
     """ Make and return a new gig """
     if date is None:
         date = datetime.datetime.now()
     the_gig = Gig(parent=the_band.key, title=title, contact=contact, \
                     details=details, setlist=setlist, date=date, calltime=call, \
-                    creator=creator)
+                    creator=creator, status=status)
     the_gig.put()
     stats.update_band_gigs_created_stats(the_band.key)
     

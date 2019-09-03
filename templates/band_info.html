@@ -245,6 +245,31 @@
             <div class="card">
                 <div class="card-header">
                     <div class="row titlerow">
+                        <div class="col-12">
+                            {% trans %}Polls{% endtrans %}
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12" id="polllist">
+                        </div>
+                    </div>
+                    {% if the_user_is_superuser or the_user_is_band_admin %}
+                        <div class="row">
+                            <div class="col-md-4">
+                                <br>
+                                <a href='/poll_edit.html?new=1&bk={{the_band.key.urlsafe()}}' class="btn btn-primary btn-sm" >{% trans %}New Poll{% endtrans %}</a>
+                            </div>
+                        </div>
+                    {% endif %}    
+                </div>
+            </div>
+
+            <div>&nbsp;</div>
+            <div class="card">
+                <div class="card-header">
+                    <div class="row titlerow">
                         {% if num_sections == 0 %}
                             <div class="col-4">
                                 {% trans %}Members{% endtrans %}

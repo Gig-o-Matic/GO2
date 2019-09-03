@@ -10,6 +10,7 @@ import member_handlers
 import gig_handlers
 import plan
 import band_handlers
+import poll_handlers
 import help
 import motd
 import credits
@@ -135,6 +136,8 @@ else:
         webapp2.Route('/member_get_add_gig_bands', member_handlers.GetAddGigBandList),
         webapp2.Route('/member_rewrite', member_handlers.RewriteAll),
         webapp2.Route('/verify_member', member_handlers.VerifyMember),
+        webapp2.Route('/poll_edit.html', poll_handlers.EditPage),
+        webapp2.Route('/poll_info.html', poll_handlers.InfoPage),
         webapp2.Route('/gig_info.html', gig_handlers.InfoPage, name="gig_info"),
         webapp2.Route('/gig_edit.html', gig_handlers.EditPage),
         webapp2.Route('/gig_archive', gig_handlers.ArchiveHandler),
