@@ -265,7 +265,7 @@ class EditPage(BaseHandler):
         #         goemail.announce_new_gig(the_gig, self.uri_for('gig_info', _full=True, gk=the_gig.key.urlsafe()), is_edit=True, change_string=change_str)
 
         return self.redirect(\
-            '/poll_info.html?&gk={0}'.format(the_poll.key.urlsafe()))
+            '/poll_info.html?&pk={0}'.format(the_poll.key.urlsafe()))
                 
 # class DeleteHandler(BaseHandler):
 #     @user_required
