@@ -87,21 +87,27 @@
                 </div>
             </div>
             <div class="card-body">
-                {% if the_user_is_superuser or the_user_is_band_admin %}
-                    <div class="row">
-                        {% for p in the_answer_counts %}
-                            <div class="mx-auto">
-                            {% if p > 0 %}
-                                <span class="">{{ plan_icon.icon(p) }}{{ the_answer_counts[p] }}</span>
-                            {% endif %}
+                {% for p in the_answers+["hi"] %}
+                    <div class="row" style="padding-top: 5px; padding-bottom: 5px; {{ loop.cycle('', 'background:#f5f5f5;') }}">
+                        {% if loop.last %}
+                            <div class="col-5">
+                                {% trans %}No Answer{% endtrans %}
                             </div>
-                        {% endfor %}
-                        <div class="mx-auto">
-                            <span class="">{{ plan_icon.icon(0) }}{{ the_answer_counts[0] }}</span>
-                        </div>
+                            <div class="mr-auto">
+                                {{ the_answer_counts[0] }}
+                            </div>
+                        {% else %}
+                            <div class="col-5">
+                                {{ the_answers[loop.index0] }}
+                            </div>
+                            <div class="mr-auto">
+                                {{ the_answer_counts[loop.index0+1] }}
+                            </div>
+                        {% endif %}
                     </div>
-                    <div>&nbsp;</div>
-                {% endif %}
+                {% endfor %}
+
+                <div>&nbsp;</div>
 
                 {% import 'gig_plan_edit.html' as plan_edit with context %}                
                 {% for the_section in the_sections %}
@@ -161,7 +167,6 @@
 <script src="/js/comments.js"></script>
 <script src="/js/jquery.truncator.js"></script>
 <script>
-
 
 {% if user_can_edit %}
 function sendreminder(gk) {

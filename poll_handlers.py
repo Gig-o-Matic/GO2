@@ -51,7 +51,7 @@ def _makeInfoPageInfo(the_user, the_poll, the_band_key):
     the_new_plans = [] # in case we need to make new ones
 
     the_plan_counts={}
-    for i in range(len(plan.plan_text)):
+    for i in range(len(the_poll.setlist.split('\n'))+1):
         the_plan_counts[i]=0
 
     for the_assoc in the_assocs:
@@ -68,11 +68,7 @@ def _makeInfoPageInfo(the_user, the_poll, the_band_key):
             the_new_plans.append(the_plan)
             new_plan = True
 
-        if (not the_assoc.is_occasional) or \
-           (the_assoc.is_occasional and the_plan.value != 0) or \
-           (a_member_key == the_user.key) or \
-           the_user.is_superuser:
-            the_plan_counts[the_plan.value] += 1
+        the_plan_counts[the_plan.value] += 1
 
     if the_new_plans:
         ndb.put_multi(the_new_plans)
@@ -124,7 +120,8 @@ class InfoPage(BaseHandler):
                 'comment_text' : the_comment_text,
                 'the_user_is_band_admin' : the_user_is_band_admin,
                 'user_can_edit' : user_can_edit,
-                'the_answer_counts' : the_answer_counts
+                'the_answer_counts' : the_answer_counts,
+                'the_answers' : the_poll.setlist.split('\n')
             }
             self.render_template('poll_info.html', template_args)
         # else:
@@ -193,7 +190,7 @@ class EditPage(BaseHandler):
             the_poll = None
         else:
             # polls are just gigs
-            the_poll = gig.gig_key_from_urlsafe(the_gig_key).get()
+            the_poll = gig.gig_key_from_urlsafe(the_poll_key).get()
 
         edit_date_change = False
         edit_status_change = False
