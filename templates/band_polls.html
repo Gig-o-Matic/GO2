@@ -1,0 +1,20 @@
+
+<div class="row">
+        <div class="col-8">
+            Title
+        </div>
+        <div class="col-4">
+            Closing Date
+        </div>
+    </div>
+
+{% for the_poll in the_polls %}
+    <div class="row" style="padding-top: 5px; {{ loop.cycle('', 'background:#f5f5f5;') }}">
+        <div class="col-8">
+            <a href='/poll_info.html?pk={{the_poll.key.urlsafe()}}'>{{ the_poll.title }}</a>
+        </div>
+        <div class="col-4">
+            {{ the_date_formatter(the_user, the_poll.date, 'short') }}
+        </div>
+    </div>
+{% endfor %}
