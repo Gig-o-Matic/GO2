@@ -370,12 +370,12 @@ def get_old_trashed_gigs(minimum_age=None):
     # sorted(the_gigs, key=lambda x:x.date)
     return the_gigs
 
-def get_sorted_gigs_from_band_keys(the_band_keys=[], include_canceled=False):
+def get_sorted_gigs_from_band_keys(the_band_keys=[], include_canceled=False, polls=False):
     all_gigs=[]
     for bk in the_band_keys:
         b = bk.get()                       
         today_date = datetime.datetime.combine(datetime.datetime.now(tz=pytz.timezone(b.timezone)), datetime.time(0,0,0))
-        some_gigs = get_gigs_for_band_keys(bk, show_canceled=include_canceled, start_date=today_date)
+        some_gigs = get_gigs_for_band_keys(bk, show_canceled=include_canceled, start_date=today_date, polls=polls)
         all_gigs = all_gigs + some_gigs
 
     all_gigs = sorted(all_gigs, key=lambda gig: (gig.date, gig.sorttime))

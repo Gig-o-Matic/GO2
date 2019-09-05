@@ -81,6 +81,48 @@ def _get_agenda_contents_for_member(the_user):
     return (upcoming_plans, weighin_plans, number_of_bands)
 
 
+def _get_polls_for_member(the_user):
+    # find the bands this member is associated with
+    the_assocs = assoc.get_confirmed_assocs_of_member(the_user, include_hidden=False)
+    the_band_keys = [a.band for a in the_assocs]
+
+    if the_band_keys is None or len(the_band_keys)==0:
+        raise Exception("no agenda")
+
+    all_polls = gig.get_sorted_gigs_from_band_keys(the_band_keys=the_band_keys, polls=True)
+
+    upcoming_polls = []
+    weighin_polls = []        
+
+    if all_polls:
+        for i, a_poll in enumerate(all_polls):
+            the_plan = plan.get_plan_for_member_for_gig(the_user, a_poll)
+
+            info_block={}
+            info_block['the_poll'] = a_poll
+            info_block['the_plan'] = the_plan
+            info_block['the_member'] = the_user
+            a_band_key = a_poll.key.parent()
+            a_band = None
+            for test_band_key in the_band_keys:
+                if test_band_key == a_band_key:
+                    a_band_key = test_band_key
+                    break
+            if a_band_key == None:
+                logging.error('agenda.MainPage error: no band for gig')
+                continue
+            info_block['the_band'] = a_band_key.get()
+            info_block['the_assoc'] = assoc.get_assoc_for_band_key_and_member_key(the_user.key, a_band_key)
+            if (the_plan.value): #include gigs for which we've weighed in or have been cancelled
+                upcoming_polls.append( info_block )
+            else:            
+                if (the_plan.value == 0 ):
+                    weighin_polls.append( info_block )
+
+    number_of_bands = len(the_band_keys)
+
+    return (upcoming_polls, weighin_polls, number_of_bands)
+
 class MainPage(BaseHandler):
 
     @user_required
@@ -93,12 +135,15 @@ class MainPage(BaseHandler):
         
         try:
             (upcoming_plans, weighin_plans, number_of_bands) = _get_agenda_contents_for_member(the_user)
+            (upcoming_polls, weighin_polls, number_of_bands) = _get_polls_for_member(the_user)
         except:
             return self.redirect('/member_info.html?mk={0}'.format(the_user.key.urlsafe()))
 
         template_args = {
             'upcoming_plans' : upcoming_plans,
             'weighin_plans' : weighin_plans,
+            'upcoming_polls' : upcoming_polls,
+            'weighin_polls' : weighin_polls,
             'show_band' : number_of_bands>1,
             'long_agenda' : the_user.show_long_agenda,
             'the_date_formatter' : member.format_date_for_member,

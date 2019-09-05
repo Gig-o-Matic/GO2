@@ -14,7 +14,7 @@
             {% endif %}
         </div>
 
-        {% if weighin_plans %}
+        {% if weighin_plans or weighin_polls%}
             <div class="card">
                 <div class="card-header">
                     <div class="row titlerow">
@@ -29,6 +29,16 @@
                             <div class="row" style="padding-top: 5px; padding-bottom: 5px; {{ loop.cycle('', 'background:#f5f5f5;') }}">
                                 <div class="col-12">
                                     {{ plan_edit.plan_edit(plan_info) }}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div id="weighinpolls">
+                        {% for poll_info in weighin_polls %}
+                            <div class="row" style="padding-top: 5px; padding-bottom: 5px; {{ loop.cycle('', 'background:#f5f5f5;') }}">
+                                <div class="col-12">
+                                    {# {{ plan_edit.plan_edit(plan_info) }} #}
+                                    {{ poll_info['the_poll'].title}}
                                 </div>
                             </div>
                         {% endfor %}
@@ -72,6 +82,16 @@
                         {% trans %}Nothing coming up!{% endtrans %}
                     {% endif %}
                 </div>
+            </div>
+            <div id="upcomingpolls">
+                {% for poll_info in upcoming_polls %}
+                    <div class="row" style="padding-top: 5px; padding-bottom: 5px; {{ loop.cycle('', 'background:#f5f5f5;') }}">
+                        <div class="col-12">
+                            {# {{ plan_edit.plan_edit(plan_info) }} #}
+                            {{ poll_info['the_poll'].title}}
+                        </div>
+                    </div>
+                {% endfor %}
             </div>
         </div>
     </div>
