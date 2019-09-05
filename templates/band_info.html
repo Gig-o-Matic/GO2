@@ -252,7 +252,8 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-12" id="polllist">
+                        <div class="col-12" id="poll-list">
+                            <i class="fas fa-spinner fa-pulse fa-lg"></i>
                         </div>
                     </div>
                     {% if the_user_is_superuser or the_user_is_band_admin %}
@@ -396,6 +397,22 @@ function updatePublic() {
                 if(statusTxt=="error")
                     alert("Error: "+xhr.status+": "+xhr.statusText);
             });
+    }
+}
+
+function updatePolls() {
+    if (document.getElementById('poll-list')){
+        $.post('/band_get_polls',
+                {
+                    bk: '{{ the_band.key.urlsafe() }}'
+                },
+                function(responseTxt,statusTxt,xhr){
+                    if(statusTxt=="success")
+                        document.getElementById('poll-list').innerHTML=responseTxt;
+                    if(statusTxt=="error")
+                        alert("Error: "+xhr.status+": "+xhr.statusText);
+                });
+
     }
 }
 
@@ -624,6 +641,7 @@ function toggle_names() {
 }
 
 $(document).ready(function() {
+    updatePolls();
     updateMembers();
     updateSections();
     updateUpcoming();

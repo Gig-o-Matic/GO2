@@ -125,14 +125,14 @@ class Gig(ndb.Model):
         super(Gig, self).put()
 
     # overload the query method to make sure we only query gigs, not polls
-    @classmethod
-    def query(self, *args, **kwargs):
-        if kwargs.has_key('is_poll'):
-            args+=(Gig.is_poll==True,)
-        else:
-            args+=(Gig.is_poll==False,)
+    # @classmethod
+    # def query(self, *args, **kwargs):
+    #     if kwargs.has_key('is_poll'):
+    #         args+=(Gig.is_poll==True,)
+    #     else:
+    #         args+=(Gig.is_poll==False,)
 
-        return super(Gig, self).query(*args, **kwargs)
+    #     return super(Gig, self).query(*args, **kwargs)
 
 #
 # Functions to make and find gigs
@@ -170,7 +170,9 @@ def adjust_date_for_band(the_band, the_date):
     
     return the_date
     
-def get_gigs_for_band_keys(the_band_key_list, num=None, start_date=None, end_date=None, show_canceled=True, show_only_public=False, confirmed_only=False, show_past=False, keys_only=False):
+def get_gigs_for_band_keys(the_band_key_list, num=None, start_date=None, end_date=None, show_canceled=True, 
+                           show_only_public=False, confirmed_only=False, show_past=False, keys_only=False,
+                           polls=False):
     """ Return gig objects by band """
         
     if (type(the_band_key_list) is not list):
@@ -196,6 +198,11 @@ def get_gigs_for_band_keys(the_band_key_list, num=None, start_date=None, end_dat
     
     if show_only_public:
         params.append( Gig.is_private == False )
+
+    if polls:
+        params.append( Gig.is_poll == True )
+    else:
+        params.append( Gig.is_poll == False )
 
     if confirmed_only:
         params.append( Gig.status == 1 )

@@ -319,6 +319,30 @@ class DeleteBand(BaseHandler):
 
         return self.redirect('/band_admin')
 
+class BandGetPolls(BaseHandler):
+    """ returns the polls """
+
+    @user_required
+    def post(self):
+        the_user = self.user
+
+        the_band_key_str=self.request.get('bk','0')
+
+        if the_band_key_str == '0':
+            return # todo figure out what to do
+
+        the_band_key = band.band_key_from_urlsafe(the_band_key_str)
+
+        polls = gig.get_gigs_for_band_keys(the_band_key, polls=True)
+
+        template_args = {
+            'the_polls' : polls,
+            'the_date_formatter' : member.format_date_for_member
+
+        }
+        self.render_template('band_polls.html', template_args)
+
+
 
 class BandGetMembers(BaseHandler):
     """ returns the members related to a band """                   

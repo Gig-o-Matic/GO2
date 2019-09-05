@@ -159,6 +159,7 @@ else:
         webapp2.Route('/band_delete.html', band_handlers.DeleteBand),
         webapp2.Route('/band_get_members', band_handlers.BandGetMembers, name='getmembers'),
         webapp2.Route('/band_get_sections', band_handlers.BandGetSections, name='getsections'),
+        webapp2.Route('/band_get_polls', band_handlers.BandGetPolls, name='getpolls'),
         webapp2.Route('/band_setup_sections', band_handlers.SetupSections, name='setupSections'),
         webapp2.Route('/band_confirm_member', band_handlers.ConfirmMember),
         webapp2.Route('/band_makeadmin', band_handlers.AdminMember),
