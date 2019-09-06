@@ -224,6 +224,14 @@ indexes:
   properties:
   - name: is_archived
   - name: is_canceled
+  - name: is_poll
+  - name: trueenddate
+
+- kind: Gig
+  ancestor: yes
+  properties:
+  - name: is_archived
+  - name: is_canceled
   - name: is_private
   - name: date
 
