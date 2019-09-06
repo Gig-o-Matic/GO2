@@ -68,7 +68,7 @@ def _makeInfoPageInfo(the_user, the_poll, the_band_key):
             the_new_plans.append(the_plan)
             new_plan = True
 
-        the_plan_counts[the_plan.value] += 1
+        the_plan_counts[the_plan.feedback_value] += 1
 
     if the_new_plans:
         ndb.put_multi(the_new_plans)
@@ -106,6 +106,9 @@ class InfoPage(BaseHandler):
             the_band_key = the_poll.key.parent()
             the_answer_counts = _makeInfoPageInfo(the_user, the_poll, the_band_key)
 
+            # get this user's plan
+            user_plan = plan.get_plan_for_member_key_for_gig_key(the_user.key, the_poll.key, keys_only=False)
+
             # is the current user a band admin?
             the_user_is_band_admin = assoc.get_admin_status_for_member_for_band_key(the_user, the_band_key)
             the_band = the_band_key.get()
@@ -121,7 +124,8 @@ class InfoPage(BaseHandler):
                 'the_user_is_band_admin' : the_user_is_band_admin,
                 'user_can_edit' : user_can_edit,
                 'the_answer_counts' : the_answer_counts,
-                'the_answers' : the_poll.setlist.split('\n')
+                'the_answers' : the_poll.setlist.split('\n'),
+                'user_plan' : user_plan
             }
             self.render_template('poll_info.html', template_args)
         # else:

@@ -180,6 +180,7 @@ class UpdatePlanFeedback(webapp2.RequestHandler):
         """post handler - if we are edited by the template, handle it here and redirect back to info page"""
         the_value=int(self.request.get("val", 0))
         the_plan_key=self.request.get("pk",'0')
+        is_poll = self.request.get("is_poll", '0')
         
         if (the_plan_key=='0'):
             return #todo figure out what to do if no plan passed in
@@ -190,13 +191,18 @@ class UpdatePlanFeedback(webapp2.RequestHandler):
             update_plan_feedback(the_plan, the_value)
         else:
             pass # todo figure out why there was no plan
-
-        strings = band.get_feedback_strings(the_plan.key.parent().parent().get())
+        if is_poll=='0':
+            strings = band.get_feedback_strings(the_plan.key.parent().parent().get())
+        else:
+            the_poll = the_plan.key.parent().get()
+            strings = the_poll.setlist.split('\n')
 
         if the_value == 0:
             resp = ''            
         elif the_value <= len(strings):
             resp = strings[the_value-1]
+        else:
+            raise ValueError("plan value index incorrect")
         self.response.write(resp)
 
 class UpdatePlanComment(webapp2.RequestHandler):

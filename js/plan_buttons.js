@@ -67,12 +67,13 @@ function set_feedback_button(the_id, the_value) {
     document.getElementById(the_id).innerHTML=val;
 }
 
-function update_feedback(pk, val) {
+function update_feedback(pk, val, is_poll) {
     document.getElementById('ef-'+pk).innerHTML='<i class="fa fa-spinner fa-spin fa-lg"></i>';
     $.post("/updateplanfeedback",
                 {
                     val: val,
-                    pk: pk
+                    pk: pk,
+                    is_poll: is_poll
                 },
                 function(responseTxt,statusTxt,xhr){
                     if(statusTxt=="success")

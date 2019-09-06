@@ -1,0 +1,15 @@
+{% import 'plan_icon.html' as plan_icon %}
+
+{% macro poll_edit(the_plan) -%}
+
+{% set the_plan_key = the_plan.key %}
+
+<div class="row">
+    <div class="col-4" style="display:flex; align-items:center;" >
+        {% trans %}Your Answer{% endtrans %}:
+    </div>
+    <div class="mr-x btn-group" role="group" style="display:flex; align-items:center;" >
+        {{ plan_icon.feedback_button(the_plan, the_answers, 1 ) }}
+    </div>
+</div>
+{%- endmacro %}
