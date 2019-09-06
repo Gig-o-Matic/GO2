@@ -65,6 +65,7 @@ def _makeInfoPageInfo(the_user, the_poll, the_band_key):
         else:
             # no plan? make a new one
             the_plan = plan.Plan(parent=poll_key, member=a_member_key, value=0, comment="", section=None)
+            the_plan.feedback_value=0
             the_new_plans.append(the_plan)
             new_plan = True
 

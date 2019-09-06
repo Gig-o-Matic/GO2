@@ -21,10 +21,10 @@
                     {% if user_can_edit %}
                         <div class="ml-auto">
                             {% if user_can_edit %}
-                                <a class="btn btn-primary btn-sm" href="poll_edit.html?gk={{ poll.key.urlsafe() }}">{% trans %}Edit{% endtrans %}</a>
+                                <a class="btn btn-primary btn-sm" href="poll_edit.html?pk={{ poll.key.urlsafe() }}">{% trans %}Edit{% endtrans %}</a>
                             {% endif %}
                             {% if user_can_create %}
-                                <a class="btn btn-primary btn-sm" href="poll_edit.html?gk={{ poll.key.urlsafe() }}&dupe=1">{% trans %}Duplicate{% endtrans %}</a>
+                                <a class="btn btn-primary btn-sm" href="poll_edit.html?pk={{ poll.key.urlsafe() }}&dupe=1">{% trans %}Duplicate{% endtrans %}</a>
                             {% endif %}
                         </div>
                 {% endif %}
@@ -42,7 +42,7 @@
                         <div class="col-md-10 col-sm-10 col-8" style="color:red">
                             <strong>{% trans %}THIS POLL IS IN THE TRASH!{% endtrans %}</strong>  
                             {% if the_user_is_superuser or the_user_is_band_admin %}
-                                <a class="btn btn-default" href="/poll_restore_trashed?gk={{ poll.key.urlsafe() }}">{% trans %}Restore Poll{% endtrans %}</a>
+                                <a class="btn btn-default" href="/poll_restore_trashed?pk={{ poll.key.urlsafe() }}">{% trans %}Restore Poll{% endtrans %}</a>
                             {% endif %}
                         </div>
                     </div>
@@ -75,6 +75,7 @@
                         {% trans %}Poll Results{% endtrans %}
                     </div>
                     <div class="ml-auto"">
+{#                        
                         {% if user_can_edit %}
                             <span id="showremind"><a href="#" onclick="sendreminder('{{poll.key.urlsafe()}}'); return false;" class="btn btn-sm btn-secondary"><i class="fas fa-envelope"></i>
                             	{% trans %}Remind{% endtrans %}
@@ -83,6 +84,7 @@
                             	<small>{% trans %}Reminder Sent{% endtrans %}</small>
                         	</span>
                         {% endif %}
+#}                        
                     </div>
                 </div>
             </div>
@@ -151,13 +153,13 @@
 <script>
 
 {% if user_can_edit %}
-function sendreminder(gk) {
+function sendreminder(pk) {
 	$('#showremind').hide();
 	$('#hideremind').show();
 
-	$.post("/sendreminder",
+	$.post("/sendpollreminder",
         {
-            gk: gk
+            pk: pk
         });
 }
 {% endif %}
