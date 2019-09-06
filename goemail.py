@@ -1,3 +1,5 @@
+# coding: utf8
+
 import webapp2
 from google.appengine.api import mail
 from google.appengine.api import users
@@ -134,8 +136,8 @@ def send_newgig_email(the_member, the_gig, the_band, the_gig_url, is_edit=False,
 
     def format_details(details, setlist, newline='\n'):
         if setlist:
-            the_details_string = "{0}{1}{2}:{3}{4}".format(details if details else '',
-                                                    '{0}{0}'.format(newline) if details else '', 
+            the_details_string = u"{0}{1}{2}:{3}{4}".format(details if details else '',
+                                                    u'{0}{0}'.format(newline) if details else '', 
                                                     _('Setlist'), 
                                                     newline,
                                                     newline.join(setlist.splitlines()))
@@ -146,8 +148,8 @@ def send_newgig_email(the_member, the_gig, the_band, the_gig_url, is_edit=False,
 
     def format_body(body_format_str, newline='\n'):
         return body_format_str.format(the_band.name, the_gig.title, the_date_string, the_time_string, contact_name,
-                                      the_status_string, format_details(the_gig.details, the_gig.setlist, newline), the_gig_url, "", the_yes_url, the_no_url,
-                                      the_snooze_url)
+                                      the_status_string, format_details(the_gig.details, the_gig.setlist, newline), the_gig_url, "", 
+                                      the_yes_url, the_no_url, the_snooze_url)
 
     if is_edit:
         body = _('edited_gig_email').format(the_band.name, the_gig.title, the_date_string, the_time_string, contact_name,
