@@ -113,10 +113,10 @@ def _get_polls_for_member(the_user):
                 continue
             info_block['the_band'] = a_band_key.get()
             info_block['the_assoc'] = assoc.get_assoc_for_band_key_and_member_key(the_user.key, a_band_key)
-            if (the_plan.value): #include gigs for which we've weighed in or have been cancelled
+            if (the_plan.feedback_value): #include gigs for which we've weighed in or have been cancelled
                 upcoming_polls.append( info_block )
             else:            
-                if (the_plan.value == 0 ):
+                if (the_plan.feedback_value == 0 ):
                     weighin_polls.append( info_block )
 
     number_of_bands = len(the_band_keys)

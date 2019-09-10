@@ -5,6 +5,7 @@
 
 {% block content %}
 {% import 'agenda_plan_edit.html' as plan_edit with context %}
+{% import 'agenda_poll_edit.html' as poll_edit with context %}
 <div class="row">
     <div class="mx-auto col-lg-8 col-md-10 col-12">
         <div class="page-header">
@@ -33,16 +34,22 @@
                             </div>
                         {% endfor %}
                     </div>
-                    <div id="weighinpolls">
-                        {% for poll_info in weighin_polls %}
-                            <div class="row" style="padding-top: 5px; padding-bottom: 5px; {{ loop.cycle('', 'background:#f5f5f5;') }}">
+                    {% if weighin_polls %}
+                        <div id="weighinpolls">
+                            <div class="row">
                                 <div class="col-12">
-                                    {# {{ plan_edit.plan_edit(plan_info) }} #}
-                                    {{ poll_info['the_poll'].title}}
+                                    {% trans %}Polls{% endtrans %}:
                                 </div>
                             </div>
-                        {% endfor %}
-                    </div>
+                            {% for poll_info in weighin_polls %}
+                                <div class="row" style="padding-top: 5px; padding-bottom: 5px; {{ loop.cycle('', 'background:#f5f5f5;') }}">
+                                    <div class="col-12">
+                                        {{ poll_edit.poll_edit(poll_info) }}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
                 </div>
             </div>
             <div>&nbsp;</div>
@@ -83,16 +90,23 @@
                     {% endif %}
                 </div>
             </div>
-            <div id="upcomingpolls">
-                {% for poll_info in upcoming_polls %}
-                    <div class="row" style="padding-top: 5px; padding-bottom: 5px; {{ loop.cycle('', 'background:#f5f5f5;') }}">
+
+            {% if upcoming_polls %}
+                <div id="upcomingpolls">
+                    <div class="row">
                         <div class="col-12">
-                            {# {{ plan_edit.plan_edit(plan_info) }} #}
-                            {{ poll_info['the_poll'].title}}
+                            {% trans %}Polls{% endtrans %}:
                         </div>
                     </div>
-                {% endfor %}
-            </div>
+                    {% for poll_info in upcoming_polls %}
+                        <div class="row" style="padding-top: 5px; padding-bottom: 5px; {{ loop.cycle('', 'background:#f5f5f5;') }}">
+                            <div class="col-12">
+                                {{ poll_edit.poll_edit(poll_info) }}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
         </div>
     </div>
 </div>

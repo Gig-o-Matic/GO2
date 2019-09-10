@@ -1,0 +1,39 @@
+{% import 'plan_icon.html' as plan_icon %}
+
+
+{% macro poll_edit(poll_info) -%}
+
+{% set the_assoc = poll_info['the_assoc'] %}
+{% set the_poll = poll_info['the_poll'] %}
+{% set the_band = poll_info['the_band'] %}
+{% set the_poll_key = poll_info['the_poll'].key %}
+{% set the_plan_key = poll_info['the_plan'].key %}
+{% set the_plan = poll_info['the_plan'] %}
+
+<div class="row" style="border-left:solid thick {{ colors[the_assoc.color] }};">
+    <div class="col-sm-12 col-md-3">
+        {{ the_date_formatter(the_user, the_poll.date, 'short') }} {{ the_date_formatter(the_user, the_poll.date, 'day') }}
+    </div>
+    <div class="col-sm-12 col-md-5">
+        <a href="poll_info.html?pk={{ the_poll_key.urlsafe() }}" ><strong>{{ the_poll.title|e }}</strong></a>
+        {% if show_band==True %}
+            <a href="band_info.html?bk={{ the_band.key.urlsafe()}}">
+            {% if the_band.shortname %}
+                ({{ the_band.shortname|e }})
+            {% else %}
+                ({{ the_band.name|e }})
+            {% endif %}
+            </a>
+        {% endif %}
+    </div>
+
+    <div class="col-12 col-md-4 btn-group" role="group">
+    {% if the_member_key == the_user.key or the_user_is_superuser %}
+        {{ plan_icon.feedback_button(the_plan, the_poll.setlist.split('\n'), 1 ) }}
+    {% else %}
+        {{ plan_icon.icon_display(the_plan.feedback_value) }}
+    {% endif %}
+    </div>
+</div>
+
+{%- endmacro %}
