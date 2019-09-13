@@ -162,11 +162,11 @@ def get_gigs_for_band_keys(the_band_key_list, num=None, start_date=None, end_dat
 
     if start_date:
         start_date = adjust_date_for_band(the_band_key_list[0].get(), start_date)
-        params.append( Gig.trueenddate >= start_date )
+        params.append( orderby >= start_date )
 
     if end_date:
         end_Date = adjust_date_for_band(the_band_key_list[0].get(), end_date)
-        params.append( Gig.trueenddate <= end_date )
+        params.append( orderby <= end_date )
         
     if not show_canceled:
         params.append( Gig.is_canceled == False )
