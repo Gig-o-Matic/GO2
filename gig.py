@@ -152,7 +152,7 @@ def get_gigs_for_band_keys(the_band_key_list, num=None, start_date=None, end_dat
     if (type(the_band_key_list) is not list):
         the_band_key_list = [the_band_key_list]
 
-     if show_past is False:
+    if show_past is False:
         params = [ Gig.is_archived == False ]
         orderby = Gig.trueenddate
     else:
