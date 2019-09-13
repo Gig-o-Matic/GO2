@@ -154,11 +154,10 @@ def get_gigs_for_band_keys(the_band_key_list, num=None, start_date=None, end_dat
 
     if show_past is False:
         params = [ Gig.is_archived == False ]
-        orderby = Gig.trueenddate
     else:
         params = []
-        orderby = Gig.date
 
+    orderby = Gig.trueenddate
 
     if start_date:
         start_date = adjust_date_for_band(the_band_key_list[0].get(), start_date)
