@@ -342,6 +342,12 @@ indexes:
 - kind: Gig
   ancestor: yes
   properties:
+  - name: is_poll
+  - name: date
+
+- kind: Gig
+  ancestor: yes
+  properties:
   - name: trueenddate
 
 - kind: Member
