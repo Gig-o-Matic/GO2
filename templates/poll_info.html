@@ -35,15 +35,28 @@
                     <div class="col-md-10 col-sm-10 col-8"><a href="band_info.html?bk={{the_band_key.urlsafe()}}">{{ the_band_key.get().name }}</a></div>
                 </div>
                 <div class="row">&nbsp;</div>
-                <div class="row">
-                    <div class="col-md-2 col-sm-2 col-12"><i class="fas fa-calendar"></i></div>
-                    <div class="col-md-10 col-sm-10 col-12">{{ date_str }}{{ enddate_str }}</div>
-                </div>
-                {% if user_can_edit %}
+                {% if is_open %}
                     <div class="row">
-                        <div class="col-md-2 col-sm-2 col-12"></div>
-                        <div class="col-md-10 col-sm-10 col-12"><a class="btn btn-secondary btn-sm" href="/poll_close?pk={{ poll.key.urlsafe() }}">{% trans %}Close Now{% endtrans %}</a></div>
+                        <div class="col-md-2 col-sm-2 col-12"><i class="fas fa-calendar"></i></div>
+                        <div class="col-md-10 col-sm-10 col-12">{{ date_str }}{{ enddate_str }}</div>
                     </div>
+                    {% if user_can_edit %}
+                        <div class="row">
+                            <div class="col-md-2 col-sm-2 col-12"></div>
+                            <div class="col-md-10 col-sm-10 col-12"><a class="btn btn-secondary btn-sm" href="/poll_close?pk={{ poll.key.urlsafe() }}">{% trans %}Close Now{% endtrans %}</a></div>
+                        </div>
+                    {% endif %}
+                {% else %}
+                    <div class="row">
+                        <div class="col-md-2 col-sm-2 col-12"><i class="fas fa-calendar"></i></div>
+                        <div class="col-md-10 col-sm-10 col-12">{% trans %}Poll is closed!{% endtrans %}</div>
+                    </div>                    
+                    {% if user_can_edit %}
+                        <div class="row">
+                            <div class="col-md-2 col-sm-2 col-12"></div>
+                            <div class="col-md-10 col-sm-10 col-12"><a class="btn btn-secondary btn-sm" href="/poll_close?pk={{ poll.key.urlsafe() }}">{% trans %}Reopen{% endtrans %}</a></div>
+                        </div>
+                    {% endif %}
                 {% endif %}
                 <div class="row">&nbsp;</div>
                 {% if poll.details %}
@@ -86,6 +99,11 @@
                             </div>
                             <div class="mr-auto">
                                 {{ the_answer_counts[0] }}
+                                {% if not is_open %}
+                                    {% if user_plan.feedback_value == 0 %}
+                                        ({% trans %}You did not answer{% endtrans %})
+                                    {% endif %}
+                                {% endif %}
                             </div>
                         {% else %}
                             <div class="col-5">
@@ -93,14 +111,17 @@
                             </div>
                             <div class="mr-auto">
                                 {{ the_answer_counts[loop.index0+1] }}
+                                {% if not is_open %}
+                                    {% if user_plan.feedback_value == loop.index %}
+                                        ({% trans %}Your answer{% endtrans %})
+                                    {% endif %}
+                                {% endif %}
                             </div>
                         {% endif %}
                     </div>
                 {% endfor %}
-
-                <div>&nbsp;</div>
-
-                {% if user_plan %}
+                {% if is_open and user_plan %}
+                    <div>&nbsp;</div>
                     {% import 'poll_plan_edit.html' as poll_edit with context %}                
                     {{ poll_edit.poll_edit(user_plan) }}
                 {% endif %}

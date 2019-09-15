@@ -119,6 +119,7 @@ class InfoPage(BaseHandler):
             template_args = {
                 'poll' : the_poll,
                 'date_str' : datestr,
+                'is_open' : the_poll.status == gig.Gig.poll_status['open'],
                 'comment_text' : the_comment_text,
                 'the_user_is_band_admin' : the_user_is_band_admin,
                 'user_can_edit' : user_can_edit,
@@ -269,7 +270,30 @@ class EditPage(BaseHandler):
 
         return self.redirect(\
             '/poll_info.html?&pk={0}'.format(the_poll.key.urlsafe()))
-                
+
+
+class CloseHandler(BaseHandler):
+
+    @user_required
+    def get(self):
+
+        user = self.user
+        
+        the_poll_key_urlsafe = self.request.get("pk", None)
+
+        if the_poll_key_urlsafe is None:
+            raise gigoexceptions.GigoException('closepoll did not find a poll in the request')
+        else:
+            the_poll = gig.gig_key_from_urlsafe(the_poll_key_urlsafe).get()
+            if the_poll:
+                if the_poll.status == gig.Gig.poll_status['open']:
+                    the_poll.close_poll()
+                else:
+                    the_poll.open_poll()
+                the_poll.put()
+        return self.redirect(\
+            '/poll_info.html?&pk={0}'.format(the_poll_key_urlsafe))
+
 # class DeleteHandler(BaseHandler):
 #     @user_required
 #     def get(self):
