@@ -112,9 +112,7 @@ class InfoPage(BaseHandler):
 
             # is the current user a band admin?
             the_user_is_band_admin = assoc.get_admin_status_for_member_for_band_key(the_user, the_band_key)
-            the_band = the_band_key.get()
-            user_can_edit = gig.can_edit_gig(the_user, the_poll, the_band)
-            user_can_create = gig.can_edit_gig(the_user, None, the_band)
+            user_can_edit = the_user_is_band_admin or the_user.is_superuser
 
             datestr = member.format_date_for_member(the_user, the_poll.date, format="long")
 

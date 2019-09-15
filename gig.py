@@ -115,6 +115,12 @@ class Gig(ndb.Model):
         else:
             raise ValueError('Setting gig status: old {0}, new{1}'.format(self.status, status))
 
+    def close_poll(self):
+        self.set_status(Gig.poll_status['closed'])
+
+    def open_poll(self):
+        self.set_status(Gig.poll_status['open'])
+
     def set_poll(self):
         self.status=Gig.poll_status['open']
 

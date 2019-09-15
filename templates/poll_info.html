@@ -20,12 +20,7 @@
                     </div>
                     {% if user_can_edit %}
                         <div class="ml-auto">
-                            {% if user_can_edit %}
-                                <a class="btn btn-primary btn-sm" href="poll_edit.html?pk={{ poll.key.urlsafe() }}">{% trans %}Edit{% endtrans %}</a>
-                            {% endif %}
-                            {% if user_can_create %}
-                                <a class="btn btn-primary btn-sm" href="poll_edit.html?pk={{ poll.key.urlsafe() }}&dupe=1">{% trans %}Duplicate{% endtrans %}</a>
-                            {% endif %}
+                            <a class="btn btn-primary btn-sm" href="poll_edit.html?pk={{ poll.key.urlsafe() }}">{% trans %}Edit{% endtrans %}</a>
                         </div>
                 {% endif %}
                 </div>
@@ -34,19 +29,7 @@
                 <div class="row">
                     <div class="col-md-2 col-sm-2 col-4">{% trans %}Poll{% endtrans %}</div>
                     <div class="col-md-10 col-sm-10 col-8"><strong>{{ poll.title|e }}</strong></div>
-                </div>                    
-                {% if poll.is_in_trash %}
-                    <div class="col-md-2 col-sm-2 col-4">
-                    </div>
-                    <div class="row">
-                        <div class="col-md-10 col-sm-10 col-8" style="color:red">
-                            <strong>{% trans %}THIS POLL IS IN THE TRASH!{% endtrans %}</strong>  
-                            {% if the_user_is_superuser or the_user_is_band_admin %}
-                                <a class="btn btn-default" href="/poll_restore_trashed?pk={{ poll.key.urlsafe() }}">{% trans %}Restore Poll{% endtrans %}</a>
-                            {% endif %}
-                        </div>
-                    </div>
-                {% endif %}
+                </div>
                 <div class="row">
                     <div class="col-md-2 col-sm-2 col-4">{% trans %}Band{% endtrans %}</div>
                     <div class="col-md-10 col-sm-10 col-8"><a href="band_info.html?bk={{the_band_key.urlsafe()}}">{{ the_band_key.get().name }}</a></div>
@@ -56,6 +39,12 @@
                     <div class="col-md-2 col-sm-2 col-12"><i class="fas fa-calendar"></i></div>
                     <div class="col-md-10 col-sm-10 col-12">{{ date_str }}{{ enddate_str }}</div>
                 </div>
+                {% if user_can_edit %}
+                    <div class="row">
+                        <div class="col-md-2 col-sm-2 col-12"></div>
+                        <div class="col-md-10 col-sm-10 col-12"><a class="btn btn-secondary btn-sm" href="/poll_close?pk={{ poll.key.urlsafe() }}">{% trans %}Close Now{% endtrans %}</a></div>
+                    </div>
+                {% endif %}
                 <div class="row">&nbsp;</div>
                 {% if poll.details %}
                     <div class="row">
