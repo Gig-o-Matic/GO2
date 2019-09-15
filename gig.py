@@ -191,7 +191,6 @@ def get_gigs_for_band_keys(the_band_key_list, num=None, start_date=None, end_dat
         params = []
         orderby = Gig.date
 
-
     if start_date:
         start_date = adjust_date_for_band(the_band_key_list[0].get(), start_date)
         params.append( orderby >= start_date )
