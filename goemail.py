@@ -107,7 +107,7 @@ def send_newgig_email(the_member, the_gig, the_band, the_gig_url, is_edit=False,
     if contact is not None:
        reply_to = contact.email_address
     if is_edit:
-        title_string='{0} ({1})'.format(_('Gig Edit'),change_string)
+        title_string='{0} ({1})'.format(_('Gig Edit').encode('utf-8'),change_string)
     elif is_reminder:
         title_string='Gig Reminder:'
     else:
