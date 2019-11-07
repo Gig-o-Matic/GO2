@@ -389,15 +389,15 @@ def get_confirm_urls(the_member, the_gig):
     
     yes_string = "{0}+{1}+1".format(the_member.key.urlsafe(), the_gig.key.urlsafe())
     yes_code = cryptoutil.encrypt_string(yes_string)
-    yes_url =  webapp2.uri_for('gig_answerlink', _full=True, c=yes_code)
+    yes_url =  webapp2.uri_for('gig_answerlink', _full=True, _scheme='https', c=yes_code)
 
     no_string = "{0}+{1}+0".format(the_member.key.urlsafe(), the_gig.key.urlsafe())
     no_code = cryptoutil.encrypt_string(no_string)
-    no_url =  webapp2.uri_for('gig_answerlink', _full=True, c=no_code)
+    no_url =  webapp2.uri_for('gig_answerlink', _full=True, _scheme='https', c=no_code)
 
     snooze_string = "{0}+{1}+2".format(the_member.key.urlsafe(), the_gig.key.urlsafe())
     snooze_code = cryptoutil.encrypt_string(snooze_string)
-    snooze_url =  webapp2.uri_for('gig_answerlink', _full=True, c=snooze_code)
+    snooze_url =  webapp2.uri_for('gig_answerlink', _full=True, _scheme='https', c=snooze_code)
 
     return yes_url, no_url, snooze_url
 
