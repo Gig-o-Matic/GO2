@@ -730,7 +730,7 @@ class DeleteInvite(BaseHandler):
         invites = assoc.get_inviting_assoc_keys_from_member_key(the_member_key)
         if invites is None or (len(invites)==1 and invites[0]==the_assoc_key):
             logging.error('removed last invite from member; deleteing')
-            forget_member_from_key(the_member_key)            
+            member.forget_member_from_key(the_member_key)            
                     
         return self.redirect('/band_info.html?bk={0}'.format(the_band_key.urlsafe()))
 
