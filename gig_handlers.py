@@ -25,6 +25,7 @@ import rss
 import logging
 import gigoexceptions
 import clone
+import pytz
 
 from webapp2_extras.i18n import gettext as _
 
@@ -657,6 +658,11 @@ class GetCommentHandler(BaseHandler):
 
         new_comments = comment.get_comments_from_gig_key(the_gig.key)
         
+        the_band = the_gig.key.parent().get()
+        for c in new_comments:
+            x = c.created_date.replace(tzinfo=pytz.timezone('utc'))
+            c.local_date = x.astimezone(pytz.timezone(the_band.timezone))
+
         template_args = {
             'the_old_comments' : the_old_comment,
             'the_comments' : new_comments,

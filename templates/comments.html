@@ -10,7 +10,7 @@
         {% else %}
             {% trans %}Somebody{% endtrans %}
         {% endif %}
-        {% trans %}said on{% endtrans %} {{ the_date_formatter(the_user, the_comment.created_date, 'long')}}:
+        {% trans %}said on{% endtrans %} {{ the_date_formatter(the_user, the_comment.local_date, 'long')}}:
     </div>
     <div class='comment-comment'>
         {{ the_comment.comment }}<br>
