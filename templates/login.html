@@ -17,7 +17,7 @@ class="landingwrap"
                 <h3>{% trans %}Welcome to Gig-o-Matic!{% endtrans %}</h3>
             </div>
         </div>
-		<div class="row">        
+		<div class="row">
 			<br>
 		</div>
 
@@ -27,7 +27,7 @@ class="landingwrap"
                     <strong>{% trans %}Login failed!{% endtrans %}</strong> {% trans %}Check your credentials and try again.{% endtrans %}
                 </div>
             </div>
-			<div class="row">        
+			<div class="row">
 				<br>
 			</div>
         {% endif %}
@@ -38,7 +38,7 @@ class="landingwrap"
                     <strong>{% trans %}Login failed!{% endtrans %}</strong> {% trans %}Check your email to verify your account.{% endtrans %}
                 </div>
             </div>
-			<div class="row">        
+			<div class="row">
 				<br>
 			</div>
 
@@ -57,13 +57,26 @@ class="landingwrap"
                     <div class="form-group row">
                         <label for="email" class="col-form-label col-lg-3 text-lg-right">{% trans %}Email Address{% endtrans %}</label>
                         <div class="col-lg-8 col-12">
-                            <input type="text" class="form-control" value="{{ username }}" name="email" id="email"/>
+                            <input
+                                autocomplete="email"
+                                class="form-control"
+                                id="email"
+                                name="email"
+                                type="text"
+                                value="{{ username }}"
+                            />
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="password" class="col-form-label col-lg-3 text-lg-right">{% trans %}Password{% endtrans %}</label>
                         <div class="col-lg-8 col-12">
-                            <input type="password" class="form-control" name="password"/>
+                            <input
+                                autocomplete="current-password"
+                                class="form-control"
+                                id="password"
+                                name="password"
+                                type="password"
+                            />
                         </div>
                     </div>
                     <div class="form-group row">
@@ -81,10 +94,10 @@ class="landingwrap"
                             <a href="/forgot{% if locale %}?locale={{ locale }}{% endif %}">{% trans %}Forgot password?{% endtrans %}</a>
                         </div>
                     </div>
-	    			<div class="row">        
+	    			<div class="row">
 	    				<br>
 					</div>
-	    			<div class="row">        
+	    			<div class="row">
 			            <div class="col-lg-9 ml-auto">
 			                {% trans %}Not a member?{% endtrans %}
 			                <a href="/signup{% if locale %}?locale={{ locale }}{% endif %}">{% trans %}Sign Up!{% endtrans %}</a>
