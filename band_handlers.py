@@ -1032,7 +1032,7 @@ class RestEndpointBands(BaseHandler):
 
         the_assocs = assoc.get_assocs_of_member_key(self.user.key, confirmed_only=True, include_hidden=True, keys_only=False)
 
-        info = [band.rest_band_info(a, self.abort) for a in the_assocs]
+        info = [band.rest_band_info(a.band.get(), the_assoc=a) for a in the_assocs]
         return info
 
 class RestEndpointMembers(BaseHandler):
