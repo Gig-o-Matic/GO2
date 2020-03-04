@@ -303,33 +303,33 @@
                 </div>
             </div> <!-- panel -->
 
+
             {% if the_user_is_band_admin or the_user_is_superuser %}
                 <div>&nbsp;</div>
-                <div class="accordion" id="accordion">
-                    <div class="card">
-                        <div class="card-header collapsed" data-toggle="collapse" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                            <a class="card-title titlerow">
-                                {% trans %}Member Admin{% endtrans %}
-                            </a>
-                        </div>
-                        <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-12">
-                                        <a class="btn btn-primary btn-sm" href="band_invite.html?bk={{ the_band.key.urlsafe() }}">{% trans %}Invite Members{% endtrans %}</a>
-                                        <a class="btn btn-primary btn-sm" href="member_spreadsheet?bk={{the_band.key.urlsafe()}}">{% trans %}Download Member List{% endtrans %}</a>
-                                        <a class="btn btn-primary btn-sm" href="member_emails?bk={{the_band.key.urlsafe()}}">{% trans %}Get Member Emails{% endtrans %}</a>
 
-                                    </div>
-                                    <hr>
+                <div class="card">
+                    <div class="card-header">
+                        <a class="card-title titlerow">
+                            <a type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                <i class="fas fa-plus">&nbsp;</i>{% trans %}Member Admin{% endtrans %}
+                            </a>            
+                        </a>
+                    </div>
+                    <div class="card-body collapse" id="collapseOne" aria-labelledby="headingOne">
+                            <div class="row">
+                                <div class="col-12">
+                                    <a class="btn btn-primary btn-sm" href="band_invite.html?bk={{ the_band.key.urlsafe() }}">{% trans %}Invite Members{% endtrans %}</a>
+                                    <a class="btn btn-primary btn-sm" href="member_spreadsheet?bk={{the_band.key.urlsafe()}}">{% trans %}Download Member List{% endtrans %}</a>
+                                    <a class="btn btn-primary btn-sm" href="member_emails?bk={{the_band.key.urlsafe()}}">{% trans %}Get Member Emails{% endtrans %}</a>
                                 </div>
-                                <div class="row">
-                                    <div class="col-12" id="memberlist">
-                                        <i class="fas fa-spinner fa-pulse fa-lg"></i>
-                                    </div>
+                                <hr>
+                            </div>
+                            <div class="row">
+                                <div class="col-12" id="memberlist">
+                                    <i class="fas fa-spinner fa-pulse fa-lg"></i>
                                 </div>
                             </div>
-                        </div>
+
                     </div>
                 </div>
             {% endif %}

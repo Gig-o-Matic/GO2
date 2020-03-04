@@ -21,14 +21,14 @@
             <div class="col-md-2">
 
                 <div class="dropdown">
-                    <a class="btn btn-outline-secondary btn-sm dropdown-toggle" href="#" role="button" data-toggle="dropdown" id="dropdownMenu{{loop.index}}" aria-haspopup="true" aria-expanded="false">
+                    <button type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle" href="#" role="button" data-toggle="dropdown" id="dropdownMenu{{loop.index}}" aria-haspopup="true" aria-expanded="false">
                         {% if the_assoc['section'] == None %}
                             {% trans %}section{% endtrans %}...
                         {% else %}
                             {{ the_assoc['section'] | shorten }}
                         {% endif %}
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenu{{loop.index}}">
+                    </button>
+                    <div class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu{{loop.index}}">
                          {% for a_section in the_sections %}
                              <a class="dropdown-item" onclick="member_section('{{ the_assoc['member_key'].urlsafe()}}','{{a_section.key.urlsafe()}}')">{{ a_section.name }}</a>
                          {% endfor %}
