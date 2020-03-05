@@ -136,7 +136,7 @@ def send_newgig_email(the_member, the_gig, the_band, the_gig_url, is_edit=False,
 
     def format_details(details, setlist, newline='\n'):
         if setlist:
-            the_details_string = u"{0}{1}{2}:{3}{4}".format(details if details else '',
+            the_details_string = u"{0}{1}{2}:{3}{4}".format(newline.join(details.splitlines()) if details else '',
                                                     u'{0}{0}'.format(newline) if details else '', 
                                                     _('Setlist'), 
                                                     newline,
