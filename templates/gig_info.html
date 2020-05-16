@@ -105,10 +105,10 @@
                     {% endif %}
                 </div>
                 <div class="row">&nbsp;</div>
-                {% if gig.address %}
+                {% if address_link %}
                     <div class="row">
                         <div class="col-md-2 col-sm-2 col-4">{% trans %}Address{% endtrans %}</div>
-                        <div class="col-md-10 col-sm-10 col-8"><a href="http://maps.google.com?q={{gig.address | replace(' ','+')}}" target="new">{{ gig.address }}</a></div>
+                        <div class="col-md-10 col-sm-10 col-8"><a href="{{address_link}}" target="new">{{ gig.address }}</a></div>
                     </div>
                     <div class="row">&nbsp;</div>
                 {% endif %}

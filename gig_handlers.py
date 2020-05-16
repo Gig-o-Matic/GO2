@@ -163,6 +163,14 @@ class InfoPage(BaseHandler):
             else:
                 enddatestr = ''
 
+            if the_gig.address:
+                if the_gig.address.startswith('http'):
+                    address_link = the_gig.address
+                else:
+                    address_link = "http://maps.google.com?q={0}".format(the_gig.address.replace(' ','+'))
+            else:
+                address_link = ''
+
             template_args = {
                 'gig' : the_gig,
                 'date_str' : datestr,
@@ -174,7 +182,8 @@ class InfoPage(BaseHandler):
                 'the_user_is_band_admin' : the_user_is_band_admin,
                 'user_can_edit' : user_can_edit,
                 'user_can_create' : user_can_create,
-                'the_plan_counts' : the_plan_counts
+                'the_plan_counts' : the_plan_counts,
+                'address_link' : address_link
             }
             self.render_template('gig_info.html', template_args)
 
