@@ -167,7 +167,7 @@ class InfoPage(BaseHandler):
                 if the_gig.address.startswith('http'):
                     address_link = the_gig.address
                 else:
-                    address_link = "http://maps.google.com?q={0}".format(the_gig.address.replace(' ','+'))
+                    address_link = u"http://maps.google.com?q={0}".format(the_gig.address.replace(' ','+'))
             else:
                 address_link = ''
 
