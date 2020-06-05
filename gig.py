@@ -432,7 +432,8 @@ def delete_gig_completely(the_gig):
 
 def rest_gig_info(the_gig, include_id=True):
     obj = { k:getattr(the_gig,k) for k in ('title','details','setlist','date','calltime','settime',
-                                            'endtime','address','paid','dress','leader','postgig','status','is_in_trash') }
+                                            'endtime','address','paid','dress','leader','postgig','status','is_in_trash',
+                                            'is_private', 'rss_description', 'enddate') }
     obj['contact'] = the_gig.contact.urlsafe() if the_gig.contact else ""
     obj['band'] = the_gig.key.parent().urlsafe()
     if include_id:
