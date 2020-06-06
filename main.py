@@ -19,6 +19,7 @@ import caldav
 import jinja2ext
 import os
 import cryptoutil
+import captchautil
 import goemail
 import rss
 
@@ -178,6 +179,7 @@ else:
         webapp2.Route('/admin_send_reminders', plan.SendReminders),
         webapp2.Route('/motd_admin', motd.AdminPage),
         webapp2.Route('/crypto_admin', cryptoutil.AdminPage, name='crypto_admin'),
+        webapp2.Route('/captcha_admin', captchautil.AdminPage, name='captcha_admin'),
         webapp2.Route('/whatis.html', login.WhatisPageHandler),
         webapp2.Route('/stats', stats.StatsPage),
         webapp2.Route('/admin_generate_stats', stats.AutoGenerateStats),
