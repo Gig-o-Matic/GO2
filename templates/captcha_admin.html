@@ -8,34 +8,23 @@
             {% trans %}Captcha Key{% endtrans %}
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2 well">
-            Site: 
-            {% if current_site %}
-                {{ current_site  | html_content | safe }}
-            {% else %}
-                (No Key Set!)
-            {% endif %}<br>
-            Secret:
-            {% if current_secret %}
-                {{ current_secret  | html_content | safe }}
-            {% else %}
-                (No Key Set!)
-            {% endif %}<br>
-        </div>
-    </div> 
-    <br><br>
     <form class="form" role="form" method="post" action="captcha_admin">    
         <div class="row">
             <div class="form-group col-md-8 col-md-offset-2">
                 <label for="sitekeyinput" class="control-label">New Site Key</label>
-                <textarea class="form-control" id="sitekeyinput" name="sitekey_content"></textarea>
+                <textarea class="form-control" id="sitekeyinput" name="sitekey_content">{{current_site}}</textarea>
             </div>
         </div>        
         <div class="row">
             <div class="form-group col-md-8 col-md-offset-2">
                 <label for="secretkeyinput" class="control-label">New Secret Key</label>
-                <textarea class="form-control" id="secretkeyinput" name="secretkey_content"></textarea>
+                <textarea class="form-control" id="secretkeyinput" name="secretkey_content">{{current_secret}}</textarea>
+            </div>
+        </div>        
+        <div class="row">
+            <div class="form-group col-md-8 col-md-offset-2">
+                <label for="threholdinput" class="control-label">New Threshold</label>
+                <textarea class="form-control" id="thresholdinput" name="threshold_content">{{current_threshold}}</textarea>
             </div>
         </div>        
         <div class="form-group col-md-8 col-md-offset-2 text-right">                

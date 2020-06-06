@@ -16,16 +16,18 @@ class CaptchaKeys(ndb.Model):
     """ Models a crypto key """
     site_key = ndb.TextProperty()
     secret_key = ndb.TextProperty()
+    threshold = ndb.FloatProperty(default=0.5)
 
-def set_captchakeys(site_key, secret_key):
+def set_captchakeys(site_key, secret_key, threshold):
     """ sets the captcha key """
     the_captchakeys = get_captchakeys_object()
     if the_captchakeys:
         the_captchakeys.site_key=site_key
         the_captchakeys.secret_key=secret_key
+        the_captchakeys.threshold=threshold
         the_captchakeys.put()
     else:
-        the_captchakeys = CaptchaKeys(site_key=site_key, secret_key=secret_key)
+        the_captchakeys = CaptchaKeys(site_key=site_key, secret_key=secret_key, threshold=threshold)
         the_captchakeys.put()
     
         

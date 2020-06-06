@@ -30,13 +30,16 @@ class AdminPage(BaseHandler):
         if current:
             site= current.site_key
             secret = current.secret_key
+            threshold = current.threshold
         else:
             site = None
             secret = None
+            threshold = None
 
         template_args = {
             'current_site' : site,
-            'current_secret' : secret
+            'current_secret' : secret,
+            'current_threshold' : threshold
         }
         self.render_template('captcha_admin.html', template_args)
 
@@ -45,8 +48,12 @@ class AdminPage(BaseHandler):
     def post(self):
         the_site = self.request.get('sitekey_content','')
         the_secret = self.request.get('secretkey_content','')
+        try:
+            the_threshold = float(self.request.get('threshold_content',''))
+        except ValueError:
+            the_threshold = 0.5
 
-        captcha_db.set_captchakeys(site_key=the_site, secret_key=the_secret)
+        captcha_db.set_captchakeys(site_key=the_site, secret_key=the_secret, threshold=the_threshold)
         
         self.redirect(self.uri_for('captcha_admin'))
 
