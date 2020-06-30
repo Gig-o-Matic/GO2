@@ -69,7 +69,11 @@ handlers:
 
 - url: /.*
   script: main.APPLICATION
-  
+
+- url: /_ah/bounce
+  script: main.APPLICATION
+  login: admin
+
 libraries:
 - name: webapp2
   version: latest
@@ -78,6 +82,9 @@ libraries:
 - name: pycrypto
   version: latest
   
+inbound_services:
+- mail_bounce
+
 builtins:
 - appstats: on
 
