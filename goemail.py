@@ -360,22 +360,22 @@ class SendTestEmail(BaseHandler):
         address = self.request.get('address', None)
 
         if address:
-            the_params = pickle.dumps({'the_address':   address})
-
             taskqueue.add(
                     url='/send_test_email_handler',
-                    params={'the_params': the_params
-                    })
+                    params={'the_address':address}
+                    )
         self.response.write( 200 )
-
 
 class SendTestEmailHandler(webapp2.RequestHandler):
 
     def post(self):
-        the_params = pickle.loads(self.request.get('the_params'))
 
-        the_address  = the_params['the_address']
-        _send_admin_mail(the_address, "testing email",
-        "This is a test email from gig-o-matic. Please let gigomatic.superuser@gig-o-matic.com know if you recieved this! Thanks.", 
-        html=None, reply_to=None)
+        if not self.request.remote_addr == '0.1.0.2':
+            logging.error('request to send email from {0}'.format(self.request.remote_addr))
+        else:
+            the_address  = self.request.get('the_address', None)
+            if the_address:
+                _send_admin_mail(the_address, "testing email",
+                "This is a test email from gig-o-matic. Please let gigomatic.superuser@gig-o-matic.com know if you recieved this! Thanks.", 
+                html=None, reply_to=None)
         self.response.write( 200 )
