@@ -1,5 +1,9 @@
 {% extends 'go2base.html' %}
 
+{% block headcontent %}
+<script src="https://www.google.com/recaptcha/api.js"></script>
+{% endblock headcontent %}
+
 {% block title %}{% trans %}Register!{% endtrans %}{% endblock title %}
 
 {% block navbar %}
@@ -47,10 +51,16 @@ class="landingwrap"
                 </div>
             </div>
             
-            <div class="form-group row">
-                <div class="ml-auto">
-                    <a class="btn btn-default" href="/{% if locale %}?locale={{ locale }}{% endif %}">{% trans %}Cancel{% endtrans %}</a>
-                    <input type="submit" class="btn btn-primary" value="{% trans %}Sign me up!{% endtrans %}" />
+            <div class="row">
+                <div class="col-lg-8 col-12 form-group ml-auto text-right">
+                    <a class="btn btn-secondary" href="/{% if locale %}?locale={{ locale }}{% endif %}">{% trans %}Cancel{% endtrans %}</a>
+                </div>
+                <div>
+                    <button type="submit" 
+                            class="btn btn-primary g-recaptcha" 
+                            data-sitekey="{{ site_key }}" 
+                            data-callback='onSubmit' 
+                            data-action='submit'>{% trans %}Sign me up!{% endtrans %}</button>
                 </div>
                 <div class="col-1"></div>
             </div>
@@ -67,7 +77,13 @@ class="landingwrap"
 {% block localscripts %}
 <script src="/js/randomback.js"></script>
 <script src="/js/jquery.validate.js"></script>
+
 <script>
+
+function onSubmit(token) {
+     document.getElementById("infoform").submit();
+   }
+
 $(document).ready(function() {
     $("#infoform").validate({
         rules: {

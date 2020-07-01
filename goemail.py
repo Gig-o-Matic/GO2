@@ -17,6 +17,8 @@ import stats
 from webapp2_extras import i18n
 from webapp2_extras.i18n import gettext as _
 
+from google.appengine.ext.webapp.mail_handlers import BounceNotification, BounceNotificationHandler
+
 # need this for sending stuff to the superuser - can't use the decorated version
 _bare_admin_email_address = 'gigomatic.superuser@gmail.com'
 
@@ -162,7 +164,11 @@ def send_newgig_email(the_member, the_gig, the_band, the_gig_url, is_edit=False,
         body = format_body(_('new_gig_email'))
         html = format_body(_('new_gig_email_html'), newline='<br>')
 
-    return _send_admin_mail(the_email_address, u'{0} {1}'.format(title_string, the_gig.title), body, html=html, reply_to=reply_to)
+    try:
+        ret= _send_admin_mail(the_email_address, u'{0} {1}'.format(title_string, the_gig.title), body, html=html, reply_to=reply_to)
+    except UnicodeDecodeError:
+        logging.error("unicode error title_string with gig {0}  email {1}".format(the_gig.key, the_email_address))
+    return ret
 
 def announce_new_gig(the_gig, the_gig_url, is_edit=False, is_reminder=False, change_string="", the_members=[]):
 
@@ -319,3 +325,10 @@ Team Gig-o-Matic
 
     """.format(the_email_address, the_name, the_info)
     return _send_admin_mail(_bare_admin_email_address, 'Gig-o-Matic New Band Request', body)
+
+
+class LogBounceHandler(BounceNotificationHandler):
+    def receive(self, bounce_message):
+        logging.info('Received bounce post ... [%s]', self.request)
+        logging.info('Bounce original: %s', bounce_message.original)
+        logging.info('Bounce notification: %s', bounce_message.notification)

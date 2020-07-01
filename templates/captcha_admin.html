@@ -1,0 +1,35 @@
+{% extends 'go2base.html' %}
+
+{% block title %}{% trans %}CaptchaKeys Admin{% endtrans %}{% endblock title %}
+
+{% block content %}
+    <div class="row">
+        <div class="page-header col-md-8 col-md-offset-2">
+            {% trans %}Captcha Key{% endtrans %}
+        </div>
+    </div>
+    <form class="form" role="form" method="post" action="captcha_admin">    
+        <div class="row">
+            <div class="form-group col-md-8 col-md-offset-2">
+                <label for="sitekeyinput" class="control-label">New Site Key</label>
+                <textarea class="form-control" id="sitekeyinput" name="sitekey_content">{{current_site}}</textarea>
+            </div>
+        </div>        
+        <div class="row">
+            <div class="form-group col-md-8 col-md-offset-2">
+                <label for="secretkeyinput" class="control-label">New Secret Key</label>
+                <textarea class="form-control" id="secretkeyinput" name="secretkey_content">{{current_secret}}</textarea>
+            </div>
+        </div>        
+        <div class="row">
+            <div class="form-group col-md-8 col-md-offset-2">
+                <label for="threholdinput" class="control-label">New Threshold</label>
+                <textarea class="form-control" id="thresholdinput" name="threshold_content">{{current_threshold}}</textarea>
+            </div>
+        </div>        
+        <div class="form-group col-md-8 col-md-offset-2 text-right">                
+                <a class="btn btn-default" href="/">Cancel</a>
+                <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+    </form>            
+{% endblock content %}

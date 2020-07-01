@@ -18,6 +18,10 @@ import datetime
 import lang
 import assoc
 import gigoexceptions
+import captcha_db
+import urllib
+import urllib2
+import json
 
 ENABLE_EMAIL = True
 
@@ -32,7 +36,7 @@ class LoginPage(BaseHandler):
         remember = self.request.get('remember',False)
         if remember:
             remember = True
-        
+
         try:
             u = self.auth.get_user_by_password(email, password, remember=remember,
                 save_session=True)
@@ -94,6 +98,22 @@ class SignupPage(BaseHandler):
         name = self.request.get('name')
         password = self.request.get('password')
 
+        # first check the captcha
+        captcha_token = self.request.get('g-recaptcha-response')
+        if captcha_token:
+            captcha_info = captcha_db.get_captchakeys()
+            verify_data={
+                'secret': captcha_info.secret_key,
+                'response': captcha_token,
+                'remoteip'  : self.request.host
+            }
+            response = json.loads(urllib2.urlopen("https://www.google.com/recaptcha/api/siteverify", data=urllib.urlencode(verify_data)).read())
+            if not (response['success'] and response['score']>captcha_info.threshold):
+                return self._serve_page(_('Please Try Again'))
+        else:
+            return self._serve_page(_('Please Try Again'))
+
+
         try:
             (success, result) = member.create_new_member(email=email, name=name, password=password)
         except member.MemberError as e:
@@ -133,7 +153,8 @@ class SignupPage(BaseHandler):
         params = {
             'failed': error is not None,
             'locale' : locale,
-            'error': error
+            'error': error,
+            'site_key': captcha_db.get_captchakeys().site_key
         }
         self.render_template('signup.html', params=params)
 
