@@ -376,6 +376,6 @@ class SendTestEmailHandler(webapp2.RequestHandler):
 
         the_address  = the_params['the_address']
         _send_admin_mail(the_address, "testing email",
-        "This is a test email from gig-o-matic. Please let superuser@gig-o-matic.com know if you recieved this! Thanks.", 
+        "This is a test email from gig-o-matic. Please let gigomatic.superuser@gig-o-matic.com know if you recieved this! Thanks.", 
         html=None, reply_to=None)
         self.response.write( 200 )
