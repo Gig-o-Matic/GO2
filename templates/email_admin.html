@@ -1,0 +1,36 @@
+{% extends 'go2base.html' %}
+
+{% block title %}{% trans %}Email Admin{% endtrans %}{% endblock title %}
+
+{% block content %}
+    <div class="row">
+        <div class="page-header page-header mx-auto col-md-10 col-12">
+            {% trans %}Email Admin{% endtrans %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="mx-auto col-md-10 col-12">
+            <input type="text" class="form-control" id="emailinput" placeholder="email address" value="" name="email_input">
+            <a class="btn btn-light" onclick="sendTest()">Send Test</a>
+        </div>
+    </div>    
+{% endblock content %}
+
+{% block localscripts %}
+<script>
+
+function sendTest() {
+    address = document.getElementById('emailinput').value;
+    $.post('/email_admin_test_email',
+            {address: address},
+            function(responseTxt,statusTxt,xhr){
+                if(statusTxt=="success")
+                    alert("ok!");
+                if(statusTxt=="error")
+                    alert("Error: "+xhr.status+": "+xhr.statusText);
+            }
+    )
+};
+
+</script>
+{% endblock localscripts %}

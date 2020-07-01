@@ -1,6 +1,7 @@
 # coding: utf8
 
 import webapp2
+from requestmodel import *
 from google.appengine.api import mail
 from google.appengine.api import users
 from google.appengine.api.taskqueue import taskqueue
@@ -13,6 +14,7 @@ import re
 import pickle
 import os
 import stats
+import cryptoutil
 
 from webapp2_extras import i18n
 from webapp2_extras.i18n import gettext as _
@@ -179,7 +181,7 @@ def announce_new_gig(the_gig, the_gig_url, is_edit=False, is_reminder=False, cha
                                'change_string': change_string,
                                'the_members':   the_members})
 
-    taskqueue.add(
+    _safe_taskqueue_add(
             url='/announce_new_gig_handler',
             params={'the_params': the_params
             })
@@ -187,6 +189,8 @@ def announce_new_gig(the_gig, the_gig_url, is_edit=False, is_reminder=False, cha
 class AnnounceNewGigHandler(webapp2.RequestHandler):
 
     def post(self):
+        _check_taskqueue_trust(self.request)
+
         the_params = pickle.loads(self.request.get('the_params'))
 
         the_gig_key  = the_params['the_gig_key']
@@ -227,8 +231,7 @@ class AnnounceNewGigHandler(webapp2.RequestHandler):
                     'the_member_key': the_member_key
                 })
 
-                task = taskqueue.add(
-                    queue_name='emailqueue',
+                _safe_taskqueue_add(
                     url='/send_new_gig_handler',
                     params={'the_shared_params': the_shared_params,
                             'the_member_params': the_member_params
@@ -244,6 +247,8 @@ class AnnounceNewGigHandler(webapp2.RequestHandler):
 class SendNewGigHandler(webapp2.RequestHandler):
 
     def post(self):
+        _check_taskqueue_trust(self.request)
+
         the_shared_params = pickle.loads(self.request.get('the_shared_params'))
         the_member_params = pickle.loads(self.request.get('the_member_params'))
 
@@ -332,3 +337,63 @@ class LogBounceHandler(BounceNotificationHandler):
         logging.info('Received bounce post ... [%s]', self.request)
         logging.info('Bounce original: %s', bounce_message.original)
         logging.info('Bounce notification: %s', bounce_message.notification)
+
+
+class AdminPage(BaseHandler):
+    """ Page for member administration """
+
+    @user_required
+    @superuser_required
+    def get(self):
+        if member.member_is_superuser(self.user):
+            self._make_page(the_user=self.user)
+        else:
+            return self.redirect('/')            
+            
+    def _make_page(self,the_user):
+    
+        template_args = {}
+
+        self.render_template('email_admin.html', template_args)
+
+class SendTestEmail(BaseHandler):
+
+    @user_required
+    @superuser_required
+    def post(self):
+        address = self.request.get('address', None)
+
+        if address:
+            _safe_taskqueue_add(
+                    url='/send_test_email_handler',
+                    params={'the_address':address}
+                    )
+        self.response.write( 200 )
+
+class SendTestEmailHandler(webapp2.RequestHandler):
+
+    def post(self):
+
+        _check_taskqueue_trust(self.request)
+        the_address  = self.request.get('the_address', None)
+        if the_address:
+            _send_admin_mail(the_address, "testing email",
+            "This is a test email from gig-o-matic. Please let gigomatic.superuser@gig-o-matic.com know if you recieved this! Thanks.", 
+            html=None, reply_to=None)
+        else:
+            logging.error('bad request to send email from {0}'.format(self.request.remote_addr))
+
+        self.response.write( 200 )
+
+
+def _safe_taskqueue_add(url, params, key=None):
+    if key is None:
+        key = cryptoutil.encrypt_string("Trust Me")
+    params['the_key'] = key
+    taskqueue.add(url=url, params=params)
+
+def _check_taskqueue_trust(request):
+    the_key = request.get('the_key','')
+    plain_key = cryptoutil.decrypt_string(the_key).strip()
+    if not plain_key == "Trust Me":
+        raise RuntimeError('bad key to send email from {0}'.format(request.remote_addr))
