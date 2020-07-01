@@ -376,7 +376,6 @@ class SendTestEmailHandler(webapp2.RequestHandler):
         if the_address:
             the_key = self.request.get('the_key','')
             plain_key = cryptoutil.decrypt_string(the_key).strip()
-            print("\n\n{0} >{1}<\n\n".format(the_key, plain_key))
             if  plain_key == "Trust Me":
                 _send_admin_mail(the_address, "testing email",
                 "This is a test email from gig-o-matic. Please let gigomatic.superuser@gig-o-matic.com know if you recieved this! Thanks.", 
