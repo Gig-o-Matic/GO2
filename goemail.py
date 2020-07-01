@@ -1,6 +1,7 @@
 # coding: utf8
 
 import webapp2
+from requestmodel import *
 from google.appengine.api import mail
 from google.appengine.api import users
 from google.appengine.api.taskqueue import taskqueue
@@ -332,3 +333,49 @@ class LogBounceHandler(BounceNotificationHandler):
         logging.info('Received bounce post ... [%s]', self.request)
         logging.info('Bounce original: %s', bounce_message.original)
         logging.info('Bounce notification: %s', bounce_message.notification)
+
+
+class AdminPage(BaseHandler):
+    """ Page for member administration """
+
+    @user_required
+    @superuser_required
+    def get(self):
+        if member.member_is_superuser(self.user):
+            self._make_page(the_user=self.user)
+        else:
+            return self.redirect('/')            
+            
+    def _make_page(self,the_user):
+    
+        template_args = {}
+
+        self.render_template('email_admin.html', template_args)
+
+class SendTestEmail(BaseHandler):
+
+    @user_required
+    @superuser_required
+    def post(self):
+        address = self.request.get('address', None)
+
+        if address:
+            the_params = pickle.dumps({'the_address':   address})
+
+            taskqueue.add(
+                    url='/send_test_email_handler',
+                    params={'the_params': the_params
+                    })
+        self.response.write( 200 )
+
+
+class SendTestEmailHandler(webapp2.RequestHandler):
+
+    def post(self):
+        the_params = pickle.loads(self.request.get('the_params'))
+
+        the_address  = the_params['the_address']
+        _send_admin_mail(the_address, "testing email",
+        "This is a test email from gig-o-matic. Please let superuser@gig-o-matic.com know if you recieved this! Thanks.", 
+        html=None, reply_to=None)
+        self.response.write( 200 )
