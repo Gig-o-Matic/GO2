@@ -14,6 +14,7 @@ import re
 import pickle
 import os
 import stats
+import cryptoutil
 
 from webapp2_extras import i18n
 from webapp2_extras.i18n import gettext as _
@@ -360,9 +361,10 @@ class SendTestEmail(BaseHandler):
         address = self.request.get('address', None)
 
         if address:
+            key = cryptoutil.encrypt_string("Trust Me")
             taskqueue.add(
                     url='/send_test_email_handler',
-                    params={'the_address':address}
+                    params={'the_address':address, 'the_key':key}
                     )
         self.response.write( 200 )
 
@@ -370,12 +372,18 @@ class SendTestEmailHandler(webapp2.RequestHandler):
 
     def post(self):
 
-        if not self.request.remote_addr == '0.1.0.2':
-            logging.error('request to send email from {0}'.format(self.request.remote_addr))
-        else:
-            the_address  = self.request.get('the_address', None)
-            if the_address:
+        the_address  = self.request.get('the_address', None)
+        if the_address:
+            the_key = self.request.get('the_key','')
+            plain_key = cryptoutil.decrypt_string(the_key).strip()
+            print("\n\n{0} >{1}<\n\n".format(the_key, plain_key))
+            if  plain_key == "Trust Me":
                 _send_admin_mail(the_address, "testing email",
                 "This is a test email from gig-o-matic. Please let gigomatic.superuser@gig-o-matic.com know if you recieved this! Thanks.", 
                 html=None, reply_to=None)
+            else:
+                logging.error('bad key to send email from {0}'.format(self.request.remote_addr))
+        else:
+            logging.error('bad request to send email from {0}'.format(self.request.remote_addr))
+
         self.response.write( 200 )

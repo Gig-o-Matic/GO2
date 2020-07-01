@@ -38,11 +38,14 @@ def encrypt_string(the_string):
 
 def decrypt_string(the_string):
  
-    key = crypto_db.get_cryptokey()
-    ciphertext = binascii.unhexlify(the_string)
- 
-    decobj = AES.new(key, AES.MODE_ECB)
-    plaintext = decobj.decrypt(ciphertext)
+    try:
+        key = crypto_db.get_cryptokey()
+        ciphertext = binascii.unhexlify(the_string)
+    
+        decobj = AES.new(key, AES.MODE_ECB)
+        plaintext = decobj.decrypt(ciphertext)
+    except TypeError:
+        return None
  
     # Resulting plaintext
     return plaintext
