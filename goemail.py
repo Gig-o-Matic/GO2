@@ -386,10 +386,8 @@ class SendTestEmailHandler(webapp2.RequestHandler):
         self.response.write( 200 )
 
 
-def _safe_taskqueue_add(url, params, key=None):
-    if key is None:
-        key = cryptoutil.encrypt_string("Trust Me")
-    params['the_key'] = key
+def _safe_taskqueue_add(url, params):
+    params['the_key'] = cryptoutil.encrypt_string("Trust Me")
     taskqueue.add(queue_name='emailqueue', url=url, params=params)
 
 def _check_taskqueue_trust(request):
