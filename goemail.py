@@ -19,7 +19,7 @@ import cryptoutil
 from webapp2_extras import i18n
 from webapp2_extras.i18n import gettext as _
 
-from google.appengine.ext.webapp.mail_handlers import BounceNotification, BounceNotificationHandler
+from google.appengine.ext.webapp.mail_handlers import BounceNotification, BounceNotificationHandler, InboundMailHandler
 
 # need this for sending stuff to the superuser - can't use the decorated version
 _bare_admin_email_address = 'superuser@gig-o-matic.com'
@@ -337,6 +337,15 @@ class LogBounceHandler(BounceNotificationHandler):
         # logging.info('Received bounce post ... [%s]', self.request)
         # logging.info('Bounce original: %s', bounce_message.original)
         logging.info('Bounce notification: %s', bounce_message.notification)
+
+
+class IncomingEmailHandler(InboundMailHandler):
+    def post(self, address):
+        self.receive(mail.InboundEmailMessage(self.request.body))
+
+
+    def receive(self, mail_message):
+        logging.info('Incoming email to {0} from {1}'.format(mail_message.to, mail_message.sender))
 
 
 class AdminPage(BaseHandler):

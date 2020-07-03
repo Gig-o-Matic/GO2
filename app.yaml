@@ -74,6 +74,10 @@ handlers:
   script: main.APPLICATION
   login: admin
 
+- url: /_ah/mail/.+
+  script: main.APPLICATION
+  login: admin
+
 libraries:
 - name: webapp2
   version: latest
@@ -84,6 +88,7 @@ libraries:
   
 inbound_services:
 - mail_bounce
+- mail
 
 builtins:
 - appstats: on
