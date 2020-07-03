@@ -192,6 +192,7 @@ else:
         webapp2.Route('/rss/<bk:.+>', rss.GetRssHandler),
         webapp2.Route('/make_rss_feed_handler', rss.MakeRssFeedHandler),
         webapp2.Route('/_ah/bounce', goemail.LogBounceHandler),
+        webapp2.Route('/_ah/mail/<address:.+>', goemail.IncomingEmailHandler),
         webapp2.Route('/mail_admin', goemail.AdminPage),
         webapp2.Route('/email_admin_test_email', goemail.SendTestEmail),
         webapp2.Route('/send_test_email_handler', goemail.SendTestEmailHandler)
