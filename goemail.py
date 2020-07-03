@@ -22,7 +22,7 @@ from webapp2_extras.i18n import gettext as _
 from google.appengine.ext.webapp.mail_handlers import BounceNotification, BounceNotificationHandler
 
 # need this for sending stuff to the superuser - can't use the decorated version
-_bare_admin_email_address = 'gigomatic.superuser@gmail.com'
+_bare_admin_email_address = 'superuser@gig-o-matic.com'
 
 # The MailServiceStub class used by dev_appserver can't handle a sender address that's more
 # than a raw email address, but production GAE doesn't have this limitation.
