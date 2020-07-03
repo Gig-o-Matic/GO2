@@ -390,7 +390,7 @@ def _safe_taskqueue_add(url, params, key=None):
     if key is None:
         key = cryptoutil.encrypt_string("Trust Me")
     params['the_key'] = key
-    taskqueue.add(url=url, params=params)
+    taskqueue.add(queue_name='emailqueue', url=url, params=params)
 
 def _check_taskqueue_trust(request):
     the_key = request.get('the_key','')
