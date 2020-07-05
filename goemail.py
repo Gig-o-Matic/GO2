@@ -395,6 +395,34 @@ class SendTestEmailHandler(webapp2.RequestHandler):
         self.response.write( 200 )
 
 
+class MemberTestEmail(BaseHandler):
+    @user_required
+    def post(self):
+        member_key_urlsafe = self.request.get('mk', None)
+        if member_key_urlsafe:
+            the_member=member.member_key_from_urlsafe(member_key_urlsafe).get()
+        else:
+            raise ValueError('illegal member key to MemberTestEmail')
+
+        _safe_taskqueue_add(
+                url='/member_test_email_handler',
+                params={'the_address':the_member.email_address}
+                )
+        self.response.write( 200 )
+
+class MemberTestEmailHandler(webapp2.RequestHandler):
+    def post(self):
+        _check_taskqueue_trust(self.request)
+        the_address  = self.request.get('the_address', None)
+        if the_address:
+            _send_admin_mail(the_address, "testing email",
+            "This is a test email from gig-o-matic. Looks like everything worked!", 
+            html=None, reply_to=None)
+        else:
+            logging.error('bad request to send member test email from {0}'.format(self.request.remote_addr))
+
+        self.response.write( 200 )
+
 def _safe_taskqueue_add(url, params):
     params['the_key'] = cryptoutil.encrypt_string("Trust Me")
     taskqueue.add(queue_name='emailqueue', url=url, params=params)

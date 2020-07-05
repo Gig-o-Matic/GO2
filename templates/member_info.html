@@ -39,6 +39,9 @@
                     <div class="row">
                         <div class="col-sm-3 col-12">{% trans %}Email{% endtrans %}</div>
                         <div class="col-sm-9 col-12"><a href="mailto:{{the_member.email_address}}">{{ the_member.email_address }}</a>
+                        {% if member_is_me or the_user_is_superuser %}
+                            <button type="button" class="btn btn-secondary btn-sm" onclick="test_member_email();">test</button> <span id="testedtext"></span>
+                        {% endif %}
                         {% if email_change_msg %}<br>{{ email_change_msg }}{% endif %}
                         </div>
                     </div>
@@ -226,6 +229,23 @@
 
 {% block localscripts %}
 <script>
+function test_member_email() {
+    $('#testedtext').html('<i class="fa fa-spinner fa-spin"></i>');
+    $.post('/member_test_email',
+        {
+            mk: "{{the_member.key.urlsafe()}}",
+        },
+        function(responseTxt,statusTxt,xhr){
+            if(statusTxt=="success")
+                $('#testedtext').html('<i class="fa fa-check"></i>');
+            if(statusTxt=="error")
+                alert("Error: "+xhr.status+": "+xhr.statusText);
+        });
+
+}
+
+
+
 function updateBands() {
     $.post('/member_get_assocs',
             {

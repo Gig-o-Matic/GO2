@@ -195,5 +195,7 @@ else:
         webapp2.Route('/_ah/mail/<address:.+>', goemail.IncomingEmailHandler),
         webapp2.Route('/mail_admin', goemail.AdminPage),
         webapp2.Route('/email_admin_test_email', goemail.SendTestEmail),
-        webapp2.Route('/send_test_email_handler', goemail.SendTestEmailHandler)
+        webapp2.Route('/send_test_email_handler', goemail.SendTestEmailHandler),
+        webapp2.Route('/member_test_email', goemail.MemberTestEmail),
+        webapp2.Route('/member_test_email_handler', goemail.MemberTestEmailHandler),
     ], config=CONFIG, debug=True)
