@@ -885,22 +885,28 @@ class MemberSpreadsheet(BaseHandler):
             section_map[s.key] = s.name
 
         member_section_map={}
+        member_data={}
         for a in the_assocs:
             if a.default_section:
-                member_section_map[a.member] = section_map[a.default_section]
+                section = section_map[a.default_section]
             else:
-                member_section_map[a.member] = ''
+                section = ''
+            member_data[a.member] = [section, a.created.strftime('%m/%Y'),a.commitment_number]
 
 
-        data="name,nickname,email,phone,section"
+
+        data="name,nickname,email,phone,section,joined,attended"
         for m in the_members:
             nick = m.nickname
             if m.nickname is None:
                 nick=''
             
-            sec = member_section_map[m.key]
-
-            data=u"{0}\n{1},{2},{3},{4},{5}".format(data,m.name,nick,m.email_address,m.phone,sec)
+            memdat = member_data[m.key]
+            data=u"{0}\n{1},{2},{3},{4},{5},{6},{7}".format(data,m.name,nick,m.email_address,
+                                                            m.phone,
+                                                            memdat[0],
+                                                            memdat[1],
+                                                            memdat[2])
 
         self.response.write(data)
 
