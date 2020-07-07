@@ -16,6 +16,7 @@ import credits
 import maintenance
 import stats
 import caldav
+import gigarchive
 import jinja2ext
 import os
 import cryptoutil
@@ -140,6 +141,7 @@ else:
         webapp2.Route('/gig_edit.html', gig_handlers.EditPage),
         webapp2.Route('/gig_archive', gig_handlers.ArchiveHandler),
         webapp2.Route('/admin_gig_autoarchive', gig_handlers.AutoArchiveHandler),
+        webapp2.Route('/do_autoarchive', gigarchive.DoAutoArchiveHandler),
         webapp2.Route('/gig_delete', gig_handlers.DeleteHandler),
         webapp2.Route('/gig_restore_trashed', gig_handlers.RestoreHandler),
         webapp2.Route('/gig_add_comment', gig_handlers.CommentHandler),

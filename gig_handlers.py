@@ -610,25 +610,17 @@ class ArchiveHandler(BaseHandler):
 
         return self.redirect('/gig_info.html?gk={0}'.format(gig_key_str))
 
-def _do_autoarchive():
-    date = datetime.datetime.now()
-    end_date = date - datetime.timedelta(days=3)
-    the_gig_keys = gig.get_old_gig_keys(end_date = end_date)
-    for a_gig_key in the_gig_keys:
-        gig.make_archive_for_gig_key(a_gig_key)
-    logging.info("Archived {0} gigs".format(len(the_gig_keys)))
-
-    # while we're here, look for gigs that have been trashed more than 30 days ago
-    gigs = gig.get_old_trashed_gigs(minimum_age=30)
-    logging.info("Deleting {0} trashed gigs".format(len(gigs)))
-    for g in gigs:
-        gig.delete_gig_completely(g)
-
         
 class AutoArchiveHandler(BaseHandler):
     """ automatically archive old gigs """
     def get(self):
-        _do_autoarchive()
+        gigarchive.do_autoarchive()
+
+        # while we're here, look for gigs that have been trashed more than 30 days ago
+        gigs = gig.get_old_trashed_gigs(minimum_age=30)
+        logging.info("Deleting {0} trashed gigs".format(len(gigs)))
+        for g in gigs:
+            gig.delete_gig_completely(g)
         
 class CommentHandler(BaseHandler):
     """ takes a new comment and adds it to the gig """

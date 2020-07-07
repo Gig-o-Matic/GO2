@@ -1,7 +1,7 @@
 cron:
 - description: auto-archiving
   url: /admin_gig_autoarchive
-  schedule: every 1 hours
+  schedule: every 10 minutes
 - description: scour for old signup tokens
   url: /admin_login_auto_old_token
   schedule: every day 05:30
