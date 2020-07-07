@@ -305,14 +305,14 @@ def reset_gigs_for_contact_key(the_member_key, the_band_key):
         g.contact = None
     ndb.put_multi(gigs)
 
-def get_old_gig_keys(end_date):
+def get_old_gig_keys(end_date, max_fetch=10):
     """ Return gig objects by band, past gigs OK """
     
     # todo do we need to adjust the date?
     
     gig_query = Gig.query(ndb.AND(Gig.is_archived == False, \
                                   Gig.trueenddate <= end_date))
-    gigs = gig_query.fetch(10, keys_only=True)
+    gigs = gig_query.fetch(max_fetch, keys_only=True)
     return gigs
 
 def get_trashed_gigs_for_band_key(the_band_key):

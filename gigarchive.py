@@ -7,13 +7,40 @@
 
 """
 
+from webapp2 import RequestHandler
 from google.appengine.ext import ndb
 import band
 import plan
 import gig
 import assoc
-
+import datetime
+import cryptoutil
+import logging
 from google.appengine.api import search 
+from google.appengine.api.taskqueue import taskqueue
+
+
+def do_autoarchive():
+    date = datetime.datetime.now()
+    end_date = date - datetime.timedelta(days=3)
+    the_gig_keys = gig.get_old_gig_keys(end_date = end_date, max_fetch=10)
+    logging.info('found {0} gigs to archive'.format(len(the_gig_keys)))
+    params={}
+    params['the_key'] = cryptoutil.encrypt_string("Trust Me")
+    for a_gig_key in the_gig_keys:
+        params['gig_key_urlsafe'] = a_gig_key.urlsafe()
+        taskqueue.add(queue_name='archivequeue', url='/do_autoarchive', params=params)
+
+class DoAutoArchiveHandler(RequestHandler):
+    def post(self):
+        the_key = self.request.get('the_key','')
+        plain_key = cryptoutil.decrypt_string(the_key).strip()
+        if not plain_key == "Trust Me":
+            raise RuntimeError('bad key to send email from {0}'.format(request.remote_addr))
+        the_gig_key_urlsafe = self.request.get('gig_key_urlsafe')
+        the_gig_key = gig.gig_key_from_urlsafe(the_gig_key_urlsafe)
+        gig.make_archive_for_gig_key(the_gig_key)
+
 
 def make_archive_for_gig_key(the_gig_key):
     """ makes an archive for a gig - files away all the plans, then delete them """
