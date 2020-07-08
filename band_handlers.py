@@ -891,7 +891,12 @@ class MemberSpreadsheet(BaseHandler):
                 section = section_map[a.default_section]
             else:
                 section = ''
-            member_data[a.member] = [section, a.created.strftime('%m/%Y'),a.commitment_number]
+            
+            if a.created:
+                datestr = a.created.strftime('%m/%Y')
+            else:
+                datestr = ''
+            member_data[a.member] = [section, datestr, a.commitment_number]
 
 
 
