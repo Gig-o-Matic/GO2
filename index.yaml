@@ -383,6 +383,11 @@ indexes:
 
 - kind: Member
   properties:
+  - name: cal_feed_dirty
+  - name: last_calfetch
+
+- kind: Member
+  properties:
   - name: email_address
   - name: lower_name
 

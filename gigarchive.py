@@ -14,8 +14,8 @@ import plan
 import gig
 import assoc
 import datetime
-import cryptoutil
 import logging
+from safetaskqueue import safe_taskqueue_add_bulk, check_taskqueue_trust
 from google.appengine.api import search 
 from google.appengine.api.taskqueue import taskqueue
 
@@ -25,18 +25,15 @@ def do_autoarchive():
     end_date = date - datetime.timedelta(days=3)
     the_gig_keys = gig.get_old_gig_keys(end_date = end_date, max_fetch=10)
     logging.info('found {0} gigs to archive'.format(len(the_gig_keys)))
-    params={}
-    params['the_key'] = cryptoutil.encrypt_string("Trust Me")
+    paramlist = []
     for a_gig_key in the_gig_keys:
-        params['gig_key_urlsafe'] = a_gig_key.urlsafe()
-        taskqueue.add(queue_name='archivequeue', url='/do_autoarchive', params=params)
+        paramlist.append({'gig_key_urlsafe': a_gig_key.urlsafe()})
+
+    safe_taskqueue_add_bulk(queue_name='archivequeue', url='/do_autoarchive', paramlist=paramlist)
 
 class DoAutoArchiveHandler(RequestHandler):
     def post(self):
-        the_key = self.request.get('the_key','')
-        plain_key = cryptoutil.decrypt_string(the_key).strip()
-        if not plain_key == "Trust Me":
-            raise RuntimeError('bad key to send email from {0}'.format(request.remote_addr))
+        check_taskqueue_trust(self.request)
         the_gig_key_urlsafe = self.request.get('gig_key_urlsafe')
         the_gig_key = gig.gig_key_from_urlsafe(the_gig_key_urlsafe)
         gig.make_archive_for_gig_key(the_gig_key)
@@ -120,8 +117,16 @@ def make_archive_for_gig_key(the_gig_key):
     except search.Error:
         logging.exception('Put failed')
     
-    doc_id = result[0].id    
-    return doc_id
+    archive_id = result[0].id    
+
+    if archive_id:
+        the_gig = the_gig_key.get()
+        if the_gig.archive_id:
+            delete_archive(the_gig.archive_id)
+        the_gig.archive_id = archive_id
+        the_gig.put()
+    else:
+        logging.error('made archive but did not get document id')
     
 def get_archived_plans(archive_id):
     index = search.Index(name="gigomatic_index")

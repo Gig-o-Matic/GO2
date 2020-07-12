@@ -370,6 +370,7 @@ class BandGetMembers(BaseHandler):
             'the_assocs' : assoc_info,
             'the_sections' : the_sections,
             'the_user_is_band_admin' : the_user_is_band_admin,
+            'the_date_formatter' : member.format_date_for_member,
         }
         self.render_template('band_members.html', template_args)
 

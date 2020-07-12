@@ -19,6 +19,7 @@ import plan
 import cryptoutil
 import stats
 import band
+import logging
 
 # from pytz.gae import pytz
 import pytz
@@ -367,20 +368,14 @@ def set_sections_for_empty_plans(the_gig):
             
 def make_archive_for_gig_key(the_gig_key):
     """ makes an archive for a gig - files away all the plans, then delete them """
-    
-    archive_id = gigarchive.make_archive_for_gig_key(the_gig_key)
-    if archive_id:
-        the_gig = the_gig_key.get()
-        if the_gig.archive_id:
-            gigarchive.delete_archive(the_gig.archive_id)
-        the_gig.archive_id = archive_id
-        the_gig.put()
+    logging.info("archiving gig {0}".format(the_gig_key.urlsafe()))
+    gigarchive.make_archive_for_gig_key(the_gig_key)
 
-        # keep the old plans around so the gig still shows up on calendar feeds. The plans
-        # are no longer editable through the UI, they just linger forever on calendar feeds
-        # if you look back in time.
-        #        # also delete any plans, since they're all now in the archive
-        #        plan.delete_plans_for_gig_key(the_gig_key)
+    # keep the old plans around so the gig still shows up on calendar feeds. The plans
+    # are no longer editable through the UI, they just linger forever on calendar feeds
+    # if you look back in time.
+    #        # also delete any plans, since they're all now in the archive
+    #        plan.delete_plans_for_gig_key(the_gig_key)
 
 
 #    the_yes_url, the_no_url = gig.get_confirm_urls(the_member, the_gig)
