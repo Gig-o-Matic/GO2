@@ -151,6 +151,7 @@ else:
         webapp2.Route('/print_planlist', gig_handlers.PrintPlanlist),
         webapp2.Route('/member_spreadsheet', band_handlers.MemberSpreadsheet),
         webapp2.Route('/member_emails', band_handlers.MemberEmails),
+        webapp2.Route('/reset_counts', band_handlers.ResetCounts),
         webapp2.Route('/archive_spreadsheet', band_handlers.ArchiveSpreadsheet),
         webapp2.Route('/sendreminder', gig_handlers.SendReminder),
         webapp2.Route('/band_info.html', band_handlers.InfoPage),

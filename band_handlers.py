@@ -370,6 +370,7 @@ class BandGetMembers(BaseHandler):
             'the_assocs' : assoc_info,
             'the_sections' : the_sections,
             'the_user_is_band_admin' : the_user_is_band_admin,
+            'the_date_formatter' : member.format_date_for_member,
         }
         self.render_template('band_members.html', template_args)
 
@@ -937,6 +938,20 @@ class MemberEmails(BaseHandler):
             'the_emails' : ', '.join(the_emails)
         }
         self.render_template('band_emails.html', template_args)
+
+class ResetCounts(BaseHandler):
+    @user_required
+    def get(self):
+        the_user = self.user
+        the_band_keyurl=self.request.get('bk','0')
+
+        the_band_key = band.band_key_from_urlsafe(the_band_keyurl)
+
+        if not is_authorized_to_edit_band(the_band_key, the_user):
+            raise gigoexceptions.GigoException('user {0} trying to reset counts for band {1}'.format(self.user.key.urlsafe(),the_band_key.urlsafe()))
+
+        assoc.reset_counts_for_band(the_band_key)
+        return self.redirect('/band_info.html?bk={0}'.format(the_band_keyurl))
 
 
 class ArchiveSpreadsheet(BaseHandler):

@@ -350,3 +350,12 @@ def rest_assoc_info(the_assoc, include_id=True):
     if the_assoc.default_section:
         obj['default_section'] = the_assoc.default_section.urlsafe()
     return obj
+
+def reset_counts_for_band(the_band_key):
+    assoc_query = Assoc.lquery(Assoc.band==the_band_key)
+    assocs = assoc_query.fetch()
+    for a in assocs:
+        a.commitment_number = 0
+        a.commitment_total = 0
+    ndb.put_multi(assocs)
+    logging.info("reset {0} assocs".format(len(assocs)))
