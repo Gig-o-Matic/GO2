@@ -4,7 +4,6 @@ import webapp2
 from requestmodel import *
 from google.appengine.api import mail
 from google.appengine.api import users
-from google.appengine.api.taskqueue import taskqueue
 
 import gig
 import member
@@ -14,7 +13,7 @@ import re
 import pickle
 import os
 import stats
-import cryptoutil
+from safetaskqueue import safe_taskqueue_add, check_taskqueue_trust
 
 from webapp2_extras import i18n
 from webapp2_extras.i18n import gettext as _
@@ -181,7 +180,8 @@ def announce_new_gig(the_gig, the_gig_url, is_edit=False, is_reminder=False, cha
                                'change_string': change_string,
                                'the_members':   the_members})
 
-    _safe_taskqueue_add(
+    safe_taskqueue_add(
+            queue_name='emailqueue',
             url='/announce_new_gig_handler',
             params={'the_params': the_params
             })
@@ -189,7 +189,7 @@ def announce_new_gig(the_gig, the_gig_url, is_edit=False, is_reminder=False, cha
 class AnnounceNewGigHandler(webapp2.RequestHandler):
 
     def post(self):
-        _check_taskqueue_trust(self.request)
+        check_taskqueue_trust(self.request)
 
         the_params = pickle.loads(self.request.get('the_params'))
 
@@ -231,7 +231,8 @@ class AnnounceNewGigHandler(webapp2.RequestHandler):
                     'the_member_key': the_member_key
                 })
 
-                _safe_taskqueue_add(
+                safe_taskqueue_add(
+                    queue_name='emailqueue',
                     url='/send_new_gig_handler',
                     params={'the_shared_params': the_shared_params,
                             'the_member_params': the_member_params
@@ -247,7 +248,7 @@ class AnnounceNewGigHandler(webapp2.RequestHandler):
 class SendNewGigHandler(webapp2.RequestHandler):
 
     def post(self):
-        _check_taskqueue_trust(self.request)
+        check_taskqueue_trust(self.request)
 
         the_shared_params = pickle.loads(self.request.get('the_shared_params'))
         the_member_params = pickle.loads(self.request.get('the_member_params'))
@@ -373,7 +374,8 @@ class SendTestEmail(BaseHandler):
         address = self.request.get('address', None)
 
         if address:
-            _safe_taskqueue_add(
+            safe_taskqueue_add(
+                    queue_name='emailqueue',
                     url='/send_test_email_handler',
                     params={'the_address':address}
                     )
@@ -383,7 +385,7 @@ class SendTestEmailHandler(webapp2.RequestHandler):
 
     def post(self):
 
-        _check_taskqueue_trust(self.request)
+        check_taskqueue_trust(self.request)
         the_address  = self.request.get('the_address', None)
         if the_address:
             _send_admin_mail(the_address, "testing email",
@@ -404,7 +406,8 @@ class MemberTestEmail(BaseHandler):
         else:
             raise ValueError('illegal member key to MemberTestEmail')
 
-        _safe_taskqueue_add(
+        safe_taskqueue_add(
+                queue_name='emailqueue',
                 url='/member_test_email_handler',
                 params={'the_address':the_member.email_address}
                 )
@@ -412,7 +415,7 @@ class MemberTestEmail(BaseHandler):
 
 class MemberTestEmailHandler(webapp2.RequestHandler):
     def post(self):
-        _check_taskqueue_trust(self.request)
+        check_taskqueue_trust(self.request)
         the_address  = self.request.get('the_address', None)
         if the_address:
             _send_admin_mail(the_address, "testing email",
@@ -422,13 +425,3 @@ class MemberTestEmailHandler(webapp2.RequestHandler):
             logging.error('bad request to send member test email from {0}'.format(self.request.remote_addr))
 
         self.response.write( 200 )
-
-def _safe_taskqueue_add(url, params):
-    params['the_key'] = cryptoutil.encrypt_string("Trust Me")
-    taskqueue.add(queue_name='emailqueue', url=url, params=params)
-
-def _check_taskqueue_trust(request):
-    the_key = request.get('the_key','')
-    plain_key = cryptoutil.decrypt_string(the_key).strip()
-    if not plain_key == "Trust Me":
-        raise RuntimeError('bad key to send email from {0}'.format(request.remote_addr))
