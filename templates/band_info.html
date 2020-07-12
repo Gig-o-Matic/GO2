@@ -316,20 +316,24 @@
                         </a>
                     </div>
                     <div class="card-body collapse" id="collapseOne" aria-labelledby="headingOne">
-                            <div class="row">
-                                <div class="col-12">
-                                    <a class="btn btn-primary btn-sm" href="band_invite.html?bk={{ the_band.key.urlsafe() }}">{% trans %}Invite Members{% endtrans %}</a>
-                                    <a class="btn btn-primary btn-sm" href="member_spreadsheet?bk={{the_band.key.urlsafe()}}">{% trans %}Download Member List{% endtrans %}</a>
-                                    <a class="btn btn-primary btn-sm" href="member_emails?bk={{the_band.key.urlsafe()}}">{% trans %}Get Member Emails{% endtrans %}</a>
-                                </div>
-                                <hr>
+                        <div class="row">
+                            <div class="col-12">
+                                <a class="btn btn-primary btn-sm" href="band_invite.html?bk={{ the_band.key.urlsafe() }}">{% trans %}Invite Members{% endtrans %}</a>
+                                <a class="btn btn-primary btn-sm" href="member_spreadsheet?bk={{the_band.key.urlsafe()}}">{% trans %}Download Member List{% endtrans %}</a>
+                                <a class="btn btn-primary btn-sm" href="member_emails?bk={{the_band.key.urlsafe()}}">{% trans %}Get Member Emails{% endtrans %}</a>
                             </div>
-                            <div class="row">
-                                <div class="col-12" id="memberlist">
-                                    <i class="fas fa-spinner fa-pulse fa-lg"></i>
-                                </div>
+                            <hr>
+                        </div>
+                        <div class="row">
+                            <div class="col-12" id="memberlist">
+                                <i class="fas fa-spinner fa-pulse fa-lg"></i>
                             </div>
-
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <a class="btn btn-danger btn-sm" href="reset_counts?bk={{the_band.key.urlsafe()}}">{% trans %}Reset Attendance Counts{% endtrans %}</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             {% endif %}
