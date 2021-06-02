@@ -48,7 +48,7 @@
                 },
             },
             eventAfterAllRender: calCallback,
-            {% if m and y %}
+            {% if defaultDate %}
                 defaultDate: moment( [ {{ y }}, {{ m }} ] ),
             {% endif %}
         })
