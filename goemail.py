@@ -145,7 +145,7 @@ def send_newgig_email(the_member, the_gig, the_band, the_gig_url, is_edit=False,
                                                     newline,
                                                     newline.join(setlist.splitlines()))
         else:
-            the_details_string = details
+            the_details_string = newline.join(details.splitlines())
 
         return the_details_string
 
@@ -164,6 +164,7 @@ def send_newgig_email(the_member, the_gig, the_band, the_gig_url, is_edit=False,
     else:
         body = format_body(_('new_gig_email'))
         html = format_body(_('new_gig_email_html'), newline='<br>')
+        print(html)
 
     try:
         ret= _send_admin_mail(the_email_address, u'{0} {1}'.format(title_string, the_gig.title), body, html=html, reply_to=reply_to)
