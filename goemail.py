@@ -2,7 +2,7 @@
 
 import webapp2
 from requestmodel import *
-from google.appengine.api import mail
+from google.appengine.api import mail as gae_mail
 from google.appengine.api import users
 from google.appengine.api.taskqueue import taskqueue
 
@@ -15,6 +15,11 @@ import pickle
 import os
 import stats
 import cryptoutil
+
+import sendgrid
+import os
+from sendgrid.helpers.mail import *
+from email_sg_db import get_sendgrid_api
 
 from webapp2_extras import i18n
 from webapp2_extras.i18n import gettext as _
@@ -36,7 +41,7 @@ def validate_email(to):
     # + and . are allowed in username, and . in the domain name, but neither can be
     # the leading character. Alphanumerics, - and _ are allowed anywhere.
     valid_address = r"^[_a-z0-9-]+((\.|\+)[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$"
-    if (not mail.is_email_valid(to)) or (re.match(valid_address, to.lower()) is None):
+    if (not gae_mail.is_email_valid(to)) or (re.match(valid_address, to.lower()) is None):
         logging.error("invalid recipient address '{0}'".format(to))
         return False
     else:
@@ -47,22 +52,49 @@ def _send_admin_mail(to, subject, body, html=None, reply_to=None):
     if validate_email(to) is False:
         return False
 
-    message = mail.EmailMessage()
-    message.sender = _admin_email_address
-    message.to = to
-    message.subject = subject
-    message.body = body.encode('utf-8')
-    if reply_to is not None:
-        message.reply_to = reply_to
+    sg = sendgrid.SendGridAPIClient(api_key=get_sendgrid_api())
+    from_email = Email(_bare_admin_email_address)
+    to_email = To(to)
+    the_subject = subject
+    plain_text_content=PlainTextContent(body.encode('utf-8'))
     if html is not None:
-        message.html = html
-
+        html_content = HtmlContent(html)
+    else:
+        html_content = None
+    mail = Mail(from_email, to_email, subject, plain_text_content=plain_text_content, html_content=html_content)
     try:
-        message.send()
-        return True
+        response = sg.client.mail.send.post(request_body=mail.get())
     except Exception as e:
         logging.error("Failed to send mail {0} to {1}.\n{2}".format(subject, to, e))
         return False
+
+    if response.status_code == 202:
+        return True
+    else:
+        logging.error("Failed to send mail {0} to {1}.".format(subject, to))
+        return False
+
+    # print(response.status_code)
+    # print(response.body)
+    # print(response.headers)
+
+
+    # message = mail.EmailMessage()
+    # message.sender = _admin_email_address
+    # message.to = to
+    # message.subject = subject
+    # message.body = body.encode('utf-8')
+    # if reply_to is not None:
+    #     message.reply_to = reply_to
+    # if html is not None:
+    #     message.html = html
+
+    # try:
+    #     message.send()
+    #     return True
+    # except Exception as e:
+    #     logging.error("Failed to send mail {0} to {1}.\n{2}".format(subject, to, e))
+    #     return False
 
 def send_registration_email(the_email, the_url):
 
@@ -91,7 +123,7 @@ def send_newgig_email(the_member, the_gig, the_band, the_gig_url, is_edit=False,
     the_locale=the_member.preferences.locale
     the_email_address = the_member.email_address
     
-    if not mail.is_email_valid(the_email_address):
+    if not gae_mail.is_email_valid(the_email_address):
         return False
 
     i18n.get_i18n().set_locale(the_locale)
@@ -316,7 +348,7 @@ def notify_superuser_of_old_tokens(the_num):
                            "Yo! The Gig-o-Matic found {0} old signup tokens last night.".format(the_num))
 
 def send_band_request_email(the_email_address, the_name, the_info):
-    if not mail.is_email_valid(the_email_address):
+    if not gae_mail.is_email_valid(the_email_address):
         return False
     body = u"""
 Hi there! Someone has requested to add their band to the Gig-o-Matic. SO EXCITING!

@@ -1,0 +1,33 @@
+{% extends 'go2base.html' %}
+
+{% block title %}{% trans %}Sendgrid API Admin{% endtrans %}{% endblock title %}
+
+{% block content %}
+    <div class="row">
+        <div class="page-header col-md-8 col-md-offset-2">
+            {% trans %}Sendgrid API Key{% endtrans %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2 well">
+            {% if current %}
+                {{ current  | html_content | safe }}
+            {% else %}
+                (No Key Set!)
+            {% endif %}
+        </div>
+    </div> 
+    <br><br>
+    <form class="form" role="form" method="post" action="email_sg_admin">    
+        <div class="row">
+            <div class="form-group col-md-8 col-md-offset-2">
+                <label for="sendgrid_apiinput" class="control-label">New Sendgrid API Key</label>
+                <textarea class="form-control" id="sendgrid_apiinput" name="sendgrid_api_content"></textarea>
+            </div>
+        </div>        
+        <div class="form-group col-md-8 col-md-offset-2 text-right">                
+                <a class="btn btn-default" href="/">Cancel</a>
+                <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+    </form>            
+{% endblock content %}
