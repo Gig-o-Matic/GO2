@@ -28,6 +28,7 @@ from google.appengine.ext.webapp.mail_handlers import BounceNotification, Bounce
 
 # need this for sending stuff to the superuser - can't use the decorated version
 _bare_admin_email_address = 'superuser@gig-o-matic.com'
+admin_name = 'Gig-o-Matic'
 
 # The MailServiceStub class used by dev_appserver can't handle a sender address that's more
 # than a raw email address, but production GAE doesn't have this limitation.
@@ -53,7 +54,8 @@ def _send_admin_mail(to, subject, body, html=None, reply_to=None):
         return False
 
     sg = sendgrid.SendGridAPIClient(api_key=get_sendgrid_api())
-    from_email = Email(_bare_admin_email_address)
+
+    from_email = Email(_bare_admin_email_address, admin_name)
     to_email = To(to)
     the_subject = subject
     plain_text_content=PlainTextContent(body.encode('utf-8'))
@@ -62,6 +64,9 @@ def _send_admin_mail(to, subject, body, html=None, reply_to=None):
     else:
         html_content = None
     mail = Mail(from_email, to_email, subject, plain_text_content=plain_text_content, html_content=html_content)
+    if reply_to:
+        mail.reply_to = Email(reply_to)
+
     try:
         response = sg.client.mail.send.post(request_body=mail.get())
     except Exception as e:
@@ -71,30 +76,9 @@ def _send_admin_mail(to, subject, body, html=None, reply_to=None):
     if response.status_code == 202:
         return True
     else:
-        logging.error("Failed to send mail {0} to {1}.".format(subject, to))
+        logging.error("Failed to send mail {0} to {1}.\n{2}".format(subject, to, e))
         return False
 
-    # print(response.status_code)
-    # print(response.body)
-    # print(response.headers)
-
-
-    # message = mail.EmailMessage()
-    # message.sender = _admin_email_address
-    # message.to = to
-    # message.subject = subject
-    # message.body = body.encode('utf-8')
-    # if reply_to is not None:
-    #     message.reply_to = reply_to
-    # if html is not None:
-    #     message.html = html
-
-    # try:
-    #     message.send()
-    #     return True
-    # except Exception as e:
-    #     logging.error("Failed to send mail {0} to {1}.\n{2}".format(subject, to, e))
-    #     return False
 
 def send_registration_email(the_email, the_url):
 
