@@ -9,3 +9,4 @@ font-awesome
 Crypto
 .well-known
 *.db
+sendgrid.env
