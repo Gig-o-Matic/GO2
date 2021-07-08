@@ -18,11 +18,11 @@ import assoc
 import band
 import plan
 import member
-
 import datetime
 import logging
 # from pytz.gae import pytz
 import pytz
+from safetaskqueue import safe_taskqueue_add, check_taskqueue_trust
 
 def make_cal_header(the_title):
     header = """BEGIN:VCALENDAR
@@ -235,52 +235,73 @@ class MemberRequestHandler(BaseHandler):
 
         the_member_key = member.member_key_from_urlsafe(mk)
         the_member = the_member_key.get()
+        the_member.last_calfetch = datetime.datetime.now()
+        the_member.put()
         
-        calfeed = None
-        if the_member.cal_feed_dirty is False:
-            calfeed = get_calfeed_for_key("m",the_member.key)
+        calfeed = get_calfeed_for_key("m",the_member.key)
 
         if calfeed is None:
-            logging.info("member cal feed is dirty")
-            the_member.cal_feed_dirty = False
-            the_member.put()
+            calfeed = u'{0}{1}'.format(make_cal_header(the_member.name), make_cal_footer())
 
-            # construct the calendar feed, since it may have changed lately
-
-            calfeed = u'{0}'.format(make_cal_header(the_member.name))
-
-            the_bands = assoc.get_confirmed_bands_of_member(the_member)
-
-            for a_band in the_bands:
-                a_band_name = a_band.shortname if a_band.shortname else a_band.name
-                all_gigs = gig.get_gigs_for_band_keys(a_band.key, show_past=True)
-                for a_gig in all_gigs:
-                    if not a_gig.is_canceled and not a_gig.hide_from_calendar: # and not a_gig.is_archived:
-                        the_plan = plan.get_plan_for_member_key_for_gig_key(the_member_key, a_gig.key)
-                        if the_plan:
-                            # check member preferences
-                            # include gig if member wants to see all, or if gig is confirmed
-                            if a_gig.is_confirmed or \
-                                the_member.preferences.calendar_show_only_confirmed == False:
-                                # incude gig if member wants to see all, or if has registered
-                                # as maybe or definitely:
-                                if (the_plan.value > 0 and the_plan.value <= 3) or \
-                                    (the_member.preferences.calendar_show_only_committed == False):
-                                    if a_gig.is_confirmed:
-                                        confstr = u'CONFIRMED!'
-                                    else:
-                                        confstr = u'(not confirmed)'
-                                    calfeed = u'{0}{1}'.format(calfeed, \
-                                        make_event(a_gig, a_band, \
-                                        title_format=u'{0}:{{0}} {1}'.format(a_band_name, confstr)))
-
-            calfeed = u'{0}{1}'.format(calfeed, make_cal_footer())
-            store_calfeed_for_key("m",the_member.key,calfeed)
         self.response.write(calfeed)
 
-    def post(self):
-        print 'got post request'
+class UpdateCalfeeds(BaseHandler):
 
+    def get(self):
+        """ find members who are using their calfeeds and have dirty calfeeds """
+        member_keys = member.get_member_keys_to_update_calfeed()
+        logging.info("need to make calfeeds for {0} members".format(len(member_keys)))
+        for m in member_keys:
+            safe_taskqueue_add(
+                queue_name='calfeedqueue',
+                url='/update_member_calfeed',
+                params={'the_member':m.urlsafe()}
+                )
+
+class UpdateMemberCalfeed(webapp2.RequestHandler):
+
+    def post(self):
+        check_taskqueue_trust(self.request)
+        murl = self.request.get('the_member')
+        the_member = member.get_member_from_urlsafe_key(murl)
+        make_calfeed_for_member(the_member)
+
+
+def make_calfeed_for_member(the_member):
+    calfeed = None
+    logging.info("making cal feed for {0}".format(the_member.key.urlsafe()))
+    the_member.cal_feed_dirty = False
+    the_member.put()
+
+    # construct the calendar feed, since it may have changed lately
+    calfeed = u'{0}'.format(make_cal_header(the_member.name))
+    the_bands = assoc.get_confirmed_bands_of_member(the_member)
+
+    for a_band in the_bands:
+        a_band_name = a_band.shortname if a_band.shortname else a_band.name
+        all_gigs = gig.get_gigs_for_band_keys(a_band.key, show_past=True)
+        for a_gig in all_gigs:
+            if not a_gig.is_canceled and not a_gig.hide_from_calendar: # and not a_gig.is_archived:
+                the_plan = plan.get_plan_for_member_key_for_gig_key(the_member.key, a_gig.key)
+                if the_plan:
+                    # check member preferences
+                    # include gig if member wants to see all, or if gig is confirmed
+                    if a_gig.is_confirmed or \
+                        the_member.preferences.calendar_show_only_confirmed == False:
+                        # incude gig if member wants to see all, or if has registered
+                        # as maybe or definitely:
+                        if (the_plan.value > 0 and the_plan.value <= 3) or \
+                            (the_member.preferences.calendar_show_only_committed == False):
+                            if a_gig.is_confirmed:
+                                confstr = u'CONFIRMED!'
+                            else:
+                                confstr = u'(not confirmed)'
+                            calfeed = u'{0}{1}'.format(calfeed, \
+                                make_event(a_gig, a_band, \
+                                title_format=u'{0}:{{0}} {1}'.format(a_band_name, confstr)))
+
+    calfeed = u'{0}{1}'.format(calfeed, make_cal_footer())
+    store_calfeed_for_key("m",the_member.key,calfeed)
 
 def store_calfeed_for_key(prefix, the_key, the_feed):
 

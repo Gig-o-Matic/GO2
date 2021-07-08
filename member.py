@@ -315,9 +315,8 @@ def forget_member_from_key(the_member_key):
     the_member_key.delete()
     
 def get_member_from_urlsafe_key(urlsafe):
-    """take a urlsafe key and cause an ancestor query to happen, to assure previous writes are committed"""
-    untrusted_member=ndb.Key(urlsafe=urlsafe).get()
-    return get_member_from_nickname(untrusted_member.nickname)
+    return ndb.Key(urlsafe=urlsafe).get()
+
 
 
 def get_member(the_member_key):
@@ -469,6 +468,14 @@ def make_member_cal_dirty(the_member_key):
     the_member.cal_feed_dirty = True
     the_member.put()
 
+def get_member_keys_to_update_calfeed():
+    args=[
+        Member.cal_feed_dirty == True,
+        Member.last_calfetch != None
+    ]
+    member_query = Member.lquery(*args)
+    members = member_query.fetch(keys_only=True)
+    return members
 
 def rest_member_info(the_member, include_id=True):
     obj = { k:getattr(the_member,k) for k in ['display_name'] }
