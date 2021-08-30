@@ -186,6 +186,7 @@ class BandRequestHandler(BaseHandler):
 
             calfeed = u'{0}{1}'.format(calfeed, make_cal_footer())
             store_calfeed_for_key("b",the_band.key,calfeed)
+        self.response.headers['Access-Control-Allow-Origin'] = '*'
         self.response.write(calfeed)
 
     def post(self):
@@ -220,6 +221,8 @@ class PublicBandGigRequestHandler(BaseHandler):
 
             calfeed = u'{0}{1}'.format(calfeed, make_cal_footer())
             store_calfeed_for_key("p",the_band.key,calfeed)
+
+        self.response.headers['Access-Control-Allow-Origin'] = '*'
         self.response.write(calfeed)
 
     def post(self):
@@ -276,6 +279,7 @@ class MemberRequestHandler(BaseHandler):
 
             calfeed = u'{0}{1}'.format(calfeed, make_cal_footer())
             store_calfeed_for_key("m",the_member.key,calfeed)
+        self.response.headers['Access-Control-Allow-Origin'] = '*'
         self.response.write(calfeed)
 
     def post(self):
