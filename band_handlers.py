@@ -752,8 +752,8 @@ class GetUpcoming(BaseHandler):
             return # todo figure out what to do
 
         the_band_key = band.band_key_from_urlsafe(the_band_keyurl)
-
-        today_date = datetime.datetime.now()
+        the_band = the_band_key.get()
+        today_date = datetime.datetime.combine(datetime.datetime.now(tz=pytz.timezone(the_band.timezone)), datetime.time(0,0,0))
         the_gigs = gig.get_gigs_for_band_keys(the_band_key, start_date=today_date)
         
         the_gigs = [g for g in the_gigs if g.is_confirmed and not g.is_private]

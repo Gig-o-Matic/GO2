@@ -6,8 +6,14 @@
             <div class="col-md-2">
                 {{ the_gig.date.strftime('%-m/%-d') }}
             </div>
-            <div class="col-md-10">
+            <div class="col-md-2">
+                {{ the_gig.settime }}
+            </div>
+            <div class="col-md-4">
                 {{ the_gig.title }}<br>
+            </div>
+            <div class="col-md-4">
+                {{ the_gig.address }}<br>
             </div>
         </div>
     {% endfor %}
