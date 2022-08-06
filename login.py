@@ -407,9 +407,16 @@ class ForgotPasswordHandler(BaseHandler):
 
     user = self.user_model.get_by_auth_id(username)
     if not user:
-      logging.info('Could not find any user entry for username %s', username)
+      logging.info('Tried to reset password for non-existent member %s', username)
       self._serve_page(not_found=True)
       return
+
+    if not user.verified:
+        # trying to reset a password for an unverified member - they should find the verification link
+        # instead
+        logging.info('Tried to reset password for unverified member %s', username)
+        self.render_template('password_unverified.html')
+        return
 
     user_id = user.get_id()
     token = member.Member.create_signup_token(user_id)
