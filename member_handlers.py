@@ -772,12 +772,16 @@ class RestEndpoint(BaseHandler):
     @rest_user_required
     @CSOR_Jsonify
     def get(self, *args, **kwargs):
-        try:
-            member_id = kwargs["member_id"]
-            the_member = member.member_key_from_urlsafe(member_id).get()
-        except:
-            self.abort(404)
+        if "member_id" in kwargs:
+            include_id=False
+            try:
+                member_id = kwargs["member_id"]
+                the_member = member.member_key_from_urlsafe(member_id).get()
+                # are we authorized to see the member? TODO
+            except:
+                self.abort(404)
+        else:
+            include_id=True
+            the_member = self.user
 
-        # are we authorized to see the member? TODO
-
-        return member.rest_member_info(the_member, include_id=False)
+        return member.rest_member_info(the_member, include_id)
