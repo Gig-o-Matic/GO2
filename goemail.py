@@ -53,31 +53,35 @@ def _send_admin_mail(to, subject, body, html=None, reply_to=None):
     if validate_email(to) is False:
         return False
 
-    sg = sendgrid.SendGridAPIClient(api_key=get_sendgrid_api())
+    if True:
 
-    from_email = Email(_bare_admin_email_address, admin_name)
-    to_email = To(to)
-    the_subject = subject
-    plain_text_content=PlainTextContent(body.encode('utf-8'))
-    if html is not None:
-        html_content = HtmlContent(html)
+        sg = sendgrid.SendGridAPIClient(api_key=get_sendgrid_api())
+
+        from_email = Email(_bare_admin_email_address, admin_name)
+        to_email = To(to)
+        the_subject = subject
+        plain_text_content=PlainTextContent(body.encode('utf-8'))
+        if html is not None:
+            html_content = HtmlContent(html)
+        else:
+            html_content = None
+        mail = Mail(from_email, to_email, subject, plain_text_content=plain_text_content, html_content=html_content)
+        if reply_to:
+            mail.reply_to = Email(reply_to)
+
+        try:
+            response = sg.client.mail.send.post(request_body=mail.get())
+        except Exception as e:
+            logging.error("Failed to send mail {0} to {1}.\n{2}".format(subject, to, e))
+            return False
+
+        if response.status_code == 202:
+            return True
+        else:
+            logging.error("Failed to send mail {0} to {1}.\n{2}".format(subject, to, e))
+            return False
     else:
-        html_content = None
-    mail = Mail(from_email, to_email, subject, plain_text_content=plain_text_content, html_content=html_content)
-    if reply_to:
-        mail.reply_to = Email(reply_to)
-
-    try:
-        response = sg.client.mail.send.post(request_body=mail.get())
-    except Exception as e:
-        logging.error("Failed to send mail {0} to {1}.\n{2}".format(subject, to, e))
-        return False
-
-    if response.status_code == 202:
-        return True
-    else:
-        logging.error("Failed to send mail {0} to {1}.\n{2}".format(subject, to, e))
-        return False
+        print("To: {0}\nSubject: {1}\n{2}".format(to, subject, body))
 
 
 def send_registration_email(the_email, the_url):

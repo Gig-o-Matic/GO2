@@ -75,7 +75,7 @@ class InfoPage(BaseHandler):
         if the_user_admin_status or the_user_is_superuser:
             the_pending = assoc.get_pending_members_from_band_key(the_band_key)
             the_invited_assocs = assoc.get_invited_member_assocs_from_band_key(the_band_key)
-            the_invited = [(x.key, member.get_member(x.member).name) for x in the_invited_assocs]
+            the_invited = [(x.key, member.get_member(x.member).email_address) for x in the_invited_assocs]
         else:
             the_pending = []
             the_invited = []
@@ -823,7 +823,7 @@ class SendInvites(BaseHandler):
             existing_member = member.get_member_from_email(e)
             # logging.info("existing_member:{0}".format(existing_member))
 
-            if existing_member:
+            if existing_member and existing_member.verified:
                 # make sure this person isn't already a member of this band; if not, send invite
                 if not assoc.get_associated_status_for_member_for_band_key(existing_member, the_band_key):
                     # create assoc for this member - they're already on the gig-o
@@ -832,10 +832,16 @@ class SendInvites(BaseHandler):
                     goemail.send_new_band_via_invite_email(the_band, existing_member, the_band.new_member_message)
             else:
                 # create assoc for this member - but because they're not verified, will just show up as 'invited'
-                # logging.info("creating new member")
-                user_data = member.create_new_member(email=e, name='', password='invited')
-                # logging.info("creating new member: {0}".format(user_data))
-                the_user = user_data[1]
+                if not existing_member:
+                    # logging.info("creating new member")
+                    user_data = member.create_new_member(email=e, name='', password='invited')
+                    # logging.info("creating new member: {0}".format(user_data))
+                    the_user = user_data[1]
+                else:
+                    # must be an unverified member - send an invite
+                    logging.info("inviting an unverified member {0}".format(existing_member.get_id()))
+                    the_user = existing_member
+
                 if the_user:
                     assoc.new_association(the_user, the_band, confirm=True, invited=True)
                     # send email inviting them to the gig-o
