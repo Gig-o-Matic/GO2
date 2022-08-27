@@ -472,5 +472,7 @@ def make_member_cal_dirty(the_member_key):
 
 def rest_member_info(the_member, include_id=True):
     obj = { k:getattr(the_member,k) for k in ['display_name'] }
+    if include_id:
+        obj["id"] = the_member.key.urlsafe()
     return obj
 
