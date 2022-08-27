@@ -99,19 +99,21 @@ class SignupPage(BaseHandler):
         password = self.request.get('password')
 
         # first check the captcha
-        captcha_token = self.request.get('g-recaptcha-response')
-        if captcha_token:
-            captcha_info = captcha_db.get_captchakeys()
-            verify_data={
-                'secret': captcha_info.secret_key,
-                'response': captcha_token,
-                'remoteip'  : self.request.host
-            }
-            response = json.loads(urllib2.urlopen("https://www.google.com/recaptcha/api/siteverify", data=urllib.urlencode(verify_data)).read())
-            if not (response['success'] and response['score']>captcha_info.threshold):
+        # If we have captcha data:
+        if captcha_db.get_captchakeys():
+            captcha_token = self.request.get('g-recaptcha-response')
+            if captcha_token:
+                captcha_info = captcha_db.get_captchakeys()
+                verify_data={
+                    'secret': captcha_info.secret_key,
+                    'response': captcha_token,
+                    'remoteip'  : self.request.host
+                }
+                response = json.loads(urllib2.urlopen("https://www.google.com/recaptcha/api/siteverify", data=urllib.urlencode(verify_data)).read())
+                if not (response['success'] and response['score']>captcha_info.threshold):
+                    return self._serve_page(_('Please Try Again'))
+            else:
                 return self._serve_page(_('Please Try Again'))
-        else:
-            return self._serve_page(_('Please Try Again'))
 
 
         try:
@@ -154,7 +156,7 @@ class SignupPage(BaseHandler):
             'failed': error is not None,
             'locale' : locale,
             'error': error,
-            'site_key': captcha_db.get_captchakeys().site_key
+            'site_key': captcha_db.get_captchakeys().site_key if captcha_db.get_captchakeys() else None
         }
         self.render_template('signup.html', params=params)
 
