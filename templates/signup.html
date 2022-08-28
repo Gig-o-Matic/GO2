@@ -1,7 +1,7 @@
 {% extends 'go2base.html' %}
 
 {% block headcontent %}
-<script src="https://www.google.com/recaptcha/api.js"></script>
+{% if site_key %}<script src="https://www.google.com/recaptcha/api.js"></script>{% endif %}
 {% endblock headcontent %}
 
 {% block title %}{% trans %}Register!{% endtrans %}{% endblock title %}
@@ -57,7 +57,7 @@ class="landingwrap"
                 </div>
                 <div>
                     <button type="submit" 
-                            class="btn btn-primary g-recaptcha" 
+                            class="btn btn-primary {% if site_key %}g-recaptcha{% endif %}" 
                             data-sitekey="{{ site_key }}" 
                             data-callback='onSubmit' 
                             data-action='submit'>{% trans %}Sign me up!{% endtrans %}</button>
