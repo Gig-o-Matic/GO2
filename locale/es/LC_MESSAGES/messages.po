@@ -869,7 +869,7 @@ msgstr "Comentarios"
 
 #: templates/gig_edit.html:14
 msgid "New Gig for "
-msgstr "Nuevo evento para"
+msgstr "Nuevo evento para "
 
 #: templates/gig_edit.html:22
 msgid "Gig Title"
@@ -929,7 +929,7 @@ msgstr ""
 
 #: templates/gig_edit.html:120
 msgid "What To Wear"
-msgstr ""
+msgstr "Qué atuendo llevar"
 
 #: templates/gig_edit.html:121
 msgid "Pants Optional"
@@ -985,11 +985,11 @@ msgstr "Actualizar también a los miembros ocasionales"
 
 #: templates/gig_edit.html:185
 msgid "Hide gig from calendars"
-msgstr ""
+msgstr "Ocultar el evento del calendario"
 
 #: templates/gig_edit.html:194
 msgid "Default to definitely attending"
-msgstr ""
+msgstr "Predeterminado definitivamente asistir"
 
 #: templates/gig_edit.html:203
 msgid "Move To Trash"
@@ -1033,12 +1033,12 @@ msgstr ""
 
 #: templates/gig_edit.html:327
 msgid "Please enter a date in the format mm/dd/yyyy."
-msgstr ""
+msgstr "Ingrese una fecha en el formato dd/mm/aaaa"
 
 #: templates/gig_edit.html:358 templates/gig_edit.html:359
 #: templates/gig_edit.html:360
 msgid "time_format"
-msgstr ""
+msgstr "G:i"
 
 #: templates/gig_edit.html:377
 msgid "Must be later than start date!"
