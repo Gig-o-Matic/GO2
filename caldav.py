@@ -302,6 +302,7 @@ class MemberCalfeedGenerateHandler(webapp2.RequestHandler):
         calfeed = u'{0}{1}'.format(calfeed, make_cal_footer())
         store_calfeed_for_key("m",the_member.key,calfeed)
         logging.info('updated calfeed for member {0}'.format(the_member_key))
+        self.response.write( 200 )
 
 
 def store_calfeed_for_key(prefix, the_key, the_feed):
