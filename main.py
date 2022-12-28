@@ -193,6 +193,7 @@ else:
         webapp2.Route('/cal/m/<mk:.+>', caldav.MemberRequestHandler),
         webapp2.Route('/cal/p/<bk:.+>', caldav.PublicBandGigRequestHandler),
         webapp2.Route('/calhelp', caldav.HelpHandler),
+        webapp2.Route('/member_calfeed_generate', caldav.MemberCalfeedGenerateHandler),
         webapp2.Route('/announce_new_gig_handler', goemail.AnnounceNewGigHandler),
         webapp2.Route('/send_new_gig_handler', goemail.SendNewGigHandler),
         webapp2.Route('/rss/<bk:.+>', rss.GetRssHandler),

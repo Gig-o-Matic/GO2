@@ -9,4 +9,8 @@ queue:
   max_concurrent_requests: 1
   retry_parameters:
     task_retry_limit: 0
+- name: calqueue
+  rate: 40/m
+  bucket_size: 10
+  max_concurrent_requests: 10
 
