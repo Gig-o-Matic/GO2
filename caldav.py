@@ -265,7 +265,7 @@ class MemberCalfeedGenerateHandler(webapp2.RequestHandler):
         check_taskqueue_trust(self.request)
         the_member_key_urlsafe  = self.request.get('the_member', None)
 
-        print('building calfeed for member {0}'.format(the_member_key_urlsafe))
+        # print('building calfeed for member {0}'.format(the_member_key_urlsafe))
 
         the_member_key = ndb.Key(urlsafe=the_member_key_urlsafe)
         the_member = the_member_key.get()
