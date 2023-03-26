@@ -823,6 +823,14 @@ class SendInvites(BaseHandler):
             existing_member = member.get_member_from_email(e)
             # logging.info("existing_member:{0}".format(existing_member))
 
+            # if there's already a member and they are associated with this band, even if they're
+            # just invited, we don't have to do it again.
+            if existing_member:
+                existing_assoc = assoc.get_associated_status_for_member_for_band_key(existing_member, the_band_key)
+                if existing_assoc:
+                    continue ## bail on this one since there's already an assoc
+
+
             if existing_member and existing_member.verified:
                 # make sure this person isn't already a member of this band; if not, send invite
                 if not assoc.get_associated_status_for_member_for_band_key(existing_member, the_band_key):
@@ -830,6 +838,7 @@ class SendInvites(BaseHandler):
                     # send email letting them know they're in the band
                     assoc.new_association(existing_member, the_band, confirm=True)
                     goemail.send_new_band_via_invite_email(the_band, existing_member, the_band.new_member_message)
+
             else:
                 # create assoc for this member - but because they're not verified, will just show up as 'invited'
                 if not existing_member:
