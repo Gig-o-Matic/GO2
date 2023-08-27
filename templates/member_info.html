@@ -155,9 +155,14 @@
                         <div class="col-12 d-sm-none">{% trans %}Share my profile{% endtrans %}: {{ truefalse(the_member.preferences.share_profile) }}</div>
                     </div>
                     <div class="row">
-                        <div class="d-none d-sm-inline col-sm-3">{% trans %}Share my email{% endtrans %}:</div>
+                        <div class="d-none d-sm-inline col-sm-3">{% trans %}Share my email outside my band{% endtrans %}:</div>
                         <div class="d-none d-sm-inline col-sm-3">{{ truefalse(the_member.preferences.share_email) }}</div>
-                        <div class="col-12 d-sm-none">{% trans %}Share my email{% endtrans %}: {{ truefalse(the_member.preferences.share_email) }}</div>
+                        <div class="col-12 d-sm-none">{% trans %}Share my email outside my band{% endtrans %}: {{ truefalse(the_member.preferences.share_email) }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="d-none d-sm-inline col-sm-3">{% trans %}Share my email with my band{% endtrans %}:</div>
+                        <div class="d-none d-sm-inline col-sm-3">{{ truefalse(the_member.preferences.share_email_with_band) }}</div>
+                        <div class="col-12 d-sm-none">{% trans %}Share my email with my band{% endtrans %}: {{ truefalse(the_member.preferences.share_email_with_band) }}</div>
                     </div>
                     <br>
                     <div class="row">

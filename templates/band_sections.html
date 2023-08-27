@@ -25,7 +25,11 @@
                 {% endif %}
             </div>
         	<div class="col-md-7 ml-md-0 col-10 ml-2">
+                {% if the_user_is_band_admin or the_user_is_superuser or the_member.preferences.share_email_with_band %}
         		<a href="mailto:{{the_member.email_address}}">{{ the_member.email_address }}</a>
+                {% else %}
+                (email private)
+                {% endif %}
         	</div>
         </div>
     {% endfor %}

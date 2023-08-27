@@ -93,12 +93,19 @@ class InfoPage(BaseHandler):
         elif the_member.preferences and the_member.preferences.share_profile and the_member.preferences.share_email:
             show_email = True
 
+        # if I'm not sharing my email with my band, don't share my email with my band
+        show_email_with_band = False
+        if the_member_key == the_user.key or the_user.is_superuser:
+            show_email_with_band = True
+        elif the_member.preferences and the_member.preferences.share_profile and the_member.preferences.share_email_with_band:
+            show_email_with_band = True
+
         show_phone = False
         if the_member == the_user.key or the_user.is_superuser:
             show_phone = True
         else:
             # are we in the same band? If so, always show email and phone
-            if same_band:
+            if same_band and show_email_with_band:
                 show_phone = True
                 show_email = True
 
@@ -160,6 +167,12 @@ class EditPage(BaseHandler):
             the_member.preferences.share_email = True
         else:
             the_member.preferences.share_email = False
+
+        member_prefshareemailband = self.request.get("member_prefshareemailband", None)
+        if (member_prefshareemailband):
+            the_member.preferences.share_email_with_band = True
+        else:
+            the_member.preferences.share_email_with_band = False
 
         member_prefcalconfirmedonly = self.request.get("member_prefcalconfirmedonly", None)
         if (member_prefcalconfirmedonly):

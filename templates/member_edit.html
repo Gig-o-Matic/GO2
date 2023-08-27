@@ -100,6 +100,13 @@
                         > {% trans %}Share my email outside of my bands{% endtrans %}  
                     </div>
                     <div class="form-group">                    
+                        <input type="checkbox" id="memberprefshareemailband" name="member_prefshareemailband"
+                        {% if the_member.preferences.share_email_with_band %}
+                            checked
+                        {% endif %}
+                        > {% trans %}Share my email with my band{% endtrans %}  
+                    </div>
+                    <div class="form-group">                    
                         <input type="checkbox" id="memberprefcalconfirmedonly" name="member_prefcalconfirmedonly"
                         {% if the_member.preferences.calendar_show_only_confirmed %}
                             checked

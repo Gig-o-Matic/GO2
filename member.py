@@ -34,6 +34,7 @@ class MemberPreferences(ndb.Model):
     locale = ndb.TextProperty(default='en')
     share_profile = ndb.BooleanProperty(default=True)
     share_email = ndb.BooleanProperty(default=False)
+    share_email_with_band = ndb.BooleanProperty(default=True)
     calendar_show_only_confirmed = ndb.BooleanProperty(default=True)
     calendar_show_only_committed = ndb.BooleanProperty(default=True)
     default_view = ndb.IntegerProperty(default=0) # 0 = agenda, 1 = calendar, 2 = grid
