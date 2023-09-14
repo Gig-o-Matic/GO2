@@ -2,13 +2,16 @@
     {% set the_member = a.member.get() %}
     {% set the_band = a.band.get() %}
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-3">
             <a href="/member_info.html?mk={{the_member.key.urlsafe()}}">{{ the_member.name }}</a>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
             <a href="/band_info.html?bk={{the_band.key.urlsafe()}}">{{ the_band.name }}</a>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
+            created {{ a.created }}
+        </div>
+        <div class="col-md-3">
             <a href="/member_delete_invite?ak={{a.key.urlsafe()}}">forget the invite</a>
         </div>
     </div>

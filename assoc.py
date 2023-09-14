@@ -218,7 +218,8 @@ def set_admin_for_member_key_and_band_key(the_member_key, the_band_key, the_do):
 
 def new_association(member, band, confirm=False, invited=False):
     """ associate a band and a member """
-    assoc=Assoc(band=band.key, member=member.key, member_name=member.name, is_confirmed=confirm, is_invited=invited)
+    assoc=Assoc(band=band.key, member=member.key, member_name=member.name, 
+                is_confirmed=confirm, is_invited=invited, created=datetime.datetime.now())
     assoc.put()
 
 def delete_association_from_key(the_assoc_key):
@@ -343,7 +344,6 @@ def update_all_assocs():
         a.hide_from_schedule=False
     ndb.put_multi(assocs)
     logging.info("updated {0} assocs".format(len(assocs)))
-
 
 def rest_assoc_info(the_assoc, include_id=True):
     obj = { k:getattr(the_assoc,k) for k in ('is_confirmed','is_multisectional','hide_from_schedule','is_occasional','color') }

@@ -375,6 +375,17 @@ def format_date_for_member(the_user, the_date, format="short"):
 
     return the_str
 
+def delete_invite(the_assoc):
+    the_band_key = the_assoc.band
+    the_member_key = the_assoc.member
+
+    assoc.delete_association_from_key(the_assoc.key) 
+
+    invites = assoc.get_inviting_assoc_keys_from_member_key(the_member_key)
+    if invites is None or (len(invites)==1 and invites[0]==the_assoc.key):
+        logging.error('removed last invite from member; deleteing')
+        forget_member_from_key(the_member_key)            
+
 
 def update_all_uniques():
     the_members = get_all_members(order=False)

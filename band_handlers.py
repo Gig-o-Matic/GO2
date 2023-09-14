@@ -75,7 +75,13 @@ class InfoPage(BaseHandler):
         if the_user_admin_status or the_user_is_superuser:
             the_pending = assoc.get_pending_members_from_band_key(the_band_key)
             the_invited_assocs = assoc.get_invited_member_assocs_from_band_key(the_band_key)
-            the_invited = [(x.key, member.get_member(x.member).email_address) for x in the_invited_assocs]
+            the_invited = []
+            # we need to do the next thing this way because there's a chance that a member has just been deleted
+            # but still show in the database for some reason.
+            for x in the_invited_assocs:
+                m = member.get_member(x.member)
+                if m:
+                    the_invited.append((x.key, m.email_address))
         else:
             the_pending = []
             the_invited = []
