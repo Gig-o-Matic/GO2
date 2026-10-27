@@ -1,6 +1,11 @@
 Gig-o-Matic
 -----------
 
+> [!WARNING]
+> **This repository is out of date and no longer maintained.**
+> This is the second-generation (Python) version of Gig-o-Matic, kept for historical interest.
+> The current version lives at **[Gig-o-Matic/GO3](https://github.com/Gig-o-Matic/GO3)**. Please go there for active development, issues, and pull requests.
+
 Tools to help a honk band manage itself!
 
 Features:
